@@ -438,7 +438,7 @@ void main() {
     expect(output.contents?.renamedStructureValue, isNull);
     expect(output.contents?.stringValue, isNull);
     expect(output.contents?.structureValue, isNull);
-    expect(output.contents!.timestampValue!.millisecondsSinceEpoch ~/ 1000,
+    expect(output.contents!.timestampValue!.millisecondsSinceEpoch / 1000,
         1398796238);
   });
 

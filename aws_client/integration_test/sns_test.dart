@@ -90,4 +90,47 @@ void main() {
     await sns.deleteTopic(topicArn: topicArn);
     sqs.close();
   });
+
+  test('SNS (query): subscription attributes round-trip', () async {
+    final topic = await sns.createTopic(name: uniqueName('topic'));
+    final topicArn = topic.topicArn!;
+
+    final sqs = localClient(Sqs.new);
+    final queue = await sqs.createQueue(queueName: uniqueName('sub'));
+    final queueUrl = queue.queueUrl!;
+    final queueArn = (await sqs.getQueueAttributes(
+      queueUrl: queueUrl,
+      attributeNames: [QueueAttributeName.queueArn],
+    ))
+        .attributes![QueueAttributeName.queueArn]!;
+
+    final subscribed = await sns.subscribe(
+      topicArn: topicArn,
+      protocol: 'sqs',
+      endpoint: queueArn,
+      returnSubscriptionArn: true,
+    );
+    final subscriptionArn = subscribed.subscriptionArn!;
+
+    await sns.setSubscriptionAttributes(
+      subscriptionArn: subscriptionArn,
+      attributeName: 'RawMessageDelivery',
+      attributeValue: 'true',
+    );
+
+    final attrs = await sns.getSubscriptionAttributes(
+      subscriptionArn: subscriptionArn,
+    );
+    expect(attrs.attributes?['RawMessageDelivery'], equals('true'));
+
+    final byTopic = await sns.listSubscriptionsByTopic(topicArn: topicArn);
+    expect(
+      byTopic.subscriptions!.map((s) => s.subscriptionArn),
+      contains(subscriptionArn),
+    );
+
+    await sqs.deleteQueue(queueUrl: queueUrl);
+    await sns.deleteTopic(topicArn: topicArn);
+    sqs.close();
+  });
 }

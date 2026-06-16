@@ -48,4 +48,29 @@ void main() {
 
     await sfn.deleteStateMachine(stateMachineArn: machineArn);
   });
+
+  test('StepFunctions (json): describeStateMachine reports type and status',
+      () async {
+    final definition = jsonEncode({
+      'StartAt': 'Echo',
+      'States': {
+        'Echo': {'Type': 'Pass', 'End': true},
+      },
+    });
+
+    final machine = await sfn.createStateMachine(
+      name: uniqueName('machine'),
+      definition: definition,
+      roleArn: 'arn:aws:iam::000000000000:role/smoke-role',
+      type: StateMachineType.standard,
+    );
+
+    final described = await sfn.describeStateMachine(
+      stateMachineArn: machine.stateMachineArn,
+    );
+    expect(described.type, equals(StateMachineType.standard));
+    expect(described.status, anyOf(StateMachineStatus.active, isNull));
+
+    await sfn.deleteStateMachine(stateMachineArn: machine.stateMachineArn);
+  });
 }

@@ -49,7 +49,7 @@ void visitExpect(StringBuffer code, String memberTrail, Shape shape,
 
     if (shape.type == 'timestamp') {
       memberTrail = memberTrail.replaceAll('?', '!');
-      memberTrail += '.millisecondsSinceEpoch ~/ 1000';
+      memberTrail += '.millisecondsSinceEpoch / 1000';
     }
     code.writeln('expect(${_removeTrailingMark(memberTrail)}, $match);');
   }

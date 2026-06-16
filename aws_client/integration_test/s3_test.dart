@@ -198,4 +198,63 @@ void main() {
     final asMap = {for (final t in tags.tagSet) t.key: t.value};
     expect(asMap, equals({'env': 'smoke', 'team': 'aws-client'}));
   });
+
+  test('bucket versioning status round-trips as an enum', () async {
+    await s3.putBucketVersioning(
+      bucket: bucket,
+      versioningConfiguration:
+          VersioningConfiguration(status: BucketVersioningStatus.enabled),
+    );
+
+    final got = await s3.getBucketVersioning(bucket: bucket);
+    expect(got.status, equals(BucketVersioningStatus.enabled));
+
+    await s3.putBucketVersioning(
+      bucket: bucket,
+      versioningConfiguration:
+          VersioningConfiguration(status: BucketVersioningStatus.suspended),
+    );
+    final suspended = await s3.getBucketVersioning(bucket: bucket);
+    expect(suspended.status, equals(BucketVersioningStatus.suspended));
+  });
+
+  test('storage class enum round-trips through put and head', () async {
+    await s3.putObject(
+      bucket: bucket,
+      key: 'cold.txt',
+      body: Uint8List.fromList(utf8.encode('archive me')),
+      storageClass: StorageClass.standardIa,
+    );
+
+    final head = await s3.headObject(bucket: bucket, key: 'cold.txt');
+    expect(head.storageClass, equals(StorageClass.standardIa));
+  });
+
+  test('object ACL exposes grant permission and grantee enums', () async {
+    await putText('acl.txt', 'data');
+
+    final acl = await s3.getObjectAcl(bucket: bucket, key: 'acl.txt');
+    expect(acl.grants, isNotEmpty);
+    for (final grant in acl.grants!) {
+      expect(Permission.values, contains(grant.permission));
+      expect(Type.values, contains(grant.grantee!.type));
+    }
+  });
+
+  test('listObjectVersions reports versions after enabling versioning',
+      () async {
+    await s3.putBucketVersioning(
+      bucket: bucket,
+      versioningConfiguration:
+          VersioningConfiguration(status: BucketVersioningStatus.enabled),
+    );
+    await putText('v.txt', 'one');
+    await putText('v.txt', 'two');
+
+    final versions = await s3.listObjectVersions(bucket: bucket);
+    final forKey =
+        (versions.versions ?? []).where((v) => v.key == 'v.txt').toList();
+    expect(forKey.length, greaterThanOrEqualTo(2));
+    expect(forKey.where((v) => v.isLatest == true), hasLength(1));
+  });
 }

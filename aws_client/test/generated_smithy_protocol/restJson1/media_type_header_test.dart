@@ -30,7 +30,7 @@ void main() {
     await service.mediaTypeHeader(
       json: jsonDecode("true"),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('MediaTypeHeaderOutputBase64', () async {
     final client = MockClient((request) async {

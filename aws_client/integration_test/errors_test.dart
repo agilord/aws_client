@@ -9,6 +9,7 @@ import 'package:aws_client/dynamo_db_2012_08_10.dart'
 import 'package:aws_client/iam_2010_05_08.dart' show Iam, NoSuchEntityException;
 import 'package:aws_client/kinesis_2013_12_02.dart' as kinesis;
 import 'package:aws_client/kms_2014_11_01.dart' as kms;
+import 'package:aws_client/redshift_2012_12_01.dart' as redshift;
 import 'package:aws_client/s3_2006_03_01.dart' show S3, NoSuchBucket;
 import 'package:aws_client/secrets_manager_2017_10_17.dart' as secrets;
 import 'package:aws_client/sfn_2016_11_23.dart' as sfn;
@@ -150,6 +151,20 @@ void main() {
             'arn:aws:states:$testRegion:000000000000:execution:$missing:$missing',
       ),
       throwsA(isA<sfn.ExecutionDoesNotExist>()),
+    );
+    client.close();
+  });
+
+  test(
+      'query error: a <Type>-less ErrorResponse surfaces as an exception, not '
+      'a parse crash', () async {
+    final client = localClient(redshift.Redshift.new);
+    await expectLater(
+      client.describeEventCategories(),
+      throwsA(
+        isA<Exception>().having(
+            (e) => e.toString(), 'message', isNot(contains('No element'))),
+      ),
     );
     client.close();
   });

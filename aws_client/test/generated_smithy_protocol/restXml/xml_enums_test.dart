@@ -61,7 +61,7 @@ void main() {
       },
       fooEnumSet: [FooEnum.foo, FooEnum.$0],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlEnums', () async {
     final client = MockClient((request) async {
@@ -110,5 +110,5 @@ void main() {
     expect(output.fooEnumMap?['zero'], FooEnum.$0);
     expect(output.fooEnumSet?[0], FooEnum.foo);
     expect(output.fooEnumSet?[1], FooEnum.$0);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

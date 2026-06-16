@@ -1149,7 +1149,7 @@ void main() {
     expect(output.simpleStruct, isNull);
     expect(output.string, isNull);
     expect(output.structWithJsonName, isNull);
-    expect(output.timestamp!.millisecondsSinceEpoch ~/ 1000, 946845296);
+    expect(output.timestamp!.millisecondsSinceEpoch / 1000, 946845296);
     expect(output.unixTimestamp, isNull);
   });
 
@@ -1173,7 +1173,7 @@ void main() {
     expect(output.float, isNull);
     expect(output.httpdateTimestamp, isNull);
     expect(output.integer, isNull);
-    expect(output.iso8601Timestamp!.millisecondsSinceEpoch ~/ 1000, 946845296);
+    expect(output.iso8601Timestamp!.millisecondsSinceEpoch / 1000, 946845296);
     expect(output.jsonValue, isNull);
     expect(output.listOfLists, isNull);
     expect(output.listOfMapsOfStrings, isNull);
@@ -1213,7 +1213,7 @@ void main() {
     expect(output.doubleValue, isNull);
     expect(output.emptyStruct, isNull);
     expect(output.float, isNull);
-    expect(output.httpdateTimestamp!.millisecondsSinceEpoch ~/ 1000, 946845296);
+    expect(output.httpdateTimestamp!.millisecondsSinceEpoch / 1000, 946845296);
     expect(output.integer, isNull);
     expect(output.iso8601Timestamp, isNull);
     expect(output.jsonValue, isNull);

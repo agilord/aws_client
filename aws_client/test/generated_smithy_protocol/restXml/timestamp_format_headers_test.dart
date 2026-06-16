@@ -70,14 +70,14 @@ void main() {
     );
 
     final output = await service.timestampFormatHeaders();
-    expect(output.defaultFormat!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-    expect(output.memberDateTime!.millisecondsSinceEpoch ~/ 1000, 1576540098);
+    expect(output.defaultFormat!.millisecondsSinceEpoch / 1000, 1576540098);
+    expect(output.memberDateTime!.millisecondsSinceEpoch / 1000, 1576540098);
     expect(
-        output.memberEpochSeconds!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-    expect(output.memberHttpDate!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-    expect(output.targetDateTime!.millisecondsSinceEpoch ~/ 1000, 1576540098);
+        output.memberEpochSeconds!.millisecondsSinceEpoch / 1000, 1576540098);
+    expect(output.memberHttpDate!.millisecondsSinceEpoch / 1000, 1576540098);
+    expect(output.targetDateTime!.millisecondsSinceEpoch / 1000, 1576540098);
     expect(
-        output.targetEpochSeconds!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-    expect(output.targetHttpDate!.millisecondsSinceEpoch ~/ 1000, 1576540098);
+        output.targetEpochSeconds!.millisecondsSinceEpoch / 1000, 1576540098);
+    expect(output.targetHttpDate!.millisecondsSinceEpoch / 1000, 1576540098);
   });
 }

@@ -30,25 +30,8 @@ abstract class ServiceBuilder {
               "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
         }
       } else {
-        final variable = m.fieldName;
-        var converter = '$variable.toString()';
-        if (m.dartType == 'DateTime') {
-          final timestampFormat = m.timestampFormat ??
-              m.shapeClass?.timestampFormat ??
-              (location == 'header' ? 'rfc822' : 'iso8601');
-          converter = '_s.${timestampFormat}ToJson($variable)';
-          if (timestampFormat == 'unixTimestamp') {
-            converter += '.toString()';
-          }
-        } else if (m.jsonvalue) {
-          converter = 'base64Encode(utf8.encode(jsonEncode($variable)))';
-        }
-        if (m.shapeClass?.enumeration != null) {
-          m.shapeClass?.isTopLevelInputEnum = true;
-          converter = '$variable.value';
-        }
-
-        out.writeln("'$headerName': $converter,");
+        out.writeln(
+            "'$headerName': ${_encodeHeaderValue(m.shapeClass!, m.fieldName, member: m)},");
       }
     }
     out.writeln('};');
@@ -167,6 +150,35 @@ String _encodeQueryCode(Shape shape, String variable,
   }
 
   return variable;
+}
+
+String _encodeHeaderValue(Shape shape, String variable, {Member? member}) {
+  if (member?.jsonvalue == true) {
+    return 'base64Encode(utf8.encode(jsonEncode($variable)))';
+  } else if (shape.enumeration != null) {
+    shape.isTopLevelInputEnum = true;
+    return '$variable.value';
+  } else if (shape.type == 'list') {
+    final element = shape.member!.shapeClass!;
+    if (element.enumeration != null) {
+      element.isTopLevelInputEnum = true;
+      return "$variable.map((e) => e.value).join(', ')";
+    } else if (element.type == 'timestamp') {
+      final fmt = element.timestampFormat ?? 'rfc822';
+      final item =
+          '_s.${fmt}ToJson(e)${fmt == 'unixTimestamp' ? '.toString()' : ''}';
+      return "$variable.map((e) => $item).join(', ')";
+    } else if (element.type == 'string') {
+      return '_s.encodeHttpHeaderList($variable)';
+    } else {
+      return "$variable.map((e) => e.toString()).join(', ')";
+    }
+  } else if (shape.type == 'timestamp') {
+    final fmt = member?.timestampFormat ?? shape.timestampFormat ?? 'rfc822';
+    final code = '_s.${fmt}ToJson($variable)';
+    return fmt == 'unixTimestamp' ? '$code.toString()' : code;
+  }
+  return '$variable.toString()';
 }
 
 String _encodePath(Shape shape, String variable, {Member? member}) {

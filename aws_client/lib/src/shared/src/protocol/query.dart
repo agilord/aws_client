@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
@@ -97,9 +98,10 @@ class QueryProtocol {
 
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').first.innerText;
-      final code = error.findElements('Code').first.innerText;
-      final message = error.findElements('Message').first.innerText;
+      final type = error.findElements('Type').firstOrNull?.innerText ?? '';
+      final code = error.findElements('Code').firstOrNull?.innerText ?? '';
+      final message =
+          error.findElements('Message').firstOrNull?.innerText ?? '';
       final fn = lookupExceptionFn(exceptionFnMap, code);
       final exception = fn != null
           ? fn(type, message)

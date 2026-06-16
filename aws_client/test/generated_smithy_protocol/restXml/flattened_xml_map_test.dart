@@ -42,7 +42,7 @@ void main() {
         "baz": FooEnum.baz,
       },
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('FlattenedXmlMap', () async {
     final client = MockClient((request) async {
@@ -70,5 +70,5 @@ void main() {
     final output = await service.flattenedXmlMap();
     expect(output.myMap?['foo'], FooEnum.foo);
     expect(output.myMap?['baz'], FooEnum.baz);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

@@ -51,7 +51,7 @@ void main() {
       stringValue: "string",
       trueBooleanValue: true,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesWithEscapedCharacter', () async {
     final client = MockClient((request) async {
@@ -76,7 +76,7 @@ void main() {
       foo: "Foo",
       stringValue: "<string>",
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesWithWhiteSpace', () async {
     final client = MockClient((request) async {
@@ -101,7 +101,7 @@ void main() {
       foo: "Foo",
       stringValue: "  string with white    space  ",
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesPureWhiteSpace', () async {
     final client = MockClient((request) async {
@@ -126,7 +126,7 @@ void main() {
       foo: "Foo",
       stringValue: "   ",
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNaNFloatInputs', () async {
     final client = MockClient((request) async {
@@ -151,7 +151,7 @@ void main() {
       doubleValue: double.nan,
       floatValue: double.nan,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsInfinityFloatInputs', () async {
     final client = MockClient((request) async {
@@ -176,7 +176,7 @@ void main() {
       doubleValue: double.infinity,
       floatValue: double.infinity,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNegativeInfinityFloatInputs', () async {
     final client = MockClient((request) async {
@@ -201,7 +201,7 @@ void main() {
       doubleValue: double.negativeInfinity,
       floatValue: double.negativeInfinity,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarProperties', () async {
     final client = MockClient((request) async {
@@ -239,7 +239,7 @@ void main() {
     expect(output.shortValue, 2);
     expect(output.stringValue, "string");
     expect(output.trueBooleanValue, true);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesComplexEscapes', () async {
     final client = MockClient((request) async {
@@ -299,7 +299,7 @@ void main() {
     expect(output.shortValue, isNull);
     expect(output.stringValue, "<string>");
     expect(output.trueBooleanValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesWithXMLPreamble', () async {
     final client = MockClient((request) async {
@@ -363,7 +363,7 @@ void main() {
     expect(output.shortValue, isNull);
     expect(output.stringValue, " string with white    space ");
     expect(output.trueBooleanValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('SimpleScalarPropertiesPureWhiteSpace', () async {
     final client = MockClient((request) async {
@@ -394,7 +394,7 @@ void main() {
     expect(output.shortValue, isNull);
     expect(output.stringValue, "  ");
     expect(output.trueBooleanValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlSupportsNaNFloatOutputs', () async {
     final client = MockClient((request) async {

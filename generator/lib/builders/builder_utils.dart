@@ -206,12 +206,17 @@ String encodeXmlCode(Shape shape, String variable,
       structureMember!.name;
 
   if (shape.type == 'map') {
+    final flattened = shape.flattened || (structureMember?.flattened ?? false);
     final keyCode = encodeXmlCode(shape.key!.shapeClass!, 'e.key',
         key: shape.key, nullability: Nullability.none);
     final valueCode = encodeXmlCode(shape.value!.shapeClass!, 'e.value',
         value: shape.value, nullability: Nullability.none);
+    final entryName = flattened ? elemName : 'entry';
     final fn =
-        "$variable${nullability.inputNullAware}.entries.map((e) => _s.XmlElement(_s.XmlName.parts('entry'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
+        "$variable${nullability.inputNullAware}.entries.map((e) => _s.XmlElement(_s.XmlName.parts('$entryName'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
+    if (flattened) {
+      return '...$fn';
+    }
     return '_s.XmlElement(_s.XmlName.parts(\'$elemName\'), [], $fn)';
   } else if (shape.type == 'list') {
     final flattened = shape.flattened || (structureMember?.flattened ?? false);

@@ -34,7 +34,7 @@ void main() {
       headerStringList: ["a", "b", "c"],
       headerStringSet: ["a", "b", "c"],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithQuotedStringHeaders', () async {
     final client = MockClient((request) async {
@@ -54,7 +54,7 @@ void main() {
     await service.inputAndOutputWithHeaders(
       headerStringList: ["b,c", "\"def\"", "a"],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithNumericHeaders', () async {
     final client = MockClient((request) async {
@@ -86,7 +86,7 @@ void main() {
       headerLong: 123,
       headerShort: 123,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithBooleanHeaders', () async {
     final client = MockClient((request) async {
@@ -110,7 +110,7 @@ void main() {
       headerFalseBool: false,
       headerTrueBool: true,
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithTimestampHeaders', () async {
     final client = MockClient((request) async {
@@ -134,7 +134,7 @@ void main() {
         DateTime.fromMillisecondsSinceEpoch(1576540098 * 1000)
       ],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -156,7 +156,7 @@ void main() {
       headerEnum: FooEnum.foo,
       headerEnumList: [FooEnum.foo, FooEnum.bar, FooEnum.baz],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithIntEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -178,7 +178,7 @@ void main() {
       headerIntegerEnum: 1,
       headerIntegerEnumList: [1, 2, 3],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonSupportsNaNFloatHeaderInputs', () async {
     final client = MockClient((request) async {
@@ -284,7 +284,7 @@ void main() {
     expect(output.headerStringSet?[2], "c");
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithQuotedStringHeaders', () async {
     final client = MockClient((request) async {
@@ -319,7 +319,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithNumericHeaders', () async {
     final client = MockClient((request) async {
@@ -361,7 +361,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithBooleanHeaders', () async {
     final client = MockClient((request) async {
@@ -399,7 +399,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, true);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithTimestampHeaders', () async {
     final client = MockClient((request) async {
@@ -432,12 +432,12 @@ void main() {
     expect(output.headerString, isNull);
     expect(output.headerStringList, isNull);
     expect(output.headerStringSet, isNull);
-    expect(output.headerTimestampList![0].millisecondsSinceEpoch ~/ 1000,
+    expect(output.headerTimestampList![0].millisecondsSinceEpoch / 1000,
         1576540098);
-    expect(output.headerTimestampList![1].millisecondsSinceEpoch ~/ 1000,
+    expect(output.headerTimestampList![1].millisecondsSinceEpoch / 1000,
         1576540098);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -472,7 +472,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonInputAndOutputWithIntEnumHeaders', () async {
     final client = MockClient((request) async {
@@ -507,7 +507,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonSupportsNaNFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -540,7 +540,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonSupportsInfinityFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -573,7 +573,7 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestJsonSupportsNegativeInfinityFloatHeaderOutputs', () async {
     final client = MockClient((request) async {
@@ -606,5 +606,5 @@ void main() {
     expect(output.headerStringSet, isNull);
     expect(output.headerTimestampList, isNull);
     expect(output.headerTrueBool, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

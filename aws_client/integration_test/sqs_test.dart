@@ -162,4 +162,33 @@ void main() {
 
     await sqs.deleteQueue(queueUrl: queueUrl);
   });
+
+  test('SQS (json): dead-letter redrive policy round-trips', () async {
+    final dlq = await sqs.createQueue(queueName: uniqueName('dlq'));
+    final dlqUrl = dlq.queueUrl!;
+    final dlqArn = (await sqs.getQueueAttributes(
+      queueUrl: dlqUrl,
+      attributeNames: [QueueAttributeName.queueArn],
+    ))
+        .attributes![QueueAttributeName.queueArn]!;
+
+    final redrivePolicy =
+        '{"deadLetterTargetArn":"$dlqArn","maxReceiveCount":"3"}';
+    final source = await sqs.createQueue(
+      queueName: uniqueName('src'),
+      attributes: {QueueAttributeName.redrivePolicy: redrivePolicy},
+    );
+    final sourceUrl = source.queueUrl!;
+
+    final attrs = await sqs.getQueueAttributes(
+      queueUrl: sourceUrl,
+      attributeNames: [QueueAttributeName.redrivePolicy],
+    );
+    final policy = attrs.attributes![QueueAttributeName.redrivePolicy]!;
+    expect(policy, contains(dlqArn));
+    expect(policy, contains('"maxReceiveCount"'));
+
+    await sqs.deleteQueue(queueUrl: sourceUrl);
+    await sqs.deleteQueue(queueUrl: dlqUrl);
+  });
 }

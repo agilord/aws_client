@@ -33,5 +33,5 @@ void main() {
       b: "",
       c: [],
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

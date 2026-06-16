@@ -36,7 +36,7 @@ void main() {
         foo: "hi",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('PostUnionWithJsonNameRequest2', () async {
     final client = MockClient((request) async {
@@ -62,7 +62,7 @@ void main() {
         baz: "hi",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('PostUnionWithJsonNameRequest3', () async {
     final client = MockClient((request) async {
@@ -88,7 +88,7 @@ void main() {
         bar: "hi",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('PostUnionWithJsonNameResponse1', () async {
     final client = MockClient((request) async {

@@ -35,6 +35,40 @@ void main() {
       }
       expect(theError, isA<XmlParserException>());
     });
+
+    test('surfaces a service error whose ErrorResponse omits <Type>', () async {
+      final client = MockClient((request) async {
+        return Response(
+          '<ErrorResponse><Error>'
+          '<Code>InternalFailure</Code>'
+          '<Message>not implemented</Message>'
+          '</Error></ErrorResponse>',
+          400,
+        );
+      });
+      final protocol = QueryProtocol(
+        client: client,
+        endpointUrl: 'endpointUrl',
+        service: ServiceMetadata(endpointPrefix: 'endpointPrefix'),
+        region: 'us-west-2',
+        credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
+      );
+      await expectLater(
+        protocol.send({},
+            action: 'action',
+            version: 'version',
+            method: 'POST',
+            requestUri: 'requestUri',
+            exceptionFnMap: {}),
+        throwsA(
+          isA<Exception>()
+              .having(
+                  (e) => e.toString(), 'message', contains('not implemented'))
+              .having((e) => e.toString(), 'message',
+                  isNot(contains('No element'))),
+        ),
+      );
+    });
   });
 
   group('QueryProtocol.flatQueryParams', () {

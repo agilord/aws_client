@@ -152,7 +152,7 @@ class EntityResolution {
     String? inputSource,
   }) async {
     final headers = <String, String>{
-      'uniqueIds': uniqueIds.toString(),
+      'uniqueIds': _s.encodeHttpHeaderList(uniqueIds),
       if (inputSource != null) 'inputSource': inputSource.toString(),
     };
     final response = await _protocol.send(

@@ -46,7 +46,7 @@ void main() {
         },
       },
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('FlatNestedXmlMapRequest', () async {
     final client = MockClient((request) async {
@@ -80,7 +80,7 @@ void main() {
         },
       },
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('NestedXmlMapResponse', () async {
     final client = MockClient((request) async {

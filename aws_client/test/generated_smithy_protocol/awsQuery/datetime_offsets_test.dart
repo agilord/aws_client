@@ -32,8 +32,8 @@ void main() {
     );
 
     final output = await service.datetimeOffsets();
-    expect(output.datetime!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+    expect(output.datetime!.millisecondsSinceEpoch / 1000, 1576540098);
+  });
 
   test('AwsQueryDateTimeWithPositiveOffset', () async {
     final client = MockClient((request) async {
@@ -55,6 +55,6 @@ void main() {
     );
 
     final output = await service.datetimeOffsets();
-    expect(output.datetime!.millisecondsSinceEpoch ~/ 1000, 1576540098);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+    expect(output.datetime!.millisecondsSinceEpoch / 1000, 1576540098);
+  });
 }

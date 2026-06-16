@@ -241,7 +241,7 @@ void main() {
     expect(output.defaultNullDocument, isNull);
     expect(output.defaultShort, 1);
     expect(output.defaultString, "hi");
-    expect(output.defaultTimestamp!.millisecondsSinceEpoch ~/ 1000, 0);
+    expect(output.defaultTimestamp!.millisecondsSinceEpoch / 1000, 0);
     expect(output.emptyBlob, utf8.encode(''));
     expect(output.emptyString, "");
     expect(output.falseBoolean, false);
@@ -311,7 +311,7 @@ void main() {
     expect(output.defaultMap?['name'], "Jack");
     expect(output.defaultShort, 2);
     expect(output.defaultString, "bye");
-    expect(output.defaultTimestamp!.millisecondsSinceEpoch ~/ 1000, 2);
+    expect(output.defaultTimestamp!.millisecondsSinceEpoch / 1000, 2);
     expect(output.emptyBlob, utf8.encode('hi'));
     expect(output.emptyString, "foo");
     expect(output.falseBoolean, true);

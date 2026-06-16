@@ -69,7 +69,7 @@ void main() {
         },
       },
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('NestedXmlMapWithXmlNameDeserializes', () async {
     final client = MockClient((request) async {

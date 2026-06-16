@@ -25,4 +25,58 @@ void main() {
 
     await route53.deleteHostedZone(id: zoneId);
   });
+
+  test('Route53 (rest-xml): upsert an A record then list it back', () async {
+    final zoneName = '${uniqueName()}.example.com.';
+    final created = await route53.createHostedZone(
+      callerReference: zoneName,
+      name: zoneName,
+    );
+    final zoneId = created.hostedZone.id.replaceFirst('/hostedzone/', '');
+    final recordName = 'www.$zoneName';
+
+    await route53.changeResourceRecordSets(
+      hostedZoneId: zoneId,
+      changeBatch: ChangeBatch(changes: [
+        Change(
+          action: ChangeAction.upsert,
+          resourceRecordSet: ResourceRecordSet(
+            name: recordName,
+            type: RRType.a,
+            ttl: 300,
+            resourceRecords: [ResourceRecord(value: '192.0.2.1')],
+          ),
+        ),
+      ]),
+    );
+
+    final records = await route53.listResourceRecordSets(hostedZoneId: zoneId);
+    final aRecord = records.resourceRecordSets.firstWhere(
+      (r) => r.type == RRType.a && r.name == recordName,
+    );
+    expect(
+      aRecord.resourceRecords!.map((r) => r.value),
+      contains('192.0.2.1'),
+    );
+    expect(
+      records.resourceRecordSets.map((r) => r.type),
+      containsAll([RRType.soa, RRType.ns]),
+    );
+
+    await route53.changeResourceRecordSets(
+      hostedZoneId: zoneId,
+      changeBatch: ChangeBatch(changes: [
+        Change(
+          action: ChangeAction.delete,
+          resourceRecordSet: ResourceRecordSet(
+            name: recordName,
+            type: RRType.a,
+            ttl: 300,
+            resourceRecords: [ResourceRecord(value: '192.0.2.1')],
+          ),
+        ),
+      ]),
+    );
+    await route53.deleteHostedZone(id: zoneId);
+  });
 }
