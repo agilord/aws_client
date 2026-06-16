@@ -1882,18 +1882,27 @@ class AccessPolicySummary {
   }
 }
 
-enum AccessPolicyType {
-  data('data'),
-  ;
+class AccessPolicyType {
+  static const data = AccessPolicyType._('data');
 
   final String value;
 
-  const AccessPolicyType(this.value);
+  const AccessPolicyType._(this.value);
+
+  static const values = [data];
 
   static AccessPolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessPolicyType'));
+          orElse: () => AccessPolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// OpenSearch Serverless-related information for the current account.
@@ -2305,21 +2314,30 @@ class CollectionFilters {
   }
 }
 
-enum CollectionStatus {
-  creating('CREATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class CollectionStatus {
+  static const creating = CollectionStatus._('CREATING');
+  static const deleting = CollectionStatus._('DELETING');
+  static const active = CollectionStatus._('ACTIVE');
+  static const failed = CollectionStatus._('FAILED');
 
   final String value;
 
-  const CollectionStatus(this.value);
+  const CollectionStatus._(this.value);
+
+  static const values = [creating, deleting, active, failed];
 
   static CollectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CollectionStatus'));
+          orElse: () => CollectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CollectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about each OpenSearch Serverless collection.
@@ -2366,20 +2384,29 @@ class CollectionSummary {
   }
 }
 
-enum CollectionType {
-  search('SEARCH'),
-  timeseries('TIMESERIES'),
-  vectorsearch('VECTORSEARCH'),
-  ;
+class CollectionType {
+  static const search = CollectionType._('SEARCH');
+  static const timeseries = CollectionType._('TIMESERIES');
+  static const vectorsearch = CollectionType._('VECTORSEARCH');
 
   final String value;
 
-  const CollectionType(this.value);
+  const CollectionType._(this.value);
+
+  static const values = [search, timeseries, vectorsearch];
 
   static CollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CollectionType'));
+          orElse: () => CollectionType._(value));
+
+  @override
+  bool operator ==(other) => other is CollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAccessPolicyResponse {
@@ -3370,18 +3397,28 @@ class LifecyclePolicySummary {
   }
 }
 
-enum LifecyclePolicyType {
-  retention('retention'),
-  ;
+class LifecyclePolicyType {
+  static const retention = LifecyclePolicyType._('retention');
 
   final String value;
 
-  const LifecyclePolicyType(this.value);
+  const LifecyclePolicyType._(this.value);
 
-  static LifecyclePolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LifecyclePolicyType'));
+  static const values = [retention];
+
+  static LifecyclePolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecyclePolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAccessPoliciesResponse {
@@ -3626,18 +3663,26 @@ class ListVpcEndpointsResponse {
   }
 }
 
-enum ResourceType {
-  $index('index'),
-  ;
+class ResourceType {
+  static const $index = ResourceType._('index');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [$index];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes SAML options for an OpenSearch Serverless security configuration
@@ -3834,18 +3879,28 @@ class SecurityConfigSummary {
   }
 }
 
-enum SecurityConfigType {
-  saml('saml'),
-  ;
+class SecurityConfigType {
+  static const saml = SecurityConfigType._('saml');
 
   final String value;
 
-  const SecurityConfigType(this.value);
+  const SecurityConfigType._(this.value);
 
-  static SecurityConfigType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SecurityConfigType'));
+  static const values = [saml];
+
+  static SecurityConfigType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityConfigType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityConfigType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an OpenSearch Serverless security policy.
@@ -4004,34 +4059,53 @@ class SecurityPolicySummary {
   }
 }
 
-enum SecurityPolicyType {
-  encryption('encryption'),
-  network('network'),
-  ;
+class SecurityPolicyType {
+  static const encryption = SecurityPolicyType._('encryption');
+  static const network = SecurityPolicyType._('network');
 
   final String value;
 
-  const SecurityPolicyType(this.value);
+  const SecurityPolicyType._(this.value);
 
-  static SecurityPolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SecurityPolicyType'));
+  static const values = [encryption, network];
+
+  static SecurityPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StandbyReplicas {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class StandbyReplicas {
+  static const enabled = StandbyReplicas._('ENABLED');
+  static const disabled = StandbyReplicas._('DISABLED');
 
   final String value;
 
-  const StandbyReplicas(this.value);
+  const StandbyReplicas._(this.value);
+
+  static const values = [enabled, disabled];
 
   static StandbyReplicas fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StandbyReplicas'));
+          orElse: () => StandbyReplicas._(value));
+
+  @override
+  bool operator ==(other) => other is StandbyReplicas && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A map of key-value pairs associated to an OpenSearch Serverless resource.
@@ -4549,21 +4623,30 @@ class VpcEndpointFilters {
   }
 }
 
-enum VpcEndpointStatus {
-  pending('PENDING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class VpcEndpointStatus {
+  static const pending = VpcEndpointStatus._('PENDING');
+  static const deleting = VpcEndpointStatus._('DELETING');
+  static const active = VpcEndpointStatus._('ACTIVE');
+  static const failed = VpcEndpointStatus._('FAILED');
 
   final String value;
 
-  const VpcEndpointStatus(this.value);
+  const VpcEndpointStatus._(this.value);
+
+  static const values = [pending, deleting, active, failed];
 
   static VpcEndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcEndpointStatus'));
+          orElse: () => VpcEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VpcEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPC endpoint object.

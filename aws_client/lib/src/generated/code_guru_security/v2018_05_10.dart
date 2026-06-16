@@ -623,19 +623,27 @@ class AccountFindingsMetric {
   }
 }
 
-enum AnalysisType {
-  security('Security'),
-  all('All'),
-  ;
+class AnalysisType {
+  static const security = AnalysisType._('Security');
+  static const all = AnalysisType._('All');
 
   final String value;
 
-  const AnalysisType(this.value);
+  const AnalysisType._(this.value);
 
-  static AnalysisType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisType'));
+  static const values = [security, all];
+
+  static AnalysisType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnalysisType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the error that caused a finding to fail to be
@@ -662,7 +670,7 @@ class BatchGetFindingsError {
 
   factory BatchGetFindingsError.fromJson(Map<String, dynamic> json) {
     return BatchGetFindingsError(
-      errorCode: ErrorCode.fromString((json['errorCode'] as String)),
+      errorCode: ErrorCode.fromString((json['errorCode'] as String?) ?? ''),
       findingId: (json['findingId'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
       scanName: (json['scanName'] as String?) ?? '',
@@ -815,7 +823,7 @@ class CreateScanResponse {
               const <String, dynamic>{}),
       runId: (json['runId'] as String?) ?? '',
       scanName: (json['scanName'] as String?) ?? '',
-      scanState: ScanState.fromString((json['scanState'] as String)),
+      scanState: ScanState.fromString((json['scanState'] as String?) ?? ''),
       scanNameArn: json['scanNameArn'] as String?,
     );
   }
@@ -902,21 +910,36 @@ class EncryptionConfig {
   }
 }
 
-enum ErrorCode {
-  duplicateIdentifier('DUPLICATE_IDENTIFIER'),
-  itemDoesNotExist('ITEM_DOES_NOT_EXIST'),
-  internalError('INTERNAL_ERROR'),
-  invalidFindingId('INVALID_FINDING_ID'),
-  invalidScanName('INVALID_SCAN_NAME'),
-  ;
+class ErrorCode {
+  static const duplicateIdentifier = ErrorCode._('DUPLICATE_IDENTIFIER');
+  static const itemDoesNotExist = ErrorCode._('ITEM_DOES_NOT_EXIST');
+  static const internalError = ErrorCode._('INTERNAL_ERROR');
+  static const invalidFindingId = ErrorCode._('INVALID_FINDING_ID');
+  static const invalidScanName = ErrorCode._('INVALID_SCAN_NAME');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    duplicateIdentifier,
+    itemDoesNotExist,
+    internalError,
+    invalidFindingId,
+    invalidScanName
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the location of security vulnerabilities that Amazon
@@ -1335,11 +1358,12 @@ class GetScanResponse {
 
   factory GetScanResponse.fromJson(Map<String, dynamic> json) {
     return GetScanResponse(
-      analysisType: AnalysisType.fromString((json['analysisType'] as String)),
+      analysisType:
+          AnalysisType.fromString((json['analysisType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       runId: (json['runId'] as String?) ?? '',
       scanName: (json['scanName'] as String?) ?? '',
-      scanState: ScanState.fromString((json['scanState'] as String)),
+      scanState: ScanState.fromString((json['scanState'] as String?) ?? ''),
       errorMessage: json['errorMessage'] as String?,
       numberOfRevisions: json['numberOfRevisions'] as int?,
       scanNameArn: json['scanNameArn'] as String?,
@@ -1703,19 +1727,28 @@ class ScanNameWithFindingNum {
   }
 }
 
-enum ScanState {
-  inProgress('InProgress'),
-  successful('Successful'),
-  failed('Failed'),
-  ;
+class ScanState {
+  static const inProgress = ScanState._('InProgress');
+  static const successful = ScanState._('Successful');
+  static const failed = ScanState._('Failed');
 
   final String value;
 
-  const ScanState(this.value);
+  const ScanState._(this.value);
 
-  static ScanState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanState'));
+  static const values = [inProgress, successful, failed];
+
+  static ScanState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanState._(value));
+
+  @override
+  bool operator ==(other) => other is ScanState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a scan.
@@ -1753,7 +1786,7 @@ class ScanSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       runId: (json['runId'] as String?) ?? '',
       scanName: (json['scanName'] as String?) ?? '',
-      scanState: ScanState.fromString((json['scanState'] as String)),
+      scanState: ScanState.fromString((json['scanState'] as String?) ?? ''),
       scanNameArn: json['scanNameArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -1777,50 +1810,77 @@ class ScanSummary {
   }
 }
 
-enum ScanType {
-  standard('Standard'),
-  express('Express'),
-  ;
+class ScanType {
+  static const standard = ScanType._('Standard');
+  static const express = ScanType._('Express');
 
   final String value;
 
-  const ScanType(this.value);
+  const ScanType._(this.value);
 
-  static ScanType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanType'));
+  static const values = [standard, express];
+
+  static ScanType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanType._(value));
+
+  @override
+  bool operator ==(other) => other is ScanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Severity {
-  critical('Critical'),
-  high('High'),
-  medium('Medium'),
-  low('Low'),
-  info('Info'),
-  ;
+class Severity {
+  static const critical = Severity._('Critical');
+  static const high = Severity._('High');
+  static const medium = Severity._('Medium');
+  static const low = Severity._('Low');
+  static const info = Severity._('Info');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [critical, high, medium, low, info];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  closed('Closed'),
-  open('Open'),
-  all('All'),
-  ;
+class Status {
+  static const closed = Status._('Closed');
+  static const open = Status._('Open');
+  static const all = Status._('All');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [closed, open, all];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the suggested code fix to remediate a finding.

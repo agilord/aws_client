@@ -1656,7 +1656,7 @@ class ApplicationLayerAutomaticResponseConfiguration {
           (json['Action'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       status: ApplicationLayerAutomaticResponseStatus.fromString(
-          (json['Status'] as String)),
+          (json['Status'] as String?) ?? ''),
     );
   }
 
@@ -1670,19 +1670,29 @@ class ApplicationLayerAutomaticResponseConfiguration {
   }
 }
 
-enum ApplicationLayerAutomaticResponseStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ApplicationLayerAutomaticResponseStatus {
+  static const enabled = ApplicationLayerAutomaticResponseStatus._('ENABLED');
+  static const disabled = ApplicationLayerAutomaticResponseStatus._('DISABLED');
 
   final String value;
 
-  const ApplicationLayerAutomaticResponseStatus(this.value);
+  const ApplicationLayerAutomaticResponseStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ApplicationLayerAutomaticResponseStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationLayerAutomaticResponseStatus'));
+          orElse: () => ApplicationLayerAutomaticResponseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationLayerAutomaticResponseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateDRTLogBucketResponse {
@@ -1824,18 +1834,27 @@ class AttackDetail {
   }
 }
 
-enum AttackLayer {
-  network('NETWORK'),
-  application('APPLICATION'),
-  ;
+class AttackLayer {
+  static const network = AttackLayer._('NETWORK');
+  static const application = AttackLayer._('APPLICATION');
 
   final String value;
 
-  const AttackLayer(this.value);
+  const AttackLayer._(this.value);
 
-  static AttackLayer fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AttackLayer'));
+  static const values = [network, application];
+
+  static AttackLayer fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AttackLayer._(value));
+
+  @override
+  bool operator ==(other) => other is AttackLayer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of a Shield event. This is provided as part of an
@@ -1908,25 +1927,48 @@ class AttackProperty {
   }
 }
 
-enum AttackPropertyIdentifier {
-  destinationUrl('DESTINATION_URL'),
-  referrer('REFERRER'),
-  sourceAsn('SOURCE_ASN'),
-  sourceCountry('SOURCE_COUNTRY'),
-  sourceIpAddress('SOURCE_IP_ADDRESS'),
-  sourceUserAgent('SOURCE_USER_AGENT'),
-  wordpressPingbackReflector('WORDPRESS_PINGBACK_REFLECTOR'),
-  wordpressPingbackSource('WORDPRESS_PINGBACK_SOURCE'),
-  ;
+class AttackPropertyIdentifier {
+  static const destinationUrl = AttackPropertyIdentifier._('DESTINATION_URL');
+  static const referrer = AttackPropertyIdentifier._('REFERRER');
+  static const sourceAsn = AttackPropertyIdentifier._('SOURCE_ASN');
+  static const sourceCountry = AttackPropertyIdentifier._('SOURCE_COUNTRY');
+  static const sourceIpAddress =
+      AttackPropertyIdentifier._('SOURCE_IP_ADDRESS');
+  static const sourceUserAgent =
+      AttackPropertyIdentifier._('SOURCE_USER_AGENT');
+  static const wordpressPingbackReflector =
+      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_REFLECTOR');
+  static const wordpressPingbackSource =
+      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_SOURCE');
 
   final String value;
 
-  const AttackPropertyIdentifier(this.value);
+  const AttackPropertyIdentifier._(this.value);
+
+  static const values = [
+    destinationUrl,
+    referrer,
+    sourceAsn,
+    sourceCountry,
+    sourceIpAddress,
+    sourceUserAgent,
+    wordpressPingbackReflector,
+    wordpressPingbackSource
+  ];
 
   static AttackPropertyIdentifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AttackPropertyIdentifier'));
+          orElse: () => AttackPropertyIdentifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttackPropertyIdentifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single attack statistics data record. This is returned by
@@ -2176,18 +2218,27 @@ class AttackVolumeStatistics {
   }
 }
 
-enum AutoRenew {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutoRenew {
+  static const enabled = AutoRenew._('ENABLED');
+  static const disabled = AutoRenew._('DISABLED');
 
   final String value;
 
-  const AutoRenew(this.value);
+  const AutoRenew._(this.value);
 
-  static AutoRenew fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AutoRenew'));
+  static const values = [enabled, disabled];
+
+  static AutoRenew fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoRenew._(value));
+
+  @override
+  bool operator ==(other) => other is AutoRenew && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies that Shield Advanced should configure its WAF rules with the WAF
@@ -2674,8 +2725,8 @@ class GetSubscriptionStateResponse {
 
   factory GetSubscriptionStateResponse.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionStateResponse(
-      subscriptionState:
-          SubscriptionState.fromString((json['SubscriptionState'] as String)),
+      subscriptionState: SubscriptionState.fromString(
+          (json['SubscriptionState'] as String?) ?? ''),
     );
   }
 
@@ -3026,39 +3077,72 @@ class Mitigation {
   }
 }
 
-enum ProactiveEngagementStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  pending('PENDING'),
-  ;
+class ProactiveEngagementStatus {
+  static const enabled = ProactiveEngagementStatus._('ENABLED');
+  static const disabled = ProactiveEngagementStatus._('DISABLED');
+  static const pending = ProactiveEngagementStatus._('PENDING');
 
   final String value;
 
-  const ProactiveEngagementStatus(this.value);
+  const ProactiveEngagementStatus._(this.value);
+
+  static const values = [enabled, disabled, pending];
 
   static ProactiveEngagementStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProactiveEngagementStatus'));
+          orElse: () => ProactiveEngagementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProactiveEngagementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProtectedResourceType {
-  cloudfrontDistribution('CLOUDFRONT_DISTRIBUTION'),
-  route_53HostedZone('ROUTE_53_HOSTED_ZONE'),
-  elasticIpAllocation('ELASTIC_IP_ALLOCATION'),
-  classicLoadBalancer('CLASSIC_LOAD_BALANCER'),
-  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
-  globalAccelerator('GLOBAL_ACCELERATOR'),
-  ;
+class ProtectedResourceType {
+  static const cloudfrontDistribution =
+      ProtectedResourceType._('CLOUDFRONT_DISTRIBUTION');
+  static const route_53HostedZone =
+      ProtectedResourceType._('ROUTE_53_HOSTED_ZONE');
+  static const elasticIpAllocation =
+      ProtectedResourceType._('ELASTIC_IP_ALLOCATION');
+  static const classicLoadBalancer =
+      ProtectedResourceType._('CLASSIC_LOAD_BALANCER');
+  static const applicationLoadBalancer =
+      ProtectedResourceType._('APPLICATION_LOAD_BALANCER');
+  static const globalAccelerator =
+      ProtectedResourceType._('GLOBAL_ACCELERATOR');
 
   final String value;
 
-  const ProtectedResourceType(this.value);
+  const ProtectedResourceType._(this.value);
 
-  static ProtectedResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProtectedResourceType'));
+  static const values = [
+    cloudfrontDistribution,
+    route_53HostedZone,
+    elasticIpAllocation,
+    classicLoadBalancer,
+    applicationLoadBalancer,
+    globalAccelerator
+  ];
+
+  static ProtectedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProtectedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a resource that is under DDoS protection.
@@ -3202,12 +3286,13 @@ class ProtectionGroup {
   factory ProtectionGroup.fromJson(Map<String, dynamic> json) {
     return ProtectionGroup(
       aggregation: ProtectionGroupAggregation.fromString(
-          (json['Aggregation'] as String)),
+          (json['Aggregation'] as String?) ?? ''),
       members: ((json['Members'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      pattern: ProtectionGroupPattern.fromString((json['Pattern'] as String)),
+      pattern:
+          ProtectionGroupPattern.fromString((json['Pattern'] as String?) ?? ''),
       protectionGroupId: (json['ProtectionGroupId'] as String?) ?? '',
       protectionGroupArn: json['ProtectionGroupArn'] as String?,
       resourceType: (json['ResourceType'] as String?)
@@ -3233,20 +3318,30 @@ class ProtectionGroup {
   }
 }
 
-enum ProtectionGroupAggregation {
-  sum('SUM'),
-  mean('MEAN'),
-  max('MAX'),
-  ;
+class ProtectionGroupAggregation {
+  static const sum = ProtectionGroupAggregation._('SUM');
+  static const mean = ProtectionGroupAggregation._('MEAN');
+  static const max = ProtectionGroupAggregation._('MAX');
 
   final String value;
 
-  const ProtectionGroupAggregation(this.value);
+  const ProtectionGroupAggregation._(this.value);
+
+  static const values = [sum, mean, max];
 
   static ProtectionGroupAggregation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProtectionGroupAggregation'));
+          orElse: () => ProtectionGroupAggregation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectionGroupAggregation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Limits settings on protection groups with arbitrary pattern type.
@@ -3307,20 +3402,30 @@ class ProtectionGroupLimits {
   }
 }
 
-enum ProtectionGroupPattern {
-  all('ALL'),
-  arbitrary('ARBITRARY'),
-  byResourceType('BY_RESOURCE_TYPE'),
-  ;
+class ProtectionGroupPattern {
+  static const all = ProtectionGroupPattern._('ALL');
+  static const arbitrary = ProtectionGroupPattern._('ARBITRARY');
+  static const byResourceType = ProtectionGroupPattern._('BY_RESOURCE_TYPE');
 
   final String value;
 
-  const ProtectionGroupPattern(this.value);
+  const ProtectionGroupPattern._(this.value);
+
+  static const values = [all, arbitrary, byResourceType];
 
   static ProtectionGroupPattern fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProtectionGroupPattern'));
+          orElse: () => ProtectionGroupPattern._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectionGroupPattern && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Limits settings by pattern type in the protection groups for your
@@ -3475,19 +3580,28 @@ class SubResourceSummary {
   }
 }
 
-enum SubResourceType {
-  ip('IP'),
-  url('URL'),
-  ;
+class SubResourceType {
+  static const ip = SubResourceType._('IP');
+  static const url = SubResourceType._('URL');
 
   final String value;
 
-  const SubResourceType(this.value);
+  const SubResourceType._(this.value);
+
+  static const values = [ip, url];
 
   static SubResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubResourceType'));
+          orElse: () => SubResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SubResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the Shield Advanced subscription for an account.
@@ -3621,19 +3735,28 @@ class SubscriptionLimits {
   }
 }
 
-enum SubscriptionState {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class SubscriptionState {
+  static const active = SubscriptionState._('ACTIVE');
+  static const inactive = SubscriptionState._('INACTIVE');
 
   final String value;
 
-  const SubscriptionState(this.value);
+  const SubscriptionState._(this.value);
+
+  static const values = [active, inactive];
 
   static SubscriptionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriptionState'));
+          orElse: () => SubscriptionState._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about the attack.
@@ -3811,20 +3934,29 @@ class TimeRange {
   }
 }
 
-enum Unit {
-  bits('BITS'),
-  bytes('BYTES'),
-  packets('PACKETS'),
-  requests('REQUESTS'),
-  ;
+class Unit {
+  static const bits = Unit._('BITS');
+  static const bytes = Unit._('BYTES');
+  static const packets = Unit._('PACKETS');
+  static const requests = Unit._('REQUESTS');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [bits, bytes, packets, requests];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

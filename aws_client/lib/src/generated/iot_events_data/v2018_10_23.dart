@@ -646,23 +646,39 @@ class AlarmState {
   }
 }
 
-enum AlarmStateName {
-  disabled('DISABLED'),
-  normal('NORMAL'),
-  active('ACTIVE'),
-  acknowledged('ACKNOWLEDGED'),
-  snoozeDisabled('SNOOZE_DISABLED'),
-  latched('LATCHED'),
-  ;
+class AlarmStateName {
+  static const disabled = AlarmStateName._('DISABLED');
+  static const normal = AlarmStateName._('NORMAL');
+  static const active = AlarmStateName._('ACTIVE');
+  static const acknowledged = AlarmStateName._('ACKNOWLEDGED');
+  static const snoozeDisabled = AlarmStateName._('SNOOZE_DISABLED');
+  static const latched = AlarmStateName._('LATCHED');
 
   final String value;
 
-  const AlarmStateName(this.value);
+  const AlarmStateName._(this.value);
+
+  static const values = [
+    disabled,
+    normal,
+    active,
+    acknowledged,
+    snoozeDisabled,
+    latched
+  ];
 
   static AlarmStateName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlarmStateName'));
+          orElse: () => AlarmStateName._(value));
+
+  @override
+  bool operator ==(other) => other is AlarmStateName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of an alarm.
@@ -1168,23 +1184,40 @@ class BatchUpdateDetectorResponse {
   }
 }
 
-enum ComparisonOperator {
-  greater('GREATER'),
-  greaterOrEqual('GREATER_OR_EQUAL'),
-  less('LESS'),
-  lessOrEqual('LESS_OR_EQUAL'),
-  equal('EQUAL'),
-  notEqual('NOT_EQUAL'),
-  ;
+class ComparisonOperator {
+  static const greater = ComparisonOperator._('GREATER');
+  static const greaterOrEqual = ComparisonOperator._('GREATER_OR_EQUAL');
+  static const less = ComparisonOperator._('LESS');
+  static const lessOrEqual = ComparisonOperator._('LESS_OR_EQUAL');
+  static const equal = ComparisonOperator._('EQUAL');
+  static const notEqual = ComparisonOperator._('NOT_EQUAL');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    greater,
+    greaterOrEqual,
+    less,
+    lessOrEqual,
+    equal,
+    notEqual
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the action that you can take to respond to the
@@ -1294,22 +1327,32 @@ class CustomerAction {
   }
 }
 
-enum CustomerActionName {
-  snooze('SNOOZE'),
-  enable('ENABLE'),
-  disable('DISABLE'),
-  acknowledge('ACKNOWLEDGE'),
-  reset('RESET'),
-  ;
+class CustomerActionName {
+  static const snooze = CustomerActionName._('SNOOZE');
+  static const enable = CustomerActionName._('ENABLE');
+  static const disable = CustomerActionName._('DISABLE');
+  static const acknowledge = CustomerActionName._('ACKNOWLEDGE');
+  static const reset = CustomerActionName._('RESET');
 
   final String value;
 
-  const CustomerActionName(this.value);
+  const CustomerActionName._(this.value);
 
-  static CustomerActionName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomerActionName'));
+  static const values = [snooze, enable, disable, acknowledge, reset];
+
+  static CustomerActionName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerActionName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerActionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information used to delete the detector model.
@@ -1739,34 +1782,61 @@ class EnableAlarmActionRequest {
   }
 }
 
-enum ErrorCode {
-  resourceNotFoundException('ResourceNotFoundException'),
-  invalidRequestException('InvalidRequestException'),
-  internalFailureException('InternalFailureException'),
-  serviceUnavailableException('ServiceUnavailableException'),
-  throttlingException('ThrottlingException'),
-  ;
+class ErrorCode {
+  static const resourceNotFoundException =
+      ErrorCode._('ResourceNotFoundException');
+  static const invalidRequestException = ErrorCode._('InvalidRequestException');
+  static const internalFailureException =
+      ErrorCode._('InternalFailureException');
+  static const serviceUnavailableException =
+      ErrorCode._('ServiceUnavailableException');
+  static const throttlingException = ErrorCode._('ThrottlingException');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    resourceNotFoundException,
+    invalidRequestException,
+    internalFailureException,
+    serviceUnavailableException,
+    throttlingException
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventType {
-  stateChange('STATE_CHANGE'),
-  ;
+class EventType {
+  static const stateChange = EventType._('STATE_CHANGE');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [stateChange];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAlarmsResponse {
@@ -2205,17 +2275,26 @@ class TimestampValue {
   }
 }
 
-enum TriggerType {
-  snoozeTimeout('SNOOZE_TIMEOUT'),
-  ;
+class TriggerType {
+  static const snoozeTimeout = TriggerType._('SNOOZE_TIMEOUT');
 
   final String value;
 
-  const TriggerType(this.value);
+  const TriggerType._(this.value);
 
-  static TriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerType'));
+  static const values = [snoozeTimeout];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information used to update the detector (instance).

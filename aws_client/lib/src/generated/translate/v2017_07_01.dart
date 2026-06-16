@@ -1142,17 +1142,26 @@ class AppliedTerminology {
   }
 }
 
-enum Brevity {
-  on('ON'),
-  ;
+class Brevity {
+  static const on = Brevity._('ON');
 
   final String value;
 
-  const Brevity(this.value);
+  const Brevity._(this.value);
 
-  static Brevity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Brevity'));
+  static const values = [on];
+
+  static Brevity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Brevity._(value));
+
+  @override
+  bool operator ==(other) => other is Brevity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateParallelDataResponse {
@@ -1242,42 +1251,61 @@ class DescribeTextTranslationJobResponse {
   }
 }
 
-enum Directionality {
-  uni('UNI'),
-  multi('MULTI'),
-  ;
+class Directionality {
+  static const uni = Directionality._('UNI');
+  static const multi = Directionality._('MULTI');
 
   final String value;
 
-  const Directionality(this.value);
+  const Directionality._(this.value);
+
+  static const values = [uni, multi];
 
   static Directionality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Directionality'));
+          orElse: () => Directionality._(value));
+
+  @override
+  bool operator ==(other) => other is Directionality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DisplayLanguageCode {
-  de('de'),
-  en('en'),
-  es('es'),
-  fr('fr'),
-  it('it'),
-  ja('ja'),
-  ko('ko'),
-  pt('pt'),
-  zh('zh'),
-  zhTw('zh-TW'),
-  ;
+class DisplayLanguageCode {
+  static const de = DisplayLanguageCode._('de');
+  static const en = DisplayLanguageCode._('en');
+  static const es = DisplayLanguageCode._('es');
+  static const fr = DisplayLanguageCode._('fr');
+  static const it = DisplayLanguageCode._('it');
+  static const ja = DisplayLanguageCode._('ja');
+  static const ko = DisplayLanguageCode._('ko');
+  static const pt = DisplayLanguageCode._('pt');
+  static const zh = DisplayLanguageCode._('zh');
+  static const zhTw = DisplayLanguageCode._('zh-TW');
 
   final String value;
 
-  const DisplayLanguageCode(this.value);
+  const DisplayLanguageCode._(this.value);
 
-  static DisplayLanguageCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DisplayLanguageCode'));
+  static const values = [de, en, es, fr, it, ja, ko, pt, zh, zhTw];
+
+  static DisplayLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DisplayLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DisplayLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The content and content type of a document.
@@ -1338,7 +1366,7 @@ class EncryptionKey {
   factory EncryptionKey.fromJson(Map<String, dynamic> json) {
     return EncryptionKey(
       id: (json['Id'] as String?) ?? '',
-      type: EncryptionKeyType.fromString((json['Type'] as String)),
+      type: EncryptionKeyType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -1352,32 +1380,50 @@ class EncryptionKey {
   }
 }
 
-enum EncryptionKeyType {
-  kms('KMS'),
-  ;
+class EncryptionKeyType {
+  static const kms = EncryptionKeyType._('KMS');
 
   final String value;
 
-  const EncryptionKeyType(this.value);
+  const EncryptionKeyType._(this.value);
+
+  static const values = [kms];
 
   static EncryptionKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionKeyType'));
+          orElse: () => EncryptionKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Formality {
-  formal('FORMAL'),
-  informal('INFORMAL'),
-  ;
+class Formality {
+  static const formal = Formality._('FORMAL');
+  static const informal = Formality._('INFORMAL');
 
   final String value;
 
-  const Formality(this.value);
+  const Formality._(this.value);
 
-  static Formality fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Formality'));
+  static const values = [formal, informal];
+
+  static Formality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Formality._(value));
+
+  @override
+  bool operator ==(other) => other is Formality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetParallelDataResponse {
@@ -1680,23 +1726,40 @@ class JobDetails {
   }
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  completedWithError('COMPLETED_WITH_ERROR'),
-  failed('FAILED'),
-  stopRequested('STOP_REQUESTED'),
-  stopped('STOPPED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const completedWithError = JobStatus._('COMPLETED_WITH_ERROR');
+  static const failed = JobStatus._('FAILED');
+  static const stopRequested = JobStatus._('STOP_REQUESTED');
+  static const stopped = JobStatus._('STOPPED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    completedWithError,
+    failed,
+    stopRequested,
+    stopped
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A supported language.
@@ -1906,18 +1969,27 @@ class ListTextTranslationJobsResponse {
   }
 }
 
-enum MergeStrategy {
-  overwrite('OVERWRITE'),
-  ;
+class MergeStrategy {
+  static const overwrite = MergeStrategy._('OVERWRITE');
 
   final String value;
 
-  const MergeStrategy(this.value);
+  const MergeStrategy._(this.value);
+
+  static const values = [overwrite];
 
   static MergeStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MergeStrategy'));
+          orElse: () => MergeStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MergeStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The output configuration properties for a batch translation job.
@@ -2027,20 +2099,30 @@ class ParallelDataDataLocation {
   }
 }
 
-enum ParallelDataFormat {
-  tsv('TSV'),
-  csv('CSV'),
-  tmx('TMX'),
-  ;
+class ParallelDataFormat {
+  static const tsv = ParallelDataFormat._('TSV');
+  static const csv = ParallelDataFormat._('CSV');
+  static const tmx = ParallelDataFormat._('TMX');
 
   final String value;
 
-  const ParallelDataFormat(this.value);
+  const ParallelDataFormat._(this.value);
 
-  static ParallelDataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParallelDataFormat'));
+  static const values = [tsv, csv, tmx];
+
+  static ParallelDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParallelDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParallelDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of a parallel data resource.
@@ -2202,35 +2284,54 @@ class ParallelDataProperties {
   }
 }
 
-enum ParallelDataStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ParallelDataStatus {
+  static const creating = ParallelDataStatus._('CREATING');
+  static const updating = ParallelDataStatus._('UPDATING');
+  static const active = ParallelDataStatus._('ACTIVE');
+  static const deleting = ParallelDataStatus._('DELETING');
+  static const failed = ParallelDataStatus._('FAILED');
 
   final String value;
 
-  const ParallelDataStatus(this.value);
+  const ParallelDataStatus._(this.value);
 
-  static ParallelDataStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParallelDataStatus'));
+  static const values = [creating, updating, active, deleting, failed];
+
+  static ParallelDataStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParallelDataStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParallelDataStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Profanity {
-  mask('MASK'),
-  ;
+class Profanity {
+  static const mask = Profanity._('MASK');
 
   final String value;
 
-  const Profanity(this.value);
+  const Profanity._(this.value);
 
-  static Profanity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Profanity'));
+  static const values = [mask];
+
+  static Profanity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Profanity._(value));
+
+  @override
+  bool operator ==(other) => other is Profanity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartTextTranslationJobResponse {
@@ -2445,20 +2546,30 @@ class TerminologyData {
   }
 }
 
-enum TerminologyDataFormat {
-  csv('CSV'),
-  tmx('TMX'),
-  tsv('TSV'),
-  ;
+class TerminologyDataFormat {
+  static const csv = TerminologyDataFormat._('CSV');
+  static const tmx = TerminologyDataFormat._('TMX');
+  static const tsv = TerminologyDataFormat._('TSV');
 
   final String value;
 
-  const TerminologyDataFormat(this.value);
+  const TerminologyDataFormat._(this.value);
 
-  static TerminologyDataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TerminologyDataFormat'));
+  static const values = [csv, tmx, tsv];
+
+  static TerminologyDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TerminologyDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TerminologyDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The location of the custom terminology data.

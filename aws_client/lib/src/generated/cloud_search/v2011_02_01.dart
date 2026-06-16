@@ -1446,20 +1446,29 @@ class IndexFieldStatus {
 }
 
 /// The type of <code>IndexField</code>.
-enum IndexFieldType {
-  uint('uint'),
-  literal('literal'),
-  text('text'),
-  ;
+class IndexFieldType {
+  static const uint = IndexFieldType._('uint');
+  static const literal = IndexFieldType._('literal');
+  static const text = IndexFieldType._('text');
 
   final String value;
 
-  const IndexFieldType(this.value);
+  const IndexFieldType._(this.value);
+
+  static const values = [uint, literal, text];
 
   static IndexFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IndexFieldType'));
+          orElse: () => IndexFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is IndexFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An internal error occurred while processing the request. If this problem
@@ -1646,19 +1655,28 @@ class NamedRankExpression {
 }
 
 /// The state of processing a change to an option.
-enum OptionState {
-  requiresIndexDocuments('RequiresIndexDocuments'),
-  processing('Processing'),
-  active('Active'),
-  ;
+class OptionState {
+  static const requiresIndexDocuments = OptionState._('RequiresIndexDocuments');
+  static const processing = OptionState._('Processing');
+  static const active = OptionState._('Active');
 
   final String value;
 
-  const OptionState(this.value);
+  const OptionState._(this.value);
 
-  static OptionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OptionState'));
+  static const values = [requiresIndexDocuments, processing, active];
+
+  static OptionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OptionState._(value));
+
+  @override
+  bool operator ==(other) => other is OptionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of an option, including when it was last updated and whether it
@@ -1914,20 +1932,30 @@ class SourceData {
   }
 }
 
-enum SourceDataFunction {
-  copy('Copy'),
-  trimTitle('TrimTitle'),
-  map('Map'),
-  ;
+class SourceDataFunction {
+  static const copy = SourceDataFunction._('Copy');
+  static const trimTitle = SourceDataFunction._('TrimTitle');
+  static const map = SourceDataFunction._('Map');
 
   final String value;
 
-  const SourceDataFunction(this.value);
+  const SourceDataFunction._(this.value);
 
-  static SourceDataFunction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SourceDataFunction'));
+  static const values = [copy, trimTitle, map];
+
+  static SourceDataFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceDataFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceDataFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies how to map source attribute values to custom values when

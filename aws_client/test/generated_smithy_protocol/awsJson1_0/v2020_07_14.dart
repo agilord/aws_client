@@ -638,7 +638,8 @@ class OperationWithNestedStructureOutput {
   factory OperationWithNestedStructureOutput.fromJson(
       Map<String, dynamic> json) {
     return OperationWithNestedStructureOutput(
-      dialog: Dialog.fromJson(json['dialog'] as Map<String, dynamic>),
+      dialog: Dialog.fromJson((json['dialog'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       dialogList: (json['dialogList'] as List?)
           ?.nonNulls
           .map((e) => Dialog.fromJson(e as Map<String, dynamic>))
@@ -692,23 +693,24 @@ class OperationWithRequiredMembersOutput {
   factory OperationWithRequiredMembersOutput.fromJson(
       Map<String, dynamic> json) {
     return OperationWithRequiredMembersOutput(
-      requiredBlob: _s.decodeUint8List(json['requiredBlob']! as String),
-      requiredBoolean: json['requiredBoolean'] as bool,
-      requiredByte: json['requiredByte'] as int,
-      requiredDouble: json['requiredDouble'] as double,
-      requiredFloat: json['requiredFloat'] as double,
-      requiredInteger: json['requiredInteger'] as int,
-      requiredList: (json['requiredList'] as List)
+      requiredBlob: _s.decodeUint8List((json['requiredBlob'] as String?) ?? ''),
+      requiredBoolean: (json['requiredBoolean'] as bool?) ?? false,
+      requiredByte: (json['requiredByte'] as int?) ?? 0,
+      requiredDouble: (json['requiredDouble'] as double?) ?? 0,
+      requiredFloat: (json['requiredFloat'] as double?) ?? 0,
+      requiredInteger: (json['requiredInteger'] as int?) ?? 0,
+      requiredList: ((json['requiredList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      requiredLong: json['requiredLong'] as int,
-      requiredMap: (json['requiredMap'] as Map<String, dynamic>)
+      requiredLong: (json['requiredLong'] as int?) ?? 0,
+      requiredMap: ((json['requiredMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      requiredShort: json['requiredShort'] as int,
-      requiredString: json['requiredString'] as String,
+      requiredShort: (json['requiredShort'] as int?) ?? 0,
+      requiredString: (json['requiredString'] as String?) ?? '',
       requiredTimestamp:
-          nonNullableTimeStampFromJson(json['requiredTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['requiredTimestamp'] ?? 0),
     );
   }
 
@@ -778,25 +780,27 @@ class OperationWithRequiredMembersWithDefaultsOutput {
   factory OperationWithRequiredMembersWithDefaultsOutput.fromJson(
       Map<String, dynamic> json) {
     return OperationWithRequiredMembersWithDefaultsOutput(
-      requiredBlob: _s.decodeUint8List(json['requiredBlob']! as String),
-      requiredBoolean: json['requiredBoolean'] as bool,
-      requiredByte: json['requiredByte'] as int,
-      requiredDouble: json['requiredDouble'] as double,
-      requiredEnum: RequiredEnum.fromString((json['requiredEnum'] as String)),
-      requiredFloat: json['requiredFloat'] as double,
-      requiredIntEnum: json['requiredIntEnum'] as int,
-      requiredInteger: json['requiredInteger'] as int,
-      requiredList: (json['requiredList'] as List)
+      requiredBlob: _s.decodeUint8List((json['requiredBlob'] as String?) ?? ''),
+      requiredBoolean: (json['requiredBoolean'] as bool?) ?? false,
+      requiredByte: (json['requiredByte'] as int?) ?? 0,
+      requiredDouble: (json['requiredDouble'] as double?) ?? 0,
+      requiredEnum:
+          RequiredEnum.fromString((json['requiredEnum'] as String?) ?? ''),
+      requiredFloat: (json['requiredFloat'] as double?) ?? 0,
+      requiredIntEnum: (json['requiredIntEnum'] as int?) ?? 0,
+      requiredInteger: (json['requiredInteger'] as int?) ?? 0,
+      requiredList: ((json['requiredList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      requiredLong: json['requiredLong'] as int,
-      requiredMap: (json['requiredMap'] as Map<String, dynamic>)
+      requiredLong: (json['requiredLong'] as int?) ?? 0,
+      requiredMap: ((json['requiredMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      requiredShort: json['requiredShort'] as int,
-      requiredString: json['requiredString'] as String,
+      requiredShort: (json['requiredShort'] as int?) ?? 0,
+      requiredString: (json['requiredString'] as String?) ?? '',
       requiredTimestamp:
-          nonNullableTimeStampFromJson(json['requiredTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['requiredTimestamp'] ?? 0),
     );
   }
 
@@ -860,20 +864,28 @@ class SimpleScalarPropertiesOutput {
   }
 }
 
-enum RequiredEnum {
-  foo('FOO'),
-  bar('BAR'),
-  baz('BAZ'),
-  ;
+class RequiredEnum {
+  static const foo = RequiredEnum._('FOO');
+  static const bar = RequiredEnum._('BAR');
+  static const baz = RequiredEnum._('BAZ');
 
   final String value;
 
-  const RequiredEnum(this.value);
+  const RequiredEnum._(this.value);
 
-  static RequiredEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RequiredEnum'));
+  static const values = [foo, bar, baz];
+
+  static RequiredEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RequiredEnum._(value));
+
+  @override
+  bool operator ==(other) => other is RequiredEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Dialog {
@@ -953,19 +965,28 @@ class TopLevel {
   }
 }
 
-enum TestEnum {
-  foo('FOO'),
-  bar('BAR'),
-  baz('BAZ'),
-  ;
+class TestEnum {
+  static const foo = TestEnum._('FOO');
+  static const bar = TestEnum._('BAR');
+  static const baz = TestEnum._('BAZ');
 
   final String value;
 
-  const TestEnum(this.value);
+  const TestEnum._(this.value);
 
-  static TestEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TestEnum'));
+  static const values = [foo, bar, baz];
+
+  static TestEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestEnum._(value));
+
+  @override
+  bool operator ==(other) => other is TestEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Defaults {
@@ -1186,21 +1207,30 @@ class MyUnion {
   }
 }
 
-enum FooEnum {
-  foo('Foo'),
-  baz('Baz'),
-  bar('Bar'),
-  $1('1'),
-  $0('0'),
-  ;
+class FooEnum {
+  static const foo = FooEnum._('Foo');
+  static const baz = FooEnum._('Baz');
+  static const bar = FooEnum._('Bar');
+  static const $1 = FooEnum._('1');
+  static const $0 = FooEnum._('0');
 
   final String value;
 
-  const FooEnum(this.value);
+  const FooEnum._(this.value);
 
-  static FooEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum FooEnum'));
+  static const values = [foo, baz, bar, $1, $0];
+
+  static FooEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FooEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FooEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GreetingStruct {

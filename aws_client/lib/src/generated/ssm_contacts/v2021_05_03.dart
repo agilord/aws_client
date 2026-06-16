@@ -1882,19 +1882,29 @@ class SsmContacts {
   }
 }
 
-enum AcceptCodeValidation {
-  ignore('IGNORE'),
-  enforce('ENFORCE'),
-  ;
+class AcceptCodeValidation {
+  static const ignore = AcceptCodeValidation._('IGNORE');
+  static const enforce = AcceptCodeValidation._('ENFORCE');
 
   final String value;
 
-  const AcceptCodeValidation(this.value);
+  const AcceptCodeValidation._(this.value);
 
-  static AcceptCodeValidation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AcceptCodeValidation'));
+  static const values = [ignore, enforce];
+
+  static AcceptCodeValidation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceptCodeValidation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceptCodeValidation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AcceptPageResult {
@@ -1909,18 +1919,27 @@ class AcceptPageResult {
   }
 }
 
-enum AcceptType {
-  delivered('DELIVERED'),
-  read('READ'),
-  ;
+class AcceptType {
+  static const delivered = AcceptType._('DELIVERED');
+  static const read = AcceptType._('READ');
 
   final String value;
 
-  const AcceptType(this.value);
+  const AcceptType._(this.value);
 
-  static AcceptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AcceptType'));
+  static const values = [delivered, read];
+
+  static AcceptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AcceptType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivateContactChannelResult {
@@ -1935,19 +1954,28 @@ class ActivateContactChannelResult {
   }
 }
 
-enum ActivationStatus {
-  activated('ACTIVATED'),
-  notActivated('NOT_ACTIVATED'),
-  ;
+class ActivationStatus {
+  static const activated = ActivationStatus._('ACTIVATED');
+  static const notActivated = ActivationStatus._('NOT_ACTIVATED');
 
   final String value;
 
-  const ActivationStatus(this.value);
+  const ActivationStatus._(this.value);
+
+  static const values = [activated, notActivated];
 
   static ActivationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActivationStatus'));
+          orElse: () => ActivationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActivationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the contact channel that Incident Manager uses to engage
@@ -1983,19 +2011,28 @@ class ChannelTargetInfo {
   }
 }
 
-enum ChannelType {
-  sms('SMS'),
-  voice('VOICE'),
-  email('EMAIL'),
-  ;
+class ChannelType {
+  static const sms = ChannelType._('SMS');
+  static const voice = ChannelType._('VOICE');
+  static const email = ChannelType._('EMAIL');
 
   final String value;
 
-  const ChannelType(this.value);
+  const ChannelType._(this.value);
 
-  static ChannelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelType'));
+  static const values = [sms, voice, email];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A personal contact or escalation plan that Incident Manager engages during
@@ -2026,7 +2063,7 @@ class Contact {
     return Contact(
       alias: (json['Alias'] as String?) ?? '',
       contactArn: (json['ContactArn'] as String?) ?? '',
-      type: ContactType.fromString((json['Type'] as String)),
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
       displayName: json['DisplayName'] as String?,
     );
   }
@@ -2092,8 +2129,8 @@ class ContactChannel {
 
   factory ContactChannel.fromJson(Map<String, dynamic> json) {
     return ContactChannel(
-      activationStatus:
-          ActivationStatus.fromString((json['ActivationStatus'] as String)),
+      activationStatus: ActivationStatus.fromString(
+          (json['ActivationStatus'] as String?) ?? ''),
       contactArn: (json['ContactArn'] as String?) ?? '',
       contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
       deliveryAddress: ContactChannelAddress.fromJson(
@@ -2190,19 +2227,28 @@ class ContactTargetInfo {
   }
 }
 
-enum ContactType {
-  personal('PERSONAL'),
-  escalation('ESCALATION'),
-  oncallSchedule('ONCALL_SCHEDULE'),
-  ;
+class ContactType {
+  static const personal = ContactType._('PERSONAL');
+  static const escalation = ContactType._('ESCALATION');
+  static const oncallSchedule = ContactType._('ONCALL_SCHEDULE');
 
   final String value;
 
-  const ContactType(this.value);
+  const ContactType._(this.value);
 
-  static ContactType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContactType'));
+  static const values = [personal, escalation, oncallSchedule];
+
+  static ContactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContactType._(value));
+
+  @override
+  bool operator ==(other) => other is ContactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about when an on-call shift begins and ends.
@@ -2327,23 +2373,32 @@ class CreateRotationResult {
   }
 }
 
-enum DayOfWeek {
-  mon('MON'),
-  tue('TUE'),
-  wed('WED'),
-  thu('THU'),
-  fri('FRI'),
-  sat('SAT'),
-  sun('SUN'),
-  ;
+class DayOfWeek {
+  static const mon = DayOfWeek._('MON');
+  static const tue = DayOfWeek._('TUE');
+  static const wed = DayOfWeek._('WED');
+  static const thu = DayOfWeek._('THU');
+  static const fri = DayOfWeek._('FRI');
+  static const sat = DayOfWeek._('SAT');
+  static const sun = DayOfWeek._('SUN');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [mon, tue, wed, thu, fri, sat, sun];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeactivateContactChannelResult {
@@ -2696,7 +2751,7 @@ class GetContactChannelResult {
           (json['DeliveryAddress'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['Name'] as String?) ?? '',
-      type: ChannelType.fromString((json['Type'] as String)),
+      type: ChannelType.fromString((json['Type'] as String?) ?? ''),
       activationStatus: (json['ActivationStatus'] as String?)
           ?.let(ActivationStatus.fromString),
     );
@@ -2783,7 +2838,7 @@ class GetContactResult {
       contactArn: (json['ContactArn'] as String?) ?? '',
       plan: Plan.fromJson(
           (json['Plan'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      type: ContactType.fromString((json['Type'] as String)),
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
       displayName: json['DisplayName'] as String?,
     );
   }
@@ -3556,7 +3611,8 @@ class Receipt {
   factory Receipt.fromJson(Map<String, dynamic> json) {
     return Receipt(
       receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] ?? 0),
-      receiptType: ReceiptType.fromString((json['ReceiptType'] as String)),
+      receiptType:
+          ReceiptType.fromString((json['ReceiptType'] as String?) ?? ''),
       contactChannelArn: json['ContactChannelArn'] as String?,
       receiptInfo: json['ReceiptInfo'] as String?,
     );
@@ -3576,21 +3632,30 @@ class Receipt {
   }
 }
 
-enum ReceiptType {
-  delivered('DELIVERED'),
-  error('ERROR'),
-  read('READ'),
-  sent('SENT'),
-  stop('STOP'),
-  ;
+class ReceiptType {
+  static const delivered = ReceiptType._('DELIVERED');
+  static const error = ReceiptType._('ERROR');
+  static const read = ReceiptType._('READ');
+  static const sent = ReceiptType._('SENT');
+  static const stop = ReceiptType._('STOP');
 
   final String value;
 
-  const ReceiptType(this.value);
+  const ReceiptType._(this.value);
 
-  static ReceiptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReceiptType'));
+  static const values = [delivered, error, read, sent, stop];
+
+  static ReceiptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReceiptType._(value));
+
+  @override
+  bool operator ==(other) => other is ReceiptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about when an on-call rotation is in effect and how long the
@@ -3699,7 +3764,7 @@ class ResolutionContact {
   factory ResolutionContact.fromJson(Map<String, dynamic> json) {
     return ResolutionContact(
       contactArn: (json['ContactArn'] as String?) ?? '',
-      type: ContactType.fromString((json['Type'] as String)),
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
       stageIndex: json['StageIndex'] as int?,
     );
   }
@@ -3937,18 +4002,27 @@ class ShiftDetails {
   }
 }
 
-enum ShiftType {
-  regular('REGULAR'),
-  overridden('OVERRIDDEN'),
-  ;
+class ShiftType {
+  static const regular = ShiftType._('REGULAR');
+  static const overridden = ShiftType._('OVERRIDDEN');
 
   final String value;
 
-  const ShiftType(this.value);
+  const ShiftType._(this.value);
 
-  static ShiftType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShiftType'));
+  static const values = [regular, overridden];
+
+  static ShiftType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShiftType._(value));
+
+  @override
+  bool operator ==(other) => other is ShiftType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set amount of time that an escalation plan or engagement plan engages the
@@ -4185,7 +4259,7 @@ class WeeklySetting {
 
   factory WeeklySetting.fromJson(Map<String, dynamic> json) {
     return WeeklySetting(
-      dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String)),
+      dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String?) ?? ''),
       handOffTime: HandOffTime.fromJson(
           (json['HandOffTime'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),

@@ -3140,34 +3140,54 @@ class ActionGroupExecutor {
   }
 }
 
-enum ActionGroupSignature {
-  amazonUserInput('AMAZON.UserInput'),
-  amazonCodeInterpreter('AMAZON.CodeInterpreter'),
-  ;
+class ActionGroupSignature {
+  static const amazonUserInput = ActionGroupSignature._('AMAZON.UserInput');
+  static const amazonCodeInterpreter =
+      ActionGroupSignature._('AMAZON.CodeInterpreter');
 
   final String value;
 
-  const ActionGroupSignature(this.value);
+  const ActionGroupSignature._(this.value);
 
-  static ActionGroupSignature fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionGroupSignature'));
+  static const values = [amazonUserInput, amazonCodeInterpreter];
+
+  static ActionGroupSignature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionGroupSignature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionGroupSignature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionGroupState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ActionGroupState {
+  static const enabled = ActionGroupState._('ENABLED');
+  static const disabled = ActionGroupState._('DISABLED');
 
   final String value;
 
-  const ActionGroupState(this.value);
+  const ActionGroupState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ActionGroupState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionGroupState'));
+          orElse: () => ActionGroupState._(value));
+
+  @override
+  bool operator ==(other) => other is ActionGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an action group.
@@ -3202,8 +3222,8 @@ class ActionGroupSummary {
     return ActionGroupSummary(
       actionGroupId: (json['actionGroupId'] as String?) ?? '',
       actionGroupName: (json['actionGroupName'] as String?) ?? '',
-      actionGroupState:
-          ActionGroupState.fromString((json['actionGroupState'] as String)),
+      actionGroupState: ActionGroupState.fromString(
+          (json['actionGroupState'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
     );
@@ -3357,7 +3377,8 @@ class Agent {
       agentId: (json['agentId'] as String?) ?? '',
       agentName: (json['agentName'] as String?) ?? '',
       agentResourceRoleArn: (json['agentResourceRoleArn'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       agentVersion: (json['agentVersion'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       idleSessionTTLInSeconds: (json['idleSessionTTLInSeconds'] as int?) ?? 0,
@@ -3526,8 +3547,8 @@ class AgentActionGroup {
     return AgentActionGroup(
       actionGroupId: (json['actionGroupId'] as String?) ?? '',
       actionGroupName: (json['actionGroupName'] as String?) ?? '',
-      actionGroupState:
-          ActionGroupState.fromString((json['actionGroupState'] as String)),
+      actionGroupState: ActionGroupState.fromString(
+          (json['actionGroupState'] as String?) ?? ''),
       agentId: (json['agentId'] as String?) ?? '',
       agentVersion: (json['agentVersion'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
@@ -3668,8 +3689,8 @@ class AgentAlias {
       agentAliasArn: (json['agentAliasArn'] as String?) ?? '',
       agentAliasId: (json['agentAliasId'] as String?) ?? '',
       agentAliasName: (json['agentAliasName'] as String?) ?? '',
-      agentAliasStatus:
-          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
+      agentAliasStatus: AgentAliasStatus.fromString(
+          (json['agentAliasStatus'] as String?) ?? ''),
       agentId: (json['agentId'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       routingConfiguration:
@@ -3801,22 +3822,31 @@ class AgentAliasRoutingConfigurationListItem {
   }
 }
 
-enum AgentAliasStatus {
-  creating('CREATING'),
-  prepared('PREPARED'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  ;
+class AgentAliasStatus {
+  static const creating = AgentAliasStatus._('CREATING');
+  static const prepared = AgentAliasStatus._('PREPARED');
+  static const failed = AgentAliasStatus._('FAILED');
+  static const updating = AgentAliasStatus._('UPDATING');
+  static const deleting = AgentAliasStatus._('DELETING');
 
   final String value;
 
-  const AgentAliasStatus(this.value);
+  const AgentAliasStatus._(this.value);
+
+  static const values = [creating, prepared, failed, updating, deleting];
 
   static AgentAliasStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgentAliasStatus'));
+          orElse: () => AgentAliasStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentAliasStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an alias of an agent.
@@ -3857,8 +3887,8 @@ class AgentAliasSummary {
     return AgentAliasSummary(
       agentAliasId: (json['agentAliasId'] as String?) ?? '',
       agentAliasName: (json['agentAliasName'] as String?) ?? '',
-      agentAliasStatus:
-          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
+      agentAliasStatus: AgentAliasStatus.fromString(
+          (json['agentAliasStatus'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
@@ -3963,8 +3993,8 @@ class AgentKnowledgeBase {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       description: (json['description'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      knowledgeBaseState:
-          KnowledgeBaseState.fromString((json['knowledgeBaseState'] as String)),
+      knowledgeBaseState: KnowledgeBaseState.fromString(
+          (json['knowledgeBaseState'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
     );
   }
@@ -4017,8 +4047,8 @@ class AgentKnowledgeBaseSummary {
   factory AgentKnowledgeBaseSummary.fromJson(Map<String, dynamic> json) {
     return AgentKnowledgeBaseSummary(
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      knowledgeBaseState:
-          KnowledgeBaseState.fromString((json['knowledgeBaseState'] as String)),
+      knowledgeBaseState: KnowledgeBaseState.fromString(
+          (json['knowledgeBaseState'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
     );
@@ -4038,24 +4068,42 @@ class AgentKnowledgeBaseSummary {
   }
 }
 
-enum AgentStatus {
-  creating('CREATING'),
-  preparing('PREPARING'),
-  prepared('PREPARED'),
-  notPrepared('NOT_PREPARED'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  versioning('VERSIONING'),
-  updating('UPDATING'),
-  ;
+class AgentStatus {
+  static const creating = AgentStatus._('CREATING');
+  static const preparing = AgentStatus._('PREPARING');
+  static const prepared = AgentStatus._('PREPARED');
+  static const notPrepared = AgentStatus._('NOT_PREPARED');
+  static const deleting = AgentStatus._('DELETING');
+  static const failed = AgentStatus._('FAILED');
+  static const versioning = AgentStatus._('VERSIONING');
+  static const updating = AgentStatus._('UPDATING');
 
   final String value;
 
-  const AgentStatus(this.value);
+  const AgentStatus._(this.value);
 
-  static AgentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AgentStatus'));
+  static const values = [
+    creating,
+    preparing,
+    prepared,
+    notPrepared,
+    deleting,
+    failed,
+    versioning,
+    updating
+  ];
+
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an agent.
@@ -4095,7 +4143,8 @@ class AgentSummary {
     return AgentSummary(
       agentId: (json['agentId'] as String?) ?? '',
       agentName: (json['agentName'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       guardrailConfiguration: json['guardrailConfiguration'] != null
@@ -4220,7 +4269,8 @@ class AgentVersion {
       agentId: (json['agentId'] as String?) ?? '',
       agentName: (json['agentName'] as String?) ?? '',
       agentResourceRoleArn: (json['agentResourceRoleArn'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       idleSessionTTLInSeconds: (json['idleSessionTTLInSeconds'] as int?) ?? 0,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
@@ -4334,7 +4384,8 @@ class AgentVersionSummary {
   factory AgentVersionSummary.fromJson(Map<String, dynamic> json) {
     return AgentVersionSummary(
       agentName: (json['agentName'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       agentVersion: (json['agentVersion'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
@@ -4510,8 +4561,8 @@ class ChunkingConfiguration {
 
   factory ChunkingConfiguration.fromJson(Map<String, dynamic> json) {
     return ChunkingConfiguration(
-      chunkingStrategy:
-          ChunkingStrategy.fromString((json['chunkingStrategy'] as String)),
+      chunkingStrategy: ChunkingStrategy.fromString(
+          (json['chunkingStrategy'] as String?) ?? ''),
       fixedSizeChunkingConfiguration: json['fixedSizeChunkingConfiguration'] !=
               null
           ? FixedSizeChunkingConfiguration.fromJson(
@@ -4549,21 +4600,30 @@ class ChunkingConfiguration {
   }
 }
 
-enum ChunkingStrategy {
-  fixedSize('FIXED_SIZE'),
-  none('NONE'),
-  hierarchical('HIERARCHICAL'),
-  semantic('SEMANTIC'),
-  ;
+class ChunkingStrategy {
+  static const fixedSize = ChunkingStrategy._('FIXED_SIZE');
+  static const none = ChunkingStrategy._('NONE');
+  static const hierarchical = ChunkingStrategy._('HIERARCHICAL');
+  static const semantic = ChunkingStrategy._('SEMANTIC');
 
   final String value;
 
-  const ChunkingStrategy(this.value);
+  const ChunkingStrategy._(this.value);
+
+  static const values = [fixedSize, none, hierarchical, semantic];
 
   static ChunkingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChunkingStrategy'));
+          orElse: () => ChunkingStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is ChunkingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a collector node in your flow. This node takes an iteration of
@@ -4613,19 +4673,30 @@ class ConditionFlowNodeConfiguration {
   }
 }
 
-enum ConfluenceAuthType {
-  basic('BASIC'),
-  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
-  ;
+class ConfluenceAuthType {
+  static const basic = ConfluenceAuthType._('BASIC');
+  static const oauth2ClientCredentials =
+      ConfluenceAuthType._('OAUTH2_CLIENT_CREDENTIALS');
 
   final String value;
 
-  const ConfluenceAuthType(this.value);
+  const ConfluenceAuthType._(this.value);
 
-  static ConfluenceAuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfluenceAuthType'));
+  static const values = [basic, oauth2ClientCredentials];
+
+  static ConfluenceAuthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceAuthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluenceAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the Confluence content. For example, configuring
@@ -4696,18 +4767,28 @@ class ConfluenceDataSourceConfiguration {
   }
 }
 
-enum ConfluenceHostType {
-  saas('SAAS'),
-  ;
+class ConfluenceHostType {
+  static const saas = ConfluenceHostType._('SAAS');
 
   final String value;
 
-  const ConfluenceHostType(this.value);
+  const ConfluenceHostType._(this.value);
 
-  static ConfluenceHostType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfluenceHostType'));
+  static const values = [saas];
+
+  static ConfluenceHostType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceHostType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluenceHostType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The endpoint information to connect to your Confluence data source.
@@ -4739,9 +4820,11 @@ class ConfluenceSourceConfiguration {
 
   factory ConfluenceSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return ConfluenceSourceConfiguration(
-      authType: ConfluenceAuthType.fromString((json['authType'] as String)),
+      authType:
+          ConfluenceAuthType.fromString((json['authType'] as String?) ?? ''),
       credentialsSecretArn: (json['credentialsSecretArn'] as String?) ?? '',
-      hostType: ConfluenceHostType.fromString((json['hostType'] as String)),
+      hostType:
+          ConfluenceHostType.fromString((json['hostType'] as String?) ?? ''),
       hostUrl: (json['hostUrl'] as String?) ?? '',
     );
   }
@@ -4780,7 +4863,8 @@ class CrawlFilterConfiguration {
 
   factory CrawlFilterConfiguration.fromJson(Map<String, dynamic> json) {
     return CrawlFilterConfiguration(
-      type: CrawlFilterConfigurationType.fromString((json['type'] as String)),
+      type: CrawlFilterConfigurationType.fromString(
+          (json['type'] as String?) ?? ''),
       patternObjectFilter: json['patternObjectFilter'] != null
           ? PatternObjectFilterConfiguration.fromJson(
               json['patternObjectFilter'] as Map<String, dynamic>)
@@ -4799,18 +4883,28 @@ class CrawlFilterConfiguration {
   }
 }
 
-enum CrawlFilterConfigurationType {
-  pattern('PATTERN'),
-  ;
+class CrawlFilterConfigurationType {
+  static const pattern = CrawlFilterConfigurationType._('PATTERN');
 
   final String value;
 
-  const CrawlFilterConfigurationType(this.value);
+  const CrawlFilterConfigurationType._(this.value);
+
+  static const values = [pattern];
 
   static CrawlFilterConfigurationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CrawlFilterConfigurationType'));
+          orElse: () => CrawlFilterConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CrawlFilterConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAgentActionGroupResponse {
@@ -5047,7 +5141,7 @@ class CreateFlowResponse {
       executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
@@ -5143,7 +5237,7 @@ class CreateFlowVersionResponse {
       executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as String?) ?? '',
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
       definition: json['definition'] != null
@@ -5389,33 +5483,51 @@ class CreatePromptVersionResponse {
   }
 }
 
-enum CreationMode {
-  $default('DEFAULT'),
-  overridden('OVERRIDDEN'),
-  ;
+class CreationMode {
+  static const $default = CreationMode._('DEFAULT');
+  static const overridden = CreationMode._('OVERRIDDEN');
 
   final String value;
 
-  const CreationMode(this.value);
+  const CreationMode._(this.value);
 
-  static CreationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CreationMode'));
+  static const values = [$default, overridden];
+
+  static CreationMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CreationMode._(value));
+
+  @override
+  bool operator ==(other) => other is CreationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CustomControlMethod {
-  returnControl('RETURN_CONTROL'),
-  ;
+class CustomControlMethod {
+  static const returnControl = CustomControlMethod._('RETURN_CONTROL');
 
   final String value;
 
-  const CustomControlMethod(this.value);
+  const CustomControlMethod._(this.value);
 
-  static CustomControlMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomControlMethod'));
+  static const values = [returnControl];
+
+  static CustomControlMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomControlMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomControlMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for customizing steps in the data source content ingestion
@@ -5465,19 +5577,29 @@ class CustomTransformationConfiguration {
   }
 }
 
-enum DataDeletionPolicy {
-  retain('RETAIN'),
-  delete('DELETE'),
-  ;
+class DataDeletionPolicy {
+  static const retain = DataDeletionPolicy._('RETAIN');
+  static const delete = DataDeletionPolicy._('DELETE');
 
   final String value;
 
-  const DataDeletionPolicy(this.value);
+  const DataDeletionPolicy._(this.value);
 
-  static DataDeletionPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataDeletionPolicy'));
+  static const values = [retain, delete];
+
+  static DataDeletionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataDeletionPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataDeletionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a data source.
@@ -5553,7 +5675,7 @@ class DataSource {
       dataSourceId: (json['dataSourceId'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataDeletionPolicy: (json['dataDeletionPolicy'] as String?)
           ?.let(DataDeletionPolicy.fromString),
@@ -5657,7 +5779,7 @@ class DataSourceConfiguration {
 
   factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceConfiguration(
-      type: DataSourceType.fromString((json['type'] as String)),
+      type: DataSourceType.fromString((json['type'] as String?) ?? ''),
       confluenceConfiguration: json['confluenceConfiguration'] != null
           ? ConfluenceDataSourceConfiguration.fromJson(
               json['confluenceConfiguration'] as Map<String, dynamic>)
@@ -5702,20 +5824,29 @@ class DataSourceConfiguration {
   }
 }
 
-enum DataSourceStatus {
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  deleteUnsuccessful('DELETE_UNSUCCESSFUL'),
-  ;
+class DataSourceStatus {
+  static const available = DataSourceStatus._('AVAILABLE');
+  static const deleting = DataSourceStatus._('DELETING');
+  static const deleteUnsuccessful = DataSourceStatus._('DELETE_UNSUCCESSFUL');
 
   final String value;
 
-  const DataSourceStatus(this.value);
+  const DataSourceStatus._(this.value);
+
+  static const values = [available, deleting, deleteUnsuccessful];
 
   static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceStatus'));
+          orElse: () => DataSourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a data source.
@@ -5753,7 +5884,7 @@ class DataSourceSummary {
       dataSourceId: (json['dataSourceId'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
     );
@@ -5777,22 +5908,31 @@ class DataSourceSummary {
   }
 }
 
-enum DataSourceType {
-  s3('S3'),
-  web('WEB'),
-  confluence('CONFLUENCE'),
-  salesforce('SALESFORCE'),
-  sharepoint('SHAREPOINT'),
-  ;
+class DataSourceType {
+  static const s3 = DataSourceType._('S3');
+  static const web = DataSourceType._('WEB');
+  static const confluence = DataSourceType._('CONFLUENCE');
+  static const salesforce = DataSourceType._('SALESFORCE');
+  static const sharepoint = DataSourceType._('SHAREPOINT');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [s3, web, confluence, salesforce, sharepoint];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAgentActionGroupResponse {
@@ -5826,8 +5966,8 @@ class DeleteAgentAliasResponse {
   factory DeleteAgentAliasResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentAliasResponse(
       agentAliasId: (json['agentAliasId'] as String?) ?? '',
-      agentAliasStatus:
-          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
+      agentAliasStatus: AgentAliasStatus.fromString(
+          (json['agentAliasStatus'] as String?) ?? ''),
       agentId: (json['agentId'] as String?) ?? '',
     );
   }
@@ -5859,7 +5999,8 @@ class DeleteAgentResponse {
   factory DeleteAgentResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentResponse(
       agentId: (json['agentId'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
     );
   }
 
@@ -5892,7 +6033,8 @@ class DeleteAgentVersionResponse {
   factory DeleteAgentVersionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentVersionResponse(
       agentId: (json['agentId'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       agentVersion: (json['agentVersion'] as String?) ?? '',
     );
   }
@@ -5930,7 +6072,7 @@ class DeleteDataSourceResponse {
     return DeleteDataSourceResponse(
       dataSourceId: (json['dataSourceId'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      status: DataSourceStatus.fromString((json['status'] as String)),
+      status: DataSourceStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -6042,7 +6184,7 @@ class DeleteKnowledgeBaseResponse {
   factory DeleteKnowledgeBaseResponse.fromJson(Map<String, dynamic> json) {
     return DeleteKnowledgeBaseResponse(
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -6363,7 +6505,7 @@ class FlowConnection {
       name: (json['name'] as String?) ?? '',
       source: (json['source'] as String?) ?? '',
       target: (json['target'] as String?) ?? '',
-      type: FlowConnectionType.fromString((json['type'] as String)),
+      type: FlowConnectionType.fromString((json['type'] as String?) ?? ''),
       configuration: json['configuration'] != null
           ? FlowConnectionConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -6424,19 +6566,29 @@ class FlowConnectionConfiguration {
   }
 }
 
-enum FlowConnectionType {
-  data('Data'),
-  conditional('Conditional'),
-  ;
+class FlowConnectionType {
+  static const data = FlowConnectionType._('Data');
+  static const conditional = FlowConnectionType._('Conditional');
 
   final String value;
 
-  const FlowConnectionType(this.value);
+  const FlowConnectionType._(this.value);
 
-  static FlowConnectionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowConnectionType'));
+  static const values = [data, conditional];
+
+  static FlowConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowConnectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of a connection originating from a node that isn't a
@@ -6538,7 +6690,7 @@ class FlowNode {
   factory FlowNode.fromJson(Map<String, dynamic> json) {
     return FlowNode(
       name: (json['name'] as String?) ?? '',
-      type: FlowNodeType.fromString((json['type'] as String)),
+      type: FlowNodeType.fromString((json['type'] as String?) ?? ''),
       configuration: json['configuration'] != null
           ? FlowNodeConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -6727,22 +6879,32 @@ class FlowNodeConfiguration {
   }
 }
 
-enum FlowNodeIODataType {
-  string('String'),
-  number('Number'),
-  boolean('Boolean'),
-  object('Object'),
-  array('Array'),
-  ;
+class FlowNodeIODataType {
+  static const string = FlowNodeIODataType._('String');
+  static const number = FlowNodeIODataType._('Number');
+  static const boolean = FlowNodeIODataType._('Boolean');
+  static const object = FlowNodeIODataType._('Object');
+  static const array = FlowNodeIODataType._('Array');
 
   final String value;
 
-  const FlowNodeIODataType(this.value);
+  const FlowNodeIODataType._(this.value);
 
-  static FlowNodeIODataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowNodeIODataType'));
+  static const values = [string, number, boolean, object, array];
+
+  static FlowNodeIODataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowNodeIODataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowNodeIODataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configurations for an input to a node.
@@ -6770,7 +6932,7 @@ class FlowNodeInput {
     return FlowNodeInput(
       expression: (json['expression'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      type: FlowNodeIODataType.fromString((json['type'] as String)),
+      type: FlowNodeIODataType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -6803,7 +6965,7 @@ class FlowNodeOutput {
   factory FlowNodeOutput.fromJson(Map<String, dynamic> json) {
     return FlowNodeOutput(
       name: (json['name'] as String?) ?? '',
-      type: FlowNodeIODataType.fromString((json['type'] as String)),
+      type: FlowNodeIODataType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -6817,45 +6979,75 @@ class FlowNodeOutput {
   }
 }
 
-enum FlowNodeType {
-  input('Input'),
-  output('Output'),
-  knowledgeBase('KnowledgeBase'),
-  condition('Condition'),
-  lex('Lex'),
-  prompt('Prompt'),
-  lambdaFunction('LambdaFunction'),
-  storage('Storage'),
-  agent('Agent'),
-  retrieval('Retrieval'),
-  iterator('Iterator'),
-  collector('Collector'),
-  ;
+class FlowNodeType {
+  static const input = FlowNodeType._('Input');
+  static const output = FlowNodeType._('Output');
+  static const knowledgeBase = FlowNodeType._('KnowledgeBase');
+  static const condition = FlowNodeType._('Condition');
+  static const lex = FlowNodeType._('Lex');
+  static const prompt = FlowNodeType._('Prompt');
+  static const lambdaFunction = FlowNodeType._('LambdaFunction');
+  static const storage = FlowNodeType._('Storage');
+  static const agent = FlowNodeType._('Agent');
+  static const retrieval = FlowNodeType._('Retrieval');
+  static const iterator = FlowNodeType._('Iterator');
+  static const collector = FlowNodeType._('Collector');
 
   final String value;
 
-  const FlowNodeType(this.value);
+  const FlowNodeType._(this.value);
 
-  static FlowNodeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FlowNodeType'));
+  static const values = [
+    input,
+    output,
+    knowledgeBase,
+    condition,
+    lex,
+    prompt,
+    lambdaFunction,
+    storage,
+    agent,
+    retrieval,
+    iterator,
+    collector
+  ];
+
+  static FlowNodeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FlowNodeType._(value));
+
+  @override
+  bool operator ==(other) => other is FlowNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FlowStatus {
-  failed('Failed'),
-  prepared('Prepared'),
-  preparing('Preparing'),
-  notPrepared('NotPrepared'),
-  ;
+class FlowStatus {
+  static const failed = FlowStatus._('Failed');
+  static const prepared = FlowStatus._('Prepared');
+  static const preparing = FlowStatus._('Preparing');
+  static const notPrepared = FlowStatus._('NotPrepared');
 
   final String value;
 
-  const FlowStatus(this.value);
+  const FlowStatus._(this.value);
 
-  static FlowStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FlowStatus'));
+  static const values = [failed, prepared, preparing, notPrepared];
+
+  static FlowStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FlowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FlowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the definition of a flow.
@@ -6926,7 +7118,7 @@ class FlowSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       description: json['description'] as String?,
@@ -6986,7 +7178,8 @@ class FlowValidation {
   factory FlowValidation.fromJson(Map<String, dynamic> json) {
     return FlowValidation(
       message: (json['message'] as String?) ?? '',
-      severity: FlowValidationSeverity.fromString((json['severity'] as String)),
+      severity: FlowValidationSeverity.fromString(
+          (json['severity'] as String?) ?? ''),
     );
   }
 
@@ -7000,19 +7193,29 @@ class FlowValidation {
   }
 }
 
-enum FlowValidationSeverity {
-  warning('Warning'),
-  error('Error'),
-  ;
+class FlowValidationSeverity {
+  static const warning = FlowValidationSeverity._('Warning');
+  static const error = FlowValidationSeverity._('Error');
 
   final String value;
 
-  const FlowValidationSeverity(this.value);
+  const FlowValidationSeverity._(this.value);
+
+  static const values = [warning, error];
 
   static FlowValidationSeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlowValidationSeverity'));
+          orElse: () => FlowValidationSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowValidationSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a version of a flow.
@@ -7055,7 +7258,7 @@ class FlowVersionSummary {
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as String?) ?? '',
     );
   }
@@ -7520,7 +7723,7 @@ class GetFlowResponse {
       executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
@@ -7622,7 +7825,7 @@ class GetFlowVersionResponse {
       executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as String?) ?? '',
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
       definition: json['definition'] != null
@@ -8040,7 +8243,7 @@ class IngestionJob {
       ingestionJobId: (json['ingestionJobId'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
-      status: IngestionJobStatus.fromString((json['status'] as String)),
+      status: IngestionJobStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
@@ -8107,32 +8310,52 @@ class IngestionJobFilter {
   }
 }
 
-enum IngestionJobFilterAttribute {
-  status('STATUS'),
-  ;
+class IngestionJobFilterAttribute {
+  static const status = IngestionJobFilterAttribute._('STATUS');
 
   final String value;
 
-  const IngestionJobFilterAttribute(this.value);
+  const IngestionJobFilterAttribute._(this.value);
+
+  static const values = [status];
 
   static IngestionJobFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngestionJobFilterAttribute'));
+          orElse: () => IngestionJobFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngestionJobFilterOperator {
-  eq('EQ'),
-  ;
+class IngestionJobFilterOperator {
+  static const eq = IngestionJobFilterOperator._('EQ');
 
   final String value;
 
-  const IngestionJobFilterOperator(this.value);
+  const IngestionJobFilterOperator._(this.value);
+
+  static const values = [eq];
 
   static IngestionJobFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngestionJobFilterOperator'));
+          orElse: () => IngestionJobFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters by which to sort the results.
@@ -8158,19 +8381,29 @@ class IngestionJobSortBy {
   }
 }
 
-enum IngestionJobSortByAttribute {
-  status('STATUS'),
-  startedAt('STARTED_AT'),
-  ;
+class IngestionJobSortByAttribute {
+  static const status = IngestionJobSortByAttribute._('STATUS');
+  static const startedAt = IngestionJobSortByAttribute._('STARTED_AT');
 
   final String value;
 
-  const IngestionJobSortByAttribute(this.value);
+  const IngestionJobSortByAttribute._(this.value);
+
+  static const values = [status, startedAt];
 
   static IngestionJobSortByAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngestionJobSortByAttribute'));
+          orElse: () => IngestionJobSortByAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobSortByAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the statistics for the ingestion job.
@@ -8255,21 +8488,31 @@ class IngestionJobStatistics {
   }
 }
 
-enum IngestionJobStatus {
-  starting('STARTING'),
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class IngestionJobStatus {
+  static const starting = IngestionJobStatus._('STARTING');
+  static const inProgress = IngestionJobStatus._('IN_PROGRESS');
+  static const complete = IngestionJobStatus._('COMPLETE');
+  static const failed = IngestionJobStatus._('FAILED');
 
   final String value;
 
-  const IngestionJobStatus(this.value);
+  const IngestionJobStatus._(this.value);
 
-  static IngestionJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngestionJobStatus'));
+  static const values = [starting, inProgress, complete, failed];
+
+  static IngestionJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an ingestion job.
@@ -8316,7 +8559,7 @@ class IngestionJobSummary {
       ingestionJobId: (json['ingestionJobId'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
-      status: IngestionJobStatus.fromString((json['status'] as String)),
+      status: IngestionJobStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       statistics: json['statistics'] != null
@@ -8486,7 +8729,7 @@ class KnowledgeBase {
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String?) ?? ''),
       storageConfiguration: StorageConfiguration.fromJson(
           (json['storageConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -8544,7 +8787,7 @@ class KnowledgeBaseConfiguration {
 
   factory KnowledgeBaseConfiguration.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseConfiguration(
-      type: KnowledgeBaseType.fromString((json['type'] as String)),
+      type: KnowledgeBaseType.fromString((json['type'] as String?) ?? ''),
       vectorKnowledgeBaseConfiguration:
           json['vectorKnowledgeBaseConfiguration'] != null
               ? VectorKnowledgeBaseConfiguration.fromJson(
@@ -8604,56 +8847,102 @@ class KnowledgeBaseFlowNodeConfiguration {
   }
 }
 
-enum KnowledgeBaseState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class KnowledgeBaseState {
+  static const enabled = KnowledgeBaseState._('ENABLED');
+  static const disabled = KnowledgeBaseState._('DISABLED');
 
   final String value;
 
-  const KnowledgeBaseState(this.value);
+  const KnowledgeBaseState._(this.value);
 
-  static KnowledgeBaseState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KnowledgeBaseState'));
+  static const values = [enabled, disabled];
+
+  static KnowledgeBaseState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KnowledgeBaseState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KnowledgeBaseState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KnowledgeBaseStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  deleteUnsuccessful('DELETE_UNSUCCESSFUL'),
-  ;
+class KnowledgeBaseStatus {
+  static const creating = KnowledgeBaseStatus._('CREATING');
+  static const active = KnowledgeBaseStatus._('ACTIVE');
+  static const deleting = KnowledgeBaseStatus._('DELETING');
+  static const updating = KnowledgeBaseStatus._('UPDATING');
+  static const failed = KnowledgeBaseStatus._('FAILED');
+  static const deleteUnsuccessful =
+      KnowledgeBaseStatus._('DELETE_UNSUCCESSFUL');
 
   final String value;
 
-  const KnowledgeBaseStatus(this.value);
+  const KnowledgeBaseStatus._(this.value);
 
-  static KnowledgeBaseStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KnowledgeBaseStatus'));
+  static const values = [
+    creating,
+    active,
+    deleting,
+    updating,
+    failed,
+    deleteUnsuccessful
+  ];
+
+  static KnowledgeBaseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KnowledgeBaseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KnowledgeBaseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KnowledgeBaseStorageType {
-  opensearchServerless('OPENSEARCH_SERVERLESS'),
-  pinecone('PINECONE'),
-  redisEnterpriseCloud('REDIS_ENTERPRISE_CLOUD'),
-  rds('RDS'),
-  mongoDbAtlas('MONGO_DB_ATLAS'),
-  ;
+class KnowledgeBaseStorageType {
+  static const opensearchServerless =
+      KnowledgeBaseStorageType._('OPENSEARCH_SERVERLESS');
+  static const pinecone = KnowledgeBaseStorageType._('PINECONE');
+  static const redisEnterpriseCloud =
+      KnowledgeBaseStorageType._('REDIS_ENTERPRISE_CLOUD');
+  static const rds = KnowledgeBaseStorageType._('RDS');
+  static const mongoDbAtlas = KnowledgeBaseStorageType._('MONGO_DB_ATLAS');
 
   final String value;
 
-  const KnowledgeBaseStorageType(this.value);
+  const KnowledgeBaseStorageType._(this.value);
+
+  static const values = [
+    opensearchServerless,
+    pinecone,
+    redisEnterpriseCloud,
+    rds,
+    mongoDbAtlas
+  ];
 
   static KnowledgeBaseStorageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KnowledgeBaseStorageType'));
+          orElse: () => KnowledgeBaseStorageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KnowledgeBaseStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a knowledge base.
@@ -8685,7 +8974,7 @@ class KnowledgeBaseSummary {
     return KnowledgeBaseSummary(
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
     );
@@ -8707,18 +8996,27 @@ class KnowledgeBaseSummary {
   }
 }
 
-enum KnowledgeBaseType {
-  vector('VECTOR'),
-  ;
+class KnowledgeBaseType {
+  static const vector = KnowledgeBaseType._('VECTOR');
 
   final String value;
 
-  const KnowledgeBaseType(this.value);
+  const KnowledgeBaseType._(this.value);
+
+  static const values = [vector];
 
   static KnowledgeBaseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KnowledgeBaseType'));
+          orElse: () => KnowledgeBaseType._(value));
+
+  @override
+  bool operator ==(other) => other is KnowledgeBaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configurations for a Lambda function node in the flow. You specify
@@ -9263,17 +9561,26 @@ class MemoryConfiguration {
   }
 }
 
-enum MemoryType {
-  sessionSummary('SESSION_SUMMARY'),
-  ;
+class MemoryType {
+  static const sessionSummary = MemoryType._('SESSION_SUMMARY');
 
   final String value;
 
-  const MemoryType(this.value);
+  const MemoryType._(this.value);
 
-  static MemoryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MemoryType'));
+  static const values = [sessionSummary];
+
+  static MemoryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemoryType._(value));
+
+  @override
+  bool operator ==(other) => other is MemoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the storage configuration of the knowledge base in
@@ -9541,7 +9848,7 @@ class ParameterDetail {
 
   factory ParameterDetail.fromJson(Map<String, dynamic> json) {
     return ParameterDetail(
-      type: Type.fromString((json['type'] as String)),
+      type: Type.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
       required: json['required'] as bool?,
     );
@@ -9600,8 +9907,8 @@ class ParsingConfiguration {
 
   factory ParsingConfiguration.fromJson(Map<String, dynamic> json) {
     return ParsingConfiguration(
-      parsingStrategy:
-          ParsingStrategy.fromString((json['parsingStrategy'] as String)),
+      parsingStrategy: ParsingStrategy.fromString(
+          (json['parsingStrategy'] as String?) ?? ''),
       bedrockFoundationModelConfiguration:
           json['bedrockFoundationModelConfiguration'] != null
               ? BedrockFoundationModelConfiguration.fromJson(
@@ -9647,18 +9954,28 @@ class ParsingPrompt {
   }
 }
 
-enum ParsingStrategy {
-  bedrockFoundationModel('BEDROCK_FOUNDATION_MODEL'),
-  ;
+class ParsingStrategy {
+  static const bedrockFoundationModel =
+      ParsingStrategy._('BEDROCK_FOUNDATION_MODEL');
 
   final String value;
 
-  const ParsingStrategy(this.value);
+  const ParsingStrategy._(this.value);
+
+  static const values = [bedrockFoundationModel];
 
   static ParsingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParsingStrategy'));
+          orElse: () => ParsingStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is ParsingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The specific filters applied to your data source content. You can filter out
@@ -9849,7 +10166,8 @@ class PrepareAgentResponse {
   factory PrepareAgentResponse.fromJson(Map<String, dynamic> json) {
     return PrepareAgentResponse(
       agentId: (json['agentId'] as String?) ?? '',
-      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
+      agentStatus:
+          AgentStatus.fromString((json['agentStatus'] as String?) ?? ''),
       agentVersion: (json['agentVersion'] as String?) ?? '',
       preparedAt: nonNullableTimeStampFromJson(json['preparedAt'] ?? 0),
     );
@@ -9886,7 +10204,7 @@ class PrepareFlowResponse {
   factory PrepareFlowResponse.fromJson(Map<String, dynamic> json) {
     return PrepareFlowResponse(
       id: (json['id'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -10064,8 +10382,8 @@ class PromptFlowNodeInlineConfiguration {
       templateConfiguration: PromptTemplateConfiguration.fromJson(
           (json['templateConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      templateType:
-          PromptTemplateType.fromString((json['templateType'] as String)),
+      templateType: PromptTemplateType.fromString(
+          (json['templateType'] as String?) ?? ''),
       inferenceConfiguration: json['inferenceConfiguration'] != null
           ? PromptInferenceConfiguration.fromJson(
               json['inferenceConfiguration'] as Map<String, dynamic>)
@@ -10341,18 +10659,27 @@ class PromptOverrideConfiguration {
   }
 }
 
-enum PromptState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PromptState {
+  static const enabled = PromptState._('ENABLED');
+  static const disabled = PromptState._('DISABLED');
 
   final String value;
 
-  const PromptState(this.value);
+  const PromptState._(this.value);
 
-  static PromptState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PromptState'));
+  static const values = [enabled, disabled];
+
+  static PromptState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PromptState._(value));
+
+  @override
+  bool operator ==(other) => other is PromptState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a prompt in your Prompt management tool.
@@ -10459,34 +10786,59 @@ class PromptTemplateConfiguration {
   }
 }
 
-enum PromptTemplateType {
-  text('TEXT'),
-  ;
+class PromptTemplateType {
+  static const text = PromptTemplateType._('TEXT');
 
   final String value;
 
-  const PromptTemplateType(this.value);
+  const PromptTemplateType._(this.value);
 
-  static PromptTemplateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PromptTemplateType'));
+  static const values = [text];
+
+  static PromptTemplateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PromptTemplateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PromptTemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PromptType {
-  preProcessing('PRE_PROCESSING'),
-  orchestration('ORCHESTRATION'),
-  postProcessing('POST_PROCESSING'),
-  knowledgeBaseResponseGeneration('KNOWLEDGE_BASE_RESPONSE_GENERATION'),
-  ;
+class PromptType {
+  static const preProcessing = PromptType._('PRE_PROCESSING');
+  static const orchestration = PromptType._('ORCHESTRATION');
+  static const postProcessing = PromptType._('POST_PROCESSING');
+  static const knowledgeBaseResponseGeneration =
+      PromptType._('KNOWLEDGE_BASE_RESPONSE_GENERATION');
 
   final String value;
 
-  const PromptType(this.value);
+  const PromptType._(this.value);
 
-  static PromptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PromptType'));
+  static const values = [
+    preProcessing,
+    orchestration,
+    postProcessing,
+    knowledgeBaseResponseGeneration
+  ];
+
+  static PromptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PromptType._(value));
+
+  @override
+  bool operator ==(other) => other is PromptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a variant of the prompt.
@@ -10526,8 +10878,8 @@ class PromptVariant {
   factory PromptVariant.fromJson(Map<String, dynamic> json) {
     return PromptVariant(
       name: (json['name'] as String?) ?? '',
-      templateType:
-          PromptTemplateType.fromString((json['templateType'] as String)),
+      templateType: PromptTemplateType.fromString(
+          (json['templateType'] as String?) ?? ''),
       inferenceConfiguration: json['inferenceConfiguration'] != null
           ? PromptInferenceConfiguration.fromJson(
               json['inferenceConfiguration'] as Map<String, dynamic>)
@@ -10764,19 +11116,29 @@ class RedisEnterpriseCloudFieldMapping {
 }
 
 /// ENUM to check if action requires user confirmation
-enum RequireConfirmation {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class RequireConfirmation {
+  static const enabled = RequireConfirmation._('ENABLED');
+  static const disabled = RequireConfirmation._('DISABLED');
 
   final String value;
 
-  const RequireConfirmation(this.value);
+  const RequireConfirmation._(this.value);
 
-  static RequireConfirmation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RequireConfirmation'));
+  static const values = [enabled, disabled];
+
+  static RequireConfirmation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequireConfirmation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequireConfirmation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configurations for a Retrieval node in a flow. This node retrieves
@@ -10958,18 +11320,29 @@ class S3Location {
   }
 }
 
-enum SalesforceAuthType {
-  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
-  ;
+class SalesforceAuthType {
+  static const oauth2ClientCredentials =
+      SalesforceAuthType._('OAUTH2_CLIENT_CREDENTIALS');
 
   final String value;
 
-  const SalesforceAuthType(this.value);
+  const SalesforceAuthType._(this.value);
 
-  static SalesforceAuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SalesforceAuthType'));
+  static const values = [oauth2ClientCredentials];
+
+  static SalesforceAuthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SalesforceAuthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the Salesforce content. For example, configuring
@@ -11065,7 +11438,8 @@ class SalesforceSourceConfiguration {
 
   factory SalesforceSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return SalesforceSourceConfiguration(
-      authType: SalesforceAuthType.fromString((json['authType'] as String)),
+      authType:
+          SalesforceAuthType.fromString((json['authType'] as String?) ?? ''),
       credentialsSecretArn: (json['credentialsSecretArn'] as String?) ?? '',
       hostUrl: (json['hostUrl'] as String?) ?? '',
     );
@@ -11185,18 +11559,29 @@ class ServerSideEncryptionConfiguration {
   }
 }
 
-enum SharePointAuthType {
-  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
-  ;
+class SharePointAuthType {
+  static const oauth2ClientCredentials =
+      SharePointAuthType._('OAUTH2_CLIENT_CREDENTIALS');
 
   final String value;
 
-  const SharePointAuthType(this.value);
+  const SharePointAuthType._(this.value);
 
-  static SharePointAuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SharePointAuthType'));
+  static const values = [oauth2ClientCredentials];
+
+  static SharePointAuthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharePointAuthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharePointAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the SharePoint content. For example, configuring
@@ -11267,18 +11652,28 @@ class SharePointDataSourceConfiguration {
   }
 }
 
-enum SharePointHostType {
-  online('ONLINE'),
-  ;
+class SharePointHostType {
+  static const online = SharePointHostType._('ONLINE');
 
   final String value;
 
-  const SharePointHostType(this.value);
+  const SharePointHostType._(this.value);
 
-  static SharePointHostType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SharePointHostType'));
+  static const values = [online];
+
+  static SharePointHostType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharePointHostType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharePointHostType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The endpoint information to connect to your SharePoint data source.
@@ -11318,10 +11713,12 @@ class SharePointSourceConfiguration {
 
   factory SharePointSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return SharePointSourceConfiguration(
-      authType: SharePointAuthType.fromString((json['authType'] as String)),
+      authType:
+          SharePointAuthType.fromString((json['authType'] as String?) ?? ''),
       credentialsSecretArn: (json['credentialsSecretArn'] as String?) ?? '',
       domain: (json['domain'] as String?) ?? '',
-      hostType: SharePointHostType.fromString((json['hostType'] as String)),
+      hostType:
+          SharePointHostType.fromString((json['hostType'] as String?) ?? ''),
       siteUrls: ((json['siteUrls'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -11348,18 +11745,27 @@ class SharePointSourceConfiguration {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartIngestionJobResponse {
@@ -11386,17 +11792,26 @@ class StartIngestionJobResponse {
   }
 }
 
-enum StepType {
-  postChunking('POST_CHUNKING'),
-  ;
+class StepType {
+  static const postChunking = StepType._('POST_CHUNKING');
 
   final String value;
 
-  const StepType(this.value);
+  const StepType._(this.value);
 
-  static StepType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StepType'));
+  static const values = [postChunking];
+
+  static StepType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StepType._(value));
+
+  @override
+  bool operator ==(other) => other is StepType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the storage configuration of the knowledge base.
@@ -11435,7 +11850,8 @@ class StorageConfiguration {
 
   factory StorageConfiguration.fromJson(Map<String, dynamic> json) {
     return StorageConfiguration(
-      type: KnowledgeBaseStorageType.fromString((json['type'] as String)),
+      type:
+          KnowledgeBaseStorageType.fromString((json['type'] as String?) ?? ''),
       mongoDbAtlasConfiguration: json['mongoDbAtlasConfiguration'] != null
           ? MongoDbAtlasConfiguration.fromJson(
               json['mongoDbAtlasConfiguration'] as Map<String, dynamic>)
@@ -11630,7 +12046,7 @@ class Transformation {
 
   factory Transformation.fromJson(Map<String, dynamic> json) {
     return Transformation(
-      stepToApply: StepType.fromString((json['stepToApply'] as String)),
+      stepToApply: StepType.fromString((json['stepToApply'] as String?) ?? ''),
       transformationFunction: TransformationFunction.fromJson(
           (json['transformationFunction'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -11699,21 +12115,30 @@ class TransformationLambdaConfiguration {
   }
 }
 
-enum Type {
-  string('string'),
-  number('number'),
-  integer('integer'),
-  boolean('boolean'),
-  array('array'),
-  ;
+class Type {
+  static const string = Type._('string');
+  static const number = Type._('number');
+  static const integer = Type._('integer');
+  static const boolean = Type._('boolean');
+  static const array = Type._('array');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [string, number, integer, boolean, array];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -11987,7 +12412,7 @@ class UpdateFlowResponse {
       executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: FlowStatus.fromString((json['status'] as String)),
+      status: FlowStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
@@ -12389,19 +12814,27 @@ class WebDataSourceConfiguration {
   }
 }
 
-enum WebScopeType {
-  hostOnly('HOST_ONLY'),
-  subdomains('SUBDOMAINS'),
-  ;
+class WebScopeType {
+  static const hostOnly = WebScopeType._('HOST_ONLY');
+  static const subdomains = WebScopeType._('SUBDOMAINS');
 
   final String value;
 
-  const WebScopeType(this.value);
+  const WebScopeType._(this.value);
 
-  static WebScopeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WebScopeType'));
+  static const values = [hostOnly, subdomains];
+
+  static WebScopeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WebScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is WebScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the URL/URLs for the web content that you want to

@@ -3632,67 +3632,109 @@ class CodeBuild {
   }
 }
 
-enum ArtifactNamespace {
-  none('NONE'),
-  buildId('BUILD_ID'),
-  ;
+class ArtifactNamespace {
+  static const none = ArtifactNamespace._('NONE');
+  static const buildId = ArtifactNamespace._('BUILD_ID');
 
   final String value;
 
-  const ArtifactNamespace(this.value);
+  const ArtifactNamespace._(this.value);
+
+  static const values = [none, buildId];
 
   static ArtifactNamespace fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactNamespace'));
+          orElse: () => ArtifactNamespace._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactNamespace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArtifactPackaging {
-  none('NONE'),
-  zip('ZIP'),
-  ;
+class ArtifactPackaging {
+  static const none = ArtifactPackaging._('NONE');
+  static const zip = ArtifactPackaging._('ZIP');
 
   final String value;
 
-  const ArtifactPackaging(this.value);
+  const ArtifactPackaging._(this.value);
+
+  static const values = [none, zip];
 
   static ArtifactPackaging fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactPackaging'));
+          orElse: () => ArtifactPackaging._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactPackaging && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArtifactsType {
-  codepipeline('CODEPIPELINE'),
-  s3('S3'),
-  noArtifacts('NO_ARTIFACTS'),
-  ;
+class ArtifactsType {
+  static const codepipeline = ArtifactsType._('CODEPIPELINE');
+  static const s3 = ArtifactsType._('S3');
+  static const noArtifacts = ArtifactsType._('NO_ARTIFACTS');
 
   final String value;
 
-  const ArtifactsType(this.value);
+  const ArtifactsType._(this.value);
+
+  static const values = [codepipeline, s3, noArtifacts];
 
   static ArtifactsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactsType'));
+          orElse: () => ArtifactsType._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthType {
-  oauth('OAUTH'),
-  basicAuth('BASIC_AUTH'),
-  personalAccessToken('PERSONAL_ACCESS_TOKEN'),
-  codeconnections('CODECONNECTIONS'),
-  secretsManager('SECRETS_MANAGER'),
-  ;
+class AuthType {
+  static const oauth = AuthType._('OAUTH');
+  static const basicAuth = AuthType._('BASIC_AUTH');
+  static const personalAccessToken = AuthType._('PERSONAL_ACCESS_TOKEN');
+  static const codeconnections = AuthType._('CODECONNECTIONS');
+  static const secretsManager = AuthType._('SECRETS_MANAGER');
 
   final String value;
 
-  const AuthType(this.value);
+  const AuthType._(this.value);
 
-  static AuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthType'));
+  static const values = [
+    oauth,
+    basicAuth,
+    personalAccessToken,
+    codeconnections,
+    secretsManager
+  ];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDeleteBuildsOutput {
@@ -3947,19 +3989,31 @@ class BatchGetReportsOutput {
   }
 }
 
-enum BatchReportModeType {
-  reportIndividualBuilds('REPORT_INDIVIDUAL_BUILDS'),
-  reportAggregatedBatch('REPORT_AGGREGATED_BATCH'),
-  ;
+class BatchReportModeType {
+  static const reportIndividualBuilds =
+      BatchReportModeType._('REPORT_INDIVIDUAL_BUILDS');
+  static const reportAggregatedBatch =
+      BatchReportModeType._('REPORT_AGGREGATED_BATCH');
 
   final String value;
 
-  const BatchReportModeType(this.value);
+  const BatchReportModeType._(this.value);
 
-  static BatchReportModeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BatchReportModeType'));
+  static const values = [reportIndividualBuilds, reportAggregatedBatch];
+
+  static BatchReportModeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchReportModeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchReportModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies restrictions for the batch build.
@@ -4035,20 +4089,29 @@ class BatchRestrictions {
 /// ownership of uploaded objects using S3 Object Ownership</a> in the <i>Amazon
 /// Simple Storage Service User Guide</i>.
 /// </dd> </dl>
-enum BucketOwnerAccess {
-  none('NONE'),
-  readOnly('READ_ONLY'),
-  full('FULL'),
-  ;
+class BucketOwnerAccess {
+  static const none = BucketOwnerAccess._('NONE');
+  static const readOnly = BucketOwnerAccess._('READ_ONLY');
+  static const full = BucketOwnerAccess._('FULL');
 
   final String value;
 
-  const BucketOwnerAccess(this.value);
+  const BucketOwnerAccess._(this.value);
+
+  static const values = [none, readOnly, full];
 
   static BucketOwnerAccess fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BucketOwnerAccess'));
+          orElse: () => BucketOwnerAccess._(value));
+
+  @override
+  bool operator ==(other) => other is BucketOwnerAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a build.
@@ -4971,24 +5034,42 @@ class BuildBatchPhase {
   }
 }
 
-enum BuildBatchPhaseType {
-  submitted('SUBMITTED'),
-  downloadBatchspec('DOWNLOAD_BATCHSPEC'),
-  inProgress('IN_PROGRESS'),
-  combineArtifacts('COMBINE_ARTIFACTS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class BuildBatchPhaseType {
+  static const submitted = BuildBatchPhaseType._('SUBMITTED');
+  static const downloadBatchspec = BuildBatchPhaseType._('DOWNLOAD_BATCHSPEC');
+  static const inProgress = BuildBatchPhaseType._('IN_PROGRESS');
+  static const combineArtifacts = BuildBatchPhaseType._('COMBINE_ARTIFACTS');
+  static const succeeded = BuildBatchPhaseType._('SUCCEEDED');
+  static const failed = BuildBatchPhaseType._('FAILED');
+  static const stopped = BuildBatchPhaseType._('STOPPED');
 
   final String value;
 
-  const BuildBatchPhaseType(this.value);
+  const BuildBatchPhaseType._(this.value);
 
-  static BuildBatchPhaseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BuildBatchPhaseType'));
+  static const values = [
+    submitted,
+    downloadBatchspec,
+    inProgress,
+    combineArtifacts,
+    succeeded,
+    failed,
+    stopped
+  ];
+
+  static BuildBatchPhaseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BuildBatchPhaseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BuildBatchPhaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a batch build build group. Build groups are used
@@ -5188,28 +5269,49 @@ class BuildPhase {
   }
 }
 
-enum BuildPhaseType {
-  submitted('SUBMITTED'),
-  queued('QUEUED'),
-  provisioning('PROVISIONING'),
-  downloadSource('DOWNLOAD_SOURCE'),
-  install('INSTALL'),
-  preBuild('PRE_BUILD'),
-  build('BUILD'),
-  postBuild('POST_BUILD'),
-  uploadArtifacts('UPLOAD_ARTIFACTS'),
-  finalizing('FINALIZING'),
-  completed('COMPLETED'),
-  ;
+class BuildPhaseType {
+  static const submitted = BuildPhaseType._('SUBMITTED');
+  static const queued = BuildPhaseType._('QUEUED');
+  static const provisioning = BuildPhaseType._('PROVISIONING');
+  static const downloadSource = BuildPhaseType._('DOWNLOAD_SOURCE');
+  static const install = BuildPhaseType._('INSTALL');
+  static const preBuild = BuildPhaseType._('PRE_BUILD');
+  static const build = BuildPhaseType._('BUILD');
+  static const postBuild = BuildPhaseType._('POST_BUILD');
+  static const uploadArtifacts = BuildPhaseType._('UPLOAD_ARTIFACTS');
+  static const finalizing = BuildPhaseType._('FINALIZING');
+  static const completed = BuildPhaseType._('COMPLETED');
 
   final String value;
 
-  const BuildPhaseType(this.value);
+  const BuildPhaseType._(this.value);
+
+  static const values = [
+    submitted,
+    queued,
+    provisioning,
+    downloadSource,
+    install,
+    preBuild,
+    build,
+    postBuild,
+    uploadArtifacts,
+    finalizing,
+    completed
+  ];
 
   static BuildPhaseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BuildPhaseType'));
+          orElse: () => BuildPhaseType._(value));
+
+  @override
+  bool operator ==(other) => other is BuildPhaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information that defines how the CodeBuild build project reports
@@ -5339,34 +5441,56 @@ class BuildSummary {
   }
 }
 
-enum CacheMode {
-  localDockerLayerCache('LOCAL_DOCKER_LAYER_CACHE'),
-  localSourceCache('LOCAL_SOURCE_CACHE'),
-  localCustomCache('LOCAL_CUSTOM_CACHE'),
-  ;
+class CacheMode {
+  static const localDockerLayerCache = CacheMode._('LOCAL_DOCKER_LAYER_CACHE');
+  static const localSourceCache = CacheMode._('LOCAL_SOURCE_CACHE');
+  static const localCustomCache = CacheMode._('LOCAL_CUSTOM_CACHE');
 
   final String value;
 
-  const CacheMode(this.value);
+  const CacheMode._(this.value);
 
-  static CacheMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CacheMode'));
+  static const values = [
+    localDockerLayerCache,
+    localSourceCache,
+    localCustomCache
+  ];
+
+  static CacheMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CacheMode._(value));
+
+  @override
+  bool operator ==(other) => other is CacheMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CacheType {
-  noCache('NO_CACHE'),
-  s3('S3'),
-  local('LOCAL'),
-  ;
+class CacheType {
+  static const noCache = CacheType._('NO_CACHE');
+  static const s3 = CacheType._('S3');
+  static const local = CacheType._('LOCAL');
 
   final String value;
 
-  const CacheType(this.value);
+  const CacheType._(this.value);
 
-  static CacheType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CacheType'));
+  static const values = [noCache, s3, local];
+
+  static CacheType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CacheType._(value));
+
+  @override
+  bool operator ==(other) => other is CacheType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about CloudWatch Logs for a build project.
@@ -5404,7 +5528,8 @@ class CloudWatchLogsConfig {
 
   factory CloudWatchLogsConfig.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogsConfig(
-      status: LogsConfigStatusType.fromString((json['status'] as String)),
+      status:
+          LogsConfigStatusType.fromString((json['status'] as String?) ?? ''),
       groupName: json['groupName'] as String?,
       streamName: json['streamName'] as String?,
     );
@@ -5584,26 +5709,46 @@ class CodeCoverageReportSummary {
   }
 }
 
-enum ComputeType {
-  buildGeneral1Small('BUILD_GENERAL1_SMALL'),
-  buildGeneral1Medium('BUILD_GENERAL1_MEDIUM'),
-  buildGeneral1Large('BUILD_GENERAL1_LARGE'),
-  buildGeneral1Xlarge('BUILD_GENERAL1_XLARGE'),
-  buildGeneral1_2xlarge('BUILD_GENERAL1_2XLARGE'),
-  buildLambda_1gb('BUILD_LAMBDA_1GB'),
-  buildLambda_2gb('BUILD_LAMBDA_2GB'),
-  buildLambda_4gb('BUILD_LAMBDA_4GB'),
-  buildLambda_8gb('BUILD_LAMBDA_8GB'),
-  buildLambda_10gb('BUILD_LAMBDA_10GB'),
-  ;
+class ComputeType {
+  static const buildGeneral1Small = ComputeType._('BUILD_GENERAL1_SMALL');
+  static const buildGeneral1Medium = ComputeType._('BUILD_GENERAL1_MEDIUM');
+  static const buildGeneral1Large = ComputeType._('BUILD_GENERAL1_LARGE');
+  static const buildGeneral1Xlarge = ComputeType._('BUILD_GENERAL1_XLARGE');
+  static const buildGeneral1_2xlarge = ComputeType._('BUILD_GENERAL1_2XLARGE');
+  static const buildLambda_1gb = ComputeType._('BUILD_LAMBDA_1GB');
+  static const buildLambda_2gb = ComputeType._('BUILD_LAMBDA_2GB');
+  static const buildLambda_4gb = ComputeType._('BUILD_LAMBDA_4GB');
+  static const buildLambda_8gb = ComputeType._('BUILD_LAMBDA_8GB');
+  static const buildLambda_10gb = ComputeType._('BUILD_LAMBDA_10GB');
 
   final String value;
 
-  const ComputeType(this.value);
+  const ComputeType._(this.value);
 
-  static ComputeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ComputeType'));
+  static const values = [
+    buildGeneral1Small,
+    buildGeneral1Medium,
+    buildGeneral1Large,
+    buildGeneral1Xlarge,
+    buildGeneral1_2xlarge,
+    buildLambda_1gb,
+    buildLambda_2gb,
+    buildLambda_4gb,
+    buildLambda_8gb,
+    buildLambda_10gb
+  ];
+
+  static ComputeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ComputeType._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateFleetOutput {
@@ -5703,18 +5848,28 @@ class CreateWebhookOutput {
   }
 }
 
-enum CredentialProviderType {
-  secretsManager('SECRETS_MANAGER'),
-  ;
+class CredentialProviderType {
+  static const secretsManager = CredentialProviderType._('SECRETS_MANAGER');
 
   final String value;
 
-  const CredentialProviderType(this.value);
+  const CredentialProviderType._(this.value);
+
+  static const values = [secretsManager];
 
   static CredentialProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CredentialProviderType'));
+          orElse: () => CredentialProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CredentialProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the debug session for a build. For more
@@ -6072,25 +6227,45 @@ class EnvironmentPlatform {
   }
 }
 
-enum EnvironmentType {
-  windowsContainer('WINDOWS_CONTAINER'),
-  linuxContainer('LINUX_CONTAINER'),
-  linuxGpuContainer('LINUX_GPU_CONTAINER'),
-  armContainer('ARM_CONTAINER'),
-  windowsServer_2019Container('WINDOWS_SERVER_2019_CONTAINER'),
-  linuxLambdaContainer('LINUX_LAMBDA_CONTAINER'),
-  armLambdaContainer('ARM_LAMBDA_CONTAINER'),
-  macArm('MAC_ARM'),
-  ;
+class EnvironmentType {
+  static const windowsContainer = EnvironmentType._('WINDOWS_CONTAINER');
+  static const linuxContainer = EnvironmentType._('LINUX_CONTAINER');
+  static const linuxGpuContainer = EnvironmentType._('LINUX_GPU_CONTAINER');
+  static const armContainer = EnvironmentType._('ARM_CONTAINER');
+  static const windowsServer_2019Container =
+      EnvironmentType._('WINDOWS_SERVER_2019_CONTAINER');
+  static const linuxLambdaContainer =
+      EnvironmentType._('LINUX_LAMBDA_CONTAINER');
+  static const armLambdaContainer = EnvironmentType._('ARM_LAMBDA_CONTAINER');
+  static const macArm = EnvironmentType._('MAC_ARM');
 
   final String value;
 
-  const EnvironmentType(this.value);
+  const EnvironmentType._(this.value);
+
+  static const values = [
+    windowsContainer,
+    linuxContainer,
+    linuxGpuContainer,
+    armContainer,
+    windowsServer_2019Container,
+    linuxLambdaContainer,
+    armLambdaContainer,
+    macArm
+  ];
 
   static EnvironmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentType'));
+          orElse: () => EnvironmentType._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an environment variable for a build project or a build.
@@ -6165,20 +6340,30 @@ class EnvironmentVariable {
   }
 }
 
-enum EnvironmentVariableType {
-  plaintext('PLAINTEXT'),
-  parameterStore('PARAMETER_STORE'),
-  secretsManager('SECRETS_MANAGER'),
-  ;
+class EnvironmentVariableType {
+  static const plaintext = EnvironmentVariableType._('PLAINTEXT');
+  static const parameterStore = EnvironmentVariableType._('PARAMETER_STORE');
+  static const secretsManager = EnvironmentVariableType._('SECRETS_MANAGER');
 
   final String value;
 
-  const EnvironmentVariableType(this.value);
+  const EnvironmentVariableType._(this.value);
+
+  static const values = [plaintext, parameterStore, secretsManager];
 
   static EnvironmentVariableType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentVariableType'));
+          orElse: () => EnvironmentVariableType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentVariableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an exported environment variable.
@@ -6224,18 +6409,27 @@ class ExportedEnvironmentVariable {
   }
 }
 
-enum FileSystemType {
-  efs('EFS'),
-  ;
+class FileSystemType {
+  static const efs = FileSystemType._('EFS');
 
   final String value;
 
-  const FileSystemType(this.value);
+  const FileSystemType._(this.value);
+
+  static const values = [efs];
 
   static FileSystemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileSystemType'));
+          orElse: () => FileSystemType._(value));
+
+  @override
+  bool operator ==(other) => other is FileSystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of dedicated instances for your build environment.
@@ -6503,81 +6697,137 @@ class Fleet {
   }
 }
 
-enum FleetContextCode {
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  actionRequired('ACTION_REQUIRED'),
-  pendingDeletion('PENDING_DELETION'),
-  insufficientCapacity('INSUFFICIENT_CAPACITY'),
-  ;
+class FleetContextCode {
+  static const createFailed = FleetContextCode._('CREATE_FAILED');
+  static const updateFailed = FleetContextCode._('UPDATE_FAILED');
+  static const actionRequired = FleetContextCode._('ACTION_REQUIRED');
+  static const pendingDeletion = FleetContextCode._('PENDING_DELETION');
+  static const insufficientCapacity =
+      FleetContextCode._('INSUFFICIENT_CAPACITY');
 
   final String value;
 
-  const FleetContextCode(this.value);
+  const FleetContextCode._(this.value);
+
+  static const values = [
+    createFailed,
+    updateFailed,
+    actionRequired,
+    pendingDeletion,
+    insufficientCapacity
+  ];
 
   static FleetContextCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetContextCode'));
+          orElse: () => FleetContextCode._(value));
+
+  @override
+  bool operator ==(other) => other is FleetContextCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetOverflowBehavior {
-  queue('QUEUE'),
-  onDemand('ON_DEMAND'),
-  ;
+class FleetOverflowBehavior {
+  static const queue = FleetOverflowBehavior._('QUEUE');
+  static const onDemand = FleetOverflowBehavior._('ON_DEMAND');
 
   final String value;
 
-  const FleetOverflowBehavior(this.value);
+  const FleetOverflowBehavior._(this.value);
 
-  static FleetOverflowBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FleetOverflowBehavior'));
+  static const values = [queue, onDemand];
+
+  static FleetOverflowBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FleetOverflowBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetOverflowBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetScalingMetricType {
-  fleetUtilizationRate('FLEET_UTILIZATION_RATE'),
-  ;
+class FleetScalingMetricType {
+  static const fleetUtilizationRate =
+      FleetScalingMetricType._('FLEET_UTILIZATION_RATE');
 
   final String value;
 
-  const FleetScalingMetricType(this.value);
+  const FleetScalingMetricType._(this.value);
+
+  static const values = [fleetUtilizationRate];
 
   static FleetScalingMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FleetScalingMetricType'));
+          orElse: () => FleetScalingMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FleetScalingMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetScalingType {
-  targetTrackingScaling('TARGET_TRACKING_SCALING'),
-  ;
+class FleetScalingType {
+  static const targetTrackingScaling =
+      FleetScalingType._('TARGET_TRACKING_SCALING');
 
   final String value;
 
-  const FleetScalingType(this.value);
+  const FleetScalingType._(this.value);
+
+  static const values = [targetTrackingScaling];
 
   static FleetScalingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetScalingType'));
+          orElse: () => FleetScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetSortByType {
-  name('NAME'),
-  createdTime('CREATED_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  ;
+class FleetSortByType {
+  static const name = FleetSortByType._('NAME');
+  static const createdTime = FleetSortByType._('CREATED_TIME');
+  static const lastModifiedTime = FleetSortByType._('LAST_MODIFIED_TIME');
 
   final String value;
 
-  const FleetSortByType(this.value);
+  const FleetSortByType._(this.value);
+
+  static const values = [name, createdTime, lastModifiedTime];
 
   static FleetSortByType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetSortByType'));
+          orElse: () => FleetSortByType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetSortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of the compute fleet.
@@ -6655,25 +6905,44 @@ class FleetStatus {
   }
 }
 
-enum FleetStatusCode {
-  creating('CREATING'),
-  updating('UPDATING'),
-  rotating('ROTATING'),
-  pendingDeletion('PENDING_DELETION'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  updateRollbackFailed('UPDATE_ROLLBACK_FAILED'),
-  active('ACTIVE'),
-  ;
+class FleetStatusCode {
+  static const creating = FleetStatusCode._('CREATING');
+  static const updating = FleetStatusCode._('UPDATING');
+  static const rotating = FleetStatusCode._('ROTATING');
+  static const pendingDeletion = FleetStatusCode._('PENDING_DELETION');
+  static const deleting = FleetStatusCode._('DELETING');
+  static const createFailed = FleetStatusCode._('CREATE_FAILED');
+  static const updateRollbackFailed =
+      FleetStatusCode._('UPDATE_ROLLBACK_FAILED');
+  static const active = FleetStatusCode._('ACTIVE');
 
   final String value;
 
-  const FleetStatusCode(this.value);
+  const FleetStatusCode._(this.value);
+
+  static const values = [
+    creating,
+    updating,
+    rotating,
+    pendingDeletion,
+    deleting,
+    createFailed,
+    updateRollbackFailed,
+    active
+  ];
 
   static FleetStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetStatusCode'));
+          orElse: () => FleetStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is FleetStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetReportGroupTrendOutput {
@@ -6757,19 +7026,29 @@ class GitSubmodulesConfig {
   }
 }
 
-enum ImagePullCredentialsType {
-  codebuild('CODEBUILD'),
-  serviceRole('SERVICE_ROLE'),
-  ;
+class ImagePullCredentialsType {
+  static const codebuild = ImagePullCredentialsType._('CODEBUILD');
+  static const serviceRole = ImagePullCredentialsType._('SERVICE_ROLE');
 
   final String value;
 
-  const ImagePullCredentialsType(this.value);
+  const ImagePullCredentialsType._(this.value);
+
+  static const values = [codebuild, serviceRole];
 
   static ImagePullCredentialsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImagePullCredentialsType'));
+          orElse: () => ImagePullCredentialsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImagePullCredentialsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportSourceCredentialsOutput {
@@ -6806,27 +7085,46 @@ class InvalidateProjectCacheOutput {
   }
 }
 
-enum LanguageType {
-  java('JAVA'),
-  python('PYTHON'),
-  nodeJs('NODE_JS'),
-  ruby('RUBY'),
-  golang('GOLANG'),
-  docker('DOCKER'),
-  android('ANDROID'),
-  dotnet('DOTNET'),
-  base('BASE'),
-  php('PHP'),
-  ;
+class LanguageType {
+  static const java = LanguageType._('JAVA');
+  static const python = LanguageType._('PYTHON');
+  static const nodeJs = LanguageType._('NODE_JS');
+  static const ruby = LanguageType._('RUBY');
+  static const golang = LanguageType._('GOLANG');
+  static const docker = LanguageType._('DOCKER');
+  static const android = LanguageType._('ANDROID');
+  static const dotnet = LanguageType._('DOTNET');
+  static const base = LanguageType._('BASE');
+  static const php = LanguageType._('PHP');
 
   final String value;
 
-  const LanguageType(this.value);
+  const LanguageType._(this.value);
 
-  static LanguageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageType'));
+  static const values = [
+    java,
+    python,
+    nodeJs,
+    ruby,
+    golang,
+    docker,
+    android,
+    dotnet,
+    base,
+    php
+  ];
+
+  static LanguageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageType._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListBuildBatchesForProjectOutput {
@@ -7308,19 +7606,29 @@ class LogsConfig {
   }
 }
 
-enum LogsConfigStatusType {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class LogsConfigStatusType {
+  static const enabled = LogsConfigStatusType._('ENABLED');
+  static const disabled = LogsConfigStatusType._('DISABLED');
 
   final String value;
 
-  const LogsConfigStatusType(this.value);
+  const LogsConfigStatusType._(this.value);
 
-  static LogsConfigStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LogsConfigStatusType'));
+  static const values = [enabled, disabled];
+
+  static LogsConfigStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogsConfigStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LogsConfigStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about build logs in CloudWatch Logs.
@@ -7474,21 +7782,29 @@ class PhaseContext {
   }
 }
 
-enum PlatformType {
-  debian('DEBIAN'),
-  amazonLinux('AMAZON_LINUX'),
-  ubuntu('UBUNTU'),
-  windowsServer('WINDOWS_SERVER'),
-  ;
+class PlatformType {
+  static const debian = PlatformType._('DEBIAN');
+  static const amazonLinux = PlatformType._('AMAZON_LINUX');
+  static const ubuntu = PlatformType._('UBUNTU');
+  static const windowsServer = PlatformType._('WINDOWS_SERVER');
 
   final String value;
 
-  const PlatformType(this.value);
+  const PlatformType._(this.value);
 
-  static PlatformType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlatformType'));
+  static const values = [debian, amazonLinux, ubuntu, windowsServer];
+
+  static PlatformType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PlatformType._(value));
+
+  @override
+  bool operator ==(other) => other is PlatformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a build project.
@@ -8013,7 +8329,7 @@ class ProjectArtifacts {
 
   factory ProjectArtifacts.fromJson(Map<String, dynamic> json) {
     return ProjectArtifacts(
-      type: ArtifactsType.fromString((json['type'] as String)),
+      type: ArtifactsType.fromString((json['type'] as String?) ?? ''),
       artifactIdentifier: json['artifactIdentifier'] as String?,
       bucketOwnerAccess: (json['bucketOwnerAccess'] as String?)
           ?.let(BucketOwnerAccess.fromString),
@@ -8243,7 +8559,7 @@ class ProjectCache {
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) {
     return ProjectCache(
-      type: CacheType.fromString((json['type'] as String)),
+      type: CacheType.fromString((json['type'] as String?) ?? ''),
       location: json['location'] as String?,
       modes: (json['modes'] as List?)
           ?.nonNulls
@@ -8507,9 +8823,10 @@ class ProjectEnvironment {
 
   factory ProjectEnvironment.fromJson(Map<String, dynamic> json) {
     return ProjectEnvironment(
-      computeType: ComputeType.fromString((json['computeType'] as String)),
+      computeType:
+          ComputeType.fromString((json['computeType'] as String?) ?? ''),
       image: (json['image'] as String?) ?? '',
-      type: EnvironmentType.fromString((json['type'] as String)),
+      type: EnvironmentType.fromString((json['type'] as String?) ?? ''),
       certificate: json['certificate'] as String?,
       environmentVariables: (json['environmentVariables'] as List?)
           ?.nonNulls
@@ -8657,20 +8974,29 @@ class ProjectFleet {
   }
 }
 
-enum ProjectSortByType {
-  name('NAME'),
-  createdTime('CREATED_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  ;
+class ProjectSortByType {
+  static const name = ProjectSortByType._('NAME');
+  static const createdTime = ProjectSortByType._('CREATED_TIME');
+  static const lastModifiedTime = ProjectSortByType._('LAST_MODIFIED_TIME');
 
   final String value;
 
-  const ProjectSortByType(this.value);
+  const ProjectSortByType._(this.value);
+
+  static const values = [name, createdTime, lastModifiedTime];
 
   static ProjectSortByType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectSortByType'));
+          orElse: () => ProjectSortByType._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectSortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the build input source code for the build project.
@@ -8863,7 +9189,7 @@ class ProjectSource {
 
   factory ProjectSource.fromJson(Map<String, dynamic> json) {
     return ProjectSource(
-      type: SourceType.fromString((json['type'] as String)),
+      type: SourceType.fromString((json['type'] as String?) ?? ''),
       auth: json['auth'] != null
           ? SourceAuth.fromJson(json['auth'] as Map<String, dynamic>)
           : null,
@@ -8980,19 +9306,29 @@ class ProjectSourceVersion {
 /// </dd> <dt>PRIVATE</dt> <dd>
 /// The project builds are not visible to the public.
 /// </dd> </dl>
-enum ProjectVisibilityType {
-  publicRead('PUBLIC_READ'),
-  private('PRIVATE'),
-  ;
+class ProjectVisibilityType {
+  static const publicRead = ProjectVisibilityType._('PUBLIC_READ');
+  static const private = ProjectVisibilityType._('PRIVATE');
 
   final String value;
 
-  const ProjectVisibilityType(this.value);
+  const ProjectVisibilityType._(this.value);
 
-  static ProjectVisibilityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProjectVisibilityType'));
+  static const values = [publicRead, private];
+
+  static ProjectVisibilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectVisibilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProjectVisibilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutResourcePolicyOutput {
@@ -9055,7 +9391,7 @@ class RegistryCredential {
     return RegistryCredential(
       credential: (json['credential'] as String?) ?? '',
       credentialProvider: CredentialProviderType.fromString(
-          (json['credentialProvider'] as String)),
+          (json['credentialProvider'] as String?) ?? ''),
     );
   }
 
@@ -9193,19 +9529,30 @@ class Report {
   }
 }
 
-enum ReportCodeCoverageSortByType {
-  lineCoveragePercentage('LINE_COVERAGE_PERCENTAGE'),
-  filePath('FILE_PATH'),
-  ;
+class ReportCodeCoverageSortByType {
+  static const lineCoveragePercentage =
+      ReportCodeCoverageSortByType._('LINE_COVERAGE_PERCENTAGE');
+  static const filePath = ReportCodeCoverageSortByType._('FILE_PATH');
 
   final String value;
 
-  const ReportCodeCoverageSortByType(this.value);
+  const ReportCodeCoverageSortByType._(this.value);
+
+  static const values = [lineCoveragePercentage, filePath];
 
   static ReportCodeCoverageSortByType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReportCodeCoverageSortByType'));
+          orElse: () => ReportCodeCoverageSortByType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportCodeCoverageSortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the location where the run of a report is exported.
@@ -9252,19 +9599,29 @@ class ReportExportConfig {
   }
 }
 
-enum ReportExportConfigType {
-  s3('S3'),
-  noExport('NO_EXPORT'),
-  ;
+class ReportExportConfigType {
+  static const s3 = ReportExportConfigType._('S3');
+  static const noExport = ReportExportConfigType._('NO_EXPORT');
 
   final String value;
 
-  const ReportExportConfigType(this.value);
+  const ReportExportConfigType._(this.value);
+
+  static const values = [s3, noExport];
 
   static ReportExportConfigType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReportExportConfigType'));
+          orElse: () => ReportExportConfigType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportExportConfigType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter used to return reports with the status specified by the input
@@ -9385,57 +9742,98 @@ class ReportGroup {
   }
 }
 
-enum ReportGroupSortByType {
-  name('NAME'),
-  createdTime('CREATED_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  ;
+class ReportGroupSortByType {
+  static const name = ReportGroupSortByType._('NAME');
+  static const createdTime = ReportGroupSortByType._('CREATED_TIME');
+  static const lastModifiedTime = ReportGroupSortByType._('LAST_MODIFIED_TIME');
 
   final String value;
 
-  const ReportGroupSortByType(this.value);
+  const ReportGroupSortByType._(this.value);
 
-  static ReportGroupSortByType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReportGroupSortByType'));
+  static const values = [name, createdTime, lastModifiedTime];
+
+  static ReportGroupSortByType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportGroupSortByType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportGroupSortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportGroupStatusType {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class ReportGroupStatusType {
+  static const active = ReportGroupStatusType._('ACTIVE');
+  static const deleting = ReportGroupStatusType._('DELETING');
 
   final String value;
 
-  const ReportGroupStatusType(this.value);
+  const ReportGroupStatusType._(this.value);
 
-  static ReportGroupStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReportGroupStatusType'));
+  static const values = [active, deleting];
+
+  static ReportGroupStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportGroupStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportGroupStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportGroupTrendFieldType {
-  passRate('PASS_RATE'),
-  duration('DURATION'),
-  total('TOTAL'),
-  lineCoverage('LINE_COVERAGE'),
-  linesCovered('LINES_COVERED'),
-  linesMissed('LINES_MISSED'),
-  branchCoverage('BRANCH_COVERAGE'),
-  branchesCovered('BRANCHES_COVERED'),
-  branchesMissed('BRANCHES_MISSED'),
-  ;
+class ReportGroupTrendFieldType {
+  static const passRate = ReportGroupTrendFieldType._('PASS_RATE');
+  static const duration = ReportGroupTrendFieldType._('DURATION');
+  static const total = ReportGroupTrendFieldType._('TOTAL');
+  static const lineCoverage = ReportGroupTrendFieldType._('LINE_COVERAGE');
+  static const linesCovered = ReportGroupTrendFieldType._('LINES_COVERED');
+  static const linesMissed = ReportGroupTrendFieldType._('LINES_MISSED');
+  static const branchCoverage = ReportGroupTrendFieldType._('BRANCH_COVERAGE');
+  static const branchesCovered =
+      ReportGroupTrendFieldType._('BRANCHES_COVERED');
+  static const branchesMissed = ReportGroupTrendFieldType._('BRANCHES_MISSED');
 
   final String value;
 
-  const ReportGroupTrendFieldType(this.value);
+  const ReportGroupTrendFieldType._(this.value);
+
+  static const values = [
+    passRate,
+    duration,
+    total,
+    lineCoverage,
+    linesCovered,
+    linesMissed,
+    branchCoverage,
+    branchesCovered,
+    branchesMissed
+  ];
 
   static ReportGroupTrendFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReportGroupTrendFieldType'));
+          orElse: () => ReportGroupTrendFieldType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportGroupTrendFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains trend statistics for a set of reports. The actual values depend on
@@ -9476,51 +9874,79 @@ class ReportGroupTrendStats {
   }
 }
 
-enum ReportPackagingType {
-  zip('ZIP'),
-  none('NONE'),
-  ;
+class ReportPackagingType {
+  static const zip = ReportPackagingType._('ZIP');
+  static const none = ReportPackagingType._('NONE');
 
   final String value;
 
-  const ReportPackagingType(this.value);
+  const ReportPackagingType._(this.value);
 
-  static ReportPackagingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReportPackagingType'));
+  static const values = [zip, none];
+
+  static ReportPackagingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportPackagingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReportPackagingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportStatusType {
-  generating('GENERATING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  incomplete('INCOMPLETE'),
-  deleting('DELETING'),
-  ;
+class ReportStatusType {
+  static const generating = ReportStatusType._('GENERATING');
+  static const succeeded = ReportStatusType._('SUCCEEDED');
+  static const failed = ReportStatusType._('FAILED');
+  static const incomplete = ReportStatusType._('INCOMPLETE');
+  static const deleting = ReportStatusType._('DELETING');
 
   final String value;
 
-  const ReportStatusType(this.value);
+  const ReportStatusType._(this.value);
+
+  static const values = [generating, succeeded, failed, incomplete, deleting];
 
   static ReportStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportStatusType'));
+          orElse: () => ReportStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportType {
-  test('TEST'),
-  codeCoverage('CODE_COVERAGE'),
-  ;
+class ReportType {
+  static const test = ReportType._('TEST');
+  static const codeCoverage = ReportType._('CODE_COVERAGE');
 
   final String value;
 
-  const ReportType(this.value);
+  const ReportType._(this.value);
 
-  static ReportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReportType'));
+  static const values = [test, codeCoverage];
+
+  static ReportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the unmodified data for the report. For more information, see .
@@ -9614,19 +10040,29 @@ class RetryBuildBatchOutput {
   }
 }
 
-enum RetryBuildBatchType {
-  retryAllBuilds('RETRY_ALL_BUILDS'),
-  retryFailedBuilds('RETRY_FAILED_BUILDS'),
-  ;
+class RetryBuildBatchType {
+  static const retryAllBuilds = RetryBuildBatchType._('RETRY_ALL_BUILDS');
+  static const retryFailedBuilds = RetryBuildBatchType._('RETRY_FAILED_BUILDS');
 
   final String value;
 
-  const RetryBuildBatchType(this.value);
+  const RetryBuildBatchType._(this.value);
 
-  static RetryBuildBatchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RetryBuildBatchType'));
+  static const values = [retryAllBuilds, retryFailedBuilds];
+
+  static RetryBuildBatchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetryBuildBatchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetryBuildBatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RetryBuildOutput {
@@ -9687,7 +10123,8 @@ class S3LogsConfig {
 
   factory S3LogsConfig.fromJson(Map<String, dynamic> json) {
     return S3LogsConfig(
-      status: LogsConfigStatusType.fromString((json['status'] as String)),
+      status:
+          LogsConfigStatusType.fromString((json['status'] as String?) ?? ''),
       bucketOwnerAccess: (json['bucketOwnerAccess'] as String?)
           ?.let(BucketOwnerAccess.fromString),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
@@ -9886,7 +10323,7 @@ class ScopeConfiguration {
   factory ScopeConfiguration.fromJson(Map<String, dynamic> json) {
     return ScopeConfiguration(
       name: (json['name'] as String?) ?? '',
-      scope: WebhookScopeType.fromString((json['scope'] as String)),
+      scope: WebhookScopeType.fromString((json['scope'] as String?) ?? ''),
       domain: json['domain'] as String?,
     );
   }
@@ -9903,51 +10340,85 @@ class ScopeConfiguration {
   }
 }
 
-enum ServerType {
-  github('GITHUB'),
-  bitbucket('BITBUCKET'),
-  githubEnterprise('GITHUB_ENTERPRISE'),
-  gitlab('GITLAB'),
-  gitlabSelfManaged('GITLAB_SELF_MANAGED'),
-  ;
+class ServerType {
+  static const github = ServerType._('GITHUB');
+  static const bitbucket = ServerType._('BITBUCKET');
+  static const githubEnterprise = ServerType._('GITHUB_ENTERPRISE');
+  static const gitlab = ServerType._('GITLAB');
+  static const gitlabSelfManaged = ServerType._('GITLAB_SELF_MANAGED');
 
   final String value;
 
-  const ServerType(this.value);
+  const ServerType._(this.value);
 
-  static ServerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServerType'));
+  static const values = [
+    github,
+    bitbucket,
+    githubEnterprise,
+    gitlab,
+    gitlabSelfManaged
+  ];
+
+  static ServerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServerType._(value));
+
+  @override
+  bool operator ==(other) => other is ServerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SharedResourceSortByType {
-  arn('ARN'),
-  modifiedTime('MODIFIED_TIME'),
-  ;
+class SharedResourceSortByType {
+  static const arn = SharedResourceSortByType._('ARN');
+  static const modifiedTime = SharedResourceSortByType._('MODIFIED_TIME');
 
   final String value;
 
-  const SharedResourceSortByType(this.value);
+  const SharedResourceSortByType._(this.value);
+
+  static const values = [arn, modifiedTime];
 
   static SharedResourceSortByType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SharedResourceSortByType'));
+          orElse: () => SharedResourceSortByType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharedResourceSortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrderType {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrderType {
+  static const ascending = SortOrderType._('ASCENDING');
+  static const descending = SortOrderType._('DESCENDING');
 
   final String value;
 
-  const SortOrderType(this.value);
+  const SortOrderType._(this.value);
+
+  static const values = [ascending, descending];
 
   static SortOrderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortOrderType'));
+          orElse: () => SortOrderType._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the authorization settings for CodeBuild to access the
@@ -9967,7 +10438,7 @@ class SourceAuth {
 
   factory SourceAuth.fromJson(Map<String, dynamic> json) {
     return SourceAuth(
-      type: SourceAuthType.fromString((json['type'] as String)),
+      type: SourceAuthType.fromString((json['type'] as String?) ?? ''),
       resource: json['resource'] as String?,
     );
   }
@@ -9982,20 +10453,29 @@ class SourceAuth {
   }
 }
 
-enum SourceAuthType {
-  oauth('OAUTH'),
-  codeconnections('CODECONNECTIONS'),
-  secretsManager('SECRETS_MANAGER'),
-  ;
+class SourceAuthType {
+  static const oauth = SourceAuthType._('OAUTH');
+  static const codeconnections = SourceAuthType._('CODECONNECTIONS');
+  static const secretsManager = SourceAuthType._('SECRETS_MANAGER');
 
   final String value;
 
-  const SourceAuthType(this.value);
+  const SourceAuthType._(this.value);
+
+  static const values = [oauth, codeconnections, secretsManager];
 
   static SourceAuthType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SourceAuthType'));
+          orElse: () => SourceAuthType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the credentials for a GitHub, GitHub Enterprise, GitLab,
@@ -10045,25 +10525,44 @@ class SourceCredentialsInfo {
   }
 }
 
-enum SourceType {
-  codecommit('CODECOMMIT'),
-  codepipeline('CODEPIPELINE'),
-  github('GITHUB'),
-  gitlab('GITLAB'),
-  gitlabSelfManaged('GITLAB_SELF_MANAGED'),
-  s3('S3'),
-  bitbucket('BITBUCKET'),
-  githubEnterprise('GITHUB_ENTERPRISE'),
-  noSource('NO_SOURCE'),
-  ;
+class SourceType {
+  static const codecommit = SourceType._('CODECOMMIT');
+  static const codepipeline = SourceType._('CODEPIPELINE');
+  static const github = SourceType._('GITHUB');
+  static const gitlab = SourceType._('GITLAB');
+  static const gitlabSelfManaged = SourceType._('GITLAB_SELF_MANAGED');
+  static const s3 = SourceType._('S3');
+  static const bitbucket = SourceType._('BITBUCKET');
+  static const githubEnterprise = SourceType._('GITHUB_ENTERPRISE');
+  static const noSource = SourceType._('NO_SOURCE');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [
+    codecommit,
+    codepipeline,
+    github,
+    gitlab,
+    gitlabSelfManaged,
+    s3,
+    bitbucket,
+    githubEnterprise,
+    noSource
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartBuildBatchOutput {
@@ -10115,22 +10614,38 @@ class StartBuildOutput {
   }
 }
 
-enum StatusType {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  fault('FAULT'),
-  timedOut('TIMED_OUT'),
-  inProgress('IN_PROGRESS'),
-  stopped('STOPPED'),
-  ;
+class StatusType {
+  static const succeeded = StatusType._('SUCCEEDED');
+  static const failed = StatusType._('FAILED');
+  static const fault = StatusType._('FAULT');
+  static const timedOut = StatusType._('TIMED_OUT');
+  static const inProgress = StatusType._('IN_PROGRESS');
+  static const stopped = StatusType._('STOPPED');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [
+    succeeded,
+    failed,
+    fault,
+    timedOut,
+    inProgress,
+    stopped
+  ];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopBuildBatchOutput {
@@ -10705,19 +11220,28 @@ class Webhook {
   }
 }
 
-enum WebhookBuildType {
-  build('BUILD'),
-  buildBatch('BUILD_BATCH'),
-  ;
+class WebhookBuildType {
+  static const build = WebhookBuildType._('BUILD');
+  static const buildBatch = WebhookBuildType._('BUILD_BATCH');
 
   final String value;
 
-  const WebhookBuildType(this.value);
+  const WebhookBuildType._(this.value);
+
+  static const values = [build, buildBatch];
 
   static WebhookBuildType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WebhookBuildType'));
+          orElse: () => WebhookBuildType._(value));
+
+  @override
+  bool operator ==(other) => other is WebhookBuildType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter used to determine which webhooks trigger a build.
@@ -10885,7 +11409,7 @@ class WebhookFilter {
   factory WebhookFilter.fromJson(Map<String, dynamic> json) {
     return WebhookFilter(
       pattern: (json['pattern'] as String?) ?? '',
-      type: WebhookFilterType.fromString((json['type'] as String)),
+      type: WebhookFilterType.fromString((json['type'] as String?) ?? ''),
       excludeMatchedPattern: json['excludeMatchedPattern'] as bool?,
     );
   }
@@ -10903,41 +11427,69 @@ class WebhookFilter {
   }
 }
 
-enum WebhookFilterType {
-  event('EVENT'),
-  baseRef('BASE_REF'),
-  headRef('HEAD_REF'),
-  actorAccountId('ACTOR_ACCOUNT_ID'),
-  filePath('FILE_PATH'),
-  commitMessage('COMMIT_MESSAGE'),
-  workflowName('WORKFLOW_NAME'),
-  tagName('TAG_NAME'),
-  releaseName('RELEASE_NAME'),
-  ;
+class WebhookFilterType {
+  static const event = WebhookFilterType._('EVENT');
+  static const baseRef = WebhookFilterType._('BASE_REF');
+  static const headRef = WebhookFilterType._('HEAD_REF');
+  static const actorAccountId = WebhookFilterType._('ACTOR_ACCOUNT_ID');
+  static const filePath = WebhookFilterType._('FILE_PATH');
+  static const commitMessage = WebhookFilterType._('COMMIT_MESSAGE');
+  static const workflowName = WebhookFilterType._('WORKFLOW_NAME');
+  static const tagName = WebhookFilterType._('TAG_NAME');
+  static const releaseName = WebhookFilterType._('RELEASE_NAME');
 
   final String value;
 
-  const WebhookFilterType(this.value);
+  const WebhookFilterType._(this.value);
+
+  static const values = [
+    event,
+    baseRef,
+    headRef,
+    actorAccountId,
+    filePath,
+    commitMessage,
+    workflowName,
+    tagName,
+    releaseName
+  ];
 
   static WebhookFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WebhookFilterType'));
+          orElse: () => WebhookFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is WebhookFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WebhookScopeType {
-  githubOrganization('GITHUB_ORGANIZATION'),
-  githubGlobal('GITHUB_GLOBAL'),
-  ;
+class WebhookScopeType {
+  static const githubOrganization = WebhookScopeType._('GITHUB_ORGANIZATION');
+  static const githubGlobal = WebhookScopeType._('GITHUB_GLOBAL');
 
   final String value;
 
-  const WebhookScopeType(this.value);
+  const WebhookScopeType._(this.value);
+
+  static const values = [githubOrganization, githubGlobal];
 
   static WebhookScopeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WebhookScopeType'));
+          orElse: () => WebhookScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is WebhookScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccountLimitExceededException extends _s.GenericAwsException {

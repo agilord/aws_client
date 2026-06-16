@@ -17036,33 +17036,52 @@ class AnalyticsS3BucketDestination {
   }
 }
 
-enum AnalyticsS3ExportFileFormat {
-  csv('CSV'),
-  ;
+class AnalyticsS3ExportFileFormat {
+  static const csv = AnalyticsS3ExportFileFormat._('CSV');
 
   final String value;
 
-  const AnalyticsS3ExportFileFormat(this.value);
+  const AnalyticsS3ExportFileFormat._(this.value);
+
+  static const values = [csv];
 
   static AnalyticsS3ExportFileFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalyticsS3ExportFileFormat'));
+          orElse: () => AnalyticsS3ExportFileFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalyticsS3ExportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArchiveStatus {
-  archiveAccess('ARCHIVE_ACCESS'),
-  deepArchiveAccess('DEEP_ARCHIVE_ACCESS'),
-  ;
+class ArchiveStatus {
+  static const archiveAccess = ArchiveStatus._('ARCHIVE_ACCESS');
+  static const deepArchiveAccess = ArchiveStatus._('DEEP_ARCHIVE_ACCESS');
 
   final String value;
 
-  const ArchiveStatus(this.value);
+  const ArchiveStatus._(this.value);
+
+  static const values = [archiveAccess, deepArchiveAccess];
 
   static ArchiveStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArchiveStatus'));
+          orElse: () => ArchiveStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ArchiveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In terms of implementation, a Bucket is a resource.
@@ -17104,36 +17123,60 @@ class Bucket {
   }
 }
 
-enum BucketAccelerateStatus {
-  enabled('Enabled'),
-  suspended('Suspended'),
-  ;
+class BucketAccelerateStatus {
+  static const enabled = BucketAccelerateStatus._('Enabled');
+  static const suspended = BucketAccelerateStatus._('Suspended');
 
   final String value;
 
-  const BucketAccelerateStatus(this.value);
+  const BucketAccelerateStatus._(this.value);
+
+  static const values = [enabled, suspended];
 
   static BucketAccelerateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BucketAccelerateStatus'));
+          orElse: () => BucketAccelerateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketAccelerateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BucketCannedACL {
-  private('private'),
-  publicRead('public-read'),
-  publicReadWrite('public-read-write'),
-  authenticatedRead('authenticated-read'),
-  ;
+class BucketCannedACL {
+  static const private = BucketCannedACL._('private');
+  static const publicRead = BucketCannedACL._('public-read');
+  static const publicReadWrite = BucketCannedACL._('public-read-write');
+  static const authenticatedRead = BucketCannedACL._('authenticated-read');
 
   final String value;
 
-  const BucketCannedACL(this.value);
+  const BucketCannedACL._(this.value);
+
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead
+  ];
 
   static BucketCannedACL fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BucketCannedACL'));
+          orElse: () => BucketCannedACL._(value));
+
+  @override
+  bool operator ==(other) => other is BucketCannedACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the information about the bucket that will be created. For more
@@ -17218,45 +17261,84 @@ class BucketLifecycleConfiguration {
   }
 }
 
-enum BucketLocationConstraint {
-  afSouth_1('af-south-1'),
-  apEast_1('ap-east-1'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_3('ap-northeast-3'),
-  apSouth_1('ap-south-1'),
-  apSouth_2('ap-south-2'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSoutheast_3('ap-southeast-3'),
-  caCentral_1('ca-central-1'),
-  cnNorth_1('cn-north-1'),
-  cnNorthwest_1('cn-northwest-1'),
-  eu('EU'),
-  euCentral_1('eu-central-1'),
-  euNorth_1('eu-north-1'),
-  euSouth_1('eu-south-1'),
-  euSouth_2('eu-south-2'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  meSouth_1('me-south-1'),
-  saEast_1('sa-east-1'),
-  usEast_2('us-east-2'),
-  usGovEast_1('us-gov-east-1'),
-  usGovWest_1('us-gov-west-1'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  ;
+class BucketLocationConstraint {
+  static const afSouth_1 = BucketLocationConstraint._('af-south-1');
+  static const apEast_1 = BucketLocationConstraint._('ap-east-1');
+  static const apNortheast_1 = BucketLocationConstraint._('ap-northeast-1');
+  static const apNortheast_2 = BucketLocationConstraint._('ap-northeast-2');
+  static const apNortheast_3 = BucketLocationConstraint._('ap-northeast-3');
+  static const apSouth_1 = BucketLocationConstraint._('ap-south-1');
+  static const apSouth_2 = BucketLocationConstraint._('ap-south-2');
+  static const apSoutheast_1 = BucketLocationConstraint._('ap-southeast-1');
+  static const apSoutheast_2 = BucketLocationConstraint._('ap-southeast-2');
+  static const apSoutheast_3 = BucketLocationConstraint._('ap-southeast-3');
+  static const caCentral_1 = BucketLocationConstraint._('ca-central-1');
+  static const cnNorth_1 = BucketLocationConstraint._('cn-north-1');
+  static const cnNorthwest_1 = BucketLocationConstraint._('cn-northwest-1');
+  static const eu = BucketLocationConstraint._('EU');
+  static const euCentral_1 = BucketLocationConstraint._('eu-central-1');
+  static const euNorth_1 = BucketLocationConstraint._('eu-north-1');
+  static const euSouth_1 = BucketLocationConstraint._('eu-south-1');
+  static const euSouth_2 = BucketLocationConstraint._('eu-south-2');
+  static const euWest_1 = BucketLocationConstraint._('eu-west-1');
+  static const euWest_2 = BucketLocationConstraint._('eu-west-2');
+  static const euWest_3 = BucketLocationConstraint._('eu-west-3');
+  static const meSouth_1 = BucketLocationConstraint._('me-south-1');
+  static const saEast_1 = BucketLocationConstraint._('sa-east-1');
+  static const usEast_2 = BucketLocationConstraint._('us-east-2');
+  static const usGovEast_1 = BucketLocationConstraint._('us-gov-east-1');
+  static const usGovWest_1 = BucketLocationConstraint._('us-gov-west-1');
+  static const usWest_1 = BucketLocationConstraint._('us-west-1');
+  static const usWest_2 = BucketLocationConstraint._('us-west-2');
 
   final String value;
 
-  const BucketLocationConstraint(this.value);
+  const BucketLocationConstraint._(this.value);
+
+  static const values = [
+    afSouth_1,
+    apEast_1,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    apSouth_1,
+    apSouth_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    caCentral_1,
+    cnNorth_1,
+    cnNorthwest_1,
+    eu,
+    euCentral_1,
+    euNorth_1,
+    euSouth_1,
+    euSouth_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    meSouth_1,
+    saEast_1,
+    usEast_2,
+    usGovEast_1,
+    usGovWest_1,
+    usWest_1,
+    usWest_2
+  ];
 
   static BucketLocationConstraint fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BucketLocationConstraint'));
+          orElse: () => BucketLocationConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketLocationConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for logging status information.
@@ -17290,48 +17372,77 @@ class BucketLoggingStatus {
   }
 }
 
-enum BucketLogsPermission {
-  fullControl('FULL_CONTROL'),
-  read('READ'),
-  write('WRITE'),
-  ;
+class BucketLogsPermission {
+  static const fullControl = BucketLogsPermission._('FULL_CONTROL');
+  static const read = BucketLogsPermission._('READ');
+  static const write = BucketLogsPermission._('WRITE');
 
   final String value;
 
-  const BucketLogsPermission(this.value);
+  const BucketLogsPermission._(this.value);
 
-  static BucketLogsPermission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BucketLogsPermission'));
+  static const values = [fullControl, read, write];
+
+  static BucketLogsPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BucketLogsPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketLogsPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BucketType {
-  directory('Directory'),
-  ;
+class BucketType {
+  static const directory = BucketType._('Directory');
 
   final String value;
 
-  const BucketType(this.value);
+  const BucketType._(this.value);
 
-  static BucketType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BucketType'));
+  static const values = [directory];
+
+  static BucketType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BucketType._(value));
+
+  @override
+  bool operator ==(other) => other is BucketType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BucketVersioningStatus {
-  enabled('Enabled'),
-  suspended('Suspended'),
-  ;
+class BucketVersioningStatus {
+  static const enabled = BucketVersioningStatus._('Enabled');
+  static const suspended = BucketVersioningStatus._('Suspended');
 
   final String value;
 
-  const BucketVersioningStatus(this.value);
+  const BucketVersioningStatus._(this.value);
+
+  static const values = [enabled, suspended];
 
   static BucketVersioningStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BucketVersioningStatus'));
+          orElse: () => BucketVersioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketVersioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the cross-origin access configuration for objects in an Amazon S3
@@ -17746,36 +17857,53 @@ class Checksum {
   }
 }
 
-enum ChecksumAlgorithm {
-  crc32('CRC32'),
-  crc32c('CRC32C'),
-  sha1('SHA1'),
-  sha256('SHA256'),
-  crc64nvme('CRC64NVME'),
-  ;
+class ChecksumAlgorithm {
+  static const crc32 = ChecksumAlgorithm._('CRC32');
+  static const crc32c = ChecksumAlgorithm._('CRC32C');
+  static const sha1 = ChecksumAlgorithm._('SHA1');
+  static const sha256 = ChecksumAlgorithm._('SHA256');
+  static const crc64nvme = ChecksumAlgorithm._('CRC64NVME');
 
   final String value;
 
-  const ChecksumAlgorithm(this.value);
+  const ChecksumAlgorithm._(this.value);
+
+  static const values = [crc32, crc32c, sha1, sha256, crc64nvme];
 
   static ChecksumAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChecksumAlgorithm'));
+          orElse: () => ChecksumAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChecksumMode {
-  enabled('ENABLED'),
-  ;
+class ChecksumMode {
+  static const enabled = ChecksumMode._('ENABLED');
 
   final String value;
 
-  const ChecksumMode(this.value);
+  const ChecksumMode._(this.value);
 
-  static ChecksumMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChecksumMode'));
+  static const values = [enabled];
+
+  static ChecksumMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChecksumMode._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for specifying the Lambda notification configuration.
@@ -18175,20 +18303,29 @@ class CompletedPart {
   }
 }
 
-enum CompressionType {
-  none('NONE'),
-  gzip('GZIP'),
-  bzip2('BZIP2'),
-  ;
+class CompressionType {
+  static const none = CompressionType._('NONE');
+  static const gzip = CompressionType._('GZIP');
+  static const bzip2 = CompressionType._('BZIP2');
 
   final String value;
 
-  const CompressionType(this.value);
+  const CompressionType._(this.value);
+
+  static const values = [none, gzip, bzip2];
 
   static CompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionType'));
+          orElse: () => CompressionType._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for describing a condition that must be met for the specified
@@ -18766,18 +18903,28 @@ class CreateSessionOutput {
   }
 }
 
-enum DataRedundancy {
-  singleAvailabilityZone('SingleAvailabilityZone'),
-  ;
+class DataRedundancy {
+  static const singleAvailabilityZone =
+      DataRedundancy._('SingleAvailabilityZone');
 
   final String value;
 
-  const DataRedundancy(this.value);
+  const DataRedundancy._(this.value);
+
+  static const values = [singleAvailabilityZone];
 
   static DataRedundancy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataRedundancy'));
+          orElse: () => DataRedundancy._(value));
+
+  @override
+  bool operator ==(other) => other is DataRedundancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container element for optionally specifying the default Object Lock
@@ -19013,19 +19160,29 @@ class DeleteMarkerReplication {
   }
 }
 
-enum DeleteMarkerReplicationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class DeleteMarkerReplicationStatus {
+  static const enabled = DeleteMarkerReplicationStatus._('Enabled');
+  static const disabled = DeleteMarkerReplicationStatus._('Disabled');
 
   final String value;
 
-  const DeleteMarkerReplicationStatus(this.value);
+  const DeleteMarkerReplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DeleteMarkerReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeleteMarkerReplicationStatus'));
+          orElse: () => DeleteMarkerReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteMarkerReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteObjectOutput {
@@ -19305,18 +19462,26 @@ class Destination {
 /// For example, the object <code>test_file(3).png</code> will appear as
 /// <code>test_file%283%29.png</code>.
 /// </note>
-enum EncodingType {
-  url('url'),
-  ;
+class EncodingType {
+  static const url = EncodingType._('url');
 
   final String value;
 
-  const EncodingType(this.value);
+  const EncodingType._(this.value);
 
-  static EncodingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncodingType'));
+  static const values = [url];
+
+  static EncodingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the type of server-side encryption used.
@@ -20938,48 +21103,89 @@ class ErrorDocument {
 }
 
 /// The bucket event for which to send notifications.
-enum Event {
-  s3ReducedRedundancyLostObject('s3:ReducedRedundancyLostObject'),
-  s3ObjectCreated('s3:ObjectCreated:*'),
-  s3ObjectCreatedPut('s3:ObjectCreated:Put'),
-  s3ObjectCreatedPost('s3:ObjectCreated:Post'),
-  s3ObjectCreatedCopy('s3:ObjectCreated:Copy'),
-  s3ObjectCreatedCompleteMultipartUpload(
-      's3:ObjectCreated:CompleteMultipartUpload'),
-  s3ObjectRemoved('s3:ObjectRemoved:*'),
-  s3ObjectRemovedDelete('s3:ObjectRemoved:Delete'),
-  s3ObjectRemovedDeleteMarkerCreated('s3:ObjectRemoved:DeleteMarkerCreated'),
-  s3ObjectRestore('s3:ObjectRestore:*'),
-  s3ObjectRestorePost('s3:ObjectRestore:Post'),
-  s3ObjectRestoreCompleted('s3:ObjectRestore:Completed'),
-  s3Replication('s3:Replication:*'),
-  s3ReplicationOperationFailedReplication(
-      's3:Replication:OperationFailedReplication'),
-  s3ReplicationOperationNotTracked('s3:Replication:OperationNotTracked'),
-  s3ReplicationOperationMissedThreshold(
-      's3:Replication:OperationMissedThreshold'),
-  s3ReplicationOperationReplicatedAfterThreshold(
-      's3:Replication:OperationReplicatedAfterThreshold'),
-  s3ObjectRestoreDelete('s3:ObjectRestore:Delete'),
-  s3LifecycleTransition('s3:LifecycleTransition'),
-  s3IntelligentTiering('s3:IntelligentTiering'),
-  s3ObjectAclPut('s3:ObjectAcl:Put'),
-  s3LifecycleExpiration('s3:LifecycleExpiration:*'),
-  s3LifecycleExpirationDelete('s3:LifecycleExpiration:Delete'),
-  s3LifecycleExpirationDeleteMarkerCreated(
-      's3:LifecycleExpiration:DeleteMarkerCreated'),
-  s3ObjectTagging('s3:ObjectTagging:*'),
-  s3ObjectTaggingPut('s3:ObjectTagging:Put'),
-  s3ObjectTaggingDelete('s3:ObjectTagging:Delete'),
-  ;
+class Event {
+  static const s3ReducedRedundancyLostObject =
+      Event._('s3:ReducedRedundancyLostObject');
+  static const s3ObjectCreated = Event._('s3:ObjectCreated:*');
+  static const s3ObjectCreatedPut = Event._('s3:ObjectCreated:Put');
+  static const s3ObjectCreatedPost = Event._('s3:ObjectCreated:Post');
+  static const s3ObjectCreatedCopy = Event._('s3:ObjectCreated:Copy');
+  static const s3ObjectCreatedCompleteMultipartUpload =
+      Event._('s3:ObjectCreated:CompleteMultipartUpload');
+  static const s3ObjectRemoved = Event._('s3:ObjectRemoved:*');
+  static const s3ObjectRemovedDelete = Event._('s3:ObjectRemoved:Delete');
+  static const s3ObjectRemovedDeleteMarkerCreated =
+      Event._('s3:ObjectRemoved:DeleteMarkerCreated');
+  static const s3ObjectRestore = Event._('s3:ObjectRestore:*');
+  static const s3ObjectRestorePost = Event._('s3:ObjectRestore:Post');
+  static const s3ObjectRestoreCompleted = Event._('s3:ObjectRestore:Completed');
+  static const s3Replication = Event._('s3:Replication:*');
+  static const s3ReplicationOperationFailedReplication =
+      Event._('s3:Replication:OperationFailedReplication');
+  static const s3ReplicationOperationNotTracked =
+      Event._('s3:Replication:OperationNotTracked');
+  static const s3ReplicationOperationMissedThreshold =
+      Event._('s3:Replication:OperationMissedThreshold');
+  static const s3ReplicationOperationReplicatedAfterThreshold =
+      Event._('s3:Replication:OperationReplicatedAfterThreshold');
+  static const s3ObjectRestoreDelete = Event._('s3:ObjectRestore:Delete');
+  static const s3LifecycleTransition = Event._('s3:LifecycleTransition');
+  static const s3IntelligentTiering = Event._('s3:IntelligentTiering');
+  static const s3ObjectAclPut = Event._('s3:ObjectAcl:Put');
+  static const s3LifecycleExpiration = Event._('s3:LifecycleExpiration:*');
+  static const s3LifecycleExpirationDelete =
+      Event._('s3:LifecycleExpiration:Delete');
+  static const s3LifecycleExpirationDeleteMarkerCreated =
+      Event._('s3:LifecycleExpiration:DeleteMarkerCreated');
+  static const s3ObjectTagging = Event._('s3:ObjectTagging:*');
+  static const s3ObjectTaggingPut = Event._('s3:ObjectTagging:Put');
+  static const s3ObjectTaggingDelete = Event._('s3:ObjectTagging:Delete');
 
   final String value;
 
-  const Event(this.value);
+  const Event._(this.value);
+
+  static const values = [
+    s3ReducedRedundancyLostObject,
+    s3ObjectCreated,
+    s3ObjectCreatedPut,
+    s3ObjectCreatedPost,
+    s3ObjectCreatedCopy,
+    s3ObjectCreatedCompleteMultipartUpload,
+    s3ObjectRemoved,
+    s3ObjectRemovedDelete,
+    s3ObjectRemovedDeleteMarkerCreated,
+    s3ObjectRestore,
+    s3ObjectRestorePost,
+    s3ObjectRestoreCompleted,
+    s3Replication,
+    s3ReplicationOperationFailedReplication,
+    s3ReplicationOperationNotTracked,
+    s3ReplicationOperationMissedThreshold,
+    s3ReplicationOperationReplicatedAfterThreshold,
+    s3ObjectRestoreDelete,
+    s3LifecycleTransition,
+    s3IntelligentTiering,
+    s3ObjectAclPut,
+    s3LifecycleExpiration,
+    s3LifecycleExpirationDelete,
+    s3LifecycleExpirationDeleteMarkerCreated,
+    s3ObjectTagging,
+    s3ObjectTaggingPut,
+    s3ObjectTaggingDelete
+  ];
 
   static Event fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Event'));
+      values.firstWhere((e) => e.value == value, orElse: () => Event._(value));
+
+  @override
+  bool operator ==(other) => other is Event && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for specifying the configuration for Amazon EventBridge.
@@ -21053,64 +21259,101 @@ class ExistingObjectReplication {
   }
 }
 
-enum ExistingObjectReplicationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ExistingObjectReplicationStatus {
+  static const enabled = ExistingObjectReplicationStatus._('Enabled');
+  static const disabled = ExistingObjectReplicationStatus._('Disabled');
 
   final String value;
 
-  const ExistingObjectReplicationStatus(this.value);
+  const ExistingObjectReplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ExistingObjectReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExistingObjectReplicationStatus'));
+          orElse: () => ExistingObjectReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExistingObjectReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpirationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ExpirationStatus {
+  static const enabled = ExpirationStatus._('Enabled');
+  static const disabled = ExpirationStatus._('Disabled');
 
   final String value;
 
-  const ExpirationStatus(this.value);
+  const ExpirationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ExpirationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExpirationStatus'));
+          orElse: () => ExpirationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExpirationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpressionType {
-  sql('SQL'),
-  ;
+class ExpressionType {
+  static const sql = ExpressionType._('SQL');
 
   final String value;
 
-  const ExpressionType(this.value);
+  const ExpressionType._(this.value);
+
+  static const values = [sql];
 
   static ExpressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExpressionType'));
+          orElse: () => ExpressionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExpressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FileHeaderInfo {
-  use('USE'),
-  ignore('IGNORE'),
-  none('NONE'),
-  ;
+class FileHeaderInfo {
+  static const use = FileHeaderInfo._('USE');
+  static const ignore = FileHeaderInfo._('IGNORE');
+  static const none = FileHeaderInfo._('NONE');
 
   final String value;
 
-  const FileHeaderInfo(this.value);
+  const FileHeaderInfo._(this.value);
+
+  static const values = [use, ignore, none];
 
   static FileHeaderInfo fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileHeaderInfo'));
+          orElse: () => FileHeaderInfo._(value));
+
+  @override
+  bool operator ==(other) => other is FileHeaderInfo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the Amazon S3 object key name to filter on. An object key name is
@@ -21175,19 +21418,28 @@ class FilterRule {
   }
 }
 
-enum FilterRuleName {
-  prefix('prefix'),
-  suffix('suffix'),
-  ;
+class FilterRuleName {
+  static const prefix = FilterRuleName._('prefix');
+  static const suffix = FilterRuleName._('suffix');
 
   final String value;
 
-  const FilterRuleName(this.value);
+  const FilterRuleName._(this.value);
+
+  static const values = [prefix, suffix];
 
   static FilterRuleName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterRuleName'));
+          orElse: () => FilterRuleName._(value));
+
+  @override
+  bool operator ==(other) => other is FilterRuleName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetBucketAccelerateConfigurationOutput {
@@ -22977,19 +23229,30 @@ class InputSerialization {
   }
 }
 
-enum IntelligentTieringAccessTier {
-  archiveAccess('ARCHIVE_ACCESS'),
-  deepArchiveAccess('DEEP_ARCHIVE_ACCESS'),
-  ;
+class IntelligentTieringAccessTier {
+  static const archiveAccess = IntelligentTieringAccessTier._('ARCHIVE_ACCESS');
+  static const deepArchiveAccess =
+      IntelligentTieringAccessTier._('DEEP_ARCHIVE_ACCESS');
 
   final String value;
 
-  const IntelligentTieringAccessTier(this.value);
+  const IntelligentTieringAccessTier._(this.value);
+
+  static const values = [archiveAccess, deepArchiveAccess];
 
   static IntelligentTieringAccessTier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IntelligentTieringAccessTier'));
+          orElse: () => IntelligentTieringAccessTier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntelligentTieringAccessTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for specifying S3 Intelligent-Tiering filters. The filters
@@ -23181,19 +23444,29 @@ class IntelligentTieringFilter {
   }
 }
 
-enum IntelligentTieringStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class IntelligentTieringStatus {
+  static const enabled = IntelligentTieringStatus._('Enabled');
+  static const disabled = IntelligentTieringStatus._('Disabled');
 
   final String value;
 
-  const IntelligentTieringStatus(this.value);
+  const IntelligentTieringStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static IntelligentTieringStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IntelligentTieringStatus'));
+          orElse: () => IntelligentTieringStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntelligentTieringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the inventory configuration for an Amazon S3 bucket. For more
@@ -23436,78 +23709,140 @@ class InventoryFilter {
   }
 }
 
-enum InventoryFormat {
-  csv('CSV'),
-  orc('ORC'),
-  parquet('Parquet'),
-  ;
+class InventoryFormat {
+  static const csv = InventoryFormat._('CSV');
+  static const orc = InventoryFormat._('ORC');
+  static const parquet = InventoryFormat._('Parquet');
 
   final String value;
 
-  const InventoryFormat(this.value);
+  const InventoryFormat._(this.value);
+
+  static const values = [csv, orc, parquet];
 
   static InventoryFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InventoryFormat'));
+          orElse: () => InventoryFormat._(value));
+
+  @override
+  bool operator ==(other) => other is InventoryFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InventoryFrequency {
-  daily('Daily'),
-  weekly('Weekly'),
-  ;
+class InventoryFrequency {
+  static const daily = InventoryFrequency._('Daily');
+  static const weekly = InventoryFrequency._('Weekly');
 
   final String value;
 
-  const InventoryFrequency(this.value);
+  const InventoryFrequency._(this.value);
 
-  static InventoryFrequency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InventoryFrequency'));
+  static const values = [daily, weekly];
+
+  static InventoryFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InventoryFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InventoryFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InventoryIncludedObjectVersions {
-  all('All'),
-  current('Current'),
-  ;
+class InventoryIncludedObjectVersions {
+  static const all = InventoryIncludedObjectVersions._('All');
+  static const current = InventoryIncludedObjectVersions._('Current');
 
   final String value;
 
-  const InventoryIncludedObjectVersions(this.value);
+  const InventoryIncludedObjectVersions._(this.value);
+
+  static const values = [all, current];
 
   static InventoryIncludedObjectVersions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InventoryIncludedObjectVersions'));
+          orElse: () => InventoryIncludedObjectVersions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InventoryIncludedObjectVersions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InventoryOptionalField {
-  size('Size'),
-  lastModifiedDate('LastModifiedDate'),
-  storageClass('StorageClass'),
-  eTag('ETag'),
-  isMultipartUploaded('IsMultipartUploaded'),
-  replicationStatus('ReplicationStatus'),
-  encryptionStatus('EncryptionStatus'),
-  objectLockRetainUntilDate('ObjectLockRetainUntilDate'),
-  objectLockMode('ObjectLockMode'),
-  objectLockLegalHoldStatus('ObjectLockLegalHoldStatus'),
-  intelligentTieringAccessTier('IntelligentTieringAccessTier'),
-  bucketKeyStatus('BucketKeyStatus'),
-  checksumAlgorithm('ChecksumAlgorithm'),
-  objectAccessControlList('ObjectAccessControlList'),
-  objectOwner('ObjectOwner'),
-  ;
+class InventoryOptionalField {
+  static const size = InventoryOptionalField._('Size');
+  static const lastModifiedDate = InventoryOptionalField._('LastModifiedDate');
+  static const storageClass = InventoryOptionalField._('StorageClass');
+  static const eTag = InventoryOptionalField._('ETag');
+  static const isMultipartUploaded =
+      InventoryOptionalField._('IsMultipartUploaded');
+  static const replicationStatus =
+      InventoryOptionalField._('ReplicationStatus');
+  static const encryptionStatus = InventoryOptionalField._('EncryptionStatus');
+  static const objectLockRetainUntilDate =
+      InventoryOptionalField._('ObjectLockRetainUntilDate');
+  static const objectLockMode = InventoryOptionalField._('ObjectLockMode');
+  static const objectLockLegalHoldStatus =
+      InventoryOptionalField._('ObjectLockLegalHoldStatus');
+  static const intelligentTieringAccessTier =
+      InventoryOptionalField._('IntelligentTieringAccessTier');
+  static const bucketKeyStatus = InventoryOptionalField._('BucketKeyStatus');
+  static const checksumAlgorithm =
+      InventoryOptionalField._('ChecksumAlgorithm');
+  static const objectAccessControlList =
+      InventoryOptionalField._('ObjectAccessControlList');
+  static const objectOwner = InventoryOptionalField._('ObjectOwner');
 
   final String value;
 
-  const InventoryOptionalField(this.value);
+  const InventoryOptionalField._(this.value);
+
+  static const values = [
+    size,
+    lastModifiedDate,
+    storageClass,
+    eTag,
+    isMultipartUploaded,
+    replicationStatus,
+    encryptionStatus,
+    objectLockRetainUntilDate,
+    objectLockMode,
+    objectLockLegalHoldStatus,
+    intelligentTieringAccessTier,
+    bucketKeyStatus,
+    checksumAlgorithm,
+    objectAccessControlList,
+    objectOwner
+  ];
 
   static InventoryOptionalField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InventoryOptionalField'));
+          orElse: () => InventoryOptionalField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InventoryOptionalField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the bucket name, file format, bucket owner (optional), and prefix
@@ -23700,18 +24035,27 @@ class JSONOutput {
   }
 }
 
-enum JSONType {
-  document('DOCUMENT'),
-  lines('LINES'),
-  ;
+class JSONType {
+  static const document = JSONType._('DOCUMENT');
+  static const lines = JSONType._('LINES');
 
   final String value;
 
-  const JSONType(this.value);
+  const JSONType._(this.value);
 
-  static JSONType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JSONType'));
+  static const values = [document, lines];
+
+  static JSONType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSONType._(value));
+
+  @override
+  bool operator ==(other) => other is JSONType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for specifying the configuration for Lambda notifications.
@@ -25208,18 +25552,26 @@ class LocationInfo {
   }
 }
 
-enum LocationType {
-  availabilityZone('AvailabilityZone'),
-  ;
+class LocationType {
+  static const availabilityZone = LocationType._('AvailabilityZone');
 
   final String value;
 
-  const LocationType(this.value);
+  const LocationType._(this.value);
 
-  static LocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LocationType'));
+  static const values = [availabilityZone];
+
+  static LocationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocationType._(value));
+
+  @override
+  bool operator ==(other) => other is LocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes where logs are stored and the prefix that Amazon S3 assigns to all
@@ -25308,48 +25660,75 @@ class LoggingEnabled {
   }
 }
 
-enum MFADelete {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class MFADelete {
+  static const enabled = MFADelete._('Enabled');
+  static const disabled = MFADelete._('Disabled');
 
   final String value;
 
-  const MFADelete(this.value);
+  const MFADelete._(this.value);
 
-  static MFADelete fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MFADelete'));
+  static const values = [enabled, disabled];
+
+  static MFADelete fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MFADelete._(value));
+
+  @override
+  bool operator ==(other) => other is MFADelete && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MFADeleteStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class MFADeleteStatus {
+  static const enabled = MFADeleteStatus._('Enabled');
+  static const disabled = MFADeleteStatus._('Disabled');
 
   final String value;
 
-  const MFADeleteStatus(this.value);
+  const MFADeleteStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MFADeleteStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MFADeleteStatus'));
+          orElse: () => MFADeleteStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MFADeleteStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetadataDirective {
-  copy('COPY'),
-  replace('REPLACE'),
-  ;
+class MetadataDirective {
+  static const copy = MetadataDirective._('COPY');
+  static const replace = MetadataDirective._('REPLACE');
 
   final String value;
 
-  const MetadataDirective(this.value);
+  const MetadataDirective._(this.value);
+
+  static const values = [copy, replace];
 
   static MetadataDirective fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetadataDirective'));
+          orElse: () => MetadataDirective._(value));
+
+  @override
+  bool operator ==(other) => other is MetadataDirective && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A metadata key-value pair to store with an object.
@@ -25629,19 +26008,28 @@ class MetricsFilter {
   }
 }
 
-enum MetricsStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class MetricsStatus {
+  static const enabled = MetricsStatus._('Enabled');
+  static const disabled = MetricsStatus._('Disabled');
 
   final String value;
 
-  const MetricsStatus(this.value);
+  const MetricsStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MetricsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricsStatus'));
+          orElse: () => MetricsStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MetricsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for the <code>MultipartUpload</code> for the Amazon S3 object.
@@ -26186,42 +26574,69 @@ class Object {
   }
 }
 
-enum ObjectAttributes {
-  eTag('ETag'),
-  checksum('Checksum'),
-  objectParts('ObjectParts'),
-  storageClass('StorageClass'),
-  objectSize('ObjectSize'),
-  ;
+class ObjectAttributes {
+  static const eTag = ObjectAttributes._('ETag');
+  static const checksum = ObjectAttributes._('Checksum');
+  static const objectParts = ObjectAttributes._('ObjectParts');
+  static const storageClass = ObjectAttributes._('StorageClass');
+  static const objectSize = ObjectAttributes._('ObjectSize');
 
   final String value;
 
-  const ObjectAttributes(this.value);
+  const ObjectAttributes._(this.value);
+
+  static const values = [eTag, checksum, objectParts, storageClass, objectSize];
 
   static ObjectAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectAttributes'));
+          orElse: () => ObjectAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ObjectCannedACL {
-  private('private'),
-  publicRead('public-read'),
-  publicReadWrite('public-read-write'),
-  authenticatedRead('authenticated-read'),
-  awsExecRead('aws-exec-read'),
-  bucketOwnerRead('bucket-owner-read'),
-  bucketOwnerFullControl('bucket-owner-full-control'),
-  ;
+class ObjectCannedACL {
+  static const private = ObjectCannedACL._('private');
+  static const publicRead = ObjectCannedACL._('public-read');
+  static const publicReadWrite = ObjectCannedACL._('public-read-write');
+  static const authenticatedRead = ObjectCannedACL._('authenticated-read');
+  static const awsExecRead = ObjectCannedACL._('aws-exec-read');
+  static const bucketOwnerRead = ObjectCannedACL._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      ObjectCannedACL._('bucket-owner-full-control');
 
   final String value;
 
-  const ObjectCannedACL(this.value);
+  const ObjectCannedACL._(this.value);
+
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead,
+    awsExecRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
+  ];
 
   static ObjectCannedACL fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectCannedACL'));
+          orElse: () => ObjectCannedACL._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectCannedACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object Identifier is unique value to identify objects.
@@ -26329,18 +26744,27 @@ class ObjectLockConfiguration {
   }
 }
 
-enum ObjectLockEnabled {
-  enabled('Enabled'),
-  ;
+class ObjectLockEnabled {
+  static const enabled = ObjectLockEnabled._('Enabled');
 
   final String value;
 
-  const ObjectLockEnabled(this.value);
+  const ObjectLockEnabled._(this.value);
+
+  static const values = [enabled];
 
   static ObjectLockEnabled fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectLockEnabled'));
+          orElse: () => ObjectLockEnabled._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectLockEnabled && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A legal hold configuration for an object.
@@ -26382,34 +26806,53 @@ class ObjectLockLegalHold {
   }
 }
 
-enum ObjectLockLegalHoldStatus {
-  on('ON'),
-  off('OFF'),
-  ;
+class ObjectLockLegalHoldStatus {
+  static const on = ObjectLockLegalHoldStatus._('ON');
+  static const off = ObjectLockLegalHoldStatus._('OFF');
 
   final String value;
 
-  const ObjectLockLegalHoldStatus(this.value);
+  const ObjectLockLegalHoldStatus._(this.value);
+
+  static const values = [on, off];
 
   static ObjectLockLegalHoldStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ObjectLockLegalHoldStatus'));
+          orElse: () => ObjectLockLegalHoldStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectLockLegalHoldStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ObjectLockMode {
-  governance('GOVERNANCE'),
-  compliance('COMPLIANCE'),
-  ;
+class ObjectLockMode {
+  static const governance = ObjectLockMode._('GOVERNANCE');
+  static const compliance = ObjectLockMode._('COMPLIANCE');
 
   final String value;
 
-  const ObjectLockMode(this.value);
+  const ObjectLockMode._(this.value);
+
+  static const values = [governance, compliance];
 
   static ObjectLockMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectLockMode'));
+          orElse: () => ObjectLockMode._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectLockMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Retention configuration for an object.
@@ -26464,19 +26907,29 @@ class ObjectLockRetention {
   }
 }
 
-enum ObjectLockRetentionMode {
-  governance('GOVERNANCE'),
-  compliance('COMPLIANCE'),
-  ;
+class ObjectLockRetentionMode {
+  static const governance = ObjectLockRetentionMode._('GOVERNANCE');
+  static const compliance = ObjectLockRetentionMode._('COMPLIANCE');
 
   final String value;
 
-  const ObjectLockRetentionMode(this.value);
+  const ObjectLockRetentionMode._(this.value);
+
+  static const values = [governance, compliance];
 
   static ObjectLockRetentionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ObjectLockRetentionMode'));
+          orElse: () => ObjectLockRetentionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectLockRetentionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container element for an Object Lock rule.
@@ -26552,20 +27005,33 @@ class ObjectLockRule {
 /// This functionality is not supported for directory buckets. Directory buckets
 /// use the bucket owner enforced setting for S3 Object Ownership.
 /// </note>
-enum ObjectOwnership {
-  bucketOwnerPreferred('BucketOwnerPreferred'),
-  objectWriter('ObjectWriter'),
-  bucketOwnerEnforced('BucketOwnerEnforced'),
-  ;
+class ObjectOwnership {
+  static const bucketOwnerPreferred = ObjectOwnership._('BucketOwnerPreferred');
+  static const objectWriter = ObjectOwnership._('ObjectWriter');
+  static const bucketOwnerEnforced = ObjectOwnership._('BucketOwnerEnforced');
 
   final String value;
 
-  const ObjectOwnership(this.value);
+  const ObjectOwnership._(this.value);
+
+  static const values = [
+    bucketOwnerPreferred,
+    objectWriter,
+    bucketOwnerEnforced
+  ];
 
   static ObjectOwnership fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectOwnership'));
+          orElse: () => ObjectOwnership._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectOwnership && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for elements related to an individual part.
@@ -26652,28 +27118,50 @@ class ObjectPart {
   }
 }
 
-enum ObjectStorageClass {
-  standard('STANDARD'),
-  reducedRedundancy('REDUCED_REDUNDANCY'),
-  glacier('GLACIER'),
-  standardIa('STANDARD_IA'),
-  onezoneIa('ONEZONE_IA'),
-  intelligentTiering('INTELLIGENT_TIERING'),
-  deepArchive('DEEP_ARCHIVE'),
-  outposts('OUTPOSTS'),
-  glacierIr('GLACIER_IR'),
-  snow('SNOW'),
-  expressOnezone('EXPRESS_ONEZONE'),
-  ;
+class ObjectStorageClass {
+  static const standard = ObjectStorageClass._('STANDARD');
+  static const reducedRedundancy = ObjectStorageClass._('REDUCED_REDUNDANCY');
+  static const glacier = ObjectStorageClass._('GLACIER');
+  static const standardIa = ObjectStorageClass._('STANDARD_IA');
+  static const onezoneIa = ObjectStorageClass._('ONEZONE_IA');
+  static const intelligentTiering = ObjectStorageClass._('INTELLIGENT_TIERING');
+  static const deepArchive = ObjectStorageClass._('DEEP_ARCHIVE');
+  static const outposts = ObjectStorageClass._('OUTPOSTS');
+  static const glacierIr = ObjectStorageClass._('GLACIER_IR');
+  static const snow = ObjectStorageClass._('SNOW');
+  static const expressOnezone = ObjectStorageClass._('EXPRESS_ONEZONE');
 
   final String value;
 
-  const ObjectStorageClass(this.value);
+  const ObjectStorageClass._(this.value);
 
-  static ObjectStorageClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ObjectStorageClass'));
+  static const values = [
+    standard,
+    reducedRedundancy,
+    glacier,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    deepArchive,
+    outposts,
+    glacierIr,
+    snow,
+    expressOnezone
+  ];
+
+  static ObjectStorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectStorageClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The version of an object.
@@ -26773,32 +27261,52 @@ class ObjectVersion {
   }
 }
 
-enum ObjectVersionStorageClass {
-  standard('STANDARD'),
-  ;
+class ObjectVersionStorageClass {
+  static const standard = ObjectVersionStorageClass._('STANDARD');
 
   final String value;
 
-  const ObjectVersionStorageClass(this.value);
+  const ObjectVersionStorageClass._(this.value);
+
+  static const values = [standard];
 
   static ObjectVersionStorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ObjectVersionStorageClass'));
+          orElse: () => ObjectVersionStorageClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectVersionStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OptionalObjectAttributes {
-  restoreStatus('RestoreStatus'),
-  ;
+class OptionalObjectAttributes {
+  static const restoreStatus = OptionalObjectAttributes._('RestoreStatus');
 
   final String value;
 
-  const OptionalObjectAttributes(this.value);
+  const OptionalObjectAttributes._(this.value);
+
+  static const values = [restoreStatus];
 
   static OptionalObjectAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OptionalObjectAttributes'));
+          orElse: () => OptionalObjectAttributes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OptionalObjectAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the location where the restore job's output is stored.
@@ -26951,18 +27459,27 @@ class Owner {
   }
 }
 
-enum OwnerOverride {
-  destination('Destination'),
-  ;
+class OwnerOverride {
+  static const destination = OwnerOverride._('Destination');
 
   final String value;
 
-  const OwnerOverride(this.value);
+  const OwnerOverride._(this.value);
+
+  static const values = [destination];
 
   static OwnerOverride fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OwnerOverride'));
+          orElse: () => OwnerOverride._(value));
+
+  @override
+  bool operator ==(other) => other is OwnerOverride && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container element for a bucket's ownership controls.
@@ -27158,19 +27675,29 @@ class Part {
   }
 }
 
-enum PartitionDateSource {
-  eventTime('EventTime'),
-  deliveryTime('DeliveryTime'),
-  ;
+class PartitionDateSource {
+  static const eventTime = PartitionDateSource._('EventTime');
+  static const deliveryTime = PartitionDateSource._('DeliveryTime');
 
   final String value;
 
-  const PartitionDateSource(this.value);
+  const PartitionDateSource._(this.value);
 
-  static PartitionDateSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PartitionDateSource'));
+  static const values = [eventTime, deliveryTime];
+
+  static PartitionDateSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionDateSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionDateSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Amazon S3 keys for log objects are partitioned in the following format:
@@ -27229,35 +27756,53 @@ class PartitionedPrefix {
   }
 }
 
-enum Payer {
-  requester('Requester'),
-  bucketOwner('BucketOwner'),
-  ;
+class Payer {
+  static const requester = Payer._('Requester');
+  static const bucketOwner = Payer._('BucketOwner');
 
   final String value;
 
-  const Payer(this.value);
+  const Payer._(this.value);
+
+  static const values = [requester, bucketOwner];
 
   static Payer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Payer'));
+      values.firstWhere((e) => e.value == value, orElse: () => Payer._(value));
+
+  @override
+  bool operator ==(other) => other is Payer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Permission {
-  fullControl('FULL_CONTROL'),
-  write('WRITE'),
-  writeAcp('WRITE_ACP'),
-  read('READ'),
-  readAcp('READ_ACP'),
-  ;
+class Permission {
+  static const fullControl = Permission._('FULL_CONTROL');
+  static const write = Permission._('WRITE');
+  static const writeAcp = Permission._('WRITE_ACP');
+  static const read = Permission._('READ');
+  static const readAcp = Permission._('READ_ACP');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [fullControl, write, writeAcp, read, readAcp];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container element for a bucket's policy status.
@@ -27343,18 +27888,27 @@ class ProgressEvent {
   }
 }
 
-enum Protocol {
-  http('http'),
-  https('https'),
-  ;
+class Protocol {
+  static const http = Protocol._('http');
+  static const https = Protocol._('https');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [http, https];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The PublicAccessBlock configuration that you want to apply to this Amazon S3
@@ -27854,18 +28408,27 @@ class QueueConfigurationDeprecated {
   }
 }
 
-enum QuoteFields {
-  always('ALWAYS'),
-  asneeded('ASNEEDED'),
-  ;
+class QuoteFields {
+  static const always = QuoteFields._('ALWAYS');
+  static const asneeded = QuoteFields._('ASNEEDED');
 
   final String value;
 
-  const QuoteFields(this.value);
+  const QuoteFields._(this.value);
 
-  static QuoteFields fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QuoteFields'));
+  static const values = [always, asneeded];
+
+  static QuoteFields fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuoteFields._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteFields && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container for the records event.
@@ -28097,19 +28660,29 @@ class ReplicaModifications {
   }
 }
 
-enum ReplicaModificationsStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ReplicaModificationsStatus {
+  static const enabled = ReplicaModificationsStatus._('Enabled');
+  static const disabled = ReplicaModificationsStatus._('Disabled');
 
   final String value;
 
-  const ReplicaModificationsStatus(this.value);
+  const ReplicaModificationsStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ReplicaModificationsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplicaModificationsStatus'));
+          orElse: () => ReplicaModificationsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicaModificationsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for replication rules. You can add up to 1,000 rules. The
@@ -28459,37 +29032,56 @@ class ReplicationRuleFilter {
   }
 }
 
-enum ReplicationRuleStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ReplicationRuleStatus {
+  static const enabled = ReplicationRuleStatus._('Enabled');
+  static const disabled = ReplicationRuleStatus._('Disabled');
 
   final String value;
 
-  const ReplicationRuleStatus(this.value);
+  const ReplicationRuleStatus._(this.value);
 
-  static ReplicationRuleStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationRuleStatus'));
+  static const values = [enabled, disabled];
+
+  static ReplicationRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReplicationStatus {
-  complete('COMPLETE'),
-  pending('PENDING'),
-  failed('FAILED'),
-  replica('REPLICA'),
-  completed('COMPLETED'),
-  ;
+class ReplicationStatus {
+  static const complete = ReplicationStatus._('COMPLETE');
+  static const pending = ReplicationStatus._('PENDING');
+  static const failed = ReplicationStatus._('FAILED');
+  static const replica = ReplicationStatus._('REPLICA');
+  static const completed = ReplicationStatus._('COMPLETED');
 
   final String value;
 
-  const ReplicationStatus(this.value);
+  const ReplicationStatus._(this.value);
+
+  static const values = [complete, pending, failed, replica, completed];
 
   static ReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationStatus'));
+          orElse: () => ReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container specifying S3 Replication Time Control (S3 RTC) related
@@ -28544,19 +29136,29 @@ class ReplicationTime {
   }
 }
 
-enum ReplicationTimeStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ReplicationTimeStatus {
+  static const enabled = ReplicationTimeStatus._('Enabled');
+  static const disabled = ReplicationTimeStatus._('Disabled');
 
   final String value;
 
-  const ReplicationTimeStatus(this.value);
+  const ReplicationTimeStatus._(this.value);
 
-  static ReplicationTimeStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationTimeStatus'));
+  static const values = [enabled, disabled];
+
+  static ReplicationTimeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationTimeStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationTimeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container specifying the time value for S3 Replication Time Control (S3
@@ -28604,18 +29206,27 @@ class ReplicationTimeValue {
 /// <note>
 /// This functionality is not supported for directory buckets.
 /// </note>
-enum RequestCharged {
-  requester('requester'),
-  ;
+class RequestCharged {
+  static const requester = RequestCharged._('requester');
 
   final String value;
 
-  const RequestCharged(this.value);
+  const RequestCharged._(this.value);
+
+  static const values = [requester];
 
   static RequestCharged fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RequestCharged'));
+          orElse: () => RequestCharged._(value));
+
+  @override
+  bool operator ==(other) => other is RequestCharged && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Confirms that the requester knows that they will be charged for the request.
@@ -28628,18 +29239,26 @@ enum RequestCharged {
 /// <note>
 /// This functionality is not supported for directory buckets.
 /// </note>
-enum RequestPayer {
-  requester('requester'),
-  ;
+class RequestPayer {
+  static const requester = RequestPayer._('requester');
 
   final String value;
 
-  const RequestPayer(this.value);
+  const RequestPayer._(this.value);
 
-  static RequestPayer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RequestPayer'));
+  static const values = [requester];
+
+  static RequestPayer fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RequestPayer._(value));
+
+  @override
+  bool operator ==(other) => other is RequestPayer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for Payer.
@@ -28815,18 +29434,28 @@ class RestoreRequest {
   }
 }
 
-enum RestoreRequestType {
-  select('SELECT'),
-  ;
+class RestoreRequestType {
+  static const select = RestoreRequestType._('SELECT');
 
   final String value;
 
-  const RestoreRequestType(this.value);
+  const RestoreRequestType._(this.value);
 
-  static RestoreRequestType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RestoreRequestType'));
+  static const values = [select];
+
+  static RestoreRequestType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RestoreRequestType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RestoreRequestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the restoration status of an object. Objects in certain storage
@@ -29591,20 +30220,30 @@ class SelectParameters {
   }
 }
 
-enum ServerSideEncryption {
-  aes256('AES256'),
-  awsKms('aws:kms'),
-  awsKmsDsse('aws:kms:dsse'),
-  ;
+class ServerSideEncryption {
+  static const aes256 = ServerSideEncryption._('AES256');
+  static const awsKms = ServerSideEncryption._('aws:kms');
+  static const awsKmsDsse = ServerSideEncryption._('aws:kms:dsse');
 
   final String value;
 
-  const ServerSideEncryption(this.value);
+  const ServerSideEncryption._(this.value);
 
-  static ServerSideEncryption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ServerSideEncryption'));
+  static const values = [aes256, awsKms, awsKmsDsse];
+
+  static ServerSideEncryption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServerSideEncryption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerSideEncryption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the default server-side encryption to apply to new objects in the
@@ -29941,18 +30580,27 @@ class SessionCredentials {
   }
 }
 
-enum SessionMode {
-  readOnly('ReadOnly'),
-  readWrite('ReadWrite'),
-  ;
+class SessionMode {
+  static const readOnly = SessionMode._('ReadOnly');
+  static const readWrite = SessionMode._('ReadWrite');
 
   final String value;
 
-  const SessionMode(this.value);
+  const SessionMode._(this.value);
 
-  static SessionMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SessionMode'));
+  static const values = [readOnly, readWrite];
+
+  static SessionMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SessionMode._(value));
+
+  @override
+  bool operator ==(other) => other is SessionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To use simple format for S3 keys for log objects, set SimplePrefix to an
@@ -30097,19 +30745,29 @@ class SseKmsEncryptedObjects {
   }
 }
 
-enum SseKmsEncryptedObjectsStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class SseKmsEncryptedObjectsStatus {
+  static const enabled = SseKmsEncryptedObjectsStatus._('Enabled');
+  static const disabled = SseKmsEncryptedObjectsStatus._('Disabled');
 
   final String value;
 
-  const SseKmsEncryptedObjectsStatus(this.value);
+  const SseKmsEncryptedObjectsStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SseKmsEncryptedObjectsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SseKmsEncryptedObjectsStatus'));
+          orElse: () => SseKmsEncryptedObjectsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SseKmsEncryptedObjectsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for the stats details.
@@ -30170,28 +30828,48 @@ class StatsEvent {
   }
 }
 
-enum StorageClass {
-  standard('STANDARD'),
-  reducedRedundancy('REDUCED_REDUNDANCY'),
-  standardIa('STANDARD_IA'),
-  onezoneIa('ONEZONE_IA'),
-  intelligentTiering('INTELLIGENT_TIERING'),
-  glacier('GLACIER'),
-  deepArchive('DEEP_ARCHIVE'),
-  outposts('OUTPOSTS'),
-  glacierIr('GLACIER_IR'),
-  snow('SNOW'),
-  expressOnezone('EXPRESS_ONEZONE'),
-  ;
+class StorageClass {
+  static const standard = StorageClass._('STANDARD');
+  static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
+  static const standardIa = StorageClass._('STANDARD_IA');
+  static const onezoneIa = StorageClass._('ONEZONE_IA');
+  static const intelligentTiering = StorageClass._('INTELLIGENT_TIERING');
+  static const glacier = StorageClass._('GLACIER');
+  static const deepArchive = StorageClass._('DEEP_ARCHIVE');
+  static const outposts = StorageClass._('OUTPOSTS');
+  static const glacierIr = StorageClass._('GLACIER_IR');
+  static const snow = StorageClass._('SNOW');
+  static const expressOnezone = StorageClass._('EXPRESS_ONEZONE');
 
   final String value;
 
-  const StorageClass(this.value);
+  const StorageClass._(this.value);
 
-  static StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StorageClass'));
+  static const values = [
+    standard,
+    reducedRedundancy,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    glacier,
+    deepArchive,
+    outposts,
+    glacierIr,
+    snow,
+    expressOnezone
+  ];
+
+  static StorageClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies data related to access patterns to be collected and made available
@@ -30287,18 +30965,28 @@ class StorageClassAnalysisDataExport {
   }
 }
 
-enum StorageClassAnalysisSchemaVersion {
-  v_1('V_1'),
-  ;
+class StorageClassAnalysisSchemaVersion {
+  static const v_1 = StorageClassAnalysisSchemaVersion._('V_1');
 
   final String value;
 
-  const StorageClassAnalysisSchemaVersion(this.value);
+  const StorageClassAnalysisSchemaVersion._(this.value);
+
+  static const values = [v_1];
 
   static StorageClassAnalysisSchemaVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageClassAnalysisSchemaVersion'));
+          orElse: () => StorageClassAnalysisSchemaVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageClassAnalysisSchemaVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container of a key value name pair.
@@ -30380,19 +31068,28 @@ class Tagging {
   }
 }
 
-enum TaggingDirective {
-  copy('COPY'),
-  replace('REPLACE'),
-  ;
+class TaggingDirective {
+  static const copy = TaggingDirective._('COPY');
+  static const replace = TaggingDirective._('REPLACE');
 
   final String value;
 
-  const TaggingDirective(this.value);
+  const TaggingDirective._(this.value);
+
+  static const values = [copy, replace];
 
   static TaggingDirective fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TaggingDirective'));
+          orElse: () => TaggingDirective._(value));
+
+  @override
+  bool operator ==(other) => other is TaggingDirective && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for granting information.
@@ -30501,19 +31198,28 @@ class TargetObjectKeyFormat {
   }
 }
 
-enum Tier {
-  standard('Standard'),
-  bulk('Bulk'),
-  expedited('Expedited'),
-  ;
+class Tier {
+  static const standard = Tier._('Standard');
+  static const bulk = Tier._('Bulk');
+  static const expedited = Tier._('Expedited');
 
   final String value;
 
-  const Tier(this.value);
+  const Tier._(this.value);
+
+  static const values = [standard, bulk, expedited];
 
   static Tier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tier'));
+      values.firstWhere((e) => e.value == value, orElse: () => Tier._(value));
+
+  @override
+  bool operator ==(other) => other is Tier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 Intelligent-Tiering storage class is designed to optimize storage
@@ -30781,53 +31487,92 @@ class Transition {
   }
 }
 
-enum TransitionDefaultMinimumObjectSize {
-  variesByStorageClass('varies_by_storage_class'),
-  allStorageClasses_128k('all_storage_classes_128K'),
-  ;
+class TransitionDefaultMinimumObjectSize {
+  static const variesByStorageClass =
+      TransitionDefaultMinimumObjectSize._('varies_by_storage_class');
+  static const allStorageClasses_128k =
+      TransitionDefaultMinimumObjectSize._('all_storage_classes_128K');
 
   final String value;
 
-  const TransitionDefaultMinimumObjectSize(this.value);
+  const TransitionDefaultMinimumObjectSize._(this.value);
+
+  static const values = [variesByStorageClass, allStorageClasses_128k];
 
   static TransitionDefaultMinimumObjectSize fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitionDefaultMinimumObjectSize'));
+          orElse: () => TransitionDefaultMinimumObjectSize._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionDefaultMinimumObjectSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitionStorageClass {
-  glacier('GLACIER'),
-  standardIa('STANDARD_IA'),
-  onezoneIa('ONEZONE_IA'),
-  intelligentTiering('INTELLIGENT_TIERING'),
-  deepArchive('DEEP_ARCHIVE'),
-  glacierIr('GLACIER_IR'),
-  ;
+class TransitionStorageClass {
+  static const glacier = TransitionStorageClass._('GLACIER');
+  static const standardIa = TransitionStorageClass._('STANDARD_IA');
+  static const onezoneIa = TransitionStorageClass._('ONEZONE_IA');
+  static const intelligentTiering =
+      TransitionStorageClass._('INTELLIGENT_TIERING');
+  static const deepArchive = TransitionStorageClass._('DEEP_ARCHIVE');
+  static const glacierIr = TransitionStorageClass._('GLACIER_IR');
 
   final String value;
 
-  const TransitionStorageClass(this.value);
+  const TransitionStorageClass._(this.value);
+
+  static const values = [
+    glacier,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    deepArchive,
+    glacierIr
+  ];
 
   static TransitionStorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitionStorageClass'));
+          orElse: () => TransitionStorageClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Type {
-  canonicalUser('CanonicalUser'),
-  amazonCustomerByEmail('AmazonCustomerByEmail'),
-  group('Group'),
-  ;
+class Type {
+  static const canonicalUser = Type._('CanonicalUser');
+  static const amazonCustomerByEmail = Type._('AmazonCustomerByEmail');
+  static const group = Type._('Group');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [canonicalUser, amazonCustomerByEmail, group];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UploadPartCopyOutput {

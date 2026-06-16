@@ -1993,22 +1993,39 @@ class AdapterVersionOverview {
   }
 }
 
-enum AdapterVersionStatus {
-  active('ACTIVE'),
-  atRisk('AT_RISK'),
-  deprecated('DEPRECATED'),
-  creationError('CREATION_ERROR'),
-  creationInProgress('CREATION_IN_PROGRESS'),
-  ;
+class AdapterVersionStatus {
+  static const active = AdapterVersionStatus._('ACTIVE');
+  static const atRisk = AdapterVersionStatus._('AT_RISK');
+  static const deprecated = AdapterVersionStatus._('DEPRECATED');
+  static const creationError = AdapterVersionStatus._('CREATION_ERROR');
+  static const creationInProgress =
+      AdapterVersionStatus._('CREATION_IN_PROGRESS');
 
   final String value;
 
-  const AdapterVersionStatus(this.value);
+  const AdapterVersionStatus._(this.value);
 
-  static AdapterVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AdapterVersionStatus'));
+  static const values = [
+    active,
+    atRisk,
+    deprecated,
+    creationError,
+    creationInProgress
+  ];
+
+  static AdapterVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdapterVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdapterVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about adapters used when analyzing a document, with
@@ -2201,18 +2218,27 @@ class AnalyzeIDResponse {
   }
 }
 
-enum AutoUpdate {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutoUpdate {
+  static const enabled = AutoUpdate._('ENABLED');
+  static const disabled = AutoUpdate._('DISABLED');
 
   final String value;
 
-  const AutoUpdate(this.value);
+  const AutoUpdate._(this.value);
 
-  static AutoUpdate fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AutoUpdate'));
+  static const values = [enabled, disabled];
+
+  static AutoUpdate fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoUpdate._(value));
+
+  @override
+  bool operator ==(other) => other is AutoUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>Block</code> represents items that are recognized in a document
@@ -2553,40 +2579,74 @@ class Block {
   }
 }
 
-enum BlockType {
-  keyValueSet('KEY_VALUE_SET'),
-  page('PAGE'),
-  line('LINE'),
-  word('WORD'),
-  table('TABLE'),
-  cell('CELL'),
-  selectionElement('SELECTION_ELEMENT'),
-  mergedCell('MERGED_CELL'),
-  title('TITLE'),
-  query('QUERY'),
-  queryResult('QUERY_RESULT'),
-  signature('SIGNATURE'),
-  tableTitle('TABLE_TITLE'),
-  tableFooter('TABLE_FOOTER'),
-  layoutText('LAYOUT_TEXT'),
-  layoutTitle('LAYOUT_TITLE'),
-  layoutHeader('LAYOUT_HEADER'),
-  layoutFooter('LAYOUT_FOOTER'),
-  layoutSectionHeader('LAYOUT_SECTION_HEADER'),
-  layoutPageNumber('LAYOUT_PAGE_NUMBER'),
-  layoutList('LAYOUT_LIST'),
-  layoutFigure('LAYOUT_FIGURE'),
-  layoutTable('LAYOUT_TABLE'),
-  layoutKeyValue('LAYOUT_KEY_VALUE'),
-  ;
+class BlockType {
+  static const keyValueSet = BlockType._('KEY_VALUE_SET');
+  static const page = BlockType._('PAGE');
+  static const line = BlockType._('LINE');
+  static const word = BlockType._('WORD');
+  static const table = BlockType._('TABLE');
+  static const cell = BlockType._('CELL');
+  static const selectionElement = BlockType._('SELECTION_ELEMENT');
+  static const mergedCell = BlockType._('MERGED_CELL');
+  static const title = BlockType._('TITLE');
+  static const query = BlockType._('QUERY');
+  static const queryResult = BlockType._('QUERY_RESULT');
+  static const signature = BlockType._('SIGNATURE');
+  static const tableTitle = BlockType._('TABLE_TITLE');
+  static const tableFooter = BlockType._('TABLE_FOOTER');
+  static const layoutText = BlockType._('LAYOUT_TEXT');
+  static const layoutTitle = BlockType._('LAYOUT_TITLE');
+  static const layoutHeader = BlockType._('LAYOUT_HEADER');
+  static const layoutFooter = BlockType._('LAYOUT_FOOTER');
+  static const layoutSectionHeader = BlockType._('LAYOUT_SECTION_HEADER');
+  static const layoutPageNumber = BlockType._('LAYOUT_PAGE_NUMBER');
+  static const layoutList = BlockType._('LAYOUT_LIST');
+  static const layoutFigure = BlockType._('LAYOUT_FIGURE');
+  static const layoutTable = BlockType._('LAYOUT_TABLE');
+  static const layoutKeyValue = BlockType._('LAYOUT_KEY_VALUE');
 
   final String value;
 
-  const BlockType(this.value);
+  const BlockType._(this.value);
 
-  static BlockType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BlockType'));
+  static const values = [
+    keyValueSet,
+    page,
+    line,
+    word,
+    table,
+    cell,
+    selectionElement,
+    mergedCell,
+    title,
+    query,
+    queryResult,
+    signature,
+    tableTitle,
+    tableFooter,
+    layoutText,
+    layoutTitle,
+    layoutHeader,
+    layoutFooter,
+    layoutSectionHeader,
+    layoutPageNumber,
+    layoutList,
+    layoutFigure,
+    layoutTable,
+    layoutKeyValue
+  ];
+
+  static BlockType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The bounding box around the detected page, text, key-value pair, table,
@@ -2651,20 +2711,32 @@ class BoundingBox {
   }
 }
 
-enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation(
-      'FreeOfPersonallyIdentifiableInformation'),
-  freeOfAdultContent('FreeOfAdultContent'),
-  ;
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
 
   final String value;
 
-  const ContentClassifier(this.value);
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
 
   static ContentClassifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentClassifier'));
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAdapterResponse {
@@ -2964,25 +3036,44 @@ class DocumentMetadata {
   }
 }
 
-enum EntityType {
-  key('KEY'),
-  $value('VALUE'),
-  columnHeader('COLUMN_HEADER'),
-  tableTitle('TABLE_TITLE'),
-  tableFooter('TABLE_FOOTER'),
-  tableSectionTitle('TABLE_SECTION_TITLE'),
-  tableSummary('TABLE_SUMMARY'),
-  structuredTable('STRUCTURED_TABLE'),
-  semiStructuredTable('SEMI_STRUCTURED_TABLE'),
-  ;
+class EntityType {
+  static const key = EntityType._('KEY');
+  static const $value = EntityType._('VALUE');
+  static const columnHeader = EntityType._('COLUMN_HEADER');
+  static const tableTitle = EntityType._('TABLE_TITLE');
+  static const tableFooter = EntityType._('TABLE_FOOTER');
+  static const tableSectionTitle = EntityType._('TABLE_SECTION_TITLE');
+  static const tableSummary = EntityType._('TABLE_SUMMARY');
+  static const structuredTable = EntityType._('STRUCTURED_TABLE');
+  static const semiStructuredTable = EntityType._('SEMI_STRUCTURED_TABLE');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [
+    key,
+    $value,
+    columnHeader,
+    tableTitle,
+    tableFooter,
+    tableSectionTitle,
+    tableSummary,
+    structuredTable,
+    semiStructuredTable
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The evaluation metrics (F1 score, Precision, and Recall) for an adapter
@@ -3369,21 +3460,30 @@ class Extraction {
   }
 }
 
-enum FeatureType {
-  tables('TABLES'),
-  forms('FORMS'),
-  queries('QUERIES'),
-  signatures('SIGNATURES'),
-  layout('LAYOUT'),
-  ;
+class FeatureType {
+  static const tables = FeatureType._('TABLES');
+  static const forms = FeatureType._('FORMS');
+  static const queries = FeatureType._('QUERIES');
+  static const signatures = FeatureType._('SIGNATURES');
+  static const layout = FeatureType._('LAYOUT');
 
   final String value;
 
-  const FeatureType(this.value);
+  const FeatureType._(this.value);
 
-  static FeatureType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FeatureType'));
+  static const values = [tables, forms, queries, signatures, layout];
+
+  static FeatureType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeatureType._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about where the following items are located on a document page:
@@ -4171,20 +4271,29 @@ class IdentityDocumentField {
   }
 }
 
-enum JobStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  partialSuccess('PARTIAL_SUCCESS'),
-  ;
+class JobStatus {
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const succeeded = JobStatus._('SUCCEEDED');
+  static const failed = JobStatus._('FAILED');
+  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [inProgress, succeeded, failed, partialSuccess];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The results extracted for a lending document.
@@ -4919,26 +5028,45 @@ class Relationship {
   }
 }
 
-enum RelationshipType {
-  $value('VALUE'),
-  child('CHILD'),
-  complexFeatures('COMPLEX_FEATURES'),
-  mergedCell('MERGED_CELL'),
-  title('TITLE'),
-  answer('ANSWER'),
-  table('TABLE'),
-  tableTitle('TABLE_TITLE'),
-  tableFooter('TABLE_FOOTER'),
-  ;
+class RelationshipType {
+  static const $value = RelationshipType._('VALUE');
+  static const child = RelationshipType._('CHILD');
+  static const complexFeatures = RelationshipType._('COMPLEX_FEATURES');
+  static const mergedCell = RelationshipType._('MERGED_CELL');
+  static const title = RelationshipType._('TITLE');
+  static const answer = RelationshipType._('ANSWER');
+  static const table = RelationshipType._('TABLE');
+  static const tableTitle = RelationshipType._('TABLE_TITLE');
+  static const tableFooter = RelationshipType._('TABLE_FOOTER');
 
   final String value;
 
-  const RelationshipType(this.value);
+  const RelationshipType._(this.value);
+
+  static const values = [
+    $value,
+    child,
+    complexFeatures,
+    mergedCell,
+    title,
+    answer,
+    table,
+    tableTitle,
+    tableFooter
+  ];
 
   static RelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelationshipType'));
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The S3 bucket name and file name that identifies the document.
@@ -4987,19 +5115,28 @@ class S3Object {
   }
 }
 
-enum SelectionStatus {
-  selected('SELECTED'),
-  notSelected('NOT_SELECTED'),
-  ;
+class SelectionStatus {
+  static const selected = SelectionStatus._('SELECTED');
+  static const notSelected = SelectionStatus._('NOT_SELECTED');
 
   final String value;
 
-  const SelectionStatus(this.value);
+  const SelectionStatus._(this.value);
+
+  static const values = [selected, notSelected];
 
   static SelectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SelectionStatus'));
+          orElse: () => SelectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SelectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information regarding a detected signature on a page.
@@ -5176,18 +5313,27 @@ class TagResourceResponse {
   }
 }
 
-enum TextType {
-  handwriting('HANDWRITING'),
-  printed('PRINTED'),
-  ;
+class TextType {
+  static const handwriting = TextType._('HANDWRITING');
+  static const printed = TextType._('PRINTED');
 
   final String value;
 
-  const TextType(this.value);
+  const TextType._(this.value);
 
-  static TextType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TextType'));
+  static const values = [handwriting, printed];
+
+  static TextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
+
+  @override
+  bool operator ==(other) => other is TextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing information about an undetected signature on a page
@@ -5289,17 +5435,26 @@ class UpdateAdapterResponse {
   }
 }
 
-enum ValueType {
-  date('DATE'),
-  ;
+class ValueType {
+  static const date = ValueType._('DATE');
 
   final String value;
 
-  const ValueType(this.value);
+  const ValueType._(this.value);
 
-  static ValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ValueType'));
+  static const values = [date];
+
+  static ValueType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ValueType._(value));
+
+  @override
+  bool operator ==(other) => other is ValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A warning about an issue that occurred during asynchronous text analysis

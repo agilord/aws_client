@@ -2210,19 +2210,29 @@ class AutoScalingConfiguration {
   }
 }
 
-enum AutoScalingConfigurationStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class AutoScalingConfigurationStatus {
+  static const active = AutoScalingConfigurationStatus._('ACTIVE');
+  static const inactive = AutoScalingConfigurationStatus._('INACTIVE');
 
   final String value;
 
-  const AutoScalingConfigurationStatus(this.value);
+  const AutoScalingConfigurationStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static AutoScalingConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoScalingConfigurationStatus'));
+          orElse: () => AutoScalingConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoScalingConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an App Runner automatic scaling
@@ -2373,20 +2383,31 @@ class CertificateValidationRecord {
   }
 }
 
-enum CertificateValidationRecordStatus {
-  pendingValidation('PENDING_VALIDATION'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class CertificateValidationRecordStatus {
+  static const pendingValidation =
+      CertificateValidationRecordStatus._('PENDING_VALIDATION');
+  static const success = CertificateValidationRecordStatus._('SUCCESS');
+  static const failed = CertificateValidationRecordStatus._('FAILED');
 
   final String value;
 
-  const CertificateValidationRecordStatus(this.value);
+  const CertificateValidationRecordStatus._(this.value);
+
+  static const values = [pendingValidation, success, failed];
 
   static CertificateValidationRecordStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateValidationRecordStatus'));
+          orElse: () => CertificateValidationRecordStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateValidationRecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration that App Runner uses to build and run an App
@@ -2423,7 +2444,7 @@ class CodeConfiguration {
   factory CodeConfiguration.fromJson(Map<String, dynamic> json) {
     return CodeConfiguration(
       configurationSource: ConfigurationSource.fromString(
-          (json['ConfigurationSource'] as String)),
+          (json['ConfigurationSource'] as String?) ?? ''),
       codeConfigurationValues: json['CodeConfigurationValues'] != null
           ? CodeConfigurationValues.fromJson(
               json['CodeConfigurationValues'] as Map<String, dynamic>)
@@ -2497,7 +2518,7 @@ class CodeConfigurationValues {
 
   factory CodeConfigurationValues.fromJson(Map<String, dynamic> json) {
     return CodeConfigurationValues(
-      runtime: Runtime.fromString((json['Runtime'] as String)),
+      runtime: Runtime.fromString((json['Runtime'] as String?) ?? ''),
       buildCommand: json['BuildCommand'] as String?,
       port: json['Port'] as String?,
       runtimeEnvironmentSecrets:
@@ -2586,19 +2607,29 @@ class CodeRepository {
   }
 }
 
-enum ConfigurationSource {
-  repository('REPOSITORY'),
-  api('API'),
-  ;
+class ConfigurationSource {
+  static const repository = ConfigurationSource._('REPOSITORY');
+  static const api = ConfigurationSource._('API');
 
   final String value;
 
-  const ConfigurationSource(this.value);
+  const ConfigurationSource._(this.value);
 
-  static ConfigurationSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigurationSource'));
+  static const values = [repository, api];
+
+  static ConfigurationSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an App Runner connection resource.
@@ -2655,21 +2686,30 @@ class Connection {
   }
 }
 
-enum ConnectionStatus {
-  pendingHandshake('PENDING_HANDSHAKE'),
-  available('AVAILABLE'),
-  error('ERROR'),
-  deleted('DELETED'),
-  ;
+class ConnectionStatus {
+  static const pendingHandshake = ConnectionStatus._('PENDING_HANDSHAKE');
+  static const available = ConnectionStatus._('AVAILABLE');
+  static const error = ConnectionStatus._('ERROR');
+  static const deleted = ConnectionStatus._('DELETED');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [pendingHandshake, available, error, deleted];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an App Runner connection resource.
@@ -2915,8 +2955,8 @@ class CustomDomain {
     return CustomDomain(
       domainName: (json['DomainName'] as String?) ?? '',
       enableWWWSubdomain: (json['EnableWWWSubdomain'] as bool?) ?? false,
-      status:
-          CustomDomainAssociationStatus.fromString((json['Status'] as String)),
+      status: CustomDomainAssociationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       certificateValidationRecords: (json['CertificateValidationRecords']
               as List?)
           ?.nonNulls
@@ -2941,24 +2981,44 @@ class CustomDomain {
   }
 }
 
-enum CustomDomainAssociationStatus {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  pendingCertificateDnsValidation('PENDING_CERTIFICATE_DNS_VALIDATION'),
-  bindingCertificate('BINDING_CERTIFICATE'),
-  ;
+class CustomDomainAssociationStatus {
+  static const creating = CustomDomainAssociationStatus._('CREATING');
+  static const createFailed = CustomDomainAssociationStatus._('CREATE_FAILED');
+  static const active = CustomDomainAssociationStatus._('ACTIVE');
+  static const deleting = CustomDomainAssociationStatus._('DELETING');
+  static const deleteFailed = CustomDomainAssociationStatus._('DELETE_FAILED');
+  static const pendingCertificateDnsValidation =
+      CustomDomainAssociationStatus._('PENDING_CERTIFICATE_DNS_VALIDATION');
+  static const bindingCertificate =
+      CustomDomainAssociationStatus._('BINDING_CERTIFICATE');
 
   final String value;
 
-  const CustomDomainAssociationStatus(this.value);
+  const CustomDomainAssociationStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    deleting,
+    deleteFailed,
+    pendingCertificateDnsValidation,
+    bindingCertificate
+  ];
 
   static CustomDomainAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomDomainAssociationStatus'));
+          orElse: () => CustomDomainAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomDomainAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAutoScalingConfigurationResponse {
@@ -3397,18 +3457,27 @@ class EgressConfiguration {
   }
 }
 
-enum EgressType {
-  $default('DEFAULT'),
-  vpc('VPC'),
-  ;
+class EgressType {
+  static const $default = EgressType._('DEFAULT');
+  static const vpc = EgressType._('VPC');
 
   final String value;
 
-  const EgressType(this.value);
+  const EgressType._(this.value);
 
-  static EgressType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EgressType'));
+  static const values = [$default, vpc];
+
+  static EgressType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EgressType._(value));
+
+  @override
+  bool operator ==(other) => other is EgressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a custom encryption key that App Runner uses to encrypt copies of
@@ -3517,19 +3586,29 @@ class HealthCheckConfiguration {
   }
 }
 
-enum HealthCheckProtocol {
-  tcp('TCP'),
-  http('HTTP'),
-  ;
+class HealthCheckProtocol {
+  static const tcp = HealthCheckProtocol._('TCP');
+  static const http = HealthCheckProtocol._('HTTP');
 
   final String value;
 
-  const HealthCheckProtocol(this.value);
+  const HealthCheckProtocol._(this.value);
 
-  static HealthCheckProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HealthCheckProtocol'));
+  static const values = [tcp, http];
+
+  static HealthCheckProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthCheckProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration that App Runner uses to run an App Runner
@@ -3632,7 +3711,7 @@ class ImageRepository {
     return ImageRepository(
       imageIdentifier: (json['ImageIdentifier'] as String?) ?? '',
       imageRepositoryType: ImageRepositoryType.fromString(
-          (json['ImageRepositoryType'] as String)),
+          (json['ImageRepositoryType'] as String?) ?? ''),
       imageConfiguration: json['ImageConfiguration'] != null
           ? ImageConfiguration.fromJson(
               json['ImageConfiguration'] as Map<String, dynamic>)
@@ -3652,19 +3731,29 @@ class ImageRepository {
   }
 }
 
-enum ImageRepositoryType {
-  ecr('ECR'),
-  ecrPublic('ECR_PUBLIC'),
-  ;
+class ImageRepositoryType {
+  static const ecr = ImageRepositoryType._('ECR');
+  static const ecrPublic = ImageRepositoryType._('ECR_PUBLIC');
 
   final String value;
 
-  const ImageRepositoryType(this.value);
+  const ImageRepositoryType._(this.value);
 
-  static ImageRepositoryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageRepositoryType'));
+  static const values = [ecr, ecrPublic];
+
+  static ImageRepositoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageRepositoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageRepositoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Network configuration settings for inbound network traffic.
@@ -3772,19 +3861,28 @@ class InstanceConfiguration {
   }
 }
 
-enum IpAddressType {
-  ipv4('IPV4'),
-  dualStack('DUAL_STACK'),
-  ;
+class IpAddressType {
+  static const ipv4 = IpAddressType._('IPV4');
+  static const dualStack = IpAddressType._('DUAL_STACK');
 
   final String value;
 
-  const IpAddressType(this.value);
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualStack];
 
   static IpAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressType'));
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAutoScalingConfigurationsResponse {
@@ -4295,19 +4393,29 @@ class ObservabilityConfiguration {
   }
 }
 
-enum ObservabilityConfigurationStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class ObservabilityConfigurationStatus {
+  static const active = ObservabilityConfigurationStatus._('ACTIVE');
+  static const inactive = ObservabilityConfigurationStatus._('INACTIVE');
 
   final String value;
 
-  const ObservabilityConfigurationStatus(this.value);
+  const ObservabilityConfigurationStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static ObservabilityConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ObservabilityConfigurationStatus'));
+          orElse: () => ObservabilityConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObservabilityConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an App Runner observability configuration
@@ -4369,24 +4477,41 @@ class ObservabilityConfigurationSummary {
   }
 }
 
-enum OperationStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  rollbackInProgress('ROLLBACK_IN_PROGRESS'),
-  rollbackFailed('ROLLBACK_FAILED'),
-  rollbackSucceeded('ROLLBACK_SUCCEEDED'),
-  ;
+class OperationStatus {
+  static const pending = OperationStatus._('PENDING');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const failed = OperationStatus._('FAILED');
+  static const succeeded = OperationStatus._('SUCCEEDED');
+  static const rollbackInProgress = OperationStatus._('ROLLBACK_IN_PROGRESS');
+  static const rollbackFailed = OperationStatus._('ROLLBACK_FAILED');
+  static const rollbackSucceeded = OperationStatus._('ROLLBACK_SUCCEEDED');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    failed,
+    succeeded,
+    rollbackInProgress,
+    rollbackFailed,
+    rollbackSucceeded
+  ];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information for an operation that occurred on an App Runner
@@ -4458,23 +4583,39 @@ class OperationSummary {
   }
 }
 
-enum OperationType {
-  startDeployment('START_DEPLOYMENT'),
-  createService('CREATE_SERVICE'),
-  pauseService('PAUSE_SERVICE'),
-  resumeService('RESUME_SERVICE'),
-  deleteService('DELETE_SERVICE'),
-  updateService('UPDATE_SERVICE'),
-  ;
+class OperationType {
+  static const startDeployment = OperationType._('START_DEPLOYMENT');
+  static const createService = OperationType._('CREATE_SERVICE');
+  static const pauseService = OperationType._('PAUSE_SERVICE');
+  static const resumeService = OperationType._('RESUME_SERVICE');
+  static const deleteService = OperationType._('DELETE_SERVICE');
+  static const updateService = OperationType._('UPDATE_SERVICE');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [
+    startDeployment,
+    createService,
+    pauseService,
+    resumeService,
+    deleteService,
+    updateService
+  ];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PauseServiceResponse {
@@ -4509,19 +4650,27 @@ class PauseServiceResponse {
   }
 }
 
-enum ProviderType {
-  github('GITHUB'),
-  bitbucket('BITBUCKET'),
-  ;
+class ProviderType {
+  static const github = ProviderType._('GITHUB');
+  static const bitbucket = ProviderType._('BITBUCKET');
 
   final String value;
 
-  const ProviderType(this.value);
+  const ProviderType._(this.value);
 
-  static ProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProviderType'));
+  static const values = [github, bitbucket];
+
+  static ProviderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is ProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResumeServiceResponse {
@@ -4556,28 +4705,50 @@ class ResumeServiceResponse {
   }
 }
 
-enum Runtime {
-  python_3('PYTHON_3'),
-  nodejs_12('NODEJS_12'),
-  nodejs_14('NODEJS_14'),
-  corretto_8('CORRETTO_8'),
-  corretto_11('CORRETTO_11'),
-  nodejs_16('NODEJS_16'),
-  go_1('GO_1'),
-  dotnet_6('DOTNET_6'),
-  php_81('PHP_81'),
-  ruby_31('RUBY_31'),
-  python_311('PYTHON_311'),
-  nodejs_18('NODEJS_18'),
-  ;
+class Runtime {
+  static const python_3 = Runtime._('PYTHON_3');
+  static const nodejs_12 = Runtime._('NODEJS_12');
+  static const nodejs_14 = Runtime._('NODEJS_14');
+  static const corretto_8 = Runtime._('CORRETTO_8');
+  static const corretto_11 = Runtime._('CORRETTO_11');
+  static const nodejs_16 = Runtime._('NODEJS_16');
+  static const go_1 = Runtime._('GO_1');
+  static const dotnet_6 = Runtime._('DOTNET_6');
+  static const php_81 = Runtime._('PHP_81');
+  static const ruby_31 = Runtime._('RUBY_31');
+  static const python_311 = Runtime._('PYTHON_311');
+  static const nodejs_18 = Runtime._('NODEJS_18');
 
   final String value;
 
-  const Runtime(this.value);
+  const Runtime._(this.value);
 
-  static Runtime fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Runtime'));
+  static const values = [
+    python_3,
+    nodejs_12,
+    nodejs_14,
+    corretto_8,
+    corretto_11,
+    nodejs_16,
+    go_1,
+    dotnet_6,
+    php_81,
+    ruby_31,
+    python_311,
+    nodejs_18
+  ];
+
+  static Runtime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+
+  @override
+  bool operator ==(other) => other is Runtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an App Runner service. It can describe a service in any state,
@@ -4705,7 +4876,7 @@ class Service {
       sourceConfiguration: SourceConfiguration.fromJson(
           (json['SourceConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ServiceStatus.fromString((json['Status'] as String)),
+      status: ServiceStatus.fromString((json['Status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       deletedAt: timeStampFromJson(json['DeletedAt']),
       encryptionConfiguration: json['EncryptionConfiguration'] != null
@@ -4811,23 +4982,39 @@ class ServiceObservabilityConfiguration {
   }
 }
 
-enum ServiceStatus {
-  createFailed('CREATE_FAILED'),
-  running('RUNNING'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  paused('PAUSED'),
-  operationInProgress('OPERATION_IN_PROGRESS'),
-  ;
+class ServiceStatus {
+  static const createFailed = ServiceStatus._('CREATE_FAILED');
+  static const running = ServiceStatus._('RUNNING');
+  static const deleted = ServiceStatus._('DELETED');
+  static const deleteFailed = ServiceStatus._('DELETE_FAILED');
+  static const paused = ServiceStatus._('PAUSED');
+  static const operationInProgress = ServiceStatus._('OPERATION_IN_PROGRESS');
 
   final String value;
 
-  const ServiceStatus(this.value);
+  const ServiceStatus._(this.value);
+
+  static const values = [
+    createFailed,
+    running,
+    deleted,
+    deleteFailed,
+    paused,
+    operationInProgress
+  ];
 
   static ServiceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceStatus'));
+          orElse: () => ServiceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information for an App Runner service.
@@ -4949,7 +5136,7 @@ class SourceCodeVersion {
 
   factory SourceCodeVersion.fromJson(Map<String, dynamic> json) {
     return SourceCodeVersion(
-      type: SourceCodeVersionType.fromString((json['Type'] as String)),
+      type: SourceCodeVersionType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -4964,18 +5151,28 @@ class SourceCodeVersion {
   }
 }
 
-enum SourceCodeVersionType {
-  branch('BRANCH'),
-  ;
+class SourceCodeVersionType {
+  static const branch = SourceCodeVersionType._('BRANCH');
 
   final String value;
 
-  const SourceCodeVersionType(this.value);
+  const SourceCodeVersionType._(this.value);
 
-  static SourceCodeVersionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SourceCodeVersionType'));
+  static const values = [branch];
+
+  static SourceCodeVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceCodeVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceCodeVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the source deployed to an App Runner service. It can be a code or
@@ -5128,7 +5325,7 @@ class TraceConfiguration {
 
   factory TraceConfiguration.fromJson(Map<String, dynamic> json) {
     return TraceConfiguration(
-      vendor: TracingVendor.fromString((json['Vendor'] as String)),
+      vendor: TracingVendor.fromString((json['Vendor'] as String?) ?? ''),
     );
   }
 
@@ -5140,18 +5337,27 @@ class TraceConfiguration {
   }
 }
 
-enum TracingVendor {
-  awsxray('AWSXRAY'),
-  ;
+class TracingVendor {
+  static const awsxray = TracingVendor._('AWSXRAY');
 
   final String value;
 
-  const TracingVendor(this.value);
+  const TracingVendor._(this.value);
+
+  static const values = [awsxray];
 
   static TracingVendor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TracingVendor'));
+          orElse: () => TracingVendor._(value));
+
+  @override
+  bool operator ==(other) => other is TracingVendor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -5349,19 +5555,29 @@ class VpcConnector {
   }
 }
 
-enum VpcConnectorStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class VpcConnectorStatus {
+  static const active = VpcConnectorStatus._('ACTIVE');
+  static const inactive = VpcConnectorStatus._('INACTIVE');
 
   final String value;
 
-  const VpcConnectorStatus(this.value);
+  const VpcConnectorStatus._(this.value);
 
-  static VpcConnectorStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpcConnectorStatus'));
+  static const values = [active, inactive];
+
+  static VpcConnectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// DNS Target record for a custom domain of this Amazon VPC.
@@ -5520,25 +5736,46 @@ class VpcIngressConnection {
   }
 }
 
-enum VpcIngressConnectionStatus {
-  available('AVAILABLE'),
-  pendingCreation('PENDING_CREATION'),
-  pendingUpdate('PENDING_UPDATE'),
-  pendingDeletion('PENDING_DELETION'),
-  failedCreation('FAILED_CREATION'),
-  failedUpdate('FAILED_UPDATE'),
-  failedDeletion('FAILED_DELETION'),
-  deleted('DELETED'),
-  ;
+class VpcIngressConnectionStatus {
+  static const available = VpcIngressConnectionStatus._('AVAILABLE');
+  static const pendingCreation =
+      VpcIngressConnectionStatus._('PENDING_CREATION');
+  static const pendingUpdate = VpcIngressConnectionStatus._('PENDING_UPDATE');
+  static const pendingDeletion =
+      VpcIngressConnectionStatus._('PENDING_DELETION');
+  static const failedCreation = VpcIngressConnectionStatus._('FAILED_CREATION');
+  static const failedUpdate = VpcIngressConnectionStatus._('FAILED_UPDATE');
+  static const failedDeletion = VpcIngressConnectionStatus._('FAILED_DELETION');
+  static const deleted = VpcIngressConnectionStatus._('DELETED');
 
   final String value;
 
-  const VpcIngressConnectionStatus(this.value);
+  const VpcIngressConnectionStatus._(this.value);
+
+  static const values = [
+    available,
+    pendingCreation,
+    pendingUpdate,
+    pendingDeletion,
+    failedCreation,
+    failedUpdate,
+    failedDeletion,
+    deleted
+  ];
 
   static VpcIngressConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VpcIngressConnectionStatus'));
+          orElse: () => VpcIngressConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcIngressConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about an VPC Ingress Connection, which includes

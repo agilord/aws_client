@@ -2841,18 +2841,27 @@ class APISchema {
   }
 }
 
-enum APISchemaType {
-  openApiV3('OPEN_API_V3'),
-  ;
+class APISchemaType {
+  static const openApiV3 = APISchemaType._('OPEN_API_V3');
 
   final String value;
 
-  const APISchemaType(this.value);
+  const APISchemaType._(this.value);
+
+  static const values = [openApiV3];
 
   static APISchemaType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum APISchemaType'));
+          orElse: () => APISchemaType._(value));
+
+  @override
+  bool operator ==(other) => other is APISchemaType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to configure access permissions for a document.
@@ -2975,21 +2984,31 @@ class ActionExecutionPayloadField {
   }
 }
 
-enum ActionPayloadFieldType {
-  string('STRING'),
-  number('NUMBER'),
-  array('ARRAY'),
-  boolean('BOOLEAN'),
-  ;
+class ActionPayloadFieldType {
+  static const string = ActionPayloadFieldType._('STRING');
+  static const number = ActionPayloadFieldType._('NUMBER');
+  static const array = ActionPayloadFieldType._('ARRAY');
+  static const boolean = ActionPayloadFieldType._('BOOLEAN');
 
   final String value;
 
-  const ActionPayloadFieldType(this.value);
+  const ActionPayloadFieldType._(this.value);
+
+  static const values = [string, number, array, boolean];
 
   static ActionPayloadFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ActionPayloadFieldType'));
+          orElse: () => ActionPayloadFieldType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionPayloadFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActionPayloadFieldValue {
@@ -3241,22 +3260,31 @@ class Application {
   }
 }
 
-enum ApplicationStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  ;
+class ApplicationStatus {
+  static const creating = ApplicationStatus._('CREATING');
+  static const active = ApplicationStatus._('ACTIVE');
+  static const deleting = ApplicationStatus._('DELETING');
+  static const failed = ApplicationStatus._('FAILED');
+  static const updating = ApplicationStatus._('UPDATING');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed, updating];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information about the file upload during chat feature for your
@@ -3306,8 +3334,8 @@ class AppliedCreatorModeConfiguration {
 
   factory AppliedCreatorModeConfiguration.fromJson(Map<String, dynamic> json) {
     return AppliedCreatorModeConfiguration(
-      creatorModeControl:
-          CreatorModeControl.fromString((json['creatorModeControl'] as String)),
+      creatorModeControl: CreatorModeControl.fromString(
+          (json['creatorModeControl'] as String?) ?? ''),
     );
   }
 
@@ -3381,19 +3409,28 @@ class AttachmentOutput {
   }
 }
 
-enum AttachmentStatus {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class AttachmentStatus {
+  static const failed = AttachmentStatus._('FAILED');
+  static const succeeded = AttachmentStatus._('SUCCEEDED');
 
   final String value;
 
-  const AttachmentStatus(this.value);
+  const AttachmentStatus._(this.value);
+
+  static const values = [failed, succeeded];
 
   static AttachmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttachmentStatus'));
+          orElse: () => AttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for the file upload during chat feature.
@@ -3414,19 +3451,29 @@ class AttachmentsConfiguration {
   }
 }
 
-enum AttachmentsControlMode {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AttachmentsControlMode {
+  static const enabled = AttachmentsControlMode._('ENABLED');
+  static const disabled = AttachmentsControlMode._('DISABLED');
 
   final String value;
 
-  const AttachmentsControlMode(this.value);
+  const AttachmentsControlMode._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AttachmentsControlMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AttachmentsControlMode'));
+          orElse: () => AttachmentsControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttachmentsControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enables filtering of responses based on document attributes or metadata
@@ -3527,35 +3574,54 @@ class AttributeFilter {
   }
 }
 
-enum AttributeType {
-  string('STRING'),
-  stringList('STRING_LIST'),
-  number('NUMBER'),
-  date('DATE'),
-  ;
+class AttributeType {
+  static const string = AttributeType._('STRING');
+  static const stringList = AttributeType._('STRING_LIST');
+  static const number = AttributeType._('NUMBER');
+  static const date = AttributeType._('DATE');
 
   final String value;
 
-  const AttributeType(this.value);
+  const AttributeType._(this.value);
+
+  static const values = [string, stringList, number, date];
 
   static AttributeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeType'));
+          orElse: () => AttributeType._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AttributeValueOperator {
-  delete('DELETE'),
-  ;
+class AttributeValueOperator {
+  static const delete = AttributeValueOperator._('DELETE');
 
   final String value;
 
-  const AttributeValueOperator(this.value);
+  const AttributeValueOperator._(this.value);
+
+  static const values = [delete];
 
   static AttributeValueOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AttributeValueOperator'));
+          orElse: () => AttributeValueOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttributeValueOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A request made by Amazon Q Business to a third paty authentication server to
@@ -3621,8 +3687,8 @@ class AutoSubscriptionConfiguration {
 
   factory AutoSubscriptionConfiguration.fromJson(Map<String, dynamic> json) {
     return AutoSubscriptionConfiguration(
-      autoSubscribe:
-          AutoSubscriptionStatus.fromString((json['autoSubscribe'] as String)),
+      autoSubscribe: AutoSubscriptionStatus.fromString(
+          (json['autoSubscribe'] as String?) ?? ''),
       defaultSubscriptionType: (json['defaultSubscriptionType'] as String?)
           ?.let(SubscriptionType.fromString),
     );
@@ -3639,19 +3705,29 @@ class AutoSubscriptionConfiguration {
   }
 }
 
-enum AutoSubscriptionStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutoSubscriptionStatus {
+  static const enabled = AutoSubscriptionStatus._('ENABLED');
+  static const disabled = AutoSubscriptionStatus._('DISABLED');
 
   final String value;
 
-  const AutoSubscriptionStatus(this.value);
+  const AutoSubscriptionStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AutoSubscriptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoSubscriptionStatus'));
+          orElse: () => AutoSubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoSubscriptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the basic authentication credentials used to configure a
@@ -3814,19 +3890,28 @@ class BlockedPhrasesConfigurationUpdate {
   }
 }
 
-enum ChatMode {
-  retrievalMode('RETRIEVAL_MODE'),
-  creatorMode('CREATOR_MODE'),
-  pluginMode('PLUGIN_MODE'),
-  ;
+class ChatMode {
+  static const retrievalMode = ChatMode._('RETRIEVAL_MODE');
+  static const creatorMode = ChatMode._('CREATOR_MODE');
+  static const pluginMode = ChatMode._('PLUGIN_MODE');
 
   final String value;
 
-  const ChatMode(this.value);
+  const ChatMode._(this.value);
 
-  static ChatMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChatMode'));
+  static const values = [retrievalMode, creatorMode, pluginMode];
+
+  static ChatMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChatMode._(value));
+
+  @override
+  bool operator ==(other) => other is ChatMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for Amazon Q Business conversation modes.
@@ -3998,28 +4083,50 @@ class ContentRetrievalRule {
   }
 }
 
-enum ContentType {
-  pdf('PDF'),
-  html('HTML'),
-  msWord('MS_WORD'),
-  plainText('PLAIN_TEXT'),
-  ppt('PPT'),
-  rtf('RTF'),
-  xml('XML'),
-  xslt('XSLT'),
-  msExcel('MS_EXCEL'),
-  csv('CSV'),
-  json('JSON'),
-  md('MD'),
-  ;
+class ContentType {
+  static const pdf = ContentType._('PDF');
+  static const html = ContentType._('HTML');
+  static const msWord = ContentType._('MS_WORD');
+  static const plainText = ContentType._('PLAIN_TEXT');
+  static const ppt = ContentType._('PPT');
+  static const rtf = ContentType._('RTF');
+  static const xml = ContentType._('XML');
+  static const xslt = ContentType._('XSLT');
+  static const msExcel = ContentType._('MS_EXCEL');
+  static const csv = ContentType._('CSV');
+  static const json = ContentType._('JSON');
+  static const md = ContentType._('MD');
 
   final String value;
 
-  const ContentType(this.value);
+  const ContentType._(this.value);
 
-  static ContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContentType'));
+  static const values = [
+    pdf,
+    html,
+    msWord,
+    plainText,
+    ppt,
+    rtf,
+    xml,
+    xslt,
+    msExcel,
+    csv,
+    json,
+    md
+  ];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A conversation in an Amazon Q Business application.
@@ -4279,19 +4386,29 @@ class CreatorModeConfiguration {
   }
 }
 
-enum CreatorModeControl {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CreatorModeControl {
+  static const enabled = CreatorModeControl._('ENABLED');
+  static const disabled = CreatorModeControl._('DISABLED');
 
   final String value;
 
-  const CreatorModeControl(this.value);
+  const CreatorModeControl._(this.value);
 
-  static CreatorModeControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CreatorModeControl'));
+  static const values = [enabled, disabled];
+
+  static CreatorModeControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreatorModeControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreatorModeControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information required to create a custom plugin.
@@ -4319,7 +4436,7 @@ class CustomPluginConfiguration {
           (json['apiSchema'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       apiSchemaType:
-          APISchemaType.fromString((json['apiSchemaType'] as String)),
+          APISchemaType.fromString((json['apiSchemaType'] as String?) ?? ''),
       description: (json['description'] as String?) ?? '',
     );
   }
@@ -4407,23 +4524,39 @@ class DataSourceConfiguration {
   }
 }
 
-enum DataSourceStatus {
-  pendingCreation('PENDING_CREATION'),
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  ;
+class DataSourceStatus {
+  static const pendingCreation = DataSourceStatus._('PENDING_CREATION');
+  static const creating = DataSourceStatus._('CREATING');
+  static const active = DataSourceStatus._('ACTIVE');
+  static const deleting = DataSourceStatus._('DELETING');
+  static const failed = DataSourceStatus._('FAILED');
+  static const updating = DataSourceStatus._('UPDATING');
 
   final String value;
 
-  const DataSourceStatus(this.value);
+  const DataSourceStatus._(this.value);
+
+  static const values = [
+    pendingCreation,
+    creating,
+    active,
+    deleting,
+    failed,
+    updating
+  ];
 
   static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceStatus'));
+          orElse: () => DataSourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an Amazon Q Business data source connector
@@ -4565,24 +4698,42 @@ class DataSourceSyncJobMetrics {
   }
 }
 
-enum DataSourceSyncJobStatus {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  syncing('SYNCING'),
-  incomplete('INCOMPLETE'),
-  stopping('STOPPING'),
-  aborted('ABORTED'),
-  syncingIndexing('SYNCING_INDEXING'),
-  ;
+class DataSourceSyncJobStatus {
+  static const failed = DataSourceSyncJobStatus._('FAILED');
+  static const succeeded = DataSourceSyncJobStatus._('SUCCEEDED');
+  static const syncing = DataSourceSyncJobStatus._('SYNCING');
+  static const incomplete = DataSourceSyncJobStatus._('INCOMPLETE');
+  static const stopping = DataSourceSyncJobStatus._('STOPPING');
+  static const aborted = DataSourceSyncJobStatus._('ABORTED');
+  static const syncingIndexing = DataSourceSyncJobStatus._('SYNCING_INDEXING');
 
   final String value;
 
-  const DataSourceSyncJobStatus(this.value);
+  const DataSourceSyncJobStatus._(this.value);
+
+  static const values = [
+    failed,
+    succeeded,
+    syncing,
+    incomplete,
+    stopping,
+    aborted,
+    syncingIndexing
+  ];
 
   static DataSourceSyncJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceSyncJobStatus'));
+          orElse: () => DataSourceSyncJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceSyncJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration information needed to connect to an Amazon VPC
@@ -4649,7 +4800,7 @@ class DateAttributeBoostingConfiguration {
       Map<String, dynamic> json) {
     return DateAttributeBoostingConfiguration(
       boostingLevel: DocumentAttributeBoostingLevel.fromString(
-          (json['boostingLevel'] as String)),
+          (json['boostingLevel'] as String?) ?? ''),
       boostingDurationInSeconds: json['boostingDurationInSeconds'] as int?,
     );
   }
@@ -4969,22 +5120,32 @@ class DocumentAttributeBoostingConfiguration {
   }
 }
 
-enum DocumentAttributeBoostingLevel {
-  none('NONE'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  veryHigh('VERY_HIGH'),
-  ;
+class DocumentAttributeBoostingLevel {
+  static const none = DocumentAttributeBoostingLevel._('NONE');
+  static const low = DocumentAttributeBoostingLevel._('LOW');
+  static const medium = DocumentAttributeBoostingLevel._('MEDIUM');
+  static const high = DocumentAttributeBoostingLevel._('HIGH');
+  static const veryHigh = DocumentAttributeBoostingLevel._('VERY_HIGH');
 
   final String value;
 
-  const DocumentAttributeBoostingLevel(this.value);
+  const DocumentAttributeBoostingLevel._(this.value);
+
+  static const values = [none, low, medium, high, veryHigh];
 
   static DocumentAttributeBoostingLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentAttributeBoostingLevel'));
+          orElse: () => DocumentAttributeBoostingLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentAttributeBoostingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The condition used for the target document attribute or metadata field when
@@ -5033,7 +5194,7 @@ class DocumentAttributeCondition {
     return DocumentAttributeCondition(
       key: (json['key'] as String?) ?? '',
       operator: DocumentEnrichmentConditionOperator.fromString(
-          (json['operator'] as String)),
+          (json['operator'] as String?) ?? ''),
       value: json['value'] != null
           ? DocumentAttributeValue.fromJson(
               json['value'] as Map<String, dynamic>)
@@ -5241,18 +5402,28 @@ class DocumentContent {
   }
 }
 
-enum DocumentContentOperator {
-  delete('DELETE'),
-  ;
+class DocumentContentOperator {
+  static const delete = DocumentContentOperator._('DELETE');
 
   final String value;
 
-  const DocumentContentOperator(this.value);
+  const DocumentContentOperator._(this.value);
+
+  static const values = [delete];
 
   static DocumentContentOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentContentOperator'));
+          orElse: () => DocumentContentOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentContentOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a document within an Amazon Q Business index.
@@ -5308,28 +5479,55 @@ class DocumentDetails {
   }
 }
 
-enum DocumentEnrichmentConditionOperator {
-  greaterThan('GREATER_THAN'),
-  greaterThanOrEquals('GREATER_THAN_OR_EQUALS'),
-  lessThan('LESS_THAN'),
-  lessThanOrEquals('LESS_THAN_OR_EQUALS'),
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  contains('CONTAINS'),
-  notContains('NOT_CONTAINS'),
-  exists('EXISTS'),
-  notExists('NOT_EXISTS'),
-  beginsWith('BEGINS_WITH'),
-  ;
+class DocumentEnrichmentConditionOperator {
+  static const greaterThan =
+      DocumentEnrichmentConditionOperator._('GREATER_THAN');
+  static const greaterThanOrEquals =
+      DocumentEnrichmentConditionOperator._('GREATER_THAN_OR_EQUALS');
+  static const lessThan = DocumentEnrichmentConditionOperator._('LESS_THAN');
+  static const lessThanOrEquals =
+      DocumentEnrichmentConditionOperator._('LESS_THAN_OR_EQUALS');
+  static const equals = DocumentEnrichmentConditionOperator._('EQUALS');
+  static const notEquals = DocumentEnrichmentConditionOperator._('NOT_EQUALS');
+  static const contains = DocumentEnrichmentConditionOperator._('CONTAINS');
+  static const notContains =
+      DocumentEnrichmentConditionOperator._('NOT_CONTAINS');
+  static const exists = DocumentEnrichmentConditionOperator._('EXISTS');
+  static const notExists = DocumentEnrichmentConditionOperator._('NOT_EXISTS');
+  static const beginsWith =
+      DocumentEnrichmentConditionOperator._('BEGINS_WITH');
 
   final String value;
 
-  const DocumentEnrichmentConditionOperator(this.value);
+  const DocumentEnrichmentConditionOperator._(this.value);
+
+  static const values = [
+    greaterThan,
+    greaterThanOrEquals,
+    lessThan,
+    lessThanOrEquals,
+    equals,
+    notEquals,
+    contains,
+    notContains,
+    exists,
+    notExists,
+    beginsWith
+  ];
 
   static DocumentEnrichmentConditionOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DocumentEnrichmentConditionOperator'));
+          orElse: () => DocumentEnrichmentConditionOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentEnrichmentConditionOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the configuration information for altering document metadata and
@@ -5388,25 +5586,44 @@ class DocumentEnrichmentConfiguration {
   }
 }
 
-enum DocumentStatus {
-  received('RECEIVED'),
-  processing('PROCESSING'),
-  indexed('INDEXED'),
-  updated('UPDATED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  documentFailedToIndex('DOCUMENT_FAILED_TO_INDEX'),
-  ;
+class DocumentStatus {
+  static const received = DocumentStatus._('RECEIVED');
+  static const processing = DocumentStatus._('PROCESSING');
+  static const indexed = DocumentStatus._('INDEXED');
+  static const updated = DocumentStatus._('UPDATED');
+  static const failed = DocumentStatus._('FAILED');
+  static const deleting = DocumentStatus._('DELETING');
+  static const deleted = DocumentStatus._('DELETED');
+  static const documentFailedToIndex =
+      DocumentStatus._('DOCUMENT_FAILED_TO_INDEX');
 
   final String value;
 
-  const DocumentStatus(this.value);
+  const DocumentStatus._(this.value);
+
+  static const values = [
+    received,
+    processing,
+    indexed,
+    updated,
+    failed,
+    deleting,
+    deleted,
+    documentFailedToIndex
+  ];
 
   static DocumentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DocumentStatus'));
+          orElse: () => DocumentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The identifier of the data source Amazon Q Business will generate responses
@@ -5465,20 +5682,34 @@ class EncryptionConfiguration {
   }
 }
 
-enum ErrorCode {
-  internalError('InternalError'),
-  invalidRequest('InvalidRequest'),
-  resourceInactive('ResourceInactive'),
-  resourceNotFound('ResourceNotFound'),
-  ;
+class ErrorCode {
+  static const internalError = ErrorCode._('InternalError');
+  static const invalidRequest = ErrorCode._('InvalidRequest');
+  static const resourceInactive = ErrorCode._('ResourceInactive');
+  static const resourceNotFound = ErrorCode._('ResourceNotFound');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    internalError,
+    invalidRequest,
+    resourceInactive,
+    resourceNotFound
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a data source sync error.
@@ -6510,21 +6741,30 @@ class GroupMembers {
   }
 }
 
-enum GroupStatus {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  processing('PROCESSING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class GroupStatus {
+  static const failed = GroupStatus._('FAILED');
+  static const succeeded = GroupStatus._('SUCCEEDED');
+  static const processing = GroupStatus._('PROCESSING');
+  static const deleting = GroupStatus._('DELETING');
+  static const deleted = GroupStatus._('DELETED');
 
   final String value;
 
-  const GroupStatus(this.value);
+  const GroupStatus._(this.value);
 
-  static GroupStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GroupStatus'));
+  static const values = [failed, succeeded, processing, deleting, deleted];
+
+  static GroupStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the details of a group's status.
@@ -6703,20 +6943,28 @@ class IdentityProviderConfiguration {
   }
 }
 
-enum IdentityType {
-  awsIamIdpSaml('AWS_IAM_IDP_SAML'),
-  awsIamIdpOidc('AWS_IAM_IDP_OIDC'),
-  awsIamIdc('AWS_IAM_IDC'),
-  ;
+class IdentityType {
+  static const awsIamIdpSaml = IdentityType._('AWS_IAM_IDP_SAML');
+  static const awsIamIdpOidc = IdentityType._('AWS_IAM_IDP_OIDC');
+  static const awsIamIdc = IdentityType._('AWS_IAM_IDC');
 
   final String value;
 
-  const IdentityType(this.value);
+  const IdentityType._(this.value);
 
-  static IdentityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityType'));
+  static const values = [awsIamIdpSaml, awsIamIdpOidc, awsIamIdc];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for your Amazon Q Business index.
@@ -6821,35 +7069,53 @@ class IndexStatistics {
   }
 }
 
-enum IndexStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  ;
+class IndexStatus {
+  static const creating = IndexStatus._('CREATING');
+  static const active = IndexStatus._('ACTIVE');
+  static const deleting = IndexStatus._('DELETING');
+  static const failed = IndexStatus._('FAILED');
+  static const updating = IndexStatus._('UPDATING');
 
   final String value;
 
-  const IndexStatus(this.value);
+  const IndexStatus._(this.value);
 
-  static IndexStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IndexStatus'));
+  static const values = [creating, active, deleting, failed, updating];
+
+  static IndexStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IndexStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IndexType {
-  enterprise('ENTERPRISE'),
-  starter('STARTER'),
-  ;
+class IndexType {
+  static const enterprise = IndexType._('ENTERPRISE');
+  static const starter = IndexType._('STARTER');
 
   final String value;
 
-  const IndexType(this.value);
+  const IndexType._(this.value);
 
-  static IndexType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IndexType'));
+  static const values = [enterprise, starter];
+
+  static IndexType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexType._(value));
+
+  @override
+  bool operator ==(other) => other is IndexType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the configuration information for applying basic logic to alter
@@ -7352,19 +7618,28 @@ class MemberGroup {
   }
 }
 
-enum MemberRelation {
-  and('AND'),
-  or('OR'),
-  ;
+class MemberRelation {
+  static const and = MemberRelation._('AND');
+  static const or = MemberRelation._('OR');
 
   final String value;
 
-  const MemberRelation(this.value);
+  const MemberRelation._(this.value);
+
+  static const values = [and, or];
 
   static MemberRelation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MemberRelation'));
+          orElse: () => MemberRelation._(value));
+
+  @override
+  bool operator ==(other) => other is MemberRelation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The users that belong to a group.
@@ -7390,19 +7665,28 @@ class MemberUser {
   }
 }
 
-enum MembershipType {
-  $index('INDEX'),
-  datasource('DATASOURCE'),
-  ;
+class MembershipType {
+  static const $index = MembershipType._('INDEX');
+  static const datasource = MembershipType._('DATASOURCE');
 
   final String value;
 
-  const MembershipType(this.value);
+  const MembershipType._(this.value);
+
+  static const values = [$index, datasource];
 
   static MembershipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MembershipType'));
+          orElse: () => MembershipType._(value));
+
+  @override
+  bool operator ==(other) => other is MembershipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A message in an Amazon Q Business web experience.
@@ -7487,33 +7771,51 @@ class Message {
   }
 }
 
-enum MessageType {
-  user('USER'),
-  system('SYSTEM'),
-  ;
+class MessageType {
+  static const user = MessageType._('USER');
+  static const system = MessageType._('SYSTEM');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [user, system];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MessageUsefulness {
-  useful('USEFUL'),
-  notUseful('NOT_USEFUL'),
-  ;
+class MessageUsefulness {
+  static const useful = MessageUsefulness._('USEFUL');
+  static const notUseful = MessageUsefulness._('NOT_USEFUL');
 
   final String value;
 
-  const MessageUsefulness(this.value);
+  const MessageUsefulness._(this.value);
+
+  static const values = [useful, notUseful];
 
   static MessageUsefulness fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MessageUsefulness'));
+          orElse: () => MessageUsefulness._(value));
+
+  @override
+  bool operator ==(other) => other is MessageUsefulness && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// End user feedback on an AI-generated web experience chat message usefulness.
@@ -7552,29 +7854,56 @@ class MessageUsefulnessFeedback {
   }
 }
 
-enum MessageUsefulnessReason {
-  notFactuallyCorrect('NOT_FACTUALLY_CORRECT'),
-  harmfulOrUnsafe('HARMFUL_OR_UNSAFE'),
-  incorrectOrMissingSources('INCORRECT_OR_MISSING_SOURCES'),
-  notHelpful('NOT_HELPFUL'),
-  factuallyCorrect('FACTUALLY_CORRECT'),
-  complete('COMPLETE'),
-  relevantSources('RELEVANT_SOURCES'),
-  helpful('HELPFUL'),
-  notBasedOnDocuments('NOT_BASED_ON_DOCUMENTS'),
-  notComplete('NOT_COMPLETE'),
-  notConcise('NOT_CONCISE'),
-  other('OTHER'),
-  ;
+class MessageUsefulnessReason {
+  static const notFactuallyCorrect =
+      MessageUsefulnessReason._('NOT_FACTUALLY_CORRECT');
+  static const harmfulOrUnsafe = MessageUsefulnessReason._('HARMFUL_OR_UNSAFE');
+  static const incorrectOrMissingSources =
+      MessageUsefulnessReason._('INCORRECT_OR_MISSING_SOURCES');
+  static const notHelpful = MessageUsefulnessReason._('NOT_HELPFUL');
+  static const factuallyCorrect =
+      MessageUsefulnessReason._('FACTUALLY_CORRECT');
+  static const complete = MessageUsefulnessReason._('COMPLETE');
+  static const relevantSources = MessageUsefulnessReason._('RELEVANT_SOURCES');
+  static const helpful = MessageUsefulnessReason._('HELPFUL');
+  static const notBasedOnDocuments =
+      MessageUsefulnessReason._('NOT_BASED_ON_DOCUMENTS');
+  static const notComplete = MessageUsefulnessReason._('NOT_COMPLETE');
+  static const notConcise = MessageUsefulnessReason._('NOT_CONCISE');
+  static const other = MessageUsefulnessReason._('OTHER');
 
   final String value;
 
-  const MessageUsefulnessReason(this.value);
+  const MessageUsefulnessReason._(this.value);
+
+  static const values = [
+    notFactuallyCorrect,
+    harmfulOrUnsafe,
+    incorrectOrMissingSources,
+    notHelpful,
+    factuallyCorrect,
+    complete,
+    relevantSources,
+    helpful,
+    notBasedOnDocuments,
+    notComplete,
+    notConcise,
+    other
+  ];
 
   static MessageUsefulnessReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MessageUsefulnessReason'));
+          orElse: () => MessageUsefulnessReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageUsefulnessReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for an Amazon Q Business index.
@@ -7650,7 +7979,7 @@ class NumberAttributeBoostingConfiguration {
       Map<String, dynamic> json) {
     return NumberAttributeBoostingConfiguration(
       boostingLevel: DocumentAttributeBoostingLevel.fromString(
-          (json['boostingLevel'] as String)),
+          (json['boostingLevel'] as String?) ?? ''),
       boostingType: (json['boostingType'] as String?)
           ?.let(NumberAttributeBoostingType.fromString),
     );
@@ -7666,19 +7995,31 @@ class NumberAttributeBoostingConfiguration {
   }
 }
 
-enum NumberAttributeBoostingType {
-  prioritizeLargerValues('PRIORITIZE_LARGER_VALUES'),
-  prioritizeSmallerValues('PRIORITIZE_SMALLER_VALUES'),
-  ;
+class NumberAttributeBoostingType {
+  static const prioritizeLargerValues =
+      NumberAttributeBoostingType._('PRIORITIZE_LARGER_VALUES');
+  static const prioritizeSmallerValues =
+      NumberAttributeBoostingType._('PRIORITIZE_SMALLER_VALUES');
 
   final String value;
 
-  const NumberAttributeBoostingType(this.value);
+  const NumberAttributeBoostingType._(this.value);
+
+  static const values = [prioritizeLargerValues, prioritizeSmallerValues];
 
   static NumberAttributeBoostingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumberAttributeBoostingType'));
+          orElse: () => NumberAttributeBoostingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumberAttributeBoostingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the OAuth 2.0 authentication credential/token used to
@@ -7766,7 +8107,7 @@ class PersonalizationConfiguration {
   factory PersonalizationConfiguration.fromJson(Map<String, dynamic> json) {
     return PersonalizationConfiguration(
       personalizationControlMode: PersonalizationControlMode.fromString(
-          (json['personalizationControlMode'] as String)),
+          (json['personalizationControlMode'] as String?) ?? ''),
     );
   }
 
@@ -7778,19 +8119,29 @@ class PersonalizationConfiguration {
   }
 }
 
-enum PersonalizationControlMode {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PersonalizationControlMode {
+  static const enabled = PersonalizationControlMode._('ENABLED');
+  static const disabled = PersonalizationControlMode._('DISABLED');
 
   final String value;
 
-  const PersonalizationControlMode(this.value);
+  const PersonalizationControlMode._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PersonalizationControlMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PersonalizationControlMode'));
+          orElse: () => PersonalizationControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PersonalizationControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Amazon Q Business plugin and its configuration.
@@ -7922,24 +8273,41 @@ class PluginAuthConfiguration {
   }
 }
 
-enum PluginBuildStatus {
-  ready('READY'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class PluginBuildStatus {
+  static const ready = PluginBuildStatus._('READY');
+  static const createInProgress = PluginBuildStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = PluginBuildStatus._('CREATE_FAILED');
+  static const updateInProgress = PluginBuildStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = PluginBuildStatus._('UPDATE_FAILED');
+  static const deleteInProgress = PluginBuildStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = PluginBuildStatus._('DELETE_FAILED');
 
   final String value;
 
-  const PluginBuildStatus(this.value);
+  const PluginBuildStatus._(this.value);
+
+  static const values = [
+    ready,
+    createInProgress,
+    createFailed,
+    updateInProgress,
+    updateFailed,
+    deleteInProgress,
+    deleteFailed
+  ];
 
   static PluginBuildStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PluginBuildStatus'));
+          orElse: () => PluginBuildStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PluginBuildStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information required to invoke chat in
@@ -7968,35 +8336,53 @@ class PluginConfiguration {
   }
 }
 
-enum PluginState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PluginState {
+  static const enabled = PluginState._('ENABLED');
+  static const disabled = PluginState._('DISABLED');
 
   final String value;
 
-  const PluginState(this.value);
+  const PluginState._(this.value);
 
-  static PluginState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PluginState'));
+  static const values = [enabled, disabled];
+
+  static PluginState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PluginState._(value));
+
+  @override
+  bool operator ==(other) => other is PluginState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PluginType {
-  serviceNow('SERVICE_NOW'),
-  salesforce('SALESFORCE'),
-  jira('JIRA'),
-  zendesk('ZENDESK'),
-  custom('CUSTOM'),
-  ;
+class PluginType {
+  static const serviceNow = PluginType._('SERVICE_NOW');
+  static const salesforce = PluginType._('SALESFORCE');
+  static const jira = PluginType._('JIRA');
+  static const zendesk = PluginType._('ZENDESK');
+  static const custom = PluginType._('CUSTOM');
 
   final String value;
 
-  const PluginType(this.value);
+  const PluginType._(this.value);
 
-  static PluginType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PluginType'));
+  static const values = [serviceNow, salesforce, jira, zendesk, custom];
+
+  static PluginType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PluginType._(value));
+
+  @override
+  bool operator ==(other) => other is PluginType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides user and group information used for filtering documents to use for
@@ -8105,8 +8491,8 @@ class QAppsConfiguration {
 
   factory QAppsConfiguration.fromJson(Map<String, dynamic> json) {
     return QAppsConfiguration(
-      qAppsControlMode:
-          QAppsControlMode.fromString((json['qAppsControlMode'] as String)),
+      qAppsControlMode: QAppsControlMode.fromString(
+          (json['qAppsControlMode'] as String?) ?? ''),
     );
   }
 
@@ -8118,49 +8504,78 @@ class QAppsConfiguration {
   }
 }
 
-enum QAppsControlMode {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class QAppsControlMode {
+  static const enabled = QAppsControlMode._('ENABLED');
+  static const disabled = QAppsControlMode._('DISABLED');
 
   final String value;
 
-  const QAppsControlMode(this.value);
+  const QAppsControlMode._(this.value);
+
+  static const values = [enabled, disabled];
 
   static QAppsControlMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QAppsControlMode'));
+          orElse: () => QAppsControlMode._(value));
+
+  @override
+  bool operator ==(other) => other is QAppsControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadAccessType {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class ReadAccessType {
+  static const allow = ReadAccessType._('ALLOW');
+  static const deny = ReadAccessType._('DENY');
 
   final String value;
 
-  const ReadAccessType(this.value);
+  const ReadAccessType._(this.value);
+
+  static const values = [allow, deny];
 
   static ReadAccessType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReadAccessType'));
+          orElse: () => ReadAccessType._(value));
+
+  @override
+  bool operator ==(other) => other is ReadAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResponseScope {
-  enterpriseContentOnly('ENTERPRISE_CONTENT_ONLY'),
-  extendedKnowledgeEnabled('EXTENDED_KNOWLEDGE_ENABLED'),
-  ;
+class ResponseScope {
+  static const enterpriseContentOnly =
+      ResponseScope._('ENTERPRISE_CONTENT_ONLY');
+  static const extendedKnowledgeEnabled =
+      ResponseScope._('EXTENDED_KNOWLEDGE_ENABLED');
 
   final String value;
 
-  const ResponseScope(this.value);
+  const ResponseScope._(this.value);
+
+  static const values = [enterpriseContentOnly, extendedKnowledgeEnabled];
 
   static ResponseScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResponseScope'));
+          orElse: () => ResponseScope._(value));
+
+  @override
+  bool operator ==(other) => other is ResponseScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for the retriever used for your Amazon Q Business
@@ -8256,35 +8671,53 @@ class RetrieverConfiguration {
   }
 }
 
-enum RetrieverStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class RetrieverStatus {
+  static const creating = RetrieverStatus._('CREATING');
+  static const active = RetrieverStatus._('ACTIVE');
+  static const failed = RetrieverStatus._('FAILED');
 
   final String value;
 
-  const RetrieverStatus(this.value);
+  const RetrieverStatus._(this.value);
+
+  static const values = [creating, active, failed];
 
   static RetrieverStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetrieverStatus'));
+          orElse: () => RetrieverStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RetrieverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RetrieverType {
-  nativeIndex('NATIVE_INDEX'),
-  kendraIndex('KENDRA_INDEX'),
-  ;
+class RetrieverType {
+  static const nativeIndex = RetrieverType._('NATIVE_INDEX');
+  static const kendraIndex = RetrieverType._('KENDRA_INDEX');
 
   final String value;
 
-  const RetrieverType(this.value);
+  const RetrieverType._(this.value);
+
+  static const values = [nativeIndex, kendraIndex];
 
   static RetrieverType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetrieverType'));
+          orElse: () => RetrieverType._(value));
+
+  @override
+  bool operator ==(other) => other is RetrieverType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Guardrail rules for an Amazon Q Business application. Amazon Q Business
@@ -8311,7 +8744,7 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      ruleType: RuleType.fromString((json['ruleType'] as String)),
+      ruleType: RuleType.fromString((json['ruleType'] as String?) ?? ''),
       excludedUsersAndGroups: json['excludedUsersAndGroups'] != null
           ? UsersAndGroups.fromJson(
               json['excludedUsersAndGroups'] as Map<String, dynamic>)
@@ -8379,18 +8812,27 @@ class RuleConfiguration {
   }
 }
 
-enum RuleType {
-  contentBlockerRule('CONTENT_BLOCKER_RULE'),
-  contentRetrievalRule('CONTENT_RETRIEVAL_RULE'),
-  ;
+class RuleType {
+  static const contentBlockerRule = RuleType._('CONTENT_BLOCKER_RULE');
+  static const contentRetrievalRule = RuleType._('CONTENT_RETRIEVAL_RULE');
 
   final String value;
 
-  const RuleType(this.value);
+  const RuleType._(this.value);
 
-  static RuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleType'));
+  static const values = [contentBlockerRule, contentRetrievalRule];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information required for Amazon Q Business to find a specific file in an
@@ -8611,18 +9053,27 @@ class StartDataSourceSyncJobResponse {
   }
 }
 
-enum Status {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Status {
+  static const enabled = Status._('ENABLED');
+  static const disabled = Status._('DISABLED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [enabled, disabled];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopDataSourceSyncJobResponse {
@@ -8670,7 +9121,7 @@ class StringAttributeBoostingConfiguration {
       Map<String, dynamic> json) {
     return StringAttributeBoostingConfiguration(
       boostingLevel: DocumentAttributeBoostingLevel.fromString(
-          (json['boostingLevel'] as String)),
+          (json['boostingLevel'] as String?) ?? ''),
       attributeValueBoosting: (json['attributeValueBoosting']
               as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
@@ -8690,21 +9141,31 @@ class StringAttributeBoostingConfiguration {
   }
 }
 
-enum StringAttributeValueBoostingLevel {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  veryHigh('VERY_HIGH'),
-  ;
+class StringAttributeValueBoostingLevel {
+  static const low = StringAttributeValueBoostingLevel._('LOW');
+  static const medium = StringAttributeValueBoostingLevel._('MEDIUM');
+  static const high = StringAttributeValueBoostingLevel._('HIGH');
+  static const veryHigh = StringAttributeValueBoostingLevel._('VERY_HIGH');
 
   final String value;
 
-  const StringAttributeValueBoostingLevel(this.value);
+  const StringAttributeValueBoostingLevel._(this.value);
+
+  static const values = [low, medium, high, veryHigh];
 
   static StringAttributeValueBoostingLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StringAttributeValueBoostingLevel'));
+          orElse: () => StringAttributeValueBoostingLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StringAttributeValueBoostingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information on boosting <code>STRING_LIST</code> type document
@@ -8735,7 +9196,7 @@ class StringListAttributeBoostingConfiguration {
       Map<String, dynamic> json) {
     return StringListAttributeBoostingConfiguration(
       boostingLevel: DocumentAttributeBoostingLevel.fromString(
-          (json['boostingLevel'] as String)),
+          (json['boostingLevel'] as String?) ?? ''),
     );
   }
 
@@ -8747,19 +9208,28 @@ class StringListAttributeBoostingConfiguration {
   }
 }
 
-enum SubscriptionType {
-  qLite('Q_LITE'),
-  qBusiness('Q_BUSINESS'),
-  ;
+class SubscriptionType {
+  static const qLite = SubscriptionType._('Q_LITE');
+  static const qBusiness = SubscriptionType._('Q_BUSINESS');
 
   final String value;
 
-  const SubscriptionType(this.value);
+  const SubscriptionType._(this.value);
+
+  static const values = [qLite, qBusiness];
 
   static SubscriptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriptionType'));
+          orElse: () => SubscriptionType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of key/value pairs that identify an index, FAQ, or data source. Tag
@@ -9228,37 +9698,57 @@ class WebExperienceAuthConfiguration {
   }
 }
 
-enum WebExperienceSamplePromptsControlMode {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class WebExperienceSamplePromptsControlMode {
+  static const enabled = WebExperienceSamplePromptsControlMode._('ENABLED');
+  static const disabled = WebExperienceSamplePromptsControlMode._('DISABLED');
 
   final String value;
 
-  const WebExperienceSamplePromptsControlMode(this.value);
+  const WebExperienceSamplePromptsControlMode._(this.value);
+
+  static const values = [enabled, disabled];
 
   static WebExperienceSamplePromptsControlMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WebExperienceSamplePromptsControlMode'));
+          orElse: () => WebExperienceSamplePromptsControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebExperienceSamplePromptsControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WebExperienceStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  pendingAuthConfig('PENDING_AUTH_CONFIG'),
-  ;
+class WebExperienceStatus {
+  static const creating = WebExperienceStatus._('CREATING');
+  static const active = WebExperienceStatus._('ACTIVE');
+  static const deleting = WebExperienceStatus._('DELETING');
+  static const failed = WebExperienceStatus._('FAILED');
+  static const pendingAuthConfig = WebExperienceStatus._('PENDING_AUTH_CONFIG');
 
   final String value;
 
-  const WebExperienceStatus(this.value);
+  const WebExperienceStatus._(this.value);
 
-  static WebExperienceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WebExperienceStatus'));
+  static const values = [creating, active, deleting, failed, pendingAuthConfig];
+
+  static WebExperienceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WebExperienceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebExperienceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

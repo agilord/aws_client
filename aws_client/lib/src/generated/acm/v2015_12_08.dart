@@ -1348,24 +1348,41 @@ class CertificateOptions {
   }
 }
 
-enum CertificateStatus {
-  pendingValidation('PENDING_VALIDATION'),
-  issued('ISSUED'),
-  inactive('INACTIVE'),
-  expired('EXPIRED'),
-  validationTimedOut('VALIDATION_TIMED_OUT'),
-  revoked('REVOKED'),
-  failed('FAILED'),
-  ;
+class CertificateStatus {
+  static const pendingValidation = CertificateStatus._('PENDING_VALIDATION');
+  static const issued = CertificateStatus._('ISSUED');
+  static const inactive = CertificateStatus._('INACTIVE');
+  static const expired = CertificateStatus._('EXPIRED');
+  static const validationTimedOut = CertificateStatus._('VALIDATION_TIMED_OUT');
+  static const revoked = CertificateStatus._('REVOKED');
+  static const failed = CertificateStatus._('FAILED');
 
   final String value;
 
-  const CertificateStatus(this.value);
+  const CertificateStatus._(this.value);
+
+  static const values = [
+    pendingValidation,
+    issued,
+    inactive,
+    expired,
+    validationTimedOut,
+    revoked,
+    failed
+  ];
 
   static CertificateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateStatus'));
+          orElse: () => CertificateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure is returned in the response object of <a>ListCertificates</a>
@@ -1585,35 +1602,55 @@ class CertificateSummary {
   }
 }
 
-enum CertificateTransparencyLoggingPreference {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CertificateTransparencyLoggingPreference {
+  static const enabled = CertificateTransparencyLoggingPreference._('ENABLED');
+  static const disabled =
+      CertificateTransparencyLoggingPreference._('DISABLED');
 
   final String value;
 
-  const CertificateTransparencyLoggingPreference(this.value);
+  const CertificateTransparencyLoggingPreference._(this.value);
+
+  static const values = [enabled, disabled];
 
   static CertificateTransparencyLoggingPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateTransparencyLoggingPreference'));
+          orElse: () => CertificateTransparencyLoggingPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateTransparencyLoggingPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateType {
-  imported('IMPORTED'),
-  amazonIssued('AMAZON_ISSUED'),
-  private('PRIVATE'),
-  ;
+class CertificateType {
+  static const imported = CertificateType._('IMPORTED');
+  static const amazonIssued = CertificateType._('AMAZON_ISSUED');
+  static const private = CertificateType._('PRIVATE');
 
   final String value;
 
-  const CertificateType(this.value);
+  const CertificateType._(this.value);
+
+  static const values = [imported, amazonIssued, private];
 
   static CertificateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateType'));
+          orElse: () => CertificateType._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeCertificateResponse {
@@ -1641,20 +1678,28 @@ class DescribeCertificateResponse {
   }
 }
 
-enum DomainStatus {
-  pendingValidation('PENDING_VALIDATION'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class DomainStatus {
+  static const pendingValidation = DomainStatus._('PENDING_VALIDATION');
+  static const success = DomainStatus._('SUCCESS');
+  static const failed = DomainStatus._('FAILED');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [pendingValidation, success, failed];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the validation of each domain name in the
@@ -1924,59 +1969,114 @@ class ExtendedKeyUsage {
   }
 }
 
-enum ExtendedKeyUsageName {
-  tlsWebServerAuthentication('TLS_WEB_SERVER_AUTHENTICATION'),
-  tlsWebClientAuthentication('TLS_WEB_CLIENT_AUTHENTICATION'),
-  codeSigning('CODE_SIGNING'),
-  emailProtection('EMAIL_PROTECTION'),
-  timeStamping('TIME_STAMPING'),
-  ocspSigning('OCSP_SIGNING'),
-  ipsecEndSystem('IPSEC_END_SYSTEM'),
-  ipsecTunnel('IPSEC_TUNNEL'),
-  ipsecUser('IPSEC_USER'),
-  any('ANY'),
-  none('NONE'),
-  custom('CUSTOM'),
-  ;
+class ExtendedKeyUsageName {
+  static const tlsWebServerAuthentication =
+      ExtendedKeyUsageName._('TLS_WEB_SERVER_AUTHENTICATION');
+  static const tlsWebClientAuthentication =
+      ExtendedKeyUsageName._('TLS_WEB_CLIENT_AUTHENTICATION');
+  static const codeSigning = ExtendedKeyUsageName._('CODE_SIGNING');
+  static const emailProtection = ExtendedKeyUsageName._('EMAIL_PROTECTION');
+  static const timeStamping = ExtendedKeyUsageName._('TIME_STAMPING');
+  static const ocspSigning = ExtendedKeyUsageName._('OCSP_SIGNING');
+  static const ipsecEndSystem = ExtendedKeyUsageName._('IPSEC_END_SYSTEM');
+  static const ipsecTunnel = ExtendedKeyUsageName._('IPSEC_TUNNEL');
+  static const ipsecUser = ExtendedKeyUsageName._('IPSEC_USER');
+  static const any = ExtendedKeyUsageName._('ANY');
+  static const none = ExtendedKeyUsageName._('NONE');
+  static const custom = ExtendedKeyUsageName._('CUSTOM');
 
   final String value;
 
-  const ExtendedKeyUsageName(this.value);
+  const ExtendedKeyUsageName._(this.value);
 
-  static ExtendedKeyUsageName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExtendedKeyUsageName'));
+  static const values = [
+    tlsWebServerAuthentication,
+    tlsWebClientAuthentication,
+    codeSigning,
+    emailProtection,
+    timeStamping,
+    ocspSigning,
+    ipsecEndSystem,
+    ipsecTunnel,
+    ipsecUser,
+    any,
+    none,
+    custom
+  ];
+
+  static ExtendedKeyUsageName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExtendedKeyUsageName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExtendedKeyUsageName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FailureReason {
-  noAvailableContacts('NO_AVAILABLE_CONTACTS'),
-  additionalVerificationRequired('ADDITIONAL_VERIFICATION_REQUIRED'),
-  domainNotAllowed('DOMAIN_NOT_ALLOWED'),
-  invalidPublicDomain('INVALID_PUBLIC_DOMAIN'),
-  domainValidationDenied('DOMAIN_VALIDATION_DENIED'),
-  caaError('CAA_ERROR'),
-  pcaLimitExceeded('PCA_LIMIT_EXCEEDED'),
-  pcaInvalidArn('PCA_INVALID_ARN'),
-  pcaInvalidState('PCA_INVALID_STATE'),
-  pcaRequestFailed('PCA_REQUEST_FAILED'),
-  pcaNameConstraintsValidation('PCA_NAME_CONSTRAINTS_VALIDATION'),
-  pcaResourceNotFound('PCA_RESOURCE_NOT_FOUND'),
-  pcaInvalidArgs('PCA_INVALID_ARGS'),
-  pcaInvalidDuration('PCA_INVALID_DURATION'),
-  pcaAccessDenied('PCA_ACCESS_DENIED'),
-  slrNotFound('SLR_NOT_FOUND'),
-  other('OTHER'),
-  ;
+class FailureReason {
+  static const noAvailableContacts = FailureReason._('NO_AVAILABLE_CONTACTS');
+  static const additionalVerificationRequired =
+      FailureReason._('ADDITIONAL_VERIFICATION_REQUIRED');
+  static const domainNotAllowed = FailureReason._('DOMAIN_NOT_ALLOWED');
+  static const invalidPublicDomain = FailureReason._('INVALID_PUBLIC_DOMAIN');
+  static const domainValidationDenied =
+      FailureReason._('DOMAIN_VALIDATION_DENIED');
+  static const caaError = FailureReason._('CAA_ERROR');
+  static const pcaLimitExceeded = FailureReason._('PCA_LIMIT_EXCEEDED');
+  static const pcaInvalidArn = FailureReason._('PCA_INVALID_ARN');
+  static const pcaInvalidState = FailureReason._('PCA_INVALID_STATE');
+  static const pcaRequestFailed = FailureReason._('PCA_REQUEST_FAILED');
+  static const pcaNameConstraintsValidation =
+      FailureReason._('PCA_NAME_CONSTRAINTS_VALIDATION');
+  static const pcaResourceNotFound = FailureReason._('PCA_RESOURCE_NOT_FOUND');
+  static const pcaInvalidArgs = FailureReason._('PCA_INVALID_ARGS');
+  static const pcaInvalidDuration = FailureReason._('PCA_INVALID_DURATION');
+  static const pcaAccessDenied = FailureReason._('PCA_ACCESS_DENIED');
+  static const slrNotFound = FailureReason._('SLR_NOT_FOUND');
+  static const other = FailureReason._('OTHER');
 
   final String value;
 
-  const FailureReason(this.value);
+  const FailureReason._(this.value);
+
+  static const values = [
+    noAvailableContacts,
+    additionalVerificationRequired,
+    domainNotAllowed,
+    invalidPublicDomain,
+    domainValidationDenied,
+    caaError,
+    pcaLimitExceeded,
+    pcaInvalidArn,
+    pcaInvalidState,
+    pcaRequestFailed,
+    pcaNameConstraintsValidation,
+    pcaResourceNotFound,
+    pcaInvalidArgs,
+    pcaInvalidDuration,
+    pcaAccessDenied,
+    slrNotFound,
+    other
+  ];
 
   static FailureReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureReason'));
+          orElse: () => FailureReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure can be used in the <a>ListCertificates</a> action to filter
@@ -2098,24 +2198,40 @@ class ImportCertificateResponse {
   }
 }
 
-enum KeyAlgorithm {
-  rsa_1024('RSA_1024'),
-  rsa_2048('RSA_2048'),
-  rsa_3072('RSA_3072'),
-  rsa_4096('RSA_4096'),
-  ecPrime256v1('EC_prime256v1'),
-  ecSecp384r1('EC_secp384r1'),
-  ecSecp521r1('EC_secp521r1'),
-  ;
+class KeyAlgorithm {
+  static const rsa_1024 = KeyAlgorithm._('RSA_1024');
+  static const rsa_2048 = KeyAlgorithm._('RSA_2048');
+  static const rsa_3072 = KeyAlgorithm._('RSA_3072');
+  static const rsa_4096 = KeyAlgorithm._('RSA_4096');
+  static const ecPrime256v1 = KeyAlgorithm._('EC_prime256v1');
+  static const ecSecp384r1 = KeyAlgorithm._('EC_secp384r1');
+  static const ecSecp521r1 = KeyAlgorithm._('EC_secp521r1');
 
   final String value;
 
-  const KeyAlgorithm(this.value);
+  const KeyAlgorithm._(this.value);
 
-  static KeyAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyAlgorithm'));
+  static const values = [
+    rsa_1024,
+    rsa_2048,
+    rsa_3072,
+    rsa_4096,
+    ecPrime256v1,
+    ecSecp384r1,
+    ecSecp521r1
+  ];
+
+  static KeyAlgorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is KeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Key Usage X.509 v3 extension defines the purpose of the public key
@@ -2142,28 +2258,48 @@ class KeyUsage {
   }
 }
 
-enum KeyUsageName {
-  digitalSignature('DIGITAL_SIGNATURE'),
-  nonRepudiation('NON_REPUDIATION'),
-  keyEncipherment('KEY_ENCIPHERMENT'),
-  dataEncipherment('DATA_ENCIPHERMENT'),
-  keyAgreement('KEY_AGREEMENT'),
-  certificateSigning('CERTIFICATE_SIGNING'),
-  crlSigning('CRL_SIGNING'),
-  encipherOnly('ENCIPHER_ONLY'),
-  decipherOnly('DECIPHER_ONLY'),
-  any('ANY'),
-  custom('CUSTOM'),
-  ;
+class KeyUsageName {
+  static const digitalSignature = KeyUsageName._('DIGITAL_SIGNATURE');
+  static const nonRepudiation = KeyUsageName._('NON_REPUDIATION');
+  static const keyEncipherment = KeyUsageName._('KEY_ENCIPHERMENT');
+  static const dataEncipherment = KeyUsageName._('DATA_ENCIPHERMENT');
+  static const keyAgreement = KeyUsageName._('KEY_AGREEMENT');
+  static const certificateSigning = KeyUsageName._('CERTIFICATE_SIGNING');
+  static const crlSigning = KeyUsageName._('CRL_SIGNING');
+  static const encipherOnly = KeyUsageName._('ENCIPHER_ONLY');
+  static const decipherOnly = KeyUsageName._('DECIPHER_ONLY');
+  static const any = KeyUsageName._('ANY');
+  static const custom = KeyUsageName._('CUSTOM');
 
   final String value;
 
-  const KeyUsageName(this.value);
+  const KeyUsageName._(this.value);
 
-  static KeyUsageName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KeyUsageName'));
+  static const values = [
+    digitalSignature,
+    nonRepudiation,
+    keyEncipherment,
+    dataEncipherment,
+    keyAgreement,
+    certificateSigning,
+    crlSigning,
+    encipherOnly,
+    decipherOnly,
+    any,
+    custom
+  ];
+
+  static KeyUsageName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyUsageName._(value));
+
+  @override
+  bool operator ==(other) => other is KeyUsageName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListCertificatesResponse {
@@ -2226,49 +2362,82 @@ class ListTagsForCertificateResponse {
   }
 }
 
-enum RecordType {
-  cname('CNAME'),
-  ;
+class RecordType {
+  static const cname = RecordType._('CNAME');
 
   final String value;
 
-  const RecordType(this.value);
+  const RecordType._(this.value);
 
-  static RecordType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RecordType'));
+  static const values = [cname];
+
+  static RecordType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RenewalEligibility {
-  eligible('ELIGIBLE'),
-  ineligible('INELIGIBLE'),
-  ;
+class RenewalEligibility {
+  static const eligible = RenewalEligibility._('ELIGIBLE');
+  static const ineligible = RenewalEligibility._('INELIGIBLE');
 
   final String value;
 
-  const RenewalEligibility(this.value);
+  const RenewalEligibility._(this.value);
 
-  static RenewalEligibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RenewalEligibility'));
+  static const values = [eligible, ineligible];
+
+  static RenewalEligibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RenewalEligibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RenewalEligibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RenewalStatus {
-  pendingAutoRenewal('PENDING_AUTO_RENEWAL'),
-  pendingValidation('PENDING_VALIDATION'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class RenewalStatus {
+  static const pendingAutoRenewal = RenewalStatus._('PENDING_AUTO_RENEWAL');
+  static const pendingValidation = RenewalStatus._('PENDING_VALIDATION');
+  static const success = RenewalStatus._('SUCCESS');
+  static const failed = RenewalStatus._('FAILED');
 
   final String value;
 
-  const RenewalStatus(this.value);
+  const RenewalStatus._(this.value);
+
+  static const values = [
+    pendingAutoRenewal,
+    pendingValidation,
+    success,
+    failed
+  ];
 
   static RenewalStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RenewalStatus'));
+          orElse: () => RenewalStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RenewalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the status of ACM's <a
@@ -2310,7 +2479,7 @@ class RenewalSummary {
               .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
               .toList(),
       renewalStatus:
-          RenewalStatus.fromString((json['RenewalStatus'] as String)),
+          RenewalStatus.fromString((json['RenewalStatus'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       renewalStatusReason: (json['RenewalStatusReason'] as String?)
           ?.let(FailureReason.fromString),
@@ -2380,7 +2549,7 @@ class ResourceRecord {
   factory ResourceRecord.fromJson(Map<String, dynamic> json) {
     return ResourceRecord(
       name: (json['Name'] as String?) ?? '',
-      type: RecordType.fromString((json['Type'] as String)),
+      type: RecordType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -2397,54 +2566,93 @@ class ResourceRecord {
   }
 }
 
-enum RevocationReason {
-  unspecified('UNSPECIFIED'),
-  keyCompromise('KEY_COMPROMISE'),
-  caCompromise('CA_COMPROMISE'),
-  affiliationChanged('AFFILIATION_CHANGED'),
-  superceded('SUPERCEDED'),
-  cessationOfOperation('CESSATION_OF_OPERATION'),
-  certificateHold('CERTIFICATE_HOLD'),
-  removeFromCrl('REMOVE_FROM_CRL'),
-  privilegeWithdrawn('PRIVILEGE_WITHDRAWN'),
-  aACompromise('A_A_COMPROMISE'),
-  ;
+class RevocationReason {
+  static const unspecified = RevocationReason._('UNSPECIFIED');
+  static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
+  static const caCompromise = RevocationReason._('CA_COMPROMISE');
+  static const affiliationChanged = RevocationReason._('AFFILIATION_CHANGED');
+  static const superceded = RevocationReason._('SUPERCEDED');
+  static const cessationOfOperation =
+      RevocationReason._('CESSATION_OF_OPERATION');
+  static const certificateHold = RevocationReason._('CERTIFICATE_HOLD');
+  static const removeFromCrl = RevocationReason._('REMOVE_FROM_CRL');
+  static const privilegeWithdrawn = RevocationReason._('PRIVILEGE_WITHDRAWN');
+  static const aACompromise = RevocationReason._('A_A_COMPROMISE');
 
   final String value;
 
-  const RevocationReason(this.value);
+  const RevocationReason._(this.value);
+
+  static const values = [
+    unspecified,
+    keyCompromise,
+    caCompromise,
+    affiliationChanged,
+    superceded,
+    cessationOfOperation,
+    certificateHold,
+    removeFromCrl,
+    privilegeWithdrawn,
+    aACompromise
+  ];
 
   static RevocationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RevocationReason'));
+          orElse: () => RevocationReason._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortBy {
-  createdAt('CREATED_AT'),
-  ;
+class SortBy {
+  static const createdAt = SortBy._('CREATED_AT');
 
   final String value;
 
-  const SortBy(this.value);
+  const SortBy._(this.value);
+
+  static const values = [createdAt];
 
   static SortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SortBy'));
+      values.firstWhere((e) => e.value == value, orElse: () => SortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key-value pair that identifies or specifies metadata about an ACM
@@ -2478,19 +2686,28 @@ class Tag {
   }
 }
 
-enum ValidationMethod {
-  email('EMAIL'),
-  dns('DNS'),
-  ;
+class ValidationMethod {
+  static const email = ValidationMethod._('EMAIL');
+  static const dns = ValidationMethod._('DNS');
 
   final String value;
 
-  const ValidationMethod(this.value);
+  const ValidationMethod._(this.value);
+
+  static const values = [email, dns];
 
   static ValidationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ValidationMethod'));
+          orElse: () => ValidationMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

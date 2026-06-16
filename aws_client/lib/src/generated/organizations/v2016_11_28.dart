@@ -4574,51 +4574,85 @@ class Account {
   }
 }
 
-enum AccountJoinedMethod {
-  invited('INVITED'),
-  created('CREATED'),
-  ;
+class AccountJoinedMethod {
+  static const invited = AccountJoinedMethod._('INVITED');
+  static const created = AccountJoinedMethod._('CREATED');
 
   final String value;
 
-  const AccountJoinedMethod(this.value);
+  const AccountJoinedMethod._(this.value);
 
-  static AccountJoinedMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccountJoinedMethod'));
+  static const values = [invited, created];
+
+  static AccountJoinedMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountJoinedMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountJoinedMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AccountStatus {
-  active('ACTIVE'),
-  suspended('SUSPENDED'),
-  pendingClosure('PENDING_CLOSURE'),
-  ;
+class AccountStatus {
+  static const active = AccountStatus._('ACTIVE');
+  static const suspended = AccountStatus._('SUSPENDED');
+  static const pendingClosure = AccountStatus._('PENDING_CLOSURE');
 
   final String value;
 
-  const AccountStatus(this.value);
+  const AccountStatus._(this.value);
+
+  static const values = [active, suspended, pendingClosure];
 
   static AccountStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountStatus'));
+          orElse: () => AccountStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionType {
-  invite('INVITE'),
-  enableAllFeatures('ENABLE_ALL_FEATURES'),
-  approveAllFeatures('APPROVE_ALL_FEATURES'),
-  addOrganizationsServiceLinkedRole('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE'),
-  ;
+class ActionType {
+  static const invite = ActionType._('INVITE');
+  static const enableAllFeatures = ActionType._('ENABLE_ALL_FEATURES');
+  static const approveAllFeatures = ActionType._('APPROVE_ALL_FEATURES');
+  static const addOrganizationsServiceLinkedRole =
+      ActionType._('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE');
 
   final String value;
 
-  const ActionType(this.value);
+  const ActionType._(this.value);
 
-  static ActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionType'));
+  static const values = [
+    invite,
+    enableAllFeatures,
+    approveAllFeatures,
+    addOrganizationsServiceLinkedRole
+  ];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelHandshakeResponse {
@@ -4690,48 +4724,95 @@ class Child {
   }
 }
 
-enum ChildType {
-  account('ACCOUNT'),
-  organizationalUnit('ORGANIZATIONAL_UNIT'),
-  ;
+class ChildType {
+  static const account = ChildType._('ACCOUNT');
+  static const organizationalUnit = ChildType._('ORGANIZATIONAL_UNIT');
 
   final String value;
 
-  const ChildType(this.value);
+  const ChildType._(this.value);
 
-  static ChildType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChildType'));
+  static const values = [account, organizationalUnit];
+
+  static ChildType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChildType._(value));
+
+  @override
+  bool operator ==(other) => other is ChildType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CreateAccountFailureReason {
-  accountLimitExceeded('ACCOUNT_LIMIT_EXCEEDED'),
-  emailAlreadyExists('EMAIL_ALREADY_EXISTS'),
-  invalidAddress('INVALID_ADDRESS'),
-  invalidEmail('INVALID_EMAIL'),
-  concurrentAccountModification('CONCURRENT_ACCOUNT_MODIFICATION'),
-  internalFailure('INTERNAL_FAILURE'),
-  govcloudAccountAlreadyExists('GOVCLOUD_ACCOUNT_ALREADY_EXISTS'),
-  missingBusinessValidation('MISSING_BUSINESS_VALIDATION'),
-  failedBusinessValidation('FAILED_BUSINESS_VALIDATION'),
-  pendingBusinessValidation('PENDING_BUSINESS_VALIDATION'),
-  invalidIdentityForBusinessValidation(
-      'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION'),
-  unknownBusinessValidation('UNKNOWN_BUSINESS_VALIDATION'),
-  missingPaymentInstrument('MISSING_PAYMENT_INSTRUMENT'),
-  invalidPaymentInstrument('INVALID_PAYMENT_INSTRUMENT'),
-  updateExistingResourcePolicyWithTagsNotSupported(
-      'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED'),
-  ;
+class CreateAccountFailureReason {
+  static const accountLimitExceeded =
+      CreateAccountFailureReason._('ACCOUNT_LIMIT_EXCEEDED');
+  static const emailAlreadyExists =
+      CreateAccountFailureReason._('EMAIL_ALREADY_EXISTS');
+  static const invalidAddress = CreateAccountFailureReason._('INVALID_ADDRESS');
+  static const invalidEmail = CreateAccountFailureReason._('INVALID_EMAIL');
+  static const concurrentAccountModification =
+      CreateAccountFailureReason._('CONCURRENT_ACCOUNT_MODIFICATION');
+  static const internalFailure =
+      CreateAccountFailureReason._('INTERNAL_FAILURE');
+  static const govcloudAccountAlreadyExists =
+      CreateAccountFailureReason._('GOVCLOUD_ACCOUNT_ALREADY_EXISTS');
+  static const missingBusinessValidation =
+      CreateAccountFailureReason._('MISSING_BUSINESS_VALIDATION');
+  static const failedBusinessValidation =
+      CreateAccountFailureReason._('FAILED_BUSINESS_VALIDATION');
+  static const pendingBusinessValidation =
+      CreateAccountFailureReason._('PENDING_BUSINESS_VALIDATION');
+  static const invalidIdentityForBusinessValidation =
+      CreateAccountFailureReason._('INVALID_IDENTITY_FOR_BUSINESS_VALIDATION');
+  static const unknownBusinessValidation =
+      CreateAccountFailureReason._('UNKNOWN_BUSINESS_VALIDATION');
+  static const missingPaymentInstrument =
+      CreateAccountFailureReason._('MISSING_PAYMENT_INSTRUMENT');
+  static const invalidPaymentInstrument =
+      CreateAccountFailureReason._('INVALID_PAYMENT_INSTRUMENT');
+  static const updateExistingResourcePolicyWithTagsNotSupported =
+      CreateAccountFailureReason._(
+          'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED');
 
   final String value;
 
-  const CreateAccountFailureReason(this.value);
+  const CreateAccountFailureReason._(this.value);
+
+  static const values = [
+    accountLimitExceeded,
+    emailAlreadyExists,
+    invalidAddress,
+    invalidEmail,
+    concurrentAccountModification,
+    internalFailure,
+    govcloudAccountAlreadyExists,
+    missingBusinessValidation,
+    failedBusinessValidation,
+    pendingBusinessValidation,
+    invalidIdentityForBusinessValidation,
+    unknownBusinessValidation,
+    missingPaymentInstrument,
+    invalidPaymentInstrument,
+    updateExistingResourcePolicyWithTagsNotSupported
+  ];
 
   static CreateAccountFailureReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CreateAccountFailureReason'));
+          orElse: () => CreateAccountFailureReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateAccountFailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAccountResponse {
@@ -4768,20 +4849,30 @@ class CreateAccountResponse {
   }
 }
 
-enum CreateAccountState {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class CreateAccountState {
+  static const inProgress = CreateAccountState._('IN_PROGRESS');
+  static const succeeded = CreateAccountState._('SUCCEEDED');
+  static const failed = CreateAccountState._('FAILED');
 
   final String value;
 
-  const CreateAccountState(this.value);
+  const CreateAccountState._(this.value);
 
-  static CreateAccountState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CreateAccountState'));
+  static const values = [inProgress, succeeded, failed];
+
+  static CreateAccountState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreateAccountState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateAccountState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the status about a <a>CreateAccount</a> or
@@ -5454,20 +5545,31 @@ class EffectivePolicy {
   }
 }
 
-enum EffectivePolicyType {
-  tagPolicy('TAG_POLICY'),
-  backupPolicy('BACKUP_POLICY'),
-  aiservicesOptOutPolicy('AISERVICES_OPT_OUT_POLICY'),
-  ;
+class EffectivePolicyType {
+  static const tagPolicy = EffectivePolicyType._('TAG_POLICY');
+  static const backupPolicy = EffectivePolicyType._('BACKUP_POLICY');
+  static const aiservicesOptOutPolicy =
+      EffectivePolicyType._('AISERVICES_OPT_OUT_POLICY');
 
   final String value;
 
-  const EffectivePolicyType(this.value);
+  const EffectivePolicyType._(this.value);
 
-  static EffectivePolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EffectivePolicyType'));
+  static const values = [tagPolicy, backupPolicy, aiservicesOptOutPolicy];
+
+  static EffectivePolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EffectivePolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EffectivePolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EnableAllFeaturesResponse {
@@ -5765,7 +5867,7 @@ class HandshakeParty {
   factory HandshakeParty.fromJson(Map<String, dynamic> json) {
     return HandshakeParty(
       id: (json['Id'] as String?) ?? '',
-      type: HandshakePartyType.fromString((json['Type'] as String)),
+      type: HandshakePartyType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -5779,20 +5881,30 @@ class HandshakeParty {
   }
 }
 
-enum HandshakePartyType {
-  account('ACCOUNT'),
-  organization('ORGANIZATION'),
-  email('EMAIL'),
-  ;
+class HandshakePartyType {
+  static const account = HandshakePartyType._('ACCOUNT');
+  static const organization = HandshakePartyType._('ORGANIZATION');
+  static const email = HandshakePartyType._('EMAIL');
 
   final String value;
 
-  const HandshakePartyType(this.value);
+  const HandshakePartyType._(this.value);
 
-  static HandshakePartyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HandshakePartyType'));
+  static const values = [account, organization, email];
+
+  static HandshakePartyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandshakePartyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HandshakePartyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains additional data that is needed to process a handshake.
@@ -5864,59 +5976,105 @@ class HandshakeResource {
   }
 }
 
-enum HandshakeResourceType {
-  account('ACCOUNT'),
-  organization('ORGANIZATION'),
-  organizationFeatureSet('ORGANIZATION_FEATURE_SET'),
-  email('EMAIL'),
-  masterEmail('MASTER_EMAIL'),
-  masterName('MASTER_NAME'),
-  notes('NOTES'),
-  parentHandshake('PARENT_HANDSHAKE'),
-  ;
+class HandshakeResourceType {
+  static const account = HandshakeResourceType._('ACCOUNT');
+  static const organization = HandshakeResourceType._('ORGANIZATION');
+  static const organizationFeatureSet =
+      HandshakeResourceType._('ORGANIZATION_FEATURE_SET');
+  static const email = HandshakeResourceType._('EMAIL');
+  static const masterEmail = HandshakeResourceType._('MASTER_EMAIL');
+  static const masterName = HandshakeResourceType._('MASTER_NAME');
+  static const notes = HandshakeResourceType._('NOTES');
+  static const parentHandshake = HandshakeResourceType._('PARENT_HANDSHAKE');
 
   final String value;
 
-  const HandshakeResourceType(this.value);
+  const HandshakeResourceType._(this.value);
 
-  static HandshakeResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HandshakeResourceType'));
+  static const values = [
+    account,
+    organization,
+    organizationFeatureSet,
+    email,
+    masterEmail,
+    masterName,
+    notes,
+    parentHandshake
+  ];
+
+  static HandshakeResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandshakeResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HandshakeResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HandshakeState {
-  requested('REQUESTED'),
-  open('OPEN'),
-  canceled('CANCELED'),
-  accepted('ACCEPTED'),
-  declined('DECLINED'),
-  expired('EXPIRED'),
-  ;
+class HandshakeState {
+  static const requested = HandshakeState._('REQUESTED');
+  static const open = HandshakeState._('OPEN');
+  static const canceled = HandshakeState._('CANCELED');
+  static const accepted = HandshakeState._('ACCEPTED');
+  static const declined = HandshakeState._('DECLINED');
+  static const expired = HandshakeState._('EXPIRED');
 
   final String value;
 
-  const HandshakeState(this.value);
+  const HandshakeState._(this.value);
+
+  static const values = [
+    requested,
+    open,
+    canceled,
+    accepted,
+    declined,
+    expired
+  ];
 
   static HandshakeState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HandshakeState'));
+          orElse: () => HandshakeState._(value));
+
+  @override
+  bool operator ==(other) => other is HandshakeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IAMUserAccessToBilling {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class IAMUserAccessToBilling {
+  static const allow = IAMUserAccessToBilling._('ALLOW');
+  static const deny = IAMUserAccessToBilling._('DENY');
 
   final String value;
 
-  const IAMUserAccessToBilling(this.value);
+  const IAMUserAccessToBilling._(this.value);
+
+  static const values = [allow, deny];
 
   static IAMUserAccessToBilling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IAMUserAccessToBilling'));
+          orElse: () => IAMUserAccessToBilling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IAMUserAccessToBilling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InviteAccountToOrganizationResponse {
@@ -6646,19 +6804,30 @@ class Organization {
   }
 }
 
-enum OrganizationFeatureSet {
-  all('ALL'),
-  consolidatedBilling('CONSOLIDATED_BILLING'),
-  ;
+class OrganizationFeatureSet {
+  static const all = OrganizationFeatureSet._('ALL');
+  static const consolidatedBilling =
+      OrganizationFeatureSet._('CONSOLIDATED_BILLING');
 
   final String value;
 
-  const OrganizationFeatureSet(this.value);
+  const OrganizationFeatureSet._(this.value);
+
+  static const values = [all, consolidatedBilling];
 
   static OrganizationFeatureSet fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationFeatureSet'));
+          orElse: () => OrganizationFeatureSet._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationFeatureSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an organizational unit (OU). An OU is a container of
@@ -6764,18 +6933,27 @@ class Parent {
   }
 }
 
-enum ParentType {
-  root('ROOT'),
-  organizationalUnit('ORGANIZATIONAL_UNIT'),
-  ;
+class ParentType {
+  static const root = ParentType._('ROOT');
+  static const organizationalUnit = ParentType._('ORGANIZATIONAL_UNIT');
 
   final String value;
 
-  const ParentType(this.value);
+  const ParentType._(this.value);
 
-  static ParentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ParentType'));
+  static const values = [root, organizationalUnit];
+
+  static ParentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ParentType._(value));
+
+  @override
+  bool operator ==(other) => other is ParentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains rules to be applied to the affected accounts. Policies can be
@@ -6960,36 +7138,60 @@ class PolicyTargetSummary {
   }
 }
 
-enum PolicyType {
-  serviceControlPolicy('SERVICE_CONTROL_POLICY'),
-  tagPolicy('TAG_POLICY'),
-  backupPolicy('BACKUP_POLICY'),
-  aiservicesOptOutPolicy('AISERVICES_OPT_OUT_POLICY'),
-  ;
+class PolicyType {
+  static const serviceControlPolicy = PolicyType._('SERVICE_CONTROL_POLICY');
+  static const tagPolicy = PolicyType._('TAG_POLICY');
+  static const backupPolicy = PolicyType._('BACKUP_POLICY');
+  static const aiservicesOptOutPolicy =
+      PolicyType._('AISERVICES_OPT_OUT_POLICY');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [
+    serviceControlPolicy,
+    tagPolicy,
+    backupPolicy,
+    aiservicesOptOutPolicy
+  ];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyTypeStatus {
-  enabled('ENABLED'),
-  pendingEnable('PENDING_ENABLE'),
-  pendingDisable('PENDING_DISABLE'),
-  ;
+class PolicyTypeStatus {
+  static const enabled = PolicyTypeStatus._('ENABLED');
+  static const pendingEnable = PolicyTypeStatus._('PENDING_ENABLE');
+  static const pendingDisable = PolicyTypeStatus._('PENDING_DISABLE');
 
   final String value;
 
-  const PolicyTypeStatus(this.value);
+  const PolicyTypeStatus._(this.value);
+
+  static const values = [enabled, pendingEnable, pendingDisable];
 
   static PolicyTypeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicyTypeStatus'));
+          orElse: () => PolicyTypeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyTypeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a policy type and its status in the associated
@@ -7236,19 +7438,28 @@ class Tag {
   }
 }
 
-enum TargetType {
-  account('ACCOUNT'),
-  organizationalUnit('ORGANIZATIONAL_UNIT'),
-  root('ROOT'),
-  ;
+class TargetType {
+  static const account = TargetType._('ACCOUNT');
+  static const organizationalUnit = TargetType._('ORGANIZATIONAL_UNIT');
+  static const root = TargetType._('ROOT');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [account, organizationalUnit, root];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateOrganizationalUnitResponse {

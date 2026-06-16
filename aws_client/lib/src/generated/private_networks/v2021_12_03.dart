@@ -1152,20 +1152,30 @@ class AcknowledgeOrderReceiptResponse {
   }
 }
 
-enum AcknowledgmentStatus {
-  acknowledging('ACKNOWLEDGING'),
-  acknowledged('ACKNOWLEDGED'),
-  unacknowledged('UNACKNOWLEDGED'),
-  ;
+class AcknowledgmentStatus {
+  static const acknowledging = AcknowledgmentStatus._('ACKNOWLEDGING');
+  static const acknowledged = AcknowledgmentStatus._('ACKNOWLEDGED');
+  static const unacknowledged = AcknowledgmentStatus._('UNACKNOWLEDGED');
 
   final String value;
 
-  const AcknowledgmentStatus(this.value);
+  const AcknowledgmentStatus._(this.value);
 
-  static AcknowledgmentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AcknowledgmentStatus'));
+  static const values = [acknowledging, acknowledged, unacknowledged];
+
+  static AcknowledgmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcknowledgmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcknowledgmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivateDeviceIdentifierResponse {
@@ -1364,8 +1374,8 @@ class CommitmentConfiguration {
   factory CommitmentConfiguration.fromJson(Map<String, dynamic> json) {
     return CommitmentConfiguration(
       automaticRenewal: (json['automaticRenewal'] as bool?) ?? false,
-      commitmentLength:
-          CommitmentLength.fromString((json['commitmentLength'] as String)),
+      commitmentLength: CommitmentLength.fromString(
+          (json['commitmentLength'] as String?) ?? ''),
     );
   }
 
@@ -1421,20 +1431,29 @@ class CommitmentInformation {
   }
 }
 
-enum CommitmentLength {
-  sixtyDays('SIXTY_DAYS'),
-  oneYear('ONE_YEAR'),
-  threeYears('THREE_YEARS'),
-  ;
+class CommitmentLength {
+  static const sixtyDays = CommitmentLength._('SIXTY_DAYS');
+  static const oneYear = CommitmentLength._('ONE_YEAR');
+  static const threeYears = CommitmentLength._('THREE_YEARS');
 
   final String value;
 
-  const CommitmentLength(this.value);
+  const CommitmentLength._(this.value);
+
+  static const values = [sixtyDays, oneYear, threeYears];
 
   static CommitmentLength fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CommitmentLength'));
+          orElse: () => CommitmentLength._(value));
+
+  @override
+  bool operator ==(other) => other is CommitmentLength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConfigureAccessPointResponse {
@@ -1680,64 +1699,103 @@ class DeviceIdentifier {
   }
 }
 
-enum DeviceIdentifierFilterKeys {
-  status('STATUS'),
-  order('ORDER'),
-  trafficGroup('TRAFFIC_GROUP'),
-  ;
+class DeviceIdentifierFilterKeys {
+  static const status = DeviceIdentifierFilterKeys._('STATUS');
+  static const order = DeviceIdentifierFilterKeys._('ORDER');
+  static const trafficGroup = DeviceIdentifierFilterKeys._('TRAFFIC_GROUP');
 
   final String value;
 
-  const DeviceIdentifierFilterKeys(this.value);
+  const DeviceIdentifierFilterKeys._(this.value);
+
+  static const values = [status, order, trafficGroup];
 
   static DeviceIdentifierFilterKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceIdentifierFilterKeys'));
+          orElse: () => DeviceIdentifierFilterKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceIdentifierFilterKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceIdentifierStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class DeviceIdentifierStatus {
+  static const active = DeviceIdentifierStatus._('ACTIVE');
+  static const inactive = DeviceIdentifierStatus._('INACTIVE');
 
   final String value;
 
-  const DeviceIdentifierStatus(this.value);
+  const DeviceIdentifierStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static DeviceIdentifierStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceIdentifierStatus'));
+          orElse: () => DeviceIdentifierStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceIdentifierStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ElevationReference {
-  agl('AGL'),
-  amsl('AMSL'),
-  ;
+class ElevationReference {
+  static const agl = ElevationReference._('AGL');
+  static const amsl = ElevationReference._('AMSL');
 
   final String value;
 
-  const ElevationReference(this.value);
+  const ElevationReference._(this.value);
 
-  static ElevationReference fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ElevationReference'));
+  static const values = [agl, amsl];
+
+  static ElevationReference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ElevationReference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ElevationReference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ElevationUnit {
-  feet('FEET'),
-  ;
+class ElevationUnit {
+  static const feet = ElevationUnit._('FEET');
 
   final String value;
 
-  const ElevationUnit(this.value);
+  const ElevationUnit._(this.value);
+
+  static const values = [feet];
 
   static ElevationUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ElevationUnit'));
+          orElse: () => ElevationUnit._(value));
+
+  @override
+  bool operator ==(other) => other is ElevationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDeviceIdentifierResponse {
@@ -1899,20 +1957,28 @@ class GetOrderResponse {
   }
 }
 
-enum HealthStatus {
-  initial('INITIAL'),
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class HealthStatus {
+  static const initial = HealthStatus._('INITIAL');
+  static const healthy = HealthStatus._('HEALTHY');
+  static const unhealthy = HealthStatus._('UNHEALTHY');
 
   final String value;
 
-  const HealthStatus(this.value);
+  const HealthStatus._(this.value);
 
-  static HealthStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthStatus'));
+  static const values = [initial, healthy, unhealthy];
+
+  static HealthStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDeviceIdentifiersResponse {
@@ -2161,7 +2227,7 @@ class Network {
     return Network(
       networkArn: (json['networkArn'] as String?) ?? '',
       networkName: (json['networkName'] as String?) ?? '',
-      status: NetworkStatus.fromString((json['status'] as String)),
+      status: NetworkStatus.fromString((json['status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       statusReason: json['statusReason'] as String?,
@@ -2186,18 +2252,27 @@ class Network {
   }
 }
 
-enum NetworkFilterKeys {
-  status('STATUS'),
-  ;
+class NetworkFilterKeys {
+  static const status = NetworkFilterKeys._('STATUS');
 
   final String value;
 
-  const NetworkFilterKeys(this.value);
+  const NetworkFilterKeys._(this.value);
+
+  static const values = [status];
 
   static NetworkFilterKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NetworkFilterKeys'));
+          orElse: () => NetworkFilterKeys._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkFilterKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a network resource.
@@ -2373,7 +2448,8 @@ class NetworkResourceDefinition {
   factory NetworkResourceDefinition.fromJson(Map<String, dynamic> json) {
     return NetworkResourceDefinition(
       count: (json['count'] as int?) ?? 0,
-      type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
+      type: NetworkResourceDefinitionType.fromString(
+          (json['type'] as String?) ?? ''),
       options: (json['options'] as List?)
           ?.nonNulls
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
@@ -2393,70 +2469,122 @@ class NetworkResourceDefinition {
   }
 }
 
-enum NetworkResourceDefinitionType {
-  radioUnit('RADIO_UNIT'),
-  deviceIdentifier('DEVICE_IDENTIFIER'),
-  ;
+class NetworkResourceDefinitionType {
+  static const radioUnit = NetworkResourceDefinitionType._('RADIO_UNIT');
+  static const deviceIdentifier =
+      NetworkResourceDefinitionType._('DEVICE_IDENTIFIER');
 
   final String value;
 
-  const NetworkResourceDefinitionType(this.value);
+  const NetworkResourceDefinitionType._(this.value);
+
+  static const values = [radioUnit, deviceIdentifier];
 
   static NetworkResourceDefinitionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkResourceDefinitionType'));
+          orElse: () => NetworkResourceDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkResourceDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkResourceFilterKeys {
-  order('ORDER'),
-  status('STATUS'),
-  ;
+class NetworkResourceFilterKeys {
+  static const order = NetworkResourceFilterKeys._('ORDER');
+  static const status = NetworkResourceFilterKeys._('STATUS');
 
   final String value;
 
-  const NetworkResourceFilterKeys(this.value);
+  const NetworkResourceFilterKeys._(this.value);
+
+  static const values = [order, status];
 
   static NetworkResourceFilterKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkResourceFilterKeys'));
+          orElse: () => NetworkResourceFilterKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkResourceFilterKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkResourceStatus {
-  pending('PENDING'),
-  shipped('SHIPPED'),
-  provisioning('PROVISIONING'),
-  provisioned('PROVISIONED'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  pendingReturn('PENDING_RETURN'),
-  deleted('DELETED'),
-  creatingShippingLabel('CREATING_SHIPPING_LABEL'),
-  ;
+class NetworkResourceStatus {
+  static const pending = NetworkResourceStatus._('PENDING');
+  static const shipped = NetworkResourceStatus._('SHIPPED');
+  static const provisioning = NetworkResourceStatus._('PROVISIONING');
+  static const provisioned = NetworkResourceStatus._('PROVISIONED');
+  static const available = NetworkResourceStatus._('AVAILABLE');
+  static const deleting = NetworkResourceStatus._('DELETING');
+  static const pendingReturn = NetworkResourceStatus._('PENDING_RETURN');
+  static const deleted = NetworkResourceStatus._('DELETED');
+  static const creatingShippingLabel =
+      NetworkResourceStatus._('CREATING_SHIPPING_LABEL');
 
   final String value;
 
-  const NetworkResourceStatus(this.value);
+  const NetworkResourceStatus._(this.value);
 
-  static NetworkResourceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkResourceStatus'));
+  static const values = [
+    pending,
+    shipped,
+    provisioning,
+    provisioned,
+    available,
+    deleting,
+    pendingReturn,
+    deleted,
+    creatingShippingLabel
+  ];
+
+  static NetworkResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkResourceType {
-  radioUnit('RADIO_UNIT'),
-  ;
+class NetworkResourceType {
+  static const radioUnit = NetworkResourceType._('RADIO_UNIT');
 
   final String value;
 
-  const NetworkResourceType(this.value);
+  const NetworkResourceType._(this.value);
 
-  static NetworkResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkResourceType'));
+  static const values = [radioUnit];
+
+  static NetworkResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a network site.
@@ -2514,7 +2642,7 @@ class NetworkSite {
       networkArn: (json['networkArn'] as String?) ?? '',
       networkSiteArn: (json['networkSiteArn'] as String?) ?? '',
       networkSiteName: (json['networkSiteName'] as String?) ?? '',
-      status: NetworkSiteStatus.fromString((json['status'] as String)),
+      status: NetworkSiteStatus.fromString((json['status'] as String?) ?? ''),
       availabilityZone: json['availabilityZone'] as String?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -2557,54 +2685,94 @@ class NetworkSite {
   }
 }
 
-enum NetworkSiteFilterKeys {
-  status('STATUS'),
-  ;
+class NetworkSiteFilterKeys {
+  static const status = NetworkSiteFilterKeys._('STATUS');
 
   final String value;
 
-  const NetworkSiteFilterKeys(this.value);
+  const NetworkSiteFilterKeys._(this.value);
 
-  static NetworkSiteFilterKeys fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkSiteFilterKeys'));
+  static const values = [status];
+
+  static NetworkSiteFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkSiteFilterKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkSiteFilterKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkSiteStatus {
-  created('CREATED'),
-  provisioning('PROVISIONING'),
-  available('AVAILABLE'),
-  deprovisioning('DEPROVISIONING'),
-  deleted('DELETED'),
-  ;
+class NetworkSiteStatus {
+  static const created = NetworkSiteStatus._('CREATED');
+  static const provisioning = NetworkSiteStatus._('PROVISIONING');
+  static const available = NetworkSiteStatus._('AVAILABLE');
+  static const deprovisioning = NetworkSiteStatus._('DEPROVISIONING');
+  static const deleted = NetworkSiteStatus._('DELETED');
 
   final String value;
 
-  const NetworkSiteStatus(this.value);
+  const NetworkSiteStatus._(this.value);
+
+  static const values = [
+    created,
+    provisioning,
+    available,
+    deprovisioning,
+    deleted
+  ];
 
   static NetworkSiteStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NetworkSiteStatus'));
+          orElse: () => NetworkSiteStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkSiteStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NetworkStatus {
-  created('CREATED'),
-  provisioning('PROVISIONING'),
-  available('AVAILABLE'),
-  deprovisioning('DEPROVISIONING'),
-  deleted('DELETED'),
-  ;
+class NetworkStatus {
+  static const created = NetworkStatus._('CREATED');
+  static const provisioning = NetworkStatus._('PROVISIONING');
+  static const available = NetworkStatus._('AVAILABLE');
+  static const deprovisioning = NetworkStatus._('DEPROVISIONING');
+  static const deleted = NetworkStatus._('DELETED');
 
   final String value;
 
-  const NetworkStatus(this.value);
+  const NetworkStatus._(this.value);
+
+  static const values = [
+    created,
+    provisioning,
+    available,
+    deprovisioning,
+    deleted
+  ];
 
   static NetworkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NetworkStatus'));
+          orElse: () => NetworkStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an order.
@@ -2692,19 +2860,28 @@ class Order {
   }
 }
 
-enum OrderFilterKeys {
-  status('STATUS'),
-  networkSite('NETWORK_SITE'),
-  ;
+class OrderFilterKeys {
+  static const status = OrderFilterKeys._('STATUS');
+  static const networkSite = OrderFilterKeys._('NETWORK_SITE');
 
   final String value;
 
-  const OrderFilterKeys(this.value);
+  const OrderFilterKeys._(this.value);
+
+  static const values = [status, networkSite];
 
   static OrderFilterKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrderFilterKeys'));
+          orElse: () => OrderFilterKeys._(value));
+
+  @override
+  bool operator ==(other) => other is OrderFilterKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the network resources in the order.
@@ -2729,7 +2906,8 @@ class OrderedResourceDefinition {
   factory OrderedResourceDefinition.fromJson(Map<String, dynamic> json) {
     return OrderedResourceDefinition(
       count: (json['count'] as int?) ?? 0,
-      type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
+      type: NetworkResourceDefinitionType.fromString(
+          (json['type'] as String?) ?? ''),
       commitmentConfiguration: json['commitmentConfiguration'] != null
           ? CommitmentConfiguration.fromJson(
               json['commitmentConfiguration'] as Map<String, dynamic>)
@@ -3021,19 +3199,28 @@ class UpdateNetworkSiteResponse {
   }
 }
 
-enum UpdateType {
-  replace('REPLACE'),
-  $return('RETURN'),
-  commitment('COMMITMENT'),
-  ;
+class UpdateType {
+  static const replace = UpdateType._('REPLACE');
+  static const $return = UpdateType._('RETURN');
+  static const commitment = UpdateType._('COMMITMENT');
 
   final String value;
 
-  const UpdateType(this.value);
+  const UpdateType._(this.value);
 
-  static UpdateType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UpdateType'));
+  static const values = [replace, $return, commitment];
+
+  static UpdateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

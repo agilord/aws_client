@@ -1565,19 +1565,29 @@ class CustomEvents {
   }
 }
 
-enum CustomEventsStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CustomEventsStatus {
+  static const enabled = CustomEventsStatus._('ENABLED');
+  static const disabled = CustomEventsStatus._('DISABLED');
 
   final String value;
 
-  const CustomEventsStatus(this.value);
+  const CustomEventsStatus._(this.value);
 
-  static CustomEventsStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomEventsStatus'));
+  static const values = [enabled, disabled];
+
+  static CustomEventsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomEventsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomEventsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the information about whether the app monitor
@@ -2270,19 +2280,28 @@ class MetricDefinitionRequest {
   }
 }
 
-enum MetricDestination {
-  cloudWatch('CloudWatch'),
-  evidently('Evidently'),
-  ;
+class MetricDestination {
+  static const cloudWatch = MetricDestination._('CloudWatch');
+  static const evidently = MetricDestination._('Evidently');
 
   final String value;
 
-  const MetricDestination(this.value);
+  const MetricDestination._(this.value);
+
+  static const values = [cloudWatch, evidently];
 
   static MetricDestination fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricDestination'));
+          orElse: () => MetricDestination._(value));
+
+  @override
+  bool operator ==(other) => other is MetricDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that displays information about one destination that CloudWatch
@@ -2439,19 +2458,28 @@ class RumEvent {
   }
 }
 
-enum StateEnum {
-  created('CREATED'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  ;
+class StateEnum {
+  static const created = StateEnum._('CREATED');
+  static const deleting = StateEnum._('DELETING');
+  static const active = StateEnum._('ACTIVE');
 
   final String value;
 
-  const StateEnum(this.value);
+  const StateEnum._(this.value);
 
-  static StateEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StateEnum'));
+  static const values = [created, deleting, active];
+
+  static StateEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateEnum._(value));
+
+  @override
+  bool operator ==(other) => other is StateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -2466,19 +2494,28 @@ class TagResourceResponse {
   }
 }
 
-enum Telemetry {
-  errors('errors'),
-  performance('performance'),
-  http('http'),
-  ;
+class Telemetry {
+  static const errors = Telemetry._('errors');
+  static const performance = Telemetry._('performance');
+  static const http = Telemetry._('http');
 
   final String value;
 
-  const Telemetry(this.value);
+  const Telemetry._(this.value);
 
-  static Telemetry fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Telemetry'));
+  static const values = [errors, performance, http];
+
+  static Telemetry fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
+
+  @override
+  bool operator ==(other) => other is Telemetry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines the time range that you want to retrieve results

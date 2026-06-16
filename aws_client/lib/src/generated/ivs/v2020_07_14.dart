@@ -1939,19 +1939,29 @@ class Channel {
   }
 }
 
-enum ChannelLatencyMode {
-  normal('NORMAL'),
-  low('LOW'),
-  ;
+class ChannelLatencyMode {
+  static const normal = ChannelLatencyMode._('NORMAL');
+  static const low = ChannelLatencyMode._('LOW');
 
   final String value;
 
-  const ChannelLatencyMode(this.value);
+  const ChannelLatencyMode._(this.value);
 
-  static ChannelLatencyMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChannelLatencyMode'));
+  static const values = [normal, low];
+
+  static ChannelLatencyMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelLatencyMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelLatencyMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a channel.
@@ -2068,20 +2078,29 @@ class ChannelSummary {
   }
 }
 
-enum ChannelType {
-  basic('BASIC'),
-  standard('STANDARD'),
-  advancedSd('ADVANCED_SD'),
-  advancedHd('ADVANCED_HD'),
-  ;
+class ChannelType {
+  static const basic = ChannelType._('BASIC');
+  static const standard = ChannelType._('STANDARD');
+  static const advancedSd = ChannelType._('ADVANCED_SD');
+  static const advancedHd = ChannelType._('ADVANCED_HD');
 
   final String value;
 
-  const ChannelType(this.value);
+  const ChannelType._(this.value);
 
-  static ChannelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelType'));
+  static const values = [basic, standard, advancedSd, advancedHd];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateChannelResponse {
@@ -3044,7 +3063,8 @@ class RecordingConfiguration {
       destinationConfiguration: DestinationConfiguration.fromJson(
           (json['destinationConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      state: RecordingConfigurationState.fromString((json['state'] as String)),
+      state: RecordingConfigurationState.fromString(
+          (json['state'] as String?) ?? ''),
       name: json['name'] as String?,
       recordingReconnectWindowSeconds:
           json['recordingReconnectWindowSeconds'] as int?,
@@ -3087,20 +3107,30 @@ class RecordingConfiguration {
   }
 }
 
-enum RecordingConfigurationState {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  ;
+class RecordingConfigurationState {
+  static const creating = RecordingConfigurationState._('CREATING');
+  static const createFailed = RecordingConfigurationState._('CREATE_FAILED');
+  static const active = RecordingConfigurationState._('ACTIVE');
 
   final String value;
 
-  const RecordingConfigurationState(this.value);
+  const RecordingConfigurationState._(this.value);
+
+  static const values = [creating, createFailed, active];
 
   static RecordingConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecordingConfigurationState'));
+          orElse: () => RecordingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a RecordingConfiguration.
@@ -3143,7 +3173,8 @@ class RecordingConfigurationSummary {
       destinationConfiguration: DestinationConfiguration.fromJson(
           (json['destinationConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      state: RecordingConfigurationState.fromString((json['state'] as String)),
+      state: RecordingConfigurationState.fromString(
+          (json['state'] as String?) ?? ''),
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3166,19 +3197,28 @@ class RecordingConfigurationSummary {
   }
 }
 
-enum RecordingMode {
-  disabled('DISABLED'),
-  interval('INTERVAL'),
-  ;
+class RecordingMode {
+  static const disabled = RecordingMode._('DISABLED');
+  static const interval = RecordingMode._('INTERVAL');
 
   final String value;
 
-  const RecordingMode(this.value);
+  const RecordingMode._(this.value);
+
+  static const values = [disabled, interval];
 
   static RecordingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordingMode'));
+          orElse: () => RecordingMode._(value));
+
+  @override
+  bool operator ==(other) => other is RecordingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object that describes which renditions should be recorded for a stream.
@@ -3227,37 +3267,58 @@ class RenditionConfiguration {
   }
 }
 
-enum RenditionConfigurationRendition {
-  sd('SD'),
-  hd('HD'),
-  fullHd('FULL_HD'),
-  lowestResolution('LOWEST_RESOLUTION'),
-  ;
+class RenditionConfigurationRendition {
+  static const sd = RenditionConfigurationRendition._('SD');
+  static const hd = RenditionConfigurationRendition._('HD');
+  static const fullHd = RenditionConfigurationRendition._('FULL_HD');
+  static const lowestResolution =
+      RenditionConfigurationRendition._('LOWEST_RESOLUTION');
 
   final String value;
 
-  const RenditionConfigurationRendition(this.value);
+  const RenditionConfigurationRendition._(this.value);
+
+  static const values = [sd, hd, fullHd, lowestResolution];
 
   static RenditionConfigurationRendition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RenditionConfigurationRendition'));
+          orElse: () => RenditionConfigurationRendition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RenditionConfigurationRendition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RenditionConfigurationRenditionSelection {
-  all('ALL'),
-  none('NONE'),
-  custom('CUSTOM'),
-  ;
+class RenditionConfigurationRenditionSelection {
+  static const all = RenditionConfigurationRenditionSelection._('ALL');
+  static const none = RenditionConfigurationRenditionSelection._('NONE');
+  static const custom = RenditionConfigurationRenditionSelection._('CUSTOM');
 
   final String value;
 
-  const RenditionConfigurationRenditionSelection(this.value);
+  const RenditionConfigurationRenditionSelection._(this.value);
+
+  static const values = [all, none, custom];
 
   static RenditionConfigurationRenditionSelection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RenditionConfigurationRenditionSelection'));
+          orElse: () => RenditionConfigurationRenditionSelection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RenditionConfigurationRenditionSelection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that describes an S3 location where recorded videos will be
@@ -3472,20 +3533,28 @@ class StreamFilters {
   }
 }
 
-enum StreamHealth {
-  healthy('HEALTHY'),
-  starving('STARVING'),
-  unknown('UNKNOWN'),
-  ;
+class StreamHealth {
+  static const healthy = StreamHealth._('HEALTHY');
+  static const starving = StreamHealth._('STARVING');
+  static const unknown = StreamHealth._('UNKNOWN');
 
   final String value;
 
-  const StreamHealth(this.value);
+  const StreamHealth._(this.value);
 
-  static StreamHealth fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamHealth'));
+  static const values = [healthy, starving, unknown];
+
+  static StreamHealth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamHealth._(value));
+
+  @override
+  bool operator ==(other) => other is StreamHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object specifying a stream key.
@@ -3719,18 +3788,27 @@ class StreamSessionSummary {
   }
 }
 
-enum StreamState {
-  live('LIVE'),
-  offline('OFFLINE'),
-  ;
+class StreamState {
+  static const live = StreamState._('LIVE');
+  static const offline = StreamState._('OFFLINE');
 
   final String value;
 
-  const StreamState(this.value);
+  const StreamState._(this.value);
 
-  static StreamState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StreamState'));
+  static const values = [live, offline];
+
+  static StreamState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamState._(value));
+
+  @override
+  bool operator ==(other) => other is StreamState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a stream.
@@ -3886,51 +3964,83 @@ class ThumbnailConfiguration {
   }
 }
 
-enum ThumbnailConfigurationResolution {
-  sd('SD'),
-  hd('HD'),
-  fullHd('FULL_HD'),
-  lowestResolution('LOWEST_RESOLUTION'),
-  ;
+class ThumbnailConfigurationResolution {
+  static const sd = ThumbnailConfigurationResolution._('SD');
+  static const hd = ThumbnailConfigurationResolution._('HD');
+  static const fullHd = ThumbnailConfigurationResolution._('FULL_HD');
+  static const lowestResolution =
+      ThumbnailConfigurationResolution._('LOWEST_RESOLUTION');
 
   final String value;
 
-  const ThumbnailConfigurationResolution(this.value);
+  const ThumbnailConfigurationResolution._(this.value);
+
+  static const values = [sd, hd, fullHd, lowestResolution];
 
   static ThumbnailConfigurationResolution fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ThumbnailConfigurationResolution'));
+          orElse: () => ThumbnailConfigurationResolution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThumbnailConfigurationResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThumbnailConfigurationStorage {
-  sequential('SEQUENTIAL'),
-  latest('LATEST'),
-  ;
+class ThumbnailConfigurationStorage {
+  static const sequential = ThumbnailConfigurationStorage._('SEQUENTIAL');
+  static const latest = ThumbnailConfigurationStorage._('LATEST');
 
   final String value;
 
-  const ThumbnailConfigurationStorage(this.value);
+  const ThumbnailConfigurationStorage._(this.value);
+
+  static const values = [sequential, latest];
 
   static ThumbnailConfigurationStorage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ThumbnailConfigurationStorage'));
+          orElse: () => ThumbnailConfigurationStorage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThumbnailConfigurationStorage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TranscodePreset {
-  higherBandwidthDelivery('HIGHER_BANDWIDTH_DELIVERY'),
-  constrainedBandwidthDelivery('CONSTRAINED_BANDWIDTH_DELIVERY'),
-  ;
+class TranscodePreset {
+  static const higherBandwidthDelivery =
+      TranscodePreset._('HIGHER_BANDWIDTH_DELIVERY');
+  static const constrainedBandwidthDelivery =
+      TranscodePreset._('CONSTRAINED_BANDWIDTH_DELIVERY');
 
   final String value;
 
-  const TranscodePreset(this.value);
+  const TranscodePreset._(this.value);
+
+  static const values = [higherBandwidthDelivery, constrainedBandwidthDelivery];
 
   static TranscodePreset fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TranscodePreset'));
+          orElse: () => TranscodePreset._(value));
+
+  @override
+  bool operator ==(other) => other is TranscodePreset && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

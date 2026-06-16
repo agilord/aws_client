@@ -3858,7 +3858,7 @@ class EncryptionConfiguration {
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
       encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String)),
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
       kmsKey: json['kmsKey'] as String?,
     );
   }
@@ -3914,7 +3914,7 @@ class EncryptionConfigurationForRepositoryCreationTemplate {
       Map<String, dynamic> json) {
     return EncryptionConfigurationForRepositoryCreationTemplate(
       encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String)),
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
       kmsKey: json['kmsKey'] as String?,
     );
   }
@@ -3929,19 +3929,28 @@ class EncryptionConfigurationForRepositoryCreationTemplate {
   }
 }
 
-enum EncryptionType {
-  aes256('AES256'),
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const aes256 = EncryptionType._('AES256');
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [aes256, kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an enhanced image scan. This is returned when enhanced
@@ -4079,23 +4088,32 @@ class EnhancedImageScanFinding {
   }
 }
 
-enum FindingSeverity {
-  informational('INFORMATIONAL'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  critical('CRITICAL'),
-  undefined('UNDEFINED'),
-  ;
+class FindingSeverity {
+  static const informational = FindingSeverity._('INFORMATIONAL');
+  static const low = FindingSeverity._('LOW');
+  static const medium = FindingSeverity._('MEDIUM');
+  static const high = FindingSeverity._('HIGH');
+  static const critical = FindingSeverity._('CRITICAL');
+  static const undefined = FindingSeverity._('UNDEFINED');
 
   final String value;
 
-  const FindingSeverity(this.value);
+  const FindingSeverity._(this.value);
+
+  static const values = [informational, low, medium, high, critical, undefined];
 
   static FindingSeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingSeverity'));
+          orElse: () => FindingSeverity._(value));
+
+  @override
+  bool operator ==(other) => other is FindingSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAccountSettingResponse {
@@ -4462,18 +4480,27 @@ class Image {
   }
 }
 
-enum ImageActionType {
-  expire('EXPIRE'),
-  ;
+class ImageActionType {
+  static const expire = ImageActionType._('EXPIRE');
 
   final String value;
 
-  const ImageActionType(this.value);
+  const ImageActionType._(this.value);
+
+  static const values = [expire];
 
   static ImageActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageActionType'));
+          orElse: () => ImageActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that describes an image returned by a <a>DescribeImages</a>
@@ -4644,27 +4671,51 @@ class ImageFailure {
   }
 }
 
-enum ImageFailureCode {
-  invalidImageDigest('InvalidImageDigest'),
-  invalidImageTag('InvalidImageTag'),
-  imageTagDoesNotMatchDigest('ImageTagDoesNotMatchDigest'),
-  imageNotFound('ImageNotFound'),
-  missingDigestAndTag('MissingDigestAndTag'),
-  imageReferencedByManifestList('ImageReferencedByManifestList'),
-  kmsError('KmsError'),
-  upstreamAccessDenied('UpstreamAccessDenied'),
-  upstreamTooManyRequests('UpstreamTooManyRequests'),
-  upstreamUnavailable('UpstreamUnavailable'),
-  ;
+class ImageFailureCode {
+  static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
+  static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
+  static const imageTagDoesNotMatchDigest =
+      ImageFailureCode._('ImageTagDoesNotMatchDigest');
+  static const imageNotFound = ImageFailureCode._('ImageNotFound');
+  static const missingDigestAndTag = ImageFailureCode._('MissingDigestAndTag');
+  static const imageReferencedByManifestList =
+      ImageFailureCode._('ImageReferencedByManifestList');
+  static const kmsError = ImageFailureCode._('KmsError');
+  static const upstreamAccessDenied =
+      ImageFailureCode._('UpstreamAccessDenied');
+  static const upstreamTooManyRequests =
+      ImageFailureCode._('UpstreamTooManyRequests');
+  static const upstreamUnavailable = ImageFailureCode._('UpstreamUnavailable');
 
   final String value;
 
-  const ImageFailureCode(this.value);
+  const ImageFailureCode._(this.value);
+
+  static const values = [
+    invalidImageDigest,
+    invalidImageTag,
+    imageTagDoesNotMatchDigest,
+    imageNotFound,
+    missingDigestAndTag,
+    imageReferencedByManifestList,
+    kmsError,
+    upstreamAccessDenied,
+    upstreamTooManyRequests,
+    upstreamUnavailable
+  ];
 
   static ImageFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageFailureCode'));
+          orElse: () => ImageFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object with identifying information for an image in an Amazon ECR
@@ -4967,19 +5018,29 @@ class ImageScanningConfiguration {
   }
 }
 
-enum ImageTagMutability {
-  mutable('MUTABLE'),
-  immutable('IMMUTABLE'),
-  ;
+class ImageTagMutability {
+  static const mutable = ImageTagMutability._('MUTABLE');
+  static const immutable = ImageTagMutability._('IMMUTABLE');
 
   final String value;
 
-  const ImageTagMutability(this.value);
+  const ImageTagMutability._(this.value);
 
-  static ImageTagMutability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageTagMutability'));
+  static const values = [mutable, immutable];
+
+  static ImageTagMutability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageTagMutability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageTagMutability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InitiateLayerUploadResponse {
@@ -5060,19 +5121,28 @@ class Layer {
   }
 }
 
-enum LayerAvailability {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class LayerAvailability {
+  static const available = LayerAvailability._('AVAILABLE');
+  static const unavailable = LayerAvailability._('UNAVAILABLE');
 
   final String value;
 
-  const LayerAvailability(this.value);
+  const LayerAvailability._(this.value);
+
+  static const values = [available, unavailable];
 
   static LayerAvailability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayerAvailability'));
+          orElse: () => LayerAvailability._(value));
+
+  @override
+  bool operator ==(other) => other is LayerAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing an Amazon ECR image layer failure.
@@ -5113,19 +5183,28 @@ class LayerFailure {
   }
 }
 
-enum LayerFailureCode {
-  invalidLayerDigest('InvalidLayerDigest'),
-  missingLayerDigest('MissingLayerDigest'),
-  ;
+class LayerFailureCode {
+  static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
+  static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
 
   final String value;
 
-  const LayerFailureCode(this.value);
+  const LayerFailureCode._(this.value);
+
+  static const values = [invalidLayerDigest, missingLayerDigest];
 
   static LayerFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayerFailureCode'));
+          orElse: () => LayerFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is LayerFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The filter for the lifecycle policy preview.
@@ -5205,21 +5284,31 @@ class LifecyclePolicyPreviewResult {
   }
 }
 
-enum LifecyclePolicyPreviewStatus {
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  expired('EXPIRED'),
-  failed('FAILED'),
-  ;
+class LifecyclePolicyPreviewStatus {
+  static const inProgress = LifecyclePolicyPreviewStatus._('IN_PROGRESS');
+  static const complete = LifecyclePolicyPreviewStatus._('COMPLETE');
+  static const expired = LifecyclePolicyPreviewStatus._('EXPIRED');
+  static const failed = LifecyclePolicyPreviewStatus._('FAILED');
 
   final String value;
 
-  const LifecyclePolicyPreviewStatus(this.value);
+  const LifecyclePolicyPreviewStatus._(this.value);
+
+  static const values = [inProgress, complete, expired, failed];
 
   static LifecyclePolicyPreviewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecyclePolicyPreviewStatus'));
+          orElse: () => LifecyclePolicyPreviewStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyPreviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the lifecycle policy preview request.
@@ -5779,19 +5868,28 @@ class PutReplicationConfigurationResponse {
   }
 }
 
-enum RCTAppliedFor {
-  replication('REPLICATION'),
-  pullThroughCache('PULL_THROUGH_CACHE'),
-  ;
+class RCTAppliedFor {
+  static const replication = RCTAppliedFor._('REPLICATION');
+  static const pullThroughCache = RCTAppliedFor._('PULL_THROUGH_CACHE');
 
   final String value;
 
-  const RCTAppliedFor(this.value);
+  const RCTAppliedFor._(this.value);
+
+  static const values = [replication, pullThroughCache];
 
   static RCTAppliedFor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RCTAppliedFor'));
+          orElse: () => RCTAppliedFor._(value));
+
+  @override
+  bool operator ==(other) => other is RCTAppliedFor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the recommended course of action to remediate the finding.
@@ -5884,7 +5982,7 @@ class RegistryScanningRule {
               ScanningRepositoryFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       scanFrequency:
-          ScanFrequency.fromString((json['scanFrequency'] as String)),
+          ScanFrequency.fromString((json['scanFrequency'] as String?) ?? ''),
     );
   }
 
@@ -6024,20 +6122,29 @@ class ReplicationRule {
   }
 }
 
-enum ReplicationStatus {
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class ReplicationStatus {
+  static const inProgress = ReplicationStatus._('IN_PROGRESS');
+  static const complete = ReplicationStatus._('COMPLETE');
+  static const failed = ReplicationStatus._('FAILED');
 
   final String value;
 
-  const ReplicationStatus(this.value);
+  const ReplicationStatus._(this.value);
+
+  static const values = [inProgress, complete, failed];
 
   static ReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationStatus'));
+          orElse: () => ReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a repository.
@@ -6275,8 +6382,8 @@ class RepositoryFilter {
   factory RepositoryFilter.fromJson(Map<String, dynamic> json) {
     return RepositoryFilter(
       filter: (json['filter'] as String?) ?? '',
-      filterType:
-          RepositoryFilterType.fromString((json['filterType'] as String)),
+      filterType: RepositoryFilterType.fromString(
+          (json['filterType'] as String?) ?? ''),
     );
   }
 
@@ -6290,18 +6397,28 @@ class RepositoryFilter {
   }
 }
 
-enum RepositoryFilterType {
-  prefixMatch('PREFIX_MATCH'),
-  ;
+class RepositoryFilterType {
+  static const prefixMatch = RepositoryFilterType._('PREFIX_MATCH');
 
   final String value;
 
-  const RepositoryFilterType(this.value);
+  const RepositoryFilterType._(this.value);
 
-  static RepositoryFilterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositoryFilterType'));
+  static const values = [prefixMatch];
+
+  static RepositoryFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositoryFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the scanning configuration for a repository.
@@ -6475,68 +6592,116 @@ class ResourceDetails {
   }
 }
 
-enum ScanFrequency {
-  scanOnPush('SCAN_ON_PUSH'),
-  continuousScan('CONTINUOUS_SCAN'),
-  manual('MANUAL'),
-  ;
+class ScanFrequency {
+  static const scanOnPush = ScanFrequency._('SCAN_ON_PUSH');
+  static const continuousScan = ScanFrequency._('CONTINUOUS_SCAN');
+  static const manual = ScanFrequency._('MANUAL');
 
   final String value;
 
-  const ScanFrequency(this.value);
+  const ScanFrequency._(this.value);
+
+  static const values = [scanOnPush, continuousScan, manual];
 
   static ScanFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScanFrequency'));
+          orElse: () => ScanFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is ScanFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScanStatus {
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  unsupportedImage('UNSUPPORTED_IMAGE'),
-  active('ACTIVE'),
-  pending('PENDING'),
-  scanEligibilityExpired('SCAN_ELIGIBILITY_EXPIRED'),
-  findingsUnavailable('FINDINGS_UNAVAILABLE'),
-  ;
+class ScanStatus {
+  static const inProgress = ScanStatus._('IN_PROGRESS');
+  static const complete = ScanStatus._('COMPLETE');
+  static const failed = ScanStatus._('FAILED');
+  static const unsupportedImage = ScanStatus._('UNSUPPORTED_IMAGE');
+  static const active = ScanStatus._('ACTIVE');
+  static const pending = ScanStatus._('PENDING');
+  static const scanEligibilityExpired =
+      ScanStatus._('SCAN_ELIGIBILITY_EXPIRED');
+  static const findingsUnavailable = ScanStatus._('FINDINGS_UNAVAILABLE');
 
   final String value;
 
-  const ScanStatus(this.value);
+  const ScanStatus._(this.value);
 
-  static ScanStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanStatus'));
+  static const values = [
+    inProgress,
+    complete,
+    failed,
+    unsupportedImage,
+    active,
+    pending,
+    scanEligibilityExpired,
+    findingsUnavailable
+  ];
+
+  static ScanStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ScanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScanType {
-  basic('BASIC'),
-  enhanced('ENHANCED'),
-  ;
+class ScanType {
+  static const basic = ScanType._('BASIC');
+  static const enhanced = ScanType._('ENHANCED');
 
   final String value;
 
-  const ScanType(this.value);
+  const ScanType._(this.value);
 
-  static ScanType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanType'));
+  static const values = [basic, enhanced];
+
+  static ScanType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanType._(value));
+
+  @override
+  bool operator ==(other) => other is ScanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScanningConfigurationFailureCode {
-  repositoryNotFound('REPOSITORY_NOT_FOUND'),
-  ;
+class ScanningConfigurationFailureCode {
+  static const repositoryNotFound =
+      ScanningConfigurationFailureCode._('REPOSITORY_NOT_FOUND');
 
   final String value;
 
-  const ScanningConfigurationFailureCode(this.value);
+  const ScanningConfigurationFailureCode._(this.value);
+
+  static const values = [repositoryNotFound];
 
   static ScanningConfigurationFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScanningConfigurationFailureCode'));
+          orElse: () => ScanningConfigurationFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScanningConfigurationFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a scanning repository filter. For more information on how to
@@ -6559,7 +6724,7 @@ class ScanningRepositoryFilter {
     return ScanningRepositoryFilter(
       filter: (json['filter'] as String?) ?? '',
       filterType: ScanningRepositoryFilterType.fromString(
-          (json['filterType'] as String)),
+          (json['filterType'] as String?) ?? ''),
     );
   }
 
@@ -6573,18 +6738,28 @@ class ScanningRepositoryFilter {
   }
 }
 
-enum ScanningRepositoryFilterType {
-  wildcard('WILDCARD'),
-  ;
+class ScanningRepositoryFilterType {
+  static const wildcard = ScanningRepositoryFilterType._('WILDCARD');
 
   final String value;
 
-  const ScanningRepositoryFilterType(this.value);
+  const ScanningRepositoryFilterType._(this.value);
+
+  static const values = [wildcard];
 
   static ScanningRepositoryFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScanningRepositoryFilterType'));
+          orElse: () => ScanningRepositoryFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScanningRepositoryFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the Amazon Inspector score given to a finding.
@@ -6787,19 +6962,28 @@ class TagResourceResponse {
   }
 }
 
-enum TagStatus {
-  tagged('TAGGED'),
-  untagged('UNTAGGED'),
-  any('ANY'),
-  ;
+class TagStatus {
+  static const tagged = TagStatus._('TAGGED');
+  static const untagged = TagStatus._('UNTAGGED');
+  static const any = TagStatus._('ANY');
 
   final String value;
 
-  const TagStatus(this.value);
+  const TagStatus._(this.value);
 
-  static TagStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TagStatus'));
+  static const values = [tagged, untagged, any];
+
+  static TagStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TagStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TagStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -6939,24 +7123,44 @@ class UploadLayerPartResponse {
   }
 }
 
-enum UpstreamRegistry {
-  ecrPublic('ecr-public'),
-  quay('quay'),
-  k8s('k8s'),
-  dockerHub('docker-hub'),
-  githubContainerRegistry('github-container-registry'),
-  azureContainerRegistry('azure-container-registry'),
-  gitlabContainerRegistry('gitlab-container-registry'),
-  ;
+class UpstreamRegistry {
+  static const ecrPublic = UpstreamRegistry._('ecr-public');
+  static const quay = UpstreamRegistry._('quay');
+  static const k8s = UpstreamRegistry._('k8s');
+  static const dockerHub = UpstreamRegistry._('docker-hub');
+  static const githubContainerRegistry =
+      UpstreamRegistry._('github-container-registry');
+  static const azureContainerRegistry =
+      UpstreamRegistry._('azure-container-registry');
+  static const gitlabContainerRegistry =
+      UpstreamRegistry._('gitlab-container-registry');
 
   final String value;
 
-  const UpstreamRegistry(this.value);
+  const UpstreamRegistry._(this.value);
+
+  static const values = [
+    ecrPublic,
+    quay,
+    k8s,
+    dockerHub,
+    githubContainerRegistry,
+    azureContainerRegistry,
+    gitlabContainerRegistry
+  ];
 
   static UpstreamRegistry fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpstreamRegistry'));
+          orElse: () => UpstreamRegistry._(value));
+
+  @override
+  bool operator ==(other) => other is UpstreamRegistry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ValidatePullThroughCacheRuleResponse {

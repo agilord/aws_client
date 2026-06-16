@@ -4602,8 +4602,8 @@ class AccessEndpoint {
 
   factory AccessEndpoint.fromJson(Map<String, dynamic> json) {
     return AccessEndpoint(
-      endpointType:
-          AccessEndpointType.fromString((json['EndpointType'] as String)),
+      endpointType: AccessEndpointType.fromString(
+          (json['EndpointType'] as String?) ?? ''),
       vpceId: json['VpceId'] as String?,
     );
   }
@@ -4618,37 +4618,66 @@ class AccessEndpoint {
   }
 }
 
-enum AccessEndpointType {
-  streaming('STREAMING'),
-  ;
+class AccessEndpointType {
+  static const streaming = AccessEndpointType._('STREAMING');
 
   final String value;
 
-  const AccessEndpointType(this.value);
+  const AccessEndpointType._(this.value);
 
-  static AccessEndpointType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessEndpointType'));
+  static const values = [streaming];
+
+  static AccessEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Action {
-  clipboardCopyFromLocalDevice('CLIPBOARD_COPY_FROM_LOCAL_DEVICE'),
-  clipboardCopyToLocalDevice('CLIPBOARD_COPY_TO_LOCAL_DEVICE'),
-  fileUpload('FILE_UPLOAD'),
-  fileDownload('FILE_DOWNLOAD'),
-  printingToLocalDevice('PRINTING_TO_LOCAL_DEVICE'),
-  domainPasswordSignin('DOMAIN_PASSWORD_SIGNIN'),
-  domainSmartCardSignin('DOMAIN_SMART_CARD_SIGNIN'),
-  ;
+class Action {
+  static const clipboardCopyFromLocalDevice =
+      Action._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
+  static const clipboardCopyToLocalDevice =
+      Action._('CLIPBOARD_COPY_TO_LOCAL_DEVICE');
+  static const fileUpload = Action._('FILE_UPLOAD');
+  static const fileDownload = Action._('FILE_DOWNLOAD');
+  static const printingToLocalDevice = Action._('PRINTING_TO_LOCAL_DEVICE');
+  static const domainPasswordSignin = Action._('DOMAIN_PASSWORD_SIGNIN');
+  static const domainSmartCardSignin = Action._('DOMAIN_SMART_CARD_SIGNIN');
 
   final String value;
 
-  const Action(this.value);
+  const Action._(this.value);
+
+  static const values = [
+    clipboardCopyFromLocalDevice,
+    clipboardCopyToLocalDevice,
+    fileUpload,
+    fileDownload,
+    printingToLocalDevice,
+    domainPasswordSignin,
+    domainSmartCardSignin
+  ];
 
   static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Action'));
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an app block.
@@ -4849,9 +4878,9 @@ class AppBlockBuilder {
       arn: (json['Arn'] as String?) ?? '',
       instanceType: (json['InstanceType'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      platform:
-          AppBlockBuilderPlatformType.fromString((json['Platform'] as String)),
-      state: AppBlockBuilderState.fromString((json['State'] as String)),
+      platform: AppBlockBuilderPlatformType.fromString(
+          (json['Platform'] as String?) ?? ''),
+      state: AppBlockBuilderState.fromString((json['State'] as String?) ?? ''),
       vpcConfig: VpcConfig.fromJson(
           (json['VpcConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -4942,51 +4971,87 @@ class AppBlockBuilderAppBlockAssociation {
   }
 }
 
-enum AppBlockBuilderAttribute {
-  iamRoleArn('IAM_ROLE_ARN'),
-  accessEndpoints('ACCESS_ENDPOINTS'),
-  vpcConfigurationSecurityGroupIds('VPC_CONFIGURATION_SECURITY_GROUP_IDS'),
-  ;
+class AppBlockBuilderAttribute {
+  static const iamRoleArn = AppBlockBuilderAttribute._('IAM_ROLE_ARN');
+  static const accessEndpoints = AppBlockBuilderAttribute._('ACCESS_ENDPOINTS');
+  static const vpcConfigurationSecurityGroupIds =
+      AppBlockBuilderAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
 
   final String value;
 
-  const AppBlockBuilderAttribute(this.value);
+  const AppBlockBuilderAttribute._(this.value);
+
+  static const values = [
+    iamRoleArn,
+    accessEndpoints,
+    vpcConfigurationSecurityGroupIds
+  ];
 
   static AppBlockBuilderAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppBlockBuilderAttribute'));
+          orElse: () => AppBlockBuilderAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppBlockBuilderPlatformType {
-  windowsServer_2019('WINDOWS_SERVER_2019'),
-  ;
+class AppBlockBuilderPlatformType {
+  static const windowsServer_2019 =
+      AppBlockBuilderPlatformType._('WINDOWS_SERVER_2019');
 
   final String value;
 
-  const AppBlockBuilderPlatformType(this.value);
+  const AppBlockBuilderPlatformType._(this.value);
+
+  static const values = [windowsServer_2019];
 
   static AppBlockBuilderPlatformType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppBlockBuilderPlatformType'));
+          orElse: () => AppBlockBuilderPlatformType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderPlatformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppBlockBuilderState {
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class AppBlockBuilderState {
+  static const starting = AppBlockBuilderState._('STARTING');
+  static const running = AppBlockBuilderState._('RUNNING');
+  static const stopping = AppBlockBuilderState._('STOPPING');
+  static const stopped = AppBlockBuilderState._('STOPPED');
 
   final String value;
 
-  const AppBlockBuilderState(this.value);
+  const AppBlockBuilderState._(this.value);
 
-  static AppBlockBuilderState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppBlockBuilderState'));
+  static const values = [starting, running, stopping, stopped];
+
+  static AppBlockBuilderState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockBuilderState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the reason why the last app block builder state change occurred.
@@ -5020,48 +5085,77 @@ class AppBlockBuilderStateChangeReason {
   }
 }
 
-enum AppBlockBuilderStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  ;
+class AppBlockBuilderStateChangeReasonCode {
+  static const internalError =
+      AppBlockBuilderStateChangeReasonCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const AppBlockBuilderStateChangeReasonCode(this.value);
+  const AppBlockBuilderStateChangeReasonCode._(this.value);
+
+  static const values = [internalError];
 
   static AppBlockBuilderStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppBlockBuilderStateChangeReasonCode'));
+          orElse: () => AppBlockBuilderStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppBlockState {
-  inactive('INACTIVE'),
-  active('ACTIVE'),
-  ;
+class AppBlockState {
+  static const inactive = AppBlockState._('INACTIVE');
+  static const active = AppBlockState._('ACTIVE');
 
   final String value;
 
-  const AppBlockState(this.value);
+  const AppBlockState._(this.value);
+
+  static const values = [inactive, active];
 
   static AppBlockState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppBlockState'));
+          orElse: () => AppBlockState._(value));
+
+  @override
+  bool operator ==(other) => other is AppBlockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppVisibility {
-  all('ALL'),
-  associated('ASSOCIATED'),
-  ;
+class AppVisibility {
+  static const all = AppVisibility._('ALL');
+  static const associated = AppVisibility._('ASSOCIATED');
 
   final String value;
 
-  const AppVisibility(this.value);
+  const AppVisibility._(this.value);
+
+  static const values = [all, associated];
 
   static AppVisibility fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppVisibility'));
+          orElse: () => AppVisibility._(value));
+
+  @override
+  bool operator ==(other) => other is AppVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an application in the application catalog.
@@ -5195,19 +5289,29 @@ class Application {
   }
 }
 
-enum ApplicationAttribute {
-  launchParameters('LAUNCH_PARAMETERS'),
-  workingDirectory('WORKING_DIRECTORY'),
-  ;
+class ApplicationAttribute {
+  static const launchParameters = ApplicationAttribute._('LAUNCH_PARAMETERS');
+  static const workingDirectory = ApplicationAttribute._('WORKING_DIRECTORY');
 
   final String value;
 
-  const ApplicationAttribute(this.value);
+  const ApplicationAttribute._(this.value);
 
-  static ApplicationAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationAttribute'));
+  static const values = [launchParameters, workingDirectory];
+
+  static ApplicationAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the application fleet association.
@@ -5393,21 +5497,31 @@ class AssociateFleetResult {
   }
 }
 
-enum AuthenticationType {
-  api('API'),
-  saml('SAML'),
-  userpool('USERPOOL'),
-  awsAd('AWS_AD'),
-  ;
+class AuthenticationType {
+  static const api = AuthenticationType._('API');
+  static const saml = AuthenticationType._('SAML');
+  static const userpool = AuthenticationType._('USERPOOL');
+  static const awsAd = AuthenticationType._('AWS_AD');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [api, saml, userpool, awsAd];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchAssociateUserStackResult {
@@ -5502,20 +5616,31 @@ class CertificateBasedAuthProperties {
   }
 }
 
-enum CertificateBasedAuthStatus {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  enabledNoDirectoryLoginFallback('ENABLED_NO_DIRECTORY_LOGIN_FALLBACK'),
-  ;
+class CertificateBasedAuthStatus {
+  static const disabled = CertificateBasedAuthStatus._('DISABLED');
+  static const enabled = CertificateBasedAuthStatus._('ENABLED');
+  static const enabledNoDirectoryLoginFallback =
+      CertificateBasedAuthStatus._('ENABLED_NO_DIRECTORY_LOGIN_FALLBACK');
 
   final String value;
 
-  const CertificateBasedAuthStatus(this.value);
+  const CertificateBasedAuthStatus._(this.value);
+
+  static const values = [disabled, enabled, enabledNoDirectoryLoginFallback];
 
   static CertificateBasedAuthStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateBasedAuthStatus'));
+          orElse: () => CertificateBasedAuthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateBasedAuthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the capacity for a fleet.
@@ -6981,19 +7106,29 @@ class DomainJoinInfo {
   }
 }
 
-enum DynamicAppProvidersEnabled {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DynamicAppProvidersEnabled {
+  static const enabled = DynamicAppProvidersEnabled._('ENABLED');
+  static const disabled = DynamicAppProvidersEnabled._('DISABLED');
 
   final String value;
 
-  const DynamicAppProvidersEnabled(this.value);
+  const DynamicAppProvidersEnabled._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DynamicAppProvidersEnabled fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DynamicAppProvidersEnabled'));
+          orElse: () => DynamicAppProvidersEnabled._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamicAppProvidersEnabled && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EnableUserResult {
@@ -7074,7 +7209,7 @@ class Entitlement {
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
       appVisibility:
-          AppVisibility.fromString((json['AppVisibility'] as String)),
+          AppVisibility.fromString((json['AppVisibility'] as String?) ?? ''),
       attributes: ((json['Attributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
@@ -7491,7 +7626,7 @@ class Fleet {
               const <String, dynamic>{}),
       instanceType: (json['InstanceType'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      state: FleetState.fromString((json['State'] as String)),
+      state: FleetState.fromString((json['State'] as String?) ?? ''),
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
@@ -7595,24 +7730,45 @@ class Fleet {
 }
 
 /// The fleet attribute.
-enum FleetAttribute {
-  vpcConfiguration('VPC_CONFIGURATION'),
-  vpcConfigurationSecurityGroupIds('VPC_CONFIGURATION_SECURITY_GROUP_IDS'),
-  domainJoinInfo('DOMAIN_JOIN_INFO'),
-  iamRoleArn('IAM_ROLE_ARN'),
-  usbDeviceFilterStrings('USB_DEVICE_FILTER_STRINGS'),
-  sessionScriptS3Location('SESSION_SCRIPT_S3_LOCATION'),
-  maxSessionsPerInstance('MAX_SESSIONS_PER_INSTANCE'),
-  ;
+class FleetAttribute {
+  static const vpcConfiguration = FleetAttribute._('VPC_CONFIGURATION');
+  static const vpcConfigurationSecurityGroupIds =
+      FleetAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
+  static const domainJoinInfo = FleetAttribute._('DOMAIN_JOIN_INFO');
+  static const iamRoleArn = FleetAttribute._('IAM_ROLE_ARN');
+  static const usbDeviceFilterStrings =
+      FleetAttribute._('USB_DEVICE_FILTER_STRINGS');
+  static const sessionScriptS3Location =
+      FleetAttribute._('SESSION_SCRIPT_S3_LOCATION');
+  static const maxSessionsPerInstance =
+      FleetAttribute._('MAX_SESSIONS_PER_INSTANCE');
 
   final String value;
 
-  const FleetAttribute(this.value);
+  const FleetAttribute._(this.value);
+
+  static const values = [
+    vpcConfiguration,
+    vpcConfigurationSecurityGroupIds,
+    domainJoinInfo,
+    iamRoleArn,
+    usbDeviceFilterStrings,
+    sessionScriptS3Location,
+    maxSessionsPerInstance
+  ];
 
   static FleetAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetAttribute'));
+          orElse: () => FleetAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is FleetAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a fleet error.
@@ -7645,85 +7801,162 @@ class FleetError {
   }
 }
 
-enum FleetErrorCode {
-  iamServiceRoleMissingEniDescribeAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'),
-  iamServiceRoleMissingEniCreateAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'),
-  iamServiceRoleMissingEniDeleteAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'),
-  networkInterfaceLimitExceeded('NETWORK_INTERFACE_LIMIT_EXCEEDED'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  iamServiceRoleIsMissing('IAM_SERVICE_ROLE_IS_MISSING'),
-  machineRoleIsMissing('MACHINE_ROLE_IS_MISSING'),
-  stsDisabledInRegion('STS_DISABLED_IN_REGION'),
-  subnetHasInsufficientIpAddresses('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'),
-  iamServiceRoleMissingDescribeSubnetAction(
-      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  imageNotFound('IMAGE_NOT_FOUND'),
-  invalidSubnetConfiguration('INVALID_SUBNET_CONFIGURATION'),
-  securityGroupsNotFound('SECURITY_GROUPS_NOT_FOUND'),
-  igwNotAttached('IGW_NOT_ATTACHED'),
-  iamServiceRoleMissingDescribeSecurityGroupsAction(
-      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION'),
-  fleetStopped('FLEET_STOPPED'),
-  fleetInstanceProvisioningFailure('FLEET_INSTANCE_PROVISIONING_FAILURE'),
-  domainJoinErrorFileNotFound('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND'),
-  domainJoinErrorAccessDenied('DOMAIN_JOIN_ERROR_ACCESS_DENIED'),
-  domainJoinErrorLogonFailure('DOMAIN_JOIN_ERROR_LOGON_FAILURE'),
-  domainJoinErrorInvalidParameter('DOMAIN_JOIN_ERROR_INVALID_PARAMETER'),
-  domainJoinErrorMoreData('DOMAIN_JOIN_ERROR_MORE_DATA'),
-  domainJoinErrorNoSuchDomain('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN'),
-  domainJoinErrorNotSupported('DOMAIN_JOIN_ERROR_NOT_SUPPORTED'),
-  domainJoinNerrInvalidWorkgroupName('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME'),
-  domainJoinNerrWorkstationNotStarted(
-      'DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED'),
-  domainJoinErrorDsMachineAccountQuotaExceeded(
-      'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED'),
-  domainJoinNerrPasswordExpired('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED'),
-  domainJoinInternalServiceError('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR'),
-  ;
+class FleetErrorCode {
+  static const iamServiceRoleMissingEniDescribeAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION');
+  static const iamServiceRoleMissingEniCreateAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION');
+  static const iamServiceRoleMissingEniDeleteAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION');
+  static const networkInterfaceLimitExceeded =
+      FleetErrorCode._('NETWORK_INTERFACE_LIMIT_EXCEEDED');
+  static const internalServiceError =
+      FleetErrorCode._('INTERNAL_SERVICE_ERROR');
+  static const iamServiceRoleIsMissing =
+      FleetErrorCode._('IAM_SERVICE_ROLE_IS_MISSING');
+  static const machineRoleIsMissing =
+      FleetErrorCode._('MACHINE_ROLE_IS_MISSING');
+  static const stsDisabledInRegion = FleetErrorCode._('STS_DISABLED_IN_REGION');
+  static const subnetHasInsufficientIpAddresses =
+      FleetErrorCode._('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES');
+  static const iamServiceRoleMissingDescribeSubnetAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION');
+  static const subnetNotFound = FleetErrorCode._('SUBNET_NOT_FOUND');
+  static const imageNotFound = FleetErrorCode._('IMAGE_NOT_FOUND');
+  static const invalidSubnetConfiguration =
+      FleetErrorCode._('INVALID_SUBNET_CONFIGURATION');
+  static const securityGroupsNotFound =
+      FleetErrorCode._('SECURITY_GROUPS_NOT_FOUND');
+  static const igwNotAttached = FleetErrorCode._('IGW_NOT_ATTACHED');
+  static const iamServiceRoleMissingDescribeSecurityGroupsAction =
+      FleetErrorCode._(
+          'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION');
+  static const fleetStopped = FleetErrorCode._('FLEET_STOPPED');
+  static const fleetInstanceProvisioningFailure =
+      FleetErrorCode._('FLEET_INSTANCE_PROVISIONING_FAILURE');
+  static const domainJoinErrorFileNotFound =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND');
+  static const domainJoinErrorAccessDenied =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_ACCESS_DENIED');
+  static const domainJoinErrorLogonFailure =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_LOGON_FAILURE');
+  static const domainJoinErrorInvalidParameter =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_INVALID_PARAMETER');
+  static const domainJoinErrorMoreData =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_MORE_DATA');
+  static const domainJoinErrorNoSuchDomain =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN');
+  static const domainJoinErrorNotSupported =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_NOT_SUPPORTED');
+  static const domainJoinNerrInvalidWorkgroupName =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME');
+  static const domainJoinNerrWorkstationNotStarted =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED');
+  static const domainJoinErrorDsMachineAccountQuotaExceeded =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED');
+  static const domainJoinNerrPasswordExpired =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED');
+  static const domainJoinInternalServiceError =
+      FleetErrorCode._('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR');
 
   final String value;
 
-  const FleetErrorCode(this.value);
+  const FleetErrorCode._(this.value);
+
+  static const values = [
+    iamServiceRoleMissingEniDescribeAction,
+    iamServiceRoleMissingEniCreateAction,
+    iamServiceRoleMissingEniDeleteAction,
+    networkInterfaceLimitExceeded,
+    internalServiceError,
+    iamServiceRoleIsMissing,
+    machineRoleIsMissing,
+    stsDisabledInRegion,
+    subnetHasInsufficientIpAddresses,
+    iamServiceRoleMissingDescribeSubnetAction,
+    subnetNotFound,
+    imageNotFound,
+    invalidSubnetConfiguration,
+    securityGroupsNotFound,
+    igwNotAttached,
+    iamServiceRoleMissingDescribeSecurityGroupsAction,
+    fleetStopped,
+    fleetInstanceProvisioningFailure,
+    domainJoinErrorFileNotFound,
+    domainJoinErrorAccessDenied,
+    domainJoinErrorLogonFailure,
+    domainJoinErrorInvalidParameter,
+    domainJoinErrorMoreData,
+    domainJoinErrorNoSuchDomain,
+    domainJoinErrorNotSupported,
+    domainJoinNerrInvalidWorkgroupName,
+    domainJoinNerrWorkstationNotStarted,
+    domainJoinErrorDsMachineAccountQuotaExceeded,
+    domainJoinNerrPasswordExpired,
+    domainJoinInternalServiceError
+  ];
 
   static FleetErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FleetErrorCode'));
+          orElse: () => FleetErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is FleetErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetState {
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class FleetState {
+  static const starting = FleetState._('STARTING');
+  static const running = FleetState._('RUNNING');
+  static const stopping = FleetState._('STOPPING');
+  static const stopped = FleetState._('STOPPED');
 
   final String value;
 
-  const FleetState(this.value);
+  const FleetState._(this.value);
 
-  static FleetState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetState'));
+  static const values = [starting, running, stopping, stopped];
+
+  static FleetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetState._(value));
+
+  @override
+  bool operator ==(other) => other is FleetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FleetType {
-  alwaysOn('ALWAYS_ON'),
-  onDemand('ON_DEMAND'),
-  elastic('ELASTIC'),
-  ;
+class FleetType {
+  static const alwaysOn = FleetType._('ALWAYS_ON');
+  static const onDemand = FleetType._('ON_DEMAND');
+  static const elastic = FleetType._('ELASTIC');
 
   final String value;
 
-  const FleetType(this.value);
+  const FleetType._(this.value);
 
-  static FleetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FleetType'));
+  static const values = [alwaysOn, onDemand, elastic];
+
+  static FleetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an image.
@@ -8245,28 +8478,50 @@ class ImageBuilder {
   }
 }
 
-enum ImageBuilderState {
-  pending('PENDING'),
-  updatingAgent('UPDATING_AGENT'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  rebooting('REBOOTING'),
-  snapshotting('SNAPSHOTTING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  pendingQualification('PENDING_QUALIFICATION'),
-  ;
+class ImageBuilderState {
+  static const pending = ImageBuilderState._('PENDING');
+  static const updatingAgent = ImageBuilderState._('UPDATING_AGENT');
+  static const running = ImageBuilderState._('RUNNING');
+  static const stopping = ImageBuilderState._('STOPPING');
+  static const stopped = ImageBuilderState._('STOPPED');
+  static const rebooting = ImageBuilderState._('REBOOTING');
+  static const snapshotting = ImageBuilderState._('SNAPSHOTTING');
+  static const deleting = ImageBuilderState._('DELETING');
+  static const failed = ImageBuilderState._('FAILED');
+  static const updating = ImageBuilderState._('UPDATING');
+  static const pendingQualification =
+      ImageBuilderState._('PENDING_QUALIFICATION');
 
   final String value;
 
-  const ImageBuilderState(this.value);
+  const ImageBuilderState._(this.value);
+
+  static const values = [
+    pending,
+    updatingAgent,
+    running,
+    stopping,
+    stopped,
+    rebooting,
+    snapshotting,
+    deleting,
+    failed,
+    updating,
+    pendingQualification
+  ];
 
   static ImageBuilderState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageBuilderState'));
+          orElse: () => ImageBuilderState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageBuilderState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the reason why the last image builder state change occurred.
@@ -8300,19 +8555,31 @@ class ImageBuilderStateChangeReason {
   }
 }
 
-enum ImageBuilderStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  imageUnavailable('IMAGE_UNAVAILABLE'),
-  ;
+class ImageBuilderStateChangeReasonCode {
+  static const internalError =
+      ImageBuilderStateChangeReasonCode._('INTERNAL_ERROR');
+  static const imageUnavailable =
+      ImageBuilderStateChangeReasonCode._('IMAGE_UNAVAILABLE');
 
   final String value;
 
-  const ImageBuilderStateChangeReasonCode(this.value);
+  const ImageBuilderStateChangeReasonCode._(this.value);
+
+  static const values = [internalError, imageUnavailable];
 
   static ImageBuilderStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageBuilderStateChangeReasonCode'));
+          orElse: () => ImageBuilderStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageBuilderStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the permissions for an image.
@@ -8345,38 +8612,65 @@ class ImagePermissions {
   }
 }
 
-enum ImageSharedWithOthers {
-  $true('TRUE'),
-  $false('FALSE'),
-  ;
+class ImageSharedWithOthers {
+  static const $true = ImageSharedWithOthers._('TRUE');
+  static const $false = ImageSharedWithOthers._('FALSE');
 
   final String value;
 
-  const ImageSharedWithOthers(this.value);
+  const ImageSharedWithOthers._(this.value);
 
-  static ImageSharedWithOthers fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageSharedWithOthers'));
+  static const values = [$true, $false];
+
+  static ImageSharedWithOthers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageSharedWithOthers._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageSharedWithOthers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  failed('FAILED'),
-  copying('COPYING'),
-  deleting('DELETING'),
-  creating('CREATING'),
-  importing('IMPORTING'),
-  ;
+class ImageState {
+  static const pending = ImageState._('PENDING');
+  static const available = ImageState._('AVAILABLE');
+  static const failed = ImageState._('FAILED');
+  static const copying = ImageState._('COPYING');
+  static const deleting = ImageState._('DELETING');
+  static const creating = ImageState._('CREATING');
+  static const importing = ImageState._('IMPORTING');
 
   final String value;
 
-  const ImageState(this.value);
+  const ImageState._(this.value);
 
-  static ImageState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageState'));
+  static const values = [
+    pending,
+    available,
+    failed,
+    copying,
+    deleting,
+    creating,
+    importing
+  ];
+
+  static ImageState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the reason why the last image state change occurred.
@@ -8410,20 +8704,36 @@ class ImageStateChangeReason {
   }
 }
 
-enum ImageStateChangeReasonCode {
-  internalError('INTERNAL_ERROR'),
-  imageBuilderNotAvailable('IMAGE_BUILDER_NOT_AVAILABLE'),
-  imageCopyFailure('IMAGE_COPY_FAILURE'),
-  ;
+class ImageStateChangeReasonCode {
+  static const internalError = ImageStateChangeReasonCode._('INTERNAL_ERROR');
+  static const imageBuilderNotAvailable =
+      ImageStateChangeReasonCode._('IMAGE_BUILDER_NOT_AVAILABLE');
+  static const imageCopyFailure =
+      ImageStateChangeReasonCode._('IMAGE_COPY_FAILURE');
 
   final String value;
 
-  const ImageStateChangeReasonCode(this.value);
+  const ImageStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    imageBuilderNotAvailable,
+    imageCopyFailure
+  ];
 
   static ImageStateChangeReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageStateChangeReasonCode'));
+          orElse: () => ImageStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the error that is returned when a usage report can't be generated.
@@ -8460,19 +8770,29 @@ class LastReportGenerationExecutionError {
   }
 }
 
-enum LatestAppstreamAgentVersion {
-  $true('TRUE'),
-  $false('FALSE'),
-  ;
+class LatestAppstreamAgentVersion {
+  static const $true = LatestAppstreamAgentVersion._('TRUE');
+  static const $false = LatestAppstreamAgentVersion._('FALSE');
 
   final String value;
 
-  const LatestAppstreamAgentVersion(this.value);
+  const LatestAppstreamAgentVersion._(this.value);
+
+  static const values = [$true, $false];
 
   static LatestAppstreamAgentVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LatestAppstreamAgentVersion'));
+          orElse: () => LatestAppstreamAgentVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LatestAppstreamAgentVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAssociatedFleetsResult {
@@ -8594,19 +8914,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MessageAction {
-  suppress('SUPPRESS'),
-  resend('RESEND'),
-  ;
+class MessageAction {
+  static const suppress = MessageAction._('SUPPRESS');
+  static const resend = MessageAction._('RESEND');
 
   final String value;
 
-  const MessageAction(this.value);
+  const MessageAction._(this.value);
+
+  static const values = [suppress, resend];
 
   static MessageAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MessageAction'));
+          orElse: () => MessageAction._(value));
+
+  @override
+  bool operator ==(other) => other is MessageAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the network details of the fleet or image builder instance.
@@ -8643,67 +8972,109 @@ class NetworkAccessConfiguration {
   }
 }
 
-enum PackagingType {
-  custom('CUSTOM'),
-  appstream2('APPSTREAM2'),
-  ;
+class PackagingType {
+  static const custom = PackagingType._('CUSTOM');
+  static const appstream2 = PackagingType._('APPSTREAM2');
 
   final String value;
 
-  const PackagingType(this.value);
+  const PackagingType._(this.value);
+
+  static const values = [custom, appstream2];
 
   static PackagingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PackagingType'));
+          orElse: () => PackagingType._(value));
+
+  @override
+  bool operator ==(other) => other is PackagingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Permission {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Permission {
+  static const enabled = Permission._('ENABLED');
+  static const disabled = Permission._('DISABLED');
 
   final String value;
 
-  const Permission(this.value);
+  const Permission._(this.value);
 
-  static Permission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permission'));
+  static const values = [enabled, disabled];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlatformType {
-  windows('WINDOWS'),
-  windowsServer_2016('WINDOWS_SERVER_2016'),
-  windowsServer_2019('WINDOWS_SERVER_2019'),
-  windowsServer_2022('WINDOWS_SERVER_2022'),
-  amazonLinux2('AMAZON_LINUX2'),
-  rhel8('RHEL8'),
-  ;
+class PlatformType {
+  static const windows = PlatformType._('WINDOWS');
+  static const windowsServer_2016 = PlatformType._('WINDOWS_SERVER_2016');
+  static const windowsServer_2019 = PlatformType._('WINDOWS_SERVER_2019');
+  static const windowsServer_2022 = PlatformType._('WINDOWS_SERVER_2022');
+  static const amazonLinux2 = PlatformType._('AMAZON_LINUX2');
+  static const rhel8 = PlatformType._('RHEL8');
 
   final String value;
 
-  const PlatformType(this.value);
+  const PlatformType._(this.value);
 
-  static PlatformType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PlatformType'));
+  static const values = [
+    windows,
+    windowsServer_2016,
+    windowsServer_2019,
+    windowsServer_2022,
+    amazonLinux2,
+    rhel8
+  ];
+
+  static PlatformType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PlatformType._(value));
+
+  @override
+  bool operator ==(other) => other is PlatformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PreferredProtocol {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class PreferredProtocol {
+  static const tcp = PreferredProtocol._('TCP');
+  static const udp = PreferredProtocol._('UDP');
 
   final String value;
 
-  const PreferredProtocol(this.value);
+  const PreferredProtocol._(this.value);
+
+  static const values = [tcp, udp];
 
   static PreferredProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PreferredProtocol'));
+          orElse: () => PreferredProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is PreferredProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource error.
@@ -8943,7 +9314,7 @@ class Session {
       fleetName: (json['FleetName'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
       stackName: (json['StackName'] as String?) ?? '',
-      state: SessionState.fromString((json['State'] as String)),
+      state: SessionState.fromString((json['State'] as String?) ?? ''),
       userId: (json['UserId'] as String?) ?? '',
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(AuthenticationType.fromString),
@@ -8990,36 +9361,54 @@ class Session {
   }
 }
 
-enum SessionConnectionState {
-  connected('CONNECTED'),
-  notConnected('NOT_CONNECTED'),
-  ;
+class SessionConnectionState {
+  static const connected = SessionConnectionState._('CONNECTED');
+  static const notConnected = SessionConnectionState._('NOT_CONNECTED');
 
   final String value;
 
-  const SessionConnectionState(this.value);
+  const SessionConnectionState._(this.value);
+
+  static const values = [connected, notConnected];
 
   static SessionConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionConnectionState'));
+          orElse: () => SessionConnectionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Possible values for the state of a streaming session.
-enum SessionState {
-  active('ACTIVE'),
-  pending('PENDING'),
-  expired('EXPIRED'),
-  ;
+class SessionState {
+  static const active = SessionState._('ACTIVE');
+  static const pending = SessionState._('PENDING');
+  static const expired = SessionState._('EXPIRED');
 
   final String value;
 
-  const SessionState(this.value);
+  const SessionState._(this.value);
 
-  static SessionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SessionState'));
+  static const values = [active, pending, expired];
+
+  static SessionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
+
+  @override
+  bool operator ==(other) => other is SessionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the permissions that are available to the specified AWS account
@@ -9198,29 +9587,55 @@ class Stack {
   }
 }
 
-enum StackAttribute {
-  storageConnectors('STORAGE_CONNECTORS'),
-  storageConnectorHomefolders('STORAGE_CONNECTOR_HOMEFOLDERS'),
-  storageConnectorGoogleDrive('STORAGE_CONNECTOR_GOOGLE_DRIVE'),
-  storageConnectorOneDrive('STORAGE_CONNECTOR_ONE_DRIVE'),
-  redirectUrl('REDIRECT_URL'),
-  feedbackUrl('FEEDBACK_URL'),
-  themeName('THEME_NAME'),
-  userSettings('USER_SETTINGS'),
-  embedHostDomains('EMBED_HOST_DOMAINS'),
-  iamRoleArn('IAM_ROLE_ARN'),
-  accessEndpoints('ACCESS_ENDPOINTS'),
-  streamingExperienceSettings('STREAMING_EXPERIENCE_SETTINGS'),
-  ;
+class StackAttribute {
+  static const storageConnectors = StackAttribute._('STORAGE_CONNECTORS');
+  static const storageConnectorHomefolders =
+      StackAttribute._('STORAGE_CONNECTOR_HOMEFOLDERS');
+  static const storageConnectorGoogleDrive =
+      StackAttribute._('STORAGE_CONNECTOR_GOOGLE_DRIVE');
+  static const storageConnectorOneDrive =
+      StackAttribute._('STORAGE_CONNECTOR_ONE_DRIVE');
+  static const redirectUrl = StackAttribute._('REDIRECT_URL');
+  static const feedbackUrl = StackAttribute._('FEEDBACK_URL');
+  static const themeName = StackAttribute._('THEME_NAME');
+  static const userSettings = StackAttribute._('USER_SETTINGS');
+  static const embedHostDomains = StackAttribute._('EMBED_HOST_DOMAINS');
+  static const iamRoleArn = StackAttribute._('IAM_ROLE_ARN');
+  static const accessEndpoints = StackAttribute._('ACCESS_ENDPOINTS');
+  static const streamingExperienceSettings =
+      StackAttribute._('STREAMING_EXPERIENCE_SETTINGS');
 
   final String value;
 
-  const StackAttribute(this.value);
+  const StackAttribute._(this.value);
+
+  static const values = [
+    storageConnectors,
+    storageConnectorHomefolders,
+    storageConnectorGoogleDrive,
+    storageConnectorOneDrive,
+    redirectUrl,
+    feedbackUrl,
+    themeName,
+    userSettings,
+    embedHostDomains,
+    iamRoleArn,
+    accessEndpoints,
+    streamingExperienceSettings
+  ];
 
   static StackAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StackAttribute'));
+          orElse: () => StackAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is StackAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a stack error.
@@ -9253,19 +9668,30 @@ class StackError {
   }
 }
 
-enum StackErrorCode {
-  storageConnectorError('STORAGE_CONNECTOR_ERROR'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  ;
+class StackErrorCode {
+  static const storageConnectorError =
+      StackErrorCode._('STORAGE_CONNECTOR_ERROR');
+  static const internalServiceError =
+      StackErrorCode._('INTERNAL_SERVICE_ERROR');
 
   final String value;
 
-  const StackErrorCode(this.value);
+  const StackErrorCode._(this.value);
+
+  static const values = [storageConnectorError, internalServiceError];
 
   static StackErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StackErrorCode'));
+          orElse: () => StackErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is StackErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAppBlockBuilderResult {
@@ -9407,8 +9833,8 @@ class StorageConnector {
 
   factory StorageConnector.fromJson(Map<String, dynamic> json) {
     return StorageConnector(
-      connectorType:
-          StorageConnectorType.fromString((json['ConnectorType'] as String)),
+      connectorType: StorageConnectorType.fromString(
+          (json['ConnectorType'] as String?) ?? ''),
       domains:
           (json['Domains'] as List?)?.nonNulls.map((e) => e as String).toList(),
       resourceIdentifier: json['ResourceIdentifier'] as String?,
@@ -9428,34 +9854,53 @@ class StorageConnector {
 }
 
 /// The type of storage connector.
-enum StorageConnectorType {
-  homefolders('HOMEFOLDERS'),
-  googleDrive('GOOGLE_DRIVE'),
-  oneDrive('ONE_DRIVE'),
-  ;
+class StorageConnectorType {
+  static const homefolders = StorageConnectorType._('HOMEFOLDERS');
+  static const googleDrive = StorageConnectorType._('GOOGLE_DRIVE');
+  static const oneDrive = StorageConnectorType._('ONE_DRIVE');
 
   final String value;
 
-  const StorageConnectorType(this.value);
+  const StorageConnectorType._(this.value);
 
-  static StorageConnectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StorageConnectorType'));
+  static const values = [homefolders, googleDrive, oneDrive];
+
+  static StorageConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageConnectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamView {
-  app('APP'),
-  desktop('DESKTOP'),
-  ;
+class StreamView {
+  static const app = StreamView._('APP');
+  static const desktop = StreamView._('DESKTOP');
 
   final String value;
 
-  const StreamView(this.value);
+  const StreamView._(this.value);
 
-  static StreamView fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StreamView'));
+  static const values = [app, desktop];
+
+  static StreamView fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamView._(value));
+
+  @override
+  bool operator ==(other) => other is StreamView && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The streaming protocol you want your stack to prefer. This can be UDP or
@@ -9577,18 +10022,27 @@ class Theme {
   }
 }
 
-enum ThemeAttribute {
-  footerLinks('FOOTER_LINKS'),
-  ;
+class ThemeAttribute {
+  static const footerLinks = ThemeAttribute._('FOOTER_LINKS');
 
   final String value;
 
-  const ThemeAttribute(this.value);
+  const ThemeAttribute._(this.value);
+
+  static const values = [footerLinks];
 
   static ThemeAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThemeAttribute'));
+          orElse: () => ThemeAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The website links that display in the catalog page footer.
@@ -9621,35 +10075,52 @@ class ThemeFooterLink {
   }
 }
 
-enum ThemeState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ThemeState {
+  static const enabled = ThemeState._('ENABLED');
+  static const disabled = ThemeState._('DISABLED');
 
   final String value;
 
-  const ThemeState(this.value);
+  const ThemeState._(this.value);
 
-  static ThemeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ThemeState'));
+  static const values = [enabled, disabled];
+
+  static ThemeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ThemeState._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThemeStyling {
-  lightBlue('LIGHT_BLUE'),
-  blue('BLUE'),
-  pink('PINK'),
-  red('RED'),
-  ;
+class ThemeStyling {
+  static const lightBlue = ThemeStyling._('LIGHT_BLUE');
+  static const blue = ThemeStyling._('BLUE');
+  static const pink = ThemeStyling._('PINK');
+  static const red = ThemeStyling._('RED');
 
   final String value;
 
-  const ThemeStyling(this.value);
+  const ThemeStyling._(this.value);
 
-  static ThemeStyling fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThemeStyling'));
+  static const values = [lightBlue, blue, pink, red];
+
+  static ThemeStyling fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ThemeStyling._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeStyling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -9844,34 +10315,56 @@ class UpdateThemeForStackResult {
   }
 }
 
-enum UsageReportExecutionErrorCode {
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  accessDenied('ACCESS_DENIED'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  ;
+class UsageReportExecutionErrorCode {
+  static const resourceNotFound =
+      UsageReportExecutionErrorCode._('RESOURCE_NOT_FOUND');
+  static const accessDenied = UsageReportExecutionErrorCode._('ACCESS_DENIED');
+  static const internalServiceError =
+      UsageReportExecutionErrorCode._('INTERNAL_SERVICE_ERROR');
 
   final String value;
 
-  const UsageReportExecutionErrorCode(this.value);
+  const UsageReportExecutionErrorCode._(this.value);
+
+  static const values = [resourceNotFound, accessDenied, internalServiceError];
 
   static UsageReportExecutionErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageReportExecutionErrorCode'));
+          orElse: () => UsageReportExecutionErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageReportExecutionErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UsageReportSchedule {
-  daily('DAILY'),
-  ;
+class UsageReportSchedule {
+  static const daily = UsageReportSchedule._('DAILY');
 
   final String value;
 
-  const UsageReportSchedule(this.value);
+  const UsageReportSchedule._(this.value);
 
-  static UsageReportSchedule fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UsageReportSchedule'));
+  static const values = [daily];
+
+  static UsageReportSchedule fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageReportSchedule._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageReportSchedule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes information about the usage report subscription.
@@ -9994,8 +10487,8 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      authenticationType:
-          AuthenticationType.fromString((json['AuthenticationType'] as String)),
+      authenticationType: AuthenticationType.fromString(
+          (json['AuthenticationType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       enabled: json['Enabled'] as bool?,
@@ -10060,8 +10553,8 @@ class UserSetting {
 
   factory UserSetting.fromJson(Map<String, dynamic> json) {
     return UserSetting(
-      action: Action.fromString((json['Action'] as String)),
-      permission: Permission.fromString((json['Permission'] as String)),
+      action: Action.fromString((json['Action'] as String?) ?? ''),
+      permission: Permission.fromString((json['Permission'] as String?) ?? ''),
       maximumLength: json['MaximumLength'] as int?,
     );
   }
@@ -10105,8 +10598,8 @@ class UserStackAssociation {
 
   factory UserStackAssociation.fromJson(Map<String, dynamic> json) {
     return UserStackAssociation(
-      authenticationType:
-          AuthenticationType.fromString((json['AuthenticationType'] as String)),
+      authenticationType: AuthenticationType.fromString(
+          (json['AuthenticationType'] as String?) ?? ''),
       stackName: (json['StackName'] as String?) ?? '',
       userName: (json['UserName'] as String?) ?? '',
       sendEmailNotification: json['SendEmailNotification'] as bool?,
@@ -10173,37 +10666,65 @@ class UserStackAssociationError {
   }
 }
 
-enum UserStackAssociationErrorCode {
-  stackNotFound('STACK_NOT_FOUND'),
-  userNameNotFound('USER_NAME_NOT_FOUND'),
-  directoryNotFound('DIRECTORY_NOT_FOUND'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class UserStackAssociationErrorCode {
+  static const stackNotFound =
+      UserStackAssociationErrorCode._('STACK_NOT_FOUND');
+  static const userNameNotFound =
+      UserStackAssociationErrorCode._('USER_NAME_NOT_FOUND');
+  static const directoryNotFound =
+      UserStackAssociationErrorCode._('DIRECTORY_NOT_FOUND');
+  static const internalError =
+      UserStackAssociationErrorCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const UserStackAssociationErrorCode(this.value);
+  const UserStackAssociationErrorCode._(this.value);
+
+  static const values = [
+    stackNotFound,
+    userNameNotFound,
+    directoryNotFound,
+    internalError
+  ];
 
   static UserStackAssociationErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UserStackAssociationErrorCode'));
+          orElse: () => UserStackAssociationErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserStackAssociationErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VisibilityType {
-  public('PUBLIC'),
-  private('PRIVATE'),
-  shared('SHARED'),
-  ;
+class VisibilityType {
+  static const public = VisibilityType._('PUBLIC');
+  static const private = VisibilityType._('PRIVATE');
+  static const shared = VisibilityType._('SHARED');
 
   final String value;
 
-  const VisibilityType(this.value);
+  const VisibilityType._(this.value);
+
+  static const values = [public, private, shared];
 
   static VisibilityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VisibilityType'));
+          orElse: () => VisibilityType._(value));
+
+  @override
+  bool operator ==(other) => other is VisibilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes VPC configuration information for fleets and image builders.

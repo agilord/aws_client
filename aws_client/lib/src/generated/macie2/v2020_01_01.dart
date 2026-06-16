@@ -3184,18 +3184,27 @@ class AdminAccount {
 
 /// The current status of an account as the delegated Amazon Macie administrator
 /// account for an organization in Organizations. Possible values are:
-enum AdminStatus {
-  enabled('ENABLED'),
-  disablingInProgress('DISABLING_IN_PROGRESS'),
-  ;
+class AdminStatus {
+  static const enabled = AdminStatus._('ENABLED');
+  static const disablingInProgress = AdminStatus._('DISABLING_IN_PROGRESS');
 
   final String value;
 
-  const AdminStatus(this.value);
+  const AdminStatus._(this.value);
 
-  static AdminStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AdminStatus'));
+  static const values = [enabled, disablingInProgress];
+
+  static AdminStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdminStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AdminStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the criteria for an allow list. The criteria must specify a
@@ -3304,7 +3313,7 @@ class AllowListStatus {
 
   factory AllowListStatus.fromJson(Map<String, dynamic> json) {
     return AllowListStatus(
-      code: AllowListStatusCode.fromString((json['code'] as String)),
+      code: AllowListStatusCode.fromString((json['code'] as String?) ?? ''),
       description: json['description'] as String?,
     );
   }
@@ -3321,25 +3330,46 @@ class AllowListStatus {
 
 /// Indicates the current status of an allow list. Depending on the type of
 /// criteria that the list specifies, possible values are:
-enum AllowListStatusCode {
-  ok('OK'),
-  s3ObjectNotFound('S3_OBJECT_NOT_FOUND'),
-  s3UserAccessDenied('S3_USER_ACCESS_DENIED'),
-  s3ObjectAccessDenied('S3_OBJECT_ACCESS_DENIED'),
-  s3Throttled('S3_THROTTLED'),
-  s3ObjectOversize('S3_OBJECT_OVERSIZE'),
-  s3ObjectEmpty('S3_OBJECT_EMPTY'),
-  unknownError('UNKNOWN_ERROR'),
-  ;
+class AllowListStatusCode {
+  static const ok = AllowListStatusCode._('OK');
+  static const s3ObjectNotFound = AllowListStatusCode._('S3_OBJECT_NOT_FOUND');
+  static const s3UserAccessDenied =
+      AllowListStatusCode._('S3_USER_ACCESS_DENIED');
+  static const s3ObjectAccessDenied =
+      AllowListStatusCode._('S3_OBJECT_ACCESS_DENIED');
+  static const s3Throttled = AllowListStatusCode._('S3_THROTTLED');
+  static const s3ObjectOversize = AllowListStatusCode._('S3_OBJECT_OVERSIZE');
+  static const s3ObjectEmpty = AllowListStatusCode._('S3_OBJECT_EMPTY');
+  static const unknownError = AllowListStatusCode._('UNKNOWN_ERROR');
 
   final String value;
 
-  const AllowListStatusCode(this.value);
+  const AllowListStatusCode._(this.value);
 
-  static AllowListStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AllowListStatusCode'));
+  static const values = [
+    ok,
+    s3ObjectNotFound,
+    s3UserAccessDenied,
+    s3ObjectAccessDenied,
+    s3Throttled,
+    s3ObjectOversize,
+    s3ObjectEmpty,
+    unknownError
+  ];
+
+  static AllowListStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllowListStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowListStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a subset of information about an allow list.
@@ -3402,20 +3432,30 @@ class AllowListSummary {
   }
 }
 
-enum AllowsUnencryptedObjectUploads {
-  $true('TRUE'),
-  $false('FALSE'),
-  unknown('UNKNOWN'),
-  ;
+class AllowsUnencryptedObjectUploads {
+  static const $true = AllowsUnencryptedObjectUploads._('TRUE');
+  static const $false = AllowsUnencryptedObjectUploads._('FALSE');
+  static const unknown = AllowsUnencryptedObjectUploads._('UNKNOWN');
 
   final String value;
 
-  const AllowsUnencryptedObjectUploads(this.value);
+  const AllowsUnencryptedObjectUploads._(this.value);
+
+  static const values = [$true, $false, unknown];
 
   static AllowsUnencryptedObjectUploads fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AllowsUnencryptedObjectUploads'));
+          orElse: () => AllowsUnencryptedObjectUploads._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowsUnencryptedObjectUploads && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an API operation that an entity invoked for an
@@ -3530,20 +3570,29 @@ class AssumedRole {
 /// Specifies whether to automatically enable automated sensitive data discovery
 /// for accounts that are part of an organization in Amazon Macie. Valid values
 /// are:
-enum AutoEnableMode {
-  all('ALL'),
-  $new('NEW'),
-  none('NONE'),
-  ;
+class AutoEnableMode {
+  static const all = AutoEnableMode._('ALL');
+  static const $new = AutoEnableMode._('NEW');
+  static const none = AutoEnableMode._('NONE');
 
   final String value;
 
-  const AutoEnableMode(this.value);
+  const AutoEnableMode._(this.value);
+
+  static const values = [all, $new, none];
 
   static AutoEnableMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoEnableMode'));
+          orElse: () => AutoEnableMode._(value));
+
+  @override
+  bool operator ==(other) => other is AutoEnableMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the status of automated sensitive data discovery
@@ -3583,19 +3632,29 @@ class AutomatedDiscoveryAccount {
 
 /// The status of automated sensitive data discovery for an Amazon Macie
 /// account. Valid values are:
-enum AutomatedDiscoveryAccountStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutomatedDiscoveryAccountStatus {
+  static const enabled = AutomatedDiscoveryAccountStatus._('ENABLED');
+  static const disabled = AutomatedDiscoveryAccountStatus._('DISABLED');
 
   final String value;
 
-  const AutomatedDiscoveryAccountStatus(this.value);
+  const AutomatedDiscoveryAccountStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AutomatedDiscoveryAccountStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutomatedDiscoveryAccountStatus'));
+          orElse: () => AutomatedDiscoveryAccountStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomatedDiscoveryAccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Changes the status of automated sensitive data discovery for an Amazon Macie
@@ -3666,71 +3725,113 @@ class AutomatedDiscoveryAccountUpdateError {
 /// The error code that indicates why a request failed to change the status of
 /// automated sensitive data discovery for an Amazon Macie account. Possible
 /// values are:
-enum AutomatedDiscoveryAccountUpdateErrorCode {
-  accountPaused('ACCOUNT_PAUSED'),
-  accountNotFound('ACCOUNT_NOT_FOUND'),
-  ;
+class AutomatedDiscoveryAccountUpdateErrorCode {
+  static const accountPaused =
+      AutomatedDiscoveryAccountUpdateErrorCode._('ACCOUNT_PAUSED');
+  static const accountNotFound =
+      AutomatedDiscoveryAccountUpdateErrorCode._('ACCOUNT_NOT_FOUND');
 
   final String value;
 
-  const AutomatedDiscoveryAccountUpdateErrorCode(this.value);
+  const AutomatedDiscoveryAccountUpdateErrorCode._(this.value);
+
+  static const values = [accountPaused, accountNotFound];
 
   static AutomatedDiscoveryAccountUpdateErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutomatedDiscoveryAccountUpdateErrorCode'));
+          orElse: () => AutomatedDiscoveryAccountUpdateErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomatedDiscoveryAccountUpdateErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies whether automated sensitive data discovery is currently configured
 /// to analyze objects in an S3 bucket. Possible values are:
-enum AutomatedDiscoveryMonitoringStatus {
-  monitored('MONITORED'),
-  notMonitored('NOT_MONITORED'),
-  ;
+class AutomatedDiscoveryMonitoringStatus {
+  static const monitored = AutomatedDiscoveryMonitoringStatus._('MONITORED');
+  static const notMonitored =
+      AutomatedDiscoveryMonitoringStatus._('NOT_MONITORED');
 
   final String value;
 
-  const AutomatedDiscoveryMonitoringStatus(this.value);
+  const AutomatedDiscoveryMonitoringStatus._(this.value);
+
+  static const values = [monitored, notMonitored];
 
   static AutomatedDiscoveryMonitoringStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutomatedDiscoveryMonitoringStatus'));
+          orElse: () => AutomatedDiscoveryMonitoringStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomatedDiscoveryMonitoringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of the automated sensitive data discovery configuration for an
 /// organization in Amazon Macie or a standalone Macie account. Valid values
 /// are:
-enum AutomatedDiscoveryStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AutomatedDiscoveryStatus {
+  static const enabled = AutomatedDiscoveryStatus._('ENABLED');
+  static const disabled = AutomatedDiscoveryStatus._('DISABLED');
 
   final String value;
 
-  const AutomatedDiscoveryStatus(this.value);
+  const AutomatedDiscoveryStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AutomatedDiscoveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutomatedDiscoveryStatus'));
+          orElse: () => AutomatedDiscoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomatedDiscoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies whether occurrences of sensitive data can be retrieved for a
 /// finding. Possible values are:
-enum AvailabilityCode {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class AvailabilityCode {
+  static const available = AvailabilityCode._('AVAILABLE');
+  static const unavailable = AvailabilityCode._('UNAVAILABLE');
 
   final String value;
 
-  const AvailabilityCode(this.value);
+  const AvailabilityCode._(this.value);
+
+  static const values = [available, unavailable];
 
   static AvailabilityCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AvailabilityCode'));
+          orElse: () => AvailabilityCode._(value));
+
+  @override
+  bool operator ==(other) => other is AvailabilityCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an Amazon Web Services account and entity that
@@ -4680,18 +4781,28 @@ class BucketMetadata {
 
 /// The error code for an error that prevented Amazon Macie from retrieving and
 /// processing information about an S3 bucket and the bucket's objects.
-enum BucketMetadataErrorCode {
-  accessDenied('ACCESS_DENIED'),
-  ;
+class BucketMetadataErrorCode {
+  static const accessDenied = BucketMetadataErrorCode._('ACCESS_DENIED');
 
   final String value;
 
-  const BucketMetadataErrorCode(this.value);
+  const BucketMetadataErrorCode._(this.value);
+
+  static const values = [accessDenied];
 
   static BucketMetadataErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BucketMetadataErrorCode'));
+          orElse: () => BucketMetadataErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketMetadataErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the account-level and bucket-level permissions
@@ -5390,20 +5501,30 @@ class ClassificationScopeSummary {
 
 /// Specifies how to apply changes to the S3 bucket exclusion list defined by
 /// the classification scope for an Amazon Macie account. Valid values are:
-enum ClassificationScopeUpdateOperation {
-  add('ADD'),
-  replace('REPLACE'),
-  remove('REMOVE'),
-  ;
+class ClassificationScopeUpdateOperation {
+  static const add = ClassificationScopeUpdateOperation._('ADD');
+  static const replace = ClassificationScopeUpdateOperation._('REPLACE');
+  static const remove = ClassificationScopeUpdateOperation._('REMOVE');
 
   final String value;
 
-  const ClassificationScopeUpdateOperation(this.value);
+  const ClassificationScopeUpdateOperation._(this.value);
+
+  static const values = [add, replace, remove];
 
   static ClassificationScopeUpdateOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClassificationScopeUpdateOperation'));
+          orElse: () => ClassificationScopeUpdateOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClassificationScopeUpdateOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAllowListResponse {
@@ -5733,17 +5854,26 @@ class CriterionAdditionalProperties {
 
 /// The type of currency that the data for an Amazon Macie usage metric is
 /// reported in. Possible values are:
-enum Currency {
-  usd('USD'),
-  ;
+class Currency {
+  static const usd = Currency._('USD');
 
   final String value;
 
-  const Currency(this.value);
+  const Currency._(this.value);
 
-  static Currency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Currency'));
+  static const values = [usd];
+
+  static Currency fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Currency._(value));
+
+  @override
+  bool operator ==(other) => other is Currency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a custom data identifier.
@@ -5902,56 +6032,93 @@ class DailySchedule {
 
 /// The severity of a finding, ranging from LOW, for least severe, to HIGH, for
 /// most severe. Valid values are:
-enum DataIdentifierSeverity {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class DataIdentifierSeverity {
+  static const low = DataIdentifierSeverity._('LOW');
+  static const medium = DataIdentifierSeverity._('MEDIUM');
+  static const high = DataIdentifierSeverity._('HIGH');
 
   final String value;
 
-  const DataIdentifierSeverity(this.value);
+  const DataIdentifierSeverity._(this.value);
+
+  static const values = [low, medium, high];
 
   static DataIdentifierSeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataIdentifierSeverity'));
+          orElse: () => DataIdentifierSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataIdentifierSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of data identifier that detected a specific type of sensitive data
 /// in an S3 bucket. Possible values are:
-enum DataIdentifierType {
-  custom('CUSTOM'),
-  managed('MANAGED'),
-  ;
+class DataIdentifierType {
+  static const custom = DataIdentifierType._('CUSTOM');
+  static const managed = DataIdentifierType._('MANAGED');
 
   final String value;
 
-  const DataIdentifierType(this.value);
+  const DataIdentifierType._(this.value);
 
-  static DataIdentifierType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataIdentifierType'));
+  static const values = [custom, managed];
+
+  static DataIdentifierType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataIdentifierType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataIdentifierType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DayOfWeek {
-  sunday('SUNDAY'),
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  ;
+class DayOfWeek {
+  static const sunday = DayOfWeek._('SUNDAY');
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeclineInvitationsResponse {
@@ -6652,20 +6819,30 @@ class DomainDetails {
   }
 }
 
-enum EffectivePermission {
-  public('PUBLIC'),
-  notPublic('NOT_PUBLIC'),
-  unknown('UNKNOWN'),
-  ;
+class EffectivePermission {
+  static const public = EffectivePermission._('PUBLIC');
+  static const notPublic = EffectivePermission._('NOT_PUBLIC');
+  static const unknown = EffectivePermission._('UNKNOWN');
 
   final String value;
 
-  const EffectivePermission(this.value);
+  const EffectivePermission._(this.value);
 
-  static EffectivePermission fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EffectivePermission'));
+  static const values = [public, notPublic, unknown];
+
+  static EffectivePermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EffectivePermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EffectivePermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EnableMacieResponse {
@@ -6696,37 +6873,55 @@ class EnableOrganizationAdminAccountResponse {
 /// The server-side encryption algorithm that was used to encrypt an S3 object
 /// or is used by default to encrypt objects that are added to an S3 bucket.
 /// Possible values are:
-enum EncryptionType {
-  none('NONE'),
-  aes256('AES256'),
-  awsKms('aws:kms'),
-  unknown('UNKNOWN'),
-  awsKmsDsse('aws:kms:dsse'),
-  ;
+class EncryptionType {
+  static const none = EncryptionType._('NONE');
+  static const aes256 = EncryptionType._('AES256');
+  static const awsKms = EncryptionType._('aws:kms');
+  static const unknown = EncryptionType._('UNKNOWN');
+  static const awsKmsDsse = EncryptionType._('aws:kms:dsse');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [none, aes256, awsKms, unknown, awsKmsDsse];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The source of an issue or delay. Possible values are:
-enum ErrorCode {
-  clientError('ClientError'),
-  internalError('InternalError'),
-  ;
+class ErrorCode {
+  static const clientError = ErrorCode._('ClientError');
+  static const internalError = ErrorCode._('InternalError');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [clientError, internalError];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an identity that performed an action on an
@@ -6996,18 +7191,27 @@ class FindingAction {
 
 /// The type of action that occurred for the resource and produced the policy
 /// finding:
-enum FindingActionType {
-  awsApiCall('AWS_API_CALL'),
-  ;
+class FindingActionType {
+  static const awsApiCall = FindingActionType._('AWS_API_CALL');
 
   final String value;
 
-  const FindingActionType(this.value);
+  const FindingActionType._(this.value);
+
+  static const values = [awsApiCall];
 
   static FindingActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingActionType'));
+          orElse: () => FindingActionType._(value));
+
+  @override
+  bool operator ==(other) => other is FindingActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an entity that performed an action that produced
@@ -7062,19 +7266,28 @@ class FindingActor {
 }
 
 /// The category of the finding. Possible values are:
-enum FindingCategory {
-  classification('CLASSIFICATION'),
-  policy('POLICY'),
-  ;
+class FindingCategory {
+  static const classification = FindingCategory._('CLASSIFICATION');
+  static const policy = FindingCategory._('POLICY');
 
   final String value;
 
-  const FindingCategory(this.value);
+  const FindingCategory._(this.value);
+
+  static const values = [classification, policy];
 
   static FindingCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingCategory'));
+          orElse: () => FindingCategory._(value));
+
+  @override
+  bool operator ==(other) => other is FindingCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies, as a map, one or more property-based conditions that filter the
@@ -7113,36 +7326,56 @@ class FindingCriteria {
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-monitor.html">Monitoring
 /// and processing findings</a> in the <i>Amazon Macie User Guide</i>. Valid
 /// values are:
-enum FindingPublishingFrequency {
-  fifteenMinutes('FIFTEEN_MINUTES'),
-  oneHour('ONE_HOUR'),
-  sixHours('SIX_HOURS'),
-  ;
+class FindingPublishingFrequency {
+  static const fifteenMinutes = FindingPublishingFrequency._('FIFTEEN_MINUTES');
+  static const oneHour = FindingPublishingFrequency._('ONE_HOUR');
+  static const sixHours = FindingPublishingFrequency._('SIX_HOURS');
 
   final String value;
 
-  const FindingPublishingFrequency(this.value);
+  const FindingPublishingFrequency._(this.value);
+
+  static const values = [fifteenMinutes, oneHour, sixHours];
 
   static FindingPublishingFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FindingPublishingFrequency'));
+          orElse: () => FindingPublishingFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingPublishingFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The grouping to sort the results by. Valid values are:
-enum FindingStatisticsSortAttributeName {
-  groupKey('groupKey'),
-  count('count'),
-  ;
+class FindingStatisticsSortAttributeName {
+  static const groupKey = FindingStatisticsSortAttributeName._('groupKey');
+  static const count = FindingStatisticsSortAttributeName._('count');
 
   final String value;
 
-  const FindingStatisticsSortAttributeName(this.value);
+  const FindingStatisticsSortAttributeName._(this.value);
+
+  static const values = [groupKey, count];
 
   static FindingStatisticsSortAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FindingStatisticsSortAttributeName'));
+          orElse: () => FindingStatisticsSortAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingStatisticsSortAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies criteria for sorting the results of a query that retrieves
@@ -7177,51 +7410,87 @@ class FindingStatisticsSortCriteria {
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-types.html">Types
 /// of Amazon Macie findings</a> in the <i>Amazon Macie User Guide</i>. Possible
 /// values are:
-enum FindingType {
-  sensitiveDataS3ObjectMultiple('SensitiveData:S3Object/Multiple'),
-  sensitiveDataS3ObjectFinancial('SensitiveData:S3Object/Financial'),
-  sensitiveDataS3ObjectPersonal('SensitiveData:S3Object/Personal'),
-  sensitiveDataS3ObjectCredentials('SensitiveData:S3Object/Credentials'),
-  sensitiveDataS3ObjectCustomIdentifier(
-      'SensitiveData:S3Object/CustomIdentifier'),
-  policyIAMUserS3BucketPublic('Policy:IAMUser/S3BucketPublic'),
-  policyIAMUserS3BucketSharedExternally(
-      'Policy:IAMUser/S3BucketSharedExternally'),
-  policyIAMUserS3BucketReplicatedExternally(
-      'Policy:IAMUser/S3BucketReplicatedExternally'),
-  policyIAMUserS3BucketEncryptionDisabled(
-      'Policy:IAMUser/S3BucketEncryptionDisabled'),
-  policyIAMUserS3BlockPublicAccessDisabled(
-      'Policy:IAMUser/S3BlockPublicAccessDisabled'),
-  policyIAMUserS3BucketSharedWithCloudFront(
-      'Policy:IAMUser/S3BucketSharedWithCloudFront'),
-  ;
+class FindingType {
+  static const sensitiveDataS3ObjectMultiple =
+      FindingType._('SensitiveData:S3Object/Multiple');
+  static const sensitiveDataS3ObjectFinancial =
+      FindingType._('SensitiveData:S3Object/Financial');
+  static const sensitiveDataS3ObjectPersonal =
+      FindingType._('SensitiveData:S3Object/Personal');
+  static const sensitiveDataS3ObjectCredentials =
+      FindingType._('SensitiveData:S3Object/Credentials');
+  static const sensitiveDataS3ObjectCustomIdentifier =
+      FindingType._('SensitiveData:S3Object/CustomIdentifier');
+  static const policyIAMUserS3BucketPublic =
+      FindingType._('Policy:IAMUser/S3BucketPublic');
+  static const policyIAMUserS3BucketSharedExternally =
+      FindingType._('Policy:IAMUser/S3BucketSharedExternally');
+  static const policyIAMUserS3BucketReplicatedExternally =
+      FindingType._('Policy:IAMUser/S3BucketReplicatedExternally');
+  static const policyIAMUserS3BucketEncryptionDisabled =
+      FindingType._('Policy:IAMUser/S3BucketEncryptionDisabled');
+  static const policyIAMUserS3BlockPublicAccessDisabled =
+      FindingType._('Policy:IAMUser/S3BlockPublicAccessDisabled');
+  static const policyIAMUserS3BucketSharedWithCloudFront =
+      FindingType._('Policy:IAMUser/S3BucketSharedWithCloudFront');
 
   final String value;
 
-  const FindingType(this.value);
+  const FindingType._(this.value);
 
-  static FindingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FindingType'));
+  static const values = [
+    sensitiveDataS3ObjectMultiple,
+    sensitiveDataS3ObjectFinancial,
+    sensitiveDataS3ObjectPersonal,
+    sensitiveDataS3ObjectCredentials,
+    sensitiveDataS3ObjectCustomIdentifier,
+    policyIAMUserS3BucketPublic,
+    policyIAMUserS3BucketSharedExternally,
+    policyIAMUserS3BucketReplicatedExternally,
+    policyIAMUserS3BucketEncryptionDisabled,
+    policyIAMUserS3BlockPublicAccessDisabled,
+    policyIAMUserS3BucketSharedWithCloudFront
+  ];
+
+  static FindingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FindingType._(value));
+
+  @override
+  bool operator ==(other) => other is FindingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The action to perform on findings that match the filter criteria. To
 /// suppress (automatically archive) findings that match the criteria, set this
 /// value to ARCHIVE. Valid values are:
-enum FindingsFilterAction {
-  archive('ARCHIVE'),
-  noop('NOOP'),
-  ;
+class FindingsFilterAction {
+  static const archive = FindingsFilterAction._('ARCHIVE');
+  static const noop = FindingsFilterAction._('NOOP');
 
   final String value;
 
-  const FindingsFilterAction(this.value);
+  const FindingsFilterAction._(this.value);
 
-  static FindingsFilterAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FindingsFilterAction'));
+  static const values = [archive, noop];
+
+  static FindingsFilterAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FindingsFilterAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingsFilterAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a findings filter.
@@ -8645,20 +8914,36 @@ class GetUsageTotalsResponse {
   }
 }
 
-enum GroupBy {
-  resourcesAffectedS3BucketName('resourcesAffected.s3Bucket.name'),
-  type('type'),
-  classificationDetailsJobId('classificationDetails.jobId'),
-  severityDescription('severity.description'),
-  ;
+class GroupBy {
+  static const resourcesAffectedS3BucketName =
+      GroupBy._('resourcesAffected.s3Bucket.name');
+  static const type = GroupBy._('type');
+  static const classificationDetailsJobId =
+      GroupBy._('classificationDetails.jobId');
+  static const severityDescription = GroupBy._('severity.description');
 
   final String value;
 
-  const GroupBy(this.value);
+  const GroupBy._(this.value);
 
-  static GroupBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum GroupBy'));
+  static const values = [
+    resourcesAffectedS3BucketName,
+    type,
+    classificationDetailsJobId,
+    severityDescription
+  ];
+
+  static GroupBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupBy._(value));
+
+  @override
+  bool operator ==(other) => other is GroupBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a group of results for a query that retrieved aggregated
@@ -8982,59 +9267,86 @@ class IpOwner {
   }
 }
 
-enum IsDefinedInJob {
-  $true('TRUE'),
-  $false('FALSE'),
-  unknown('UNKNOWN'),
-  ;
+class IsDefinedInJob {
+  static const $true = IsDefinedInJob._('TRUE');
+  static const $false = IsDefinedInJob._('FALSE');
+  static const unknown = IsDefinedInJob._('UNKNOWN');
 
   final String value;
 
-  const IsDefinedInJob(this.value);
+  const IsDefinedInJob._(this.value);
+
+  static const values = [$true, $false, unknown];
 
   static IsDefinedInJob fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IsDefinedInJob'));
+          orElse: () => IsDefinedInJob._(value));
+
+  @override
+  bool operator ==(other) => other is IsDefinedInJob && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IsMonitoredByJob {
-  $true('TRUE'),
-  $false('FALSE'),
-  unknown('UNKNOWN'),
-  ;
+class IsMonitoredByJob {
+  static const $true = IsMonitoredByJob._('TRUE');
+  static const $false = IsMonitoredByJob._('FALSE');
+  static const unknown = IsMonitoredByJob._('UNKNOWN');
 
   final String value;
 
-  const IsMonitoredByJob(this.value);
+  const IsMonitoredByJob._(this.value);
+
+  static const values = [$true, $false, unknown];
 
   static IsMonitoredByJob fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IsMonitoredByJob'));
+          orElse: () => IsMonitoredByJob._(value));
+
+  @override
+  bool operator ==(other) => other is IsMonitoredByJob && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The operator to use in a condition. Depending on the type of condition,
 /// possible values are:
-enum JobComparator {
-  eq('EQ'),
-  gt('GT'),
-  gte('GTE'),
-  lt('LT'),
-  lte('LTE'),
-  ne('NE'),
-  contains('CONTAINS'),
-  startsWith('STARTS_WITH'),
-  ;
+class JobComparator {
+  static const eq = JobComparator._('EQ');
+  static const gt = JobComparator._('GT');
+  static const gte = JobComparator._('GTE');
+  static const lt = JobComparator._('LT');
+  static const lte = JobComparator._('LTE');
+  static const ne = JobComparator._('NE');
+  static const contains = JobComparator._('CONTAINS');
+  static const startsWith = JobComparator._('STARTS_WITH');
 
   final String value;
 
-  const JobComparator(this.value);
+  const JobComparator._(this.value);
+
+  static const values = [eq, gt, gte, lt, lte, ne, contains, startsWith];
 
   static JobComparator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobComparator'));
+          orElse: () => JobComparator._(value));
+
+  @override
+  bool operator ==(other) => other is JobComparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies whether any one-time or recurring classification jobs are
@@ -9255,22 +9567,38 @@ class JobScopingBlock {
 }
 
 /// The status of a classification job. Possible values are:
-enum JobStatus {
-  running('RUNNING'),
-  paused('PAUSED'),
-  cancelled('CANCELLED'),
-  complete('COMPLETE'),
-  idle('IDLE'),
-  userPaused('USER_PAUSED'),
-  ;
+class JobStatus {
+  static const running = JobStatus._('RUNNING');
+  static const paused = JobStatus._('PAUSED');
+  static const cancelled = JobStatus._('CANCELLED');
+  static const complete = JobStatus._('COMPLETE');
+  static const idle = JobStatus._('IDLE');
+  static const userPaused = JobStatus._('USER_PAUSED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    running,
+    paused,
+    cancelled,
+    complete,
+    idle,
+    userPaused
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a classification job, including the current
@@ -9421,18 +9749,27 @@ class JobSummary {
 }
 
 /// The schedule for running a classification job. Valid values are:
-enum JobType {
-  oneTime('ONE_TIME'),
-  scheduled('SCHEDULED'),
-  ;
+class JobType {
+  static const oneTime = JobType._('ONE_TIME');
+  static const scheduled = JobType._('SCHEDULED');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [oneTime, scheduled];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the tags that are associated with an S3 bucket or
@@ -9511,19 +9848,29 @@ class LastRunErrorStatus {
 /// Specifies whether any account- or bucket-level access errors occurred during
 /// the run of a one-time classification job or the most recent run of a
 /// recurring classification job. Possible values are:
-enum LastRunErrorStatusCode {
-  none('NONE'),
-  error('ERROR'),
-  ;
+class LastRunErrorStatusCode {
+  static const none = LastRunErrorStatusCode._('NONE');
+  static const error = LastRunErrorStatusCode._('ERROR');
 
   final String value;
 
-  const LastRunErrorStatusCode(this.value);
+  const LastRunErrorStatusCode._(this.value);
+
+  static const values = [none, error];
 
   static LastRunErrorStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LastRunErrorStatusCode'));
+          orElse: () => LastRunErrorStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LastRunErrorStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAllowListsResponse {
@@ -9831,21 +10178,30 @@ class ListJobsFilterCriteria {
 }
 
 /// The property to use to filter the results. Valid values are:
-enum ListJobsFilterKey {
-  jobType('jobType'),
-  jobStatus('jobStatus'),
-  createdAt('createdAt'),
-  name('name'),
-  ;
+class ListJobsFilterKey {
+  static const jobType = ListJobsFilterKey._('jobType');
+  static const jobStatus = ListJobsFilterKey._('jobStatus');
+  static const createdAt = ListJobsFilterKey._('createdAt');
+  static const name = ListJobsFilterKey._('name');
 
   final String value;
 
-  const ListJobsFilterKey(this.value);
+  const ListJobsFilterKey._(this.value);
+
+  static const values = [jobType, jobStatus, createdAt, name];
 
   static ListJobsFilterKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListJobsFilterKey'));
+          orElse: () => ListJobsFilterKey._(value));
+
+  @override
+  bool operator ==(other) => other is ListJobsFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a condition that filters the results of a request for information
@@ -9880,21 +10236,31 @@ class ListJobsFilterTerm {
 }
 
 /// The property to sort the results by. Valid values are:
-enum ListJobsSortAttributeName {
-  createdAt('createdAt'),
-  jobStatus('jobStatus'),
-  name('name'),
-  jobType('jobType'),
-  ;
+class ListJobsSortAttributeName {
+  static const createdAt = ListJobsSortAttributeName._('createdAt');
+  static const jobStatus = ListJobsSortAttributeName._('jobStatus');
+  static const name = ListJobsSortAttributeName._('name');
+  static const jobType = ListJobsSortAttributeName._('jobType');
 
   final String value;
 
-  const ListJobsSortAttributeName(this.value);
+  const ListJobsSortAttributeName._(this.value);
+
+  static const values = [createdAt, jobStatus, name, jobType];
 
   static ListJobsSortAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListJobsSortAttributeName'));
+          orElse: () => ListJobsSortAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListJobsSortAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies criteria for sorting the results of a request for information
@@ -10172,38 +10538,57 @@ class ListTagsForResourceResponse {
 }
 
 /// The status of an Amazon Macie account. Valid values are:
-enum MacieStatus {
-  paused('PAUSED'),
-  enabled('ENABLED'),
-  ;
+class MacieStatus {
+  static const paused = MacieStatus._('PAUSED');
+  static const enabled = MacieStatus._('ENABLED');
 
   final String value;
 
-  const MacieStatus(this.value);
+  const MacieStatus._(this.value);
 
-  static MacieStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MacieStatus'));
+  static const values = [paused, enabled];
+
+  static MacieStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MacieStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MacieStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The selection type that determines which managed data identifiers a
 /// classification job uses to analyze data. Valid values are:
-enum ManagedDataIdentifierSelector {
-  all('ALL'),
-  exclude('EXCLUDE'),
-  include('INCLUDE'),
-  none('NONE'),
-  recommended('RECOMMENDED'),
-  ;
+class ManagedDataIdentifierSelector {
+  static const all = ManagedDataIdentifierSelector._('ALL');
+  static const exclude = ManagedDataIdentifierSelector._('EXCLUDE');
+  static const include = ManagedDataIdentifierSelector._('INCLUDE');
+  static const none = ManagedDataIdentifierSelector._('NONE');
+  static const recommended = ManagedDataIdentifierSelector._('RECOMMENDED');
 
   final String value;
 
-  const ManagedDataIdentifierSelector(this.value);
+  const ManagedDataIdentifierSelector._(this.value);
+
+  static const values = [all, exclude, include, none, recommended];
 
   static ManagedDataIdentifierSelector fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ManagedDataIdentifierSelector'));
+          orElse: () => ManagedDataIdentifierSelector._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedDataIdentifierSelector && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a managed data identifier. For additional
@@ -10819,34 +11204,57 @@ class Occurrences {
   }
 }
 
-enum OrderBy {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class OrderBy {
+  static const asc = OrderBy._('ASC');
+  static const desc = OrderBy._('DESC');
 
   final String value;
 
-  const OrderBy(this.value);
+  const OrderBy._(this.value);
 
-  static OrderBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OrderBy'));
+  static const values = [asc, desc];
+
+  static OrderBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies how Amazon Macie found the sensitive data that produced a finding.
 /// Possible values are:
-enum OriginType {
-  sensitiveDataDiscoveryJob('SENSITIVE_DATA_DISCOVERY_JOB'),
-  automatedSensitiveDataDiscovery('AUTOMATED_SENSITIVE_DATA_DISCOVERY'),
-  ;
+class OriginType {
+  static const sensitiveDataDiscoveryJob =
+      OriginType._('SENSITIVE_DATA_DISCOVERY_JOB');
+  static const automatedSensitiveDataDiscovery =
+      OriginType._('AUTOMATED_SENSITIVE_DATA_DISCOVERY');
 
   final String value;
 
-  const OriginType(this.value);
+  const OriginType._(this.value);
 
-  static OriginType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OriginType'));
+  static const values = [
+    sensitiveDataDiscoveryJob,
+    automatedSensitiveDataDiscovery
+  ];
+
+  static OriginType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OriginType._(value));
+
+  @override
+  bool operator ==(other) => other is OriginType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the location of an occurrence of sensitive data in an Adobe
@@ -11055,27 +11463,50 @@ class Record {
 
 /// The current status of the relationship between an account and an associated
 /// Amazon Macie administrator account. Possible values are:
-enum RelationshipStatus {
-  enabled('Enabled'),
-  paused('Paused'),
-  invited('Invited'),
-  created('Created'),
-  removed('Removed'),
-  resigned('Resigned'),
-  emailVerificationInProgress('EmailVerificationInProgress'),
-  emailVerificationFailed('EmailVerificationFailed'),
-  regionDisabled('RegionDisabled'),
-  accountSuspended('AccountSuspended'),
-  ;
+class RelationshipStatus {
+  static const enabled = RelationshipStatus._('Enabled');
+  static const paused = RelationshipStatus._('Paused');
+  static const invited = RelationshipStatus._('Invited');
+  static const created = RelationshipStatus._('Created');
+  static const removed = RelationshipStatus._('Removed');
+  static const resigned = RelationshipStatus._('Resigned');
+  static const emailVerificationInProgress =
+      RelationshipStatus._('EmailVerificationInProgress');
+  static const emailVerificationFailed =
+      RelationshipStatus._('EmailVerificationFailed');
+  static const regionDisabled = RelationshipStatus._('RegionDisabled');
+  static const accountSuspended = RelationshipStatus._('AccountSuspended');
 
   final String value;
 
-  const RelationshipStatus(this.value);
+  const RelationshipStatus._(this.value);
 
-  static RelationshipStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RelationshipStatus'));
+  static const values = [
+    enabled,
+    paused,
+    invited,
+    created,
+    removed,
+    resigned,
+    emailVerificationInProgress,
+    emailVerificationFailed,
+    regionDisabled,
+    accountSuspended
+  ];
+
+  static RelationshipStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RelationshipStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RelationshipStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about settings that define whether one or more objects
@@ -11368,7 +11799,7 @@ class RetrievalConfiguration {
   factory RetrievalConfiguration.fromJson(Map<String, dynamic> json) {
     return RetrievalConfiguration(
       retrievalMode:
-          RetrievalMode.fromString((json['retrievalMode'] as String)),
+          RetrievalMode.fromString((json['retrievalMode'] as String?) ?? ''),
       externalId: json['externalId'] as String?,
       roleName: json['roleName'] as String?,
     );
@@ -11388,19 +11819,28 @@ class RetrievalConfiguration {
 
 /// The access method to use when retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
-enum RetrievalMode {
-  callerCredentials('CALLER_CREDENTIALS'),
-  assumeRole('ASSUME_ROLE'),
-  ;
+class RetrievalMode {
+  static const callerCredentials = RetrievalMode._('CALLER_CREDENTIALS');
+  static const assumeRole = RetrievalMode._('ASSUME_ROLE');
 
   final String value;
 
-  const RetrievalMode(this.value);
+  const RetrievalMode._(this.value);
+
+  static const values = [callerCredentials, assumeRole];
 
   static RetrievalMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetrievalMode'));
+          orElse: () => RetrievalMode._(value));
+
+  @override
+  bool operator ==(other) => other is RetrievalMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the status of the Amazon Macie configuration for retrieving
@@ -11441,7 +11881,7 @@ class RevealConfiguration {
 
   factory RevealConfiguration.fromJson(Map<String, dynamic> json) {
     return RevealConfiguration(
-      status: RevealStatus.fromString((json['status'] as String)),
+      status: RevealStatus.fromString((json['status'] as String?) ?? ''),
       kmsKeyId: json['kmsKeyId'] as String?,
     );
   }
@@ -11458,37 +11898,55 @@ class RevealConfiguration {
 
 /// The status of a request to retrieve occurrences of sensitive data reported
 /// by a finding. Possible values are:
-enum RevealRequestStatus {
-  success('SUCCESS'),
-  processing('PROCESSING'),
-  error('ERROR'),
-  ;
+class RevealRequestStatus {
+  static const success = RevealRequestStatus._('SUCCESS');
+  static const processing = RevealRequestStatus._('PROCESSING');
+  static const error = RevealRequestStatus._('ERROR');
 
   final String value;
 
-  const RevealRequestStatus(this.value);
+  const RevealRequestStatus._(this.value);
 
-  static RevealRequestStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RevealRequestStatus'));
+  static const values = [success, processing, error];
+
+  static RevealRequestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevealRequestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RevealRequestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of the configuration for retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
-enum RevealStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class RevealStatus {
+  static const enabled = RevealStatus._('ENABLED');
+  static const disabled = RevealStatus._('DISABLED');
 
   final String value;
 
-  const RevealStatus(this.value);
+  const RevealStatus._(this.value);
 
-  static RevealStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RevealStatus'));
+  static const values = [enabled, disabled];
+
+  static RevealStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RevealStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RevealStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the S3 bucket that a finding applies to.
@@ -12077,21 +12535,36 @@ class S3WordsList {
 
 /// The property to use in a condition that determines whether an S3 object is
 /// included or excluded from a classification job. Valid values are:
-enum ScopeFilterKey {
-  objectExtension('OBJECT_EXTENSION'),
-  objectLastModifiedDate('OBJECT_LAST_MODIFIED_DATE'),
-  objectSize('OBJECT_SIZE'),
-  objectKey('OBJECT_KEY'),
-  ;
+class ScopeFilterKey {
+  static const objectExtension = ScopeFilterKey._('OBJECT_EXTENSION');
+  static const objectLastModifiedDate =
+      ScopeFilterKey._('OBJECT_LAST_MODIFIED_DATE');
+  static const objectSize = ScopeFilterKey._('OBJECT_SIZE');
+  static const objectKey = ScopeFilterKey._('OBJECT_KEY');
 
   final String value;
 
-  const ScopeFilterKey(this.value);
+  const ScopeFilterKey._(this.value);
+
+  static const values = [
+    objectExtension,
+    objectLastModifiedDate,
+    objectSize,
+    objectKey
+  ];
 
   static ScopeFilterKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScopeFilterKey'));
+          orElse: () => ScopeFilterKey._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies one or more property- and tag-based conditions that define
@@ -12161,19 +12634,29 @@ class SearchResourcesBucketCriteria {
 
 /// The operator to use in a condition that filters the results of a query.
 /// Valid values are:
-enum SearchResourcesComparator {
-  eq('EQ'),
-  ne('NE'),
-  ;
+class SearchResourcesComparator {
+  static const eq = SearchResourcesComparator._('EQ');
+  static const ne = SearchResourcesComparator._('NE');
 
   final String value;
 
-  const SearchResourcesComparator(this.value);
+  const SearchResourcesComparator._(this.value);
+
+  static const values = [eq, ne];
 
   static SearchResourcesComparator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchResourcesComparator'));
+          orElse: () => SearchResourcesComparator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchResourcesComparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a property- or tag-based filter condition for including or
@@ -12322,40 +12805,79 @@ class SearchResourcesSimpleCriterion {
 
 /// The property to use in a condition that filters the query results. Valid
 /// values are:
-enum SearchResourcesSimpleCriterionKey {
-  accountId('ACCOUNT_ID'),
-  s3BucketName('S3_BUCKET_NAME'),
-  s3BucketEffectivePermission('S3_BUCKET_EFFECTIVE_PERMISSION'),
-  s3BucketSharedAccess('S3_BUCKET_SHARED_ACCESS'),
-  automatedDiscoveryMonitoringStatus('AUTOMATED_DISCOVERY_MONITORING_STATUS'),
-  ;
+class SearchResourcesSimpleCriterionKey {
+  static const accountId = SearchResourcesSimpleCriterionKey._('ACCOUNT_ID');
+  static const s3BucketName =
+      SearchResourcesSimpleCriterionKey._('S3_BUCKET_NAME');
+  static const s3BucketEffectivePermission =
+      SearchResourcesSimpleCriterionKey._('S3_BUCKET_EFFECTIVE_PERMISSION');
+  static const s3BucketSharedAccess =
+      SearchResourcesSimpleCriterionKey._('S3_BUCKET_SHARED_ACCESS');
+  static const automatedDiscoveryMonitoringStatus =
+      SearchResourcesSimpleCriterionKey._(
+          'AUTOMATED_DISCOVERY_MONITORING_STATUS');
 
   final String value;
 
-  const SearchResourcesSimpleCriterionKey(this.value);
+  const SearchResourcesSimpleCriterionKey._(this.value);
+
+  static const values = [
+    accountId,
+    s3BucketName,
+    s3BucketEffectivePermission,
+    s3BucketSharedAccess,
+    automatedDiscoveryMonitoringStatus
+  ];
 
   static SearchResourcesSimpleCriterionKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchResourcesSimpleCriterionKey'));
+          orElse: () => SearchResourcesSimpleCriterionKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchResourcesSimpleCriterionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The property to sort the query results by. Valid values are:
-enum SearchResourcesSortAttributeName {
-  accountId('ACCOUNT_ID'),
-  resourceName('RESOURCE_NAME'),
-  s3ClassifiableObjectCount('S3_CLASSIFIABLE_OBJECT_COUNT'),
-  s3ClassifiableSizeInBytes('S3_CLASSIFIABLE_SIZE_IN_BYTES'),
-  ;
+class SearchResourcesSortAttributeName {
+  static const accountId = SearchResourcesSortAttributeName._('ACCOUNT_ID');
+  static const resourceName =
+      SearchResourcesSortAttributeName._('RESOURCE_NAME');
+  static const s3ClassifiableObjectCount =
+      SearchResourcesSortAttributeName._('S3_CLASSIFIABLE_OBJECT_COUNT');
+  static const s3ClassifiableSizeInBytes =
+      SearchResourcesSortAttributeName._('S3_CLASSIFIABLE_SIZE_IN_BYTES');
 
   final String value;
 
-  const SearchResourcesSortAttributeName(this.value);
+  const SearchResourcesSortAttributeName._(this.value);
+
+  static const values = [
+    accountId,
+    resourceName,
+    s3ClassifiableObjectCount,
+    s3ClassifiableSizeInBytes
+  ];
 
   static SearchResourcesSortAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchResourcesSortAttributeName'));
+          orElse: () => SearchResourcesSortAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchResourcesSortAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies criteria for sorting the results of a query for information about
@@ -12531,21 +13053,39 @@ class SensitiveDataItem {
 /// For a finding, the category of sensitive data that was detected and produced
 /// the finding. For a managed data identifier, the category of sensitive data
 /// that the managed data identifier detects. Possible values are:
-enum SensitiveDataItemCategory {
-  financialInformation('FINANCIAL_INFORMATION'),
-  personalInformation('PERSONAL_INFORMATION'),
-  credentials('CREDENTIALS'),
-  customIdentifier('CUSTOM_IDENTIFIER'),
-  ;
+class SensitiveDataItemCategory {
+  static const financialInformation =
+      SensitiveDataItemCategory._('FINANCIAL_INFORMATION');
+  static const personalInformation =
+      SensitiveDataItemCategory._('PERSONAL_INFORMATION');
+  static const credentials = SensitiveDataItemCategory._('CREDENTIALS');
+  static const customIdentifier =
+      SensitiveDataItemCategory._('CUSTOM_IDENTIFIER');
 
   final String value;
 
-  const SensitiveDataItemCategory(this.value);
+  const SensitiveDataItemCategory._(this.value);
+
+  static const values = [
+    financialInformation,
+    personalInformation,
+    credentials,
+    customIdentifier
+  ];
 
   static SensitiveDataItemCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SensitiveDataItemCategory'));
+          orElse: () => SensitiveDataItemCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SensitiveDataItemCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides aggregated statistical data for sensitive data discovery metrics
@@ -12983,20 +13523,30 @@ class Severity {
 
 /// The qualitative representation of the finding's severity. Possible values
 /// are:
-enum SeverityDescription {
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  ;
+class SeverityDescription {
+  static const low = SeverityDescription._('Low');
+  static const medium = SeverityDescription._('Medium');
+  static const high = SeverityDescription._('High');
 
   final String value;
 
-  const SeverityDescription(this.value);
+  const SeverityDescription._(this.value);
 
-  static SeverityDescription fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SeverityDescription'));
+  static const values = [low, medium, high];
+
+  static SeverityDescription fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SeverityDescription._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SeverityDescription && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a severity level for findings that a custom data identifier
@@ -13024,7 +13574,8 @@ class SeverityLevel {
   factory SeverityLevel.fromJson(Map<String, dynamic> json) {
     return SeverityLevel(
       occurrencesThreshold: (json['occurrencesThreshold'] as int?) ?? 0,
-      severity: DataIdentifierSeverity.fromString((json['severity'] as String)),
+      severity: DataIdentifierSeverity.fromString(
+          (json['severity'] as String?) ?? ''),
     );
   }
 
@@ -13038,21 +13589,29 @@ class SeverityLevel {
   }
 }
 
-enum SharedAccess {
-  external('EXTERNAL'),
-  internal('INTERNAL'),
-  notShared('NOT_SHARED'),
-  unknown('UNKNOWN'),
-  ;
+class SharedAccess {
+  static const external = SharedAccess._('EXTERNAL');
+  static const internal = SharedAccess._('INTERNAL');
+  static const notShared = SharedAccess._('NOT_SHARED');
+  static const unknown = SharedAccess._('UNKNOWN');
 
   final String value;
 
-  const SharedAccess(this.value);
+  const SharedAccess._(this.value);
 
-  static SharedAccess fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SharedAccess'));
+  static const values = [external, internal, notShared, unknown];
+
+  static SharedAccess fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SharedAccess._(value));
+
+  @override
+  bool operator ==(other) => other is SharedAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a property-based condition that determines whether an S3 bucket is
@@ -13124,21 +13683,38 @@ class SimpleCriterionForJob {
 
 /// The property to use in a condition that determines whether an S3 bucket is
 /// included or excluded from a classification job. Valid values are:
-enum SimpleCriterionKeyForJob {
-  accountId('ACCOUNT_ID'),
-  s3BucketName('S3_BUCKET_NAME'),
-  s3BucketEffectivePermission('S3_BUCKET_EFFECTIVE_PERMISSION'),
-  s3BucketSharedAccess('S3_BUCKET_SHARED_ACCESS'),
-  ;
+class SimpleCriterionKeyForJob {
+  static const accountId = SimpleCriterionKeyForJob._('ACCOUNT_ID');
+  static const s3BucketName = SimpleCriterionKeyForJob._('S3_BUCKET_NAME');
+  static const s3BucketEffectivePermission =
+      SimpleCriterionKeyForJob._('S3_BUCKET_EFFECTIVE_PERMISSION');
+  static const s3BucketSharedAccess =
+      SimpleCriterionKeyForJob._('S3_BUCKET_SHARED_ACCESS');
 
   final String value;
 
-  const SimpleCriterionKeyForJob(this.value);
+  const SimpleCriterionKeyForJob._(this.value);
+
+  static const values = [
+    accountId,
+    s3BucketName,
+    s3BucketEffectivePermission,
+    s3BucketSharedAccess
+  ];
 
   static SimpleCriterionKeyForJob fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimpleCriterionKeyForJob'));
+          orElse: () => SimpleCriterionKeyForJob._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimpleCriterionKeyForJob && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a property-based condition that determines whether an S3 object is
@@ -13292,26 +13868,44 @@ class Statistics {
 }
 
 /// The storage class of the S3 object. Possible values are:
-enum StorageClass {
-  standard('STANDARD'),
-  reducedRedundancy('REDUCED_REDUNDANCY'),
-  standardIa('STANDARD_IA'),
-  intelligentTiering('INTELLIGENT_TIERING'),
-  deepArchive('DEEP_ARCHIVE'),
-  onezoneIa('ONEZONE_IA'),
-  glacier('GLACIER'),
-  glacierIr('GLACIER_IR'),
-  outposts('OUTPOSTS'),
-  ;
+class StorageClass {
+  static const standard = StorageClass._('STANDARD');
+  static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
+  static const standardIa = StorageClass._('STANDARD_IA');
+  static const intelligentTiering = StorageClass._('INTELLIGENT_TIERING');
+  static const deepArchive = StorageClass._('DEEP_ARCHIVE');
+  static const onezoneIa = StorageClass._('ONEZONE_IA');
+  static const glacier = StorageClass._('GLACIER');
+  static const glacierIr = StorageClass._('GLACIER_IR');
+  static const outposts = StorageClass._('OUTPOSTS');
 
   final String value;
 
-  const StorageClass(this.value);
+  const StorageClass._(this.value);
 
-  static StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StorageClass'));
+  static const values = [
+    standard,
+    reducedRedundancy,
+    standardIa,
+    intelligentTiering,
+    deepArchive,
+    onezoneIa,
+    glacier,
+    glacierIr,
+    outposts
+  ];
+
+  static StorageClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a custom data identifier or managed data identifier that detected
@@ -13480,17 +14074,26 @@ class TagScopeTerm {
 }
 
 /// The type of object to apply a tag-based condition to. Valid values are:
-enum TagTarget {
-  s3Object('S3_OBJECT'),
-  ;
+class TagTarget {
+  static const s3Object = TagTarget._('S3_OBJECT');
 
   final String value;
 
-  const TagTarget(this.value);
+  const TagTarget._(this.value);
 
-  static TagTarget fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TagTarget'));
+  static const values = [s3Object];
+
+  static TagTarget fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TagTarget._(value));
+
+  @override
+  bool operator ==(other) => other is TagTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a tag key or tag key and value pair to use in a tag-based
@@ -13554,73 +14157,133 @@ class TestCustomDataIdentifierResponse {
 
 /// An inclusive time period that Amazon Macie usage data applies to. Possible
 /// values are:
-enum TimeRange {
-  monthToDate('MONTH_TO_DATE'),
-  past_30Days('PAST_30_DAYS'),
-  ;
+class TimeRange {
+  static const monthToDate = TimeRange._('MONTH_TO_DATE');
+  static const past_30Days = TimeRange._('PAST_30_DAYS');
 
   final String value;
 
-  const TimeRange(this.value);
+  const TimeRange._(this.value);
 
-  static TimeRange fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TimeRange'));
+  static const values = [monthToDate, past_30Days];
+
+  static TimeRange fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeRange._(value));
+
+  @override
+  bool operator ==(other) => other is TimeRange && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Type {
-  none('NONE'),
-  aes256('AES256'),
-  awsKms('aws:kms'),
-  awsKmsDsse('aws:kms:dsse'),
-  ;
+class Type {
+  static const none = Type._('NONE');
+  static const aes256 = Type._('AES256');
+  static const awsKms = Type._('aws:kms');
+  static const awsKmsDsse = Type._('aws:kms:dsse');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [none, aes256, awsKms, awsKmsDsse];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies why occurrences of sensitive data can't be retrieved for a
 /// finding. Possible values are:
-enum UnavailabilityReasonCode {
-  objectExceedsSizeQuota('OBJECT_EXCEEDS_SIZE_QUOTA'),
-  unsupportedObjectType('UNSUPPORTED_OBJECT_TYPE'),
-  unsupportedFindingType('UNSUPPORTED_FINDING_TYPE'),
-  invalidClassificationResult('INVALID_CLASSIFICATION_RESULT'),
-  objectUnavailable('OBJECT_UNAVAILABLE'),
-  accountNotInOrganization('ACCOUNT_NOT_IN_ORGANIZATION'),
-  missingGetMemberPermission('MISSING_GET_MEMBER_PERMISSION'),
-  roleTooPermissive('ROLE_TOO_PERMISSIVE'),
-  memberRoleTooPermissive('MEMBER_ROLE_TOO_PERMISSIVE'),
-  invalidResultSignature('INVALID_RESULT_SIGNATURE'),
-  resultNotSigned('RESULT_NOT_SIGNED'),
-  ;
+class UnavailabilityReasonCode {
+  static const objectExceedsSizeQuota =
+      UnavailabilityReasonCode._('OBJECT_EXCEEDS_SIZE_QUOTA');
+  static const unsupportedObjectType =
+      UnavailabilityReasonCode._('UNSUPPORTED_OBJECT_TYPE');
+  static const unsupportedFindingType =
+      UnavailabilityReasonCode._('UNSUPPORTED_FINDING_TYPE');
+  static const invalidClassificationResult =
+      UnavailabilityReasonCode._('INVALID_CLASSIFICATION_RESULT');
+  static const objectUnavailable =
+      UnavailabilityReasonCode._('OBJECT_UNAVAILABLE');
+  static const accountNotInOrganization =
+      UnavailabilityReasonCode._('ACCOUNT_NOT_IN_ORGANIZATION');
+  static const missingGetMemberPermission =
+      UnavailabilityReasonCode._('MISSING_GET_MEMBER_PERMISSION');
+  static const roleTooPermissive =
+      UnavailabilityReasonCode._('ROLE_TOO_PERMISSIVE');
+  static const memberRoleTooPermissive =
+      UnavailabilityReasonCode._('MEMBER_ROLE_TOO_PERMISSIVE');
+  static const invalidResultSignature =
+      UnavailabilityReasonCode._('INVALID_RESULT_SIGNATURE');
+  static const resultNotSigned =
+      UnavailabilityReasonCode._('RESULT_NOT_SIGNED');
 
   final String value;
 
-  const UnavailabilityReasonCode(this.value);
+  const UnavailabilityReasonCode._(this.value);
+
+  static const values = [
+    objectExceedsSizeQuota,
+    unsupportedObjectType,
+    unsupportedFindingType,
+    invalidClassificationResult,
+    objectUnavailable,
+    accountNotInOrganization,
+    missingGetMemberPermission,
+    roleTooPermissive,
+    memberRoleTooPermissive,
+    invalidResultSignature,
+    resultNotSigned
+  ];
 
   static UnavailabilityReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnavailabilityReasonCode'));
+          orElse: () => UnavailabilityReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnavailabilityReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Unit {
-  terabytes('TERABYTES'),
-  ;
+class Unit {
+  static const terabytes = Unit._('TERABYTES');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [terabytes];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about an account-related request that hasn't been
@@ -14095,43 +14758,64 @@ class UsageStatisticsFilter {
 
 /// The operator to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
-enum UsageStatisticsFilterComparator {
-  gt('GT'),
-  gte('GTE'),
-  lt('LT'),
-  lte('LTE'),
-  eq('EQ'),
-  ne('NE'),
-  contains('CONTAINS'),
-  ;
+class UsageStatisticsFilterComparator {
+  static const gt = UsageStatisticsFilterComparator._('GT');
+  static const gte = UsageStatisticsFilterComparator._('GTE');
+  static const lt = UsageStatisticsFilterComparator._('LT');
+  static const lte = UsageStatisticsFilterComparator._('LTE');
+  static const eq = UsageStatisticsFilterComparator._('EQ');
+  static const ne = UsageStatisticsFilterComparator._('NE');
+  static const contains = UsageStatisticsFilterComparator._('CONTAINS');
 
   final String value;
 
-  const UsageStatisticsFilterComparator(this.value);
+  const UsageStatisticsFilterComparator._(this.value);
+
+  static const values = [gt, gte, lt, lte, eq, ne, contains];
 
   static UsageStatisticsFilterComparator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageStatisticsFilterComparator'));
+          orElse: () => UsageStatisticsFilterComparator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageStatisticsFilterComparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The field to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
-enum UsageStatisticsFilterKey {
-  accountId('accountId'),
-  serviceLimit('serviceLimit'),
-  freeTrialStartDate('freeTrialStartDate'),
-  total('total'),
-  ;
+class UsageStatisticsFilterKey {
+  static const accountId = UsageStatisticsFilterKey._('accountId');
+  static const serviceLimit = UsageStatisticsFilterKey._('serviceLimit');
+  static const freeTrialStartDate =
+      UsageStatisticsFilterKey._('freeTrialStartDate');
+  static const total = UsageStatisticsFilterKey._('total');
 
   final String value;
 
-  const UsageStatisticsFilterKey(this.value);
+  const UsageStatisticsFilterKey._(this.value);
+
+  static const values = [accountId, serviceLimit, freeTrialStartDate, total];
 
   static UsageStatisticsFilterKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageStatisticsFilterKey'));
+          orElse: () => UsageStatisticsFilterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageStatisticsFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies criteria for sorting the results of a query for Amazon Macie
@@ -14162,21 +14846,38 @@ class UsageStatisticsSortBy {
 
 /// The field to use to sort the results of a query for Amazon Macie account
 /// quotas and usage data. Valid values are:
-enum UsageStatisticsSortKey {
-  accountId('accountId'),
-  total('total'),
-  serviceLimitValue('serviceLimitValue'),
-  freeTrialStartDate('freeTrialStartDate'),
-  ;
+class UsageStatisticsSortKey {
+  static const accountId = UsageStatisticsSortKey._('accountId');
+  static const total = UsageStatisticsSortKey._('total');
+  static const serviceLimitValue =
+      UsageStatisticsSortKey._('serviceLimitValue');
+  static const freeTrialStartDate =
+      UsageStatisticsSortKey._('freeTrialStartDate');
 
   final String value;
 
-  const UsageStatisticsSortKey(this.value);
+  const UsageStatisticsSortKey._(this.value);
+
+  static const values = [
+    accountId,
+    total,
+    serviceLimitValue,
+    freeTrialStartDate
+  ];
 
   static UsageStatisticsSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UsageStatisticsSortKey'));
+          orElse: () => UsageStatisticsSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageStatisticsSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides aggregated data for an Amazon Macie usage metric. The value for the
@@ -14226,20 +14927,37 @@ class UsageTotal {
 
 /// The name of an Amazon Macie usage metric for an account. Possible values
 /// are:
-enum UsageType {
-  dataInventoryEvaluation('DATA_INVENTORY_EVALUATION'),
-  sensitiveDataDiscovery('SENSITIVE_DATA_DISCOVERY'),
-  automatedSensitiveDataDiscovery('AUTOMATED_SENSITIVE_DATA_DISCOVERY'),
-  automatedObjectMonitoring('AUTOMATED_OBJECT_MONITORING'),
-  ;
+class UsageType {
+  static const dataInventoryEvaluation =
+      UsageType._('DATA_INVENTORY_EVALUATION');
+  static const sensitiveDataDiscovery = UsageType._('SENSITIVE_DATA_DISCOVERY');
+  static const automatedSensitiveDataDiscovery =
+      UsageType._('AUTOMATED_SENSITIVE_DATA_DISCOVERY');
+  static const automatedObjectMonitoring =
+      UsageType._('AUTOMATED_OBJECT_MONITORING');
 
   final String value;
 
-  const UsageType(this.value);
+  const UsageType._(this.value);
 
-  static UsageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UsageType'));
+  static const values = [
+    dataInventoryEvaluation,
+    sensitiveDataDiscovery,
+    automatedSensitiveDataDiscovery,
+    automatedObjectMonitoring
+  ];
+
+  static UsageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UsageType._(value));
+
+  @override
+  bool operator ==(other) => other is UsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the type and other characteristics of an entity
@@ -14373,23 +15091,39 @@ class UserIdentityRoot {
 
 /// The type of entity that performed the action on the affected resource.
 /// Possible values are:
-enum UserIdentityType {
-  assumedRole('AssumedRole'),
-  iAMUser('IAMUser'),
-  federatedUser('FederatedUser'),
-  root('Root'),
-  awsAccount('AWSAccount'),
-  awsService('AWSService'),
-  ;
+class UserIdentityType {
+  static const assumedRole = UserIdentityType._('AssumedRole');
+  static const iAMUser = UserIdentityType._('IAMUser');
+  static const federatedUser = UserIdentityType._('FederatedUser');
+  static const root = UserIdentityType._('Root');
+  static const awsAccount = UserIdentityType._('AWSAccount');
+  static const awsService = UserIdentityType._('AWSService');
 
   final String value;
 
-  const UserIdentityType(this.value);
+  const UserIdentityType._(this.value);
+
+  static const values = [
+    assumedRole,
+    iAMUser,
+    federatedUser,
+    root,
+    awsAccount,
+    awsService
+  ];
 
   static UserIdentityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserIdentityType'));
+          orElse: () => UserIdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is UserIdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about when a classification job was paused. For a

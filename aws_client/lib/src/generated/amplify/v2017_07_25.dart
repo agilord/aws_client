@@ -1999,7 +1999,7 @@ class App {
                   const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
       name: (json['name'] as String?) ?? '',
-      platform: Platform.fromString((json['platform'] as String)),
+      platform: Platform.fromString((json['platform'] as String?) ?? ''),
       repository: (json['repository'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       autoBranchCreationConfig: json['autoBranchCreationConfig'] != null
@@ -2466,7 +2466,7 @@ class Branch {
                   const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
       framework: (json['framework'] as String?) ?? '',
-      stage: Stage.fromString((json['stage'] as String)),
+      stage: Stage.fromString((json['stage'] as String?) ?? ''),
       totalNumberOfJobs: (json['totalNumberOfJobs'] as String?) ?? '',
       ttl: (json['ttl'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
@@ -2582,7 +2582,7 @@ class CacheConfig {
 
   factory CacheConfig.fromJson(Map<String, dynamic> json) {
     return CacheConfig(
-      type: CacheConfigType.fromString((json['type'] as String)),
+      type: CacheConfigType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2594,19 +2594,29 @@ class CacheConfig {
   }
 }
 
-enum CacheConfigType {
-  amplifyManaged('AMPLIFY_MANAGED'),
-  amplifyManagedNoCookies('AMPLIFY_MANAGED_NO_COOKIES'),
-  ;
+class CacheConfigType {
+  static const amplifyManaged = CacheConfigType._('AMPLIFY_MANAGED');
+  static const amplifyManagedNoCookies =
+      CacheConfigType._('AMPLIFY_MANAGED_NO_COOKIES');
 
   final String value;
 
-  const CacheConfigType(this.value);
+  const CacheConfigType._(this.value);
+
+  static const values = [amplifyManaged, amplifyManagedNoCookies];
 
   static CacheConfigType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CacheConfigType'));
+          orElse: () => CacheConfigType._(value));
+
+  @override
+  bool operator ==(other) => other is CacheConfigType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the current SSL/TLS certificate that is in use for the domain. If
@@ -2645,7 +2655,7 @@ class Certificate {
 
   factory Certificate.fromJson(Map<String, dynamic> json) {
     return Certificate(
-      type: CertificateType.fromString((json['type'] as String)),
+      type: CertificateType.fromString((json['type'] as String?) ?? ''),
       certificateVerificationDNSRecord:
           json['certificateVerificationDNSRecord'] as String?,
       customCertificateArn: json['customCertificateArn'] as String?,
@@ -2707,19 +2717,28 @@ class CertificateSettings {
   }
 }
 
-enum CertificateType {
-  amplifyManaged('AMPLIFY_MANAGED'),
-  custom('CUSTOM'),
-  ;
+class CertificateType {
+  static const amplifyManaged = CertificateType._('AMPLIFY_MANAGED');
+  static const custom = CertificateType._('CUSTOM');
 
   final String value;
 
-  const CertificateType(this.value);
+  const CertificateType._(this.value);
+
+  static const values = [amplifyManaged, custom];
 
   static CertificateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateType'));
+          orElse: () => CertificateType._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAppResult {
@@ -3172,7 +3191,8 @@ class DomainAssociation {
     return DomainAssociation(
       domainAssociationArn: (json['domainAssociationArn'] as String?) ?? '',
       domainName: (json['domainName'] as String?) ?? '',
-      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
+      domainStatus:
+          DomainStatus.fromString((json['domainStatus'] as String?) ?? ''),
       enableAutoSubDomain: (json['enableAutoSubDomain'] as bool?) ?? false,
       statusReason: (json['statusReason'] as String?) ?? '',
       subDomains: ((json['subDomains'] as List?) ?? const [])
@@ -3227,27 +3247,47 @@ class DomainAssociation {
   }
 }
 
-enum DomainStatus {
-  pendingVerification('PENDING_VERIFICATION'),
-  inProgress('IN_PROGRESS'),
-  available('AVAILABLE'),
-  importingCustomCertificate('IMPORTING_CUSTOM_CERTIFICATE'),
-  pendingDeployment('PENDING_DEPLOYMENT'),
-  awaitingAppCname('AWAITING_APP_CNAME'),
-  failed('FAILED'),
-  creating('CREATING'),
-  requestingCertificate('REQUESTING_CERTIFICATE'),
-  updating('UPDATING'),
-  ;
+class DomainStatus {
+  static const pendingVerification = DomainStatus._('PENDING_VERIFICATION');
+  static const inProgress = DomainStatus._('IN_PROGRESS');
+  static const available = DomainStatus._('AVAILABLE');
+  static const importingCustomCertificate =
+      DomainStatus._('IMPORTING_CUSTOM_CERTIFICATE');
+  static const pendingDeployment = DomainStatus._('PENDING_DEPLOYMENT');
+  static const awaitingAppCname = DomainStatus._('AWAITING_APP_CNAME');
+  static const failed = DomainStatus._('FAILED');
+  static const creating = DomainStatus._('CREATING');
+  static const requestingCertificate = DomainStatus._('REQUESTING_CERTIFICATE');
+  static const updating = DomainStatus._('UPDATING');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [
+    pendingVerification,
+    inProgress,
+    available,
+    importingCustomCertificate,
+    pendingDeployment,
+    awaitingAppCname,
+    failed,
+    creating,
+    requestingCertificate,
+    updating
+  ];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result structure for the generate access logs request.
@@ -3478,23 +3518,40 @@ class Job {
   }
 }
 
-enum JobStatus {
-  pending('PENDING'),
-  provisioning('PROVISIONING'),
-  running('RUNNING'),
-  failed('FAILED'),
-  succeed('SUCCEED'),
-  cancelling('CANCELLING'),
-  cancelled('CANCELLED'),
-  ;
+class JobStatus {
+  static const pending = JobStatus._('PENDING');
+  static const provisioning = JobStatus._('PROVISIONING');
+  static const running = JobStatus._('RUNNING');
+  static const failed = JobStatus._('FAILED');
+  static const succeed = JobStatus._('SUCCEED');
+  static const cancelling = JobStatus._('CANCELLING');
+  static const cancelled = JobStatus._('CANCELLED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    pending,
+    provisioning,
+    running,
+    failed,
+    succeed,
+    cancelling,
+    cancelled
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the summary for an execution job for an Amplify app.
@@ -3549,9 +3606,9 @@ class JobSummary {
       commitTime: nonNullableTimeStampFromJson(json['commitTime'] ?? 0),
       jobArn: (json['jobArn'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
-      jobType: JobType.fromString((json['jobType'] as String)),
+      jobType: JobType.fromString((json['jobType'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       endTime: timeStampFromJson(json['endTime']),
     );
   }
@@ -3580,20 +3637,29 @@ class JobSummary {
   }
 }
 
-enum JobType {
-  release('RELEASE'),
-  retry('RETRY'),
-  manual('MANUAL'),
-  webHook('WEB_HOOK'),
-  ;
+class JobType {
+  static const release = JobType._('RELEASE');
+  static const retry = JobType._('RETRY');
+  static const manual = JobType._('MANUAL');
+  static const webHook = JobType._('WEB_HOOK');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [release, retry, manual, webHook];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result structure for an Amplify app list request.
@@ -3859,19 +3925,28 @@ class ListWebhooksResult {
   }
 }
 
-enum Platform {
-  web('WEB'),
-  webDynamic('WEB_DYNAMIC'),
-  webCompute('WEB_COMPUTE'),
-  ;
+class Platform {
+  static const web = Platform._('WEB');
+  static const webDynamic = Platform._('WEB_DYNAMIC');
+  static const webCompute = Platform._('WEB_COMPUTE');
 
   final String value;
 
-  const Platform(this.value);
+  const Platform._(this.value);
 
-  static Platform fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Platform'));
+  static const values = [web, webDynamic, webCompute];
+
+  static Platform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
+
+  @override
+  bool operator ==(other) => other is Platform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the information about a production branch for an Amplify app.
@@ -3919,37 +3994,62 @@ class ProductionBranch {
   }
 }
 
-enum RepositoryCloneMethod {
-  ssh('SSH'),
-  token('TOKEN'),
-  sigv4('SIGV4'),
-  ;
+class RepositoryCloneMethod {
+  static const ssh = RepositoryCloneMethod._('SSH');
+  static const token = RepositoryCloneMethod._('TOKEN');
+  static const sigv4 = RepositoryCloneMethod._('SIGV4');
 
   final String value;
 
-  const RepositoryCloneMethod(this.value);
+  const RepositoryCloneMethod._(this.value);
 
-  static RepositoryCloneMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositoryCloneMethod'));
+  static const values = [ssh, token, sigv4];
+
+  static RepositoryCloneMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositoryCloneMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryCloneMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Stage {
-  production('PRODUCTION'),
-  beta('BETA'),
-  development('DEVELOPMENT'),
-  experimental('EXPERIMENTAL'),
-  pullRequest('PULL_REQUEST'),
-  ;
+class Stage {
+  static const production = Stage._('PRODUCTION');
+  static const beta = Stage._('BETA');
+  static const development = Stage._('DEVELOPMENT');
+  static const experimental = Stage._('EXPERIMENTAL');
+  static const pullRequest = Stage._('PULL_REQUEST');
 
   final String value;
 
-  const Stage(this.value);
+  const Stage._(this.value);
+
+  static const values = [
+    production,
+    beta,
+    development,
+    experimental,
+    pullRequest
+  ];
 
   static Stage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Stage'));
+      values.firstWhere((e) => e.value == value, orElse: () => Stage._(value));
+
+  @override
+  bool operator ==(other) => other is Stage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result structure for the start a deployment request.
@@ -4056,7 +4156,7 @@ class Step {
     return Step(
       endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       stepName: (json['stepName'] as String?) ?? '',
       artifactsUrl: json['artifactsUrl'] as String?,
       context: json['context'] as String?,
@@ -4292,24 +4392,41 @@ class UpdateDomainAssociationResult {
   }
 }
 
-enum UpdateStatus {
-  requestingCertificate('REQUESTING_CERTIFICATE'),
-  pendingVerification('PENDING_VERIFICATION'),
-  importingCustomCertificate('IMPORTING_CUSTOM_CERTIFICATE'),
-  pendingDeployment('PENDING_DEPLOYMENT'),
-  awaitingAppCname('AWAITING_APP_CNAME'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class UpdateStatus {
+  static const requestingCertificate = UpdateStatus._('REQUESTING_CERTIFICATE');
+  static const pendingVerification = UpdateStatus._('PENDING_VERIFICATION');
+  static const importingCustomCertificate =
+      UpdateStatus._('IMPORTING_CUSTOM_CERTIFICATE');
+  static const pendingDeployment = UpdateStatus._('PENDING_DEPLOYMENT');
+  static const awaitingAppCname = UpdateStatus._('AWAITING_APP_CNAME');
+  static const updateComplete = UpdateStatus._('UPDATE_COMPLETE');
+  static const updateFailed = UpdateStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const UpdateStatus(this.value);
+  const UpdateStatus._(this.value);
 
-  static UpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateStatus'));
+  static const values = [
+    requestingCertificate,
+    pendingVerification,
+    importingCustomCertificate,
+    pendingDeployment,
+    awaitingAppCname,
+    updateComplete,
+    updateFailed
+  ];
+
+  static UpdateStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result structure for the update webhook request.

@@ -1221,7 +1221,7 @@ class CreateMonitorOutput {
   factory CreateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return CreateMonitorOutput(
       arn: (json['Arn'] as String?) ?? '',
-      status: MonitorConfigState.fromString((json['Status'] as String)),
+      status: MonitorConfigState.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -1362,15 +1362,15 @@ class GetHealthEventOutput {
     return GetHealthEventOutput(
       eventArn: (json['EventArn'] as String?) ?? '',
       eventId: (json['EventId'] as String?) ?? '',
-      impactType:
-          HealthEventImpactType.fromString((json['ImpactType'] as String)),
+      impactType: HealthEventImpactType.fromString(
+          (json['ImpactType'] as String?) ?? ''),
       impactedLocations: ((json['ImpactedLocations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status: HealthEventStatus.fromString((json['Status'] as String)),
+      status: HealthEventStatus.fromString((json['Status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
       healthScoreThreshold: json['HealthScoreThreshold'] as double?,
@@ -1450,9 +1450,10 @@ class GetInternetEventOutput {
               const <String, dynamic>{}),
       eventArn: (json['EventArn'] as String?) ?? '',
       eventId: (json['EventId'] as String?) ?? '',
-      eventStatus:
-          InternetEventStatus.fromString((json['EventStatus'] as String)),
-      eventType: InternetEventType.fromString((json['EventType'] as String)),
+      eventStatus: InternetEventStatus.fromString(
+          (json['EventStatus'] as String?) ?? ''),
+      eventType:
+          InternetEventType.fromString((json['EventType'] as String?) ?? ''),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
@@ -1572,7 +1573,7 @@ class GetMonitorOutput {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      status: MonitorConfigState.fromString((json['Status'] as String)),
+      status: MonitorConfigState.fromString((json['Status'] as String?) ?? ''),
       healthEventsConfig: json['HealthEventsConfig'] != null
           ? HealthEventsConfig.fromJson(
               json['HealthEventsConfig'] as Map<String, dynamic>)
@@ -1688,7 +1689,7 @@ class GetQueryStatusOutput {
 
   factory GetQueryStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetQueryStatusOutput(
-      status: QueryStatus.fromString((json['Status'] as String)),
+      status: QueryStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -1762,15 +1763,15 @@ class HealthEvent {
     return HealthEvent(
       eventArn: (json['EventArn'] as String?) ?? '',
       eventId: (json['EventId'] as String?) ?? '',
-      impactType:
-          HealthEventImpactType.fromString((json['ImpactType'] as String)),
+      impactType: HealthEventImpactType.fromString(
+          (json['ImpactType'] as String?) ?? ''),
       impactedLocations: ((json['ImpactedLocations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status: HealthEventStatus.fromString((json['Status'] as String)),
+      status: HealthEventStatus.fromString((json['Status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
       healthScoreThreshold: json['HealthScoreThreshold'] as double?,
@@ -1809,36 +1810,61 @@ class HealthEvent {
   }
 }
 
-enum HealthEventImpactType {
-  availability('AVAILABILITY'),
-  performance('PERFORMANCE'),
-  localAvailability('LOCAL_AVAILABILITY'),
-  localPerformance('LOCAL_PERFORMANCE'),
-  ;
+class HealthEventImpactType {
+  static const availability = HealthEventImpactType._('AVAILABILITY');
+  static const performance = HealthEventImpactType._('PERFORMANCE');
+  static const localAvailability =
+      HealthEventImpactType._('LOCAL_AVAILABILITY');
+  static const localPerformance = HealthEventImpactType._('LOCAL_PERFORMANCE');
 
   final String value;
 
-  const HealthEventImpactType(this.value);
+  const HealthEventImpactType._(this.value);
 
-  static HealthEventImpactType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HealthEventImpactType'));
+  static const values = [
+    availability,
+    performance,
+    localAvailability,
+    localPerformance
+  ];
+
+  static HealthEventImpactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthEventImpactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthEventImpactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HealthEventStatus {
-  active('ACTIVE'),
-  resolved('RESOLVED'),
-  ;
+class HealthEventStatus {
+  static const active = HealthEventStatus._('ACTIVE');
+  static const resolved = HealthEventStatus._('RESOLVED');
 
   final String value;
 
-  const HealthEventStatus(this.value);
+  const HealthEventStatus._(this.value);
+
+  static const values = [active, resolved];
 
   static HealthEventStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthEventStatus'));
+          orElse: () => HealthEventStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HealthEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type with the configuration information that determines the
@@ -2020,7 +2046,7 @@ class ImpactedLocation {
       aSName: (json['ASName'] as String?) ?? '',
       aSNumber: (json['ASNumber'] as int?) ?? 0,
       country: (json['Country'] as String?) ?? '',
-      status: HealthEventStatus.fromString((json['Status'] as String)),
+      status: HealthEventStatus.fromString((json['Status'] as String?) ?? ''),
       causedBy: json['CausedBy'] != null
           ? NetworkImpairment.fromJson(json['CausedBy'] as Map<String, dynamic>)
           : null,
@@ -2079,19 +2105,29 @@ class ImpactedLocation {
   }
 }
 
-enum InternetEventStatus {
-  active('ACTIVE'),
-  resolved('RESOLVED'),
-  ;
+class InternetEventStatus {
+  static const active = InternetEventStatus._('ACTIVE');
+  static const resolved = InternetEventStatus._('RESOLVED');
 
   final String value;
 
-  const InternetEventStatus(this.value);
+  const InternetEventStatus._(this.value);
 
-  static InternetEventStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InternetEventStatus'));
+  static const values = [active, resolved];
+
+  static InternetEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InternetEventStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InternetEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about an internet event in Amazon CloudWatch
@@ -2141,9 +2177,10 @@ class InternetEventSummary {
               const <String, dynamic>{}),
       eventArn: (json['EventArn'] as String?) ?? '',
       eventId: (json['EventId'] as String?) ?? '',
-      eventStatus:
-          InternetEventStatus.fromString((json['EventStatus'] as String)),
-      eventType: InternetEventType.fromString((json['EventType'] as String)),
+      eventStatus: InternetEventStatus.fromString(
+          (json['EventStatus'] as String?) ?? ''),
+      eventType:
+          InternetEventType.fromString((json['EventType'] as String?) ?? ''),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
@@ -2169,19 +2206,28 @@ class InternetEventSummary {
   }
 }
 
-enum InternetEventType {
-  availability('AVAILABILITY'),
-  performance('PERFORMANCE'),
-  ;
+class InternetEventType {
+  static const availability = InternetEventType._('AVAILABILITY');
+  static const performance = InternetEventType._('PERFORMANCE');
 
   final String value;
 
-  const InternetEventType(this.value);
+  const InternetEventType._(this.value);
+
+  static const values = [availability, performance];
 
   static InternetEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InternetEventType'));
+          orElse: () => InternetEventType._(value));
+
+  @override
+  bool operator ==(other) => other is InternetEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Internet health includes measurements calculated by Amazon CloudWatch
@@ -2464,34 +2510,53 @@ class LocalHealthEventsConfig {
   }
 }
 
-enum LocalHealthEventsConfigStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class LocalHealthEventsConfigStatus {
+  static const enabled = LocalHealthEventsConfigStatus._('ENABLED');
+  static const disabled = LocalHealthEventsConfigStatus._('DISABLED');
 
   final String value;
 
-  const LocalHealthEventsConfigStatus(this.value);
+  const LocalHealthEventsConfigStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static LocalHealthEventsConfigStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LocalHealthEventsConfigStatus'));
+          orElse: () => LocalHealthEventsConfigStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocalHealthEventsConfigStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LogDeliveryStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class LogDeliveryStatus {
+  static const enabled = LogDeliveryStatus._('ENABLED');
+  static const disabled = LogDeliveryStatus._('DISABLED');
 
   final String value;
 
-  const LogDeliveryStatus(this.value);
+  const LogDeliveryStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static LogDeliveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogDeliveryStatus'));
+          orElse: () => LogDeliveryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LogDeliveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The description of and information about a monitor in Amazon CloudWatch
@@ -2520,7 +2585,7 @@ class Monitor {
     return Monitor(
       monitorArn: (json['MonitorArn'] as String?) ?? '',
       monitorName: (json['MonitorName'] as String?) ?? '',
-      status: MonitorConfigState.fromString((json['Status'] as String)),
+      status: MonitorConfigState.fromString((json['Status'] as String?) ?? ''),
       processingStatus: (json['ProcessingStatus'] as String?)
           ?.let(MonitorProcessingStatusCode.fromString),
     );
@@ -2540,40 +2605,70 @@ class Monitor {
   }
 }
 
-enum MonitorConfigState {
-  pending('PENDING'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  error('ERROR'),
-  ;
+class MonitorConfigState {
+  static const pending = MonitorConfigState._('PENDING');
+  static const active = MonitorConfigState._('ACTIVE');
+  static const inactive = MonitorConfigState._('INACTIVE');
+  static const error = MonitorConfigState._('ERROR');
 
   final String value;
 
-  const MonitorConfigState(this.value);
+  const MonitorConfigState._(this.value);
 
-  static MonitorConfigState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MonitorConfigState'));
+  static const values = [pending, active, inactive, error];
+
+  static MonitorConfigState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MonitorConfigState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitorConfigState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MonitorProcessingStatusCode {
-  ok('OK'),
-  inactive('INACTIVE'),
-  collectingData('COLLECTING_DATA'),
-  insufficientData('INSUFFICIENT_DATA'),
-  faultService('FAULT_SERVICE'),
-  faultAccessCloudwatch('FAULT_ACCESS_CLOUDWATCH'),
-  ;
+class MonitorProcessingStatusCode {
+  static const ok = MonitorProcessingStatusCode._('OK');
+  static const inactive = MonitorProcessingStatusCode._('INACTIVE');
+  static const collectingData =
+      MonitorProcessingStatusCode._('COLLECTING_DATA');
+  static const insufficientData =
+      MonitorProcessingStatusCode._('INSUFFICIENT_DATA');
+  static const faultService = MonitorProcessingStatusCode._('FAULT_SERVICE');
+  static const faultAccessCloudwatch =
+      MonitorProcessingStatusCode._('FAULT_ACCESS_CLOUDWATCH');
 
   final String value;
 
-  const MonitorProcessingStatusCode(this.value);
+  const MonitorProcessingStatusCode._(this.value);
+
+  static const values = [
+    ok,
+    inactive,
+    collectingData,
+    insufficientData,
+    faultService,
+    faultAccessCloudwatch
+  ];
 
   static MonitorProcessingStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MonitorProcessingStatusCode'));
+          orElse: () => MonitorProcessingStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitorProcessingStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An internet service provider (ISP) or network (ASN) in Amazon CloudWatch
@@ -2633,7 +2728,7 @@ class NetworkImpairment {
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkEventType: TriangulationEventType.fromString(
-          (json['NetworkEventType'] as String)),
+          (json['NetworkEventType'] as String?) ?? ''),
       networks: ((json['Networks'] as List?) ?? const [])
           .nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
@@ -2653,18 +2748,27 @@ class NetworkImpairment {
   }
 }
 
-enum Operator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  ;
+class Operator {
+  static const equals = Operator._('EQUALS');
+  static const notEquals = Operator._('NOT_EQUALS');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [equals, notEquals];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Amazon CloudWatch Internet Monitor calculates measurements about the
@@ -2812,38 +2916,64 @@ class QueryField {
   }
 }
 
-enum QueryStatus {
-  queued('QUEUED'),
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  canceled('CANCELED'),
-  ;
+class QueryStatus {
+  static const queued = QueryStatus._('QUEUED');
+  static const running = QueryStatus._('RUNNING');
+  static const succeeded = QueryStatus._('SUCCEEDED');
+  static const failed = QueryStatus._('FAILED');
+  static const canceled = QueryStatus._('CANCELED');
 
   final String value;
 
-  const QueryStatus(this.value);
+  const QueryStatus._(this.value);
 
-  static QueryStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueryStatus'));
+  static const values = [queued, running, succeeded, failed, canceled];
+
+  static QueryStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QueryType {
-  measurements('MEASUREMENTS'),
-  topLocations('TOP_LOCATIONS'),
-  topLocationDetails('TOP_LOCATION_DETAILS'),
-  overallTrafficSuggestions('OVERALL_TRAFFIC_SUGGESTIONS'),
-  overallTrafficSuggestionsDetails('OVERALL_TRAFFIC_SUGGESTIONS_DETAILS'),
-  ;
+class QueryType {
+  static const measurements = QueryType._('MEASUREMENTS');
+  static const topLocations = QueryType._('TOP_LOCATIONS');
+  static const topLocationDetails = QueryType._('TOP_LOCATION_DETAILS');
+  static const overallTrafficSuggestions =
+      QueryType._('OVERALL_TRAFFIC_SUGGESTIONS');
+  static const overallTrafficSuggestionsDetails =
+      QueryType._('OVERALL_TRAFFIC_SUGGESTIONS_DETAILS');
 
   final String value;
 
-  const QueryType(this.value);
+  const QueryType._(this.value);
 
-  static QueryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueryType'));
+  static const values = [
+    measurements,
+    topLocations,
+    topLocationDetails,
+    overallTrafficSuggestions,
+    overallTrafficSuggestionsDetails
+  ];
+
+  static QueryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryType._(value));
+
+  @override
+  bool operator ==(other) => other is QueryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Round-trip time (RTT) is how long it takes for a request from the user to
@@ -2976,19 +3106,29 @@ class TagResourceOutput {
   }
 }
 
-enum TriangulationEventType {
-  aws('AWS'),
-  internet('Internet'),
-  ;
+class TriangulationEventType {
+  static const aws = TriangulationEventType._('AWS');
+  static const internet = TriangulationEventType._('Internet');
 
   final String value;
 
-  const TriangulationEventType(this.value);
+  const TriangulationEventType._(this.value);
+
+  static const values = [aws, internet];
 
   static TriangulationEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TriangulationEventType'));
+          orElse: () => TriangulationEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TriangulationEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {
@@ -3018,7 +3158,7 @@ class UpdateMonitorOutput {
   factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMonitorOutput(
       monitorArn: (json['MonitorArn'] as String?) ?? '',
-      status: MonitorConfigState.fromString((json['Status'] as String)),
+      status: MonitorConfigState.fromString((json['Status'] as String?) ?? ''),
     );
   }
 

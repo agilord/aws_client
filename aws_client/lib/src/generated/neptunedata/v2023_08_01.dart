@@ -3087,18 +3087,27 @@ class NeptuneData {
   }
 }
 
-enum Action {
-  initiateDatabaseReset('initiateDatabaseReset'),
-  performDatabaseReset('performDatabaseReset'),
-  ;
+class Action {
+  static const initiateDatabaseReset = Action._('initiateDatabaseReset');
+  static const performDatabaseReset = Action._('performDatabaseReset');
 
   final String value;
 
-  const Action(this.value);
+  const Action._(this.value);
+
+  static const values = [initiateDatabaseReset, performDatabaseReset];
 
   static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Action'));
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelGremlinQueryOutput {
@@ -3528,17 +3537,26 @@ class EdgeStructure {
   }
 }
 
-enum Encoding {
-  gzip('gzip'),
-  ;
+class Encoding {
+  static const gzip = Encoding._('gzip');
 
   final String value;
 
-  const Encoding(this.value);
+  const Encoding._(this.value);
 
-  static Encoding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Encoding'));
+  static const values = [gzip];
+
+  static Encoding fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Encoding._(value));
+
+  @override
+  bool operator ==(other) => other is Encoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExecuteFastResetOutput {
@@ -3727,22 +3745,31 @@ class FastResetToken {
   }
 }
 
-enum Format {
-  csv('csv'),
-  opencypher('opencypher'),
-  ntriples('ntriples'),
-  nquads('nquads'),
-  rdfxml('rdfxml'),
-  turtle('turtle'),
-  ;
+class Format {
+  static const csv = Format._('csv');
+  static const opencypher = Format._('opencypher');
+  static const ntriples = Format._('ntriples');
+  static const nquads = Format._('nquads');
+  static const rdfxml = Format._('rdfxml');
+  static const turtle = Format._('turtle');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [csv, opencypher, ntriples, nquads, rdfxml, turtle];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetEngineStatusOutput {
@@ -4470,19 +4497,28 @@ class GetSparqlStreamOutput {
   }
 }
 
-enum GraphSummaryType {
-  basic('basic'),
-  detailed('detailed'),
-  ;
+class GraphSummaryType {
+  static const basic = GraphSummaryType._('basic');
+  static const detailed = GraphSummaryType._('detailed');
 
   final String value;
 
-  const GraphSummaryType(this.value);
+  const GraphSummaryType._(this.value);
+
+  static const values = [basic, detailed];
 
   static GraphSummaryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GraphSummaryType'));
+          orElse: () => GraphSummaryType._(value));
+
+  @override
+  bool operator ==(other) => other is GraphSummaryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Captures the status of a Gremlin query (see the <a
@@ -4566,21 +4602,34 @@ class GremlinQueryStatusAttributes {
   }
 }
 
-enum IteratorType {
-  atSequenceNumber('AT_SEQUENCE_NUMBER'),
-  afterSequenceNumber('AFTER_SEQUENCE_NUMBER'),
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  ;
+class IteratorType {
+  static const atSequenceNumber = IteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber = IteratorType._('AFTER_SEQUENCE_NUMBER');
+  static const trimHorizon = IteratorType._('TRIM_HORIZON');
+  static const latest = IteratorType._('LATEST');
 
   final String value;
 
-  const IteratorType(this.value);
+  const IteratorType._(this.value);
 
-  static IteratorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IteratorType'));
+  static const values = [
+    atSequenceNumber,
+    afterSequenceNumber,
+    trimHorizon,
+    latest
+  ];
+
+  static IteratorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is IteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListGremlinQueriesOutput {
@@ -4961,19 +5010,28 @@ class MlResourceDefinition {
   }
 }
 
-enum Mode {
-  resume('RESUME'),
-  $new('NEW'),
-  auto('AUTO'),
-  ;
+class Mode {
+  static const resume = Mode._('RESUME');
+  static const $new = Mode._('NEW');
+  static const auto = Mode._('AUTO');
 
   final String value;
 
-  const Mode(this.value);
+  const Mode._(this.value);
+
+  static const values = [resume, $new, auto];
 
   static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Mode'));
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A node structure.
@@ -5020,36 +5078,55 @@ class NodeStructure {
   }
 }
 
-enum OpenCypherExplainMode {
-  static('static'),
-  $dynamic('dynamic'),
-  details('details'),
-  ;
+class OpenCypherExplainMode {
+  static const static = OpenCypherExplainMode._('static');
+  static const $dynamic = OpenCypherExplainMode._('dynamic');
+  static const details = OpenCypherExplainMode._('details');
 
   final String value;
 
-  const OpenCypherExplainMode(this.value);
+  const OpenCypherExplainMode._(this.value);
 
-  static OpenCypherExplainMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OpenCypherExplainMode'));
+  static const values = [static, $dynamic, details];
+
+  static OpenCypherExplainMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OpenCypherExplainMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OpenCypherExplainMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Parallelism {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  oversubscribe('OVERSUBSCRIBE'),
-  ;
+class Parallelism {
+  static const low = Parallelism._('LOW');
+  static const medium = Parallelism._('MEDIUM');
+  static const high = Parallelism._('HIGH');
+  static const oversubscribe = Parallelism._('OVERSUBSCRIBE');
 
   final String value;
 
-  const Parallelism(this.value);
+  const Parallelism._(this.value);
 
-  static Parallelism fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Parallelism'));
+  static const values = [low, medium, high, oversubscribe];
+
+  static Parallelism fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Parallelism._(value));
+
+  @override
+  bool operator ==(other) => other is Parallelism && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Gremlin or openCypher change record.
@@ -5593,40 +5670,73 @@ class RefreshStatisticsIdMap {
   }
 }
 
-enum S3BucketRegion {
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  caCentral_1('ca-central-1'),
-  saEast_1('sa-east-1'),
-  euNorth_1('eu-north-1'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  euCentral_1('eu-central-1'),
-  meSouth_1('me-south-1'),
-  afSouth_1('af-south-1'),
-  apEast_1('ap-east-1'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSouth_1('ap-south-1'),
-  cnNorth_1('cn-north-1'),
-  cnNorthwest_1('cn-northwest-1'),
-  usGovWest_1('us-gov-west-1'),
-  usGovEast_1('us-gov-east-1'),
-  ;
+class S3BucketRegion {
+  static const usEast_1 = S3BucketRegion._('us-east-1');
+  static const usEast_2 = S3BucketRegion._('us-east-2');
+  static const usWest_1 = S3BucketRegion._('us-west-1');
+  static const usWest_2 = S3BucketRegion._('us-west-2');
+  static const caCentral_1 = S3BucketRegion._('ca-central-1');
+  static const saEast_1 = S3BucketRegion._('sa-east-1');
+  static const euNorth_1 = S3BucketRegion._('eu-north-1');
+  static const euWest_1 = S3BucketRegion._('eu-west-1');
+  static const euWest_2 = S3BucketRegion._('eu-west-2');
+  static const euWest_3 = S3BucketRegion._('eu-west-3');
+  static const euCentral_1 = S3BucketRegion._('eu-central-1');
+  static const meSouth_1 = S3BucketRegion._('me-south-1');
+  static const afSouth_1 = S3BucketRegion._('af-south-1');
+  static const apEast_1 = S3BucketRegion._('ap-east-1');
+  static const apNortheast_1 = S3BucketRegion._('ap-northeast-1');
+  static const apNortheast_2 = S3BucketRegion._('ap-northeast-2');
+  static const apSoutheast_1 = S3BucketRegion._('ap-southeast-1');
+  static const apSoutheast_2 = S3BucketRegion._('ap-southeast-2');
+  static const apSouth_1 = S3BucketRegion._('ap-south-1');
+  static const cnNorth_1 = S3BucketRegion._('cn-north-1');
+  static const cnNorthwest_1 = S3BucketRegion._('cn-northwest-1');
+  static const usGovWest_1 = S3BucketRegion._('us-gov-west-1');
+  static const usGovEast_1 = S3BucketRegion._('us-gov-east-1');
 
   final String value;
 
-  const S3BucketRegion(this.value);
+  const S3BucketRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    caCentral_1,
+    saEast_1,
+    euNorth_1,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euCentral_1,
+    meSouth_1,
+    afSouth_1,
+    apEast_1,
+    apNortheast_1,
+    apNortheast_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSouth_1,
+    cnNorth_1,
+    cnNorthwest_1,
+    usGovWest_1,
+    usGovEast_1
+  ];
 
   static S3BucketRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3BucketRegion'));
+          orElse: () => S3BucketRegion._(value));
+
+  @override
+  bool operator ==(other) => other is S3BucketRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Neptune logs are converted to SPARQL quads in the graph using the Resource
@@ -5942,20 +6052,32 @@ class Statistics {
   }
 }
 
-enum StatisticsAutoGenerationMode {
-  disableAutoCompute('disableAutoCompute'),
-  enableAutoCompute('enableAutoCompute'),
-  refresh('refresh'),
-  ;
+class StatisticsAutoGenerationMode {
+  static const disableAutoCompute =
+      StatisticsAutoGenerationMode._('disableAutoCompute');
+  static const enableAutoCompute =
+      StatisticsAutoGenerationMode._('enableAutoCompute');
+  static const refresh = StatisticsAutoGenerationMode._('refresh');
 
   final String value;
 
-  const StatisticsAutoGenerationMode(this.value);
+  const StatisticsAutoGenerationMode._(this.value);
+
+  static const values = [disableAutoCompute, enableAutoCompute, refresh];
 
   static StatisticsAutoGenerationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StatisticsAutoGenerationMode'));
+          orElse: () => StatisticsAutoGenerationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatisticsAutoGenerationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the characteristic sets generated in the statistics.

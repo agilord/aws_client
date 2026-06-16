@@ -2611,22 +2611,41 @@ class LookoutEquipment {
   }
 }
 
-enum AutoPromotionResult {
-  modelPromoted('MODEL_PROMOTED'),
-  modelNotPromoted('MODEL_NOT_PROMOTED'),
-  retrainingInternalError('RETRAINING_INTERNAL_ERROR'),
-  retrainingCustomerError('RETRAINING_CUSTOMER_ERROR'),
-  retrainingCancelled('RETRAINING_CANCELLED'),
-  ;
+class AutoPromotionResult {
+  static const modelPromoted = AutoPromotionResult._('MODEL_PROMOTED');
+  static const modelNotPromoted = AutoPromotionResult._('MODEL_NOT_PROMOTED');
+  static const retrainingInternalError =
+      AutoPromotionResult._('RETRAINING_INTERNAL_ERROR');
+  static const retrainingCustomerError =
+      AutoPromotionResult._('RETRAINING_CUSTOMER_ERROR');
+  static const retrainingCancelled =
+      AutoPromotionResult._('RETRAINING_CANCELLED');
 
   final String value;
 
-  const AutoPromotionResult(this.value);
+  const AutoPromotionResult._(this.value);
 
-  static AutoPromotionResult fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AutoPromotionResult'));
+  static const values = [
+    modelPromoted,
+    modelNotPromoted,
+    retrainingInternalError,
+    retrainingCustomerError,
+    retrainingCancelled
+  ];
+
+  static AutoPromotionResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoPromotionResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoPromotionResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Entity that comprises information on categorical values in data.
@@ -2645,7 +2664,8 @@ class CategoricalValues {
 
   factory CategoricalValues.fromJson(Map<String, dynamic> json) {
     return CategoricalValues(
-      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
       numberOfCategory: json['NumberOfCategory'] as int?,
     );
   }
@@ -3080,22 +3100,32 @@ class DataQualitySummary {
   }
 }
 
-enum DataUploadFrequency {
-  pt5m('PT5M'),
-  pt10m('PT10M'),
-  pt15m('PT15M'),
-  pt30m('PT30M'),
-  pt1h('PT1H'),
-  ;
+class DataUploadFrequency {
+  static const pt5m = DataUploadFrequency._('PT5M');
+  static const pt10m = DataUploadFrequency._('PT10M');
+  static const pt15m = DataUploadFrequency._('PT15M');
+  static const pt30m = DataUploadFrequency._('PT30M');
+  static const pt1h = DataUploadFrequency._('PT1H');
 
   final String value;
 
-  const DataUploadFrequency(this.value);
+  const DataUploadFrequency._(this.value);
 
-  static DataUploadFrequency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataUploadFrequency'));
+  static const values = [pt5m, pt10m, pt15m, pt30m, pt1h];
+
+  static DataUploadFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataUploadFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataUploadFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the data schema used with the given dataset.
@@ -3116,21 +3146,35 @@ class DatasetSchema {
   }
 }
 
-enum DatasetStatus {
-  created('CREATED'),
-  ingestionInProgress('INGESTION_IN_PROGRESS'),
-  active('ACTIVE'),
-  importInProgress('IMPORT_IN_PROGRESS'),
-  ;
+class DatasetStatus {
+  static const created = DatasetStatus._('CREATED');
+  static const ingestionInProgress = DatasetStatus._('INGESTION_IN_PROGRESS');
+  static const active = DatasetStatus._('ACTIVE');
+  static const importInProgress = DatasetStatus._('IMPORT_IN_PROGRESS');
 
   final String value;
 
-  const DatasetStatus(this.value);
+  const DatasetStatus._(this.value);
+
+  static const values = [
+    created,
+    ingestionInProgress,
+    active,
+    importInProgress
+  ];
 
   static DatasetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasetStatus'));
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the specific data set, including name, ARN, and
@@ -4805,20 +4849,30 @@ class ImportModelVersionResponse {
   }
 }
 
-enum InferenceDataImportStrategy {
-  noImport('NO_IMPORT'),
-  addWhenEmpty('ADD_WHEN_EMPTY'),
-  overwrite('OVERWRITE'),
-  ;
+class InferenceDataImportStrategy {
+  static const noImport = InferenceDataImportStrategy._('NO_IMPORT');
+  static const addWhenEmpty = InferenceDataImportStrategy._('ADD_WHEN_EMPTY');
+  static const overwrite = InferenceDataImportStrategy._('OVERWRITE');
 
   final String value;
 
-  const InferenceDataImportStrategy(this.value);
+  const InferenceDataImportStrategy._(this.value);
+
+  static const values = [noImport, addWhenEmpty, overwrite];
 
   static InferenceDataImportStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceDataImportStrategy'));
+          orElse: () => InferenceDataImportStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceDataImportStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the specific inference event, including start and
@@ -4887,20 +4941,30 @@ class InferenceEventSummary {
   }
 }
 
-enum InferenceExecutionStatus {
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class InferenceExecutionStatus {
+  static const inProgress = InferenceExecutionStatus._('IN_PROGRESS');
+  static const success = InferenceExecutionStatus._('SUCCESS');
+  static const failed = InferenceExecutionStatus._('FAILED');
 
   final String value;
 
-  const InferenceExecutionStatus(this.value);
+  const InferenceExecutionStatus._(this.value);
+
+  static const values = [inProgress, success, failed];
 
   static InferenceExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceExecutionStatus'));
+          orElse: () => InferenceExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the specific inference execution, including input
@@ -5228,21 +5292,31 @@ class InferenceS3OutputConfiguration {
   }
 }
 
-enum InferenceSchedulerStatus {
-  pending('PENDING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class InferenceSchedulerStatus {
+  static const pending = InferenceSchedulerStatus._('PENDING');
+  static const running = InferenceSchedulerStatus._('RUNNING');
+  static const stopping = InferenceSchedulerStatus._('STOPPING');
+  static const stopped = InferenceSchedulerStatus._('STOPPED');
 
   final String value;
 
-  const InferenceSchedulerStatus(this.value);
+  const InferenceSchedulerStatus._(this.value);
+
+  static const values = [pending, running, stopping, stopped];
 
   static InferenceSchedulerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceSchedulerStatus'));
+          orElse: () => InferenceSchedulerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceSchedulerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the specific inference scheduler, including data
@@ -5409,21 +5483,31 @@ class IngestionInputConfiguration {
   }
 }
 
-enum IngestionJobStatus {
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  importInProgress('IMPORT_IN_PROGRESS'),
-  ;
+class IngestionJobStatus {
+  static const inProgress = IngestionJobStatus._('IN_PROGRESS');
+  static const success = IngestionJobStatus._('SUCCESS');
+  static const failed = IngestionJobStatus._('FAILED');
+  static const importInProgress = IngestionJobStatus._('IMPORT_IN_PROGRESS');
 
   final String value;
 
-  const IngestionJobStatus(this.value);
+  const IngestionJobStatus._(this.value);
 
-  static IngestionJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngestionJobStatus'));
+  static const values = [inProgress, success, failed, importInProgress];
+
+  static IngestionJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies S3 configuration information for the input data for the data
@@ -5586,19 +5670,28 @@ class LabelGroupSummary {
   }
 }
 
-enum LabelRating {
-  anomaly('ANOMALY'),
-  noAnomaly('NO_ANOMALY'),
-  neutral('NEUTRAL'),
-  ;
+class LabelRating {
+  static const anomaly = LabelRating._('ANOMALY');
+  static const noAnomaly = LabelRating._('NO_ANOMALY');
+  static const neutral = LabelRating._('NEUTRAL');
 
   final String value;
 
-  const LabelRating(this.value);
+  const LabelRating._(this.value);
 
-  static LabelRating fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LabelRating'));
+  static const values = [anomaly, noAnomaly, neutral];
+
+  static LabelRating fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LabelRating._(value));
+
+  @override
+  bool operator ==(other) => other is LabelRating && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the label.
@@ -5770,7 +5863,8 @@ class LargeTimestampGaps {
 
   factory LargeTimestampGaps.fromJson(Map<String, dynamic> json) {
     return LargeTimestampGaps(
-      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
       maxTimestampGapInDays: json['MaxTimestampGapInDays'] as int?,
       numberOfLargeTimestampGaps: json['NumberOfLargeTimestampGaps'] as int?,
     );
@@ -5790,19 +5884,29 @@ class LargeTimestampGaps {
   }
 }
 
-enum LatestInferenceResult {
-  anomalous('ANOMALOUS'),
-  normal('NORMAL'),
-  ;
+class LatestInferenceResult {
+  static const anomalous = LatestInferenceResult._('ANOMALOUS');
+  static const normal = LatestInferenceResult._('NORMAL');
 
   final String value;
 
-  const LatestInferenceResult(this.value);
+  const LatestInferenceResult._(this.value);
 
-  static LatestInferenceResult fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LatestInferenceResult'));
+  static const values = [anomalous, normal];
+
+  static LatestInferenceResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LatestInferenceResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LatestInferenceResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDataIngestionJobsResponse {
@@ -6379,51 +6483,82 @@ class ModelDiagnosticsS3OutputConfiguration {
   }
 }
 
-enum ModelPromoteMode {
-  managed('MANAGED'),
-  manual('MANUAL'),
-  ;
+class ModelPromoteMode {
+  static const managed = ModelPromoteMode._('MANAGED');
+  static const manual = ModelPromoteMode._('MANUAL');
 
   final String value;
 
-  const ModelPromoteMode(this.value);
+  const ModelPromoteMode._(this.value);
+
+  static const values = [managed, manual];
 
   static ModelPromoteMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelPromoteMode'));
+          orElse: () => ModelPromoteMode._(value));
+
+  @override
+  bool operator ==(other) => other is ModelPromoteMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelQuality {
-  qualityThresholdMet('QUALITY_THRESHOLD_MET'),
-  cannotDetermineQuality('CANNOT_DETERMINE_QUALITY'),
-  poorQualityDetected('POOR_QUALITY_DETECTED'),
-  ;
+class ModelQuality {
+  static const qualityThresholdMet = ModelQuality._('QUALITY_THRESHOLD_MET');
+  static const cannotDetermineQuality =
+      ModelQuality._('CANNOT_DETERMINE_QUALITY');
+  static const poorQualityDetected = ModelQuality._('POOR_QUALITY_DETECTED');
 
   final String value;
 
-  const ModelQuality(this.value);
+  const ModelQuality._(this.value);
 
-  static ModelQuality fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelQuality'));
+  static const values = [
+    qualityThresholdMet,
+    cannotDetermineQuality,
+    poorQualityDetected
+  ];
+
+  static ModelQuality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelQuality._(value));
+
+  @override
+  bool operator ==(other) => other is ModelQuality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelStatus {
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  importInProgress('IMPORT_IN_PROGRESS'),
-  ;
+class ModelStatus {
+  static const inProgress = ModelStatus._('IN_PROGRESS');
+  static const success = ModelStatus._('SUCCESS');
+  static const failed = ModelStatus._('FAILED');
+  static const importInProgress = ModelStatus._('IMPORT_IN_PROGRESS');
 
   final String value;
 
-  const ModelStatus(this.value);
+  const ModelStatus._(this.value);
 
-  static ModelStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
+  static const values = [inProgress, success, failed, importInProgress];
+
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the specified machine learning model, including
@@ -6598,38 +6733,64 @@ class ModelSummary {
   }
 }
 
-enum ModelVersionSourceType {
-  training('TRAINING'),
-  retraining('RETRAINING'),
-  import('IMPORT'),
-  ;
+class ModelVersionSourceType {
+  static const training = ModelVersionSourceType._('TRAINING');
+  static const retraining = ModelVersionSourceType._('RETRAINING');
+  static const import = ModelVersionSourceType._('IMPORT');
 
   final String value;
 
-  const ModelVersionSourceType(this.value);
+  const ModelVersionSourceType._(this.value);
+
+  static const values = [training, retraining, import];
 
   static ModelVersionSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelVersionSourceType'));
+          orElse: () => ModelVersionSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVersionSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelVersionStatus {
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  importInProgress('IMPORT_IN_PROGRESS'),
-  canceled('CANCELED'),
-  ;
+class ModelVersionStatus {
+  static const inProgress = ModelVersionStatus._('IN_PROGRESS');
+  static const success = ModelVersionStatus._('SUCCESS');
+  static const failed = ModelVersionStatus._('FAILED');
+  static const importInProgress = ModelVersionStatus._('IMPORT_IN_PROGRESS');
+  static const canceled = ModelVersionStatus._('CANCELED');
 
   final String value;
 
-  const ModelVersionStatus(this.value);
+  const ModelVersionStatus._(this.value);
 
-  static ModelVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelVersionStatus'));
+  static const values = [
+    inProgress,
+    success,
+    failed,
+    importInProgress,
+    canceled
+  ];
+
+  static ModelVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the specific model version.
@@ -6736,7 +6897,8 @@ class MonotonicValues {
 
   factory MonotonicValues.fromJson(Map<String, dynamic> json) {
     return MonotonicValues(
-      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
       monotonicity:
           (json['Monotonicity'] as String?)?.let(Monotonicity.fromString),
     );
@@ -6752,20 +6914,28 @@ class MonotonicValues {
   }
 }
 
-enum Monotonicity {
-  decreasing('DECREASING'),
-  increasing('INCREASING'),
-  static('STATIC'),
-  ;
+class Monotonicity {
+  static const decreasing = Monotonicity._('DECREASING');
+  static const increasing = Monotonicity._('INCREASING');
+  static const static = Monotonicity._('STATIC');
 
   final String value;
 
-  const Monotonicity(this.value);
+  const Monotonicity._(this.value);
 
-  static Monotonicity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Monotonicity'));
+  static const values = [decreasing, increasing, static];
+
+  static Monotonicity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Monotonicity._(value));
+
+  @override
+  bool operator ==(other) => other is Monotonicity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Entity that comprises information on operating modes in data.
@@ -6780,7 +6950,8 @@ class MultipleOperatingModes {
 
   factory MultipleOperatingModes.fromJson(Map<String, dynamic> json) {
     return MultipleOperatingModes(
-      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -6822,21 +6993,31 @@ class PutResourcePolicyResponse {
   }
 }
 
-enum RetrainingSchedulerStatus {
-  pending('PENDING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class RetrainingSchedulerStatus {
+  static const pending = RetrainingSchedulerStatus._('PENDING');
+  static const running = RetrainingSchedulerStatus._('RUNNING');
+  static const stopping = RetrainingSchedulerStatus._('STOPPING');
+  static const stopped = RetrainingSchedulerStatus._('STOPPED');
 
   final String value;
 
-  const RetrainingSchedulerStatus(this.value);
+  const RetrainingSchedulerStatus._(this.value);
+
+  static const values = [pending, running, stopping, stopped];
 
   static RetrainingSchedulerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RetrainingSchedulerStatus'));
+          orElse: () => RetrainingSchedulerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetrainingSchedulerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the specified retraining scheduler, including
@@ -7225,19 +7406,30 @@ class StartRetrainingSchedulerResponse {
   }
 }
 
-enum StatisticalIssueStatus {
-  potentialIssueDetected('POTENTIAL_ISSUE_DETECTED'),
-  noIssueDetected('NO_ISSUE_DETECTED'),
-  ;
+class StatisticalIssueStatus {
+  static const potentialIssueDetected =
+      StatisticalIssueStatus._('POTENTIAL_ISSUE_DETECTED');
+  static const noIssueDetected = StatisticalIssueStatus._('NO_ISSUE_DETECTED');
 
   final String value;
 
-  const StatisticalIssueStatus(this.value);
+  const StatisticalIssueStatus._(this.value);
+
+  static const values = [potentialIssueDetected, noIssueDetected];
 
   static StatisticalIssueStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StatisticalIssueStatus'));
+          orElse: () => StatisticalIssueStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatisticalIssueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopInferenceSchedulerResponse {
@@ -7374,28 +7566,50 @@ class TagResourceResponse {
   }
 }
 
-enum TargetSamplingRate {
-  pt1s('PT1S'),
-  pt5s('PT5S'),
-  pt10s('PT10S'),
-  pt15s('PT15S'),
-  pt30s('PT30S'),
-  pt1m('PT1M'),
-  pt5m('PT5M'),
-  pt10m('PT10M'),
-  pt15m('PT15M'),
-  pt30m('PT30M'),
-  pt1h('PT1H'),
-  ;
+class TargetSamplingRate {
+  static const pt1s = TargetSamplingRate._('PT1S');
+  static const pt5s = TargetSamplingRate._('PT5S');
+  static const pt10s = TargetSamplingRate._('PT10S');
+  static const pt15s = TargetSamplingRate._('PT15S');
+  static const pt30s = TargetSamplingRate._('PT30S');
+  static const pt1m = TargetSamplingRate._('PT1M');
+  static const pt5m = TargetSamplingRate._('PT5M');
+  static const pt10m = TargetSamplingRate._('PT10M');
+  static const pt15m = TargetSamplingRate._('PT15M');
+  static const pt30m = TargetSamplingRate._('PT30M');
+  static const pt1h = TargetSamplingRate._('PT1H');
 
   final String value;
 
-  const TargetSamplingRate(this.value);
+  const TargetSamplingRate._(this.value);
 
-  static TargetSamplingRate fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetSamplingRate'));
+  static const values = [
+    pt1s,
+    pt5s,
+    pt10s,
+    pt15s,
+    pt30s,
+    pt1m,
+    pt5m,
+    pt10m,
+    pt15m,
+    pt30m,
+    pt1h
+  ];
+
+  static TargetSamplingRate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetSamplingRate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetSamplingRate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Entity that comprises information abount unsupported timestamps in the

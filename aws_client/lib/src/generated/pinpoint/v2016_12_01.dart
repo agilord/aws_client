@@ -6256,19 +6256,28 @@ class APNSVoipSandboxChannelResponse {
   }
 }
 
-enum Action {
-  openApp('OPEN_APP'),
-  deepLink('DEEP_LINK'),
-  url('URL'),
-  ;
+class Action {
+  static const openApp = Action._('OPEN_APP');
+  static const deepLink = Action._('DEEP_LINK');
+  static const url = Action._('URL');
 
   final String value;
 
-  const Action(this.value);
+  const Action._(this.value);
+
+  static const values = [openApp, deepLink, url];
 
   static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Action'));
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the activities that were performed by a campaign.
@@ -6627,19 +6636,28 @@ class AddressConfiguration {
   }
 }
 
-enum Alignment {
-  left('LEFT'),
-  center('CENTER'),
-  right('RIGHT'),
-  ;
+class Alignment {
+  static const left = Alignment._('LEFT');
+  static const center = Alignment._('CENTER');
+  static const right = Alignment._('RIGHT');
 
   final String value;
 
-  const Alignment(this.value);
+  const Alignment._(this.value);
 
-  static Alignment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Alignment'));
+  static const values = [left, center, right];
+
+  static Alignment fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Alignment._(value));
+
+  @override
+  bool operator ==(other) => other is Alignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies channel-specific content and settings for a message template that
@@ -7109,24 +7127,41 @@ class AttributeDimension {
   }
 }
 
-enum AttributeType {
-  inclusive('INCLUSIVE'),
-  exclusive('EXCLUSIVE'),
-  contains('CONTAINS'),
-  before('BEFORE'),
-  after('AFTER'),
-  on('ON'),
-  between('BETWEEN'),
-  ;
+class AttributeType {
+  static const inclusive = AttributeType._('INCLUSIVE');
+  static const exclusive = AttributeType._('EXCLUSIVE');
+  static const contains = AttributeType._('CONTAINS');
+  static const before = AttributeType._('BEFORE');
+  static const after = AttributeType._('AFTER');
+  static const on = AttributeType._('ON');
+  static const between = AttributeType._('BETWEEN');
 
   final String value;
 
-  const AttributeType(this.value);
+  const AttributeType._(this.value);
+
+  static const values = [
+    inclusive,
+    exclusive,
+    contains,
+    before,
+    after,
+    on,
+    between
+  ];
 
   static AttributeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeType'));
+          orElse: () => AttributeType._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the type and the names of attributes that were
@@ -7472,20 +7507,28 @@ class BaseKpiResult {
   }
 }
 
-enum ButtonAction {
-  link('LINK'),
-  deepLink('DEEP_LINK'),
-  close('CLOSE'),
-  ;
+class ButtonAction {
+  static const link = ButtonAction._('LINK');
+  static const deepLink = ButtonAction._('DEEP_LINK');
+  static const close = ButtonAction._('CLOSE');
 
   final String value;
 
-  const ButtonAction(this.value);
+  const ButtonAction._(this.value);
 
-  static ButtonAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ButtonAction'));
+  static const values = [link, deepLink, close];
+
+  static ButtonAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ButtonAction._(value));
+
+  @override
+  bool operator ==(other) => other is ButtonAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the contents of a message that's sent through a custom channel to
@@ -7674,7 +7717,7 @@ class CampaignEventFilter {
       dimensions: EventDimensions.fromJson(
           (json['Dimensions'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      filterType: FilterType.fromString((json['FilterType'] as String)),
+      filterType: FilterType.fromString((json['FilterType'] as String?) ?? ''),
     );
   }
 
@@ -8188,24 +8231,41 @@ class CampaignState {
   }
 }
 
-enum CampaignStatus {
-  scheduled('SCHEDULED'),
-  executing('EXECUTING'),
-  pendingNextRun('PENDING_NEXT_RUN'),
-  completed('COMPLETED'),
-  paused('PAUSED'),
-  deleted('DELETED'),
-  invalid('INVALID'),
-  ;
+class CampaignStatus {
+  static const scheduled = CampaignStatus._('SCHEDULED');
+  static const executing = CampaignStatus._('EXECUTING');
+  static const pendingNextRun = CampaignStatus._('PENDING_NEXT_RUN');
+  static const completed = CampaignStatus._('COMPLETED');
+  static const paused = CampaignStatus._('PAUSED');
+  static const deleted = CampaignStatus._('DELETED');
+  static const invalid = CampaignStatus._('INVALID');
 
   final String value;
 
-  const CampaignStatus(this.value);
+  const CampaignStatus._(this.value);
+
+  static const values = [
+    scheduled,
+    executing,
+    pendingNextRun,
+    completed,
+    paused,
+    deleted,
+    invalid
+  ];
 
   static CampaignStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CampaignStatus'));
+          orElse: () => CampaignStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CampaignStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the configuration and other settings for all the
@@ -8325,29 +8385,52 @@ class ChannelResponse {
   }
 }
 
-enum ChannelType {
-  push('PUSH'),
-  gcm('GCM'),
-  apns('APNS'),
-  apnsSandbox('APNS_SANDBOX'),
-  apnsVoip('APNS_VOIP'),
-  apnsVoipSandbox('APNS_VOIP_SANDBOX'),
-  adm('ADM'),
-  sms('SMS'),
-  voice('VOICE'),
-  email('EMAIL'),
-  baidu('BAIDU'),
-  custom('CUSTOM'),
-  inApp('IN_APP'),
-  ;
+class ChannelType {
+  static const push = ChannelType._('PUSH');
+  static const gcm = ChannelType._('GCM');
+  static const apns = ChannelType._('APNS');
+  static const apnsSandbox = ChannelType._('APNS_SANDBOX');
+  static const apnsVoip = ChannelType._('APNS_VOIP');
+  static const apnsVoipSandbox = ChannelType._('APNS_VOIP_SANDBOX');
+  static const adm = ChannelType._('ADM');
+  static const sms = ChannelType._('SMS');
+  static const voice = ChannelType._('VOICE');
+  static const email = ChannelType._('EMAIL');
+  static const baidu = ChannelType._('BAIDU');
+  static const custom = ChannelType._('CUSTOM');
+  static const inApp = ChannelType._('IN_APP');
 
   final String value;
 
-  const ChannelType(this.value);
+  const ChannelType._(this.value);
 
-  static ChannelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelType'));
+  static const values = [
+    push,
+    gcm,
+    apns,
+    apnsSandbox,
+    apnsVoip,
+    apnsVoipSandbox,
+    adm,
+    sms,
+    voice,
+    email,
+    baidu,
+    custom,
+    inApp
+  ];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the general settings and status of all channels
@@ -9068,7 +9151,8 @@ class DefaultButtonConfiguration {
 
   factory DefaultButtonConfiguration.fromJson(Map<String, dynamic> json) {
     return DefaultButtonConfiguration(
-      buttonAction: ButtonAction.fromString((json['ButtonAction'] as String)),
+      buttonAction:
+          ButtonAction.fromString((json['ButtonAction'] as String?) ?? ''),
       text: (json['Text'] as String?) ?? '',
       backgroundColor: json['BackgroundColor'] as String?,
       borderRadius: json['BorderRadius'] as int?,
@@ -9627,39 +9711,65 @@ class DeleteVoiceTemplateResponse {
   }
 }
 
-enum DeliveryStatus {
-  successful('SUCCESSFUL'),
-  throttled('THROTTLED'),
-  temporaryFailure('TEMPORARY_FAILURE'),
-  permanentFailure('PERMANENT_FAILURE'),
-  unknownFailure('UNKNOWN_FAILURE'),
-  optOut('OPT_OUT'),
-  duplicate('DUPLICATE'),
-  ;
+class DeliveryStatus {
+  static const successful = DeliveryStatus._('SUCCESSFUL');
+  static const throttled = DeliveryStatus._('THROTTLED');
+  static const temporaryFailure = DeliveryStatus._('TEMPORARY_FAILURE');
+  static const permanentFailure = DeliveryStatus._('PERMANENT_FAILURE');
+  static const unknownFailure = DeliveryStatus._('UNKNOWN_FAILURE');
+  static const optOut = DeliveryStatus._('OPT_OUT');
+  static const duplicate = DeliveryStatus._('DUPLICATE');
 
   final String value;
 
-  const DeliveryStatus(this.value);
+  const DeliveryStatus._(this.value);
+
+  static const values = [
+    successful,
+    throttled,
+    temporaryFailure,
+    permanentFailure,
+    unknownFailure,
+    optOut,
+    duplicate
+  ];
 
   static DeliveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeliveryStatus'));
+          orElse: () => DeliveryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeliveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DimensionType {
-  inclusive('INCLUSIVE'),
-  exclusive('EXCLUSIVE'),
-  ;
+class DimensionType {
+  static const inclusive = DimensionType._('INCLUSIVE');
+  static const exclusive = DimensionType._('EXCLUSIVE');
 
   final String value;
 
-  const DimensionType(this.value);
+  const DimensionType._(this.value);
+
+  static const values = [inclusive, exclusive];
 
   static DimensionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DimensionType'));
+          orElse: () => DimensionType._(value));
+
+  @override
+  bool operator ==(other) => other is DimensionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the settings and content for the default message and any default
@@ -9741,20 +9851,29 @@ class DirectMessageConfiguration {
   }
 }
 
-enum Duration {
-  hr_24('HR_24'),
-  day_7('DAY_7'),
-  day_14('DAY_14'),
-  day_30('DAY_30'),
-  ;
+class Duration {
+  static const hr_24 = Duration._('HR_24');
+  static const day_7 = Duration._('DAY_7');
+  static const day_14 = Duration._('DAY_14');
+  static const day_30 = Duration._('DAY_30');
 
   final String value;
 
-  const Duration(this.value);
+  const Duration._(this.value);
 
-  static Duration fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Duration'));
+  static const values = [hr_24, day_7, day_14, day_30];
+
+  static Duration fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Duration._(value));
+
+  @override
+  bool operator ==(other) => other is Duration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the status and settings of the email channel for an application.
@@ -10252,7 +10371,8 @@ class EmailTemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
       headers: (json['Headers'] as List?)
@@ -10679,7 +10799,7 @@ class EndpointMessageResult {
   factory EndpointMessageResult.fromJson(Map<String, dynamic> json) {
     return EndpointMessageResult(
       deliveryStatus:
-          DeliveryStatus.fromString((json['DeliveryStatus'] as String)),
+          DeliveryStatus.fromString((json['DeliveryStatus'] as String?) ?? ''),
       statusCode: (json['StatusCode'] as int?) ?? 0,
       address: json['Address'] as String?,
       messageId: json['MessageId'] as String?,
@@ -11283,7 +11403,7 @@ class EventFilter {
       dimensions: EventDimensions.fromJson(
           (json['Dimensions'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      filterType: FilterType.fromString((json['FilterType'] as String)),
+      filterType: FilterType.fromString((json['FilterType'] as String?) ?? ''),
     );
   }
 
@@ -11680,7 +11800,7 @@ class ExportJobResponse {
           (json['Definition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['Id'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       type: (json['Type'] as String?) ?? '',
       completedPieces: json['CompletedPieces'] as int?,
       completionDate: json['CompletionDate'] as String?,
@@ -11765,51 +11885,86 @@ class ExportJobsResponse {
   }
 }
 
-enum FilterType {
-  system('SYSTEM'),
-  endpoint('ENDPOINT'),
-  ;
+class FilterType {
+  static const system = FilterType._('SYSTEM');
+  static const endpoint = FilterType._('ENDPOINT');
 
   final String value;
 
-  const FilterType(this.value);
+  const FilterType._(this.value);
 
-  static FilterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterType'));
+  static const values = [system, endpoint];
+
+  static FilterType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
+
+  @override
+  bool operator ==(other) => other is FilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Format {
-  csv('CSV'),
-  json('JSON'),
-  ;
+class Format {
+  static const csv = Format._('CSV');
+  static const json = Format._('JSON');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [csv, json];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Frequency {
-  once('ONCE'),
-  hourly('HOURLY'),
-  daily('DAILY'),
-  weekly('WEEKLY'),
-  monthly('MONTHLY'),
-  event('EVENT'),
-  inAppEvent('IN_APP_EVENT'),
-  ;
+class Frequency {
+  static const once = Frequency._('ONCE');
+  static const hourly = Frequency._('HOURLY');
+  static const daily = Frequency._('DAILY');
+  static const weekly = Frequency._('WEEKLY');
+  static const monthly = Frequency._('MONTHLY');
+  static const event = Frequency._('EVENT');
+  static const inAppEvent = Frequency._('IN_APP_EVENT');
 
   final String value;
 
-  const Frequency(this.value);
+  const Frequency._(this.value);
 
-  static Frequency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Frequency'));
+  static const values = [
+    once,
+    hourly,
+    daily,
+    weekly,
+    monthly,
+    event,
+    inAppEvent
+  ];
+
+  static Frequency fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Frequency._(value));
+
+  @override
+  bool operator ==(other) => other is Frequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the status and settings of the GCM channel for an application.
@@ -13157,7 +13312,7 @@ class ImportJobResource {
 
   factory ImportJobResource.fromJson(Map<String, dynamic> json) {
     return ImportJobResource(
-      format: Format.fromString((json['Format'] as String)),
+      format: Format.fromString((json['Format'] as String?) ?? ''),
       roleArn: (json['RoleArn'] as String?) ?? '',
       s3Url: (json['S3Url'] as String?) ?? '',
       defineSegment: json['DefineSegment'] as bool?,
@@ -13268,7 +13423,7 @@ class ImportJobResponse {
           (json['Definition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       id: (json['Id'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
       type: (json['Type'] as String?) ?? '',
       completedPieces: json['CompletedPieces'] as int?,
       completionDate: json['CompletionDate'] as String?,
@@ -13457,7 +13612,7 @@ class InAppMessageBodyConfig {
 
   factory InAppMessageBodyConfig.fromJson(Map<String, dynamic> json) {
     return InAppMessageBodyConfig(
-      alignment: Alignment.fromString((json['Alignment'] as String)),
+      alignment: Alignment.fromString((json['Alignment'] as String?) ?? ''),
       body: (json['Body'] as String?) ?? '',
       textColor: (json['TextColor'] as String?) ?? '',
     );
@@ -13701,7 +13856,7 @@ class InAppMessageHeaderConfig {
 
   factory InAppMessageHeaderConfig.fromJson(Map<String, dynamic> json) {
     return InAppMessageHeaderConfig(
-      alignment: Alignment.fromString((json['Alignment'] as String)),
+      alignment: Alignment.fromString((json['Alignment'] as String?) ?? ''),
       header: (json['Header'] as String?) ?? '',
       textColor: (json['TextColor'] as String?) ?? '',
     );
@@ -13861,7 +14016,8 @@ class InAppTemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       content: (json['Content'] as List?)
           ?.nonNulls
@@ -13906,19 +14062,28 @@ class InAppTemplateResponse {
   }
 }
 
-enum Include {
-  all('ALL'),
-  any('ANY'),
-  none('NONE'),
-  ;
+class Include {
+  static const all = Include._('ALL');
+  static const any = Include._('ANY');
+  static const none = Include._('NONE');
 
   final String value;
 
-  const Include(this.value);
+  const Include._(this.value);
 
-  static Include fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Include'));
+  static const values = [all, any, none];
+
+  static Include fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Include._(value));
+
+  @override
+  bool operator ==(other) => other is Include && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the results of a request to create or update an
@@ -13960,25 +14125,45 @@ class ItemResponse {
   }
 }
 
-enum JobStatus {
-  created('CREATED'),
-  preparingForInitialization('PREPARING_FOR_INITIALIZATION'),
-  initializing('INITIALIZING'),
-  processing('PROCESSING'),
-  pendingJob('PENDING_JOB'),
-  completing('COMPLETING'),
-  completed('COMPLETED'),
-  failing('FAILING'),
-  failed('FAILED'),
-  ;
+class JobStatus {
+  static const created = JobStatus._('CREATED');
+  static const preparingForInitialization =
+      JobStatus._('PREPARING_FOR_INITIALIZATION');
+  static const initializing = JobStatus._('INITIALIZING');
+  static const processing = JobStatus._('PROCESSING');
+  static const pendingJob = JobStatus._('PENDING_JOB');
+  static const completing = JobStatus._('COMPLETING');
+  static const completed = JobStatus._('COMPLETED');
+  static const failing = JobStatus._('FAILING');
+  static const failed = JobStatus._('FAILED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [
+    created,
+    preparingForInitialization,
+    initializing,
+    processing,
+    pendingJob,
+    completing,
+    completed,
+    failing,
+    failed
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the message content for a custom channel message that's sent to
@@ -14865,7 +15050,7 @@ class JourneyRunResponse {
       creationTime: (json['CreationTime'] as String?) ?? '',
       lastUpdateTime: (json['LastUpdateTime'] as String?) ?? '',
       runId: (json['RunId'] as String?) ?? '',
-      status: JourneyRunStatus.fromString((json['Status'] as String)),
+      status: JourneyRunStatus.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -14917,21 +15102,30 @@ class JourneyRunsResponse {
   }
 }
 
-enum JourneyRunStatus {
-  scheduled('SCHEDULED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class JourneyRunStatus {
+  static const scheduled = JourneyRunStatus._('SCHEDULED');
+  static const running = JourneyRunStatus._('RUNNING');
+  static const completed = JourneyRunStatus._('COMPLETED');
+  static const cancelled = JourneyRunStatus._('CANCELLED');
 
   final String value;
 
-  const JourneyRunStatus(this.value);
+  const JourneyRunStatus._(this.value);
+
+  static const values = [scheduled, running, completed, cancelled];
 
   static JourneyRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JourneyRunStatus'));
+          orElse: () => JourneyRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JourneyRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the sender ID and message type for an SMS message that's sent to
@@ -15150,22 +15344,38 @@ class JourneysResponse {
   }
 }
 
-enum Layout {
-  bottomBanner('BOTTOM_BANNER'),
-  topBanner('TOP_BANNER'),
-  overlays('OVERLAYS'),
-  mobileFeed('MOBILE_FEED'),
-  middleBanner('MIDDLE_BANNER'),
-  carousel('CAROUSEL'),
-  ;
+class Layout {
+  static const bottomBanner = Layout._('BOTTOM_BANNER');
+  static const topBanner = Layout._('TOP_BANNER');
+  static const overlays = Layout._('OVERLAYS');
+  static const mobileFeed = Layout._('MOBILE_FEED');
+  static const middleBanner = Layout._('MIDDLE_BANNER');
+  static const carousel = Layout._('CAROUSEL');
 
   final String value;
 
-  const Layout(this.value);
+  const Layout._(this.value);
+
+  static const values = [
+    bottomBanner,
+    topBanner,
+    overlays,
+    mobileFeed,
+    middleBanner,
+    carousel
+  ];
 
   static Layout fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Layout'));
+      values.firstWhere((e) => e.value == value, orElse: () => Layout._(value));
+
+  @override
+  bool operator ==(other) => other is Layout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListJourneysResponse {
@@ -15724,7 +15934,7 @@ class MessageResult {
   factory MessageResult.fromJson(Map<String, dynamic> json) {
     return MessageResult(
       deliveryStatus:
-          DeliveryStatus.fromString((json['DeliveryStatus'] as String)),
+          DeliveryStatus.fromString((json['DeliveryStatus'] as String?) ?? ''),
       statusCode: (json['StatusCode'] as int?) ?? 0,
       messageId: json['MessageId'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -15748,18 +15958,27 @@ class MessageResult {
   }
 }
 
-enum MessageType {
-  transactional('TRANSACTIONAL'),
-  promotional('PROMOTIONAL'),
-  ;
+class MessageType {
+  static const transactional = MessageType._('TRANSACTIONAL');
+  static const promotional = MessageType._('PROMOTIONAL');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [transactional, promotional];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies metric-based criteria for including or excluding endpoints from a
@@ -15796,18 +16015,27 @@ class MetricDimension {
   }
 }
 
-enum Mode {
-  delivery('DELIVERY'),
-  filter('FILTER'),
-  ;
+class Mode {
+  static const delivery = Mode._('DELIVERY');
+  static const filter = Mode._('FILTER');
 
   final String value;
 
-  const Mode(this.value);
+  const Mode._(this.value);
+
+  static const values = [delivery, filter];
 
   static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Mode'));
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a condition to evaluate for an activity path in a journey.
@@ -16060,18 +16288,27 @@ class NumberValidateResponse {
   }
 }
 
-enum Operator {
-  all('ALL'),
-  any('ANY'),
-  ;
+class Operator {
+  static const all = Operator._('ALL');
+  static const any = Operator._('ANY');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [all, any];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Override button configuration.
@@ -16089,7 +16326,8 @@ class OverrideButtonConfiguration {
 
   factory OverrideButtonConfiguration.fromJson(Map<String, dynamic> json) {
     return OverrideButtonConfiguration(
-      buttonAction: ButtonAction.fromString((json['ButtonAction'] as String)),
+      buttonAction:
+          ButtonAction.fromString((json['ButtonAction'] as String?) ?? ''),
       link: json['Link'] as String?,
     );
   }
@@ -16466,7 +16704,8 @@ class PushNotificationTemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       adm: json['ADM'] != null
           ? AndroidPushNotificationTemplate.fromJson(
               json['ADM'] as Map<String, dynamic>)
@@ -16706,8 +16945,9 @@ class RecencyDimension {
 
   factory RecencyDimension.fromJson(Map<String, dynamic> json) {
     return RecencyDimension(
-      duration: Duration.fromString((json['Duration'] as String)),
-      recencyType: RecencyType.fromString((json['RecencyType'] as String)),
+      duration: Duration.fromString((json['Duration'] as String?) ?? ''),
+      recencyType:
+          RecencyType.fromString((json['RecencyType'] as String?) ?? ''),
     );
   }
 
@@ -16721,18 +16961,27 @@ class RecencyDimension {
   }
 }
 
-enum RecencyType {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class RecencyType {
+  static const active = RecencyType._('ACTIVE');
+  static const inactive = RecencyType._('INACTIVE');
 
   final String value;
 
-  const RecencyType(this.value);
+  const RecencyType._(this.value);
 
-  static RecencyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RecencyType'));
+  static const values = [active, inactive];
+
+  static RecencyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecencyType._(value));
+
+  @override
+  bool operator ==(other) => other is RecencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about Amazon Pinpoint configuration settings for
@@ -17416,7 +17665,8 @@ class SMSTemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       body: json['Body'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
@@ -17897,7 +18147,7 @@ class SegmentImportResource {
   factory SegmentImportResource.fromJson(Map<String, dynamic> json) {
     return SegmentImportResource(
       externalId: (json['ExternalId'] as String?) ?? '',
-      format: Format.fromString((json['Format'] as String)),
+      format: Format.fromString((json['Format'] as String?) ?? ''),
       roleArn: (json['RoleArn'] as String?) ?? '',
       s3Url: (json['S3Url'] as String?) ?? '',
       size: (json['Size'] as int?) ?? 0,
@@ -18066,7 +18316,8 @@ class SegmentResponse {
       arn: (json['Arn'] as String?) ?? '',
       creationDate: (json['CreationDate'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
-      segmentType: SegmentType.fromString((json['SegmentType'] as String)),
+      segmentType:
+          SegmentType.fromString((json['SegmentType'] as String?) ?? ''),
       dimensions: json['Dimensions'] != null
           ? SegmentDimensions.fromJson(
               json['Dimensions'] as Map<String, dynamic>)
@@ -18117,18 +18368,27 @@ class SegmentResponse {
   }
 }
 
-enum SegmentType {
-  dimensional('DIMENSIONAL'),
-  import('IMPORT'),
-  ;
+class SegmentType {
+  static const dimensional = SegmentType._('DIMENSIONAL');
+  static const import = SegmentType._('IMPORT');
 
   final String value;
 
-  const SegmentType(this.value);
+  const SegmentType._(this.value);
 
-  static SegmentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SegmentType'));
+  static const values = [dimensional, import];
+
+  static SegmentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SegmentType._(value));
+
+  @override
+  bool operator ==(other) => other is SegmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about all the segments that are associated with an
@@ -18608,19 +18868,28 @@ class SimpleEmailPart {
   }
 }
 
-enum SourceType {
-  all('ALL'),
-  any('ANY'),
-  none('NONE'),
-  ;
+class SourceType {
+  static const all = SourceType._('ALL');
+  static const any = SourceType._('ANY');
+  static const none = SourceType._('NONE');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [all, any, none];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the conditions for the first activity in a journey. This activity
@@ -18668,22 +18937,31 @@ class StartCondition {
   }
 }
 
-enum State {
-  draft('DRAFT'),
-  active('ACTIVE'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  closed('CLOSED'),
-  paused('PAUSED'),
-  ;
+class State {
+  static const draft = State._('DRAFT');
+  static const active = State._('ACTIVE');
+  static const completed = State._('COMPLETED');
+  static const cancelled = State._('CANCELLED');
+  static const closed = State._('CLOSED');
+  static const paused = State._('PAUSED');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [draft, active, completed, cancelled, closed, paused];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the tags (keys and values) for an application, campaign, message
@@ -18954,7 +19232,8 @@ class TemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
       templateDescription: json['TemplateDescription'] as String?,
@@ -18990,22 +19269,30 @@ class TemplateResponse {
   }
 }
 
-enum TemplateType {
-  email('EMAIL'),
-  sms('SMS'),
-  voice('VOICE'),
-  push('PUSH'),
-  inapp('INAPP'),
-  ;
+class TemplateType {
+  static const email = TemplateType._('EMAIL');
+  static const sms = TemplateType._('SMS');
+  static const voice = TemplateType._('VOICE');
+  static const push = TemplateType._('PUSH');
+  static const inapp = TemplateType._('INAPP');
 
   final String value;
 
-  const TemplateType(this.value);
+  const TemplateType._(this.value);
 
-  static TemplateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateType'));
+  static const values = [email, sms, voice, push, inapp];
+
+  static TemplateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TemplateType._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a specific version of a message template.
@@ -19271,19 +19558,28 @@ class TreatmentResource {
   }
 }
 
-enum Type {
-  all('ALL'),
-  any('ANY'),
-  none('NONE'),
-  ;
+class Type {
+  static const all = Type._('ALL');
+  static const any = Type._('ANY');
+  static const none = Type._('NONE');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [all, any, none];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAdmChannelResponse {
@@ -20190,7 +20486,8 @@ class VoiceTemplateResponse {
       creationDate: (json['CreationDate'] as String?) ?? '',
       lastModifiedDate: (json['LastModifiedDate'] as String?) ?? '',
       templateName: (json['TemplateName'] as String?) ?? '',
-      templateType: TemplateType.fromString((json['TemplateType'] as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
       body: json['Body'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
@@ -20888,64 +21185,115 @@ class WriteTreatmentResource {
   }
 }
 
-enum EndpointTypesElement {
-  push('PUSH'),
-  gcm('GCM'),
-  apns('APNS'),
-  apnsSandbox('APNS_SANDBOX'),
-  apnsVoip('APNS_VOIP'),
-  apnsVoipSandbox('APNS_VOIP_SANDBOX'),
-  adm('ADM'),
-  sms('SMS'),
-  voice('VOICE'),
-  email('EMAIL'),
-  baidu('BAIDU'),
-  custom('CUSTOM'),
-  inApp('IN_APP'),
-  ;
+class EndpointTypesElement {
+  static const push = EndpointTypesElement._('PUSH');
+  static const gcm = EndpointTypesElement._('GCM');
+  static const apns = EndpointTypesElement._('APNS');
+  static const apnsSandbox = EndpointTypesElement._('APNS_SANDBOX');
+  static const apnsVoip = EndpointTypesElement._('APNS_VOIP');
+  static const apnsVoipSandbox = EndpointTypesElement._('APNS_VOIP_SANDBOX');
+  static const adm = EndpointTypesElement._('ADM');
+  static const sms = EndpointTypesElement._('SMS');
+  static const voice = EndpointTypesElement._('VOICE');
+  static const email = EndpointTypesElement._('EMAIL');
+  static const baidu = EndpointTypesElement._('BAIDU');
+  static const custom = EndpointTypesElement._('CUSTOM');
+  static const inApp = EndpointTypesElement._('IN_APP');
 
   final String value;
 
-  const EndpointTypesElement(this.value);
+  const EndpointTypesElement._(this.value);
 
-  static EndpointTypesElement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EndpointTypesElement'));
+  static const values = [
+    push,
+    gcm,
+    apns,
+    apnsSandbox,
+    apnsVoip,
+    apnsVoipSandbox,
+    adm,
+    sms,
+    voice,
+    email,
+    baidu,
+    custom,
+    inApp
+  ];
+
+  static EndpointTypesElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointTypesElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointTypesElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TimezoneEstimationMethodsElement {
-  phoneNumber('PHONE_NUMBER'),
-  postalCode('POSTAL_CODE'),
-  ;
+class TimezoneEstimationMethodsElement {
+  static const phoneNumber = TimezoneEstimationMethodsElement._('PHONE_NUMBER');
+  static const postalCode = TimezoneEstimationMethodsElement._('POSTAL_CODE');
 
   final String value;
 
-  const TimezoneEstimationMethodsElement(this.value);
+  const TimezoneEstimationMethodsElement._(this.value);
+
+  static const values = [phoneNumber, postalCode];
 
   static TimezoneEstimationMethodsElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TimezoneEstimationMethodsElement'));
+          orElse: () => TimezoneEstimationMethodsElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimezoneEstimationMethodsElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DayOfWeek {
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  sunday('SUNDAY'),
-  ;
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the start and end time for OpenHours.

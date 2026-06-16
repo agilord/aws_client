@@ -269,20 +269,32 @@ class AugmentedAIRuntime {
   }
 }
 
-enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation(
-      'FreeOfPersonallyIdentifiableInformation'),
-  freeOfAdultContent('FreeOfAdultContent'),
-  ;
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
 
   final String value;
 
-  const ContentClassifier(this.value);
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
 
   static ContentClassifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentClassifier'));
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteHumanLoopResponse {
@@ -345,8 +357,8 @@ class DescribeHumanLoopResponse {
       flowDefinitionArn: (json['FlowDefinitionArn'] as String?) ?? '',
       humanLoopArn: (json['HumanLoopArn'] as String?) ?? '',
       humanLoopName: (json['HumanLoopName'] as String?) ?? '',
-      humanLoopStatus:
-          HumanLoopStatus.fromString((json['HumanLoopStatus'] as String)),
+      humanLoopStatus: HumanLoopStatus.fromString(
+          (json['HumanLoopStatus'] as String?) ?? ''),
       failureCode: json['FailureCode'] as String?,
       failureReason: json['FailureReason'] as String?,
       humanLoopOutput: json['HumanLoopOutput'] != null
@@ -442,22 +454,31 @@ class HumanLoopOutput {
   }
 }
 
-enum HumanLoopStatus {
-  inProgress('InProgress'),
-  failed('Failed'),
-  completed('Completed'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  ;
+class HumanLoopStatus {
+  static const inProgress = HumanLoopStatus._('InProgress');
+  static const failed = HumanLoopStatus._('Failed');
+  static const completed = HumanLoopStatus._('Completed');
+  static const stopped = HumanLoopStatus._('Stopped');
+  static const stopping = HumanLoopStatus._('Stopping');
 
   final String value;
 
-  const HumanLoopStatus(this.value);
+  const HumanLoopStatus._(this.value);
+
+  static const values = [inProgress, failed, completed, stopped, stopping];
 
   static HumanLoopStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HumanLoopStatus'));
+          orElse: () => HumanLoopStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HumanLoopStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the human loop.
@@ -546,18 +567,27 @@ class ListHumanLoopsResponse {
   }
 }
 
-enum SortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('Ascending');
+  static const descending = SortOrder._('Descending');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartHumanLoopResponse {

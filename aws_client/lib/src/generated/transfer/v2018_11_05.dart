@@ -4330,19 +4330,29 @@ class Transfer {
   }
 }
 
-enum AgreementStatusType {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class AgreementStatusType {
+  static const active = AgreementStatusType._('ACTIVE');
+  static const inactive = AgreementStatusType._('INACTIVE');
 
   final String value;
 
-  const AgreementStatusType(this.value);
+  const AgreementStatusType._(this.value);
 
-  static AgreementStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AgreementStatusType'));
+  static const values = [active, inactive];
+
+  static AgreementStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgreementStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgreementStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details for an AS2 connector object. The connector object is
@@ -4498,80 +4508,127 @@ class As2ConnectorConfig {
   }
 }
 
-enum As2Transport {
-  http('HTTP'),
-  ;
+class As2Transport {
+  static const http = As2Transport._('HTTP');
 
   final String value;
 
-  const As2Transport(this.value);
+  const As2Transport._(this.value);
 
-  static As2Transport fromString(String value) =>
+  static const values = [http];
+
+  static As2Transport fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => As2Transport._(value));
+
+  @override
+  bool operator ==(other) => other is As2Transport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CertificateStatusType {
+  static const active = CertificateStatusType._('ACTIVE');
+  static const pendingRotation = CertificateStatusType._('PENDING_ROTATION');
+  static const inactive = CertificateStatusType._('INACTIVE');
+
+  final String value;
+
+  const CertificateStatusType._(this.value);
+
+  static const values = [active, pendingRotation, inactive];
+
+  static CertificateStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum As2Transport'));
+          orElse: () => CertificateStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateStatusType {
-  active('ACTIVE'),
-  pendingRotation('PENDING_ROTATION'),
-  inactive('INACTIVE'),
-  ;
+class CertificateType {
+  static const certificate = CertificateType._('CERTIFICATE');
+  static const certificateWithPrivateKey =
+      CertificateType._('CERTIFICATE_WITH_PRIVATE_KEY');
 
   final String value;
 
-  const CertificateStatusType(this.value);
+  const CertificateType._(this.value);
 
-  static CertificateStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CertificateStatusType'));
-}
-
-enum CertificateType {
-  certificate('CERTIFICATE'),
-  certificateWithPrivateKey('CERTIFICATE_WITH_PRIVATE_KEY'),
-  ;
-
-  final String value;
-
-  const CertificateType(this.value);
+  static const values = [certificate, certificateWithPrivateKey];
 
   static CertificateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateType'));
+          orElse: () => CertificateType._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CertificateUsageType {
-  signing('SIGNING'),
-  encryption('ENCRYPTION'),
-  tls('TLS'),
-  ;
+class CertificateUsageType {
+  static const signing = CertificateUsageType._('SIGNING');
+  static const encryption = CertificateUsageType._('ENCRYPTION');
+  static const tls = CertificateUsageType._('TLS');
 
   final String value;
 
-  const CertificateUsageType(this.value);
+  const CertificateUsageType._(this.value);
 
-  static CertificateUsageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CertificateUsageType'));
+  static const values = [signing, encryption, tls];
+
+  static CertificateUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateUsageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompressionEnum {
-  zlib('ZLIB'),
-  disabled('DISABLED'),
-  ;
+class CompressionEnum {
+  static const zlib = CompressionEnum._('ZLIB');
+  static const disabled = CompressionEnum._('DISABLED');
 
   final String value;
 
-  const CompressionEnum(this.value);
+  const CompressionEnum._(this.value);
+
+  static const values = [zlib, disabled];
 
   static CompressionEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionEnum'));
+          orElse: () => CompressionEnum._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Each step type has its own <code>StepDetails</code> structure.
@@ -4902,19 +4959,28 @@ class CustomStepDetails {
   }
 }
 
-enum CustomStepStatus {
-  success('SUCCESS'),
-  failure('FAILURE'),
-  ;
+class CustomStepStatus {
+  static const success = CustomStepStatus._('SUCCESS');
+  static const failure = CustomStepStatus._('FAILURE');
 
   final String value;
 
-  const CustomStepStatus(this.value);
+  const CustomStepStatus._(this.value);
+
+  static const values = [success, failure];
 
   static CustomStepStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CustomStepStatus'));
+          orElse: () => CustomStepStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CustomStepStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Each step type has its own <code>StepDetails</code> structure.
@@ -4995,7 +5061,7 @@ class DecryptStepDetails {
       destinationFileLocation: InputFileLocation.fromJson(
           (json['DestinationFileLocation'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      type: EncryptionType.fromString((json['Type'] as String)),
+      type: EncryptionType.fromString((json['Type'] as String?) ?? ''),
       name: json['Name'] as String?,
       overwriteExisting: (json['OverwriteExisting'] as String?)
           ?.let(OverwriteExisting.fromString),
@@ -6868,33 +6934,52 @@ class DescribedWorkflow {
 
 /// Indicates whether optimization to directory listing on S3 servers is used.
 /// Disabled by default for compatibility.
-enum DirectoryListingOptimization {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DirectoryListingOptimization {
+  static const enabled = DirectoryListingOptimization._('ENABLED');
+  static const disabled = DirectoryListingOptimization._('DISABLED');
 
   final String value;
 
-  const DirectoryListingOptimization(this.value);
+  const DirectoryListingOptimization._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DirectoryListingOptimization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectoryListingOptimization'));
+          orElse: () => DirectoryListingOptimization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectoryListingOptimization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Domain {
-  s3('S3'),
-  efs('EFS'),
-  ;
+class Domain {
+  static const s3 = Domain._('S3');
+  static const efs = Domain._('EFS');
 
   final String value;
 
-  const Domain(this.value);
+  const Domain._(this.value);
+
+  static const values = [s3, efs];
 
   static Domain fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Domain'));
+      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
+
+  @override
+  bool operator ==(other) => other is Domain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the details for the file location for the file that's being used
@@ -6931,36 +7016,54 @@ class EfsFileLocation {
   }
 }
 
-enum EncryptionAlg {
-  aes128Cbc('AES128_CBC'),
-  aes192Cbc('AES192_CBC'),
-  aes256Cbc('AES256_CBC'),
-  desEde3Cbc('DES_EDE3_CBC'),
-  none('NONE'),
-  ;
+class EncryptionAlg {
+  static const aes128Cbc = EncryptionAlg._('AES128_CBC');
+  static const aes192Cbc = EncryptionAlg._('AES192_CBC');
+  static const aes256Cbc = EncryptionAlg._('AES256_CBC');
+  static const desEde3Cbc = EncryptionAlg._('DES_EDE3_CBC');
+  static const none = EncryptionAlg._('NONE');
 
   final String value;
 
-  const EncryptionAlg(this.value);
+  const EncryptionAlg._(this.value);
+
+  static const values = [aes128Cbc, aes192Cbc, aes256Cbc, desEde3Cbc, none];
 
   static EncryptionAlg fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionAlg'));
+          orElse: () => EncryptionAlg._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionAlg && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncryptionType {
-  pgp('PGP'),
-  ;
+class EncryptionType {
+  static const pgp = EncryptionType._('PGP');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [pgp];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The virtual private cloud (VPC) endpoint settings that are configured for
@@ -7111,20 +7214,28 @@ class EndpointDetails {
   }
 }
 
-enum EndpointType {
-  public('PUBLIC'),
-  vpc('VPC'),
-  vpcEndpoint('VPC_ENDPOINT'),
-  ;
+class EndpointType {
+  static const public = EndpointType._('PUBLIC');
+  static const vpc = EndpointType._('VPC');
+  static const vpcEndpoint = EndpointType._('VPC_ENDPOINT');
 
   final String value;
 
-  const EndpointType(this.value);
+  const EndpointType._(this.value);
 
-  static EndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointType'));
+  static const values = [public, vpc, vpcEndpoint];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the error message and type, for an error that occurs during the
@@ -7184,7 +7295,7 @@ class ExecutionError {
   factory ExecutionError.fromJson(Map<String, dynamic> json) {
     return ExecutionError(
       message: (json['Message'] as String?) ?? '',
-      type: ExecutionErrorType.fromString((json['Type'] as String)),
+      type: ExecutionErrorType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -7198,25 +7309,45 @@ class ExecutionError {
   }
 }
 
-enum ExecutionErrorType {
-  permissionDenied('PERMISSION_DENIED'),
-  customStepFailed('CUSTOM_STEP_FAILED'),
-  throttled('THROTTLED'),
-  alreadyExists('ALREADY_EXISTS'),
-  notFound('NOT_FOUND'),
-  badRequest('BAD_REQUEST'),
-  timeout('TIMEOUT'),
-  internalServerError('INTERNAL_SERVER_ERROR'),
-  ;
+class ExecutionErrorType {
+  static const permissionDenied = ExecutionErrorType._('PERMISSION_DENIED');
+  static const customStepFailed = ExecutionErrorType._('CUSTOM_STEP_FAILED');
+  static const throttled = ExecutionErrorType._('THROTTLED');
+  static const alreadyExists = ExecutionErrorType._('ALREADY_EXISTS');
+  static const notFound = ExecutionErrorType._('NOT_FOUND');
+  static const badRequest = ExecutionErrorType._('BAD_REQUEST');
+  static const timeout = ExecutionErrorType._('TIMEOUT');
+  static const internalServerError =
+      ExecutionErrorType._('INTERNAL_SERVER_ERROR');
 
   final String value;
 
-  const ExecutionErrorType(this.value);
+  const ExecutionErrorType._(this.value);
 
-  static ExecutionErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecutionErrorType'));
+  static const values = [
+    permissionDenied,
+    customStepFailed,
+    throttled,
+    alreadyExists,
+    notFound,
+    badRequest,
+    timeout,
+    internalServerError
+  ];
+
+  static ExecutionErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the steps in the workflow, as well as the steps to execute in case
@@ -7257,21 +7388,30 @@ class ExecutionResults {
   }
 }
 
-enum ExecutionStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  exception('EXCEPTION'),
-  handlingException('HANDLING_EXCEPTION'),
-  ;
+class ExecutionStatus {
+  static const inProgress = ExecutionStatus._('IN_PROGRESS');
+  static const completed = ExecutionStatus._('COMPLETED');
+  static const exception = ExecutionStatus._('EXCEPTION');
+  static const handlingException = ExecutionStatus._('HANDLING_EXCEPTION');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [inProgress, completed, exception, handlingException];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the following details for the step: error (if any), outputs (if
@@ -7425,19 +7565,28 @@ class HomeDirectoryMapEntry {
   }
 }
 
-enum HomeDirectoryType {
-  path('PATH'),
-  logical('LOGICAL'),
-  ;
+class HomeDirectoryType {
+  static const path = HomeDirectoryType._('PATH');
+  static const logical = HomeDirectoryType._('LOGICAL');
 
   final String value;
 
-  const HomeDirectoryType(this.value);
+  const HomeDirectoryType._(this.value);
+
+  static const values = [path, logical];
 
   static HomeDirectoryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HomeDirectoryType'));
+          orElse: () => HomeDirectoryType._(value));
+
+  @override
+  bool operator ==(other) => other is HomeDirectoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information related to the type of user authentication that is in
@@ -7537,21 +7686,37 @@ class IdentityProviderDetails {
 /// your identity provider. If you choose this value, you must specify the ARN
 /// for the Lambda function in the <code>Function</code> parameter for the
 /// <code>IdentityProviderDetails</code> data type.
-enum IdentityProviderType {
-  serviceManaged('SERVICE_MANAGED'),
-  apiGateway('API_GATEWAY'),
-  awsDirectoryService('AWS_DIRECTORY_SERVICE'),
-  awsLambda('AWS_LAMBDA'),
-  ;
+class IdentityProviderType {
+  static const serviceManaged = IdentityProviderType._('SERVICE_MANAGED');
+  static const apiGateway = IdentityProviderType._('API_GATEWAY');
+  static const awsDirectoryService =
+      IdentityProviderType._('AWS_DIRECTORY_SERVICE');
+  static const awsLambda = IdentityProviderType._('AWS_LAMBDA');
 
   final String value;
 
-  const IdentityProviderType(this.value);
+  const IdentityProviderType._(this.value);
 
-  static IdentityProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IdentityProviderType'));
+  static const values = [
+    serviceManaged,
+    apiGateway,
+    awsDirectoryService,
+    awsLambda
+  ];
+
+  static IdentityProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdentityProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdentityProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportCertificateResponse {
@@ -8890,66 +9055,102 @@ class LoggingConfiguration {
   }
 }
 
-enum MapType {
-  file('FILE'),
-  directory('DIRECTORY'),
-  ;
+class MapType {
+  static const file = MapType._('FILE');
+  static const directory = MapType._('DIRECTORY');
 
   final String value;
 
-  const MapType(this.value);
+  const MapType._(this.value);
 
-  static MapType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum MapType'));
+  static const values = [file, directory];
+
+  static MapType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MapType._(value));
+
+  @override
+  bool operator ==(other) => other is MapType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MdnResponse {
-  sync('SYNC'),
-  none('NONE'),
-  ;
+class MdnResponse {
+  static const sync = MdnResponse._('SYNC');
+  static const none = MdnResponse._('NONE');
 
   final String value;
 
-  const MdnResponse(this.value);
+  const MdnResponse._(this.value);
 
-  static MdnResponse fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MdnResponse'));
+  static const values = [sync, none];
+
+  static MdnResponse fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MdnResponse._(value));
+
+  @override
+  bool operator ==(other) => other is MdnResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MdnSigningAlg {
-  sha256('SHA256'),
-  sha384('SHA384'),
-  sha512('SHA512'),
-  sha1('SHA1'),
-  none('NONE'),
-  $default('DEFAULT'),
-  ;
+class MdnSigningAlg {
+  static const sha256 = MdnSigningAlg._('SHA256');
+  static const sha384 = MdnSigningAlg._('SHA384');
+  static const sha512 = MdnSigningAlg._('SHA512');
+  static const sha1 = MdnSigningAlg._('SHA1');
+  static const none = MdnSigningAlg._('NONE');
+  static const $default = MdnSigningAlg._('DEFAULT');
 
   final String value;
 
-  const MdnSigningAlg(this.value);
+  const MdnSigningAlg._(this.value);
+
+  static const values = [sha256, sha384, sha512, sha1, none, $default];
 
   static MdnSigningAlg fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MdnSigningAlg'));
+          orElse: () => MdnSigningAlg._(value));
+
+  @override
+  bool operator ==(other) => other is MdnSigningAlg && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OverwriteExisting {
-  $true('TRUE'),
-  $false('FALSE'),
-  ;
+class OverwriteExisting {
+  static const $true = OverwriteExisting._('TRUE');
+  static const $false = OverwriteExisting._('FALSE');
 
   final String value;
 
-  const OverwriteExisting(this.value);
+  const OverwriteExisting._(this.value);
+
+  static const values = [$true, $false];
 
   static OverwriteExisting fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OverwriteExisting'));
+          orElse: () => OverwriteExisting._(value));
+
+  @override
+  bool operator ==(other) => other is OverwriteExisting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The full POSIX identity, including user ID (<code>Uid</code>), group ID
@@ -8997,34 +9198,52 @@ class PosixProfile {
   }
 }
 
-enum ProfileType {
-  local('LOCAL'),
-  partner('PARTNER'),
-  ;
+class ProfileType {
+  static const local = ProfileType._('LOCAL');
+  static const partner = ProfileType._('PARTNER');
 
   final String value;
 
-  const ProfileType(this.value);
+  const ProfileType._(this.value);
 
-  static ProfileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProfileType'));
+  static const values = [local, partner];
+
+  static ProfileType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProfileType._(value));
+
+  @override
+  bool operator ==(other) => other is ProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Protocol {
-  sftp('SFTP'),
-  ftp('FTP'),
-  ftps('FTPS'),
-  as2('AS2'),
-  ;
+class Protocol {
+  static const sftp = Protocol._('SFTP');
+  static const ftp = Protocol._('FTP');
+  static const ftps = Protocol._('FTPS');
+  static const as2 = Protocol._('AS2');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [sftp, ftp, ftps, as2];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The protocol settings that are configured for your server.
@@ -9322,34 +9541,54 @@ class S3Tag {
   }
 }
 
-enum SecurityPolicyProtocol {
-  sftp('SFTP'),
-  ftps('FTPS'),
-  ;
+class SecurityPolicyProtocol {
+  static const sftp = SecurityPolicyProtocol._('SFTP');
+  static const ftps = SecurityPolicyProtocol._('FTPS');
 
   final String value;
 
-  const SecurityPolicyProtocol(this.value);
+  const SecurityPolicyProtocol._(this.value);
+
+  static const values = [sftp, ftps];
 
   static SecurityPolicyProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SecurityPolicyProtocol'));
+          orElse: () => SecurityPolicyProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityPolicyProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SecurityPolicyResourceType {
-  server('SERVER'),
-  connector('CONNECTOR'),
-  ;
+class SecurityPolicyResourceType {
+  static const server = SecurityPolicyResourceType._('SERVER');
+  static const connector = SecurityPolicyResourceType._('CONNECTOR');
 
   final String value;
 
-  const SecurityPolicyResourceType(this.value);
+  const SecurityPolicyResourceType._(this.value);
+
+  static const values = [server, connector];
 
   static SecurityPolicyResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SecurityPolicyResourceType'));
+          orElse: () => SecurityPolicyResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityPolicyResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SendWorkflowStepStateResponse {
@@ -9391,36 +9630,62 @@ class ServiceMetadata {
   }
 }
 
-enum SetStatOption {
-  $default('DEFAULT'),
-  enableNoOp('ENABLE_NO_OP'),
-  ;
+class SetStatOption {
+  static const $default = SetStatOption._('DEFAULT');
+  static const enableNoOp = SetStatOption._('ENABLE_NO_OP');
 
   final String value;
 
-  const SetStatOption(this.value);
+  const SetStatOption._(this.value);
+
+  static const values = [$default, enableNoOp];
 
   static SetStatOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SetStatOption'));
+          orElse: () => SetStatOption._(value));
+
+  @override
+  bool operator ==(other) => other is SetStatOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SftpAuthenticationMethods {
-  password('PASSWORD'),
-  publicKey('PUBLIC_KEY'),
-  publicKeyOrPassword('PUBLIC_KEY_OR_PASSWORD'),
-  publicKeyAndPassword('PUBLIC_KEY_AND_PASSWORD'),
-  ;
+class SftpAuthenticationMethods {
+  static const password = SftpAuthenticationMethods._('PASSWORD');
+  static const publicKey = SftpAuthenticationMethods._('PUBLIC_KEY');
+  static const publicKeyOrPassword =
+      SftpAuthenticationMethods._('PUBLIC_KEY_OR_PASSWORD');
+  static const publicKeyAndPassword =
+      SftpAuthenticationMethods._('PUBLIC_KEY_AND_PASSWORD');
 
   final String value;
 
-  const SftpAuthenticationMethods(this.value);
+  const SftpAuthenticationMethods._(this.value);
+
+  static const values = [
+    password,
+    publicKey,
+    publicKeyOrPassword,
+    publicKeyAndPassword
+  ];
 
   static SftpAuthenticationMethods fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SftpAuthenticationMethods'));
+          orElse: () => SftpAuthenticationMethods._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SftpAuthenticationMethods && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details for an SFTP connector object. The connector object is
@@ -9503,21 +9768,30 @@ class SftpConnectorConfig {
   }
 }
 
-enum SigningAlg {
-  sha256('SHA256'),
-  sha384('SHA384'),
-  sha512('SHA512'),
-  sha1('SHA1'),
-  none('NONE'),
-  ;
+class SigningAlg {
+  static const sha256 = SigningAlg._('SHA256');
+  static const sha384 = SigningAlg._('SHA384');
+  static const sha512 = SigningAlg._('SHA512');
+  static const sha1 = SigningAlg._('SHA1');
+  static const none = SigningAlg._('NONE');
 
   final String value;
 
-  const SigningAlg(this.value);
+  const SigningAlg._(this.value);
 
-  static SigningAlg fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SigningAlg'));
+  static const values = [sha256, sha384, sha512, sha1, none];
+
+  static SigningAlg fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SigningAlg._(value));
+
+  @override
+  bool operator ==(other) => other is SigningAlg && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the public Secure Shell (SSH) key that is
@@ -9633,22 +9907,38 @@ class StartFileTransferResponse {
 /// perform file operations. Under normal conditions, it can take a couple of
 /// minutes for the server to be completely operational. Both
 /// <code>START_FAILED</code> and <code>STOP_FAILED</code> are error conditions.
-enum State {
-  offline('OFFLINE'),
-  online('ONLINE'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  startFailed('START_FAILED'),
-  stopFailed('STOP_FAILED'),
-  ;
+class State {
+  static const offline = State._('OFFLINE');
+  static const online = State._('ONLINE');
+  static const starting = State._('STARTING');
+  static const stopping = State._('STOPPING');
+  static const startFailed = State._('START_FAILED');
+  static const stopFailed = State._('STOP_FAILED');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [
+    offline,
+    online,
+    starting,
+    stopping,
+    startFailed,
+    stopFailed
+  ];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Creates a key-value pair for a specific resource. Tags are metadata that you
@@ -9848,20 +10138,30 @@ class TestIdentityProviderResponse {
   }
 }
 
-enum TlsSessionResumptionMode {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  enforced('ENFORCED'),
-  ;
+class TlsSessionResumptionMode {
+  static const disabled = TlsSessionResumptionMode._('DISABLED');
+  static const enabled = TlsSessionResumptionMode._('ENABLED');
+  static const enforced = TlsSessionResumptionMode._('ENFORCED');
 
   final String value;
 
-  const TlsSessionResumptionMode(this.value);
+  const TlsSessionResumptionMode._(this.value);
+
+  static const values = [disabled, enabled, enforced];
 
   static TlsSessionResumptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TlsSessionResumptionMode'));
+          orElse: () => TlsSessionResumptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TlsSessionResumptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAccessResponse {
@@ -10331,22 +10631,31 @@ class WorkflowStep {
   }
 }
 
-enum WorkflowStepType {
-  copy('COPY'),
-  custom('CUSTOM'),
-  tag('TAG'),
-  delete('DELETE'),
-  decrypt('DECRYPT'),
-  ;
+class WorkflowStepType {
+  static const copy = WorkflowStepType._('COPY');
+  static const custom = WorkflowStepType._('CUSTOM');
+  static const tag = WorkflowStepType._('TAG');
+  static const delete = WorkflowStepType._('DELETE');
+  static const decrypt = WorkflowStepType._('DECRYPT');
 
   final String value;
 
-  const WorkflowStepType(this.value);
+  const WorkflowStepType._(this.value);
+
+  static const values = [copy, custom, tag, delete, decrypt];
 
   static WorkflowStepType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowStepType'));
+          orElse: () => WorkflowStepType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowStepType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

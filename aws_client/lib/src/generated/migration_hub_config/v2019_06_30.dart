@@ -417,7 +417,7 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
-      type: TargetType.fromString((json['Type'] as String)),
+      type: TargetType.fromString((json['Type'] as String?) ?? ''),
       id: json['Id'] as String?,
     );
   }
@@ -432,17 +432,26 @@ class Target {
   }
 }
 
-enum TargetType {
-  account('ACCOUNT'),
-  ;
+class TargetType {
+  static const account = TargetType._('ACCOUNT');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [account];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

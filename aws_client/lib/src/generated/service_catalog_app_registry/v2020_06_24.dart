@@ -1167,20 +1167,30 @@ class ApplicationTagResult {
   }
 }
 
-enum ApplicationTagStatus {
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failure('FAILURE'),
-  ;
+class ApplicationTagStatus {
+  static const inProgress = ApplicationTagStatus._('IN_PROGRESS');
+  static const success = ApplicationTagStatus._('SUCCESS');
+  static const failure = ApplicationTagStatus._('FAILURE');
 
   final String value;
 
-  const ApplicationTagStatus(this.value);
+  const ApplicationTagStatus._(this.value);
 
-  static ApplicationTagStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationTagStatus'));
+  static const values = [inProgress, success, failure];
+
+  static ApplicationTagStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationTagStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationTagStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateAttributeGroupResponse {
@@ -1254,19 +1264,29 @@ class AssociateResourceResponse {
   }
 }
 
-enum AssociationOption {
-  applyApplicationTag('APPLY_APPLICATION_TAG'),
-  skipApplicationTag('SKIP_APPLICATION_TAG'),
-  ;
+class AssociationOption {
+  static const applyApplicationTag =
+      AssociationOption._('APPLY_APPLICATION_TAG');
+  static const skipApplicationTag = AssociationOption._('SKIP_APPLICATION_TAG');
 
   final String value;
 
-  const AssociationOption(this.value);
+  const AssociationOption._(this.value);
+
+  static const values = [applyApplicationTag, skipApplicationTag];
 
   static AssociationOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationOption'));
+          orElse: () => AssociationOption._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
@@ -2217,23 +2237,40 @@ class ResourceGroup {
   }
 }
 
-enum ResourceGroupState {
-  creating('CREATING'),
-  createComplete('CREATE_COMPLETE'),
-  createFailed('CREATE_FAILED'),
-  updating('UPDATING'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class ResourceGroupState {
+  static const creating = ResourceGroupState._('CREATING');
+  static const createComplete = ResourceGroupState._('CREATE_COMPLETE');
+  static const createFailed = ResourceGroupState._('CREATE_FAILED');
+  static const updating = ResourceGroupState._('UPDATING');
+  static const updateComplete = ResourceGroupState._('UPDATE_COMPLETE');
+  static const updateFailed = ResourceGroupState._('UPDATE_FAILED');
 
   final String value;
 
-  const ResourceGroupState(this.value);
+  const ResourceGroupState._(this.value);
 
-  static ResourceGroupState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceGroupState'));
+  static const values = [
+    creating,
+    createComplete,
+    createFailed,
+    updating,
+    updateComplete,
+    updateFailed
+  ];
+
+  static ResourceGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceGroupState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information about the resource.
@@ -2320,36 +2357,54 @@ class ResourceIntegrations {
   }
 }
 
-enum ResourceItemStatus {
-  success('SUCCESS'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  skipped('SKIPPED'),
-  ;
+class ResourceItemStatus {
+  static const success = ResourceItemStatus._('SUCCESS');
+  static const failed = ResourceItemStatus._('FAILED');
+  static const inProgress = ResourceItemStatus._('IN_PROGRESS');
+  static const skipped = ResourceItemStatus._('SKIPPED');
 
   final String value;
 
-  const ResourceItemStatus(this.value);
+  const ResourceItemStatus._(this.value);
 
-  static ResourceItemStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceItemStatus'));
+  static const values = [success, failed, inProgress, skipped];
+
+  static ResourceItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceType {
-  cfnStack('CFN_STACK'),
-  resourceTagValue('RESOURCE_TAG_VALUE'),
-  ;
+class ResourceType {
+  static const cfnStack = ResourceType._('CFN_STACK');
+  static const resourceTagValue = ResourceType._('RESOURCE_TAG_VALUE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [cfnStack, resourceTagValue];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resource in a list of resources.
@@ -2396,18 +2451,27 @@ class ResourcesListItem {
   }
 }
 
-enum SyncAction {
-  startSync('START_SYNC'),
-  noAction('NO_ACTION'),
-  ;
+class SyncAction {
+  static const startSync = SyncAction._('START_SYNC');
+  static const noAction = SyncAction._('NO_ACTION');
 
   final String value;
 
-  const SyncAction(this.value);
+  const SyncAction._(this.value);
 
-  static SyncAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SyncAction'));
+  static const values = [startSync, noAction];
+
+  static SyncAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncAction._(value));
+
+  @override
+  bool operator ==(other) => other is SyncAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SyncResourceResponse {

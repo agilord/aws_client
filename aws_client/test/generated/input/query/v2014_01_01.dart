@@ -73,19 +73,29 @@ class MapWithEnumKey {
   }
 }
 
-enum QueueAttributeName {
-  all('All'),
-  policy('Policy'),
-  ;
+class QueueAttributeName {
+  static const all = QueueAttributeName._('All');
+  static const policy = QueueAttributeName._('Policy');
 
   final String value;
 
-  const QueueAttributeName(this.value);
+  const QueueAttributeName._(this.value);
 
-  static QueueAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueueAttributeName'));
+  static const values = [all, policy];
+
+  static QueueAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueueAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueueAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

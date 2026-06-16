@@ -1324,36 +1324,56 @@ class MediaConvert {
 /// AudioType and FollowInputAudioType. Choose NORMAL when the input does not
 /// contain pre-mixed audio + audio description (AD). In this case, the encoder
 /// will use any values you provide for AudioType and FollowInputAudioType.
-enum AacAudioDescriptionBroadcasterMix {
-  broadcasterMixedAd('BROADCASTER_MIXED_AD'),
-  normal('NORMAL'),
-  ;
+class AacAudioDescriptionBroadcasterMix {
+  static const broadcasterMixedAd =
+      AacAudioDescriptionBroadcasterMix._('BROADCASTER_MIXED_AD');
+  static const normal = AacAudioDescriptionBroadcasterMix._('NORMAL');
 
   final String value;
 
-  const AacAudioDescriptionBroadcasterMix(this.value);
+  const AacAudioDescriptionBroadcasterMix._(this.value);
+
+  static const values = [broadcasterMixedAd, normal];
 
   static AacAudioDescriptionBroadcasterMix fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AacAudioDescriptionBroadcasterMix'));
+          orElse: () => AacAudioDescriptionBroadcasterMix._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AacAudioDescriptionBroadcasterMix && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// AAC Profile.
-enum AacCodecProfile {
-  lc('LC'),
-  hev1('HEV1'),
-  hev2('HEV2'),
-  ;
+class AacCodecProfile {
+  static const lc = AacCodecProfile._('LC');
+  static const hev1 = AacCodecProfile._('HEV1');
+  static const hev2 = AacCodecProfile._('HEV2');
 
   final String value;
 
-  const AacCodecProfile(this.value);
+  const AacCodecProfile._(this.value);
+
+  static const values = [lc, hev1, hev2];
 
   static AacCodecProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AacCodecProfile'));
+          orElse: () => AacCodecProfile._(value));
+
+  @override
+  bool operator ==(other) => other is AacCodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Coding mode that you specify determines the number of audio channels and
@@ -1364,55 +1384,88 @@ enum AacCodecProfile {
 /// description data from your stereo input. For more information see ETSI TS
 /// 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L,
 /// R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
-enum AacCodingMode {
-  adReceiverMix('AD_RECEIVER_MIX'),
-  codingMode_1_0('CODING_MODE_1_0'),
-  codingMode_1_1('CODING_MODE_1_1'),
-  codingMode_2_0('CODING_MODE_2_0'),
-  codingMode_5_1('CODING_MODE_5_1'),
-  ;
+class AacCodingMode {
+  static const adReceiverMix = AacCodingMode._('AD_RECEIVER_MIX');
+  static const codingMode_1_0 = AacCodingMode._('CODING_MODE_1_0');
+  static const codingMode_1_1 = AacCodingMode._('CODING_MODE_1_1');
+  static const codingMode_2_0 = AacCodingMode._('CODING_MODE_2_0');
+  static const codingMode_5_1 = AacCodingMode._('CODING_MODE_5_1');
 
   final String value;
 
-  const AacCodingMode(this.value);
+  const AacCodingMode._(this.value);
+
+  static const values = [
+    adReceiverMix,
+    codingMode_1_0,
+    codingMode_1_1,
+    codingMode_2_0,
+    codingMode_5_1
+  ];
 
   static AacCodingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AacCodingMode'));
+          orElse: () => AacCodingMode._(value));
+
+  @override
+  bool operator ==(other) => other is AacCodingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Rate Control Mode.
-enum AacRateControlMode {
-  cbr('CBR'),
-  vbr('VBR'),
-  ;
+class AacRateControlMode {
+  static const cbr = AacRateControlMode._('CBR');
+  static const vbr = AacRateControlMode._('VBR');
 
   final String value;
 
-  const AacRateControlMode(this.value);
+  const AacRateControlMode._(this.value);
 
-  static AacRateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AacRateControlMode'));
+  static const values = [cbr, vbr];
+
+  static AacRateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AacRateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AacRateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an
 /// output, you must choose "No container" for the output container.
-enum AacRawFormat {
-  latmLoas('LATM_LOAS'),
-  none('NONE'),
-  ;
+class AacRawFormat {
+  static const latmLoas = AacRawFormat._('LATM_LOAS');
+  static const none = AacRawFormat._('NONE');
 
   final String value;
 
-  const AacRawFormat(this.value);
+  const AacRawFormat._(this.value);
 
-  static AacRawFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AacRawFormat'));
+  static const values = [latmLoas, none];
+
+  static AacRawFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AacRawFormat._(value));
+
+  @override
+  bool operator ==(other) => other is AacRawFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value AAC. The service accepts one of two
@@ -1539,78 +1592,128 @@ class AacSettings {
 
 /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport
 /// Stream containers.
-enum AacSpecification {
-  mpeg2('MPEG2'),
-  mpeg4('MPEG4'),
-  ;
+class AacSpecification {
+  static const mpeg2 = AacSpecification._('MPEG2');
+  static const mpeg4 = AacSpecification._('MPEG4');
 
   final String value;
 
-  const AacSpecification(this.value);
+  const AacSpecification._(this.value);
+
+  static const values = [mpeg2, mpeg4];
 
   static AacSpecification fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AacSpecification'));
+          orElse: () => AacSpecification._(value));
+
+  @override
+  bool operator ==(other) => other is AacSpecification && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// VBR Quality Level - Only used if rate_control_mode is VBR.
-enum AacVbrQuality {
-  low('LOW'),
-  mediumLow('MEDIUM_LOW'),
-  mediumHigh('MEDIUM_HIGH'),
-  high('HIGH'),
-  ;
+class AacVbrQuality {
+  static const low = AacVbrQuality._('LOW');
+  static const mediumLow = AacVbrQuality._('MEDIUM_LOW');
+  static const mediumHigh = AacVbrQuality._('MEDIUM_HIGH');
+  static const high = AacVbrQuality._('HIGH');
 
   final String value;
 
-  const AacVbrQuality(this.value);
+  const AacVbrQuality._(this.value);
+
+  static const values = [low, mediumLow, mediumHigh, high];
 
   static AacVbrQuality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AacVbrQuality'));
+          orElse: () => AacVbrQuality._(value));
+
+  @override
+  bool operator ==(other) => other is AacVbrQuality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For
 /// more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
-enum Ac3BitstreamMode {
-  completeMain('COMPLETE_MAIN'),
-  commentary('COMMENTARY'),
-  dialogue('DIALOGUE'),
-  emergency('EMERGENCY'),
-  hearingImpaired('HEARING_IMPAIRED'),
-  musicAndEffects('MUSIC_AND_EFFECTS'),
-  visuallyImpaired('VISUALLY_IMPAIRED'),
-  voiceOver('VOICE_OVER'),
-  ;
+class Ac3BitstreamMode {
+  static const completeMain = Ac3BitstreamMode._('COMPLETE_MAIN');
+  static const commentary = Ac3BitstreamMode._('COMMENTARY');
+  static const dialogue = Ac3BitstreamMode._('DIALOGUE');
+  static const emergency = Ac3BitstreamMode._('EMERGENCY');
+  static const hearingImpaired = Ac3BitstreamMode._('HEARING_IMPAIRED');
+  static const musicAndEffects = Ac3BitstreamMode._('MUSIC_AND_EFFECTS');
+  static const visuallyImpaired = Ac3BitstreamMode._('VISUALLY_IMPAIRED');
+  static const voiceOver = Ac3BitstreamMode._('VOICE_OVER');
 
   final String value;
 
-  const Ac3BitstreamMode(this.value);
+  const Ac3BitstreamMode._(this.value);
+
+  static const values = [
+    completeMain,
+    commentary,
+    dialogue,
+    emergency,
+    hearingImpaired,
+    musicAndEffects,
+    visuallyImpaired,
+    voiceOver
+  ];
 
   static Ac3BitstreamMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Ac3BitstreamMode'));
+          orElse: () => Ac3BitstreamMode._(value));
+
+  @override
+  bool operator ==(other) => other is Ac3BitstreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dolby Digital coding mode. Determines number of channels.
-enum Ac3CodingMode {
-  codingMode_1_0('CODING_MODE_1_0'),
-  codingMode_1_1('CODING_MODE_1_1'),
-  codingMode_2_0('CODING_MODE_2_0'),
-  codingMode_3_2Lfe('CODING_MODE_3_2_LFE'),
-  ;
+class Ac3CodingMode {
+  static const codingMode_1_0 = Ac3CodingMode._('CODING_MODE_1_0');
+  static const codingMode_1_1 = Ac3CodingMode._('CODING_MODE_1_1');
+  static const codingMode_2_0 = Ac3CodingMode._('CODING_MODE_2_0');
+  static const codingMode_3_2Lfe = Ac3CodingMode._('CODING_MODE_3_2_LFE');
 
   final String value;
 
-  const Ac3CodingMode(this.value);
+  const Ac3CodingMode._(this.value);
+
+  static const values = [
+    codingMode_1_0,
+    codingMode_1_1,
+    codingMode_2_0,
+    codingMode_3_2Lfe
+  ];
 
   static Ac3CodingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Ac3CodingMode'));
+          orElse: () => Ac3CodingMode._(value));
+
+  @override
+  bool operator ==(other) => other is Ac3CodingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -1621,23 +1724,41 @@ enum Ac3CodingMode {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Ac3DynamicRangeCompressionLine {
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  none('NONE'),
-  ;
+class Ac3DynamicRangeCompressionLine {
+  static const filmStandard = Ac3DynamicRangeCompressionLine._('FILM_STANDARD');
+  static const filmLight = Ac3DynamicRangeCompressionLine._('FILM_LIGHT');
+  static const musicStandard =
+      Ac3DynamicRangeCompressionLine._('MUSIC_STANDARD');
+  static const musicLight = Ac3DynamicRangeCompressionLine._('MUSIC_LIGHT');
+  static const speech = Ac3DynamicRangeCompressionLine._('SPEECH');
+  static const none = Ac3DynamicRangeCompressionLine._('NONE');
 
   final String value;
 
-  const Ac3DynamicRangeCompressionLine(this.value);
+  const Ac3DynamicRangeCompressionLine._(this.value);
+
+  static const values = [
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech,
+    none
+  ];
 
   static Ac3DynamicRangeCompressionLine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Ac3DynamicRangeCompressionLine'));
+          orElse: () => Ac3DynamicRangeCompressionLine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ac3DynamicRangeCompressionLine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you want to add Dolby dynamic range compression (DRC) signaling to your
@@ -1649,19 +1770,30 @@ enum Ac3DynamicRangeCompressionLine {
 /// settings. If you do use this setting instead of the mode-specific settings,
 /// choose None to leave out DRC signaling. Keep the default Film standard to
 /// set the profile to Dolby's film standard profile for all operating modes.
-enum Ac3DynamicRangeCompressionProfile {
-  filmStandard('FILM_STANDARD'),
-  none('NONE'),
-  ;
+class Ac3DynamicRangeCompressionProfile {
+  static const filmStandard =
+      Ac3DynamicRangeCompressionProfile._('FILM_STANDARD');
+  static const none = Ac3DynamicRangeCompressionProfile._('NONE');
 
   final String value;
 
-  const Ac3DynamicRangeCompressionProfile(this.value);
+  const Ac3DynamicRangeCompressionProfile._(this.value);
+
+  static const values = [filmStandard, none];
 
   static Ac3DynamicRangeCompressionProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Ac3DynamicRangeCompressionProfile'));
+          orElse: () => Ac3DynamicRangeCompressionProfile._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ac3DynamicRangeCompressionProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -1672,58 +1804,93 @@ enum Ac3DynamicRangeCompressionProfile {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Ac3DynamicRangeCompressionRf {
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  none('NONE'),
-  ;
+class Ac3DynamicRangeCompressionRf {
+  static const filmStandard = Ac3DynamicRangeCompressionRf._('FILM_STANDARD');
+  static const filmLight = Ac3DynamicRangeCompressionRf._('FILM_LIGHT');
+  static const musicStandard = Ac3DynamicRangeCompressionRf._('MUSIC_STANDARD');
+  static const musicLight = Ac3DynamicRangeCompressionRf._('MUSIC_LIGHT');
+  static const speech = Ac3DynamicRangeCompressionRf._('SPEECH');
+  static const none = Ac3DynamicRangeCompressionRf._('NONE');
 
   final String value;
 
-  const Ac3DynamicRangeCompressionRf(this.value);
+  const Ac3DynamicRangeCompressionRf._(this.value);
+
+  static const values = [
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech,
+    none
+  ];
 
   static Ac3DynamicRangeCompressionRf fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Ac3DynamicRangeCompressionRf'));
+          orElse: () => Ac3DynamicRangeCompressionRf._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ac3DynamicRangeCompressionRf && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
-enum Ac3LfeFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Ac3LfeFilter {
+  static const enabled = Ac3LfeFilter._('ENABLED');
+  static const disabled = Ac3LfeFilter._('DISABLED');
 
   final String value;
 
-  const Ac3LfeFilter(this.value);
+  const Ac3LfeFilter._(this.value);
 
-  static Ac3LfeFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Ac3LfeFilter'));
+  static const values = [enabled, disabled];
+
+  static Ac3LfeFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Ac3LfeFilter._(value));
+
+  @override
+  bool operator ==(other) => other is Ac3LfeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
-enum Ac3MetadataControl {
-  followInput('FOLLOW_INPUT'),
-  useConfigured('USE_CONFIGURED'),
-  ;
+class Ac3MetadataControl {
+  static const followInput = Ac3MetadataControl._('FOLLOW_INPUT');
+  static const useConfigured = Ac3MetadataControl._('USE_CONFIGURED');
 
   final String value;
 
-  const Ac3MetadataControl(this.value);
+  const Ac3MetadataControl._(this.value);
 
-  static Ac3MetadataControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Ac3MetadataControl'));
+  static const values = [followInput, useConfigured];
+
+  static Ac3MetadataControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Ac3MetadataControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Ac3MetadataControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value AC3.
@@ -1865,20 +2032,29 @@ class Ac3Settings {
 /// transcoding. Choose PREFERRED if you want your job to run with accelerated
 /// transcoding if the job is compatible with the feature and to run at standard
 /// speed if it's not.
-enum AccelerationMode {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  preferred('PREFERRED'),
-  ;
+class AccelerationMode {
+  static const disabled = AccelerationMode._('DISABLED');
+  static const enabled = AccelerationMode._('ENABLED');
+  static const preferred = AccelerationMode._('PREFERRED');
 
   final String value;
 
-  const AccelerationMode(this.value);
+  const AccelerationMode._(this.value);
+
+  static const values = [disabled, enabled, preferred];
 
   static AccelerationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccelerationMode'));
+          orElse: () => AccelerationMode._(value));
+
+  @override
+  bool operator ==(other) => other is AccelerationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Accelerated transcoding can significantly speed up jobs with long, visually
@@ -1894,7 +2070,7 @@ class AccelerationSettings {
 
   factory AccelerationSettings.fromJson(Map<String, dynamic> json) {
     return AccelerationSettings(
-      mode: AccelerationMode.fromString((json['mode'] as String)),
+      mode: AccelerationMode.fromString((json['mode'] as String?) ?? ''),
     );
   }
 
@@ -1918,21 +2094,36 @@ class AccelerationSettings {
 /// accelerated transcoding, depending on how you set Acceleration
 /// (AccelerationMode). When the service runs your job without accelerated
 /// transcoding, AccelerationStatus is NOT_ACCELERATED.
-enum AccelerationStatus {
-  notApplicable('NOT_APPLICABLE'),
-  inProgress('IN_PROGRESS'),
-  accelerated('ACCELERATED'),
-  notAccelerated('NOT_ACCELERATED'),
-  ;
+class AccelerationStatus {
+  static const notApplicable = AccelerationStatus._('NOT_APPLICABLE');
+  static const inProgress = AccelerationStatus._('IN_PROGRESS');
+  static const accelerated = AccelerationStatus._('ACCELERATED');
+  static const notAccelerated = AccelerationStatus._('NOT_ACCELERATED');
 
   final String value;
 
-  const AccelerationStatus(this.value);
+  const AccelerationStatus._(this.value);
 
-  static AccelerationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccelerationStatus'));
+  static const values = [
+    notApplicable,
+    inProgress,
+    accelerated,
+    notAccelerated
+  ];
+
+  static AccelerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccelerationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccelerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use to remove noise, blocking, blurriness, or ringing from your input as a
@@ -1947,19 +2138,29 @@ enum AccelerationStatus {
 /// this feature incur pro-tier pricing. To not apply advanced input filtering:
 /// Choose Disabled. Note that you can still apply basic filtering with Deblock
 /// and Denoise.
-enum AdvancedInputFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AdvancedInputFilter {
+  static const enabled = AdvancedInputFilter._('ENABLED');
+  static const disabled = AdvancedInputFilter._('DISABLED');
 
   final String value;
 
-  const AdvancedInputFilter(this.value);
+  const AdvancedInputFilter._(this.value);
 
-  static AdvancedInputFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AdvancedInputFilter'));
+  static const values = [enabled, disabled];
+
+  static AdvancedInputFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdvancedInputFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvancedInputFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Add texture and detail to areas of your input video content that were lost
@@ -1968,19 +2169,29 @@ enum AdvancedInputFilter {
 /// value, Disabled. We recommend that you choose Disabled for input video
 /// content that doesn't have texture, including screen recordings, computer
 /// graphics, or cartoons.
-enum AdvancedInputFilterAddTexture {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AdvancedInputFilterAddTexture {
+  static const enabled = AdvancedInputFilterAddTexture._('ENABLED');
+  static const disabled = AdvancedInputFilterAddTexture._('DISABLED');
 
   final String value;
 
-  const AdvancedInputFilterAddTexture(this.value);
+  const AdvancedInputFilterAddTexture._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AdvancedInputFilterAddTexture fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdvancedInputFilterAddTexture'));
+          orElse: () => AdvancedInputFilterAddTexture._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvancedInputFilterAddTexture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional settings for Advanced input filter when you set Advanced input
@@ -2030,20 +2241,30 @@ class AdvancedInputFilterSettings {
 /// content and can reduce softness. To apply no sharpening: Keep the default
 /// value, Off. To apply a minimal amount of sharpening choose Low, or for the
 /// maximum choose High.
-enum AdvancedInputFilterSharpen {
-  off('OFF'),
-  low('LOW'),
-  high('HIGH'),
-  ;
+class AdvancedInputFilterSharpen {
+  static const off = AdvancedInputFilterSharpen._('OFF');
+  static const low = AdvancedInputFilterSharpen._('LOW');
+  static const high = AdvancedInputFilterSharpen._('HIGH');
 
   final String value;
 
-  const AdvancedInputFilterSharpen(this.value);
+  const AdvancedInputFilterSharpen._(this.value);
+
+  static const values = [off, low, high];
 
   static AdvancedInputFilterSharpen fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdvancedInputFilterSharpen'));
+          orElse: () => AdvancedInputFilterSharpen._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvancedInputFilterSharpen && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD
@@ -2052,20 +2273,28 @@ enum AdvancedInputFilterSharpen {
 /// from this output. * Choose Fixed to ignore input AFD values and instead
 /// encode the value specified in the job. * Choose Auto to calculate output AFD
 /// values based on the input AFD scaler data.
-enum AfdSignaling {
-  none('NONE'),
-  auto('AUTO'),
-  fixed('FIXED'),
-  ;
+class AfdSignaling {
+  static const none = AfdSignaling._('NONE');
+  static const auto = AfdSignaling._('AUTO');
+  static const fixed = AfdSignaling._('FIXED');
 
   final String value;
 
-  const AfdSignaling(this.value);
+  const AfdSignaling._(this.value);
 
-  static AfdSignaling fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AfdSignaling'));
+  static const values = [none, auto, fixed];
+
+  static AfdSignaling fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AfdSignaling._(value));
+
+  @override
+  bool operator ==(other) => other is AfdSignaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value AIFF.
@@ -2158,19 +2387,28 @@ class AllowedRenditionSize {
 /// setting at the default value DISCARD to delete the alpha channel and
 /// preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the
 /// alpha channel to the luma channel of your outputs.
-enum AlphaBehavior {
-  discard('DISCARD'),
-  remapToLuma('REMAP_TO_LUMA'),
-  ;
+class AlphaBehavior {
+  static const discard = AlphaBehavior._('DISCARD');
+  static const remapToLuma = AlphaBehavior._('REMAP_TO_LUMA');
 
   final String value;
 
-  const AlphaBehavior(this.value);
+  const AlphaBehavior._(this.value);
+
+  static const values = [discard, remapToLuma];
 
   static AlphaBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlphaBehavior'));
+          orElse: () => AlphaBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is AlphaBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether this set of input captions appears in your outputs in both
@@ -2178,19 +2416,29 @@ enum AlphaBehavior {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
-enum AncillaryConvert608To708 {
-  upconvert('UPCONVERT'),
-  disabled('DISABLED'),
-  ;
+class AncillaryConvert608To708 {
+  static const upconvert = AncillaryConvert608To708._('UPCONVERT');
+  static const disabled = AncillaryConvert608To708._('DISABLED');
 
   final String value;
 
-  const AncillaryConvert608To708(this.value);
+  const AncillaryConvert608To708._(this.value);
+
+  static const values = [upconvert, disabled];
 
   static AncillaryConvert608To708 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AncillaryConvert608To708'));
+          orElse: () => AncillaryConvert608To708._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AncillaryConvert608To708 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for ancillary captions source.
@@ -2245,36 +2493,55 @@ class AncillarySourceSettings {
 /// By default, the service terminates any unterminated captions at the end of
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
-enum AncillaryTerminateCaptions {
-  endOfInput('END_OF_INPUT'),
-  disabled('DISABLED'),
-  ;
+class AncillaryTerminateCaptions {
+  static const endOfInput = AncillaryTerminateCaptions._('END_OF_INPUT');
+  static const disabled = AncillaryTerminateCaptions._('DISABLED');
 
   final String value;
 
-  const AncillaryTerminateCaptions(this.value);
+  const AncillaryTerminateCaptions._(this.value);
+
+  static const values = [endOfInput, disabled];
 
   static AncillaryTerminateCaptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AncillaryTerminateCaptions'));
+          orElse: () => AncillaryTerminateCaptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AncillaryTerminateCaptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The anti-alias filter is automatically applied to all outputs. The service
 /// no longer accepts the value DISABLED for AntiAlias. If you specify that in
 /// your job, the service will ignore the setting.
-enum AntiAlias {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class AntiAlias {
+  static const disabled = AntiAlias._('DISABLED');
+  static const enabled = AntiAlias._('ENABLED');
 
   final String value;
 
-  const AntiAlias(this.value);
+  const AntiAlias._(this.value);
 
-  static AntiAlias fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AntiAlias'));
+  static const values = [disabled, enabled];
+
+  static AntiAlias fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AntiAlias._(value));
+
+  @override
+  bool operator ==(other) => other is AntiAlias && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateCertificateResponse {
@@ -2295,45 +2562,83 @@ class AssociateCertificateResponse {
 /// left and a right channel, enter Left (L) for the first channel and Right (R)
 /// for the second. If your output has multiple single-channel audio tracks,
 /// enter a single channel layout tag for each track.
-enum AudioChannelTag {
-  l('L'),
-  r('R'),
-  c('C'),
-  lfe('LFE'),
-  ls('LS'),
-  rs('RS'),
-  lc('LC'),
-  rc('RC'),
-  cs('CS'),
-  lsd('LSD'),
-  rsd('RSD'),
-  tcs('TCS'),
-  vhl('VHL'),
-  vhc('VHC'),
-  vhr('VHR'),
-  tbl('TBL'),
-  tbc('TBC'),
-  tbr('TBR'),
-  rsl('RSL'),
-  rsr('RSR'),
-  lw('LW'),
-  rw('RW'),
-  lfe2('LFE2'),
-  lt('LT'),
-  rt('RT'),
-  hi('HI'),
-  nar('NAR'),
-  m('M'),
-  ;
+class AudioChannelTag {
+  static const l = AudioChannelTag._('L');
+  static const r = AudioChannelTag._('R');
+  static const c = AudioChannelTag._('C');
+  static const lfe = AudioChannelTag._('LFE');
+  static const ls = AudioChannelTag._('LS');
+  static const rs = AudioChannelTag._('RS');
+  static const lc = AudioChannelTag._('LC');
+  static const rc = AudioChannelTag._('RC');
+  static const cs = AudioChannelTag._('CS');
+  static const lsd = AudioChannelTag._('LSD');
+  static const rsd = AudioChannelTag._('RSD');
+  static const tcs = AudioChannelTag._('TCS');
+  static const vhl = AudioChannelTag._('VHL');
+  static const vhc = AudioChannelTag._('VHC');
+  static const vhr = AudioChannelTag._('VHR');
+  static const tbl = AudioChannelTag._('TBL');
+  static const tbc = AudioChannelTag._('TBC');
+  static const tbr = AudioChannelTag._('TBR');
+  static const rsl = AudioChannelTag._('RSL');
+  static const rsr = AudioChannelTag._('RSR');
+  static const lw = AudioChannelTag._('LW');
+  static const rw = AudioChannelTag._('RW');
+  static const lfe2 = AudioChannelTag._('LFE2');
+  static const lt = AudioChannelTag._('LT');
+  static const rt = AudioChannelTag._('RT');
+  static const hi = AudioChannelTag._('HI');
+  static const nar = AudioChannelTag._('NAR');
+  static const m = AudioChannelTag._('M');
 
   final String value;
 
-  const AudioChannelTag(this.value);
+  const AudioChannelTag._(this.value);
+
+  static const values = [
+    l,
+    r,
+    c,
+    lfe,
+    ls,
+    rs,
+    lc,
+    rc,
+    cs,
+    lsd,
+    rsd,
+    tcs,
+    vhl,
+    vhc,
+    vhr,
+    tbl,
+    tbc,
+    tbr,
+    rsl,
+    rsr,
+    lw,
+    rw,
+    lfe2,
+    lt,
+    rt,
+    hi,
+    nar,
+    m
+  ];
 
   static AudioChannelTag fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AudioChannelTag'));
+          orElse: () => AudioChannelTag._(value));
+
+  @override
+  bool operator ==(other) => other is AudioChannelTag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the QuickTime audio channel layout tags for the audio channels in
@@ -2396,28 +2701,50 @@ class AudioChannelTaggingSettings {
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only
 /// and
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
-enum AudioCodec {
-  aac('AAC'),
-  mp2('MP2'),
-  mp3('MP3'),
-  wav('WAV'),
-  aiff('AIFF'),
-  ac3('AC3'),
-  eac3('EAC3'),
-  eac3Atmos('EAC3_ATMOS'),
-  vorbis('VORBIS'),
-  opus('OPUS'),
-  passthrough('PASSTHROUGH'),
-  flac('FLAC'),
-  ;
+class AudioCodec {
+  static const aac = AudioCodec._('AAC');
+  static const mp2 = AudioCodec._('MP2');
+  static const mp3 = AudioCodec._('MP3');
+  static const wav = AudioCodec._('WAV');
+  static const aiff = AudioCodec._('AIFF');
+  static const ac3 = AudioCodec._('AC3');
+  static const eac3 = AudioCodec._('EAC3');
+  static const eac3Atmos = AudioCodec._('EAC3_ATMOS');
+  static const vorbis = AudioCodec._('VORBIS');
+  static const opus = AudioCodec._('OPUS');
+  static const passthrough = AudioCodec._('PASSTHROUGH');
+  static const flac = AudioCodec._('FLAC');
 
   final String value;
 
-  const AudioCodec(this.value);
+  const AudioCodec._(this.value);
 
-  static AudioCodec fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AudioCodec'));
+  static const values = [
+    aac,
+    mp2,
+    mp3,
+    wav,
+    aiff,
+    ac3,
+    eac3,
+    eac3Atmos,
+    vorbis,
+    opus,
+    passthrough,
+    flac
+  ];
+
+  static AudioCodec fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AudioCodec._(value));
+
+  @override
+  bool operator ==(other) => other is AudioCodec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to audio encoding. The settings in this group vary
@@ -2568,19 +2895,29 @@ class AudioCodecSettings {
 /// job. The service uses this default for outputs where it can't find the
 /// specified input audio. If you don't set a default, those outputs have no
 /// audio.
-enum AudioDefaultSelection {
-  $default('DEFAULT'),
-  notDefault('NOT_DEFAULT'),
-  ;
+class AudioDefaultSelection {
+  static const $default = AudioDefaultSelection._('DEFAULT');
+  static const notDefault = AudioDefaultSelection._('NOT_DEFAULT');
 
   final String value;
 
-  const AudioDefaultSelection(this.value);
+  const AudioDefaultSelection._(this.value);
 
-  static AudioDefaultSelection fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AudioDefaultSelection'));
+  static const values = [$default, notDefault];
+
+  static AudioDefaultSelection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AudioDefaultSelection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioDefaultSelection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to one audio tab on the MediaConvert console. In your job
@@ -2757,21 +3094,31 @@ class AudioDescription {
 /// already-aligned frames. Frame-level correction may affect the pitch of
 /// corrected frames, and is recommended for atonal audio content such as speech
 /// or percussion.
-enum AudioDurationCorrection {
-  disabled('DISABLED'),
-  auto('AUTO'),
-  track('TRACK'),
-  frame('FRAME'),
-  ;
+class AudioDurationCorrection {
+  static const disabled = AudioDurationCorrection._('DISABLED');
+  static const auto = AudioDurationCorrection._('AUTO');
+  static const track = AudioDurationCorrection._('TRACK');
+  static const frame = AudioDurationCorrection._('FRAME');
 
   final String value;
 
-  const AudioDurationCorrection(this.value);
+  const AudioDurationCorrection._(this.value);
+
+  static const values = [disabled, auto, track, frame];
 
   static AudioDurationCorrection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioDurationCorrection'));
+          orElse: () => AudioDurationCorrection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioDurationCorrection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify which source for language code takes precedence for this audio
@@ -2780,19 +3127,29 @@ enum AudioDurationCorrection {
 /// track, the service uses the code that you specify in the setting Language
 /// code. When you choose Use configured, the service uses the language code
 /// that you specify.
-enum AudioLanguageCodeControl {
-  followInput('FOLLOW_INPUT'),
-  useConfigured('USE_CONFIGURED'),
-  ;
+class AudioLanguageCodeControl {
+  static const followInput = AudioLanguageCodeControl._('FOLLOW_INPUT');
+  static const useConfigured = AudioLanguageCodeControl._('USE_CONFIGURED');
 
   final String value;
 
-  const AudioLanguageCodeControl(this.value);
+  const AudioLanguageCodeControl._(this.value);
+
+  static const values = [followInput, useConfigured];
 
   static AudioLanguageCodeControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioLanguageCodeControl'));
+          orElse: () => AudioLanguageCodeControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioLanguageCodeControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1:
@@ -2805,71 +3162,118 @@ enum AudioLanguageCodeControl {
 /// with an updated true peak measurement. ITU-R BS.1770-4: Higher channel
 /// count. Allows for more audio channels than the other algorithms, including
 /// configurations such as 7.1.
-enum AudioNormalizationAlgorithm {
-  ituBs_1770_1('ITU_BS_1770_1'),
-  ituBs_1770_2('ITU_BS_1770_2'),
-  ituBs_1770_3('ITU_BS_1770_3'),
-  ituBs_1770_4('ITU_BS_1770_4'),
-  ;
+class AudioNormalizationAlgorithm {
+  static const ituBs_1770_1 = AudioNormalizationAlgorithm._('ITU_BS_1770_1');
+  static const ituBs_1770_2 = AudioNormalizationAlgorithm._('ITU_BS_1770_2');
+  static const ituBs_1770_3 = AudioNormalizationAlgorithm._('ITU_BS_1770_3');
+  static const ituBs_1770_4 = AudioNormalizationAlgorithm._('ITU_BS_1770_4');
 
   final String value;
 
-  const AudioNormalizationAlgorithm(this.value);
+  const AudioNormalizationAlgorithm._(this.value);
+
+  static const values = [
+    ituBs_1770_1,
+    ituBs_1770_2,
+    ituBs_1770_3,
+    ituBs_1770_4
+  ];
 
   static AudioNormalizationAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioNormalizationAlgorithm'));
+          orElse: () => AudioNormalizationAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioNormalizationAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When enabled the output audio is corrected using the chosen algorithm. If
 /// disabled, the audio will be measured but not adjusted.
-enum AudioNormalizationAlgorithmControl {
-  correctAudio('CORRECT_AUDIO'),
-  measureOnly('MEASURE_ONLY'),
-  ;
+class AudioNormalizationAlgorithmControl {
+  static const correctAudio =
+      AudioNormalizationAlgorithmControl._('CORRECT_AUDIO');
+  static const measureOnly =
+      AudioNormalizationAlgorithmControl._('MEASURE_ONLY');
 
   final String value;
 
-  const AudioNormalizationAlgorithmControl(this.value);
+  const AudioNormalizationAlgorithmControl._(this.value);
+
+  static const values = [correctAudio, measureOnly];
 
   static AudioNormalizationAlgorithmControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioNormalizationAlgorithmControl'));
+          orElse: () => AudioNormalizationAlgorithmControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioNormalizationAlgorithmControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If set to LOG, log each output's audio track loudness to a CSV file.
-enum AudioNormalizationLoudnessLogging {
-  log('LOG'),
-  dontLog('DONT_LOG'),
-  ;
+class AudioNormalizationLoudnessLogging {
+  static const log = AudioNormalizationLoudnessLogging._('LOG');
+  static const dontLog = AudioNormalizationLoudnessLogging._('DONT_LOG');
 
   final String value;
 
-  const AudioNormalizationLoudnessLogging(this.value);
+  const AudioNormalizationLoudnessLogging._(this.value);
+
+  static const values = [log, dontLog];
 
   static AudioNormalizationLoudnessLogging fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioNormalizationLoudnessLogging'));
+          orElse: () => AudioNormalizationLoudnessLogging._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioNormalizationLoudnessLogging && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If set to TRUE_PEAK, calculate and log the TruePeak for each output's audio
 /// track loudness.
-enum AudioNormalizationPeakCalculation {
-  truePeak('TRUE_PEAK'),
-  none('NONE'),
-  ;
+class AudioNormalizationPeakCalculation {
+  static const truePeak = AudioNormalizationPeakCalculation._('TRUE_PEAK');
+  static const none = AudioNormalizationPeakCalculation._('NONE');
 
   final String value;
 
-  const AudioNormalizationPeakCalculation(this.value);
+  const AudioNormalizationPeakCalculation._(this.value);
+
+  static const values = [truePeak, none];
 
   static AudioNormalizationPeakCalculation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioNormalizationPeakCalculation'));
+          orElse: () => AudioNormalizationPeakCalculation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioNormalizationPeakCalculation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Advanced audio normalization settings. Ignore these settings unless you need
@@ -3151,21 +3555,30 @@ class AudioSelectorGroup {
 }
 
 /// Specifies the type of the audio selector.
-enum AudioSelectorType {
-  pid('PID'),
-  track('TRACK'),
-  languageCode('LANGUAGE_CODE'),
-  hlsRenditionGroup('HLS_RENDITION_GROUP'),
-  ;
+class AudioSelectorType {
+  static const pid = AudioSelectorType._('PID');
+  static const track = AudioSelectorType._('TRACK');
+  static const languageCode = AudioSelectorType._('LANGUAGE_CODE');
+  static const hlsRenditionGroup = AudioSelectorType._('HLS_RENDITION_GROUP');
 
   final String value;
 
-  const AudioSelectorType(this.value);
+  const AudioSelectorType._(this.value);
+
+  static const values = [pid, track, languageCode, hlsRenditionGroup];
 
   static AudioSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AudioSelectorType'));
+          orElse: () => AudioSelectorType._(value));
+
+  @override
+  bool operator ==(other) => other is AudioSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then
@@ -3174,19 +3587,28 @@ enum AudioSelectorType {
 /// value in Audio Type is included in the output. Note that this field and
 /// audioType are both ignored if audioDescriptionBroadcasterMix is set to
 /// BROADCASTER_MIXED_AD.
-enum AudioTypeControl {
-  followInput('FOLLOW_INPUT'),
-  useConfigured('USE_CONFIGURED'),
-  ;
+class AudioTypeControl {
+  static const followInput = AudioTypeControl._('FOLLOW_INPUT');
+  static const useConfigured = AudioTypeControl._('USE_CONFIGURED');
 
   final String value;
 
-  const AudioTypeControl(this.value);
+  const AudioTypeControl._(this.value);
+
+  static const values = [followInput, useConfigured];
 
   static AudioTypeControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AudioTypeControl'));
+          orElse: () => AudioTypeControl._(value));
+
+  @override
+  bool operator ==(other) => other is AudioTypeControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify one or more Automated ABR rule types. Note: Force include and
@@ -3404,38 +3826,57 @@ class AutomatedEncodingSettings {
 
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to Spatial adaptive quantization.
-enum Av1AdaptiveQuantization {
-  off('OFF'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  higher('HIGHER'),
-  max('MAX'),
-  ;
+class Av1AdaptiveQuantization {
+  static const off = Av1AdaptiveQuantization._('OFF');
+  static const low = Av1AdaptiveQuantization._('LOW');
+  static const medium = Av1AdaptiveQuantization._('MEDIUM');
+  static const high = Av1AdaptiveQuantization._('HIGH');
+  static const higher = Av1AdaptiveQuantization._('HIGHER');
+  static const max = Av1AdaptiveQuantization._('MAX');
 
   final String value;
 
-  const Av1AdaptiveQuantization(this.value);
+  const Av1AdaptiveQuantization._(this.value);
+
+  static const values = [off, low, medium, high, higher, max];
 
   static Av1AdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Av1AdaptiveQuantization'));
+          orElse: () => Av1AdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1AdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the Bit depth. You can choose 8-bit or 10-bit.
-enum Av1BitDepth {
-  bit_8('BIT_8'),
-  bit_10('BIT_10'),
-  ;
+class Av1BitDepth {
+  static const bit_8 = Av1BitDepth._('BIT_8');
+  static const bit_10 = Av1BitDepth._('BIT_10');
 
   final String value;
 
-  const Av1BitDepth(this.value);
+  const Av1BitDepth._(this.value);
 
-  static Av1BitDepth fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Av1BitDepth'));
+  static const values = [bit_8, bit_10];
+
+  static Av1BitDepth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Av1BitDepth._(value));
+
+  @override
+  bool operator ==(other) => other is Av1BitDepth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Film grain synthesis replaces film grain present in your content with
@@ -3444,19 +3885,29 @@ enum Av1BitDepth {
 /// outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep
 /// the default value, Disabled. When you include Film grain synthesis, you
 /// cannot include the Noise reducer preprocessor.
-enum Av1FilmGrainSynthesis {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Av1FilmGrainSynthesis {
+  static const disabled = Av1FilmGrainSynthesis._('DISABLED');
+  static const enabled = Av1FilmGrainSynthesis._('ENABLED');
 
   final String value;
 
-  const Av1FilmGrainSynthesis(this.value);
+  const Av1FilmGrainSynthesis._(this.value);
 
-  static Av1FilmGrainSynthesis fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Av1FilmGrainSynthesis'));
+  static const values = [disabled, enabled];
+
+  static Av1FilmGrainSynthesis fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Av1FilmGrainSynthesis._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1FilmGrainSynthesis && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -3465,19 +3916,30 @@ enum Av1FilmGrainSynthesis {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
-enum Av1FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Av1FramerateControl {
+  static const initializeFromSource =
+      Av1FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Av1FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const Av1FramerateControl(this.value);
+  const Av1FramerateControl._(this.value);
 
-  static Av1FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Av1FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static Av1FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Av1FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -3491,20 +3953,31 @@ enum Av1FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum Av1FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class Av1FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      Av1FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = Av1FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = Av1FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const Av1FramerateConversionAlgorithm(this.value);
+  const Av1FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static Av1FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Av1FramerateConversionAlgorithm'));
+          orElse: () => Av1FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
@@ -3557,18 +4030,28 @@ class Av1QvbrSettings {
 
 /// 'With AV1 outputs, for rate control mode, MediaConvert supports only
 /// quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
-enum Av1RateControlMode {
-  qvbr('QVBR'),
-  ;
+class Av1RateControlMode {
+  static const qvbr = Av1RateControlMode._('QVBR');
 
   final String value;
 
-  const Av1RateControlMode(this.value);
+  const Av1RateControlMode._(this.value);
 
-  static Av1RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Av1RateControlMode'));
+  static const values = [qvbr];
+
+  static Av1RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Av1RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
@@ -3778,19 +4261,29 @@ class Av1Settings {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
-enum Av1SpatialAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Av1SpatialAdaptiveQuantization {
+  static const disabled = Av1SpatialAdaptiveQuantization._('DISABLED');
+  static const enabled = Av1SpatialAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const Av1SpatialAdaptiveQuantization(this.value);
+  const Av1SpatialAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static Av1SpatialAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Av1SpatialAdaptiveQuantization'));
+          orElse: () => Av1SpatialAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Av1SpatialAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use ad avail blanking settings to specify your output content during SCTE-35
@@ -3826,21 +4319,30 @@ class AvailBlanking {
 /// output. Outputs with higher class values have higher bitrates and improved
 /// image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2
 /// chroma subsampling.
-enum AvcIntraClass {
-  class_50('CLASS_50'),
-  class_100('CLASS_100'),
-  class_200('CLASS_200'),
-  class_4k_2k('CLASS_4K_2K'),
-  ;
+class AvcIntraClass {
+  static const class_50 = AvcIntraClass._('CLASS_50');
+  static const class_100 = AvcIntraClass._('CLASS_100');
+  static const class_200 = AvcIntraClass._('CLASS_200');
+  static const class_4k_2k = AvcIntraClass._('CLASS_4K_2K');
 
   final String value;
 
-  const AvcIntraClass(this.value);
+  const AvcIntraClass._(this.value);
+
+  static const values = [class_50, class_100, class_200, class_4k_2k];
 
   static AvcIntraClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AvcIntraClass'));
+          orElse: () => AvcIntraClass._(value));
+
+  @override
+  bool operator ==(other) => other is AvcIntraClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -3849,19 +4351,30 @@ enum AvcIntraClass {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum AvcIntraFramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class AvcIntraFramerateControl {
+  static const initializeFromSource =
+      AvcIntraFramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = AvcIntraFramerateControl._('SPECIFIED');
 
   final String value;
 
-  const AvcIntraFramerateControl(this.value);
+  const AvcIntraFramerateControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static AvcIntraFramerateControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvcIntraFramerateControl'));
+          orElse: () => AvcIntraFramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvcIntraFramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -3875,20 +4388,33 @@ enum AvcIntraFramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum AvcIntraFramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class AvcIntraFramerateConversionAlgorithm {
+  static const duplicateDrop =
+      AvcIntraFramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate =
+      AvcIntraFramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer =
+      AvcIntraFramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const AvcIntraFramerateConversionAlgorithm(this.value);
+  const AvcIntraFramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static AvcIntraFramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvcIntraFramerateConversionAlgorithm'));
+          orElse: () => AvcIntraFramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvcIntraFramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -3902,22 +4428,39 @@ enum AvcIntraFramerateConversionAlgorithm {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum AvcIntraInterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class AvcIntraInterlaceMode {
+  static const progressive = AvcIntraInterlaceMode._('PROGRESSIVE');
+  static const topField = AvcIntraInterlaceMode._('TOP_FIELD');
+  static const bottomField = AvcIntraInterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = AvcIntraInterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField =
+      AvcIntraInterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const AvcIntraInterlaceMode(this.value);
+  const AvcIntraInterlaceMode._(this.value);
 
-  static AvcIntraInterlaceMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AvcIntraInterlaceMode'));
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
+
+  static AvcIntraInterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AvcIntraInterlaceMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvcIntraInterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -3932,19 +4475,30 @@ enum AvcIntraInterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum AvcIntraScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class AvcIntraScanTypeConversionMode {
+  static const interlaced = AvcIntraScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      AvcIntraScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const AvcIntraScanTypeConversionMode(this.value);
+  const AvcIntraScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static AvcIntraScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvcIntraScanTypeConversionMode'));
+          orElse: () => AvcIntraScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvcIntraScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you choose AVC-Intra for your output video codec. For more
@@ -4118,19 +4672,28 @@ class AvcIntraSettings {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
-enum AvcIntraSlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class AvcIntraSlowPal {
+  static const disabled = AvcIntraSlowPal._('DISABLED');
+  static const enabled = AvcIntraSlowPal._('ENABLED');
 
   final String value;
 
-  const AvcIntraSlowPal(this.value);
+  const AvcIntraSlowPal._(this.value);
+
+  static const values = [disabled, enabled];
 
   static AvcIntraSlowPal fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AvcIntraSlowPal'));
+          orElse: () => AvcIntraSlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is AvcIntraSlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -4138,19 +4701,28 @@ enum AvcIntraSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
-enum AvcIntraTelecine {
-  none('NONE'),
-  hard('HARD'),
-  ;
+class AvcIntraTelecine {
+  static const none = AvcIntraTelecine._('NONE');
+  static const hard = AvcIntraTelecine._('HARD');
 
   final String value;
 
-  const AvcIntraTelecine(this.value);
+  const AvcIntraTelecine._(this.value);
+
+  static const values = [none, hard];
 
   static AvcIntraTelecine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AvcIntraTelecine'));
+          orElse: () => AvcIntraTelecine._(value));
+
+  @override
+  bool operator ==(other) => other is AvcIntraTelecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how many transcoding passes
@@ -4159,19 +4731,29 @@ enum AvcIntraTelecine {
 /// actual bitrate of your output is closer to the target bitrate defined in the
 /// specification. When you choose Single-pass, your encoding time is faster.
 /// The default behavior is Single-pass.
-enum AvcIntraUhdQualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  multiPass('MULTI_PASS'),
-  ;
+class AvcIntraUhdQualityTuningLevel {
+  static const singlePass = AvcIntraUhdQualityTuningLevel._('SINGLE_PASS');
+  static const multiPass = AvcIntraUhdQualityTuningLevel._('MULTI_PASS');
 
   final String value;
 
-  const AvcIntraUhdQualityTuningLevel(this.value);
+  const AvcIntraUhdQualityTuningLevel._(this.value);
+
+  static const values = [singlePass, multiPass];
 
   static AvcIntraUhdQualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvcIntraUhdQualityTuningLevel'));
+          orElse: () => AvcIntraUhdQualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvcIntraUhdQualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra
@@ -4258,21 +4840,31 @@ class BandwidthReductionFilter {
 /// video content and can reduce softness. Keep the default value Off to apply
 /// no sharpening. Set Sharpening strength to Low to apply a minimal amount of
 /// sharpening, or High to apply a maximum amount of sharpening.
-enum BandwidthReductionFilterSharpening {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  off('OFF'),
-  ;
+class BandwidthReductionFilterSharpening {
+  static const low = BandwidthReductionFilterSharpening._('LOW');
+  static const medium = BandwidthReductionFilterSharpening._('MEDIUM');
+  static const high = BandwidthReductionFilterSharpening._('HIGH');
+  static const off = BandwidthReductionFilterSharpening._('OFF');
 
   final String value;
 
-  const BandwidthReductionFilterSharpening(this.value);
+  const BandwidthReductionFilterSharpening._(this.value);
+
+  static const values = [low, medium, high, off];
 
   static BandwidthReductionFilterSharpening fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BandwidthReductionFilterSharpening'));
+          orElse: () => BandwidthReductionFilterSharpening._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BandwidthReductionFilterSharpening && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the strength of the Bandwidth reduction filter. For most workflows,
@@ -4281,41 +4873,60 @@ enum BandwidthReductionFilterSharpening {
 /// high bitrate outputs, choose Low. For the most bandwidth reduction, choose
 /// High. We recommend that you choose High for low bitrate outputs. Note that
 /// High may incur a slight increase in the softness of your output.
-enum BandwidthReductionFilterStrength {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  auto('AUTO'),
-  off('OFF'),
-  ;
+class BandwidthReductionFilterStrength {
+  static const low = BandwidthReductionFilterStrength._('LOW');
+  static const medium = BandwidthReductionFilterStrength._('MEDIUM');
+  static const high = BandwidthReductionFilterStrength._('HIGH');
+  static const auto = BandwidthReductionFilterStrength._('AUTO');
+  static const off = BandwidthReductionFilterStrength._('OFF');
 
   final String value;
 
-  const BandwidthReductionFilterStrength(this.value);
+  const BandwidthReductionFilterStrength._(this.value);
+
+  static const values = [low, medium, high, auto, off];
 
   static BandwidthReductionFilterStrength fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BandwidthReductionFilterStrength'));
+          orElse: () => BandwidthReductionFilterStrength._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BandwidthReductionFilterStrength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The tag type that AWS Billing and Cost Management will use to sort your AWS
 /// Elemental MediaConvert costs on any billing report that you set up.
-enum BillingTagsSource {
-  queue('QUEUE'),
-  preset('PRESET'),
-  jobTemplate('JOB_TEMPLATE'),
-  job('JOB'),
-  ;
+class BillingTagsSource {
+  static const queue = BillingTagsSource._('QUEUE');
+  static const preset = BillingTagsSource._('PRESET');
+  static const jobTemplate = BillingTagsSource._('JOB_TEMPLATE');
+  static const job = BillingTagsSource._('JOB');
 
   final String value;
 
-  const BillingTagsSource(this.value);
+  const BillingTagsSource._(this.value);
+
+  static const values = [queue, preset, jobTemplate, job];
 
   static BillingTagsSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BillingTagsSource'));
+          orElse: () => BillingTagsSource._(value));
+
+  @override
+  bool operator ==(other) => other is BillingTagsSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To use the available style, color, and position information from your input
@@ -4328,19 +4939,29 @@ enum BillingTagsSource {
 /// passthrough to enabled or not, you can also choose to manually override any
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
-enum BurnInSubtitleStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class BurnInSubtitleStylePassthrough {
+  static const enabled = BurnInSubtitleStylePassthrough._('ENABLED');
+  static const disabled = BurnInSubtitleStylePassthrough._('DISABLED');
 
   final String value;
 
-  const BurnInSubtitleStylePassthrough(this.value);
+  const BurnInSubtitleStylePassthrough._(this.value);
+
+  static const values = [enabled, disabled];
 
   static BurnInSubtitleStylePassthrough fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurnInSubtitleStylePassthrough'));
+          orElse: () => BurnInSubtitleStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurnInSubtitleStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Burn-in is a captions delivery method, rather than a captions format.
@@ -4634,20 +5255,30 @@ class BurninDestinationSettings {
 /// to the bottom left of the output. If x and y positions are given in
 /// conjunction with the alignment parameter, the font will be justified (either
 /// left or centered) relative to those coordinates.
-enum BurninSubtitleAlignment {
-  centered('CENTERED'),
-  left('LEFT'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleAlignment {
+  static const centered = BurninSubtitleAlignment._('CENTERED');
+  static const left = BurninSubtitleAlignment._('LEFT');
+  static const auto = BurninSubtitleAlignment._('AUTO');
 
   final String value;
 
-  const BurninSubtitleAlignment(this.value);
+  const BurninSubtitleAlignment._(this.value);
+
+  static const values = [centered, left, auto];
 
   static BurninSubtitleAlignment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleAlignment'));
+          orElse: () => BurninSubtitleAlignment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless Style passthrough is set to Enabled and Font
@@ -4658,39 +5289,60 @@ enum BurninSubtitleAlignment {
 /// input captions have red and white text, your output captions will have red
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
-enum BurninSubtitleApplyFontColor {
-  whiteTextOnly('WHITE_TEXT_ONLY'),
-  allText('ALL_TEXT'),
-  ;
+class BurninSubtitleApplyFontColor {
+  static const whiteTextOnly =
+      BurninSubtitleApplyFontColor._('WHITE_TEXT_ONLY');
+  static const allText = BurninSubtitleApplyFontColor._('ALL_TEXT');
 
   final String value;
 
-  const BurninSubtitleApplyFontColor(this.value);
+  const BurninSubtitleApplyFontColor._(this.value);
+
+  static const values = [whiteTextOnly, allText];
 
   static BurninSubtitleApplyFontColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleApplyFontColor'));
+          orElse: () => BurninSubtitleApplyFontColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleApplyFontColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
-enum BurninSubtitleBackgroundColor {
-  none('NONE'),
-  black('BLACK'),
-  white('WHITE'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleBackgroundColor {
+  static const none = BurninSubtitleBackgroundColor._('NONE');
+  static const black = BurninSubtitleBackgroundColor._('BLACK');
+  static const white = BurninSubtitleBackgroundColor._('WHITE');
+  static const auto = BurninSubtitleBackgroundColor._('AUTO');
 
   final String value;
 
-  const BurninSubtitleBackgroundColor(this.value);
+  const BurninSubtitleBackgroundColor._(this.value);
+
+  static const values = [none, black, white, auto];
 
   static BurninSubtitleBackgroundColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleBackgroundColor'));
+          orElse: () => BurninSubtitleBackgroundColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleBackgroundColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the font that you want the service to use for your burn in captions
@@ -4701,109 +5353,169 @@ enum BurninSubtitleBackgroundColor {
 /// MediaConvert matches each font with the supported font that matches best.
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
-enum BurninSubtitleFallbackFont {
-  bestMatch('BEST_MATCH'),
-  monospacedSansserif('MONOSPACED_SANSSERIF'),
-  monospacedSerif('MONOSPACED_SERIF'),
-  proportionalSansserif('PROPORTIONAL_SANSSERIF'),
-  proportionalSerif('PROPORTIONAL_SERIF'),
-  ;
+class BurninSubtitleFallbackFont {
+  static const bestMatch = BurninSubtitleFallbackFont._('BEST_MATCH');
+  static const monospacedSansserif =
+      BurninSubtitleFallbackFont._('MONOSPACED_SANSSERIF');
+  static const monospacedSerif =
+      BurninSubtitleFallbackFont._('MONOSPACED_SERIF');
+  static const proportionalSansserif =
+      BurninSubtitleFallbackFont._('PROPORTIONAL_SANSSERIF');
+  static const proportionalSerif =
+      BurninSubtitleFallbackFont._('PROPORTIONAL_SERIF');
 
   final String value;
 
-  const BurninSubtitleFallbackFont(this.value);
+  const BurninSubtitleFallbackFont._(this.value);
+
+  static const values = [
+    bestMatch,
+    monospacedSansserif,
+    monospacedSerif,
+    proportionalSansserif,
+    proportionalSerif
+  ];
 
   static BurninSubtitleFallbackFont fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleFallbackFont'));
+          orElse: () => BurninSubtitleFallbackFont._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleFallbackFont && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the burned-in captions text. Leave Font color blank and
 /// set Style passthrough to enabled to use the font color data from your input
 /// captions, if present.
-enum BurninSubtitleFontColor {
-  white('WHITE'),
-  black('BLACK'),
-  yellow('YELLOW'),
-  red('RED'),
-  green('GREEN'),
-  blue('BLUE'),
-  hex('HEX'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleFontColor {
+  static const white = BurninSubtitleFontColor._('WHITE');
+  static const black = BurninSubtitleFontColor._('BLACK');
+  static const yellow = BurninSubtitleFontColor._('YELLOW');
+  static const red = BurninSubtitleFontColor._('RED');
+  static const green = BurninSubtitleFontColor._('GREEN');
+  static const blue = BurninSubtitleFontColor._('BLUE');
+  static const hex = BurninSubtitleFontColor._('HEX');
+  static const auto = BurninSubtitleFontColor._('AUTO');
 
   final String value;
 
-  const BurninSubtitleFontColor(this.value);
+  const BurninSubtitleFontColor._(this.value);
+
+  static const values = [white, black, yellow, red, green, blue, hex, auto];
 
   static BurninSubtitleFontColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleFontColor'));
+          orElse: () => BurninSubtitleFontColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleFontColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify font outline color. Leave Outline color blank and set Style
 /// passthrough to enabled to use the font outline color data from your input
 /// captions, if present.
-enum BurninSubtitleOutlineColor {
-  black('BLACK'),
-  white('WHITE'),
-  yellow('YELLOW'),
-  red('RED'),
-  green('GREEN'),
-  blue('BLUE'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleOutlineColor {
+  static const black = BurninSubtitleOutlineColor._('BLACK');
+  static const white = BurninSubtitleOutlineColor._('WHITE');
+  static const yellow = BurninSubtitleOutlineColor._('YELLOW');
+  static const red = BurninSubtitleOutlineColor._('RED');
+  static const green = BurninSubtitleOutlineColor._('GREEN');
+  static const blue = BurninSubtitleOutlineColor._('BLUE');
+  static const auto = BurninSubtitleOutlineColor._('AUTO');
 
   final String value;
 
-  const BurninSubtitleOutlineColor(this.value);
+  const BurninSubtitleOutlineColor._(this.value);
+
+  static const values = [black, white, yellow, red, green, blue, auto];
 
   static BurninSubtitleOutlineColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleOutlineColor'));
+          orElse: () => BurninSubtitleOutlineColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleOutlineColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the shadow cast by the captions. Leave Shadow color
 /// blank and set Style passthrough to enabled to use the shadow color data from
 /// your input captions, if present.
-enum BurninSubtitleShadowColor {
-  none('NONE'),
-  black('BLACK'),
-  white('WHITE'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleShadowColor {
+  static const none = BurninSubtitleShadowColor._('NONE');
+  static const black = BurninSubtitleShadowColor._('BLACK');
+  static const white = BurninSubtitleShadowColor._('WHITE');
+  static const auto = BurninSubtitleShadowColor._('AUTO');
 
   final String value;
 
-  const BurninSubtitleShadowColor(this.value);
+  const BurninSubtitleShadowColor._(this.value);
+
+  static const values = [none, black, white, auto];
 
   static BurninSubtitleShadowColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleShadowColor'));
+          orElse: () => BurninSubtitleShadowColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleShadowColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether the text spacing in your captions is set by the captions
 /// grid, or varies depending on letter width. Choose fixed grid to conform to
 /// the spacing specified in the captions file more accurately. Choose
 /// proportional to make the text easier to read for closed captions.
-enum BurninSubtitleTeletextSpacing {
-  fixedGrid('FIXED_GRID'),
-  proportional('PROPORTIONAL'),
-  auto('AUTO'),
-  ;
+class BurninSubtitleTeletextSpacing {
+  static const fixedGrid = BurninSubtitleTeletextSpacing._('FIXED_GRID');
+  static const proportional = BurninSubtitleTeletextSpacing._('PROPORTIONAL');
+  static const auto = BurninSubtitleTeletextSpacing._('AUTO');
 
   final String value;
 
-  const BurninSubtitleTeletextSpacing(this.value);
+  const BurninSubtitleTeletextSpacing._(this.value);
+
+  static const values = [fixedGrid, proportional, auto];
 
   static BurninSubtitleTeletextSpacing fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BurninSubtitleTeletextSpacing'));
+          orElse: () => BurninSubtitleTeletextSpacing._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BurninSubtitleTeletextSpacing && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelJobResponse {
@@ -5141,29 +5853,54 @@ class CaptionDestinationSettings {
 /// If you are using SCTE-20 and you want to create an output that complies with
 /// the SCTE-43 spec, choose SCTE-20 plus embedded. To create a non-compliant
 /// output where the embedded captions come first, choose Embedded plus SCTE-20.
-enum CaptionDestinationType {
-  burnIn('BURN_IN'),
-  dvbSub('DVB_SUB'),
-  embedded('EMBEDDED'),
-  embeddedPlusScte20('EMBEDDED_PLUS_SCTE20'),
-  imsc('IMSC'),
-  scte20PlusEmbedded('SCTE20_PLUS_EMBEDDED'),
-  scc('SCC'),
-  srt('SRT'),
-  smi('SMI'),
-  teletext('TELETEXT'),
-  ttml('TTML'),
-  webvtt('WEBVTT'),
-  ;
+class CaptionDestinationType {
+  static const burnIn = CaptionDestinationType._('BURN_IN');
+  static const dvbSub = CaptionDestinationType._('DVB_SUB');
+  static const embedded = CaptionDestinationType._('EMBEDDED');
+  static const embeddedPlusScte20 =
+      CaptionDestinationType._('EMBEDDED_PLUS_SCTE20');
+  static const imsc = CaptionDestinationType._('IMSC');
+  static const scte20PlusEmbedded =
+      CaptionDestinationType._('SCTE20_PLUS_EMBEDDED');
+  static const scc = CaptionDestinationType._('SCC');
+  static const srt = CaptionDestinationType._('SRT');
+  static const smi = CaptionDestinationType._('SMI');
+  static const teletext = CaptionDestinationType._('TELETEXT');
+  static const ttml = CaptionDestinationType._('TTML');
+  static const webvtt = CaptionDestinationType._('WEBVTT');
 
   final String value;
 
-  const CaptionDestinationType(this.value);
+  const CaptionDestinationType._(this.value);
+
+  static const values = [
+    burnIn,
+    dvbSub,
+    embedded,
+    embeddedPlusScte20,
+    imsc,
+    scte20PlusEmbedded,
+    scc,
+    srt,
+    smi,
+    teletext,
+    ttml,
+    webvtt
+  ];
 
   static CaptionDestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CaptionDestinationType'));
+          orElse: () => CaptionDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CaptionDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use captions selectors to specify the captions data from your input that you
@@ -5227,19 +5964,29 @@ class CaptionSelector {
 /// convert paint-on captions to pop-on: Choose Enabled. We also recommend that
 /// you choose Enabled if you notice additional repeated lines in your output
 /// captions.
-enum CaptionSourceConvertPaintOnToPopOn {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CaptionSourceConvertPaintOnToPopOn {
+  static const enabled = CaptionSourceConvertPaintOnToPopOn._('ENABLED');
+  static const disabled = CaptionSourceConvertPaintOnToPopOn._('DISABLED');
 
   final String value;
 
-  const CaptionSourceConvertPaintOnToPopOn(this.value);
+  const CaptionSourceConvertPaintOnToPopOn._(this.value);
+
+  static const values = [enabled, disabled];
 
   static CaptionSourceConvertPaintOnToPopOn fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CaptionSourceConvertPaintOnToPopOn'));
+          orElse: () => CaptionSourceConvertPaintOnToPopOn._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CaptionSourceConvertPaintOnToPopOn && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless your input captions format is SCC. To have the
@@ -5401,31 +6148,55 @@ class CaptionSourceSettings {
 
 /// Use Source to identify the format of your input captions. The service cannot
 /// auto-detect caption format.
-enum CaptionSourceType {
-  ancillary('ANCILLARY'),
-  dvbSub('DVB_SUB'),
-  embedded('EMBEDDED'),
-  scte20('SCTE20'),
-  scc('SCC'),
-  ttml('TTML'),
-  stl('STL'),
-  srt('SRT'),
-  smi('SMI'),
-  smpteTt('SMPTE_TT'),
-  teletext('TELETEXT'),
-  nullSource('NULL_SOURCE'),
-  imsc('IMSC'),
-  webvtt('WEBVTT'),
-  ;
+class CaptionSourceType {
+  static const ancillary = CaptionSourceType._('ANCILLARY');
+  static const dvbSub = CaptionSourceType._('DVB_SUB');
+  static const embedded = CaptionSourceType._('EMBEDDED');
+  static const scte20 = CaptionSourceType._('SCTE20');
+  static const scc = CaptionSourceType._('SCC');
+  static const ttml = CaptionSourceType._('TTML');
+  static const stl = CaptionSourceType._('STL');
+  static const srt = CaptionSourceType._('SRT');
+  static const smi = CaptionSourceType._('SMI');
+  static const smpteTt = CaptionSourceType._('SMPTE_TT');
+  static const teletext = CaptionSourceType._('TELETEXT');
+  static const nullSource = CaptionSourceType._('NULL_SOURCE');
+  static const imsc = CaptionSourceType._('IMSC');
+  static const webvtt = CaptionSourceType._('WEBVTT');
 
   final String value;
 
-  const CaptionSourceType(this.value);
+  const CaptionSourceType._(this.value);
+
+  static const values = [
+    ancillary,
+    dvbSub,
+    embedded,
+    scte20,
+    scc,
+    ttml,
+    stl,
+    srt,
+    smi,
+    smpteTt,
+    teletext,
+    nullSource,
+    imsc,
+    webvtt
+  ];
 
   static CaptionSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CaptionSourceType'));
+          orElse: () => CaptionSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is CaptionSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Channel mapping contains the group of fields that hold the remixing value
@@ -5584,36 +6355,55 @@ class CmafAdditionalManifest {
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
-enum CmafClientCache {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class CmafClientCache {
+  static const disabled = CmafClientCache._('DISABLED');
+  static const enabled = CmafClientCache._('ENABLED');
 
   final String value;
 
-  const CmafClientCache(this.value);
+  const CmafClientCache._(this.value);
+
+  static const values = [disabled, enabled];
 
   static CmafClientCache fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmafClientCache'));
+          orElse: () => CmafClientCache._(value));
+
+  @override
+  bool operator ==(other) => other is CmafClientCache && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
-enum CmafCodecSpecification {
-  rfc_6381('RFC_6381'),
-  rfc_4281('RFC_4281'),
-  ;
+class CmafCodecSpecification {
+  static const rfc_6381 = CmafCodecSpecification._('RFC_6381');
+  static const rfc_4281 = CmafCodecSpecification._('RFC_4281');
 
   final String value;
 
-  const CmafCodecSpecification(this.value);
+  const CmafCodecSpecification._(this.value);
+
+  static const values = [rfc_6381, rfc_4281];
 
   static CmafCodecSpecification fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafCodecSpecification'));
+          orElse: () => CmafCodecSpecification._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafCodecSpecification && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for CMAF encryption
@@ -5696,19 +6486,29 @@ class CmafEncryptionSettings {
 
 /// Specify the encryption scheme that you want the service to use when
 /// encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
-enum CmafEncryptionType {
-  sampleAes('SAMPLE_AES'),
-  aesCtr('AES_CTR'),
-  ;
+class CmafEncryptionType {
+  static const sampleAes = CmafEncryptionType._('SAMPLE_AES');
+  static const aesCtr = CmafEncryptionType._('AES_CTR');
 
   final String value;
 
-  const CmafEncryptionType(this.value);
+  const CmafEncryptionType._(this.value);
 
-  static CmafEncryptionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafEncryptionType'));
+  static const values = [sampleAes, aesCtr];
+
+  static CmafEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to your CMAF output package. For more information, see
@@ -6099,21 +6899,32 @@ class CmafGroupSettings {
 /// full-frame images that MediaConvert creates with this feature are compatible
 /// with this Roku specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
-enum CmafImageBasedTrickPlay {
-  none('NONE'),
-  thumbnail('THUMBNAIL'),
-  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
-  advanced('ADVANCED'),
-  ;
+class CmafImageBasedTrickPlay {
+  static const none = CmafImageBasedTrickPlay._('NONE');
+  static const thumbnail = CmafImageBasedTrickPlay._('THUMBNAIL');
+  static const thumbnailAndFullframe =
+      CmafImageBasedTrickPlay._('THUMBNAIL_AND_FULLFRAME');
+  static const advanced = CmafImageBasedTrickPlay._('ADVANCED');
 
   final String value;
 
-  const CmafImageBasedTrickPlay(this.value);
+  const CmafImageBasedTrickPlay._(this.value);
+
+  static const values = [none, thumbnail, thumbnailAndFullframe, advanced];
 
   static CmafImageBasedTrickPlay fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafImageBasedTrickPlay'));
+          orElse: () => CmafImageBasedTrickPlay._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafImageBasedTrickPlay && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -6192,19 +7003,29 @@ class CmafImageBasedTrickPlaySettings {
 
 /// When you use DRM with CMAF outputs, choose whether the service writes the
 /// 128-bit encryption initialization vector in the HLS and DASH manifests.
-enum CmafInitializationVectorInManifest {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class CmafInitializationVectorInManifest {
+  static const include = CmafInitializationVectorInManifest._('INCLUDE');
+  static const exclude = CmafInitializationVectorInManifest._('EXCLUDE');
 
   final String value;
 
-  const CmafInitializationVectorInManifest(this.value);
+  const CmafInitializationVectorInManifest._(this.value);
+
+  static const values = [include, exclude];
 
   static CmafInitializationVectorInManifest fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafInitializationVectorInManifest'));
+          orElse: () => CmafInitializationVectorInManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafInitializationVectorInManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cadence MediaConvert follows for generating thumbnails. If set to
@@ -6212,70 +7033,110 @@ enum CmafInitializationVectorInManifest {
 /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
-enum CmafIntervalCadence {
-  followIframe('FOLLOW_IFRAME'),
-  followCustom('FOLLOW_CUSTOM'),
-  ;
+class CmafIntervalCadence {
+  static const followIframe = CmafIntervalCadence._('FOLLOW_IFRAME');
+  static const followCustom = CmafIntervalCadence._('FOLLOW_CUSTOM');
 
   final String value;
 
-  const CmafIntervalCadence(this.value);
+  const CmafIntervalCadence._(this.value);
 
-  static CmafIntervalCadence fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafIntervalCadence'));
+  static const values = [followIframe, followCustom];
+
+  static CmafIntervalCadence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafIntervalCadence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafIntervalCadence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
-enum CmafKeyProviderType {
-  speke('SPEKE'),
-  staticKey('STATIC_KEY'),
-  ;
+class CmafKeyProviderType {
+  static const speke = CmafKeyProviderType._('SPEKE');
+  static const staticKey = CmafKeyProviderType._('STATIC_KEY');
 
   final String value;
 
-  const CmafKeyProviderType(this.value);
+  const CmafKeyProviderType._(this.value);
 
-  static CmafKeyProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafKeyProviderType'));
+  static const values = [speke, staticKey];
+
+  static CmafKeyProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafKeyProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafKeyProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to GZIP, compresses HLS playlist.
-enum CmafManifestCompression {
-  gzip('GZIP'),
-  none('NONE'),
-  ;
+class CmafManifestCompression {
+  static const gzip = CmafManifestCompression._('GZIP');
+  static const none = CmafManifestCompression._('NONE');
 
   final String value;
 
-  const CmafManifestCompression(this.value);
+  const CmafManifestCompression._(this.value);
+
+  static const values = [gzip, none];
 
   static CmafManifestCompression fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafManifestCompression'));
+          orElse: () => CmafManifestCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafManifestCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
-enum CmafManifestDurationFormat {
-  floatingPoint('FLOATING_POINT'),
-  integer('INTEGER'),
-  ;
+class CmafManifestDurationFormat {
+  static const floatingPoint = CmafManifestDurationFormat._('FLOATING_POINT');
+  static const integer = CmafManifestDurationFormat._('INTEGER');
 
   final String value;
 
-  const CmafManifestDurationFormat(this.value);
+  const CmafManifestDurationFormat._(this.value);
+
+  static const values = [floatingPoint, integer];
 
   static CmafManifestDurationFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafManifestDurationFormat'));
+          orElse: () => CmafManifestDurationFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafManifestDurationFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how the value for bandwidth is determined for each video
@@ -6284,19 +7145,29 @@ enum CmafManifestDurationFormat {
 /// configuration. Max: Use the same value that you specify for Max bitrate in
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
-enum CmafMpdManifestBandwidthType {
-  average('AVERAGE'),
-  max('MAX'),
-  ;
+class CmafMpdManifestBandwidthType {
+  static const average = CmafMpdManifestBandwidthType._('AVERAGE');
+  static const max = CmafMpdManifestBandwidthType._('MAX');
 
   final String value;
 
-  const CmafMpdManifestBandwidthType(this.value);
+  const CmafMpdManifestBandwidthType._(this.value);
+
+  static const values = [average, max];
 
   static CmafMpdManifestBandwidthType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafMpdManifestBandwidthType'));
+          orElse: () => CmafMpdManifestBandwidthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafMpdManifestBandwidthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your DASH profile is on-demand or main. When you choose Main
@@ -6305,19 +7176,28 @@ enum CmafMpdManifestBandwidthType {
 /// urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
-enum CmafMpdProfile {
-  mainProfile('MAIN_PROFILE'),
-  onDemandProfile('ON_DEMAND_PROFILE'),
-  ;
+class CmafMpdProfile {
+  static const mainProfile = CmafMpdProfile._('MAIN_PROFILE');
+  static const onDemandProfile = CmafMpdProfile._('ON_DEMAND_PROFILE');
 
   final String value;
 
-  const CmafMpdProfile(this.value);
+  const CmafMpdProfile._(this.value);
+
+  static const values = [mainProfile, onDemandProfile];
 
   static CmafMpdProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmafMpdProfile'));
+          orElse: () => CmafMpdProfile._(value));
+
+  @override
+  bool operator ==(other) => other is CmafMpdProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting only when your output video stream has B-frames, which
@@ -6329,37 +7209,58 @@ enum CmafMpdProfile {
 /// the video stream and instead write the initial time stamp as zero in the
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
-enum CmafPtsOffsetHandlingForBFrames {
-  zeroBased('ZERO_BASED'),
-  matchInitialPts('MATCH_INITIAL_PTS'),
-  ;
+class CmafPtsOffsetHandlingForBFrames {
+  static const zeroBased = CmafPtsOffsetHandlingForBFrames._('ZERO_BASED');
+  static const matchInitialPts =
+      CmafPtsOffsetHandlingForBFrames._('MATCH_INITIAL_PTS');
 
   final String value;
 
-  const CmafPtsOffsetHandlingForBFrames(this.value);
+  const CmafPtsOffsetHandlingForBFrames._(this.value);
+
+  static const values = [zeroBased, matchInitialPts];
 
   static CmafPtsOffsetHandlingForBFrames fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafPtsOffsetHandlingForBFrames'));
+          orElse: () => CmafPtsOffsetHandlingForBFrames._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafPtsOffsetHandlingForBFrames && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
-enum CmafSegmentControl {
-  singleFile('SINGLE_FILE'),
-  segmentedFiles('SEGMENTED_FILES'),
-  ;
+class CmafSegmentControl {
+  static const singleFile = CmafSegmentControl._('SINGLE_FILE');
+  static const segmentedFiles = CmafSegmentControl._('SEGMENTED_FILES');
 
   final String value;
 
-  const CmafSegmentControl(this.value);
+  const CmafSegmentControl._(this.value);
 
-  static CmafSegmentControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafSegmentControl'));
+  static const values = [singleFile, segmentedFiles];
+
+  static CmafSegmentControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafSegmentControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafSegmentControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -6367,36 +7268,56 @@ enum CmafSegmentControl {
 /// setting Segment length. This might result in extra I-frames. Choose Multiple
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
-enum CmafSegmentLengthControl {
-  exact('EXACT'),
-  gopMultiple('GOP_MULTIPLE'),
-  ;
+class CmafSegmentLengthControl {
+  static const exact = CmafSegmentLengthControl._('EXACT');
+  static const gopMultiple = CmafSegmentLengthControl._('GOP_MULTIPLE');
 
   final String value;
 
-  const CmafSegmentLengthControl(this.value);
+  const CmafSegmentLengthControl._(this.value);
+
+  static const values = [exact, gopMultiple];
 
   static CmafSegmentLengthControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafSegmentLengthControl'));
+          orElse: () => CmafSegmentLengthControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafSegmentLengthControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
-enum CmafStreamInfResolution {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class CmafStreamInfResolution {
+  static const include = CmafStreamInfResolution._('INCLUDE');
+  static const exclude = CmafStreamInfResolution._('EXCLUDE');
 
   final String value;
 
-  const CmafStreamInfResolution(this.value);
+  const CmafStreamInfResolution._(this.value);
+
+  static const values = [include, exclude];
 
   static CmafStreamInfResolution fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafStreamInfResolution'));
+          orElse: () => CmafStreamInfResolution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafStreamInfResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to LEGACY, the segment target duration is always rounded up to the
@@ -6408,19 +7329,30 @@ enum CmafStreamInfResolution {
 /// the actual duration of the segment. Some older players may experience
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
-enum CmafTargetDurationCompatibilityMode {
-  legacy('LEGACY'),
-  specCompliant('SPEC_COMPLIANT'),
-  ;
+class CmafTargetDurationCompatibilityMode {
+  static const legacy = CmafTargetDurationCompatibilityMode._('LEGACY');
+  static const specCompliant =
+      CmafTargetDurationCompatibilityMode._('SPEC_COMPLIANT');
 
   final String value;
 
-  const CmafTargetDurationCompatibilityMode(this.value);
+  const CmafTargetDurationCompatibilityMode._(this.value);
+
+  static const values = [legacy, specCompliant];
 
   static CmafTargetDurationCompatibilityMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafTargetDurationCompatibilityMode'));
+          orElse: () => CmafTargetDurationCompatibilityMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafTargetDurationCompatibilityMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the video sample composition time offset mode in the output fMP4
@@ -6430,52 +7362,82 @@ enum CmafTargetDurationCompatibilityMode {
 /// integers. For strict fMP4 video and audio timing, set Video composition
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
-enum CmafVideoCompositionOffsets {
-  signed('SIGNED'),
-  unsigned('UNSIGNED'),
-  ;
+class CmafVideoCompositionOffsets {
+  static const signed = CmafVideoCompositionOffsets._('SIGNED');
+  static const unsigned = CmafVideoCompositionOffsets._('UNSIGNED');
 
   final String value;
 
-  const CmafVideoCompositionOffsets(this.value);
+  const CmafVideoCompositionOffsets._(this.value);
+
+  static const values = [signed, unsigned];
 
   static CmafVideoCompositionOffsets fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafVideoCompositionOffsets'));
+          orElse: () => CmafVideoCompositionOffsets._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafVideoCompositionOffsets && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to ENABLED, a DASH MPD manifest will be generated for this output.
-enum CmafWriteDASHManifest {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class CmafWriteDASHManifest {
+  static const disabled = CmafWriteDASHManifest._('DISABLED');
+  static const enabled = CmafWriteDASHManifest._('ENABLED');
 
   final String value;
 
-  const CmafWriteDASHManifest(this.value);
+  const CmafWriteDASHManifest._(this.value);
 
-  static CmafWriteDASHManifest fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafWriteDASHManifest'));
+  static const values = [disabled, enabled];
+
+  static CmafWriteDASHManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafWriteDASHManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafWriteDASHManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to ENABLED, an Apple HLS manifest will be generated for this
 /// output.
-enum CmafWriteHLSManifest {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class CmafWriteHLSManifest {
+  static const disabled = CmafWriteHLSManifest._('DISABLED');
+  static const enabled = CmafWriteHLSManifest._('ENABLED');
 
   final String value;
 
-  const CmafWriteHLSManifest(this.value);
+  const CmafWriteHLSManifest._(this.value);
 
-  static CmafWriteHLSManifest fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmafWriteHLSManifest'));
+  static const values = [disabled, enabled];
+
+  static CmafWriteHLSManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmafWriteHLSManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafWriteHLSManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you enable Precise segment duration in DASH manifests, your DASH
@@ -6484,19 +7446,30 @@ enum CmafWriteHLSManifest {
 /// Representation level. When this feature isn't enabled, the segment durations
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
-enum CmafWriteSegmentTimelineInRepresentation {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CmafWriteSegmentTimelineInRepresentation {
+  static const enabled = CmafWriteSegmentTimelineInRepresentation._('ENABLED');
+  static const disabled =
+      CmafWriteSegmentTimelineInRepresentation._('DISABLED');
 
   final String value;
 
-  const CmafWriteSegmentTimelineInRepresentation(this.value);
+  const CmafWriteSegmentTimelineInRepresentation._(this.value);
+
+  static const values = [enabled, disabled];
 
   static CmafWriteSegmentTimelineInRepresentation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmafWriteSegmentTimelineInRepresentation'));
+          orElse: () => CmafWriteSegmentTimelineInRepresentation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmafWriteSegmentTimelineInRepresentation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -6512,19 +7485,29 @@ enum CmafWriteSegmentTimelineInRepresentation {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
-enum CmfcAudioDuration {
-  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
-  matchVideoDuration('MATCH_VIDEO_DURATION'),
-  ;
+class CmfcAudioDuration {
+  static const defaultCodecDuration =
+      CmfcAudioDuration._('DEFAULT_CODEC_DURATION');
+  static const matchVideoDuration = CmfcAudioDuration._('MATCH_VIDEO_DURATION');
 
   final String value;
 
-  const CmfcAudioDuration(this.value);
+  const CmfcAudioDuration._(this.value);
+
+  static const values = [defaultCodecDuration, matchVideoDuration];
 
   static CmfcAudioDuration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmfcAudioDuration'));
+          orElse: () => CmfcAudioDuration._(value));
+
+  @override
+  bool operator ==(other) => other is CmfcAudioDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting to control the values that MediaConvert puts in your HLS
@@ -6545,21 +7528,40 @@ enum CmfcAudioDuration {
 /// MediaConvert defaults to Alternate audio, auto select, default. When there
 /// is more than one variant in your output group, you must explicitly choose a
 /// value for this setting.
-enum CmfcAudioTrackType {
-  alternateAudioAutoSelectDefault('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT'),
-  alternateAudioAutoSelect('ALTERNATE_AUDIO_AUTO_SELECT'),
-  alternateAudioNotAutoSelect('ALTERNATE_AUDIO_NOT_AUTO_SELECT'),
-  audioOnlyVariantStream('AUDIO_ONLY_VARIANT_STREAM'),
-  ;
+class CmfcAudioTrackType {
+  static const alternateAudioAutoSelectDefault =
+      CmfcAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT');
+  static const alternateAudioAutoSelect =
+      CmfcAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT');
+  static const alternateAudioNotAutoSelect =
+      CmfcAudioTrackType._('ALTERNATE_AUDIO_NOT_AUTO_SELECT');
+  static const audioOnlyVariantStream =
+      CmfcAudioTrackType._('AUDIO_ONLY_VARIANT_STREAM');
 
   final String value;
 
-  const CmfcAudioTrackType(this.value);
+  const CmfcAudioTrackType._(this.value);
 
-  static CmfcAudioTrackType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CmfcAudioTrackType'));
+  static const values = [
+    alternateAudioAutoSelectDefault,
+    alternateAudioAutoSelect,
+    alternateAudioNotAutoSelect,
+    audioOnlyVariantStream
+  ];
+
+  static CmfcAudioTrackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CmfcAudioTrackType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmfcAudioTrackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether to flag this audio track as descriptive video service (DVS)
@@ -6569,19 +7571,29 @@ enum CmfcAudioTrackType {
 /// flag, MediaConvert leaves this parameter out. The DVS flag can help with
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
-enum CmfcDescriptiveVideoServiceFlag {
-  dontFlag('DONT_FLAG'),
-  flag('FLAG'),
-  ;
+class CmfcDescriptiveVideoServiceFlag {
+  static const dontFlag = CmfcDescriptiveVideoServiceFlag._('DONT_FLAG');
+  static const flag = CmfcDescriptiveVideoServiceFlag._('FLAG');
 
   final String value;
 
-  const CmfcDescriptiveVideoServiceFlag(this.value);
+  const CmfcDescriptiveVideoServiceFlag._(this.value);
+
+  static const values = [dontFlag, flag];
 
   static CmfcDescriptiveVideoServiceFlag fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmfcDescriptiveVideoServiceFlag'));
+          orElse: () => CmfcDescriptiveVideoServiceFlag._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmfcDescriptiveVideoServiceFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose Include to have MediaConvert generate an HLS child manifest that
@@ -6591,19 +7603,29 @@ enum CmfcDescriptiveVideoServiceFlag {
 /// both the I-frame only child manifest and the regular child manifest to the
 /// parent manifest. When you don't need the I-frame only child manifest, keep
 /// the default value Exclude.
-enum CmfcIFrameOnlyManifest {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class CmfcIFrameOnlyManifest {
+  static const include = CmfcIFrameOnlyManifest._('INCLUDE');
+  static const exclude = CmfcIFrameOnlyManifest._('EXCLUDE');
 
   final String value;
 
-  const CmfcIFrameOnlyManifest(this.value);
+  const CmfcIFrameOnlyManifest._(this.value);
+
+  static const values = [include, exclude];
 
   static CmfcIFrameOnlyManifest fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmfcIFrameOnlyManifest'));
+          orElse: () => CmfcIFrameOnlyManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmfcIFrameOnlyManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
@@ -6611,19 +7633,28 @@ enum CmfcIFrameOnlyManifest {
 /// input and writes each instance to a separate event message box in the
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
-enum CmfcKlvMetadata {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class CmfcKlvMetadata {
+  static const passthrough = CmfcKlvMetadata._('PASSTHROUGH');
+  static const none = CmfcKlvMetadata._('NONE');
 
   final String value;
 
-  const CmfcKlvMetadata(this.value);
+  const CmfcKlvMetadata._(this.value);
+
+  static const values = [passthrough, none];
 
   static CmfcKlvMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmfcKlvMetadata'));
+          orElse: () => CmfcKlvMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is CmfcKlvMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To add an InbandEventStream element in your output MPD manifest for each
@@ -6635,57 +7666,85 @@ enum CmfcKlvMetadata {
 /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
-enum CmfcManifestMetadataSignaling {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CmfcManifestMetadataSignaling {
+  static const enabled = CmfcManifestMetadataSignaling._('ENABLED');
+  static const disabled = CmfcManifestMetadataSignaling._('DISABLED');
 
   final String value;
 
-  const CmfcManifestMetadataSignaling(this.value);
+  const CmfcManifestMetadataSignaling._(this.value);
+
+  static const values = [enabled, disabled];
 
   static CmfcManifestMetadataSignaling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmfcManifestMetadataSignaling'));
+          orElse: () => CmfcManifestMetadataSignaling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmfcManifestMetadataSignaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
-enum CmfcScte35Esam {
-  insert('INSERT'),
-  none('NONE'),
-  ;
+class CmfcScte35Esam {
+  static const insert = CmfcScte35Esam._('INSERT');
+  static const none = CmfcScte35Esam._('NONE');
 
   final String value;
 
-  const CmfcScte35Esam(this.value);
+  const CmfcScte35Esam._(this.value);
+
+  static const values = [insert, none];
 
   static CmfcScte35Esam fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmfcScte35Esam'));
+          orElse: () => CmfcScte35Esam._(value));
+
+  @override
+  bool operator ==(other) => other is CmfcScte35Esam && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless you have SCTE-35 markers in your input video
 /// file. Choose Passthrough if you want SCTE-35 markers that appear in your
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
-enum CmfcScte35Source {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class CmfcScte35Source {
+  static const passthrough = CmfcScte35Source._('PASSTHROUGH');
+  static const none = CmfcScte35Source._('NONE');
 
   final String value;
 
-  const CmfcScte35Source(this.value);
+  const CmfcScte35Source._(this.value);
+
+  static const values = [passthrough, none];
 
   static CmfcScte35Source fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmfcScte35Source'));
+          orElse: () => CmfcScte35Source._(value));
+
+  @override
+  bool operator ==(other) => other is CmfcScte35Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to the fragmented MP4 container for the segments in
@@ -6920,19 +7979,28 @@ class CmfcSettings {
 /// Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
-enum CmfcTimedMetadata {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class CmfcTimedMetadata {
+  static const passthrough = CmfcTimedMetadata._('PASSTHROUGH');
+  static const none = CmfcTimedMetadata._('NONE');
 
   final String value;
 
-  const CmfcTimedMetadata(this.value);
+  const CmfcTimedMetadata._(this.value);
+
+  static const values = [passthrough, none];
 
   static CmfcTimedMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CmfcTimedMetadata'));
+          orElse: () => CmfcTimedMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is CmfcTimedMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the event message box (eMSG) version for ID3 timed metadata in your
@@ -6940,19 +8008,29 @@ enum CmfcTimedMetadata {
 /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
 /// Leave blank to use the default value Version 0.
 /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
-enum CmfcTimedMetadataBoxVersion {
-  version_0('VERSION_0'),
-  version_1('VERSION_1'),
-  ;
+class CmfcTimedMetadataBoxVersion {
+  static const version_0 = CmfcTimedMetadataBoxVersion._('VERSION_0');
+  static const version_1 = CmfcTimedMetadataBoxVersion._('VERSION_1');
 
   final String value;
 
-  const CmfcTimedMetadataBoxVersion(this.value);
+  const CmfcTimedMetadataBoxVersion._(this.value);
+
+  static const values = [version_0, version_1];
 
   static CmfcTimedMetadataBoxVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CmfcTimedMetadataBoxVersion'));
+          orElse: () => CmfcTimedMetadataBoxVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CmfcTimedMetadataBoxVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Custom 3D lut settings
@@ -7186,19 +8264,28 @@ class ColorCorrector {
 /// Choose Insert for this setting to include color metadata in this output.
 /// Choose Ignore to exclude color metadata from this output. If you don't
 /// specify a value, the service sets this to Insert by default.
-enum ColorMetadata {
-  ignore('IGNORE'),
-  insert('INSERT'),
-  ;
+class ColorMetadata {
+  static const ignore = ColorMetadata._('IGNORE');
+  static const insert = ColorMetadata._('INSERT');
 
   final String value;
 
-  const ColorMetadata(this.value);
+  const ColorMetadata._(this.value);
+
+  static const values = [ignore, insert];
 
   static ColorMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColorMetadata'));
+          orElse: () => ColorMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is ColorMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If your input video has accurate color space metadata, or if you don't know
@@ -7219,24 +8306,42 @@ enum ColorMetadata {
 /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
 /// * P3D65 (SDR): Display P3, sRGB, BT.709
 /// * P3D65 (HDR): Display P3, PQ, BT.709
-enum ColorSpace {
-  follow('FOLLOW'),
-  rec_601('REC_601'),
-  rec_709('REC_709'),
-  hdr10('HDR10'),
-  hlg_2020('HLG_2020'),
-  p3dci('P3DCI'),
-  p3d65Sdr('P3D65_SDR'),
-  p3d65Hdr('P3D65_HDR'),
-  ;
+class ColorSpace {
+  static const follow = ColorSpace._('FOLLOW');
+  static const rec_601 = ColorSpace._('REC_601');
+  static const rec_709 = ColorSpace._('REC_709');
+  static const hdr10 = ColorSpace._('HDR10');
+  static const hlg_2020 = ColorSpace._('HLG_2020');
+  static const p3dci = ColorSpace._('P3DCI');
+  static const p3d65Sdr = ColorSpace._('P3D65_SDR');
+  static const p3d65Hdr = ColorSpace._('P3D65_HDR');
 
   final String value;
 
-  const ColorSpace(this.value);
+  const ColorSpace._(this.value);
 
-  static ColorSpace fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ColorSpace'));
+  static const values = [
+    follow,
+    rec_601,
+    rec_709,
+    hdr10,
+    hlg_2020,
+    p3dci,
+    p3d65Sdr,
+    p3d65Hdr
+  ];
+
+  static ColorSpace fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ColorSpace._(value));
+
+  @override
+  bool operator ==(other) => other is ColorSpace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color space you want for this output. The service supports
@@ -7253,25 +8358,44 @@ enum ColorSpace {
 /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
 /// * P3D65 (SDR): Display P3, sRGB, BT.709
 /// * P3D65 (HDR): Display P3, PQ, BT.709
-enum ColorSpaceConversion {
-  none('NONE'),
-  force_601('FORCE_601'),
-  force_709('FORCE_709'),
-  forceHdr10('FORCE_HDR10'),
-  forceHlg_2020('FORCE_HLG_2020'),
-  forceP3dci('FORCE_P3DCI'),
-  forceP3d65Sdr('FORCE_P3D65_SDR'),
-  forceP3d65Hdr('FORCE_P3D65_HDR'),
-  ;
+class ColorSpaceConversion {
+  static const none = ColorSpaceConversion._('NONE');
+  static const force_601 = ColorSpaceConversion._('FORCE_601');
+  static const force_709 = ColorSpaceConversion._('FORCE_709');
+  static const forceHdr10 = ColorSpaceConversion._('FORCE_HDR10');
+  static const forceHlg_2020 = ColorSpaceConversion._('FORCE_HLG_2020');
+  static const forceP3dci = ColorSpaceConversion._('FORCE_P3DCI');
+  static const forceP3d65Sdr = ColorSpaceConversion._('FORCE_P3D65_SDR');
+  static const forceP3d65Hdr = ColorSpaceConversion._('FORCE_P3D65_HDR');
 
   final String value;
 
-  const ColorSpaceConversion(this.value);
+  const ColorSpaceConversion._(this.value);
 
-  static ColorSpaceConversion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ColorSpaceConversion'));
+  static const values = [
+    none,
+    force_601,
+    force_709,
+    forceHdr10,
+    forceHlg_2020,
+    forceP3dci,
+    forceP3d65Sdr,
+    forceP3d65Hdr
+  ];
+
+  static ColorSpaceConversion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColorSpaceConversion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ColorSpaceConversion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// There are two sources for color metadata, the input file and the job input
@@ -7282,33 +8406,51 @@ enum ColorSpaceConversion {
 /// FALLBACK - Choose Fallback to use color metadata from the source when it is
 /// present. If there's no color metadata in your input file, the service
 /// defaults to using values you specify in the input settings.
-enum ColorSpaceUsage {
-  force('FORCE'),
-  fallback('FALLBACK'),
-  ;
+class ColorSpaceUsage {
+  static const force = ColorSpaceUsage._('FORCE');
+  static const fallback = ColorSpaceUsage._('FALLBACK');
 
   final String value;
 
-  const ColorSpaceUsage(this.value);
+  const ColorSpaceUsage._(this.value);
+
+  static const values = [force, fallback];
 
   static ColorSpaceUsage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColorSpaceUsage'));
+          orElse: () => ColorSpaceUsage._(value));
+
+  @override
+  bool operator ==(other) => other is ColorSpaceUsage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The length of the term of your reserved queue pricing plan commitment.
-enum Commitment {
-  oneYear('ONE_YEAR'),
-  ;
+class Commitment {
+  static const oneYear = Commitment._('ONE_YEAR');
 
   final String value;
 
-  const Commitment(this.value);
+  const Commitment._(this.value);
 
-  static Commitment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Commitment'));
+  static const values = [oneYear];
+
+  static Commitment fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Commitment._(value));
+
+  @override
+  bool operator ==(other) => other is Commitment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container specific settings.
@@ -7423,47 +8565,79 @@ class ContainerSettings {
 
 /// Container for this output. Some containers require a container settings
 /// object. If not specified, the default object will be created.
-enum ContainerType {
-  f4v('F4V'),
-  ismv('ISMV'),
-  m2ts('M2TS'),
-  m3u8('M3U8'),
-  cmfc('CMFC'),
-  mov('MOV'),
-  mp4('MP4'),
-  mpd('MPD'),
-  mxf('MXF'),
-  webm('WEBM'),
-  raw('RAW'),
-  y4m('Y4M'),
-  ;
+class ContainerType {
+  static const f4v = ContainerType._('F4V');
+  static const ismv = ContainerType._('ISMV');
+  static const m2ts = ContainerType._('M2TS');
+  static const m3u8 = ContainerType._('M3U8');
+  static const cmfc = ContainerType._('CMFC');
+  static const mov = ContainerType._('MOV');
+  static const mp4 = ContainerType._('MP4');
+  static const mpd = ContainerType._('MPD');
+  static const mxf = ContainerType._('MXF');
+  static const webm = ContainerType._('WEBM');
+  static const raw = ContainerType._('RAW');
+  static const y4m = ContainerType._('Y4M');
 
   final String value;
 
-  const ContainerType(this.value);
+  const ContainerType._(this.value);
+
+  static const values = [
+    f4v,
+    ismv,
+    m2ts,
+    m3u8,
+    cmfc,
+    mov,
+    mp4,
+    mpd,
+    mxf,
+    webm,
+    raw,
+    y4m
+  ];
 
   static ContainerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerType'));
+          orElse: () => ContainerType._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The action to take on copy and redistribution control XDS packets. If you
 /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
 /// packets will be removed in output captions.
-enum CopyProtectionAction {
-  passthrough('PASSTHROUGH'),
-  strip('STRIP'),
-  ;
+class CopyProtectionAction {
+  static const passthrough = CopyProtectionAction._('PASSTHROUGH');
+  static const strip = CopyProtectionAction._('STRIP');
 
   final String value;
 
-  const CopyProtectionAction(this.value);
+  const CopyProtectionAction._(this.value);
 
-  static CopyProtectionAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CopyProtectionAction'));
+  static const values = [passthrough, strip];
+
+  static CopyProtectionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CopyProtectionAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CopyProtectionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateJobResponse {
@@ -7665,19 +8839,33 @@ class DashIsoEncryptionSettings {
 /// MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose
 /// Dolby channel configuration to have MediaConvert write this instead:
 /// tag:dolby.com,2014:dash:audio_channel_configuration:2011.
-enum DashIsoGroupAudioChannelConfigSchemeIdUri {
-  mpegChannelConfiguration('MPEG_CHANNEL_CONFIGURATION'),
-  dolbyChannelConfiguration('DOLBY_CHANNEL_CONFIGURATION'),
-  ;
+class DashIsoGroupAudioChannelConfigSchemeIdUri {
+  static const mpegChannelConfiguration =
+      DashIsoGroupAudioChannelConfigSchemeIdUri._('MPEG_CHANNEL_CONFIGURATION');
+  static const dolbyChannelConfiguration =
+      DashIsoGroupAudioChannelConfigSchemeIdUri._(
+          'DOLBY_CHANNEL_CONFIGURATION');
 
   final String value;
 
-  const DashIsoGroupAudioChannelConfigSchemeIdUri(this.value);
+  const DashIsoGroupAudioChannelConfigSchemeIdUri._(this.value);
+
+  static const values = [mpegChannelConfiguration, dolbyChannelConfiguration];
 
   static DashIsoGroupAudioChannelConfigSchemeIdUri fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoGroupAudioChannelConfigSchemeIdUri'));
+          orElse: () => DashIsoGroupAudioChannelConfigSchemeIdUri._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoGroupAudioChannelConfigSchemeIdUri &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to your DASH output package. For more information, see
@@ -7995,19 +9183,29 @@ class DashIsoGroupSettings {
 }
 
 /// Supports HbbTV specification as indicated
-enum DashIsoHbbtvCompliance {
-  hbbtv_1_5('HBBTV_1_5'),
-  none('NONE'),
-  ;
+class DashIsoHbbtvCompliance {
+  static const hbbtv_1_5 = DashIsoHbbtvCompliance._('HBBTV_1_5');
+  static const none = DashIsoHbbtvCompliance._('NONE');
 
   final String value;
 
-  const DashIsoHbbtvCompliance(this.value);
+  const DashIsoHbbtvCompliance._(this.value);
+
+  static const values = [hbbtv_1_5, none];
 
   static DashIsoHbbtvCompliance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoHbbtvCompliance'));
+          orElse: () => DashIsoHbbtvCompliance._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoHbbtvCompliance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert generates images for trick play. Keep the
@@ -8019,21 +9217,32 @@ enum DashIsoHbbtvCompliance {
 /// full-frame images that MediaConvert creates with this feature are compatible
 /// with this Roku specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
-enum DashIsoImageBasedTrickPlay {
-  none('NONE'),
-  thumbnail('THUMBNAIL'),
-  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
-  advanced('ADVANCED'),
-  ;
+class DashIsoImageBasedTrickPlay {
+  static const none = DashIsoImageBasedTrickPlay._('NONE');
+  static const thumbnail = DashIsoImageBasedTrickPlay._('THUMBNAIL');
+  static const thumbnailAndFullframe =
+      DashIsoImageBasedTrickPlay._('THUMBNAIL_AND_FULLFRAME');
+  static const advanced = DashIsoImageBasedTrickPlay._('ADVANCED');
 
   final String value;
 
-  const DashIsoImageBasedTrickPlay(this.value);
+  const DashIsoImageBasedTrickPlay._(this.value);
+
+  static const values = [none, thumbnail, thumbnailAndFullframe, advanced];
 
   static DashIsoImageBasedTrickPlay fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoImageBasedTrickPlay'));
+          orElse: () => DashIsoImageBasedTrickPlay._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoImageBasedTrickPlay && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -8116,19 +9325,29 @@ class DashIsoImageBasedTrickPlaySettings {
 /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
-enum DashIsoIntervalCadence {
-  followIframe('FOLLOW_IFRAME'),
-  followCustom('FOLLOW_CUSTOM'),
-  ;
+class DashIsoIntervalCadence {
+  static const followIframe = DashIsoIntervalCadence._('FOLLOW_IFRAME');
+  static const followCustom = DashIsoIntervalCadence._('FOLLOW_CUSTOM');
 
   final String value;
 
-  const DashIsoIntervalCadence(this.value);
+  const DashIsoIntervalCadence._(this.value);
+
+  static const values = [followIframe, followCustom];
 
   static DashIsoIntervalCadence fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoIntervalCadence'));
+          orElse: () => DashIsoIntervalCadence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoIntervalCadence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how the value for bandwidth is determined for each video
@@ -8137,19 +9356,29 @@ enum DashIsoIntervalCadence {
 /// configuration. Max: Use the same value that you specify for Max bitrate in
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
-enum DashIsoMpdManifestBandwidthType {
-  average('AVERAGE'),
-  max('MAX'),
-  ;
+class DashIsoMpdManifestBandwidthType {
+  static const average = DashIsoMpdManifestBandwidthType._('AVERAGE');
+  static const max = DashIsoMpdManifestBandwidthType._('MAX');
 
   final String value;
 
-  const DashIsoMpdManifestBandwidthType(this.value);
+  const DashIsoMpdManifestBandwidthType._(this.value);
+
+  static const values = [average, max];
 
   static DashIsoMpdManifestBandwidthType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoMpdManifestBandwidthType'));
+          orElse: () => DashIsoMpdManifestBandwidthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoMpdManifestBandwidthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your DASH profile is on-demand or main. When you choose Main
@@ -8158,19 +9387,28 @@ enum DashIsoMpdManifestBandwidthType {
 /// urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
-enum DashIsoMpdProfile {
-  mainProfile('MAIN_PROFILE'),
-  onDemandProfile('ON_DEMAND_PROFILE'),
-  ;
+class DashIsoMpdProfile {
+  static const mainProfile = DashIsoMpdProfile._('MAIN_PROFILE');
+  static const onDemandProfile = DashIsoMpdProfile._('ON_DEMAND_PROFILE');
 
   final String value;
 
-  const DashIsoMpdProfile(this.value);
+  const DashIsoMpdProfile._(this.value);
+
+  static const values = [mainProfile, onDemandProfile];
 
   static DashIsoMpdProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashIsoMpdProfile'));
+          orElse: () => DashIsoMpdProfile._(value));
+
+  @override
+  bool operator ==(other) => other is DashIsoMpdProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This setting can improve the compatibility of your output with video players
@@ -8179,19 +9417,30 @@ enum DashIsoMpdProfile {
 /// older devices. Otherwise, keep the default setting CENC v1. If you choose
 /// Unencrypted SEI, for that output, the service will exclude the access unit
 /// delimiter and will leave the SEI NAL units unencrypted.
-enum DashIsoPlaybackDeviceCompatibility {
-  cencV1('CENC_V1'),
-  unencryptedSei('UNENCRYPTED_SEI'),
-  ;
+class DashIsoPlaybackDeviceCompatibility {
+  static const cencV1 = DashIsoPlaybackDeviceCompatibility._('CENC_V1');
+  static const unencryptedSei =
+      DashIsoPlaybackDeviceCompatibility._('UNENCRYPTED_SEI');
 
   final String value;
 
-  const DashIsoPlaybackDeviceCompatibility(this.value);
+  const DashIsoPlaybackDeviceCompatibility._(this.value);
+
+  static const values = [cencV1, unencryptedSei];
 
   static DashIsoPlaybackDeviceCompatibility fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoPlaybackDeviceCompatibility'));
+          orElse: () => DashIsoPlaybackDeviceCompatibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoPlaybackDeviceCompatibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting only when your output video stream has B-frames, which
@@ -8203,37 +9452,58 @@ enum DashIsoPlaybackDeviceCompatibility {
 /// the video stream and instead write the initial time stamp as zero in the
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
-enum DashIsoPtsOffsetHandlingForBFrames {
-  zeroBased('ZERO_BASED'),
-  matchInitialPts('MATCH_INITIAL_PTS'),
-  ;
+class DashIsoPtsOffsetHandlingForBFrames {
+  static const zeroBased = DashIsoPtsOffsetHandlingForBFrames._('ZERO_BASED');
+  static const matchInitialPts =
+      DashIsoPtsOffsetHandlingForBFrames._('MATCH_INITIAL_PTS');
 
   final String value;
 
-  const DashIsoPtsOffsetHandlingForBFrames(this.value);
+  const DashIsoPtsOffsetHandlingForBFrames._(this.value);
+
+  static const values = [zeroBased, matchInitialPts];
 
   static DashIsoPtsOffsetHandlingForBFrames fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoPtsOffsetHandlingForBFrames'));
+          orElse: () => DashIsoPtsOffsetHandlingForBFrames._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoPtsOffsetHandlingForBFrames && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
-enum DashIsoSegmentControl {
-  singleFile('SINGLE_FILE'),
-  segmentedFiles('SEGMENTED_FILES'),
-  ;
+class DashIsoSegmentControl {
+  static const singleFile = DashIsoSegmentControl._('SINGLE_FILE');
+  static const segmentedFiles = DashIsoSegmentControl._('SEGMENTED_FILES');
 
   final String value;
 
-  const DashIsoSegmentControl(this.value);
+  const DashIsoSegmentControl._(this.value);
 
-  static DashIsoSegmentControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DashIsoSegmentControl'));
+  static const values = [singleFile, segmentedFiles];
+
+  static DashIsoSegmentControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DashIsoSegmentControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoSegmentControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -8241,19 +9511,29 @@ enum DashIsoSegmentControl {
 /// setting Segment length. This might result in extra I-frames. Choose Multiple
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
-enum DashIsoSegmentLengthControl {
-  exact('EXACT'),
-  gopMultiple('GOP_MULTIPLE'),
-  ;
+class DashIsoSegmentLengthControl {
+  static const exact = DashIsoSegmentLengthControl._('EXACT');
+  static const gopMultiple = DashIsoSegmentLengthControl._('GOP_MULTIPLE');
 
   final String value;
 
-  const DashIsoSegmentLengthControl(this.value);
+  const DashIsoSegmentLengthControl._(this.value);
+
+  static const values = [exact, gopMultiple];
 
   static DashIsoSegmentLengthControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoSegmentLengthControl'));
+          orElse: () => DashIsoSegmentLengthControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoSegmentLengthControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the video sample composition time offset mode in the output fMP4
@@ -8263,19 +9543,29 @@ enum DashIsoSegmentLengthControl {
 /// integers. For strict fMP4 video and audio timing, set Video composition
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
-enum DashIsoVideoCompositionOffsets {
-  signed('SIGNED'),
-  unsigned('UNSIGNED'),
-  ;
+class DashIsoVideoCompositionOffsets {
+  static const signed = DashIsoVideoCompositionOffsets._('SIGNED');
+  static const unsigned = DashIsoVideoCompositionOffsets._('UNSIGNED');
 
   final String value;
 
-  const DashIsoVideoCompositionOffsets(this.value);
+  const DashIsoVideoCompositionOffsets._(this.value);
+
+  static const values = [signed, unsigned];
 
   static DashIsoVideoCompositionOffsets fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoVideoCompositionOffsets'));
+          orElse: () => DashIsoVideoCompositionOffsets._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoVideoCompositionOffsets && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you enable Precise segment duration in manifests, your DASH manifest
@@ -8284,19 +9574,32 @@ enum DashIsoVideoCompositionOffsets {
 /// Representation level. When this feature isn't enabled, the segment durations
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
-enum DashIsoWriteSegmentTimelineInRepresentation {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DashIsoWriteSegmentTimelineInRepresentation {
+  static const enabled =
+      DashIsoWriteSegmentTimelineInRepresentation._('ENABLED');
+  static const disabled =
+      DashIsoWriteSegmentTimelineInRepresentation._('DISABLED');
 
   final String value;
 
-  const DashIsoWriteSegmentTimelineInRepresentation(this.value);
+  const DashIsoWriteSegmentTimelineInRepresentation._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DashIsoWriteSegmentTimelineInRepresentation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashIsoWriteSegmentTimelineInRepresentation'));
+          orElse: () => DashIsoWriteSegmentTimelineInRepresentation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashIsoWriteSegmentTimelineInRepresentation &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how MediaConvert writes SegmentTimeline in your output DASH
@@ -8306,37 +9609,55 @@ enum DashIsoWriteSegmentTimelineInRepresentation {
 /// SegmentTimeline in any Representation that does not share a common timeline.
 /// To write a video AdaptationSet for each different output framerate, and a
 /// common SegmentTimeline in each AdaptationSet: Choose Distinct.
-enum DashManifestStyle {
-  basic('BASIC'),
-  compact('COMPACT'),
-  distinct('DISTINCT'),
-  ;
+class DashManifestStyle {
+  static const basic = DashManifestStyle._('BASIC');
+  static const compact = DashManifestStyle._('COMPACT');
+  static const distinct = DashManifestStyle._('DISTINCT');
 
   final String value;
 
-  const DashManifestStyle(this.value);
+  const DashManifestStyle._(this.value);
+
+  static const values = [basic, compact, distinct];
 
   static DashManifestStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashManifestStyle'));
+          orElse: () => DashManifestStyle._(value));
+
+  @override
+  bool operator ==(other) => other is DashManifestStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the encryption mode that you used to encrypt your input files.
-enum DecryptionMode {
-  aesCtr('AES_CTR'),
-  aesCbc('AES_CBC'),
-  aesGcm('AES_GCM'),
-  ;
+class DecryptionMode {
+  static const aesCtr = DecryptionMode._('AES_CTR');
+  static const aesCbc = DecryptionMode._('AES_CBC');
+  static const aesGcm = DecryptionMode._('AES_GCM');
 
   final String value;
 
-  const DecryptionMode(this.value);
+  const DecryptionMode._(this.value);
+
+  static const values = [aesCtr, aesCbc, aesGcm];
 
   static DecryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DecryptionMode'));
+          orElse: () => DecryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DecryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
@@ -8345,22 +9666,39 @@ enum DecryptionMode {
 /// bottom of the frame: Choose Interpolate ticker or Blend ticker. To apply
 /// field doubling: Choose Linear interpolation. Note that Linear interpolation
 /// may introduce video artifacts into your output.
-enum DeinterlaceAlgorithm {
-  interpolate('INTERPOLATE'),
-  interpolateTicker('INTERPOLATE_TICKER'),
-  blend('BLEND'),
-  blendTicker('BLEND_TICKER'),
-  linearInterpolation('LINEAR_INTERPOLATION'),
-  ;
+class DeinterlaceAlgorithm {
+  static const interpolate = DeinterlaceAlgorithm._('INTERPOLATE');
+  static const interpolateTicker = DeinterlaceAlgorithm._('INTERPOLATE_TICKER');
+  static const blend = DeinterlaceAlgorithm._('BLEND');
+  static const blendTicker = DeinterlaceAlgorithm._('BLEND_TICKER');
+  static const linearInterpolation =
+      DeinterlaceAlgorithm._('LINEAR_INTERPOLATION');
 
   final String value;
 
-  const DeinterlaceAlgorithm(this.value);
+  const DeinterlaceAlgorithm._(this.value);
 
-  static DeinterlaceAlgorithm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeinterlaceAlgorithm'));
+  static const values = [
+    interpolate,
+    interpolateTicker,
+    blend,
+    blendTicker,
+    linearInterpolation
+  ];
+
+  static DeinterlaceAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeinterlaceAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeinterlaceAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for deinterlacer
@@ -8426,19 +9764,29 @@ class Deinterlacer {
 /// chance that the metadata has tagged frames as progressive when they are not
 /// progressive. Do not turn on otherwise; processing frames that are already
 /// progressive into progressive will probably result in lower quality video.
-enum DeinterlacerControl {
-  forceAllFrames('FORCE_ALL_FRAMES'),
-  normal('NORMAL'),
-  ;
+class DeinterlacerControl {
+  static const forceAllFrames = DeinterlacerControl._('FORCE_ALL_FRAMES');
+  static const normal = DeinterlacerControl._('NORMAL');
 
   final String value;
 
-  const DeinterlacerControl(this.value);
+  const DeinterlacerControl._(this.value);
 
-  static DeinterlacerControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeinterlacerControl'));
+  static const values = [forceAllFrames, normal];
+
+  static DeinterlacerControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeinterlacerControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeinterlacerControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Deinterlacer to choose how the service will do deinterlacing. Default is
@@ -8446,20 +9794,29 @@ enum DeinterlacerControl {
 /// - Deinterlace converts interlaced to progressive.
 /// - Inverse telecine converts Hard Telecine 29.97i to progressive 23.976p.
 /// - Adaptive auto-detects and converts to progressive.
-enum DeinterlacerMode {
-  deinterlace('DEINTERLACE'),
-  inverseTelecine('INVERSE_TELECINE'),
-  adaptive('ADAPTIVE'),
-  ;
+class DeinterlacerMode {
+  static const deinterlace = DeinterlacerMode._('DEINTERLACE');
+  static const inverseTelecine = DeinterlacerMode._('INVERSE_TELECINE');
+  static const adaptive = DeinterlacerMode._('ADAPTIVE');
 
   final String value;
 
-  const DeinterlacerMode(this.value);
+  const DeinterlacerMode._(this.value);
+
+  static const values = [deinterlace, inverseTelecine, adaptive];
 
   static DeinterlacerMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeinterlacerMode'));
+          orElse: () => DeinterlacerMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeinterlacerMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteJobTemplateResponse {
@@ -8516,19 +9873,29 @@ class DeleteQueueResponse {
 /// endpoints if any exist, or an empty list if none exist.
 @Deprecated(
     'DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.')
-enum DescribeEndpointsMode {
-  $default('DEFAULT'),
-  getOnly('GET_ONLY'),
-  ;
+class DescribeEndpointsMode {
+  static const $default = DescribeEndpointsMode._('DEFAULT');
+  static const getOnly = DescribeEndpointsMode._('GET_ONLY');
 
   final String value;
 
-  const DescribeEndpointsMode(this.value);
+  const DescribeEndpointsMode._(this.value);
 
-  static DescribeEndpointsMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DescribeEndpointsMode'));
+  static const values = [$default, getOnly];
+
+  static DescribeEndpointsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DescribeEndpointsMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeEndpointsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 @Deprecated(
@@ -8701,20 +10068,30 @@ class DolbyVisionLevel6Metadata {
 
 /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision
 /// MaxCLL and MaxFALL properies.
-enum DolbyVisionLevel6Mode {
-  passthrough('PASSTHROUGH'),
-  recalculate('RECALCULATE'),
-  specify('SPECIFY'),
-  ;
+class DolbyVisionLevel6Mode {
+  static const passthrough = DolbyVisionLevel6Mode._('PASSTHROUGH');
+  static const recalculate = DolbyVisionLevel6Mode._('RECALCULATE');
+  static const specify = DolbyVisionLevel6Mode._('SPECIFY');
 
   final String value;
 
-  const DolbyVisionLevel6Mode(this.value);
+  const DolbyVisionLevel6Mode._(this.value);
 
-  static DolbyVisionLevel6Mode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DolbyVisionLevel6Mode'));
+  static const values = [passthrough, recalculate, specify];
+
+  static DolbyVisionLevel6Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DolbyVisionLevel6Mode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DolbyVisionLevel6Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Dolby Vision Profile to Profile 8.1. When you set
@@ -8726,19 +10103,29 @@ enum DolbyVisionLevel6Mode {
 /// This mode is speed-optimized for PQ10 sources with metadata that is created
 /// from analysis. For graded Dolby Vision content, be aware that creative
 /// intent might not be guaranteed with extreme 1,000 nits trims.
-enum DolbyVisionMapping {
-  hdr10Nomap('HDR10_NOMAP'),
-  hdr10_1000('HDR10_1000'),
-  ;
+class DolbyVisionMapping {
+  static const hdr10Nomap = DolbyVisionMapping._('HDR10_NOMAP');
+  static const hdr10_1000 = DolbyVisionMapping._('HDR10_1000');
 
   final String value;
 
-  const DolbyVisionMapping(this.value);
+  const DolbyVisionMapping._(this.value);
 
-  static DolbyVisionMapping fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DolbyVisionMapping'));
+  static const values = [hdr10Nomap, hdr10_1000];
+
+  static DolbyVisionMapping fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DolbyVisionMapping._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DolbyVisionMapping && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you enable Dolby Vision. Use Profile 5 to include
@@ -8746,38 +10133,57 @@ enum DolbyVisionMapping {
 /// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
 /// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
 /// your output. Your input must include Dolby Vision metadata.
-enum DolbyVisionProfile {
-  profile_5('PROFILE_5'),
-  profile_8_1('PROFILE_8_1'),
-  ;
+class DolbyVisionProfile {
+  static const profile_5 = DolbyVisionProfile._('PROFILE_5');
+  static const profile_8_1 = DolbyVisionProfile._('PROFILE_8_1');
 
   final String value;
 
-  const DolbyVisionProfile(this.value);
+  const DolbyVisionProfile._(this.value);
 
-  static DolbyVisionProfile fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DolbyVisionProfile'));
+  static const values = [profile_5, profile_8_1];
+
+  static DolbyVisionProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DolbyVisionProfile._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DolbyVisionProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Applies only to 29.97 fps outputs. When this feature is enabled, the service
 /// will use drop-frame timecode on outputs. If it is not possible to use
 /// drop-frame timecode, the system will fall back to non-drop-frame. This
 /// setting is enabled by default when Timecode insertion is enabled.
-enum DropFrameTimecode {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class DropFrameTimecode {
+  static const disabled = DropFrameTimecode._('DISABLED');
+  static const enabled = DropFrameTimecode._('ENABLED');
 
   final String value;
 
-  const DropFrameTimecode(this.value);
+  const DropFrameTimecode._(this.value);
+
+  static const values = [disabled, enabled];
 
   static DropFrameTimecode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DropFrameTimecode'));
+          orElse: () => DropFrameTimecode._(value));
+
+  @override
+  bool operator ==(other) => other is DropFrameTimecode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use these settings to insert a DVB Network Information Table (NIT) in the
@@ -9284,22 +10690,42 @@ class DvbSubSourceSettings {
 /// MediaConvert matches each font with the supported font that matches best.
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
-enum DvbSubSubtitleFallbackFont {
-  bestMatch('BEST_MATCH'),
-  monospacedSansserif('MONOSPACED_SANSSERIF'),
-  monospacedSerif('MONOSPACED_SERIF'),
-  proportionalSansserif('PROPORTIONAL_SANSSERIF'),
-  proportionalSerif('PROPORTIONAL_SERIF'),
-  ;
+class DvbSubSubtitleFallbackFont {
+  static const bestMatch = DvbSubSubtitleFallbackFont._('BEST_MATCH');
+  static const monospacedSansserif =
+      DvbSubSubtitleFallbackFont._('MONOSPACED_SANSSERIF');
+  static const monospacedSerif =
+      DvbSubSubtitleFallbackFont._('MONOSPACED_SERIF');
+  static const proportionalSansserif =
+      DvbSubSubtitleFallbackFont._('PROPORTIONAL_SANSSERIF');
+  static const proportionalSerif =
+      DvbSubSubtitleFallbackFont._('PROPORTIONAL_SERIF');
 
   final String value;
 
-  const DvbSubSubtitleFallbackFont(this.value);
+  const DvbSubSubtitleFallbackFont._(this.value);
+
+  static const values = [
+    bestMatch,
+    monospacedSansserif,
+    monospacedSerif,
+    proportionalSansserif,
+    proportionalSerif
+  ];
 
   static DvbSubSubtitleFallbackFont fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubSubtitleFallbackFont'));
+          orElse: () => DvbSubSubtitleFallbackFont._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubSubtitleFallbackFont && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the alignment of your captions. If no explicit x_position is
@@ -9309,20 +10735,30 @@ enum DvbSubSubtitleFallbackFont {
 /// conjunction with the alignment parameter, the font will be justified (either
 /// left or centered) relative to those coordinates. Within your job settings,
 /// all of your DVB-Sub settings must be identical.
-enum DvbSubtitleAlignment {
-  centered('CENTERED'),
-  left('LEFT'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleAlignment {
+  static const centered = DvbSubtitleAlignment._('CENTERED');
+  static const left = DvbSubtitleAlignment._('LEFT');
+  static const auto = DvbSubtitleAlignment._('AUTO');
 
   final String value;
 
-  const DvbSubtitleAlignment(this.value);
+  const DvbSubtitleAlignment._(this.value);
 
-  static DvbSubtitleAlignment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DvbSubtitleAlignment'));
+  static const values = [centered, left, auto];
+
+  static DvbSubtitleAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DvbSubtitleAlignment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless Style Passthrough is set to Enabled and Font
@@ -9333,109 +10769,159 @@ enum DvbSubtitleAlignment {
 /// input captions have red and white text, your output captions will have red
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
-enum DvbSubtitleApplyFontColor {
-  whiteTextOnly('WHITE_TEXT_ONLY'),
-  allText('ALL_TEXT'),
-  ;
+class DvbSubtitleApplyFontColor {
+  static const whiteTextOnly = DvbSubtitleApplyFontColor._('WHITE_TEXT_ONLY');
+  static const allText = DvbSubtitleApplyFontColor._('ALL_TEXT');
 
   final String value;
 
-  const DvbSubtitleApplyFontColor(this.value);
+  const DvbSubtitleApplyFontColor._(this.value);
+
+  static const values = [whiteTextOnly, allText];
 
   static DvbSubtitleApplyFontColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleApplyFontColor'));
+          orElse: () => DvbSubtitleApplyFontColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleApplyFontColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
-enum DvbSubtitleBackgroundColor {
-  none('NONE'),
-  black('BLACK'),
-  white('WHITE'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleBackgroundColor {
+  static const none = DvbSubtitleBackgroundColor._('NONE');
+  static const black = DvbSubtitleBackgroundColor._('BLACK');
+  static const white = DvbSubtitleBackgroundColor._('WHITE');
+  static const auto = DvbSubtitleBackgroundColor._('AUTO');
 
   final String value;
 
-  const DvbSubtitleBackgroundColor(this.value);
+  const DvbSubtitleBackgroundColor._(this.value);
+
+  static const values = [none, black, white, auto];
 
   static DvbSubtitleBackgroundColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleBackgroundColor'));
+          orElse: () => DvbSubtitleBackgroundColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleBackgroundColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the captions text. Leave Font color blank and set Style
 /// passthrough to enabled to use the font color data from your input captions,
 /// if present. Within your job settings, all of your DVB-Sub settings must be
 /// identical.
-enum DvbSubtitleFontColor {
-  white('WHITE'),
-  black('BLACK'),
-  yellow('YELLOW'),
-  red('RED'),
-  green('GREEN'),
-  blue('BLUE'),
-  hex('HEX'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleFontColor {
+  static const white = DvbSubtitleFontColor._('WHITE');
+  static const black = DvbSubtitleFontColor._('BLACK');
+  static const yellow = DvbSubtitleFontColor._('YELLOW');
+  static const red = DvbSubtitleFontColor._('RED');
+  static const green = DvbSubtitleFontColor._('GREEN');
+  static const blue = DvbSubtitleFontColor._('BLUE');
+  static const hex = DvbSubtitleFontColor._('HEX');
+  static const auto = DvbSubtitleFontColor._('AUTO');
 
   final String value;
 
-  const DvbSubtitleFontColor(this.value);
+  const DvbSubtitleFontColor._(this.value);
 
-  static DvbSubtitleFontColor fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DvbSubtitleFontColor'));
+  static const values = [white, black, yellow, red, green, blue, hex, auto];
+
+  static DvbSubtitleFontColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DvbSubtitleFontColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleFontColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify font outline color. Leave Outline color blank and set Style
 /// passthrough to enabled to use the font outline color data from your input
 /// captions, if present. Within your job settings, all of your DVB-Sub settings
 /// must be identical.
-enum DvbSubtitleOutlineColor {
-  black('BLACK'),
-  white('WHITE'),
-  yellow('YELLOW'),
-  red('RED'),
-  green('GREEN'),
-  blue('BLUE'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleOutlineColor {
+  static const black = DvbSubtitleOutlineColor._('BLACK');
+  static const white = DvbSubtitleOutlineColor._('WHITE');
+  static const yellow = DvbSubtitleOutlineColor._('YELLOW');
+  static const red = DvbSubtitleOutlineColor._('RED');
+  static const green = DvbSubtitleOutlineColor._('GREEN');
+  static const blue = DvbSubtitleOutlineColor._('BLUE');
+  static const auto = DvbSubtitleOutlineColor._('AUTO');
 
   final String value;
 
-  const DvbSubtitleOutlineColor(this.value);
+  const DvbSubtitleOutlineColor._(this.value);
+
+  static const values = [black, white, yellow, red, green, blue, auto];
 
   static DvbSubtitleOutlineColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleOutlineColor'));
+          orElse: () => DvbSubtitleOutlineColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleOutlineColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the color of the shadow cast by the captions. Leave Shadow color
 /// blank and set Style passthrough to enabled to use the shadow color data from
 /// your input captions, if present. Within your job settings, all of your
 /// DVB-Sub settings must be identical.
-enum DvbSubtitleShadowColor {
-  none('NONE'),
-  black('BLACK'),
-  white('WHITE'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleShadowColor {
+  static const none = DvbSubtitleShadowColor._('NONE');
+  static const black = DvbSubtitleShadowColor._('BLACK');
+  static const white = DvbSubtitleShadowColor._('WHITE');
+  static const auto = DvbSubtitleShadowColor._('AUTO');
 
   final String value;
 
-  const DvbSubtitleShadowColor(this.value);
+  const DvbSubtitleShadowColor._(this.value);
+
+  static const values = [none, black, white, auto];
 
   static DvbSubtitleShadowColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleShadowColor'));
+          orElse: () => DvbSubtitleShadowColor._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleShadowColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To use the available style, color, and position information from your input
@@ -9448,19 +10934,29 @@ enum DvbSubtitleShadowColor {
 /// passthrough to enabled or not, you can also choose to manually override any
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
-enum DvbSubtitleStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DvbSubtitleStylePassthrough {
+  static const enabled = DvbSubtitleStylePassthrough._('ENABLED');
+  static const disabled = DvbSubtitleStylePassthrough._('DISABLED');
 
   final String value;
 
-  const DvbSubtitleStylePassthrough(this.value);
+  const DvbSubtitleStylePassthrough._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DvbSubtitleStylePassthrough fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleStylePassthrough'));
+          orElse: () => DvbSubtitleStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether the Text spacing in your captions is set by the captions
@@ -9468,38 +10964,57 @@ enum DvbSubtitleStylePassthrough {
 /// the spacing specified in the captions file more accurately. Choose
 /// proportional to make the text easier to read for closed captions. Within
 /// your job settings, all of your DVB-Sub settings must be identical.
-enum DvbSubtitleTeletextSpacing {
-  fixedGrid('FIXED_GRID'),
-  proportional('PROPORTIONAL'),
-  auto('AUTO'),
-  ;
+class DvbSubtitleTeletextSpacing {
+  static const fixedGrid = DvbSubtitleTeletextSpacing._('FIXED_GRID');
+  static const proportional = DvbSubtitleTeletextSpacing._('PROPORTIONAL');
+  static const auto = DvbSubtitleTeletextSpacing._('AUTO');
 
   final String value;
 
-  const DvbSubtitleTeletextSpacing(this.value);
+  const DvbSubtitleTeletextSpacing._(this.value);
+
+  static const values = [fixedGrid, proportional, auto];
 
   static DvbSubtitleTeletextSpacing fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DvbSubtitleTeletextSpacing'));
+          orElse: () => DvbSubtitleTeletextSpacing._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DvbSubtitleTeletextSpacing && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your DVB subtitles are standard or for hearing impaired.
 /// Choose hearing impaired if your subtitles include audio descriptions and
 /// dialogue. Choose standard if your subtitles include only dialogue.
-enum DvbSubtitlingType {
-  hearingImpaired('HEARING_IMPAIRED'),
-  standard('STANDARD'),
-  ;
+class DvbSubtitlingType {
+  static const hearingImpaired = DvbSubtitlingType._('HEARING_IMPAIRED');
+  static const standard = DvbSubtitlingType._('STANDARD');
 
   final String value;
 
-  const DvbSubtitlingType(this.value);
+  const DvbSubtitlingType._(this.value);
+
+  static const values = [hearingImpaired, standard];
 
   static DvbSubtitlingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DvbSubtitlingType'));
+          orElse: () => DvbSubtitlingType._(value));
+
+  @override
+  bool operator ==(other) => other is DvbSubtitlingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use these settings to insert a DVB Time and Date Table (TDT) in the
@@ -9537,72 +11052,116 @@ class DvbTdtSettings {
 /// y-coordinate. For video resolutions with a height of 576 pixels or less,
 /// MediaConvert doesn't include the DDS, regardless of the value you choose for
 /// DDS handling. All burn-in and DVB-Sub font settings must match.
-enum DvbddsHandling {
-  none('NONE'),
-  specified('SPECIFIED'),
-  noDisplayWindow('NO_DISPLAY_WINDOW'),
-  ;
+class DvbddsHandling {
+  static const none = DvbddsHandling._('NONE');
+  static const specified = DvbddsHandling._('SPECIFIED');
+  static const noDisplayWindow = DvbddsHandling._('NO_DISPLAY_WINDOW');
 
   final String value;
 
-  const DvbddsHandling(this.value);
+  const DvbddsHandling._(this.value);
+
+  static const values = [none, specified, noDisplayWindow];
 
   static DvbddsHandling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DvbddsHandling'));
+          orElse: () => DvbddsHandling._(value));
+
+  @override
+  bool operator ==(other) => other is DvbddsHandling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
-enum Eac3AtmosBitstreamMode {
-  completeMain('COMPLETE_MAIN'),
-  ;
+class Eac3AtmosBitstreamMode {
+  static const completeMain = Eac3AtmosBitstreamMode._('COMPLETE_MAIN');
 
   final String value;
 
-  const Eac3AtmosBitstreamMode(this.value);
+  const Eac3AtmosBitstreamMode._(this.value);
+
+  static const values = [completeMain];
 
   static Eac3AtmosBitstreamMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosBitstreamMode'));
+          orElse: () => Eac3AtmosBitstreamMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosBitstreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The coding mode for Dolby Digital Plus JOC (Atmos).
-enum Eac3AtmosCodingMode {
-  codingModeAuto('CODING_MODE_AUTO'),
-  codingMode_5_1_4('CODING_MODE_5_1_4'),
-  codingMode_7_1_4('CODING_MODE_7_1_4'),
-  codingMode_9_1_6('CODING_MODE_9_1_6'),
-  ;
+class Eac3AtmosCodingMode {
+  static const codingModeAuto = Eac3AtmosCodingMode._('CODING_MODE_AUTO');
+  static const codingMode_5_1_4 = Eac3AtmosCodingMode._('CODING_MODE_5_1_4');
+  static const codingMode_7_1_4 = Eac3AtmosCodingMode._('CODING_MODE_7_1_4');
+  static const codingMode_9_1_6 = Eac3AtmosCodingMode._('CODING_MODE_9_1_6');
 
   final String value;
 
-  const Eac3AtmosCodingMode(this.value);
+  const Eac3AtmosCodingMode._(this.value);
 
-  static Eac3AtmosCodingMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Eac3AtmosCodingMode'));
+  static const values = [
+    codingModeAuto,
+    codingMode_5_1_4,
+    codingMode_7_1_4,
+    codingMode_9_1_6
+  ];
+
+  static Eac3AtmosCodingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Eac3AtmosCodingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosCodingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue
 /// analysis.
-enum Eac3AtmosDialogueIntelligence {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3AtmosDialogueIntelligence {
+  static const enabled = Eac3AtmosDialogueIntelligence._('ENABLED');
+  static const disabled = Eac3AtmosDialogueIntelligence._('DISABLED');
 
   final String value;
 
-  const Eac3AtmosDialogueIntelligence(this.value);
+  const Eac3AtmosDialogueIntelligence._(this.value);
+
+  static const values = [enabled, disabled];
 
   static Eac3AtmosDialogueIntelligence fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosDialogueIntelligence'));
+          orElse: () => Eac3AtmosDialogueIntelligence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosDialogueIntelligence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert should use any downmix metadata from your input
@@ -9613,19 +11172,30 @@ enum Eac3AtmosDialogueIntelligence {
 /// center, Left only/Right only center, and Stereo downmix. When you keep
 /// Custom for Downmix control and you don't specify values for the related
 /// settings, MediaConvert uses default values for those settings.
-enum Eac3AtmosDownmixControl {
-  specified('SPECIFIED'),
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  ;
+class Eac3AtmosDownmixControl {
+  static const specified = Eac3AtmosDownmixControl._('SPECIFIED');
+  static const initializeFromSource =
+      Eac3AtmosDownmixControl._('INITIALIZE_FROM_SOURCE');
 
   final String value;
 
-  const Eac3AtmosDownmixControl(this.value);
+  const Eac3AtmosDownmixControl._(this.value);
+
+  static const values = [specified, initializeFromSource];
 
   static Eac3AtmosDownmixControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosDownmixControl'));
+          orElse: () => Eac3AtmosDownmixControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosDownmixControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
@@ -9637,23 +11207,43 @@ enum Eac3AtmosDownmixControl {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Eac3AtmosDynamicRangeCompressionLine {
-  none('NONE'),
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  ;
+class Eac3AtmosDynamicRangeCompressionLine {
+  static const none = Eac3AtmosDynamicRangeCompressionLine._('NONE');
+  static const filmStandard =
+      Eac3AtmosDynamicRangeCompressionLine._('FILM_STANDARD');
+  static const filmLight = Eac3AtmosDynamicRangeCompressionLine._('FILM_LIGHT');
+  static const musicStandard =
+      Eac3AtmosDynamicRangeCompressionLine._('MUSIC_STANDARD');
+  static const musicLight =
+      Eac3AtmosDynamicRangeCompressionLine._('MUSIC_LIGHT');
+  static const speech = Eac3AtmosDynamicRangeCompressionLine._('SPEECH');
 
   final String value;
 
-  const Eac3AtmosDynamicRangeCompressionLine(this.value);
+  const Eac3AtmosDynamicRangeCompressionLine._(this.value);
+
+  static const values = [
+    none,
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech
+  ];
 
   static Eac3AtmosDynamicRangeCompressionLine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosDynamicRangeCompressionLine'));
+          orElse: () => Eac3AtmosDynamicRangeCompressionLine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosDynamicRangeCompressionLine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
@@ -9665,23 +11255,42 @@ enum Eac3AtmosDynamicRangeCompressionLine {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Eac3AtmosDynamicRangeCompressionRf {
-  none('NONE'),
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  ;
+class Eac3AtmosDynamicRangeCompressionRf {
+  static const none = Eac3AtmosDynamicRangeCompressionRf._('NONE');
+  static const filmStandard =
+      Eac3AtmosDynamicRangeCompressionRf._('FILM_STANDARD');
+  static const filmLight = Eac3AtmosDynamicRangeCompressionRf._('FILM_LIGHT');
+  static const musicStandard =
+      Eac3AtmosDynamicRangeCompressionRf._('MUSIC_STANDARD');
+  static const musicLight = Eac3AtmosDynamicRangeCompressionRf._('MUSIC_LIGHT');
+  static const speech = Eac3AtmosDynamicRangeCompressionRf._('SPEECH');
 
   final String value;
 
-  const Eac3AtmosDynamicRangeCompressionRf(this.value);
+  const Eac3AtmosDynamicRangeCompressionRf._(this.value);
+
+  static const values = [
+    none,
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech
+  ];
 
   static Eac3AtmosDynamicRangeCompressionRf fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosDynamicRangeCompressionRf'));
+          orElse: () => Eac3AtmosDynamicRangeCompressionRf._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosDynamicRangeCompressionRf && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert should use any dynamic range control metadata
@@ -9692,38 +11301,65 @@ enum Eac3AtmosDynamicRangeCompressionRf {
 /// Dynamic range compression RF. When you keep the value Custom for Dynamic
 /// range control and you don't specify values for the related settings,
 /// MediaConvert uses default values for those settings.
-enum Eac3AtmosDynamicRangeControl {
-  specified('SPECIFIED'),
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  ;
+class Eac3AtmosDynamicRangeControl {
+  static const specified = Eac3AtmosDynamicRangeControl._('SPECIFIED');
+  static const initializeFromSource =
+      Eac3AtmosDynamicRangeControl._('INITIALIZE_FROM_SOURCE');
 
   final String value;
 
-  const Eac3AtmosDynamicRangeControl(this.value);
+  const Eac3AtmosDynamicRangeControl._(this.value);
+
+  static const values = [specified, initializeFromSource];
 
   static Eac3AtmosDynamicRangeControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosDynamicRangeControl'));
+          orElse: () => Eac3AtmosDynamicRangeControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosDynamicRangeControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose how the service meters the loudness of your audio.
-enum Eac3AtmosMeteringMode {
-  leqA('LEQ_A'),
-  ituBs_1770_1('ITU_BS_1770_1'),
-  ituBs_1770_2('ITU_BS_1770_2'),
-  ituBs_1770_3('ITU_BS_1770_3'),
-  ituBs_1770_4('ITU_BS_1770_4'),
-  ;
+class Eac3AtmosMeteringMode {
+  static const leqA = Eac3AtmosMeteringMode._('LEQ_A');
+  static const ituBs_1770_1 = Eac3AtmosMeteringMode._('ITU_BS_1770_1');
+  static const ituBs_1770_2 = Eac3AtmosMeteringMode._('ITU_BS_1770_2');
+  static const ituBs_1770_3 = Eac3AtmosMeteringMode._('ITU_BS_1770_3');
+  static const ituBs_1770_4 = Eac3AtmosMeteringMode._('ITU_BS_1770_4');
 
   final String value;
 
-  const Eac3AtmosMeteringMode(this.value);
+  const Eac3AtmosMeteringMode._(this.value);
 
-  static Eac3AtmosMeteringMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Eac3AtmosMeteringMode'));
+  static const values = [
+    leqA,
+    ituBs_1770_1,
+    ituBs_1770_2,
+    ituBs_1770_3,
+    ituBs_1770_4
+  ];
+
+  static Eac3AtmosMeteringMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Eac3AtmosMeteringMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosMeteringMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value EAC3_ATMOS.
@@ -9951,110 +11587,172 @@ class Eac3AtmosSettings {
 /// Related setting: To have MediaConvert use this value, keep the default
 /// value, Custom for the setting Downmix control. Otherwise, MediaConvert
 /// ignores Stereo downmix.
-enum Eac3AtmosStereoDownmix {
-  notIndicated('NOT_INDICATED'),
-  stereo('STEREO'),
-  surround('SURROUND'),
-  dpl2('DPL2'),
-  ;
+class Eac3AtmosStereoDownmix {
+  static const notIndicated = Eac3AtmosStereoDownmix._('NOT_INDICATED');
+  static const stereo = Eac3AtmosStereoDownmix._('STEREO');
+  static const surround = Eac3AtmosStereoDownmix._('SURROUND');
+  static const dpl2 = Eac3AtmosStereoDownmix._('DPL2');
 
   final String value;
 
-  const Eac3AtmosStereoDownmix(this.value);
+  const Eac3AtmosStereoDownmix._(this.value);
+
+  static const values = [notIndicated, stereo, surround, dpl2];
 
   static Eac3AtmosStereoDownmix fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosStereoDownmix'));
+          orElse: () => Eac3AtmosStereoDownmix._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosStereoDownmix && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your input audio has an additional center rear surround
 /// channel matrix encoded into your left and right surround channels.
-enum Eac3AtmosSurroundExMode {
-  notIndicated('NOT_INDICATED'),
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3AtmosSurroundExMode {
+  static const notIndicated = Eac3AtmosSurroundExMode._('NOT_INDICATED');
+  static const enabled = Eac3AtmosSurroundExMode._('ENABLED');
+  static const disabled = Eac3AtmosSurroundExMode._('DISABLED');
 
   final String value;
 
-  const Eac3AtmosSurroundExMode(this.value);
+  const Eac3AtmosSurroundExMode._(this.value);
+
+  static const values = [notIndicated, enabled, disabled];
 
   static Eac3AtmosSurroundExMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AtmosSurroundExMode'));
+          orElse: () => Eac3AtmosSurroundExMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AtmosSurroundExMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround
 /// channels. Only used for 3/2 coding mode.
-enum Eac3AttenuationControl {
-  attenuate_3Db('ATTENUATE_3_DB'),
-  none('NONE'),
-  ;
+class Eac3AttenuationControl {
+  static const attenuate_3Db = Eac3AttenuationControl._('ATTENUATE_3_DB');
+  static const none = Eac3AttenuationControl._('NONE');
 
   final String value;
 
-  const Eac3AttenuationControl(this.value);
+  const Eac3AttenuationControl._(this.value);
+
+  static const values = [attenuate_3Db, none];
 
   static Eac3AttenuationControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3AttenuationControl'));
+          orElse: () => Eac3AttenuationControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3AttenuationControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
-enum Eac3BitstreamMode {
-  completeMain('COMPLETE_MAIN'),
-  commentary('COMMENTARY'),
-  emergency('EMERGENCY'),
-  hearingImpaired('HEARING_IMPAIRED'),
-  visuallyImpaired('VISUALLY_IMPAIRED'),
-  ;
+class Eac3BitstreamMode {
+  static const completeMain = Eac3BitstreamMode._('COMPLETE_MAIN');
+  static const commentary = Eac3BitstreamMode._('COMMENTARY');
+  static const emergency = Eac3BitstreamMode._('EMERGENCY');
+  static const hearingImpaired = Eac3BitstreamMode._('HEARING_IMPAIRED');
+  static const visuallyImpaired = Eac3BitstreamMode._('VISUALLY_IMPAIRED');
 
   final String value;
 
-  const Eac3BitstreamMode(this.value);
+  const Eac3BitstreamMode._(this.value);
+
+  static const values = [
+    completeMain,
+    commentary,
+    emergency,
+    hearingImpaired,
+    visuallyImpaired
+  ];
 
   static Eac3BitstreamMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3BitstreamMode'));
+          orElse: () => Eac3BitstreamMode._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3BitstreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dolby Digital Plus coding mode. Determines number of channels.
-enum Eac3CodingMode {
-  codingMode_1_0('CODING_MODE_1_0'),
-  codingMode_2_0('CODING_MODE_2_0'),
-  codingMode_3_2('CODING_MODE_3_2'),
-  ;
+class Eac3CodingMode {
+  static const codingMode_1_0 = Eac3CodingMode._('CODING_MODE_1_0');
+  static const codingMode_2_0 = Eac3CodingMode._('CODING_MODE_2_0');
+  static const codingMode_3_2 = Eac3CodingMode._('CODING_MODE_3_2');
 
   final String value;
 
-  const Eac3CodingMode(this.value);
+  const Eac3CodingMode._(this.value);
+
+  static const values = [codingMode_1_0, codingMode_2_0, codingMode_3_2];
 
   static Eac3CodingMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3CodingMode'));
+          orElse: () => Eac3CodingMode._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3CodingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Activates a DC highpass filter for all input channels.
-enum Eac3DcFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3DcFilter {
+  static const enabled = Eac3DcFilter._('ENABLED');
+  static const disabled = Eac3DcFilter._('DISABLED');
 
   final String value;
 
-  const Eac3DcFilter(this.value);
+  const Eac3DcFilter._(this.value);
 
-  static Eac3DcFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3DcFilter'));
+  static const values = [enabled, disabled];
+
+  static Eac3DcFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Eac3DcFilter._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3DcFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -10065,23 +11763,42 @@ enum Eac3DcFilter {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Eac3DynamicRangeCompressionLine {
-  none('NONE'),
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  ;
+class Eac3DynamicRangeCompressionLine {
+  static const none = Eac3DynamicRangeCompressionLine._('NONE');
+  static const filmStandard =
+      Eac3DynamicRangeCompressionLine._('FILM_STANDARD');
+  static const filmLight = Eac3DynamicRangeCompressionLine._('FILM_LIGHT');
+  static const musicStandard =
+      Eac3DynamicRangeCompressionLine._('MUSIC_STANDARD');
+  static const musicLight = Eac3DynamicRangeCompressionLine._('MUSIC_LIGHT');
+  static const speech = Eac3DynamicRangeCompressionLine._('SPEECH');
 
   final String value;
 
-  const Eac3DynamicRangeCompressionLine(this.value);
+  const Eac3DynamicRangeCompressionLine._(this.value);
+
+  static const values = [
+    none,
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech
+  ];
 
   static Eac3DynamicRangeCompressionLine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3DynamicRangeCompressionLine'));
+          orElse: () => Eac3DynamicRangeCompressionLine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3DynamicRangeCompressionLine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -10092,74 +11809,120 @@ enum Eac3DynamicRangeCompressionLine {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
-enum Eac3DynamicRangeCompressionRf {
-  none('NONE'),
-  filmStandard('FILM_STANDARD'),
-  filmLight('FILM_LIGHT'),
-  musicStandard('MUSIC_STANDARD'),
-  musicLight('MUSIC_LIGHT'),
-  speech('SPEECH'),
-  ;
+class Eac3DynamicRangeCompressionRf {
+  static const none = Eac3DynamicRangeCompressionRf._('NONE');
+  static const filmStandard = Eac3DynamicRangeCompressionRf._('FILM_STANDARD');
+  static const filmLight = Eac3DynamicRangeCompressionRf._('FILM_LIGHT');
+  static const musicStandard =
+      Eac3DynamicRangeCompressionRf._('MUSIC_STANDARD');
+  static const musicLight = Eac3DynamicRangeCompressionRf._('MUSIC_LIGHT');
+  static const speech = Eac3DynamicRangeCompressionRf._('SPEECH');
 
   final String value;
 
-  const Eac3DynamicRangeCompressionRf(this.value);
+  const Eac3DynamicRangeCompressionRf._(this.value);
+
+  static const values = [
+    none,
+    filmStandard,
+    filmLight,
+    musicStandard,
+    musicLight,
+    speech
+  ];
 
   static Eac3DynamicRangeCompressionRf fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3DynamicRangeCompressionRf'));
+          orElse: () => Eac3DynamicRangeCompressionRf._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3DynamicRangeCompressionRf && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When encoding 3/2 audio, controls whether the LFE channel is enabled
-enum Eac3LfeControl {
-  lfe('LFE'),
-  noLfe('NO_LFE'),
-  ;
+class Eac3LfeControl {
+  static const lfe = Eac3LfeControl._('LFE');
+  static const noLfe = Eac3LfeControl._('NO_LFE');
 
   final String value;
 
-  const Eac3LfeControl(this.value);
+  const Eac3LfeControl._(this.value);
+
+  static const values = [lfe, noLfe];
 
   static Eac3LfeControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3LfeControl'));
+          orElse: () => Eac3LfeControl._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3LfeControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
-enum Eac3LfeFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3LfeFilter {
+  static const enabled = Eac3LfeFilter._('ENABLED');
+  static const disabled = Eac3LfeFilter._('DISABLED');
 
   final String value;
 
-  const Eac3LfeFilter(this.value);
+  const Eac3LfeFilter._(this.value);
+
+  static const values = [enabled, disabled];
 
   static Eac3LfeFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3LfeFilter'));
+          orElse: () => Eac3LfeFilter._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3LfeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
-enum Eac3MetadataControl {
-  followInput('FOLLOW_INPUT'),
-  useConfigured('USE_CONFIGURED'),
-  ;
+class Eac3MetadataControl {
+  static const followInput = Eac3MetadataControl._('FOLLOW_INPUT');
+  static const useConfigured = Eac3MetadataControl._('USE_CONFIGURED');
 
   final String value;
 
-  const Eac3MetadataControl(this.value);
+  const Eac3MetadataControl._(this.value);
 
-  static Eac3MetadataControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Eac3MetadataControl'));
+  static const values = [followInput, useConfigured];
+
+  static Eac3MetadataControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Eac3MetadataControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3MetadataControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to WHEN_POSSIBLE, input DD+ audio will be passed through if it is
@@ -10167,36 +11930,55 @@ enum Eac3MetadataControl {
 /// transcode. Inputs that alternate between DD+ and non-DD+ content will have a
 /// consistent DD+ output as the system alternates between passthrough and
 /// encoding.
-enum Eac3PassthroughControl {
-  whenPossible('WHEN_POSSIBLE'),
-  noPassthrough('NO_PASSTHROUGH'),
-  ;
+class Eac3PassthroughControl {
+  static const whenPossible = Eac3PassthroughControl._('WHEN_POSSIBLE');
+  static const noPassthrough = Eac3PassthroughControl._('NO_PASSTHROUGH');
 
   final String value;
 
-  const Eac3PassthroughControl(this.value);
+  const Eac3PassthroughControl._(this.value);
+
+  static const values = [whenPossible, noPassthrough];
 
   static Eac3PassthroughControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Eac3PassthroughControl'));
+          orElse: () => Eac3PassthroughControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3PassthroughControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls the amount of phase-shift applied to the surround channels. Only
 /// used for 3/2 coding mode.
-enum Eac3PhaseControl {
-  shift_90Degrees('SHIFT_90_DEGREES'),
-  noShift('NO_SHIFT'),
-  ;
+class Eac3PhaseControl {
+  static const shift_90Degrees = Eac3PhaseControl._('SHIFT_90_DEGREES');
+  static const noShift = Eac3PhaseControl._('NO_SHIFT');
 
   final String value;
 
-  const Eac3PhaseControl(this.value);
+  const Eac3PhaseControl._(this.value);
+
+  static const values = [shift_90Degrees, noShift];
 
   static Eac3PhaseControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3PhaseControl'));
+          orElse: () => Eac3PhaseControl._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3PhaseControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value EAC3.
@@ -10449,57 +12231,85 @@ class Eac3Settings {
 /// you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding
 /// mode. If you choose a different value for Coding mode, the service ignores
 /// Stereo downmix.
-enum Eac3StereoDownmix {
-  notIndicated('NOT_INDICATED'),
-  loRo('LO_RO'),
-  ltRt('LT_RT'),
-  dpl2('DPL2'),
-  ;
+class Eac3StereoDownmix {
+  static const notIndicated = Eac3StereoDownmix._('NOT_INDICATED');
+  static const loRo = Eac3StereoDownmix._('LO_RO');
+  static const ltRt = Eac3StereoDownmix._('LT_RT');
+  static const dpl2 = Eac3StereoDownmix._('DPL2');
 
   final String value;
 
-  const Eac3StereoDownmix(this.value);
+  const Eac3StereoDownmix._(this.value);
+
+  static const values = [notIndicated, loRo, ltRt, dpl2];
 
   static Eac3StereoDownmix fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3StereoDownmix'));
+          orElse: () => Eac3StereoDownmix._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3StereoDownmix && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When encoding 3/2 audio, sets whether an extra center back surround channel
 /// is matrix encoded into the left and right surround channels.
-enum Eac3SurroundExMode {
-  notIndicated('NOT_INDICATED'),
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3SurroundExMode {
+  static const notIndicated = Eac3SurroundExMode._('NOT_INDICATED');
+  static const enabled = Eac3SurroundExMode._('ENABLED');
+  static const disabled = Eac3SurroundExMode._('DISABLED');
 
   final String value;
 
-  const Eac3SurroundExMode(this.value);
+  const Eac3SurroundExMode._(this.value);
 
-  static Eac3SurroundExMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Eac3SurroundExMode'));
+  static const values = [notIndicated, enabled, disabled];
+
+  static Eac3SurroundExMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Eac3SurroundExMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Eac3SurroundExMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into
 /// the two channels.
-enum Eac3SurroundMode {
-  notIndicated('NOT_INDICATED'),
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Eac3SurroundMode {
+  static const notIndicated = Eac3SurroundMode._('NOT_INDICATED');
+  static const enabled = Eac3SurroundMode._('ENABLED');
+  static const disabled = Eac3SurroundMode._('DISABLED');
 
   final String value;
 
-  const Eac3SurroundMode(this.value);
+  const Eac3SurroundMode._(this.value);
+
+  static const values = [notIndicated, enabled, disabled];
 
   static Eac3SurroundMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Eac3SurroundMode'));
+          orElse: () => Eac3SurroundMode._(value));
+
+  @override
+  bool operator ==(other) => other is Eac3SurroundMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether this set of input captions appears in your outputs in both
@@ -10507,19 +12317,29 @@ enum Eac3SurroundMode {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
-enum EmbeddedConvert608To708 {
-  upconvert('UPCONVERT'),
-  disabled('DISABLED'),
-  ;
+class EmbeddedConvert608To708 {
+  static const upconvert = EmbeddedConvert608To708._('UPCONVERT');
+  static const disabled = EmbeddedConvert608To708._('DISABLED');
 
   final String value;
 
-  const EmbeddedConvert608To708(this.value);
+  const EmbeddedConvert608To708._(this.value);
+
+  static const values = [upconvert, disabled];
 
   static EmbeddedConvert608To708 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmbeddedConvert608To708'));
+          orElse: () => EmbeddedConvert608To708._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmbeddedConvert608To708 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or
@@ -10630,19 +12450,29 @@ class EmbeddedSourceSettings {
 /// By default, the service terminates any unterminated captions at the end of
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
-enum EmbeddedTerminateCaptions {
-  endOfInput('END_OF_INPUT'),
-  disabled('DISABLED'),
-  ;
+class EmbeddedTerminateCaptions {
+  static const endOfInput = EmbeddedTerminateCaptions._('END_OF_INPUT');
+  static const disabled = EmbeddedTerminateCaptions._('DISABLED');
 
   final String value;
 
-  const EmbeddedTerminateCaptions(this.value);
+  const EmbeddedTerminateCaptions._(this.value);
+
+  static const values = [endOfInput, disabled];
 
   static EmbeddedTerminateCaptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmbeddedTerminateCaptions'));
+          orElse: () => EmbeddedTerminateCaptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmbeddedTerminateCaptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set Embedded timecode override to Use MDPM when your AVCHD input contains
@@ -10650,19 +12480,29 @@ enum EmbeddedTerminateCaptions {
 /// we recommend you also set Timecode source to Embedded. Leave Embedded
 /// timecode override blank, or set to None, when your input does not contain
 /// MDPM timecode.
-enum EmbeddedTimecodeOverride {
-  none('NONE'),
-  useMdpm('USE_MDPM'),
-  ;
+class EmbeddedTimecodeOverride {
+  static const none = EmbeddedTimecodeOverride._('NONE');
+  static const useMdpm = EmbeddedTimecodeOverride._('USE_MDPM');
 
   final String value;
 
-  const EmbeddedTimecodeOverride(this.value);
+  const EmbeddedTimecodeOverride._(this.value);
+
+  static const values = [none, useMdpm];
 
   static EmbeddedTimecodeOverride fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmbeddedTimecodeOverride'));
+          orElse: () => EmbeddedTimecodeOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmbeddedTimecodeOverride && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an account-specific API endpoint.
@@ -10849,19 +12689,28 @@ class ExtendedDataServices {
 /// To place the MOOV atom at the beginning of your output, which is useful for
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
-enum F4vMoovPlacement {
-  progressiveDownload('PROGRESSIVE_DOWNLOAD'),
-  normal('NORMAL'),
-  ;
+class F4vMoovPlacement {
+  static const progressiveDownload = F4vMoovPlacement._('PROGRESSIVE_DOWNLOAD');
+  static const normal = F4vMoovPlacement._('NORMAL');
 
   final String value;
 
-  const F4vMoovPlacement(this.value);
+  const F4vMoovPlacement._(this.value);
+
+  static const values = [progressiveDownload, normal];
 
   static F4vMoovPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum F4vMoovPlacement'));
+          orElse: () => F4vMoovPlacement._(value));
+
+  @override
+  bool operator ==(other) => other is F4vMoovPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for F4v container
@@ -10936,19 +12785,29 @@ class FileGroupSettings {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
-enum FileSourceConvert608To708 {
-  upconvert('UPCONVERT'),
-  disabled('DISABLED'),
-  ;
+class FileSourceConvert608To708 {
+  static const upconvert = FileSourceConvert608To708._('UPCONVERT');
+  static const disabled = FileSourceConvert608To708._('DISABLED');
 
   final String value;
 
-  const FileSourceConvert608To708(this.value);
+  const FileSourceConvert608To708._(this.value);
+
+  static const values = [upconvert, disabled];
 
   static FileSourceConvert608To708 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FileSourceConvert608To708'));
+          orElse: () => FileSourceConvert608To708._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSourceConvert608To708 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in
@@ -11051,19 +12910,29 @@ class FileSourceSettings {
 /// captions and your video, use this setting to specify the units for the delta
 /// that you specify. When you don't specify a value for Time delta units,
 /// MediaConvert uses seconds by default.
-enum FileSourceTimeDeltaUnits {
-  seconds('SECONDS'),
-  milliseconds('MILLISECONDS'),
-  ;
+class FileSourceTimeDeltaUnits {
+  static const seconds = FileSourceTimeDeltaUnits._('SECONDS');
+  static const milliseconds = FileSourceTimeDeltaUnits._('MILLISECONDS');
 
   final String value;
 
-  const FileSourceTimeDeltaUnits(this.value);
+  const FileSourceTimeDeltaUnits._(this.value);
+
+  static const values = [seconds, milliseconds];
 
   static FileSourceTimeDeltaUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FileSourceTimeDeltaUnits'));
+          orElse: () => FileSourceTimeDeltaUnits._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSourceTimeDeltaUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -11110,19 +12979,28 @@ class FlacSettings {
 /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
 /// is not sufficient for determining the script type. Where LanguageCode or
 /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset.
-enum FontScript {
-  automatic('AUTOMATIC'),
-  hans('HANS'),
-  hant('HANT'),
-  ;
+class FontScript {
+  static const automatic = FontScript._('AUTOMATIC');
+  static const hans = FontScript._('HANS');
+  static const hant = FontScript._('HANT');
 
   final String value;
 
-  const FontScript(this.value);
+  const FontScript._(this.value);
 
-  static FontScript fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FontScript'));
+  static const values = [automatic, hans, hant];
+
+  static FontScript fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FontScript._(value));
+
+  @override
+  bool operator ==(other) => other is FontScript && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Force include renditions to specify one or more resolutions to include
@@ -11360,77 +13238,130 @@ class GetQueueResponse {
 /// that you choose here applies to the following settings:
 /// H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and
 /// H264TemporalAdaptiveQuantization.
-enum H264AdaptiveQuantization {
-  off('OFF'),
-  auto('AUTO'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  higher('HIGHER'),
-  max('MAX'),
-  ;
+class H264AdaptiveQuantization {
+  static const off = H264AdaptiveQuantization._('OFF');
+  static const auto = H264AdaptiveQuantization._('AUTO');
+  static const low = H264AdaptiveQuantization._('LOW');
+  static const medium = H264AdaptiveQuantization._('MEDIUM');
+  static const high = H264AdaptiveQuantization._('HIGH');
+  static const higher = H264AdaptiveQuantization._('HIGHER');
+  static const max = H264AdaptiveQuantization._('MAX');
 
   final String value;
 
-  const H264AdaptiveQuantization(this.value);
+  const H264AdaptiveQuantization._(this.value);
+
+  static const values = [off, auto, low, medium, high, higher, max];
 
   static H264AdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264AdaptiveQuantization'));
+          orElse: () => H264AdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264AdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify an H.264 level that is consistent with your output video settings.
 /// If you aren't sure what level to specify, choose Auto.
-enum H264CodecLevel {
-  auto('AUTO'),
-  level_1('LEVEL_1'),
-  level_1_1('LEVEL_1_1'),
-  level_1_2('LEVEL_1_2'),
-  level_1_3('LEVEL_1_3'),
-  level_2('LEVEL_2'),
-  level_2_1('LEVEL_2_1'),
-  level_2_2('LEVEL_2_2'),
-  level_3('LEVEL_3'),
-  level_3_1('LEVEL_3_1'),
-  level_3_2('LEVEL_3_2'),
-  level_4('LEVEL_4'),
-  level_4_1('LEVEL_4_1'),
-  level_4_2('LEVEL_4_2'),
-  level_5('LEVEL_5'),
-  level_5_1('LEVEL_5_1'),
-  level_5_2('LEVEL_5_2'),
-  ;
+class H264CodecLevel {
+  static const auto = H264CodecLevel._('AUTO');
+  static const level_1 = H264CodecLevel._('LEVEL_1');
+  static const level_1_1 = H264CodecLevel._('LEVEL_1_1');
+  static const level_1_2 = H264CodecLevel._('LEVEL_1_2');
+  static const level_1_3 = H264CodecLevel._('LEVEL_1_3');
+  static const level_2 = H264CodecLevel._('LEVEL_2');
+  static const level_2_1 = H264CodecLevel._('LEVEL_2_1');
+  static const level_2_2 = H264CodecLevel._('LEVEL_2_2');
+  static const level_3 = H264CodecLevel._('LEVEL_3');
+  static const level_3_1 = H264CodecLevel._('LEVEL_3_1');
+  static const level_3_2 = H264CodecLevel._('LEVEL_3_2');
+  static const level_4 = H264CodecLevel._('LEVEL_4');
+  static const level_4_1 = H264CodecLevel._('LEVEL_4_1');
+  static const level_4_2 = H264CodecLevel._('LEVEL_4_2');
+  static const level_5 = H264CodecLevel._('LEVEL_5');
+  static const level_5_1 = H264CodecLevel._('LEVEL_5_1');
+  static const level_5_2 = H264CodecLevel._('LEVEL_5_2');
 
   final String value;
 
-  const H264CodecLevel(this.value);
+  const H264CodecLevel._(this.value);
+
+  static const values = [
+    auto,
+    level_1,
+    level_1_1,
+    level_1_2,
+    level_1_3,
+    level_2,
+    level_2_1,
+    level_2_2,
+    level_3,
+    level_3_1,
+    level_3_2,
+    level_4,
+    level_4_1,
+    level_4_2,
+    level_5,
+    level_5_1,
+    level_5_2
+  ];
 
   static H264CodecLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264CodecLevel'));
+          orElse: () => H264CodecLevel._(value));
+
+  @override
+  bool operator ==(other) => other is H264CodecLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// H.264 Profile. High 4:2:2 and 10-bit profiles are only available with the
 /// AVC-I License.
-enum H264CodecProfile {
-  baseline('BASELINE'),
-  high('HIGH'),
-  high_10bit('HIGH_10BIT'),
-  high_422('HIGH_422'),
-  high_422_10bit('HIGH_422_10BIT'),
-  main('MAIN'),
-  ;
+class H264CodecProfile {
+  static const baseline = H264CodecProfile._('BASELINE');
+  static const high = H264CodecProfile._('HIGH');
+  static const high_10bit = H264CodecProfile._('HIGH_10BIT');
+  static const high_422 = H264CodecProfile._('HIGH_422');
+  static const high_422_10bit = H264CodecProfile._('HIGH_422_10BIT');
+  static const main = H264CodecProfile._('MAIN');
 
   final String value;
 
-  const H264CodecProfile(this.value);
+  const H264CodecProfile._(this.value);
+
+  static const values = [
+    baseline,
+    high,
+    high_10bit,
+    high_422,
+    high_422_10bit,
+    main
+  ];
 
   static H264CodecProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264CodecProfile'));
+          orElse: () => H264CodecProfile._(value));
+
+  @override
+  bool operator ==(other) => other is H264CodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -11438,19 +13369,28 @@ enum H264CodecProfile {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
-enum H264DynamicSubGop {
-  adaptive('ADAPTIVE'),
-  static('STATIC'),
-  ;
+class H264DynamicSubGop {
+  static const adaptive = H264DynamicSubGop._('ADAPTIVE');
+  static const static = H264DynamicSubGop._('STATIC');
 
   final String value;
 
-  const H264DynamicSubGop(this.value);
+  const H264DynamicSubGop._(this.value);
+
+  static const values = [adaptive, static];
 
   static H264DynamicSubGop fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264DynamicSubGop'));
+          orElse: () => H264DynamicSubGop._(value));
+
+  @override
+  bool operator ==(other) => other is H264DynamicSubGop && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optionally include or suppress markers at the end of your output that signal
@@ -11458,35 +13398,55 @@ enum H264DynamicSubGop {
 /// or keep the default value, Include. To not include end of stream markers:
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
-enum H264EndOfStreamMarkers {
-  include('INCLUDE'),
-  suppress('SUPPRESS'),
-  ;
+class H264EndOfStreamMarkers {
+  static const include = H264EndOfStreamMarkers._('INCLUDE');
+  static const suppress = H264EndOfStreamMarkers._('SUPPRESS');
 
   final String value;
 
-  const H264EndOfStreamMarkers(this.value);
+  const H264EndOfStreamMarkers._(this.value);
+
+  static const values = [include, suppress];
 
   static H264EndOfStreamMarkers fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264EndOfStreamMarkers'));
+          orElse: () => H264EndOfStreamMarkers._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264EndOfStreamMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
-enum H264EntropyEncoding {
-  cabac('CABAC'),
-  cavlc('CAVLC'),
-  ;
+class H264EntropyEncoding {
+  static const cabac = H264EntropyEncoding._('CABAC');
+  static const cavlc = H264EntropyEncoding._('CAVLC');
 
   final String value;
 
-  const H264EntropyEncoding(this.value);
+  const H264EntropyEncoding._(this.value);
 
-  static H264EntropyEncoding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H264EntropyEncoding'));
+  static const values = [cabac, cavlc];
+
+  static H264EntropyEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H264EntropyEncoding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264EntropyEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The video encoding method for your MPEG-4 AVC output. Keep the default
@@ -11494,20 +13454,29 @@ enum H264EntropyEncoding {
 /// Choose Force field to disable PAFF encoding and create separate interlaced
 /// fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF
 /// encoding for interlaced outputs.
-enum H264FieldEncoding {
-  paff('PAFF'),
-  forceField('FORCE_FIELD'),
-  mbaff('MBAFF'),
-  ;
+class H264FieldEncoding {
+  static const paff = H264FieldEncoding._('PAFF');
+  static const forceField = H264FieldEncoding._('FORCE_FIELD');
+  static const mbaff = H264FieldEncoding._('MBAFF');
 
   final String value;
 
-  const H264FieldEncoding(this.value);
+  const H264FieldEncoding._(this.value);
+
+  static const values = [paff, forceField, mbaff];
 
   static H264FieldEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264FieldEncoding'));
+          orElse: () => H264FieldEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is H264FieldEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Only use this setting when you change the default value, AUTO, for the
@@ -11524,19 +13493,29 @@ enum H264FieldEncoding {
 /// out the flicker. To manually enable or disable
 /// H264FlickerAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
-enum H264FlickerAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264FlickerAdaptiveQuantization {
+  static const disabled = H264FlickerAdaptiveQuantization._('DISABLED');
+  static const enabled = H264FlickerAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H264FlickerAdaptiveQuantization(this.value);
+  const H264FlickerAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264FlickerAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264FlickerAdaptiveQuantization'));
+          orElse: () => H264FlickerAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264FlickerAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -11545,19 +13524,30 @@ enum H264FlickerAdaptiveQuantization {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum H264FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class H264FramerateControl {
+  static const initializeFromSource =
+      H264FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = H264FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const H264FramerateControl(this.value);
+  const H264FramerateControl._(this.value);
 
-  static H264FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H264FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static H264FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H264FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -11571,20 +13561,31 @@ enum H264FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum H264FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class H264FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      H264FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = H264FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = H264FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const H264FramerateConversionAlgorithm(this.value);
+  const H264FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static H264FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264FramerateConversionAlgorithm'));
+          orElse: () => H264FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether to allow B-frames to be referenced by other frame types. To
@@ -11592,19 +13593,28 @@ enum H264FramerateConversionAlgorithm {
 /// blank or keep the default value Enabled. We recommend that you choose
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
-enum H264GopBReference {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264GopBReference {
+  static const disabled = H264GopBReference._('DISABLED');
+  static const enabled = H264GopBReference._('ENABLED');
 
   final String value;
 
-  const H264GopBReference(this.value);
+  const H264GopBReference._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264GopBReference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264GopBReference'));
+          orElse: () => H264GopBReference._(value));
+
+  @override
+  bool operator ==(other) => other is H264GopBReference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how the transcoder determines GOP size for this output. We recommend
@@ -11616,20 +13626,29 @@ enum H264GopBReference {
 /// GOP size blank in each output in your output group. To explicitly specify
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
-enum H264GopSizeUnits {
-  frames('FRAMES'),
-  seconds('SECONDS'),
-  auto('AUTO'),
-  ;
+class H264GopSizeUnits {
+  static const frames = H264GopSizeUnits._('FRAMES');
+  static const seconds = H264GopSizeUnits._('SECONDS');
+  static const auto = H264GopSizeUnits._('AUTO');
 
   final String value;
 
-  const H264GopSizeUnits(this.value);
+  const H264GopSizeUnits._(this.value);
+
+  static const values = [frames, seconds, auto];
 
   static H264GopSizeUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264GopSizeUnits'));
+          orElse: () => H264GopSizeUnits._(value));
+
+  @override
+  bool operator ==(other) => other is H264GopSizeUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -11643,22 +13662,37 @@ enum H264GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum H264InterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class H264InterlaceMode {
+  static const progressive = H264InterlaceMode._('PROGRESSIVE');
+  static const topField = H264InterlaceMode._('TOP_FIELD');
+  static const bottomField = H264InterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = H264InterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField = H264InterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const H264InterlaceMode(this.value);
+  const H264InterlaceMode._(this.value);
+
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
 
   static H264InterlaceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264InterlaceMode'));
+          orElse: () => H264InterlaceMode._(value));
+
+  @override
+  bool operator ==(other) => other is H264InterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -11667,19 +13701,29 @@ enum H264InterlaceMode {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
-enum H264ParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class H264ParControl {
+  static const initializeFromSource =
+      H264ParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = H264ParControl._('SPECIFIED');
 
   final String value;
 
-  const H264ParControl(this.value);
+  const H264ParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static H264ParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264ParControl'));
+          orElse: () => H264ParControl._(value));
+
+  @override
+  bool operator ==(other) => other is H264ParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Quality tuning level you choose represents a trade-off between the
@@ -11690,20 +13734,30 @@ enum H264ParControl {
 /// encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass
 /// on your input followed by an encoding pass. Outputs that use this feature
 /// incur pro-tier pricing.
-enum H264QualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  singlePassHq('SINGLE_PASS_HQ'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class H264QualityTuningLevel {
+  static const singlePass = H264QualityTuningLevel._('SINGLE_PASS');
+  static const singlePassHq = H264QualityTuningLevel._('SINGLE_PASS_HQ');
+  static const multiPassHq = H264QualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const H264QualityTuningLevel(this.value);
+  const H264QualityTuningLevel._(this.value);
+
+  static const values = [singlePass, singlePassHq, multiPassHq];
 
   static H264QualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264QualityTuningLevel'));
+          orElse: () => H264QualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264QualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.264 codec.
@@ -11768,36 +13822,55 @@ class H264QvbrSettings {
 
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
-enum H264RateControlMode {
-  vbr('VBR'),
-  cbr('CBR'),
-  qvbr('QVBR'),
-  ;
+class H264RateControlMode {
+  static const vbr = H264RateControlMode._('VBR');
+  static const cbr = H264RateControlMode._('CBR');
+  static const qvbr = H264RateControlMode._('QVBR');
 
   final String value;
 
-  const H264RateControlMode(this.value);
+  const H264RateControlMode._(this.value);
 
-  static H264RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H264RateControlMode'));
+  static const values = [vbr, cbr, qvbr];
+
+  static H264RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H264RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Places a PPS header on each encoded picture, even if repeated.
-enum H264RepeatPps {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264RepeatPps {
+  static const disabled = H264RepeatPps._('DISABLED');
+  static const enabled = H264RepeatPps._('ENABLED');
 
   final String value;
 
-  const H264RepeatPps(this.value);
+  const H264RepeatPps._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264RepeatPps fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264RepeatPps'));
+          orElse: () => H264RepeatPps._(value));
+
+  @override
+  bool operator ==(other) => other is H264RepeatPps && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -11812,19 +13885,30 @@ enum H264RepeatPps {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum H264ScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class H264ScanTypeConversionMode {
+  static const interlaced = H264ScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      H264ScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const H264ScanTypeConversionMode(this.value);
+  const H264ScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static H264ScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264ScanTypeConversionMode'));
+          orElse: () => H264ScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264ScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
@@ -11832,20 +13916,31 @@ enum H264ScanTypeConversionMode {
 /// default. If this output uses QVBR, choose Transition detection for further
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
-enum H264SceneChangeDetect {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  transitionDetection('TRANSITION_DETECTION'),
-  ;
+class H264SceneChangeDetect {
+  static const disabled = H264SceneChangeDetect._('DISABLED');
+  static const enabled = H264SceneChangeDetect._('ENABLED');
+  static const transitionDetection =
+      H264SceneChangeDetect._('TRANSITION_DETECTION');
 
   final String value;
 
-  const H264SceneChangeDetect(this.value);
+  const H264SceneChangeDetect._(this.value);
 
-  static H264SceneChangeDetect fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H264SceneChangeDetect'));
+  static const values = [disabled, enabled, transitionDetection];
+
+  static H264SceneChangeDetect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H264SceneChangeDetect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264SceneChangeDetect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value H_264.
@@ -12462,18 +14557,27 @@ class H264Settings {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
-enum H264SlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264SlowPal {
+  static const disabled = H264SlowPal._('DISABLED');
+  static const enabled = H264SlowPal._('ENABLED');
 
   final String value;
 
-  const H264SlowPal(this.value);
+  const H264SlowPal._(this.value);
 
-  static H264SlowPal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum H264SlowPal'));
+  static const values = [disabled, enabled];
+
+  static H264SlowPal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H264SlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is H264SlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Only use this setting when you change the default value, Auto, for the
@@ -12500,34 +14604,53 @@ enum H264SlowPal {
 /// textures, set it to High or Higher. To manually enable or disable
 /// H264SpatialAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
-enum H264SpatialAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264SpatialAdaptiveQuantization {
+  static const disabled = H264SpatialAdaptiveQuantization._('DISABLED');
+  static const enabled = H264SpatialAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H264SpatialAdaptiveQuantization(this.value);
+  const H264SpatialAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264SpatialAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264SpatialAdaptiveQuantization'));
+          orElse: () => H264SpatialAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264SpatialAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Produces a bitstream compliant with SMPTE RP-2027.
-enum H264Syntax {
-  $default('DEFAULT'),
-  rp2027('RP2027'),
-  ;
+class H264Syntax {
+  static const $default = H264Syntax._('DEFAULT');
+  static const rp2027 = H264Syntax._('RP2027');
 
   final String value;
 
-  const H264Syntax(this.value);
+  const H264Syntax._(this.value);
 
-  static H264Syntax fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum H264Syntax'));
+  static const values = [$default, rp2027];
+
+  static H264Syntax fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H264Syntax._(value));
+
+  @override
+  bool operator ==(other) => other is H264Syntax && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -12538,20 +14661,28 @@ enum H264Syntax {
 /// play back. When you keep the default value, None, MediaConvert does a
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
-enum H264Telecine {
-  none('NONE'),
-  soft('SOFT'),
-  hard('HARD'),
-  ;
+class H264Telecine {
+  static const none = H264Telecine._('NONE');
+  static const soft = H264Telecine._('SOFT');
+  static const hard = H264Telecine._('HARD');
 
   final String value;
 
-  const H264Telecine(this.value);
+  const H264Telecine._(this.value);
 
-  static H264Telecine fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H264Telecine'));
+  static const values = [none, soft, hard];
+
+  static H264Telecine fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H264Telecine._(value));
+
+  @override
+  bool operator ==(other) => other is H264Telecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Only use this setting when you change the default value, AUTO, for the
@@ -12576,35 +14707,55 @@ enum H264Telecine {
 /// setting Adaptive quantization. To manually enable or disable
 /// H264TemporalAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
-enum H264TemporalAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264TemporalAdaptiveQuantization {
+  static const disabled = H264TemporalAdaptiveQuantization._('DISABLED');
+  static const enabled = H264TemporalAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H264TemporalAdaptiveQuantization(this.value);
+  const H264TemporalAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264TemporalAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264TemporalAdaptiveQuantization'));
+          orElse: () => H264TemporalAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264TemporalAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
-enum H264UnregisteredSeiTimecode {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H264UnregisteredSeiTimecode {
+  static const disabled = H264UnregisteredSeiTimecode._('DISABLED');
+  static const enabled = H264UnregisteredSeiTimecode._('ENABLED');
 
   final String value;
 
-  const H264UnregisteredSeiTimecode(this.value);
+  const H264UnregisteredSeiTimecode._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H264UnregisteredSeiTimecode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H264UnregisteredSeiTimecode'));
+          orElse: () => H264UnregisteredSeiTimecode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264UnregisteredSeiTimecode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you set Adaptive Quantization to Auto, or leave blank, MediaConvert
@@ -12615,94 +14766,156 @@ enum H264UnregisteredSeiTimecode {
 /// Quantization, and Flicker Adaptive Quantization, to further control the
 /// quantization filter. Set Adaptive Quantization to Off to apply no
 /// quantization to your output.
-enum H265AdaptiveQuantization {
-  off('OFF'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  higher('HIGHER'),
-  max('MAX'),
-  auto('AUTO'),
-  ;
+class H265AdaptiveQuantization {
+  static const off = H265AdaptiveQuantization._('OFF');
+  static const low = H265AdaptiveQuantization._('LOW');
+  static const medium = H265AdaptiveQuantization._('MEDIUM');
+  static const high = H265AdaptiveQuantization._('HIGH');
+  static const higher = H265AdaptiveQuantization._('HIGHER');
+  static const max = H265AdaptiveQuantization._('MAX');
+  static const auto = H265AdaptiveQuantization._('AUTO');
 
   final String value;
 
-  const H265AdaptiveQuantization(this.value);
+  const H265AdaptiveQuantization._(this.value);
+
+  static const values = [off, low, medium, high, higher, max, auto];
 
   static H265AdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265AdaptiveQuantization'));
+          orElse: () => H265AdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265AdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log
 /// Gamma (HLG) Electro-Optical Transfer Function (EOTF).
-enum H265AlternateTransferFunctionSei {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265AlternateTransferFunctionSei {
+  static const disabled = H265AlternateTransferFunctionSei._('DISABLED');
+  static const enabled = H265AlternateTransferFunctionSei._('ENABLED');
 
   final String value;
 
-  const H265AlternateTransferFunctionSei(this.value);
+  const H265AlternateTransferFunctionSei._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265AlternateTransferFunctionSei fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265AlternateTransferFunctionSei'));
+          orElse: () => H265AlternateTransferFunctionSei._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265AlternateTransferFunctionSei && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// H.265 Level.
-enum H265CodecLevel {
-  auto('AUTO'),
-  level_1('LEVEL_1'),
-  level_2('LEVEL_2'),
-  level_2_1('LEVEL_2_1'),
-  level_3('LEVEL_3'),
-  level_3_1('LEVEL_3_1'),
-  level_4('LEVEL_4'),
-  level_4_1('LEVEL_4_1'),
-  level_5('LEVEL_5'),
-  level_5_1('LEVEL_5_1'),
-  level_5_2('LEVEL_5_2'),
-  level_6('LEVEL_6'),
-  level_6_1('LEVEL_6_1'),
-  level_6_2('LEVEL_6_2'),
-  ;
+class H265CodecLevel {
+  static const auto = H265CodecLevel._('AUTO');
+  static const level_1 = H265CodecLevel._('LEVEL_1');
+  static const level_2 = H265CodecLevel._('LEVEL_2');
+  static const level_2_1 = H265CodecLevel._('LEVEL_2_1');
+  static const level_3 = H265CodecLevel._('LEVEL_3');
+  static const level_3_1 = H265CodecLevel._('LEVEL_3_1');
+  static const level_4 = H265CodecLevel._('LEVEL_4');
+  static const level_4_1 = H265CodecLevel._('LEVEL_4_1');
+  static const level_5 = H265CodecLevel._('LEVEL_5');
+  static const level_5_1 = H265CodecLevel._('LEVEL_5_1');
+  static const level_5_2 = H265CodecLevel._('LEVEL_5_2');
+  static const level_6 = H265CodecLevel._('LEVEL_6');
+  static const level_6_1 = H265CodecLevel._('LEVEL_6_1');
+  static const level_6_2 = H265CodecLevel._('LEVEL_6_2');
 
   final String value;
 
-  const H265CodecLevel(this.value);
+  const H265CodecLevel._(this.value);
+
+  static const values = [
+    auto,
+    level_1,
+    level_2,
+    level_2_1,
+    level_3,
+    level_3_1,
+    level_4,
+    level_4_1,
+    level_5,
+    level_5_1,
+    level_5_2,
+    level_6,
+    level_6_1,
+    level_6_2
+  ];
 
   static H265CodecLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265CodecLevel'));
+          orElse: () => H265CodecLevel._(value));
+
+  @override
+  bool operator ==(other) => other is H265CodecLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the Profile and Tier, per the HEVC (H.265) specification.
 /// Selections are grouped as [Profile] / [Tier], so "Main/High" represents Main
 /// Profile with High Tier. 4:2:2 profiles are only available with the HEVC
 /// 4:2:2 License.
-enum H265CodecProfile {
-  mainMain('MAIN_MAIN'),
-  mainHigh('MAIN_HIGH'),
-  main10Main('MAIN10_MAIN'),
-  main10High('MAIN10_HIGH'),
-  main_422_8bitMain('MAIN_422_8BIT_MAIN'),
-  main_422_8bitHigh('MAIN_422_8BIT_HIGH'),
-  main_422_10bitMain('MAIN_422_10BIT_MAIN'),
-  main_422_10bitHigh('MAIN_422_10BIT_HIGH'),
-  ;
+class H265CodecProfile {
+  static const mainMain = H265CodecProfile._('MAIN_MAIN');
+  static const mainHigh = H265CodecProfile._('MAIN_HIGH');
+  static const main10Main = H265CodecProfile._('MAIN10_MAIN');
+  static const main10High = H265CodecProfile._('MAIN10_HIGH');
+  static const main_422_8bitMain = H265CodecProfile._('MAIN_422_8BIT_MAIN');
+  static const main_422_8bitHigh = H265CodecProfile._('MAIN_422_8BIT_HIGH');
+  static const main_422_10bitMain = H265CodecProfile._('MAIN_422_10BIT_MAIN');
+  static const main_422_10bitHigh = H265CodecProfile._('MAIN_422_10BIT_HIGH');
 
   final String value;
 
-  const H265CodecProfile(this.value);
+  const H265CodecProfile._(this.value);
+
+  static const values = [
+    mainMain,
+    mainHigh,
+    main10Main,
+    main10High,
+    main_422_8bitMain,
+    main_422_8bitHigh,
+    main_422_10bitMain,
+    main_422_10bitHigh
+  ];
 
   static H265CodecProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265CodecProfile'));
+          orElse: () => H265CodecProfile._(value));
+
+  @override
+  bool operator ==(other) => other is H265CodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -12710,19 +14923,28 @@ enum H265CodecProfile {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
-enum H265DynamicSubGop {
-  adaptive('ADAPTIVE'),
-  static('STATIC'),
-  ;
+class H265DynamicSubGop {
+  static const adaptive = H265DynamicSubGop._('ADAPTIVE');
+  static const static = H265DynamicSubGop._('STATIC');
 
   final String value;
 
-  const H265DynamicSubGop(this.value);
+  const H265DynamicSubGop._(this.value);
+
+  static const values = [adaptive, static];
 
   static H265DynamicSubGop fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265DynamicSubGop'));
+          orElse: () => H265DynamicSubGop._(value));
+
+  @override
+  bool operator ==(other) => other is H265DynamicSubGop && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optionally include or suppress markers at the end of your output that signal
@@ -12730,19 +14952,29 @@ enum H265DynamicSubGop {
 /// or keep the default value, Include. To not include end of stream markers:
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
-enum H265EndOfStreamMarkers {
-  include('INCLUDE'),
-  suppress('SUPPRESS'),
-  ;
+class H265EndOfStreamMarkers {
+  static const include = H265EndOfStreamMarkers._('INCLUDE');
+  static const suppress = H265EndOfStreamMarkers._('SUPPRESS');
 
   final String value;
 
-  const H265EndOfStreamMarkers(this.value);
+  const H265EndOfStreamMarkers._(this.value);
+
+  static const values = [include, suppress];
 
   static H265EndOfStreamMarkers fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265EndOfStreamMarkers'));
+          orElse: () => H265EndOfStreamMarkers._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265EndOfStreamMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop
@@ -12752,19 +14984,29 @@ enum H265EndOfStreamMarkers {
 /// macroblocks slightly more often to smooth out the flicker. This setting is
 /// disabled by default. Related setting: In addition to enabling this setting,
 /// you must also set adaptiveQuantization to a value other than Off.
-enum H265FlickerAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265FlickerAdaptiveQuantization {
+  static const disabled = H265FlickerAdaptiveQuantization._('DISABLED');
+  static const enabled = H265FlickerAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H265FlickerAdaptiveQuantization(this.value);
+  const H265FlickerAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265FlickerAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265FlickerAdaptiveQuantization'));
+          orElse: () => H265FlickerAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265FlickerAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -12773,19 +15015,30 @@ enum H265FlickerAdaptiveQuantization {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
-enum H265FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class H265FramerateControl {
+  static const initializeFromSource =
+      H265FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = H265FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const H265FramerateControl(this.value);
+  const H265FramerateControl._(this.value);
 
-  static H265FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H265FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static H265FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H265FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -12799,20 +15052,31 @@ enum H265FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum H265FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class H265FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      H265FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = H265FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = H265FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const H265FramerateConversionAlgorithm(this.value);
+  const H265FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static H265FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265FramerateConversionAlgorithm'));
+          orElse: () => H265FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether to allow B-frames to be referenced by other frame types. To
@@ -12820,19 +15084,28 @@ enum H265FramerateConversionAlgorithm {
 /// blank or keep the default value Enabled. We recommend that you choose
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
-enum H265GopBReference {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265GopBReference {
+  static const disabled = H265GopBReference._('DISABLED');
+  static const enabled = H265GopBReference._('ENABLED');
 
   final String value;
 
-  const H265GopBReference(this.value);
+  const H265GopBReference._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265GopBReference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265GopBReference'));
+          orElse: () => H265GopBReference._(value));
+
+  @override
+  bool operator ==(other) => other is H265GopBReference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how the transcoder determines GOP size for this output. We recommend
@@ -12844,20 +15117,29 @@ enum H265GopBReference {
 /// GOP size blank in each output in your output group. To explicitly specify
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
-enum H265GopSizeUnits {
-  frames('FRAMES'),
-  seconds('SECONDS'),
-  auto('AUTO'),
-  ;
+class H265GopSizeUnits {
+  static const frames = H265GopSizeUnits._('FRAMES');
+  static const seconds = H265GopSizeUnits._('SECONDS');
+  static const auto = H265GopSizeUnits._('AUTO');
 
   final String value;
 
-  const H265GopSizeUnits(this.value);
+  const H265GopSizeUnits._(this.value);
+
+  static const values = [frames, seconds, auto];
 
   static H265GopSizeUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265GopSizeUnits'));
+          orElse: () => H265GopSizeUnits._(value));
+
+  @override
+  bool operator ==(other) => other is H265GopSizeUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -12871,22 +15153,37 @@ enum H265GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum H265InterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class H265InterlaceMode {
+  static const progressive = H265InterlaceMode._('PROGRESSIVE');
+  static const topField = H265InterlaceMode._('TOP_FIELD');
+  static const bottomField = H265InterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = H265InterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField = H265InterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const H265InterlaceMode(this.value);
+  const H265InterlaceMode._(this.value);
+
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
 
   static H265InterlaceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265InterlaceMode'));
+          orElse: () => H265InterlaceMode._(value));
+
+  @override
+  bool operator ==(other) => other is H265InterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -12894,38 +15191,58 @@ enum H265InterlaceMode {
 /// input video for your output. To specify a different PAR, choose any value
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
-enum H265ParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class H265ParControl {
+  static const initializeFromSource =
+      H265ParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = H265ParControl._('SPECIFIED');
 
   final String value;
 
-  const H265ParControl(this.value);
+  const H265ParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static H265ParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265ParControl'));
+          orElse: () => H265ParControl._(value));
+
+  @override
+  bool operator ==(other) => other is H265ParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
-enum H265QualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  singlePassHq('SINGLE_PASS_HQ'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class H265QualityTuningLevel {
+  static const singlePass = H265QualityTuningLevel._('SINGLE_PASS');
+  static const singlePassHq = H265QualityTuningLevel._('SINGLE_PASS_HQ');
+  static const multiPassHq = H265QualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const H265QualityTuningLevel(this.value);
+  const H265QualityTuningLevel._(this.value);
+
+  static const values = [singlePass, singlePassHq, multiPassHq];
 
   static H265QualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265QualityTuningLevel'));
+          orElse: () => H265QualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265QualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
@@ -12990,38 +15307,58 @@ class H265QvbrSettings {
 
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
-enum H265RateControlMode {
-  vbr('VBR'),
-  cbr('CBR'),
-  qvbr('QVBR'),
-  ;
+class H265RateControlMode {
+  static const vbr = H265RateControlMode._('VBR');
+  static const cbr = H265RateControlMode._('CBR');
+  static const qvbr = H265RateControlMode._('QVBR');
 
   final String value;
 
-  const H265RateControlMode(this.value);
+  const H265RateControlMode._(this.value);
 
-  static H265RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H265RateControlMode'));
+  static const values = [vbr, cbr, qvbr];
+
+  static H265RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H265RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode
 /// dynamically selects best strength based on content
-enum H265SampleAdaptiveOffsetFilterMode {
-  $default('DEFAULT'),
-  adaptive('ADAPTIVE'),
-  off('OFF'),
-  ;
+class H265SampleAdaptiveOffsetFilterMode {
+  static const $default = H265SampleAdaptiveOffsetFilterMode._('DEFAULT');
+  static const adaptive = H265SampleAdaptiveOffsetFilterMode._('ADAPTIVE');
+  static const off = H265SampleAdaptiveOffsetFilterMode._('OFF');
 
   final String value;
 
-  const H265SampleAdaptiveOffsetFilterMode(this.value);
+  const H265SampleAdaptiveOffsetFilterMode._(this.value);
+
+  static const values = [$default, adaptive, off];
 
   static H265SampleAdaptiveOffsetFilterMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265SampleAdaptiveOffsetFilterMode'));
+          orElse: () => H265SampleAdaptiveOffsetFilterMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265SampleAdaptiveOffsetFilterMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -13036,19 +15373,30 @@ enum H265SampleAdaptiveOffsetFilterMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum H265ScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class H265ScanTypeConversionMode {
+  static const interlaced = H265ScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      H265ScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const H265ScanTypeConversionMode(this.value);
+  const H265ScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static H265ScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265ScanTypeConversionMode'));
+          orElse: () => H265ScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265ScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
@@ -13056,20 +15404,31 @@ enum H265ScanTypeConversionMode {
 /// default. If this output uses QVBR, choose Transition detection for further
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
-enum H265SceneChangeDetect {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  transitionDetection('TRANSITION_DETECTION'),
-  ;
+class H265SceneChangeDetect {
+  static const disabled = H265SceneChangeDetect._('DISABLED');
+  static const enabled = H265SceneChangeDetect._('ENABLED');
+  static const transitionDetection =
+      H265SceneChangeDetect._('TRANSITION_DETECTION');
 
   final String value;
 
-  const H265SceneChangeDetect(this.value);
+  const H265SceneChangeDetect._(this.value);
 
-  static H265SceneChangeDetect fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum H265SceneChangeDetect'));
+  static const values = [disabled, enabled, transitionDetection];
+
+  static H265SceneChangeDetect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H265SceneChangeDetect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265SceneChangeDetect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for H265 codec
@@ -13666,18 +16025,27 @@ class H265Settings {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
-enum H265SlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265SlowPal {
+  static const disabled = H265SlowPal._('DISABLED');
+  static const enabled = H265SlowPal._('ENABLED');
 
   final String value;
 
-  const H265SlowPal(this.value);
+  const H265SlowPal._(this.value);
 
-  static H265SlowPal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum H265SlowPal'));
+  static const values = [disabled, enabled];
+
+  static H265SlowPal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H265SlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is H265SlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -13695,19 +16063,29 @@ enum H265SlowPal {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
-enum H265SpatialAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265SpatialAdaptiveQuantization {
+  static const disabled = H265SpatialAdaptiveQuantization._('DISABLED');
+  static const enabled = H265SpatialAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H265SpatialAdaptiveQuantization(this.value);
+  const H265SpatialAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265SpatialAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265SpatialAdaptiveQuantization'));
+          orElse: () => H265SpatialAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265SpatialAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This field applies only if the Streams > Advanced > Framerate field is set
@@ -13716,20 +16094,28 @@ enum H265SpatialAdaptiveQuantization {
 /// identify the scan type for the output: Progressive, Interlaced, Hard
 /// Telecine or Soft Telecine. - Hard: produces 29.97i output from 23.976 input.
 /// - Soft: produces 23.976; the player converts this output to 29.97i.
-enum H265Telecine {
-  none('NONE'),
-  soft('SOFT'),
-  hard('HARD'),
-  ;
+class H265Telecine {
+  static const none = H265Telecine._('NONE');
+  static const soft = H265Telecine._('SOFT');
+  static const hard = H265Telecine._('HARD');
 
   final String value;
 
-  const H265Telecine(this.value);
+  const H265Telecine._(this.value);
 
-  static H265Telecine fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265Telecine'));
+  static const values = [none, soft, hard];
+
+  static H265Telecine fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H265Telecine._(value));
+
+  @override
+  bool operator ==(other) => other is H265Telecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -13745,19 +16131,29 @@ enum H265Telecine {
 /// faces, you might choose to disable this feature. Related setting: When you
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
-enum H265TemporalAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265TemporalAdaptiveQuantization {
+  static const disabled = H265TemporalAdaptiveQuantization._('DISABLED');
+  static const enabled = H265TemporalAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const H265TemporalAdaptiveQuantization(this.value);
+  const H265TemporalAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265TemporalAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265TemporalAdaptiveQuantization'));
+          orElse: () => H265TemporalAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265TemporalAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers
@@ -13768,51 +16164,79 @@ enum H265TemporalAdaptiveQuantization {
 /// with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a
 /// decoder could decode all the frames for full frame rate output or only the I
 /// and P frames (lowest temporal layer) for a half frame rate output.
-enum H265TemporalIds {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265TemporalIds {
+  static const disabled = H265TemporalIds._('DISABLED');
+  static const enabled = H265TemporalIds._('ENABLED');
 
   final String value;
 
-  const H265TemporalIds(this.value);
+  const H265TemporalIds._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265TemporalIds fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum H265TemporalIds'));
+          orElse: () => H265TemporalIds._(value));
+
+  @override
+  bool operator ==(other) => other is H265TemporalIds && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable use of tiles, allowing horizontal as well as vertical subdivision of
 /// the encoded pictures.
-enum H265Tiles {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265Tiles {
+  static const disabled = H265Tiles._('DISABLED');
+  static const enabled = H265Tiles._('ENABLED');
 
   final String value;
 
-  const H265Tiles(this.value);
+  const H265Tiles._(this.value);
 
-  static H265Tiles fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum H265Tiles'));
+  static const values = [disabled, enabled];
+
+  static H265Tiles fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => H265Tiles._(value));
+
+  @override
+  bool operator ==(other) => other is H265Tiles && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
-enum H265UnregisteredSeiTimecode {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class H265UnregisteredSeiTimecode {
+  static const disabled = H265UnregisteredSeiTimecode._('DISABLED');
+  static const enabled = H265UnregisteredSeiTimecode._('ENABLED');
 
   final String value;
 
-  const H265UnregisteredSeiTimecode(this.value);
+  const H265UnregisteredSeiTimecode._(this.value);
+
+  static const values = [disabled, enabled];
 
   static H265UnregisteredSeiTimecode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265UnregisteredSeiTimecode'));
+          orElse: () => H265UnregisteredSeiTimecode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265UnregisteredSeiTimecode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If the location of parameter set NAL units doesn't matter in your workflow,
@@ -13826,19 +16250,29 @@ enum H265UnregisteredSeiTimecode {
 /// downstream systems and video players. The service defaults to marking your
 /// output as HEV1. For these outputs, the service writes parameter set NAL
 /// units directly into the samples.
-enum H265WriteMp4PackagingType {
-  hvc1('HVC1'),
-  hev1('HEV1'),
-  ;
+class H265WriteMp4PackagingType {
+  static const hvc1 = H265WriteMp4PackagingType._('HVC1');
+  static const hev1 = H265WriteMp4PackagingType._('HEV1');
 
   final String value;
 
-  const H265WriteMp4PackagingType(this.value);
+  const H265WriteMp4PackagingType._(this.value);
+
+  static const values = [hvc1, hev1];
 
   static H265WriteMp4PackagingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum H265WriteMp4PackagingType'));
+          orElse: () => H265WriteMp4PackagingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H265WriteMp4PackagingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how MediaConvert maps brightness and colors from your HDR input to
@@ -13853,19 +16287,29 @@ enum H265WriteMp4PackagingType {
 /// is mastered for 1000 nits. You may notice loss of details in bright or
 /// saturated areas of your output. HDR to SDR tone mapping has no effect when
 /// your input is SDR.
-enum HDRToSDRToneMapper {
-  preserveDetails('PRESERVE_DETAILS'),
-  vibrant('VIBRANT'),
-  ;
+class HDRToSDRToneMapper {
+  static const preserveDetails = HDRToSDRToneMapper._('PRESERVE_DETAILS');
+  static const vibrant = HDRToSDRToneMapper._('VIBRANT');
 
   final String value;
 
-  const HDRToSDRToneMapper(this.value);
+  const HDRToSDRToneMapper._(this.value);
 
-  static HDRToSDRToneMapper fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HDRToSDRToneMapper'));
+  static const values = [preserveDetails, vibrant];
+
+  static HDRToSDRToneMapper fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HDRToSDRToneMapper._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HDRToSDRToneMapper && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use these settings to specify static color calibration metadata, as defined
@@ -14040,19 +16484,27 @@ class Hdr10Plus {
 }
 
 /// Ad marker for Apple HLS manifest.
-enum HlsAdMarkers {
-  elemental('ELEMENTAL'),
-  elementalScte35('ELEMENTAL_SCTE35'),
-  ;
+class HlsAdMarkers {
+  static const elemental = HlsAdMarkers._('ELEMENTAL');
+  static const elementalScte35 = HlsAdMarkers._('ELEMENTAL_SCTE35');
 
   final String value;
 
-  const HlsAdMarkers(this.value);
+  const HlsAdMarkers._(this.value);
 
-  static HlsAdMarkers fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HlsAdMarkers'));
+  static const values = [elemental, elementalScte35];
+
+  static HlsAdMarkers fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HlsAdMarkers._(value));
+
+  @override
+  bool operator ==(other) => other is HlsAdMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the details for each additional HLS manifest that you want the
@@ -14105,38 +16557,58 @@ class HlsAdditionalManifest {
 /// Automatic to create a raw audio-only file with no container. Regardless of
 /// the value that you specify here, if this output has video, the service will
 /// place outputs into an MPEG2-TS container.
-enum HlsAudioOnlyContainer {
-  automatic('AUTOMATIC'),
-  m2ts('M2TS'),
-  ;
+class HlsAudioOnlyContainer {
+  static const automatic = HlsAudioOnlyContainer._('AUTOMATIC');
+  static const m2ts = HlsAudioOnlyContainer._('M2TS');
 
   final String value;
 
-  const HlsAudioOnlyContainer(this.value);
+  const HlsAudioOnlyContainer._(this.value);
 
-  static HlsAudioOnlyContainer fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsAudioOnlyContainer'));
+  static const values = [automatic, m2ts];
+
+  static HlsAudioOnlyContainer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsAudioOnlyContainer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsAudioOnlyContainer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless you are using FairPlay DRM with Verimatrix and
 /// you encounter playback issues. Keep the default value, Include, to output
 /// audio-only headers. Choose Exclude to remove the audio-only headers from
 /// your audio segments.
-enum HlsAudioOnlyHeader {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class HlsAudioOnlyHeader {
+  static const include = HlsAudioOnlyHeader._('INCLUDE');
+  static const exclude = HlsAudioOnlyHeader._('EXCLUDE');
 
   final String value;
 
-  const HlsAudioOnlyHeader(this.value);
+  const HlsAudioOnlyHeader._(this.value);
 
-  static HlsAudioOnlyHeader fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsAudioOnlyHeader'));
+  static const values = [include, exclude];
+
+  static HlsAudioOnlyHeader fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsAudioOnlyHeader._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsAudioOnlyHeader && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The
@@ -14150,21 +16622,39 @@ enum HlsAudioOnlyHeader {
 /// DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select Alternate
 /// rendition that the client will not try to play back by default. Represented
 /// as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
-enum HlsAudioTrackType {
-  alternateAudioAutoSelectDefault('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT'),
-  alternateAudioAutoSelect('ALTERNATE_AUDIO_AUTO_SELECT'),
-  alternateAudioNotAutoSelect('ALTERNATE_AUDIO_NOT_AUTO_SELECT'),
-  audioOnlyVariantStream('AUDIO_ONLY_VARIANT_STREAM'),
-  ;
+class HlsAudioTrackType {
+  static const alternateAudioAutoSelectDefault =
+      HlsAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT');
+  static const alternateAudioAutoSelect =
+      HlsAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT');
+  static const alternateAudioNotAutoSelect =
+      HlsAudioTrackType._('ALTERNATE_AUDIO_NOT_AUTO_SELECT');
+  static const audioOnlyVariantStream =
+      HlsAudioTrackType._('AUDIO_ONLY_VARIANT_STREAM');
 
   final String value;
 
-  const HlsAudioTrackType(this.value);
+  const HlsAudioTrackType._(this.value);
+
+  static const values = [
+    alternateAudioAutoSelectDefault,
+    alternateAudioAutoSelect,
+    alternateAudioNotAutoSelect,
+    audioOnlyVariantStream
+  ];
 
   static HlsAudioTrackType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HlsAudioTrackType'));
+          orElse: () => HlsAudioTrackType._(value));
+
+  @override
+  bool operator ==(other) => other is HlsAudioTrackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Caption Language Mapping
@@ -14224,20 +16714,30 @@ class HlsCaptionLanguageMapping {
 /// Otherwise, languages in the manifest will not match up properly with the
 /// output captions. None: Include CLOSED-CAPTIONS=NONE line in the manifest.
 /// Omit: Omit any CLOSED-CAPTIONS line from the manifest.
-enum HlsCaptionLanguageSetting {
-  insert('INSERT'),
-  omit('OMIT'),
-  none('NONE'),
-  ;
+class HlsCaptionLanguageSetting {
+  static const insert = HlsCaptionLanguageSetting._('INSERT');
+  static const omit = HlsCaptionLanguageSetting._('OMIT');
+  static const none = HlsCaptionLanguageSetting._('NONE');
 
   final String value;
 
-  const HlsCaptionLanguageSetting(this.value);
+  const HlsCaptionLanguageSetting._(this.value);
+
+  static const values = [insert, omit, none];
 
   static HlsCaptionLanguageSetting fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsCaptionLanguageSetting'));
+          orElse: () => HlsCaptionLanguageSetting._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsCaptionLanguageSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set Caption segment length control to Match video to create caption segments
@@ -14245,55 +16745,85 @@ enum HlsCaptionLanguageSetting {
 /// output group. For example, if the video segments are 2 seconds long, your
 /// WebVTT segments will also be 2 seconds long. Keep the default setting, Large
 /// segments to create caption segments that are 300 seconds long.
-enum HlsCaptionSegmentLengthControl {
-  largeSegments('LARGE_SEGMENTS'),
-  matchVideo('MATCH_VIDEO'),
-  ;
+class HlsCaptionSegmentLengthControl {
+  static const largeSegments =
+      HlsCaptionSegmentLengthControl._('LARGE_SEGMENTS');
+  static const matchVideo = HlsCaptionSegmentLengthControl._('MATCH_VIDEO');
 
   final String value;
 
-  const HlsCaptionSegmentLengthControl(this.value);
+  const HlsCaptionSegmentLengthControl._(this.value);
+
+  static const values = [largeSegments, matchVideo];
 
   static HlsCaptionSegmentLengthControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsCaptionSegmentLengthControl'));
+          orElse: () => HlsCaptionSegmentLengthControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsCaptionSegmentLengthControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Disable this setting only when your workflow requires the
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
-enum HlsClientCache {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class HlsClientCache {
+  static const disabled = HlsClientCache._('DISABLED');
+  static const enabled = HlsClientCache._('ENABLED');
 
   final String value;
 
-  const HlsClientCache(this.value);
+  const HlsClientCache._(this.value);
+
+  static const values = [disabled, enabled];
 
   static HlsClientCache fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HlsClientCache'));
+          orElse: () => HlsClientCache._(value));
+
+  @override
+  bool operator ==(other) => other is HlsClientCache && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
-enum HlsCodecSpecification {
-  rfc_6381('RFC_6381'),
-  rfc_4281('RFC_4281'),
-  ;
+class HlsCodecSpecification {
+  static const rfc_6381 = HlsCodecSpecification._('RFC_6381');
+  static const rfc_4281 = HlsCodecSpecification._('RFC_4281');
 
   final String value;
 
-  const HlsCodecSpecification(this.value);
+  const HlsCodecSpecification._(this.value);
 
-  static HlsCodecSpecification fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsCodecSpecification'));
+  static const values = [rfc_6381, rfc_4281];
+
+  static HlsCodecSpecification fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsCodecSpecification._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsCodecSpecification && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether to flag this audio track as descriptive video service (DVS)
@@ -14303,35 +16833,56 @@ enum HlsCodecSpecification {
 /// flag, MediaConvert leaves this parameter out. The DVS flag can help with
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
-enum HlsDescriptiveVideoServiceFlag {
-  dontFlag('DONT_FLAG'),
-  flag('FLAG'),
-  ;
+class HlsDescriptiveVideoServiceFlag {
+  static const dontFlag = HlsDescriptiveVideoServiceFlag._('DONT_FLAG');
+  static const flag = HlsDescriptiveVideoServiceFlag._('FLAG');
 
   final String value;
 
-  const HlsDescriptiveVideoServiceFlag(this.value);
+  const HlsDescriptiveVideoServiceFlag._(this.value);
+
+  static const values = [dontFlag, flag];
 
   static HlsDescriptiveVideoServiceFlag fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsDescriptiveVideoServiceFlag'));
+          orElse: () => HlsDescriptiveVideoServiceFlag._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsDescriptiveVideoServiceFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether segments should be placed in subdirectories.
-enum HlsDirectoryStructure {
-  singleDirectory('SINGLE_DIRECTORY'),
-  subdirectoryPerStream('SUBDIRECTORY_PER_STREAM'),
-  ;
+class HlsDirectoryStructure {
+  static const singleDirectory = HlsDirectoryStructure._('SINGLE_DIRECTORY');
+  static const subdirectoryPerStream =
+      HlsDirectoryStructure._('SUBDIRECTORY_PER_STREAM');
 
   final String value;
 
-  const HlsDirectoryStructure(this.value);
+  const HlsDirectoryStructure._(this.value);
 
-  static HlsDirectoryStructure fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsDirectoryStructure'));
+  static const values = [singleDirectory, subdirectoryPerStream];
+
+  static HlsDirectoryStructure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsDirectoryStructure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsDirectoryStructure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for HLS encryption
@@ -14426,19 +16977,28 @@ class HlsEncryptionSettings {
 
 /// Encrypts the segments with the given encryption scheme. Leave blank to
 /// disable. Selecting 'Disabled' in the web interface also disables encryption.
-enum HlsEncryptionType {
-  aes128('AES128'),
-  sampleAes('SAMPLE_AES'),
-  ;
+class HlsEncryptionType {
+  static const aes128 = HlsEncryptionType._('AES128');
+  static const sampleAes = HlsEncryptionType._('SAMPLE_AES');
 
   final String value;
 
-  const HlsEncryptionType(this.value);
+  const HlsEncryptionType._(this.value);
+
+  static const values = [aes128, sampleAes];
 
   static HlsEncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HlsEncryptionType'));
+          orElse: () => HlsEncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is HlsEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to your HLS output package. For more information, see
@@ -14847,19 +17407,29 @@ class HlsGroupSettings {
 /// only child manifest and the regular child manifest to the parent manifest.
 /// When you don't need the I-frame only child manifest, keep the default value
 /// Exclude.
-enum HlsIFrameOnlyManifest {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class HlsIFrameOnlyManifest {
+  static const include = HlsIFrameOnlyManifest._('INCLUDE');
+  static const exclude = HlsIFrameOnlyManifest._('EXCLUDE');
 
   final String value;
 
-  const HlsIFrameOnlyManifest(this.value);
+  const HlsIFrameOnlyManifest._(this.value);
 
-  static HlsIFrameOnlyManifest fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsIFrameOnlyManifest'));
+  static const values = [include, exclude];
+
+  static HlsIFrameOnlyManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsIFrameOnlyManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsIFrameOnlyManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert generates images for trick play. Keep the
@@ -14872,21 +17442,32 @@ enum HlsIFrameOnlyManifest {
 /// MediaConvert creates with this feature are compatible with this Roku
 /// specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
-enum HlsImageBasedTrickPlay {
-  none('NONE'),
-  thumbnail('THUMBNAIL'),
-  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
-  advanced('ADVANCED'),
-  ;
+class HlsImageBasedTrickPlay {
+  static const none = HlsImageBasedTrickPlay._('NONE');
+  static const thumbnail = HlsImageBasedTrickPlay._('THUMBNAIL');
+  static const thumbnailAndFullframe =
+      HlsImageBasedTrickPlay._('THUMBNAIL_AND_FULLFRAME');
+  static const advanced = HlsImageBasedTrickPlay._('ADVANCED');
 
   final String value;
 
-  const HlsImageBasedTrickPlay(this.value);
+  const HlsImageBasedTrickPlay._(this.value);
+
+  static const values = [none, thumbnail, thumbnailAndFullframe, advanced];
 
   static HlsImageBasedTrickPlay fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsImageBasedTrickPlay'));
+          orElse: () => HlsImageBasedTrickPlay._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsImageBasedTrickPlay && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -14967,19 +17548,29 @@ class HlsImageBasedTrickPlaySettings {
 /// key for encrypting blocks. If set to INCLUDE, Initialization Vector is
 /// listed in the manifest. Otherwise Initialization Vector is not in the
 /// manifest.
-enum HlsInitializationVectorInManifest {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class HlsInitializationVectorInManifest {
+  static const include = HlsInitializationVectorInManifest._('INCLUDE');
+  static const exclude = HlsInitializationVectorInManifest._('EXCLUDE');
 
   final String value;
 
-  const HlsInitializationVectorInManifest(this.value);
+  const HlsInitializationVectorInManifest._(this.value);
+
+  static const values = [include, exclude];
 
   static HlsInitializationVectorInManifest fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsInitializationVectorInManifest'));
+          orElse: () => HlsInitializationVectorInManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsInitializationVectorInManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cadence MediaConvert follows for generating thumbnails. If set to
@@ -14987,104 +17578,165 @@ enum HlsInitializationVectorInManifest {
 /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
-enum HlsIntervalCadence {
-  followIframe('FOLLOW_IFRAME'),
-  followCustom('FOLLOW_CUSTOM'),
-  ;
+class HlsIntervalCadence {
+  static const followIframe = HlsIntervalCadence._('FOLLOW_IFRAME');
+  static const followCustom = HlsIntervalCadence._('FOLLOW_CUSTOM');
 
   final String value;
 
-  const HlsIntervalCadence(this.value);
+  const HlsIntervalCadence._(this.value);
 
-  static HlsIntervalCadence fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsIntervalCadence'));
+  static const values = [followIframe, followCustom];
+
+  static HlsIntervalCadence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsIntervalCadence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsIntervalCadence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
-enum HlsKeyProviderType {
-  speke('SPEKE'),
-  staticKey('STATIC_KEY'),
-  ;
+class HlsKeyProviderType {
+  static const speke = HlsKeyProviderType._('SPEKE');
+  static const staticKey = HlsKeyProviderType._('STATIC_KEY');
 
   final String value;
 
-  const HlsKeyProviderType(this.value);
+  const HlsKeyProviderType._(this.value);
 
-  static HlsKeyProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsKeyProviderType'));
+  static const values = [speke, staticKey];
+
+  static HlsKeyProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsKeyProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsKeyProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to GZIP, compresses HLS playlist.
-enum HlsManifestCompression {
-  gzip('GZIP'),
-  none('NONE'),
-  ;
+class HlsManifestCompression {
+  static const gzip = HlsManifestCompression._('GZIP');
+  static const none = HlsManifestCompression._('NONE');
 
   final String value;
 
-  const HlsManifestCompression(this.value);
+  const HlsManifestCompression._(this.value);
+
+  static const values = [gzip, none];
 
   static HlsManifestCompression fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsManifestCompression'));
+          orElse: () => HlsManifestCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsManifestCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
-enum HlsManifestDurationFormat {
-  floatingPoint('FLOATING_POINT'),
-  integer('INTEGER'),
-  ;
+class HlsManifestDurationFormat {
+  static const floatingPoint = HlsManifestDurationFormat._('FLOATING_POINT');
+  static const integer = HlsManifestDurationFormat._('INTEGER');
 
   final String value;
 
-  const HlsManifestDurationFormat(this.value);
+  const HlsManifestDurationFormat._(this.value);
+
+  static const values = [floatingPoint, integer];
 
   static HlsManifestDurationFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsManifestDurationFormat'));
+          orElse: () => HlsManifestDurationFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsManifestDurationFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable this setting to insert the EXT-X-SESSION-KEY element into the master
 /// playlist. This allows for offline Apple HLS FairPlay content protection.
-enum HlsOfflineEncrypted {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class HlsOfflineEncrypted {
+  static const enabled = HlsOfflineEncrypted._('ENABLED');
+  static const disabled = HlsOfflineEncrypted._('DISABLED');
 
   final String value;
 
-  const HlsOfflineEncrypted(this.value);
+  const HlsOfflineEncrypted._(this.value);
 
-  static HlsOfflineEncrypted fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsOfflineEncrypted'));
+  static const values = [enabled, disabled];
+
+  static HlsOfflineEncrypted fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsOfflineEncrypted._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsOfflineEncrypted && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates whether the .m3u8 manifest file should be generated for this HLS
 /// output group.
-enum HlsOutputSelection {
-  manifestsAndSegments('MANIFESTS_AND_SEGMENTS'),
-  segmentsOnly('SEGMENTS_ONLY'),
-  ;
+class HlsOutputSelection {
+  static const manifestsAndSegments =
+      HlsOutputSelection._('MANIFESTS_AND_SEGMENTS');
+  static const segmentsOnly = HlsOutputSelection._('SEGMENTS_ONLY');
 
   final String value;
 
-  const HlsOutputSelection(this.value);
+  const HlsOutputSelection._(this.value);
 
-  static HlsOutputSelection fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsOutputSelection'));
+  static const values = [manifestsAndSegments, segmentsOnly];
+
+  static HlsOutputSelection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsOutputSelection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsOutputSelection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files.
@@ -15092,19 +17744,29 @@ enum HlsOutputSelection {
 /// initialized using the input timecode source, or the time is initialized
 /// using the input timecode source and the date is initialized using the
 /// timestamp_offset.
-enum HlsProgramDateTime {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class HlsProgramDateTime {
+  static const include = HlsProgramDateTime._('INCLUDE');
+  static const exclude = HlsProgramDateTime._('EXCLUDE');
 
   final String value;
 
-  const HlsProgramDateTime(this.value);
+  const HlsProgramDateTime._(this.value);
 
-  static HlsProgramDateTime fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HlsProgramDateTime'));
+  static const values = [include, exclude];
+
+  static HlsProgramDateTime fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HlsProgramDateTime._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsProgramDateTime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert generates HLS manifests while your job is
@@ -15118,19 +17780,29 @@ enum HlsProgramDateTime {
 /// available media segment. When your job completes, the final child playlists
 /// include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job
 /// completes: Choose Disabled.
-enum HlsProgressiveWriteHlsManifest {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class HlsProgressiveWriteHlsManifest {
+  static const enabled = HlsProgressiveWriteHlsManifest._('ENABLED');
+  static const disabled = HlsProgressiveWriteHlsManifest._('DISABLED');
 
   final String value;
 
-  const HlsProgressiveWriteHlsManifest(this.value);
+  const HlsProgressiveWriteHlsManifest._(this.value);
+
+  static const values = [enabled, disabled];
 
   static HlsProgressiveWriteHlsManifest fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsProgressiveWriteHlsManifest'));
+          orElse: () => HlsProgressiveWriteHlsManifest._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsProgressiveWriteHlsManifest && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings specific to audio sources in an HLS alternate rendition group.
@@ -15181,19 +17853,28 @@ class HlsRenditionGroupSettings {
 
 /// When set to SINGLE_FILE, emits program as a single media resource (.ts)
 /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
-enum HlsSegmentControl {
-  singleFile('SINGLE_FILE'),
-  segmentedFiles('SEGMENTED_FILES'),
-  ;
+class HlsSegmentControl {
+  static const singleFile = HlsSegmentControl._('SINGLE_FILE');
+  static const segmentedFiles = HlsSegmentControl._('SEGMENTED_FILES');
 
   final String value;
 
-  const HlsSegmentControl(this.value);
+  const HlsSegmentControl._(this.value);
+
+  static const values = [singleFile, segmentedFiles];
 
   static HlsSegmentControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HlsSegmentControl'));
+          orElse: () => HlsSegmentControl._(value));
+
+  @override
+  bool operator ==(other) => other is HlsSegmentControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -15201,19 +17882,29 @@ enum HlsSegmentControl {
 /// setting Segment length. This might result in extra I-frames. Choose Multiple
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
-enum HlsSegmentLengthControl {
-  exact('EXACT'),
-  gopMultiple('GOP_MULTIPLE'),
-  ;
+class HlsSegmentLengthControl {
+  static const exact = HlsSegmentLengthControl._('EXACT');
+  static const gopMultiple = HlsSegmentLengthControl._('GOP_MULTIPLE');
 
   final String value;
 
-  const HlsSegmentLengthControl(this.value);
+  const HlsSegmentLengthControl._(this.value);
+
+  static const values = [exact, gopMultiple];
 
   static HlsSegmentLengthControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsSegmentLengthControl'));
+          orElse: () => HlsSegmentLengthControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsSegmentLengthControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for HLS output groups
@@ -15322,19 +18013,29 @@ class HlsSettings {
 
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
-enum HlsStreamInfResolution {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class HlsStreamInfResolution {
+  static const include = HlsStreamInfResolution._('INCLUDE');
+  static const exclude = HlsStreamInfResolution._('EXCLUDE');
 
   final String value;
 
-  const HlsStreamInfResolution(this.value);
+  const HlsStreamInfResolution._(this.value);
+
+  static const values = [include, exclude];
 
   static HlsStreamInfResolution fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsStreamInfResolution'));
+          orElse: () => HlsStreamInfResolution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsStreamInfResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to LEGACY, the segment target duration is always rounded up to the
@@ -15346,39 +18047,60 @@ enum HlsStreamInfResolution {
 /// the actual duration of the segment. Some older players may experience
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
-enum HlsTargetDurationCompatibilityMode {
-  legacy('LEGACY'),
-  specCompliant('SPEC_COMPLIANT'),
-  ;
+class HlsTargetDurationCompatibilityMode {
+  static const legacy = HlsTargetDurationCompatibilityMode._('LEGACY');
+  static const specCompliant =
+      HlsTargetDurationCompatibilityMode._('SPEC_COMPLIANT');
 
   final String value;
 
-  const HlsTargetDurationCompatibilityMode(this.value);
+  const HlsTargetDurationCompatibilityMode._(this.value);
+
+  static const values = [legacy, specCompliant];
 
   static HlsTargetDurationCompatibilityMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsTargetDurationCompatibilityMode'));
+          orElse: () => HlsTargetDurationCompatibilityMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsTargetDurationCompatibilityMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the type of the ID3 frame to use for ID3 timestamps in your output.
 /// To include ID3 timestamps: Specify PRIV or TDRL and set ID3 metadata to
 /// Passthrough. To exclude ID3 timestamps: Set ID3 timestamp frame type to
 /// None.
-enum HlsTimedMetadataId3Frame {
-  none('NONE'),
-  priv('PRIV'),
-  tdrl('TDRL'),
-  ;
+class HlsTimedMetadataId3Frame {
+  static const none = HlsTimedMetadataId3Frame._('NONE');
+  static const priv = HlsTimedMetadataId3Frame._('PRIV');
+  static const tdrl = HlsTimedMetadataId3Frame._('TDRL');
 
   final String value;
 
-  const HlsTimedMetadataId3Frame(this.value);
+  const HlsTimedMetadataId3Frame._(this.value);
+
+  static const values = [none, priv, tdrl];
 
   static HlsTimedMetadataId3Frame fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HlsTimedMetadataId3Frame'));
+          orElse: () => HlsTimedMetadataId3Frame._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HlsTimedMetadataId3Frame && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Configuration for a destination queue to which the job can hop
@@ -15517,19 +18239,29 @@ class ImageInserter {
 /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
-enum ImscAccessibilitySubs {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class ImscAccessibilitySubs {
+  static const disabled = ImscAccessibilitySubs._('DISABLED');
+  static const enabled = ImscAccessibilitySubs._('ENABLED');
 
   final String value;
 
-  const ImscAccessibilitySubs(this.value);
+  const ImscAccessibilitySubs._(this.value);
 
-  static ImscAccessibilitySubs fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImscAccessibilitySubs'));
+  static const values = [disabled, enabled];
+
+  static ImscAccessibilitySubs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImscAccessibilitySubs._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImscAccessibilitySubs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to IMSC captions. IMSC is a sidecar format that holds
@@ -15587,19 +18319,29 @@ class ImscDestinationSettings {
 /// position information from the captions source in the output. This option is
 /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
 /// this setting for simplified output captions.
-enum ImscStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ImscStylePassthrough {
+  static const enabled = ImscStylePassthrough._('ENABLED');
+  static const disabled = ImscStylePassthrough._('DISABLED');
 
   final String value;
 
-  const ImscStylePassthrough(this.value);
+  const ImscStylePassthrough._(this.value);
 
-  static ImscStylePassthrough fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImscStylePassthrough'));
+  static const values = [enabled, disabled];
+
+  static ImscStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImscStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImscStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use inputs to define the source files used in your transcoding job. For more
@@ -15996,19 +18738,29 @@ class InputClipping {
 /// Enable Deblock to produce smoother motion in the output. Default is
 /// disabled. Only manually controllable for MPEG2 and uncompressed video
 /// inputs.
-enum InputDeblockFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class InputDeblockFilter {
+  static const enabled = InputDeblockFilter._('ENABLED');
+  static const disabled = InputDeblockFilter._('DISABLED');
 
   final String value;
 
-  const InputDeblockFilter(this.value);
+  const InputDeblockFilter._(this.value);
 
-  static InputDeblockFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputDeblockFilter'));
+  static const values = [enabled, disabled];
+
+  static InputDeblockFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputDeblockFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputDeblockFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for decrypting any input files that you encrypt before you upload
@@ -16073,19 +18825,29 @@ class InputDecryptionSettings {
 
 /// Enable Denoise to filter noise from the input. Default is disabled. Only
 /// applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
-enum InputDenoiseFilter {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class InputDenoiseFilter {
+  static const enabled = InputDenoiseFilter._('ENABLED');
+  static const disabled = InputDenoiseFilter._('DISABLED');
 
   final String value;
 
-  const InputDenoiseFilter(this.value);
+  const InputDenoiseFilter._(this.value);
 
-  static InputDenoiseFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputDenoiseFilter'));
+  static const values = [enabled, disabled];
+
+  static InputDenoiseFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputDenoiseFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputDenoiseFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether to apply input filtering to improve the video quality of
@@ -16093,55 +18855,82 @@ enum InputDenoiseFilter {
 /// Choose Auto. To apply no filtering: Choose Disable. To apply filtering
 /// regardless of your input type and quality: Choose Force. When you do, you
 /// must also specify a value for Filter strength.
-enum InputFilterEnable {
-  auto('AUTO'),
-  disable('DISABLE'),
-  force('FORCE'),
-  ;
+class InputFilterEnable {
+  static const auto = InputFilterEnable._('AUTO');
+  static const disable = InputFilterEnable._('DISABLE');
+  static const force = InputFilterEnable._('FORCE');
 
   final String value;
 
-  const InputFilterEnable(this.value);
+  const InputFilterEnable._(this.value);
+
+  static const values = [auto, disable, force];
 
   static InputFilterEnable fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InputFilterEnable'));
+          orElse: () => InputFilterEnable._(value));
+
+  @override
+  bool operator ==(other) => other is InputFilterEnable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An input policy allows or disallows a job you submit to run based on the
 /// conditions that you specify.
-enum InputPolicy {
-  allowed('ALLOWED'),
-  disallowed('DISALLOWED'),
-  ;
+class InputPolicy {
+  static const allowed = InputPolicy._('ALLOWED');
+  static const disallowed = InputPolicy._('DISALLOWED');
 
   final String value;
 
-  const InputPolicy(this.value);
+  const InputPolicy._(this.value);
 
-  static InputPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputPolicy'));
+  static const values = [allowed, disallowed];
+
+  static InputPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is InputPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set PSI control for transport stream inputs to specify which data the demux
 /// process to scans.
 /// * Ignore PSI - Scan all PIDs for audio and video.
 /// * Use PSI - Scan only PSI data.
-enum InputPsiControl {
-  ignorePsi('IGNORE_PSI'),
-  usePsi('USE_PSI'),
-  ;
+class InputPsiControl {
+  static const ignorePsi = InputPsiControl._('IGNORE_PSI');
+  static const usePsi = InputPsiControl._('USE_PSI');
 
   final String value;
 
-  const InputPsiControl(this.value);
+  const InputPsiControl._(this.value);
+
+  static const values = [ignorePsi, usePsi];
 
   static InputPsiControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InputPsiControl'));
+          orElse: () => InputPsiControl._(value));
+
+  @override
+  bool operator ==(other) => other is InputPsiControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Rotate to specify how the service rotates your video. You can choose
@@ -16154,21 +18943,30 @@ enum InputPsiControl {
 /// will default to no rotation. By default, the service does no rotation, even
 /// if your input video has rotation metadata. The service doesn't pass through
 /// rotation metadata.
-enum InputRotate {
-  degree_0('DEGREE_0'),
-  degrees_90('DEGREES_90'),
-  degrees_180('DEGREES_180'),
-  degrees_270('DEGREES_270'),
-  auto('AUTO'),
-  ;
+class InputRotate {
+  static const degree_0 = InputRotate._('DEGREE_0');
+  static const degrees_90 = InputRotate._('DEGREES_90');
+  static const degrees_180 = InputRotate._('DEGREES_180');
+  static const degrees_270 = InputRotate._('DEGREES_270');
+  static const auto = InputRotate._('AUTO');
 
   final String value;
 
-  const InputRotate(this.value);
+  const InputRotate._(this.value);
 
-  static InputRotate fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputRotate'));
+  static const values = [degree_0, degrees_90, degrees_180, degrees_270, auto];
+
+  static InputRotate fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputRotate._(value));
+
+  @override
+  bool operator ==(other) => other is InputRotate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If the sample range metadata in your input video is accurate, or if you
@@ -16180,20 +18978,29 @@ enum InputRotate {
 /// MediaConvert uses the input sample range or the sample range that you
 /// specify, MediaConvert uses the sample range for transcoding and also writes
 /// it to the output metadata.
-enum InputSampleRange {
-  follow('FOLLOW'),
-  fullRange('FULL_RANGE'),
-  limitedRange('LIMITED_RANGE'),
-  ;
+class InputSampleRange {
+  static const follow = InputSampleRange._('FOLLOW');
+  static const fullRange = InputSampleRange._('FULL_RANGE');
+  static const limitedRange = InputSampleRange._('LIMITED_RANGE');
 
   final String value;
 
-  const InputSampleRange(this.value);
+  const InputSampleRange._(this.value);
+
+  static const values = [follow, fullRange, limitedRange];
 
   static InputSampleRange fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InputSampleRange'));
+          orElse: () => InputSampleRange._(value));
+
+  @override
+  bool operator ==(other) => other is InputSampleRange && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you have a progressive segmented frame (PsF) input, use this setting to
@@ -16203,19 +19010,28 @@ enum InputSampleRange {
 /// don't specify, the default value is Auto. Auto is the correct setting for
 /// all inputs that are not PsF. Don't set this value to PsF when your input is
 /// interlaced. Doing so creates horizontal interlacing artifacts.
-enum InputScanType {
-  auto('AUTO'),
-  psf('PSF'),
-  ;
+class InputScanType {
+  static const auto = InputScanType._('AUTO');
+  static const psf = InputScanType._('PSF');
 
   final String value;
 
-  const InputScanType(this.value);
+  const InputScanType._(this.value);
+
+  static const values = [auto, psf];
 
   static InputScanType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InputScanType'));
+          orElse: () => InputScanType._(value));
+
+  @override
+  bool operator ==(other) => other is InputScanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specified video input in a template.
@@ -16510,20 +19326,30 @@ class InputTemplate {
 /// don't specify a value for Timecode source, the service will use Embedded by
 /// default. For more information about timecodes, see
 /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
-enum InputTimecodeSource {
-  embedded('EMBEDDED'),
-  zerobased('ZEROBASED'),
-  specifiedstart('SPECIFIEDSTART'),
-  ;
+class InputTimecodeSource {
+  static const embedded = InputTimecodeSource._('EMBEDDED');
+  static const zerobased = InputTimecodeSource._('ZEROBASED');
+  static const specifiedstart = InputTimecodeSource._('SPECIFIEDSTART');
 
   final String value;
 
-  const InputTimecodeSource(this.value);
+  const InputTimecodeSource._(this.value);
 
-  static InputTimecodeSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputTimecodeSource'));
+  static const values = [embedded, zerobased, specifiedstart];
+
+  static InputTimecodeSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputTimecodeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputTimecodeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you include Video generator, MediaConvert creates a video input with
@@ -17029,19 +19855,28 @@ class JobMessages {
 }
 
 /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
-enum JobPhase {
-  probing('PROBING'),
-  transcoding('TRANSCODING'),
-  uploading('UPLOADING'),
-  ;
+class JobPhase {
+  static const probing = JobPhase._('PROBING');
+  static const transcoding = JobPhase._('TRANSCODING');
+  static const uploading = JobPhase._('UPLOADING');
 
   final String value;
 
-  const JobPhase(this.value);
+  const JobPhase._(this.value);
 
-  static JobPhase fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobPhase'));
+  static const values = [probing, transcoding, uploading];
+
+  static JobPhase fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobPhase._(value));
+
+  @override
+  bool operator ==(other) => other is JobPhase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// JobSettings contains all the transcode settings for a job.
@@ -17249,21 +20084,30 @@ class JobSettings {
 }
 
 /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
-enum JobStatus {
-  submitted('SUBMITTED'),
-  progressing('PROGRESSING'),
-  complete('COMPLETE'),
-  canceled('CANCELED'),
-  error('ERROR'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const progressing = JobStatus._('PROGRESSING');
+  static const complete = JobStatus._('COMPLETE');
+  static const canceled = JobStatus._('CANCELED');
+  static const error = JobStatus._('ERROR');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [submitted, progressing, complete, canceled, error];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A job template is a pre-made set of encoding instructions that you can use
@@ -17397,20 +20241,29 @@ class JobTemplate {
 /// Optional. When you request a list of job templates, you can choose to list
 /// them alphabetically by NAME or chronologically by CREATION_DATE. If you
 /// don't specify, the service will list them by name.
-enum JobTemplateListBy {
-  name('NAME'),
-  creationDate('CREATION_DATE'),
-  system('SYSTEM'),
-  ;
+class JobTemplateListBy {
+  static const name = JobTemplateListBy._('NAME');
+  static const creationDate = JobTemplateListBy._('CREATION_DATE');
+  static const system = JobTemplateListBy._('SYSTEM');
 
   final String value;
 
-  const JobTemplateListBy(this.value);
+  const JobTemplateListBy._(this.value);
+
+  static const values = [name, creationDate, system];
 
   static JobTemplateListBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobTemplateListBy'));
+          orElse: () => JobTemplateListBy._(value));
+
+  @override
+  bool operator ==(other) => other is JobTemplateListBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// JobTemplateSettings contains all the transcode settings saved in the
@@ -17757,209 +20610,410 @@ class KantarWatermarkSettings {
 
 /// Specify the language, using the ISO 639-2 three-letter code listed at
 /// https://www.loc.gov/standards/iso639-2/php/code_list.php.
-enum LanguageCode {
-  eng('ENG'),
-  spa('SPA'),
-  fra('FRA'),
-  deu('DEU'),
-  ger('GER'),
-  zho('ZHO'),
-  ara('ARA'),
-  hin('HIN'),
-  jpn('JPN'),
-  rus('RUS'),
-  por('POR'),
-  ita('ITA'),
-  urd('URD'),
-  vie('VIE'),
-  kor('KOR'),
-  pan('PAN'),
-  abk('ABK'),
-  aar('AAR'),
-  afr('AFR'),
-  aka('AKA'),
-  sqi('SQI'),
-  amh('AMH'),
-  arg('ARG'),
-  hye('HYE'),
-  asm('ASM'),
-  ava('AVA'),
-  ave('AVE'),
-  aym('AYM'),
-  aze('AZE'),
-  bam('BAM'),
-  bak('BAK'),
-  eus('EUS'),
-  bel('BEL'),
-  ben('BEN'),
-  bih('BIH'),
-  bis('BIS'),
-  bos('BOS'),
-  bre('BRE'),
-  bul('BUL'),
-  mya('MYA'),
-  cat('CAT'),
-  khm('KHM'),
-  cha('CHA'),
-  che('CHE'),
-  nya('NYA'),
-  chu('CHU'),
-  chv('CHV'),
-  cor('COR'),
-  cos('COS'),
-  cre('CRE'),
-  hrv('HRV'),
-  ces('CES'),
-  dan('DAN'),
-  div('DIV'),
-  nld('NLD'),
-  dzo('DZO'),
-  enm('ENM'),
-  epo('EPO'),
-  est('EST'),
-  ewe('EWE'),
-  fao('FAO'),
-  fij('FIJ'),
-  fin('FIN'),
-  frm('FRM'),
-  ful('FUL'),
-  gla('GLA'),
-  glg('GLG'),
-  lug('LUG'),
-  kat('KAT'),
-  ell('ELL'),
-  grn('GRN'),
-  guj('GUJ'),
-  hat('HAT'),
-  hau('HAU'),
-  heb('HEB'),
-  her('HER'),
-  hmo('HMO'),
-  hun('HUN'),
-  isl('ISL'),
-  ido('IDO'),
-  ibo('IBO'),
-  ind('IND'),
-  ina('INA'),
-  ile('ILE'),
-  iku('IKU'),
-  ipk('IPK'),
-  gle('GLE'),
-  jav('JAV'),
-  kal('KAL'),
-  kan('KAN'),
-  kau('KAU'),
-  kas('KAS'),
-  kaz('KAZ'),
-  kik('KIK'),
-  kin('KIN'),
-  kir('KIR'),
-  kom('KOM'),
-  kon('KON'),
-  kua('KUA'),
-  kur('KUR'),
-  lao('LAO'),
-  lat('LAT'),
-  lav('LAV'),
-  lim('LIM'),
-  lin('LIN'),
-  lit('LIT'),
-  lub('LUB'),
-  ltz('LTZ'),
-  mkd('MKD'),
-  mlg('MLG'),
-  msa('MSA'),
-  mal('MAL'),
-  mlt('MLT'),
-  glv('GLV'),
-  mri('MRI'),
-  mar('MAR'),
-  mah('MAH'),
-  mon('MON'),
-  nau('NAU'),
-  nav('NAV'),
-  nde('NDE'),
-  nbl('NBL'),
-  ndo('NDO'),
-  nep('NEP'),
-  sme('SME'),
-  nor('NOR'),
-  nob('NOB'),
-  nno('NNO'),
-  oci('OCI'),
-  oji('OJI'),
-  ori('ORI'),
-  orm('ORM'),
-  oss('OSS'),
-  pli('PLI'),
-  fas('FAS'),
-  pol('POL'),
-  pus('PUS'),
-  que('QUE'),
-  qaa('QAA'),
-  ron('RON'),
-  roh('ROH'),
-  run('RUN'),
-  smo('SMO'),
-  sag('SAG'),
-  san('SAN'),
-  srd('SRD'),
-  srb('SRB'),
-  sna('SNA'),
-  iii('III'),
-  snd('SND'),
-  sin('SIN'),
-  slk('SLK'),
-  slv('SLV'),
-  som('SOM'),
-  sot('SOT'),
-  sun('SUN'),
-  swa('SWA'),
-  ssw('SSW'),
-  swe('SWE'),
-  tgl('TGL'),
-  tah('TAH'),
-  tgk('TGK'),
-  tam('TAM'),
-  tat('TAT'),
-  tel('TEL'),
-  tha('THA'),
-  bod('BOD'),
-  tir('TIR'),
-  ton('TON'),
-  tso('TSO'),
-  tsn('TSN'),
-  tur('TUR'),
-  tuk('TUK'),
-  twi('TWI'),
-  uig('UIG'),
-  ukr('UKR'),
-  uzb('UZB'),
-  ven('VEN'),
-  vol('VOL'),
-  wln('WLN'),
-  cym('CYM'),
-  fry('FRY'),
-  wol('WOL'),
-  xho('XHO'),
-  yid('YID'),
-  yor('YOR'),
-  zha('ZHA'),
-  zul('ZUL'),
-  orj('ORJ'),
-  qpc('QPC'),
-  tng('TNG'),
-  srp('SRP'),
-  ;
+class LanguageCode {
+  static const eng = LanguageCode._('ENG');
+  static const spa = LanguageCode._('SPA');
+  static const fra = LanguageCode._('FRA');
+  static const deu = LanguageCode._('DEU');
+  static const ger = LanguageCode._('GER');
+  static const zho = LanguageCode._('ZHO');
+  static const ara = LanguageCode._('ARA');
+  static const hin = LanguageCode._('HIN');
+  static const jpn = LanguageCode._('JPN');
+  static const rus = LanguageCode._('RUS');
+  static const por = LanguageCode._('POR');
+  static const ita = LanguageCode._('ITA');
+  static const urd = LanguageCode._('URD');
+  static const vie = LanguageCode._('VIE');
+  static const kor = LanguageCode._('KOR');
+  static const pan = LanguageCode._('PAN');
+  static const abk = LanguageCode._('ABK');
+  static const aar = LanguageCode._('AAR');
+  static const afr = LanguageCode._('AFR');
+  static const aka = LanguageCode._('AKA');
+  static const sqi = LanguageCode._('SQI');
+  static const amh = LanguageCode._('AMH');
+  static const arg = LanguageCode._('ARG');
+  static const hye = LanguageCode._('HYE');
+  static const asm = LanguageCode._('ASM');
+  static const ava = LanguageCode._('AVA');
+  static const ave = LanguageCode._('AVE');
+  static const aym = LanguageCode._('AYM');
+  static const aze = LanguageCode._('AZE');
+  static const bam = LanguageCode._('BAM');
+  static const bak = LanguageCode._('BAK');
+  static const eus = LanguageCode._('EUS');
+  static const bel = LanguageCode._('BEL');
+  static const ben = LanguageCode._('BEN');
+  static const bih = LanguageCode._('BIH');
+  static const bis = LanguageCode._('BIS');
+  static const bos = LanguageCode._('BOS');
+  static const bre = LanguageCode._('BRE');
+  static const bul = LanguageCode._('BUL');
+  static const mya = LanguageCode._('MYA');
+  static const cat = LanguageCode._('CAT');
+  static const khm = LanguageCode._('KHM');
+  static const cha = LanguageCode._('CHA');
+  static const che = LanguageCode._('CHE');
+  static const nya = LanguageCode._('NYA');
+  static const chu = LanguageCode._('CHU');
+  static const chv = LanguageCode._('CHV');
+  static const cor = LanguageCode._('COR');
+  static const cos = LanguageCode._('COS');
+  static const cre = LanguageCode._('CRE');
+  static const hrv = LanguageCode._('HRV');
+  static const ces = LanguageCode._('CES');
+  static const dan = LanguageCode._('DAN');
+  static const div = LanguageCode._('DIV');
+  static const nld = LanguageCode._('NLD');
+  static const dzo = LanguageCode._('DZO');
+  static const enm = LanguageCode._('ENM');
+  static const epo = LanguageCode._('EPO');
+  static const est = LanguageCode._('EST');
+  static const ewe = LanguageCode._('EWE');
+  static const fao = LanguageCode._('FAO');
+  static const fij = LanguageCode._('FIJ');
+  static const fin = LanguageCode._('FIN');
+  static const frm = LanguageCode._('FRM');
+  static const ful = LanguageCode._('FUL');
+  static const gla = LanguageCode._('GLA');
+  static const glg = LanguageCode._('GLG');
+  static const lug = LanguageCode._('LUG');
+  static const kat = LanguageCode._('KAT');
+  static const ell = LanguageCode._('ELL');
+  static const grn = LanguageCode._('GRN');
+  static const guj = LanguageCode._('GUJ');
+  static const hat = LanguageCode._('HAT');
+  static const hau = LanguageCode._('HAU');
+  static const heb = LanguageCode._('HEB');
+  static const her = LanguageCode._('HER');
+  static const hmo = LanguageCode._('HMO');
+  static const hun = LanguageCode._('HUN');
+  static const isl = LanguageCode._('ISL');
+  static const ido = LanguageCode._('IDO');
+  static const ibo = LanguageCode._('IBO');
+  static const ind = LanguageCode._('IND');
+  static const ina = LanguageCode._('INA');
+  static const ile = LanguageCode._('ILE');
+  static const iku = LanguageCode._('IKU');
+  static const ipk = LanguageCode._('IPK');
+  static const gle = LanguageCode._('GLE');
+  static const jav = LanguageCode._('JAV');
+  static const kal = LanguageCode._('KAL');
+  static const kan = LanguageCode._('KAN');
+  static const kau = LanguageCode._('KAU');
+  static const kas = LanguageCode._('KAS');
+  static const kaz = LanguageCode._('KAZ');
+  static const kik = LanguageCode._('KIK');
+  static const kin = LanguageCode._('KIN');
+  static const kir = LanguageCode._('KIR');
+  static const kom = LanguageCode._('KOM');
+  static const kon = LanguageCode._('KON');
+  static const kua = LanguageCode._('KUA');
+  static const kur = LanguageCode._('KUR');
+  static const lao = LanguageCode._('LAO');
+  static const lat = LanguageCode._('LAT');
+  static const lav = LanguageCode._('LAV');
+  static const lim = LanguageCode._('LIM');
+  static const lin = LanguageCode._('LIN');
+  static const lit = LanguageCode._('LIT');
+  static const lub = LanguageCode._('LUB');
+  static const ltz = LanguageCode._('LTZ');
+  static const mkd = LanguageCode._('MKD');
+  static const mlg = LanguageCode._('MLG');
+  static const msa = LanguageCode._('MSA');
+  static const mal = LanguageCode._('MAL');
+  static const mlt = LanguageCode._('MLT');
+  static const glv = LanguageCode._('GLV');
+  static const mri = LanguageCode._('MRI');
+  static const mar = LanguageCode._('MAR');
+  static const mah = LanguageCode._('MAH');
+  static const mon = LanguageCode._('MON');
+  static const nau = LanguageCode._('NAU');
+  static const nav = LanguageCode._('NAV');
+  static const nde = LanguageCode._('NDE');
+  static const nbl = LanguageCode._('NBL');
+  static const ndo = LanguageCode._('NDO');
+  static const nep = LanguageCode._('NEP');
+  static const sme = LanguageCode._('SME');
+  static const nor = LanguageCode._('NOR');
+  static const nob = LanguageCode._('NOB');
+  static const nno = LanguageCode._('NNO');
+  static const oci = LanguageCode._('OCI');
+  static const oji = LanguageCode._('OJI');
+  static const ori = LanguageCode._('ORI');
+  static const orm = LanguageCode._('ORM');
+  static const oss = LanguageCode._('OSS');
+  static const pli = LanguageCode._('PLI');
+  static const fas = LanguageCode._('FAS');
+  static const pol = LanguageCode._('POL');
+  static const pus = LanguageCode._('PUS');
+  static const que = LanguageCode._('QUE');
+  static const qaa = LanguageCode._('QAA');
+  static const ron = LanguageCode._('RON');
+  static const roh = LanguageCode._('ROH');
+  static const run = LanguageCode._('RUN');
+  static const smo = LanguageCode._('SMO');
+  static const sag = LanguageCode._('SAG');
+  static const san = LanguageCode._('SAN');
+  static const srd = LanguageCode._('SRD');
+  static const srb = LanguageCode._('SRB');
+  static const sna = LanguageCode._('SNA');
+  static const iii = LanguageCode._('III');
+  static const snd = LanguageCode._('SND');
+  static const sin = LanguageCode._('SIN');
+  static const slk = LanguageCode._('SLK');
+  static const slv = LanguageCode._('SLV');
+  static const som = LanguageCode._('SOM');
+  static const sot = LanguageCode._('SOT');
+  static const sun = LanguageCode._('SUN');
+  static const swa = LanguageCode._('SWA');
+  static const ssw = LanguageCode._('SSW');
+  static const swe = LanguageCode._('SWE');
+  static const tgl = LanguageCode._('TGL');
+  static const tah = LanguageCode._('TAH');
+  static const tgk = LanguageCode._('TGK');
+  static const tam = LanguageCode._('TAM');
+  static const tat = LanguageCode._('TAT');
+  static const tel = LanguageCode._('TEL');
+  static const tha = LanguageCode._('THA');
+  static const bod = LanguageCode._('BOD');
+  static const tir = LanguageCode._('TIR');
+  static const ton = LanguageCode._('TON');
+  static const tso = LanguageCode._('TSO');
+  static const tsn = LanguageCode._('TSN');
+  static const tur = LanguageCode._('TUR');
+  static const tuk = LanguageCode._('TUK');
+  static const twi = LanguageCode._('TWI');
+  static const uig = LanguageCode._('UIG');
+  static const ukr = LanguageCode._('UKR');
+  static const uzb = LanguageCode._('UZB');
+  static const ven = LanguageCode._('VEN');
+  static const vol = LanguageCode._('VOL');
+  static const wln = LanguageCode._('WLN');
+  static const cym = LanguageCode._('CYM');
+  static const fry = LanguageCode._('FRY');
+  static const wol = LanguageCode._('WOL');
+  static const xho = LanguageCode._('XHO');
+  static const yid = LanguageCode._('YID');
+  static const yor = LanguageCode._('YOR');
+  static const zha = LanguageCode._('ZHA');
+  static const zul = LanguageCode._('ZUL');
+  static const orj = LanguageCode._('ORJ');
+  static const qpc = LanguageCode._('QPC');
+  static const tng = LanguageCode._('TNG');
+  static const srp = LanguageCode._('SRP');
 
   final String value;
 
-  const LanguageCode(this.value);
+  const LanguageCode._(this.value);
 
-  static LanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCode'));
+  static const values = [
+    eng,
+    spa,
+    fra,
+    deu,
+    ger,
+    zho,
+    ara,
+    hin,
+    jpn,
+    rus,
+    por,
+    ita,
+    urd,
+    vie,
+    kor,
+    pan,
+    abk,
+    aar,
+    afr,
+    aka,
+    sqi,
+    amh,
+    arg,
+    hye,
+    asm,
+    ava,
+    ave,
+    aym,
+    aze,
+    bam,
+    bak,
+    eus,
+    bel,
+    ben,
+    bih,
+    bis,
+    bos,
+    bre,
+    bul,
+    mya,
+    cat,
+    khm,
+    cha,
+    che,
+    nya,
+    chu,
+    chv,
+    cor,
+    cos,
+    cre,
+    hrv,
+    ces,
+    dan,
+    div,
+    nld,
+    dzo,
+    enm,
+    epo,
+    est,
+    ewe,
+    fao,
+    fij,
+    fin,
+    frm,
+    ful,
+    gla,
+    glg,
+    lug,
+    kat,
+    ell,
+    grn,
+    guj,
+    hat,
+    hau,
+    heb,
+    her,
+    hmo,
+    hun,
+    isl,
+    ido,
+    ibo,
+    ind,
+    ina,
+    ile,
+    iku,
+    ipk,
+    gle,
+    jav,
+    kal,
+    kan,
+    kau,
+    kas,
+    kaz,
+    kik,
+    kin,
+    kir,
+    kom,
+    kon,
+    kua,
+    kur,
+    lao,
+    lat,
+    lav,
+    lim,
+    lin,
+    lit,
+    lub,
+    ltz,
+    mkd,
+    mlg,
+    msa,
+    mal,
+    mlt,
+    glv,
+    mri,
+    mar,
+    mah,
+    mon,
+    nau,
+    nav,
+    nde,
+    nbl,
+    ndo,
+    nep,
+    sme,
+    nor,
+    nob,
+    nno,
+    oci,
+    oji,
+    ori,
+    orm,
+    oss,
+    pli,
+    fas,
+    pol,
+    pus,
+    que,
+    qaa,
+    ron,
+    roh,
+    run,
+    smo,
+    sag,
+    san,
+    srd,
+    srb,
+    sna,
+    iii,
+    snd,
+    sin,
+    slk,
+    slv,
+    som,
+    sot,
+    sun,
+    swa,
+    ssw,
+    swe,
+    tgl,
+    tah,
+    tgk,
+    tam,
+    tat,
+    tel,
+    tha,
+    bod,
+    tir,
+    ton,
+    tso,
+    tsn,
+    tur,
+    tuk,
+    twi,
+    uig,
+    ukr,
+    uzb,
+    ven,
+    vol,
+    wln,
+    cym,
+    fry,
+    wol,
+    xho,
+    yid,
+    yor,
+    zha,
+    zul,
+    orj,
+    qpc,
+    tng,
+    srp
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListJobTemplatesResponse {
@@ -18116,19 +21170,29 @@ class ListTagsForResourceResponse {
 }
 
 /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
-enum M2tsAudioBufferModel {
-  dvb('DVB'),
-  atsc('ATSC'),
-  ;
+class M2tsAudioBufferModel {
+  static const dvb = M2tsAudioBufferModel._('DVB');
+  static const atsc = M2tsAudioBufferModel._('ATSC');
 
   final String value;
 
-  const M2tsAudioBufferModel(this.value);
+  const M2tsAudioBufferModel._(this.value);
 
-  static M2tsAudioBufferModel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2tsAudioBufferModel'));
+  static const values = [dvb, atsc];
+
+  static M2tsAudioBufferModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2tsAudioBufferModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsAudioBufferModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -18144,57 +21208,86 @@ enum M2tsAudioBufferModel {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
-enum M2tsAudioDuration {
-  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
-  matchVideoDuration('MATCH_VIDEO_DURATION'),
-  ;
+class M2tsAudioDuration {
+  static const defaultCodecDuration =
+      M2tsAudioDuration._('DEFAULT_CODEC_DURATION');
+  static const matchVideoDuration = M2tsAudioDuration._('MATCH_VIDEO_DURATION');
 
   final String value;
 
-  const M2tsAudioDuration(this.value);
+  const M2tsAudioDuration._(this.value);
+
+  static const values = [defaultCodecDuration, matchVideoDuration];
 
   static M2tsAudioDuration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsAudioDuration'));
+          orElse: () => M2tsAudioDuration._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsAudioDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls what buffer model to use for accurate interleaving. If set to
 /// MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to
 /// lower latency, but low-memory devices may not be able to play back the
 /// stream without interruptions.
-enum M2tsBufferModel {
-  multiplex('MULTIPLEX'),
-  none('NONE'),
-  ;
+class M2tsBufferModel {
+  static const multiplex = M2tsBufferModel._('MULTIPLEX');
+  static const none = M2tsBufferModel._('NONE');
 
   final String value;
 
-  const M2tsBufferModel(this.value);
+  const M2tsBufferModel._(this.value);
+
+  static const values = [multiplex, none];
 
   static M2tsBufferModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsBufferModel'));
+          orElse: () => M2tsBufferModel._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsBufferModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
 /// with Presentation Timestamp (PTS) values greater than or equal to the first
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value to allow all PTS values.
-enum M2tsDataPtsControl {
-  auto('AUTO'),
-  alignToVideo('ALIGN_TO_VIDEO'),
-  ;
+class M2tsDataPtsControl {
+  static const auto = M2tsDataPtsControl._('AUTO');
+  static const alignToVideo = M2tsDataPtsControl._('ALIGN_TO_VIDEO');
 
   final String value;
 
-  const M2tsDataPtsControl(this.value);
+  const M2tsDataPtsControl._(this.value);
 
-  static M2tsDataPtsControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2tsDataPtsControl'));
+  static const values = [auto, alignToVideo];
+
+  static M2tsDataPtsControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2tsDataPtsControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsDataPtsControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to VIDEO_AND_FIXED_INTERVALS, audio EBP markers will be added to
@@ -18203,127 +21296,193 @@ enum M2tsDataPtsControl {
 /// set to VIDEO_INTERVAL, these additional markers will not be inserted. Only
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
-enum M2tsEbpAudioInterval {
-  videoAndFixedIntervals('VIDEO_AND_FIXED_INTERVALS'),
-  videoInterval('VIDEO_INTERVAL'),
-  ;
+class M2tsEbpAudioInterval {
+  static const videoAndFixedIntervals =
+      M2tsEbpAudioInterval._('VIDEO_AND_FIXED_INTERVALS');
+  static const videoInterval = M2tsEbpAudioInterval._('VIDEO_INTERVAL');
 
   final String value;
 
-  const M2tsEbpAudioInterval(this.value);
+  const M2tsEbpAudioInterval._(this.value);
 
-  static M2tsEbpAudioInterval fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2tsEbpAudioInterval'));
+  static const values = [videoAndFixedIntervals, videoInterval];
+
+  static M2tsEbpAudioInterval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2tsEbpAudioInterval._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsEbpAudioInterval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Selects which PIDs to place EBP markers on. They can either be placed only
 /// on the video PID, or on both the video PID and all audio PIDs. Only
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
-enum M2tsEbpPlacement {
-  videoAndAudioPids('VIDEO_AND_AUDIO_PIDS'),
-  videoPid('VIDEO_PID'),
-  ;
+class M2tsEbpPlacement {
+  static const videoAndAudioPids = M2tsEbpPlacement._('VIDEO_AND_AUDIO_PIDS');
+  static const videoPid = M2tsEbpPlacement._('VIDEO_PID');
 
   final String value;
 
-  const M2tsEbpPlacement(this.value);
+  const M2tsEbpPlacement._(this.value);
+
+  static const values = [videoAndAudioPids, videoPid];
 
   static M2tsEbpPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsEbpPlacement'));
+          orElse: () => M2tsEbpPlacement._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsEbpPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls whether to include the ES Rate field in the PES header.
-enum M2tsEsRateInPes {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class M2tsEsRateInPes {
+  static const include = M2tsEsRateInPes._('INCLUDE');
+  static const exclude = M2tsEsRateInPes._('EXCLUDE');
 
   final String value;
 
-  const M2tsEsRateInPes(this.value);
+  const M2tsEsRateInPes._(this.value);
+
+  static const values = [include, exclude];
 
   static M2tsEsRateInPes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsEsRateInPes'));
+          orElse: () => M2tsEsRateInPes._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsEsRateInPes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Keep the default value unless you know that your audio EBP markers are
 /// incorrectly appearing before your video EBP markers. To correct this
 /// problem, set this value to Force.
-enum M2tsForceTsVideoEbpOrder {
-  force('FORCE'),
-  $default('DEFAULT'),
-  ;
+class M2tsForceTsVideoEbpOrder {
+  static const force = M2tsForceTsVideoEbpOrder._('FORCE');
+  static const $default = M2tsForceTsVideoEbpOrder._('DEFAULT');
 
   final String value;
 
-  const M2tsForceTsVideoEbpOrder(this.value);
+  const M2tsForceTsVideoEbpOrder._(this.value);
+
+  static const values = [force, $default];
 
   static M2tsForceTsVideoEbpOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum M2tsForceTsVideoEbpOrder'));
+          orElse: () => M2tsForceTsVideoEbpOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsForceTsVideoEbpOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
 /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
 /// input and passes it through to the output transport stream. To exclude this
 /// KLV metadata: Set KLV metadata insertion to None or leave blank.
-enum M2tsKlvMetadata {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class M2tsKlvMetadata {
+  static const passthrough = M2tsKlvMetadata._('PASSTHROUGH');
+  static const none = M2tsKlvMetadata._('NONE');
 
   final String value;
 
-  const M2tsKlvMetadata(this.value);
+  const M2tsKlvMetadata._(this.value);
+
+  static const values = [passthrough, none];
 
   static M2tsKlvMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsKlvMetadata'));
+          orElse: () => M2tsKlvMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsKlvMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
-enum M2tsNielsenId3 {
-  insert('INSERT'),
-  none('NONE'),
-  ;
+class M2tsNielsenId3 {
+  static const insert = M2tsNielsenId3._('INSERT');
+  static const none = M2tsNielsenId3._('NONE');
 
   final String value;
 
-  const M2tsNielsenId3(this.value);
+  const M2tsNielsenId3._(this.value);
+
+  static const values = [insert, none];
 
   static M2tsNielsenId3 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsNielsenId3'));
+          orElse: () => M2tsNielsenId3._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsNielsenId3 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to PCR_EVERY_PES_PACKET, a Program Clock Reference value is
 /// inserted for every Packetized Elementary Stream (PES) header. This is
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
-enum M2tsPcrControl {
-  pcrEveryPesPacket('PCR_EVERY_PES_PACKET'),
-  configuredPcrPeriod('CONFIGURED_PCR_PERIOD'),
-  ;
+class M2tsPcrControl {
+  static const pcrEveryPesPacket = M2tsPcrControl._('PCR_EVERY_PES_PACKET');
+  static const configuredPcrPeriod = M2tsPcrControl._('CONFIGURED_PCR_PERIOD');
 
   final String value;
 
-  const M2tsPcrControl(this.value);
+  const M2tsPcrControl._(this.value);
+
+  static const values = [pcrEveryPesPacket, configuredPcrPeriod];
 
   static M2tsPcrControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsPcrControl'));
+          orElse: () => M2tsPcrControl._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsPcrControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether MediaConvert automatically attempts to prevent decoder
@@ -18334,37 +21493,55 @@ enum M2tsPcrControl {
 /// output, when possible: Choose Enabled. Note that if MediaConvert prevents a
 /// decoder buffer underflow in your output, output video quality is reduced and
 /// your job will take longer to complete.
-enum M2tsPreventBufferUnderflow {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class M2tsPreventBufferUnderflow {
+  static const disabled = M2tsPreventBufferUnderflow._('DISABLED');
+  static const enabled = M2tsPreventBufferUnderflow._('ENABLED');
 
   final String value;
 
-  const M2tsPreventBufferUnderflow(this.value);
+  const M2tsPreventBufferUnderflow._(this.value);
+
+  static const values = [disabled, enabled];
 
   static M2tsPreventBufferUnderflow fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum M2tsPreventBufferUnderflow'));
+          orElse: () => M2tsPreventBufferUnderflow._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsPreventBufferUnderflow && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to CBR, inserts null packets into transport stream to fill
 /// specified bitrate. When set to VBR, the bitrate setting acts as the maximum
 /// bitrate, but the output will not be padded up to that bitrate.
-enum M2tsRateMode {
-  vbr('VBR'),
-  cbr('CBR'),
-  ;
+class M2tsRateMode {
+  static const vbr = M2tsRateMode._('VBR');
+  static const cbr = M2tsRateMode._('CBR');
 
   final String value;
 
-  const M2tsRateMode(this.value);
+  const M2tsRateMode._(this.value);
 
-  static M2tsRateMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsRateMode'));
+  static const values = [vbr, cbr];
+
+  static M2tsRateMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => M2tsRateMode._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsRateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for SCTE-35 signals from ESAM. Include this in your job settings to
@@ -18400,19 +21577,28 @@ class M2tsScte35Esam {
 /// an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in
 /// the setting Signal processing notification XML. Also enable ESAM SCTE-35
 /// (include the property scte35Esam).
-enum M2tsScte35Source {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class M2tsScte35Source {
+  static const passthrough = M2tsScte35Source._('PASSTHROUGH');
+  static const none = M2tsScte35Source._('NONE');
 
   final String value;
 
-  const M2tsScte35Source(this.value);
+  const M2tsScte35Source._(this.value);
+
+  static const values = [passthrough, none];
 
   static M2tsScte35Source fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2tsScte35Source'));
+          orElse: () => M2tsScte35Source._(value));
+
+  @override
+  bool operator ==(other) => other is M2tsScte35Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inserts segmentation markers at each segmentation_time period. rai_segstart
@@ -18422,23 +21608,40 @@ enum M2tsScte35Source {
 /// Encoder Boundary Point information to the adaptation field as per OpenCable
 /// specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point
 /// information to the adaptation field using a legacy proprietary format.
-enum M2tsSegmentationMarkers {
-  none('NONE'),
-  raiSegstart('RAI_SEGSTART'),
-  raiAdapt('RAI_ADAPT'),
-  psiSegstart('PSI_SEGSTART'),
-  ebp('EBP'),
-  ebpLegacy('EBP_LEGACY'),
-  ;
+class M2tsSegmentationMarkers {
+  static const none = M2tsSegmentationMarkers._('NONE');
+  static const raiSegstart = M2tsSegmentationMarkers._('RAI_SEGSTART');
+  static const raiAdapt = M2tsSegmentationMarkers._('RAI_ADAPT');
+  static const psiSegstart = M2tsSegmentationMarkers._('PSI_SEGSTART');
+  static const ebp = M2tsSegmentationMarkers._('EBP');
+  static const ebpLegacy = M2tsSegmentationMarkers._('EBP_LEGACY');
 
   final String value;
 
-  const M2tsSegmentationMarkers(this.value);
+  const M2tsSegmentationMarkers._(this.value);
+
+  static const values = [
+    none,
+    raiSegstart,
+    raiAdapt,
+    psiSegstart,
+    ebp,
+    ebpLegacy
+  ];
 
   static M2tsSegmentationMarkers fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum M2tsSegmentationMarkers'));
+          orElse: () => M2tsSegmentationMarkers._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsSegmentationMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The segmentation style parameter controls how segmentation markers are
@@ -18453,19 +21656,29 @@ enum M2tsSegmentationMarkers {
 /// segment will likely be truncated as well. However, all segments after that
 /// will have a duration of $segmentation_time seconds. Note that EBP lookahead
 /// is a slight exception to this rule.
-enum M2tsSegmentationStyle {
-  maintainCadence('MAINTAIN_CADENCE'),
-  resetCadence('RESET_CADENCE'),
-  ;
+class M2tsSegmentationStyle {
+  static const maintainCadence = M2tsSegmentationStyle._('MAINTAIN_CADENCE');
+  static const resetCadence = M2tsSegmentationStyle._('RESET_CADENCE');
 
   final String value;
 
-  const M2tsSegmentationStyle(this.value);
+  const M2tsSegmentationStyle._(this.value);
 
-  static M2tsSegmentationStyle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2tsSegmentationStyle'));
+  static const values = [maintainCadence, resetCadence];
+
+  static M2tsSegmentationStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2tsSegmentationStyle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2tsSegmentationStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// MPEG-2 TS container settings. These apply to outputs in a File output group
@@ -18941,74 +22154,112 @@ class M2tsSettings {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
-enum M3u8AudioDuration {
-  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
-  matchVideoDuration('MATCH_VIDEO_DURATION'),
-  ;
+class M3u8AudioDuration {
+  static const defaultCodecDuration =
+      M3u8AudioDuration._('DEFAULT_CODEC_DURATION');
+  static const matchVideoDuration = M3u8AudioDuration._('MATCH_VIDEO_DURATION');
 
   final String value;
 
-  const M3u8AudioDuration(this.value);
+  const M3u8AudioDuration._(this.value);
+
+  static const values = [defaultCodecDuration, matchVideoDuration];
 
   static M3u8AudioDuration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M3u8AudioDuration'));
+          orElse: () => M3u8AudioDuration._(value));
+
+  @override
+  bool operator ==(other) => other is M3u8AudioDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
 /// with Presentation Timestamp (PTS) values greater than or equal to the first
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value AUTO to allow all PTS values.
-enum M3u8DataPtsControl {
-  auto('AUTO'),
-  alignToVideo('ALIGN_TO_VIDEO'),
-  ;
+class M3u8DataPtsControl {
+  static const auto = M3u8DataPtsControl._('AUTO');
+  static const alignToVideo = M3u8DataPtsControl._('ALIGN_TO_VIDEO');
 
   final String value;
 
-  const M3u8DataPtsControl(this.value);
+  const M3u8DataPtsControl._(this.value);
 
-  static M3u8DataPtsControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M3u8DataPtsControl'));
+  static const values = [auto, alignToVideo];
+
+  static M3u8DataPtsControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M3u8DataPtsControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M3u8DataPtsControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
-enum M3u8NielsenId3 {
-  insert('INSERT'),
-  none('NONE'),
-  ;
+class M3u8NielsenId3 {
+  static const insert = M3u8NielsenId3._('INSERT');
+  static const none = M3u8NielsenId3._('NONE');
 
   final String value;
 
-  const M3u8NielsenId3(this.value);
+  const M3u8NielsenId3._(this.value);
+
+  static const values = [insert, none];
 
   static M3u8NielsenId3 fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M3u8NielsenId3'));
+          orElse: () => M3u8NielsenId3._(value));
+
+  @override
+  bool operator ==(other) => other is M3u8NielsenId3 && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to PCR_EVERY_PES_PACKET a Program Clock Reference value is inserted
 /// for every Packetized Elementary Stream (PES) header. This parameter is
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
-enum M3u8PcrControl {
-  pcrEveryPesPacket('PCR_EVERY_PES_PACKET'),
-  configuredPcrPeriod('CONFIGURED_PCR_PERIOD'),
-  ;
+class M3u8PcrControl {
+  static const pcrEveryPesPacket = M3u8PcrControl._('PCR_EVERY_PES_PACKET');
+  static const configuredPcrPeriod = M3u8PcrControl._('CONFIGURED_PCR_PERIOD');
 
   final String value;
 
-  const M3u8PcrControl(this.value);
+  const M3u8PcrControl._(this.value);
+
+  static const values = [pcrEveryPesPacket, configuredPcrPeriod];
 
   static M3u8PcrControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M3u8PcrControl'));
+          orElse: () => M3u8PcrControl._(value));
+
+  @override
+  bool operator ==(other) => other is M3u8PcrControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35
@@ -19018,19 +22269,28 @@ enum M3u8PcrControl {
 /// Choose Passthrough and choose Ad markers if you do want manifest
 /// conditioning. In both cases, also provide the ESAM XML as a string in the
 /// setting Signal processing notification XML.
-enum M3u8Scte35Source {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class M3u8Scte35Source {
+  static const passthrough = M3u8Scte35Source._('PASSTHROUGH');
+  static const none = M3u8Scte35Source._('NONE');
 
   final String value;
 
-  const M3u8Scte35Source(this.value);
+  const M3u8Scte35Source._(this.value);
+
+  static const values = [passthrough, none];
 
   static M3u8Scte35Source fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M3u8Scte35Source'));
+          orElse: () => M3u8Scte35Source._(value));
+
+  @override
+  bool operator ==(other) => other is M3u8Scte35Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container
@@ -19460,19 +22720,29 @@ class MotionImageInsertionFramerate {
 
 /// Choose the type of motion graphic asset that you are providing for your
 /// overlay. You can choose either a .mov file or a series of .png files.
-enum MotionImageInsertionMode {
-  mov('MOV'),
-  png('PNG'),
-  ;
+class MotionImageInsertionMode {
+  static const mov = MotionImageInsertionMode._('MOV');
+  static const png = MotionImageInsertionMode._('PNG');
 
   final String value;
 
-  const MotionImageInsertionMode(this.value);
+  const MotionImageInsertionMode._(this.value);
+
+  static const values = [mov, png];
 
   static MotionImageInsertionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MotionImageInsertionMode'));
+          orElse: () => MotionImageInsertionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MotionImageInsertionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the offset between the upper-left corner of the video frame and the
@@ -19510,35 +22780,54 @@ class MotionImageInsertionOffset {
 
 /// Specify whether your motion graphic overlay repeats on a loop or plays only
 /// once.
-enum MotionImagePlayback {
-  once('ONCE'),
-  repeat('REPEAT'),
-  ;
+class MotionImagePlayback {
+  static const once = MotionImagePlayback._('ONCE');
+  static const repeat = MotionImagePlayback._('REPEAT');
 
   final String value;
 
-  const MotionImagePlayback(this.value);
+  const MotionImagePlayback._(this.value);
 
-  static MotionImagePlayback fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MotionImagePlayback'));
+  static const values = [once, repeat];
+
+  static MotionImagePlayback fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MotionImagePlayback._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MotionImagePlayback && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When enabled, include 'clap' atom if appropriate for the video output
 /// settings.
-enum MovClapAtom {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class MovClapAtom {
+  static const include = MovClapAtom._('INCLUDE');
+  static const exclude = MovClapAtom._('EXCLUDE');
 
   final String value;
 
-  const MovClapAtom(this.value);
+  const MovClapAtom._(this.value);
 
-  static MovClapAtom fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MovClapAtom'));
+  static const values = [include, exclude];
+
+  static MovClapAtom fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MovClapAtom._(value));
+
+  @override
+  bool operator ==(other) => other is MovClapAtom && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When enabled, file composition times will start at zero, composition times
@@ -19546,37 +22835,56 @@ enum MovClapAtom {
 /// negative, and a 'cslg' (composition shift least greatest) box will be
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
-enum MovCslgAtom {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class MovCslgAtom {
+  static const include = MovCslgAtom._('INCLUDE');
+  static const exclude = MovCslgAtom._('EXCLUDE');
 
   final String value;
 
-  const MovCslgAtom(this.value);
+  const MovCslgAtom._(this.value);
 
-  static MovCslgAtom fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MovCslgAtom'));
+  static const values = [include, exclude];
+
+  static MovCslgAtom fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MovCslgAtom._(value));
+
+  @override
+  bool operator ==(other) => other is MovCslgAtom && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When set to XDCAM, writes MPEG2 video streams into the QuickTime file using
 /// XDCAM fourcc codes. This increases compatibility with Apple editors and
 /// players, but may decrease compatibility with other players. Only applicable
 /// when the video codec is MPEG2.
-enum MovMpeg2FourCCControl {
-  xdcam('XDCAM'),
-  mpeg('MPEG'),
-  ;
+class MovMpeg2FourCCControl {
+  static const xdcam = MovMpeg2FourCCControl._('XDCAM');
+  static const mpeg = MovMpeg2FourCCControl._('MPEG');
 
   final String value;
 
-  const MovMpeg2FourCCControl(this.value);
+  const MovMpeg2FourCCControl._(this.value);
 
-  static MovMpeg2FourCCControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MovMpeg2FourCCControl'));
+  static const values = [xdcam, mpeg];
+
+  static MovMpeg2FourCCControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MovMpeg2FourCCControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MovMpeg2FourCCControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Unless you need Omneon compatibility: Keep the default value, None. To make
@@ -19584,35 +22892,52 @@ enum MovMpeg2FourCCControl {
 /// increases the length of the 'elst' edit list atom. Note that this might
 /// cause file rejections when a recipient of the output file doesn't expect
 /// this extra padding.
-enum MovPaddingControl {
-  omneon('OMNEON'),
-  none('NONE'),
-  ;
+class MovPaddingControl {
+  static const omneon = MovPaddingControl._('OMNEON');
+  static const none = MovPaddingControl._('NONE');
 
   final String value;
 
-  const MovPaddingControl(this.value);
+  const MovPaddingControl._(this.value);
+
+  static const values = [omneon, none];
 
   static MovPaddingControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MovPaddingControl'));
+          orElse: () => MovPaddingControl._(value));
+
+  @override
+  bool operator ==(other) => other is MovPaddingControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Always keep the default value (SELF_CONTAINED) for this setting.
-enum MovReference {
-  selfContained('SELF_CONTAINED'),
-  external('EXTERNAL'),
-  ;
+class MovReference {
+  static const selfContained = MovReference._('SELF_CONTAINED');
+  static const external = MovReference._('EXTERNAL');
 
   final String value;
 
-  const MovReference(this.value);
+  const MovReference._(this.value);
 
-  static MovReference fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MovReference'));
+  static const values = [selfContained, external];
+
+  static MovReference fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MovReference._(value));
+
+  @override
+  bool operator ==(other) => other is MovReference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to your QuickTime MOV output container.
@@ -19722,19 +23047,29 @@ class Mp2Settings {
 
 /// Specify whether the service encodes this MP3 audio output with a constant
 /// bitrate (CBR) or a variable bitrate (VBR).
-enum Mp3RateControlMode {
-  cbr('CBR'),
-  vbr('VBR'),
-  ;
+class Mp3RateControlMode {
+  static const cbr = Mp3RateControlMode._('CBR');
+  static const vbr = Mp3RateControlMode._('VBR');
 
   final String value;
 
-  const Mp3RateControlMode(this.value);
+  const Mp3RateControlMode._(this.value);
 
-  static Mp3RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mp3RateControlMode'));
+  static const values = [cbr, vbr];
+
+  static Mp3RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mp3RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mp3RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -19799,52 +23134,79 @@ class Mp3Settings {
 /// negative, and a 'cslg' (composition shift least greatest) box will be
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
-enum Mp4CslgAtom {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class Mp4CslgAtom {
+  static const include = Mp4CslgAtom._('INCLUDE');
+  static const exclude = Mp4CslgAtom._('EXCLUDE');
 
   final String value;
 
-  const Mp4CslgAtom(this.value);
+  const Mp4CslgAtom._(this.value);
 
-  static Mp4CslgAtom fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Mp4CslgAtom'));
+  static const values = [include, exclude];
+
+  static Mp4CslgAtom fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Mp4CslgAtom._(value));
+
+  @override
+  bool operator ==(other) => other is Mp4CslgAtom && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inserts a free-space box immediately after the moov box.
-enum Mp4FreeSpaceBox {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class Mp4FreeSpaceBox {
+  static const include = Mp4FreeSpaceBox._('INCLUDE');
+  static const exclude = Mp4FreeSpaceBox._('EXCLUDE');
 
   final String value;
 
-  const Mp4FreeSpaceBox(this.value);
+  const Mp4FreeSpaceBox._(this.value);
+
+  static const values = [include, exclude];
 
   static Mp4FreeSpaceBox fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mp4FreeSpaceBox'));
+          orElse: () => Mp4FreeSpaceBox._(value));
+
+  @override
+  bool operator ==(other) => other is Mp4FreeSpaceBox && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To place the MOOV atom at the beginning of your output, which is useful for
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
-enum Mp4MoovPlacement {
-  progressiveDownload('PROGRESSIVE_DOWNLOAD'),
-  normal('NORMAL'),
-  ;
+class Mp4MoovPlacement {
+  static const progressiveDownload = Mp4MoovPlacement._('PROGRESSIVE_DOWNLOAD');
+  static const normal = Mp4MoovPlacement._('NORMAL');
 
   final String value;
 
-  const Mp4MoovPlacement(this.value);
+  const Mp4MoovPlacement._(this.value);
+
+  static const values = [progressiveDownload, normal];
 
   static Mp4MoovPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mp4MoovPlacement'));
+          orElse: () => Mp4MoovPlacement._(value));
+
+  @override
+  bool operator ==(other) => other is Mp4MoovPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to your MP4 output container. You can create audio
@@ -19941,19 +23303,29 @@ class Mp4Settings {
 /// elements out. When you enable this setting, this is the markup that
 /// MediaConvert includes in your manifest: <Accessibility
 /// schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng"/>
-enum MpdAccessibilityCaptionHints {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class MpdAccessibilityCaptionHints {
+  static const include = MpdAccessibilityCaptionHints._('INCLUDE');
+  static const exclude = MpdAccessibilityCaptionHints._('EXCLUDE');
 
   final String value;
 
-  const MpdAccessibilityCaptionHints(this.value);
+  const MpdAccessibilityCaptionHints._(this.value);
+
+  static const values = [include, exclude];
 
   static MpdAccessibilityCaptionHints fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MpdAccessibilityCaptionHints'));
+          orElse: () => MpdAccessibilityCaptionHints._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MpdAccessibilityCaptionHints && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -19969,19 +23341,29 @@ enum MpdAccessibilityCaptionHints {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
-enum MpdAudioDuration {
-  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
-  matchVideoDuration('MATCH_VIDEO_DURATION'),
-  ;
+class MpdAudioDuration {
+  static const defaultCodecDuration =
+      MpdAudioDuration._('DEFAULT_CODEC_DURATION');
+  static const matchVideoDuration = MpdAudioDuration._('MATCH_VIDEO_DURATION');
 
   final String value;
 
-  const MpdAudioDuration(this.value);
+  const MpdAudioDuration._(this.value);
+
+  static const values = [defaultCodecDuration, matchVideoDuration];
 
   static MpdAudioDuration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MpdAudioDuration'));
+          orElse: () => MpdAudioDuration._(value));
+
+  @override
+  bool operator ==(other) => other is MpdAudioDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting only in DASH output groups that include sidecar TTML or
@@ -19990,19 +23372,29 @@ enum MpdAudioDuration {
 /// container. Choose Fragmented MPEG-4 for captions in XML format contained
 /// within fragmented MP4 files. This set of fragmented MP4 files is separate
 /// from your video and audio fragmented MP4 files.
-enum MpdCaptionContainerType {
-  raw('RAW'),
-  fragmentedMp4('FRAGMENTED_MP4'),
-  ;
+class MpdCaptionContainerType {
+  static const raw = MpdCaptionContainerType._('RAW');
+  static const fragmentedMp4 = MpdCaptionContainerType._('FRAGMENTED_MP4');
 
   final String value;
 
-  const MpdCaptionContainerType(this.value);
+  const MpdCaptionContainerType._(this.value);
+
+  static const values = [raw, fragmentedMp4];
 
   static MpdCaptionContainerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MpdCaptionContainerType'));
+          orElse: () => MpdCaptionContainerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MpdCaptionContainerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
@@ -20010,19 +23402,28 @@ enum MpdCaptionContainerType {
 /// input and writes each instance to a separate event message box in the
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
-enum MpdKlvMetadata {
-  none('NONE'),
-  passthrough('PASSTHROUGH'),
-  ;
+class MpdKlvMetadata {
+  static const none = MpdKlvMetadata._('NONE');
+  static const passthrough = MpdKlvMetadata._('PASSTHROUGH');
 
   final String value;
 
-  const MpdKlvMetadata(this.value);
+  const MpdKlvMetadata._(this.value);
+
+  static const values = [none, passthrough];
 
   static MpdKlvMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MpdKlvMetadata'));
+          orElse: () => MpdKlvMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is MpdKlvMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To add an InbandEventStream element in your output MPD manifest for each
@@ -20034,57 +23435,85 @@ enum MpdKlvMetadata {
 /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
-enum MpdManifestMetadataSignaling {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class MpdManifestMetadataSignaling {
+  static const enabled = MpdManifestMetadataSignaling._('ENABLED');
+  static const disabled = MpdManifestMetadataSignaling._('DISABLED');
 
   final String value;
 
-  const MpdManifestMetadataSignaling(this.value);
+  const MpdManifestMetadataSignaling._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MpdManifestMetadataSignaling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MpdManifestMetadataSignaling'));
+          orElse: () => MpdManifestMetadataSignaling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MpdManifestMetadataSignaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
-enum MpdScte35Esam {
-  insert('INSERT'),
-  none('NONE'),
-  ;
+class MpdScte35Esam {
+  static const insert = MpdScte35Esam._('INSERT');
+  static const none = MpdScte35Esam._('NONE');
 
   final String value;
 
-  const MpdScte35Esam(this.value);
+  const MpdScte35Esam._(this.value);
+
+  static const values = [insert, none];
 
   static MpdScte35Esam fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MpdScte35Esam'));
+          orElse: () => MpdScte35Esam._(value));
+
+  @override
+  bool operator ==(other) => other is MpdScte35Esam && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ignore this setting unless you have SCTE-35 markers in your input video
 /// file. Choose Passthrough if you want SCTE-35 markers that appear in your
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
-enum MpdScte35Source {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class MpdScte35Source {
+  static const passthrough = MpdScte35Source._('PASSTHROUGH');
+  static const none = MpdScte35Source._('NONE');
 
   final String value;
 
-  const MpdScte35Source(this.value);
+  const MpdScte35Source._(this.value);
+
+  static const values = [passthrough, none];
 
   static MpdScte35Source fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MpdScte35Source'));
+          orElse: () => MpdScte35Source._(value));
+
+  @override
+  bool operator ==(other) => other is MpdScte35Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to the fragmented MP4 container for the segments in
@@ -20254,19 +23683,28 @@ class MpdSettings {
 /// Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
-enum MpdTimedMetadata {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class MpdTimedMetadata {
+  static const passthrough = MpdTimedMetadata._('PASSTHROUGH');
+  static const none = MpdTimedMetadata._('NONE');
 
   final String value;
 
-  const MpdTimedMetadata(this.value);
+  const MpdTimedMetadata._(this.value);
+
+  static const values = [passthrough, none];
 
   static MpdTimedMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MpdTimedMetadata'));
+          orElse: () => MpdTimedMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is MpdTimedMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the event message box (eMSG) version for ID3 timed metadata in your
@@ -20274,74 +23712,112 @@ enum MpdTimedMetadata {
 /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
 /// Leave blank to use the default value Version 0.
 /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
-enum MpdTimedMetadataBoxVersion {
-  version_0('VERSION_0'),
-  version_1('VERSION_1'),
-  ;
+class MpdTimedMetadataBoxVersion {
+  static const version_0 = MpdTimedMetadataBoxVersion._('VERSION_0');
+  static const version_1 = MpdTimedMetadataBoxVersion._('VERSION_1');
 
   final String value;
 
-  const MpdTimedMetadataBoxVersion(this.value);
+  const MpdTimedMetadataBoxVersion._(this.value);
+
+  static const values = [version_0, version_1];
 
   static MpdTimedMetadataBoxVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MpdTimedMetadataBoxVersion'));
+          orElse: () => MpdTimedMetadataBoxVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MpdTimedMetadataBoxVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to the following settings: Spatial
 /// adaptive quantization, and Temporal adaptive quantization.
-enum Mpeg2AdaptiveQuantization {
-  off('OFF'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class Mpeg2AdaptiveQuantization {
+  static const off = Mpeg2AdaptiveQuantization._('OFF');
+  static const low = Mpeg2AdaptiveQuantization._('LOW');
+  static const medium = Mpeg2AdaptiveQuantization._('MEDIUM');
+  static const high = Mpeg2AdaptiveQuantization._('HIGH');
 
   final String value;
 
-  const Mpeg2AdaptiveQuantization(this.value);
+  const Mpeg2AdaptiveQuantization._(this.value);
+
+  static const values = [off, low, medium, high];
 
   static Mpeg2AdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2AdaptiveQuantization'));
+          orElse: () => Mpeg2AdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2AdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Level to set the MPEG-2 level for the video output.
-enum Mpeg2CodecLevel {
-  auto('AUTO'),
-  low('LOW'),
-  main('MAIN'),
-  high1440('HIGH1440'),
-  high('HIGH'),
-  ;
+class Mpeg2CodecLevel {
+  static const auto = Mpeg2CodecLevel._('AUTO');
+  static const low = Mpeg2CodecLevel._('LOW');
+  static const main = Mpeg2CodecLevel._('MAIN');
+  static const high1440 = Mpeg2CodecLevel._('HIGH1440');
+  static const high = Mpeg2CodecLevel._('HIGH');
 
   final String value;
 
-  const Mpeg2CodecLevel(this.value);
+  const Mpeg2CodecLevel._(this.value);
+
+  static const values = [auto, low, main, high1440, high];
 
   static Mpeg2CodecLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2CodecLevel'));
+          orElse: () => Mpeg2CodecLevel._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2CodecLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Profile to set the MPEG-2 profile for the video output.
-enum Mpeg2CodecProfile {
-  main('MAIN'),
-  profile_422('PROFILE_422'),
-  ;
+class Mpeg2CodecProfile {
+  static const main = Mpeg2CodecProfile._('MAIN');
+  static const profile_422 = Mpeg2CodecProfile._('PROFILE_422');
 
   final String value;
 
-  const Mpeg2CodecProfile(this.value);
+  const Mpeg2CodecProfile._(this.value);
+
+  static const values = [main, profile_422];
 
   static Mpeg2CodecProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2CodecProfile'));
+          orElse: () => Mpeg2CodecProfile._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2CodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -20349,19 +23825,29 @@ enum Mpeg2CodecProfile {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
-enum Mpeg2DynamicSubGop {
-  adaptive('ADAPTIVE'),
-  static('STATIC'),
-  ;
+class Mpeg2DynamicSubGop {
+  static const adaptive = Mpeg2DynamicSubGop._('ADAPTIVE');
+  static const static = Mpeg2DynamicSubGop._('STATIC');
 
   final String value;
 
-  const Mpeg2DynamicSubGop(this.value);
+  const Mpeg2DynamicSubGop._(this.value);
 
-  static Mpeg2DynamicSubGop fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mpeg2DynamicSubGop'));
+  static const values = [adaptive, static];
+
+  static Mpeg2DynamicSubGop fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mpeg2DynamicSubGop._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2DynamicSubGop && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -20370,19 +23856,30 @@ enum Mpeg2DynamicSubGop {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum Mpeg2FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Mpeg2FramerateControl {
+  static const initializeFromSource =
+      Mpeg2FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Mpeg2FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const Mpeg2FramerateControl(this.value);
+  const Mpeg2FramerateControl._(this.value);
 
-  static Mpeg2FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mpeg2FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static Mpeg2FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mpeg2FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -20396,37 +23893,57 @@ enum Mpeg2FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum Mpeg2FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class Mpeg2FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      Mpeg2FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = Mpeg2FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = Mpeg2FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const Mpeg2FramerateConversionAlgorithm(this.value);
+  const Mpeg2FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static Mpeg2FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2FramerateConversionAlgorithm'));
+          orElse: () => Mpeg2FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the units for GOP size. If you don't specify a value here, by
 /// default the encoder measures GOP size in frames.
-enum Mpeg2GopSizeUnits {
-  frames('FRAMES'),
-  seconds('SECONDS'),
-  ;
+class Mpeg2GopSizeUnits {
+  static const frames = Mpeg2GopSizeUnits._('FRAMES');
+  static const seconds = Mpeg2GopSizeUnits._('SECONDS');
 
   final String value;
 
-  const Mpeg2GopSizeUnits(this.value);
+  const Mpeg2GopSizeUnits._(this.value);
+
+  static const values = [frames, seconds];
 
   static Mpeg2GopSizeUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2GopSizeUnits'));
+          orElse: () => Mpeg2GopSizeUnits._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2GopSizeUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -20440,43 +23957,79 @@ enum Mpeg2GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum Mpeg2InterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class Mpeg2InterlaceMode {
+  static const progressive = Mpeg2InterlaceMode._('PROGRESSIVE');
+  static const topField = Mpeg2InterlaceMode._('TOP_FIELD');
+  static const bottomField = Mpeg2InterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = Mpeg2InterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField = Mpeg2InterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const Mpeg2InterlaceMode(this.value);
+  const Mpeg2InterlaceMode._(this.value);
 
-  static Mpeg2InterlaceMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mpeg2InterlaceMode'));
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
+
+  static Mpeg2InterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mpeg2InterlaceMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2InterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Intra DC precision to set quantization precision for intra-block DC
 /// coefficients. If you choose the value auto, the service will automatically
 /// select the precision based on the per-frame compression ratio.
-enum Mpeg2IntraDcPrecision {
-  auto('AUTO'),
-  intraDcPrecision_8('INTRA_DC_PRECISION_8'),
-  intraDcPrecision_9('INTRA_DC_PRECISION_9'),
-  intraDcPrecision_10('INTRA_DC_PRECISION_10'),
-  intraDcPrecision_11('INTRA_DC_PRECISION_11'),
-  ;
+class Mpeg2IntraDcPrecision {
+  static const auto = Mpeg2IntraDcPrecision._('AUTO');
+  static const intraDcPrecision_8 =
+      Mpeg2IntraDcPrecision._('INTRA_DC_PRECISION_8');
+  static const intraDcPrecision_9 =
+      Mpeg2IntraDcPrecision._('INTRA_DC_PRECISION_9');
+  static const intraDcPrecision_10 =
+      Mpeg2IntraDcPrecision._('INTRA_DC_PRECISION_10');
+  static const intraDcPrecision_11 =
+      Mpeg2IntraDcPrecision._('INTRA_DC_PRECISION_11');
 
   final String value;
 
-  const Mpeg2IntraDcPrecision(this.value);
+  const Mpeg2IntraDcPrecision._(this.value);
 
-  static Mpeg2IntraDcPrecision fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mpeg2IntraDcPrecision'));
+  static const values = [
+    auto,
+    intraDcPrecision_8,
+    intraDcPrecision_9,
+    intraDcPrecision_10,
+    intraDcPrecision_11
+  ];
+
+  static Mpeg2IntraDcPrecision fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mpeg2IntraDcPrecision._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2IntraDcPrecision && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -20485,54 +24038,84 @@ enum Mpeg2IntraDcPrecision {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
-enum Mpeg2ParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Mpeg2ParControl {
+  static const initializeFromSource =
+      Mpeg2ParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Mpeg2ParControl._('SPECIFIED');
 
   final String value;
 
-  const Mpeg2ParControl(this.value);
+  const Mpeg2ParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static Mpeg2ParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2ParControl'));
+          orElse: () => Mpeg2ParControl._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2ParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
-enum Mpeg2QualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  multiPass('MULTI_PASS'),
-  ;
+class Mpeg2QualityTuningLevel {
+  static const singlePass = Mpeg2QualityTuningLevel._('SINGLE_PASS');
+  static const multiPass = Mpeg2QualityTuningLevel._('MULTI_PASS');
 
   final String value;
 
-  const Mpeg2QualityTuningLevel(this.value);
+  const Mpeg2QualityTuningLevel._(this.value);
+
+  static const values = [singlePass, multiPass];
 
   static Mpeg2QualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2QualityTuningLevel'));
+          orElse: () => Mpeg2QualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2QualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Rate control mode to specify whether the bitrate is variable (vbr) or
 /// constant (cbr).
-enum Mpeg2RateControlMode {
-  vbr('VBR'),
-  cbr('CBR'),
-  ;
+class Mpeg2RateControlMode {
+  static const vbr = Mpeg2RateControlMode._('VBR');
+  static const cbr = Mpeg2RateControlMode._('CBR');
 
   final String value;
 
-  const Mpeg2RateControlMode(this.value);
+  const Mpeg2RateControlMode._(this.value);
 
-  static Mpeg2RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Mpeg2RateControlMode'));
+  static const values = [vbr, cbr];
+
+  static Mpeg2RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Mpeg2RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -20547,37 +24130,58 @@ enum Mpeg2RateControlMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum Mpeg2ScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class Mpeg2ScanTypeConversionMode {
+  static const interlaced = Mpeg2ScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      Mpeg2ScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const Mpeg2ScanTypeConversionMode(this.value);
+  const Mpeg2ScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static Mpeg2ScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2ScanTypeConversionMode'));
+          orElse: () => Mpeg2ScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2ScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
 /// automatically detects. This improves video quality and is enabled by
 /// default.
-enum Mpeg2SceneChangeDetect {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Mpeg2SceneChangeDetect {
+  static const disabled = Mpeg2SceneChangeDetect._('DISABLED');
+  static const enabled = Mpeg2SceneChangeDetect._('ENABLED');
 
   final String value;
 
-  const Mpeg2SceneChangeDetect(this.value);
+  const Mpeg2SceneChangeDetect._(this.value);
+
+  static const values = [disabled, enabled];
 
   static Mpeg2SceneChangeDetect fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2SceneChangeDetect'));
+          orElse: () => Mpeg2SceneChangeDetect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2SceneChangeDetect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value MPEG2.
@@ -21020,19 +24624,27 @@ class Mpeg2Settings {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
-enum Mpeg2SlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Mpeg2SlowPal {
+  static const disabled = Mpeg2SlowPal._('DISABLED');
+  static const enabled = Mpeg2SlowPal._('ENABLED');
 
   final String value;
 
-  const Mpeg2SlowPal(this.value);
+  const Mpeg2SlowPal._(this.value);
 
-  static Mpeg2SlowPal fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2SlowPal'));
+  static const values = [disabled, enabled];
+
+  static Mpeg2SlowPal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Mpeg2SlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2SlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -21050,36 +24662,55 @@ enum Mpeg2SlowPal {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
-enum Mpeg2SpatialAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Mpeg2SpatialAdaptiveQuantization {
+  static const disabled = Mpeg2SpatialAdaptiveQuantization._('DISABLED');
+  static const enabled = Mpeg2SpatialAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const Mpeg2SpatialAdaptiveQuantization(this.value);
+  const Mpeg2SpatialAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static Mpeg2SpatialAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2SpatialAdaptiveQuantization'));
+          orElse: () => Mpeg2SpatialAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2SpatialAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether this output's video uses the D10 syntax. Keep the default
 /// value to not use the syntax. Related settings: When you choose D10 for your
 /// MXF profile, you must also set this value to D10.
-enum Mpeg2Syntax {
-  $default('DEFAULT'),
-  d_10('D_10'),
-  ;
+class Mpeg2Syntax {
+  static const $default = Mpeg2Syntax._('DEFAULT');
+  static const d_10 = Mpeg2Syntax._('D_10');
 
   final String value;
 
-  const Mpeg2Syntax(this.value);
+  const Mpeg2Syntax._(this.value);
 
-  static Mpeg2Syntax fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Mpeg2Syntax'));
+  static const values = [$default, d_10];
+
+  static Mpeg2Syntax fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Mpeg2Syntax._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2Syntax && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -21090,20 +24721,29 @@ enum Mpeg2Syntax {
 /// play back. When you keep the default value, None, MediaConvert does a
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
-enum Mpeg2Telecine {
-  none('NONE'),
-  soft('SOFT'),
-  hard('HARD'),
-  ;
+class Mpeg2Telecine {
+  static const none = Mpeg2Telecine._('NONE');
+  static const soft = Mpeg2Telecine._('SOFT');
+  static const hard = Mpeg2Telecine._('HARD');
 
   final String value;
 
-  const Mpeg2Telecine(this.value);
+  const Mpeg2Telecine._(this.value);
+
+  static const values = [none, soft, hard];
 
   static Mpeg2Telecine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Mpeg2Telecine'));
+          orElse: () => Mpeg2Telecine._(value));
+
+  @override
+  bool operator ==(other) => other is Mpeg2Telecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -21119,19 +24759,29 @@ enum Mpeg2Telecine {
 /// faces, you might choose to disable this feature. Related setting: When you
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
-enum Mpeg2TemporalAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Mpeg2TemporalAdaptiveQuantization {
+  static const disabled = Mpeg2TemporalAdaptiveQuantization._('DISABLED');
+  static const enabled = Mpeg2TemporalAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const Mpeg2TemporalAdaptiveQuantization(this.value);
+  const Mpeg2TemporalAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static Mpeg2TemporalAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Mpeg2TemporalAdaptiveQuantization'));
+          orElse: () => Mpeg2TemporalAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Mpeg2TemporalAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the details for each additional Microsoft Smooth Streaming manifest
@@ -21178,19 +24828,30 @@ class MsSmoothAdditionalManifest {
 
 /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across
 /// a Microsoft Smooth output group into a single audio stream.
-enum MsSmoothAudioDeduplication {
-  combineDuplicateStreams('COMBINE_DUPLICATE_STREAMS'),
-  none('NONE'),
-  ;
+class MsSmoothAudioDeduplication {
+  static const combineDuplicateStreams =
+      MsSmoothAudioDeduplication._('COMBINE_DUPLICATE_STREAMS');
+  static const none = MsSmoothAudioDeduplication._('NONE');
 
   final String value;
 
-  const MsSmoothAudioDeduplication(this.value);
+  const MsSmoothAudioDeduplication._(this.value);
+
+  static const values = [combineDuplicateStreams, none];
 
   static MsSmoothAudioDeduplication fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MsSmoothAudioDeduplication'));
+          orElse: () => MsSmoothAudioDeduplication._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MsSmoothAudioDeduplication && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using DRM, set DRM System to specify the value SpekeKeyProvider.
@@ -21227,19 +24888,29 @@ class MsSmoothEncryptionSettings {
 /// setting Fragment length. This might result in extra I-frames. Choose
 /// Multiple of GOP to have the encoder round up the segment lengths to match
 /// the next GOP boundary.
-enum MsSmoothFragmentLengthControl {
-  exact('EXACT'),
-  gopMultiple('GOP_MULTIPLE'),
-  ;
+class MsSmoothFragmentLengthControl {
+  static const exact = MsSmoothFragmentLengthControl._('EXACT');
+  static const gopMultiple = MsSmoothFragmentLengthControl._('GOP_MULTIPLE');
 
   final String value;
 
-  const MsSmoothFragmentLengthControl(this.value);
+  const MsSmoothFragmentLengthControl._(this.value);
+
+  static const values = [exact, gopMultiple];
 
   static MsSmoothFragmentLengthControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MsSmoothFragmentLengthControl'));
+          orElse: () => MsSmoothFragmentLengthControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MsSmoothFragmentLengthControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to your Microsoft Smooth Streaming output package. For more
@@ -21354,19 +25025,29 @@ class MsSmoothGroupSettings {
 
 /// Use Manifest encoding to specify the encoding format for the server and
 /// client manifest. Valid options are utf8 and utf16.
-enum MsSmoothManifestEncoding {
-  utf8('UTF8'),
-  utf16('UTF16'),
-  ;
+class MsSmoothManifestEncoding {
+  static const utf8 = MsSmoothManifestEncoding._('UTF8');
+  static const utf16 = MsSmoothManifestEncoding._('UTF16');
 
   final String value;
 
-  const MsSmoothManifestEncoding(this.value);
+  const MsSmoothManifestEncoding._(this.value);
+
+  static const values = [utf8, utf16];
 
   static MsSmoothManifestEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MsSmoothManifestEncoding'));
+          orElse: () => MsSmoothManifestEncoding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MsSmoothManifestEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. When you have AFD signaling set up in your output video stream,
@@ -21378,19 +25059,28 @@ enum MsSmoothManifestEncoding {
 /// to include or exclude AFD values, see AfdSignaling, under VideoDescription.
 /// On the console, find AFD signaling under the output's video encoding
 /// settings.
-enum MxfAfdSignaling {
-  noCopy('NO_COPY'),
-  copyFromVideo('COPY_FROM_VIDEO'),
-  ;
+class MxfAfdSignaling {
+  static const noCopy = MxfAfdSignaling._('NO_COPY');
+  static const copyFromVideo = MxfAfdSignaling._('COPY_FROM_VIDEO');
 
   final String value;
 
-  const MxfAfdSignaling(this.value);
+  const MxfAfdSignaling._(this.value);
+
+  static const values = [noCopy, copyFromVideo];
 
   static MxfAfdSignaling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MxfAfdSignaling'));
+          orElse: () => MxfAfdSignaling._(value));
+
+  @override
+  bool operator ==(other) => other is MxfAfdSignaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the MXF profile, also called shim, for this output. To automatically
@@ -21399,21 +25089,30 @@ enum MxfAfdSignaling {
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html.
 /// For more information about the automatic selection behavior, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
-enum MxfProfile {
-  d_10('D_10'),
-  xdcam('XDCAM'),
-  op1a('OP1A'),
-  xavc('XAVC'),
-  xdcamRdd9('XDCAM_RDD9'),
-  ;
+class MxfProfile {
+  static const d_10 = MxfProfile._('D_10');
+  static const xdcam = MxfProfile._('XDCAM');
+  static const op1a = MxfProfile._('OP1A');
+  static const xavc = MxfProfile._('XAVC');
+  static const xdcamRdd9 = MxfProfile._('XDCAM_RDD9');
 
   final String value;
 
-  const MxfProfile(this.value);
+  const MxfProfile._(this.value);
 
-  static MxfProfile fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MxfProfile'));
+  static const values = [d_10, xdcam, op1a, xavc, xdcamRdd9];
+
+  static MxfProfile fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MxfProfile._(value));
+
+  @override
+  bool operator ==(other) => other is MxfProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings relate to your MXF output container.
@@ -21478,19 +25177,30 @@ class MxfSettings {
 /// Allow any duration. The number of frames that MediaConvert excludes when you
 /// set this to Drop frames for compliance depends on the output frame rate and
 /// duration.
-enum MxfXavcDurationMode {
-  allowAnyDuration('ALLOW_ANY_DURATION'),
-  dropFramesForCompliance('DROP_FRAMES_FOR_COMPLIANCE'),
-  ;
+class MxfXavcDurationMode {
+  static const allowAnyDuration = MxfXavcDurationMode._('ALLOW_ANY_DURATION');
+  static const dropFramesForCompliance =
+      MxfXavcDurationMode._('DROP_FRAMES_FOR_COMPLIANCE');
 
   final String value;
 
-  const MxfXavcDurationMode(this.value);
+  const MxfXavcDurationMode._(this.value);
 
-  static MxfXavcDurationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MxfXavcDurationMode'));
+  static const values = [allowAnyDuration, dropFramesForCompliance];
+
+  static MxfXavcDurationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MxfXavcDurationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MxfXavcDurationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the XAVC profile settings for MXF outputs when you set your MXF
@@ -21604,20 +25314,31 @@ class NexGuardFileMarkerSettings {
 /// you choose CBET, you must provide a value for the setting CSID. When you
 /// choose NAES 2, NW, and CBET, you must provide values for both of these
 /// settings.
-enum NielsenActiveWatermarkProcessType {
-  naes2AndNw('NAES2_AND_NW'),
-  cbet('CBET'),
-  naes2AndNwAndCbet('NAES2_AND_NW_AND_CBET'),
-  ;
+class NielsenActiveWatermarkProcessType {
+  static const naes2AndNw = NielsenActiveWatermarkProcessType._('NAES2_AND_NW');
+  static const cbet = NielsenActiveWatermarkProcessType._('CBET');
+  static const naes2AndNwAndCbet =
+      NielsenActiveWatermarkProcessType._('NAES2_AND_NW_AND_CBET');
 
   final String value;
 
-  const NielsenActiveWatermarkProcessType(this.value);
+  const NielsenActiveWatermarkProcessType._(this.value);
+
+  static const values = [naes2AndNw, cbet, naes2AndNwAndCbet];
 
   static NielsenActiveWatermarkProcessType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NielsenActiveWatermarkProcessType'));
+          orElse: () => NielsenActiveWatermarkProcessType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NielsenActiveWatermarkProcessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
@@ -21801,37 +25522,59 @@ class NielsenNonLinearWatermarkSettings {
 /// non-linear watermarks. When you set this value to Watermarked, the service
 /// fails the job. Nielsen requires that you add non-linear watermarking to only
 /// clean content that doesn't already have non-linear Nielsen watermarks.
-enum NielsenSourceWatermarkStatusType {
-  clean('CLEAN'),
-  watermarked('WATERMARKED'),
-  ;
+class NielsenSourceWatermarkStatusType {
+  static const clean = NielsenSourceWatermarkStatusType._('CLEAN');
+  static const watermarked = NielsenSourceWatermarkStatusType._('WATERMARKED');
 
   final String value;
 
-  const NielsenSourceWatermarkStatusType(this.value);
+  const NielsenSourceWatermarkStatusType._(this.value);
+
+  static const values = [clean, watermarked];
 
   static NielsenSourceWatermarkStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NielsenSourceWatermarkStatusType'));
+          orElse: () => NielsenSourceWatermarkStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NielsenSourceWatermarkStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// To create assets that have the same TIC values in each audio track, keep the
 /// default value Share TICs. To create assets that have unique TIC values for
 /// each audio track, choose Use unique TICs.
-enum NielsenUniqueTicPerAudioTrackType {
-  reserveUniqueTicsPerTrack('RESERVE_UNIQUE_TICS_PER_TRACK'),
-  sameTicsPerTrack('SAME_TICS_PER_TRACK'),
-  ;
+class NielsenUniqueTicPerAudioTrackType {
+  static const reserveUniqueTicsPerTrack =
+      NielsenUniqueTicPerAudioTrackType._('RESERVE_UNIQUE_TICS_PER_TRACK');
+  static const sameTicsPerTrack =
+      NielsenUniqueTicPerAudioTrackType._('SAME_TICS_PER_TRACK');
 
   final String value;
 
-  const NielsenUniqueTicPerAudioTrackType(this.value);
+  const NielsenUniqueTicPerAudioTrackType._(this.value);
+
+  static const values = [reserveUniqueTicsPerTrack, sameTicsPerTrack];
 
   static NielsenUniqueTicPerAudioTrackType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NielsenUniqueTicPerAudioTrackType'));
+          orElse: () => NielsenUniqueTicPerAudioTrackType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NielsenUniqueTicPerAudioTrackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you set Noise reducer to Temporal, the bandwidth and sharpness of your
@@ -21843,39 +25586,60 @@ enum NielsenUniqueTicPerAudioTrackType {
 /// temporal sharpening to Enabled, specify how much sharpening is applied using
 /// Post temporal sharpening strength. Set Post temporal sharpening to Disabled
 /// to not apply sharpening.
-enum NoiseFilterPostTemporalSharpening {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  auto('AUTO'),
-  ;
+class NoiseFilterPostTemporalSharpening {
+  static const disabled = NoiseFilterPostTemporalSharpening._('DISABLED');
+  static const enabled = NoiseFilterPostTemporalSharpening._('ENABLED');
+  static const auto = NoiseFilterPostTemporalSharpening._('AUTO');
 
   final String value;
 
-  const NoiseFilterPostTemporalSharpening(this.value);
+  const NoiseFilterPostTemporalSharpening._(this.value);
+
+  static const values = [disabled, enabled, auto];
 
   static NoiseFilterPostTemporalSharpening fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NoiseFilterPostTemporalSharpening'));
+          orElse: () => NoiseFilterPostTemporalSharpening._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NoiseFilterPostTemporalSharpening && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Post temporal sharpening strength to define the amount of sharpening the
 /// transcoder applies to your output. Set Post temporal sharpening strength to
 /// Low, Medium, or High to indicate the amount of sharpening.
-enum NoiseFilterPostTemporalSharpeningStrength {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class NoiseFilterPostTemporalSharpeningStrength {
+  static const low = NoiseFilterPostTemporalSharpeningStrength._('LOW');
+  static const medium = NoiseFilterPostTemporalSharpeningStrength._('MEDIUM');
+  static const high = NoiseFilterPostTemporalSharpeningStrength._('HIGH');
 
   final String value;
 
-  const NoiseFilterPostTemporalSharpeningStrength(this.value);
+  const NoiseFilterPostTemporalSharpeningStrength._(this.value);
+
+  static const values = [low, medium, high];
 
   static NoiseFilterPostTemporalSharpeningStrength fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NoiseFilterPostTemporalSharpeningStrength'));
+          orElse: () => NoiseFilterPostTemporalSharpeningStrength._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NoiseFilterPostTemporalSharpeningStrength &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable the Noise reducer feature to remove noise from your video output if
@@ -21950,25 +25714,44 @@ class NoiseReducer {
 /// Conserve does min/max noise reduction. * Spatial does frequency-domain
 /// filtering based on JND principles. * Temporal optimizes video quality for
 /// complex motion.
-enum NoiseReducerFilter {
-  bilateral('BILATERAL'),
-  mean('MEAN'),
-  gaussian('GAUSSIAN'),
-  lanczos('LANCZOS'),
-  sharpen('SHARPEN'),
-  conserve('CONSERVE'),
-  spatial('SPATIAL'),
-  temporal('TEMPORAL'),
-  ;
+class NoiseReducerFilter {
+  static const bilateral = NoiseReducerFilter._('BILATERAL');
+  static const mean = NoiseReducerFilter._('MEAN');
+  static const gaussian = NoiseReducerFilter._('GAUSSIAN');
+  static const lanczos = NoiseReducerFilter._('LANCZOS');
+  static const sharpen = NoiseReducerFilter._('SHARPEN');
+  static const conserve = NoiseReducerFilter._('CONSERVE');
+  static const spatial = NoiseReducerFilter._('SPATIAL');
+  static const temporal = NoiseReducerFilter._('TEMPORAL');
 
   final String value;
 
-  const NoiseReducerFilter(this.value);
+  const NoiseReducerFilter._(this.value);
 
-  static NoiseReducerFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NoiseReducerFilter'));
+  static const values = [
+    bilateral,
+    mean,
+    gaussian,
+    lanczos,
+    sharpen,
+    conserve,
+    spatial,
+    temporal
+  ];
+
+  static NoiseReducerFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NoiseReducerFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NoiseReducerFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for a noise reducer filter
@@ -22158,18 +25941,27 @@ class OpusSettings {
 
 /// Optional. When you request lists of resources, you can specify whether they
 /// are sorted in ASCENDING or DESCENDING order. Default varies by resource.
-enum Order {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class Order {
+  static const ascending = Order._('ASCENDING');
+  static const descending = Order._('DESCENDING');
 
   final String value;
 
-  const Order(this.value);
+  const Order._(this.value);
+
+  static const values = [ascending, descending];
 
   static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Order'));
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Each output in your job is a collection of settings that describes how you
@@ -22531,22 +26323,39 @@ class OutputGroupSettings {
 
 /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth
 /// Streaming, CMAF)
-enum OutputGroupType {
-  hlsGroupSettings('HLS_GROUP_SETTINGS'),
-  dashIsoGroupSettings('DASH_ISO_GROUP_SETTINGS'),
-  fileGroupSettings('FILE_GROUP_SETTINGS'),
-  msSmoothGroupSettings('MS_SMOOTH_GROUP_SETTINGS'),
-  cmafGroupSettings('CMAF_GROUP_SETTINGS'),
-  ;
+class OutputGroupType {
+  static const hlsGroupSettings = OutputGroupType._('HLS_GROUP_SETTINGS');
+  static const dashIsoGroupSettings =
+      OutputGroupType._('DASH_ISO_GROUP_SETTINGS');
+  static const fileGroupSettings = OutputGroupType._('FILE_GROUP_SETTINGS');
+  static const msSmoothGroupSettings =
+      OutputGroupType._('MS_SMOOTH_GROUP_SETTINGS');
+  static const cmafGroupSettings = OutputGroupType._('CMAF_GROUP_SETTINGS');
 
   final String value;
 
-  const OutputGroupType(this.value);
+  const OutputGroupType._(this.value);
+
+  static const values = [
+    hlsGroupSettings,
+    dashIsoGroupSettings,
+    fileGroupSettings,
+    msSmoothGroupSettings,
+    cmafGroupSettings
+  ];
 
   static OutputGroupType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputGroupType'));
+          orElse: () => OutputGroupType._(value));
+
+  @override
+  bool operator ==(other) => other is OutputGroupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Selects method of inserting SDT information into output stream. "Follow
@@ -22556,20 +26365,29 @@ enum OutputGroupType {
 /// fall back on the user-defined values. Enter "SDT Manually" means user will
 /// enter the SDT information. "No SDT" means output stream will not contain SDT
 /// information.
-enum OutputSdt {
-  sdtFollow('SDT_FOLLOW'),
-  sdtFollowIfPresent('SDT_FOLLOW_IF_PRESENT'),
-  sdtManual('SDT_MANUAL'),
-  sdtNone('SDT_NONE'),
-  ;
+class OutputSdt {
+  static const sdtFollow = OutputSdt._('SDT_FOLLOW');
+  static const sdtFollowIfPresent = OutputSdt._('SDT_FOLLOW_IF_PRESENT');
+  static const sdtManual = OutputSdt._('SDT_MANUAL');
+  static const sdtNone = OutputSdt._('SDT_NONE');
 
   final String value;
 
-  const OutputSdt(this.value);
+  const OutputSdt._(this.value);
 
-  static OutputSdt fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OutputSdt'));
+  static const values = [sdtFollow, sdtFollowIfPresent, sdtManual, sdtNone];
+
+  static OutputSdt fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputSdt._(value));
+
+  @override
+  bool operator ==(other) => other is OutputSdt && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specific settings for this type of output.
@@ -22605,18 +26423,27 @@ class OutputSettings {
 /// video frames are added at the beginning or end, depending on your input. To
 /// keep the default behavior and not generate black video, set Pad video to
 /// Disabled or leave blank.
-enum PadVideo {
-  disabled('DISABLED'),
-  black('BLACK'),
-  ;
+class PadVideo {
+  static const disabled = PadVideo._('DISABLED');
+  static const black = PadVideo._('BLACK');
 
   final String value;
 
-  const PadVideo(this.value);
+  const PadVideo._(this.value);
 
-  static PadVideo fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PadVideo'));
+  static const values = [disabled, black];
+
+  static PadVideo fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PadVideo._(value));
+
+  @override
+  bool operator ==(other) => other is PadVideo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you work with a third party video watermarking partner, use the group of
@@ -22770,20 +26597,28 @@ class Preset {
 /// Optional. When you request a list of presets, you can choose to list them
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by name.
-enum PresetListBy {
-  name('NAME'),
-  creationDate('CREATION_DATE'),
-  system('SYSTEM'),
-  ;
+class PresetListBy {
+  static const name = PresetListBy._('NAME');
+  static const creationDate = PresetListBy._('CREATION_DATE');
+  static const system = PresetListBy._('SYSTEM');
 
   final String value;
 
-  const PresetListBy(this.value);
+  const PresetListBy._(this.value);
 
-  static PresetListBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PresetListBy'));
+  static const values = [name, creationDate, system];
+
+  static PresetListBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PresetListBy._(value));
+
+  @override
+  bool operator ==(other) => other is PresetListBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for preset
@@ -22854,18 +26689,27 @@ class PresetSettings {
 /// reserved, you pay for the transcoding capacity of the entire queue,
 /// regardless of how much or how little you use it. Reserved pricing requires a
 /// 12-month commitment.
-enum PricingPlan {
-  onDemand('ON_DEMAND'),
-  reserved('RESERVED'),
-  ;
+class PricingPlan {
+  static const onDemand = PricingPlan._('ON_DEMAND');
+  static const reserved = PricingPlan._('RESERVED');
 
   final String value;
 
-  const PricingPlan(this.value);
+  const PricingPlan._(this.value);
 
-  static PricingPlan fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PricingPlan'));
+  static const values = [onDemand, reserved];
+
+  static PricingPlan fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PricingPlan._(value));
+
+  @override
+  bool operator ==(other) => other is PricingPlan && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you
@@ -22878,40 +26722,70 @@ enum PricingPlan {
 /// 4444 XQ. Note that when you choose Preserve 4:4:4 sampling, you cannot
 /// include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise
 /// reducer.
-enum ProresChromaSampling {
-  preserve_444Sampling('PRESERVE_444_SAMPLING'),
-  subsampleTo_422('SUBSAMPLE_TO_422'),
-  ;
+class ProresChromaSampling {
+  static const preserve_444Sampling =
+      ProresChromaSampling._('PRESERVE_444_SAMPLING');
+  static const subsampleTo_422 = ProresChromaSampling._('SUBSAMPLE_TO_422');
 
   final String value;
 
-  const ProresChromaSampling(this.value);
+  const ProresChromaSampling._(this.value);
 
-  static ProresChromaSampling fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProresChromaSampling'));
+  static const values = [preserve_444Sampling, subsampleTo_422];
+
+  static ProresChromaSampling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProresChromaSampling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresChromaSampling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Profile to specify the type of Apple ProRes codec to use for this
 /// output.
-enum ProresCodecProfile {
-  appleProres_422('APPLE_PRORES_422'),
-  appleProres_422Hq('APPLE_PRORES_422_HQ'),
-  appleProres_422Lt('APPLE_PRORES_422_LT'),
-  appleProres_422Proxy('APPLE_PRORES_422_PROXY'),
-  appleProres_4444('APPLE_PRORES_4444'),
-  appleProres_4444Xq('APPLE_PRORES_4444_XQ'),
-  ;
+class ProresCodecProfile {
+  static const appleProres_422 = ProresCodecProfile._('APPLE_PRORES_422');
+  static const appleProres_422Hq = ProresCodecProfile._('APPLE_PRORES_422_HQ');
+  static const appleProres_422Lt = ProresCodecProfile._('APPLE_PRORES_422_LT');
+  static const appleProres_422Proxy =
+      ProresCodecProfile._('APPLE_PRORES_422_PROXY');
+  static const appleProres_4444 = ProresCodecProfile._('APPLE_PRORES_4444');
+  static const appleProres_4444Xq =
+      ProresCodecProfile._('APPLE_PRORES_4444_XQ');
 
   final String value;
 
-  const ProresCodecProfile(this.value);
+  const ProresCodecProfile._(this.value);
 
-  static ProresCodecProfile fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProresCodecProfile'));
+  static const values = [
+    appleProres_422,
+    appleProres_422Hq,
+    appleProres_422Lt,
+    appleProres_422Proxy,
+    appleProres_4444,
+    appleProres_4444Xq
+  ];
+
+  static ProresCodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProresCodecProfile._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresCodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -22920,19 +26794,30 @@ enum ProresCodecProfile {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum ProresFramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class ProresFramerateControl {
+  static const initializeFromSource =
+      ProresFramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = ProresFramerateControl._('SPECIFIED');
 
   final String value;
 
-  const ProresFramerateControl(this.value);
+  const ProresFramerateControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static ProresFramerateControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProresFramerateControl'));
+          orElse: () => ProresFramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresFramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -22946,20 +26831,33 @@ enum ProresFramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum ProresFramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class ProresFramerateConversionAlgorithm {
+  static const duplicateDrop =
+      ProresFramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate =
+      ProresFramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer =
+      ProresFramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const ProresFramerateConversionAlgorithm(this.value);
+  const ProresFramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static ProresFramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProresFramerateConversionAlgorithm'));
+          orElse: () => ProresFramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresFramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -22973,22 +26871,38 @@ enum ProresFramerateConversionAlgorithm {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum ProresInterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class ProresInterlaceMode {
+  static const progressive = ProresInterlaceMode._('PROGRESSIVE');
+  static const topField = ProresInterlaceMode._('TOP_FIELD');
+  static const bottomField = ProresInterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = ProresInterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField = ProresInterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const ProresInterlaceMode(this.value);
+  const ProresInterlaceMode._(this.value);
 
-  static ProresInterlaceMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProresInterlaceMode'));
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
+
+  static ProresInterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProresInterlaceMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresInterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -22996,19 +26910,29 @@ enum ProresInterlaceMode {
 /// input video for your output. To specify a different PAR, choose any value
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
-enum ProresParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class ProresParControl {
+  static const initializeFromSource =
+      ProresParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = ProresParControl._('SPECIFIED');
 
   final String value;
 
-  const ProresParControl(this.value);
+  const ProresParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static ProresParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProresParControl'));
+          orElse: () => ProresParControl._(value));
+
+  @override
+  bool operator ==(other) => other is ProresParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -23023,19 +26947,30 @@ enum ProresParControl {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum ProresScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class ProresScanTypeConversionMode {
+  static const interlaced = ProresScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      ProresScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const ProresScanTypeConversionMode(this.value);
+  const ProresScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static ProresScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProresScanTypeConversionMode'));
+          orElse: () => ProresScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProresScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value PRORES.
@@ -23242,19 +27177,28 @@ class ProresSettings {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
-enum ProresSlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class ProresSlowPal {
+  static const disabled = ProresSlowPal._('DISABLED');
+  static const enabled = ProresSlowPal._('ENABLED');
 
   final String value;
 
-  const ProresSlowPal(this.value);
+  const ProresSlowPal._(this.value);
+
+  static const values = [disabled, enabled];
 
   static ProresSlowPal fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProresSlowPal'));
+          orElse: () => ProresSlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is ProresSlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -23262,19 +27206,28 @@ enum ProresSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
-enum ProresTelecine {
-  none('NONE'),
-  hard('HARD'),
-  ;
+class ProresTelecine {
+  static const none = ProresTelecine._('NONE');
+  static const hard = ProresTelecine._('HARD');
 
   final String value;
 
-  const ProresTelecine(this.value);
+  const ProresTelecine._(this.value);
+
+  static const values = [none, hard];
 
   static ProresTelecine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProresTelecine'));
+          orElse: () => ProresTelecine._(value));
+
+  @override
+  bool operator ==(other) => other is ProresTelecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutPolicyResponse {
@@ -23418,35 +27371,53 @@ class Queue {
 /// Optional. When you request a list of queues, you can choose to list them
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by creation date.
-enum QueueListBy {
-  name('NAME'),
-  creationDate('CREATION_DATE'),
-  ;
+class QueueListBy {
+  static const name = QueueListBy._('NAME');
+  static const creationDate = QueueListBy._('CREATION_DATE');
 
   final String value;
 
-  const QueueListBy(this.value);
+  const QueueListBy._(this.value);
 
-  static QueueListBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueListBy'));
+  static const values = [name, creationDate];
+
+  static QueueListBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueListBy._(value));
+
+  @override
+  bool operator ==(other) => other is QueueListBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Queues can be ACTIVE or PAUSED. If you pause a queue, jobs in that queue
 /// won't begin. Jobs that are running when you pause a queue continue to run
 /// until they finish or result in an error.
-enum QueueStatus {
-  active('ACTIVE'),
-  paused('PAUSED'),
-  ;
+class QueueStatus {
+  static const active = QueueStatus._('ACTIVE');
+  static const paused = QueueStatus._('PAUSED');
 
   final String value;
 
-  const QueueStatus(this.value);
+  const QueueStatus._(this.value);
 
-  static QueueStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueStatus'));
+  static const values = [active, paused];
+
+  static QueueStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Description of the source and destination queues between which the job has
@@ -23626,34 +27597,51 @@ class RemixSettings {
 /// Specifies whether the term of your reserved queue pricing plan is
 /// automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the
 /// term.
-enum RenewalType {
-  autoRenew('AUTO_RENEW'),
-  expire('EXPIRE'),
-  ;
+class RenewalType {
+  static const autoRenew = RenewalType._('AUTO_RENEW');
+  static const expire = RenewalType._('EXPIRE');
 
   final String value;
 
-  const RenewalType(this.value);
+  const RenewalType._(this.value);
 
-  static RenewalType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RenewalType'));
+  static const values = [autoRenew, expire];
+
+  static RenewalType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RenewalType._(value));
+
+  @override
+  bool operator ==(other) => other is RenewalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set to ENABLED to force a rendition to be included.
-enum RequiredFlag {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class RequiredFlag {
+  static const enabled = RequiredFlag._('ENABLED');
+  static const disabled = RequiredFlag._('DISABLED');
 
   final String value;
 
-  const RequiredFlag(this.value);
+  const RequiredFlag._(this.value);
 
-  static RequiredFlag fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RequiredFlag'));
+  static const values = [enabled, disabled];
+
+  static RequiredFlag fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RequiredFlag._(value));
+
+  @override
+  bool operator ==(other) => other is RequiredFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the pricing plan for your reserved queue. Required for
@@ -23769,19 +27757,29 @@ class ReservationPlanSettings {
 
 /// Specifies whether the pricing plan for your reserved queue is ACTIVE or
 /// EXPIRED.
-enum ReservationPlanStatus {
-  active('ACTIVE'),
-  expired('EXPIRED'),
-  ;
+class ReservationPlanStatus {
+  static const active = ReservationPlanStatus._('ACTIVE');
+  static const expired = ReservationPlanStatus._('EXPIRED');
 
   final String value;
 
-  const ReservationPlanStatus(this.value);
+  const ReservationPlanStatus._(this.value);
 
-  static ReservationPlanStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReservationPlanStatus'));
+  static const values = [active, expired];
+
+  static ReservationPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReservationPlanStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReservationPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert
@@ -23824,20 +27822,28 @@ class ResourceTags {
 /// implementation of this workflow is to set RespondToAfd to and set
 /// AfdSignaling to AUTO. * Choose None to remove all input AFD values from this
 /// output.
-enum RespondToAfd {
-  none('NONE'),
-  respond('RESPOND'),
-  passthrough('PASSTHROUGH'),
-  ;
+class RespondToAfd {
+  static const none = RespondToAfd._('NONE');
+  static const respond = RespondToAfd._('RESPOND');
+  static const passthrough = RespondToAfd._('PASSTHROUGH');
 
   final String value;
 
-  const RespondToAfd(this.value);
+  const RespondToAfd._(this.value);
 
-  static RespondToAfd fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RespondToAfd'));
+  static const values = [none, respond, passthrough];
+
+  static RespondToAfd fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RespondToAfd._(value));
+
+  @override
+  bool operator ==(other) => other is RespondToAfd && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use Min top rendition size to specify a minimum size for the highest
@@ -23874,20 +27880,34 @@ enum RespondToAfd {
 /// in Min top rendition size or Min bottom rendition size. * If you specify
 /// Allowed renditions, you must not specify a separate rule for Force include
 /// renditions.
-enum RuleType {
-  minTopRenditionSize('MIN_TOP_RENDITION_SIZE'),
-  minBottomRenditionSize('MIN_BOTTOM_RENDITION_SIZE'),
-  forceIncludeRenditions('FORCE_INCLUDE_RENDITIONS'),
-  allowedRenditions('ALLOWED_RENDITIONS'),
-  ;
+class RuleType {
+  static const minTopRenditionSize = RuleType._('MIN_TOP_RENDITION_SIZE');
+  static const minBottomRenditionSize = RuleType._('MIN_BOTTOM_RENDITION_SIZE');
+  static const forceIncludeRenditions = RuleType._('FORCE_INCLUDE_RENDITIONS');
+  static const allowedRenditions = RuleType._('ALLOWED_RENDITIONS');
 
   final String value;
 
-  const RuleType(this.value);
+  const RuleType._(this.value);
 
-  static RuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleType'));
+  static const values = [
+    minTopRenditionSize,
+    minBottomRenditionSize,
+    forceIncludeRenditions,
+    allowedRenditions
+  ];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Have MediaConvert automatically apply Amazon S3 access control for
@@ -24027,21 +28047,36 @@ class S3EncryptionSettings {
 }
 
 /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
-enum S3ObjectCannedAcl {
-  publicRead('PUBLIC_READ'),
-  authenticatedRead('AUTHENTICATED_READ'),
-  bucketOwnerRead('BUCKET_OWNER_READ'),
-  bucketOwnerFullControl('BUCKET_OWNER_FULL_CONTROL'),
-  ;
+class S3ObjectCannedAcl {
+  static const publicRead = S3ObjectCannedAcl._('PUBLIC_READ');
+  static const authenticatedRead = S3ObjectCannedAcl._('AUTHENTICATED_READ');
+  static const bucketOwnerRead = S3ObjectCannedAcl._('BUCKET_OWNER_READ');
+  static const bucketOwnerFullControl =
+      S3ObjectCannedAcl._('BUCKET_OWNER_FULL_CONTROL');
 
   final String value;
 
-  const S3ObjectCannedAcl(this.value);
+  const S3ObjectCannedAcl._(this.value);
+
+  static const values = [
+    publicRead,
+    authenticatedRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
+  ];
 
   static S3ObjectCannedAcl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3ObjectCannedAcl'));
+          orElse: () => S3ObjectCannedAcl._(value));
+
+  @override
+  bool operator ==(other) => other is S3ObjectCannedAcl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how you want your data keys managed. AWS uses data keys to encrypt
@@ -24054,43 +28089,72 @@ enum S3ObjectCannedAcl {
 /// associated with Amazon S3 to encrypt your data keys. You can optionally
 /// choose to specify a different, customer managed CMK. Do so by specifying the
 /// Amazon Resource Name (ARN) of the key for the setting KMS ARN.
-enum S3ServerSideEncryptionType {
-  serverSideEncryptionS3('SERVER_SIDE_ENCRYPTION_S3'),
-  serverSideEncryptionKms('SERVER_SIDE_ENCRYPTION_KMS'),
-  ;
+class S3ServerSideEncryptionType {
+  static const serverSideEncryptionS3 =
+      S3ServerSideEncryptionType._('SERVER_SIDE_ENCRYPTION_S3');
+  static const serverSideEncryptionKms =
+      S3ServerSideEncryptionType._('SERVER_SIDE_ENCRYPTION_KMS');
 
   final String value;
 
-  const S3ServerSideEncryptionType(this.value);
+  const S3ServerSideEncryptionType._(this.value);
+
+  static const values = [serverSideEncryptionS3, serverSideEncryptionKms];
 
   static S3ServerSideEncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum S3ServerSideEncryptionType'));
+          orElse: () => S3ServerSideEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ServerSideEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the S3 storage class to use for this output. To use your
 /// destination's default storage class: Keep the default value, Not set. For
 /// more information about S3 storage classes, see
 /// https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
-enum S3StorageClass {
-  standard('STANDARD'),
-  reducedRedundancy('REDUCED_REDUNDANCY'),
-  standardIa('STANDARD_IA'),
-  onezoneIa('ONEZONE_IA'),
-  intelligentTiering('INTELLIGENT_TIERING'),
-  glacier('GLACIER'),
-  deepArchive('DEEP_ARCHIVE'),
-  ;
+class S3StorageClass {
+  static const standard = S3StorageClass._('STANDARD');
+  static const reducedRedundancy = S3StorageClass._('REDUCED_REDUNDANCY');
+  static const standardIa = S3StorageClass._('STANDARD_IA');
+  static const onezoneIa = S3StorageClass._('ONEZONE_IA');
+  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
+  static const glacier = S3StorageClass._('GLACIER');
+  static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
 
   final String value;
 
-  const S3StorageClass(this.value);
+  const S3StorageClass._(this.value);
+
+  static const values = [
+    standard,
+    reducedRedundancy,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    glacier,
+    deepArchive
+  ];
 
   static S3StorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3StorageClass'));
+          orElse: () => S3StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is S3StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify how MediaConvert limits the color sample range for this output. To
@@ -24108,41 +28172,61 @@ enum S3StorageClass {
 /// bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance.
 /// With either limited range conversion, MediaConvert writes the sample range
 /// metadata in the output.
-enum SampleRangeConversion {
-  limitedRangeSqueeze('LIMITED_RANGE_SQUEEZE'),
-  none('NONE'),
-  limitedRangeClip('LIMITED_RANGE_CLIP'),
-  ;
+class SampleRangeConversion {
+  static const limitedRangeSqueeze =
+      SampleRangeConversion._('LIMITED_RANGE_SQUEEZE');
+  static const none = SampleRangeConversion._('NONE');
+  static const limitedRangeClip = SampleRangeConversion._('LIMITED_RANGE_CLIP');
 
   final String value;
 
-  const SampleRangeConversion(this.value);
+  const SampleRangeConversion._(this.value);
 
-  static SampleRangeConversion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SampleRangeConversion'));
+  static const values = [limitedRangeSqueeze, none, limitedRangeClip];
+
+  static SampleRangeConversion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SampleRangeConversion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SampleRangeConversion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the video Scaling behavior when your output has a different
 /// resolution than your input. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
-enum ScalingBehavior {
-  $default('DEFAULT'),
-  stretchToOutput('STRETCH_TO_OUTPUT'),
-  fit('FIT'),
-  fitNoUpscale('FIT_NO_UPSCALE'),
-  fill('FILL'),
-  ;
+class ScalingBehavior {
+  static const $default = ScalingBehavior._('DEFAULT');
+  static const stretchToOutput = ScalingBehavior._('STRETCH_TO_OUTPUT');
+  static const fit = ScalingBehavior._('FIT');
+  static const fitNoUpscale = ScalingBehavior._('FIT_NO_UPSCALE');
+  static const fill = ScalingBehavior._('FILL');
 
   final String value;
 
-  const ScalingBehavior(this.value);
+  const ScalingBehavior._(this.value);
+
+  static const values = [$default, stretchToOutput, fit, fitNoUpscale, fill];
 
   static ScalingBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalingBehavior'));
+          orElse: () => ScalingBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set Framerate to make sure that the captions and the video are synchronized
@@ -24150,22 +28234,40 @@ enum ScalingBehavior {
 /// associated video. If the video frame rate is 29.97, choose 29.97 dropframe
 /// only if the video has video_insertion=true and drop_frame_timecode=true;
 /// otherwise, choose 29.97 non-dropframe.
-enum SccDestinationFramerate {
-  framerate_23_97('FRAMERATE_23_97'),
-  framerate_24('FRAMERATE_24'),
-  framerate_25('FRAMERATE_25'),
-  framerate_29_97Dropframe('FRAMERATE_29_97_DROPFRAME'),
-  framerate_29_97NonDropframe('FRAMERATE_29_97_NON_DROPFRAME'),
-  ;
+class SccDestinationFramerate {
+  static const framerate_23_97 = SccDestinationFramerate._('FRAMERATE_23_97');
+  static const framerate_24 = SccDestinationFramerate._('FRAMERATE_24');
+  static const framerate_25 = SccDestinationFramerate._('FRAMERATE_25');
+  static const framerate_29_97Dropframe =
+      SccDestinationFramerate._('FRAMERATE_29_97_DROPFRAME');
+  static const framerate_29_97NonDropframe =
+      SccDestinationFramerate._('FRAMERATE_29_97_NON_DROPFRAME');
 
   final String value;
 
-  const SccDestinationFramerate(this.value);
+  const SccDestinationFramerate._(this.value);
+
+  static const values = [
+    framerate_23_97,
+    framerate_24,
+    framerate_25,
+    framerate_29_97Dropframe,
+    framerate_29_97NonDropframe
+  ];
 
   static SccDestinationFramerate fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SccDestinationFramerate'));
+          orElse: () => SccDestinationFramerate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SccDestinationFramerate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to SCC captions. SCC is a sidecar format that holds
@@ -24236,19 +28338,29 @@ class SearchJobsResponse {
 /// transcoding slots (RTS) you need. When this is enabled, MediaConvert runs
 /// your job from an on-demand queue with similar performance to what you will
 /// see with one RTS in a reserved queue. This setting is disabled by default.
-enum SimulateReservedQueue {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class SimulateReservedQueue {
+  static const disabled = SimulateReservedQueue._('DISABLED');
+  static const enabled = SimulateReservedQueue._('ENABLED');
 
   final String value;
 
-  const SimulateReservedQueue(this.value);
+  const SimulateReservedQueue._(this.value);
 
-  static SimulateReservedQueue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SimulateReservedQueue'));
+  static const values = [disabled, enabled];
+
+  static SimulateReservedQueue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SimulateReservedQueue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulateReservedQueue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
@@ -24418,19 +28530,29 @@ class SrtDestinationSettings {
 /// captions. Set Style passthrough to DISABLED, or leave blank, to ignore the
 /// style and position information from your input captions and use simplified
 /// output captions.
-enum SrtStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class SrtStylePassthrough {
+  static const enabled = SrtStylePassthrough._('ENABLED');
+  static const disabled = SrtStylePassthrough._('DISABLED');
 
   final String value;
 
-  const SrtStylePassthrough(this.value);
+  const SrtStylePassthrough._(this.value);
 
-  static SrtStylePassthrough fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SrtStylePassthrough'));
+  static const values = [enabled, disabled];
+
+  static SrtStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SrtStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SrtStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use these settings to set up encryption with a static key provider.
@@ -24487,32 +28609,58 @@ class StaticKeyProvider {
 /// MediaConvert sends an update at this interval from the time the service
 /// begins processing your job to the time it completes the transcode or
 /// encounters an error.
-enum StatusUpdateInterval {
-  seconds_10('SECONDS_10'),
-  seconds_12('SECONDS_12'),
-  seconds_15('SECONDS_15'),
-  seconds_20('SECONDS_20'),
-  seconds_30('SECONDS_30'),
-  seconds_60('SECONDS_60'),
-  seconds_120('SECONDS_120'),
-  seconds_180('SECONDS_180'),
-  seconds_240('SECONDS_240'),
-  seconds_300('SECONDS_300'),
-  seconds_360('SECONDS_360'),
-  seconds_420('SECONDS_420'),
-  seconds_480('SECONDS_480'),
-  seconds_540('SECONDS_540'),
-  seconds_600('SECONDS_600'),
-  ;
+class StatusUpdateInterval {
+  static const seconds_10 = StatusUpdateInterval._('SECONDS_10');
+  static const seconds_12 = StatusUpdateInterval._('SECONDS_12');
+  static const seconds_15 = StatusUpdateInterval._('SECONDS_15');
+  static const seconds_20 = StatusUpdateInterval._('SECONDS_20');
+  static const seconds_30 = StatusUpdateInterval._('SECONDS_30');
+  static const seconds_60 = StatusUpdateInterval._('SECONDS_60');
+  static const seconds_120 = StatusUpdateInterval._('SECONDS_120');
+  static const seconds_180 = StatusUpdateInterval._('SECONDS_180');
+  static const seconds_240 = StatusUpdateInterval._('SECONDS_240');
+  static const seconds_300 = StatusUpdateInterval._('SECONDS_300');
+  static const seconds_360 = StatusUpdateInterval._('SECONDS_360');
+  static const seconds_420 = StatusUpdateInterval._('SECONDS_420');
+  static const seconds_480 = StatusUpdateInterval._('SECONDS_480');
+  static const seconds_540 = StatusUpdateInterval._('SECONDS_540');
+  static const seconds_600 = StatusUpdateInterval._('SECONDS_600');
 
   final String value;
 
-  const StatusUpdateInterval(this.value);
+  const StatusUpdateInterval._(this.value);
 
-  static StatusUpdateInterval fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StatusUpdateInterval'));
+  static const values = [
+    seconds_10,
+    seconds_12,
+    seconds_15,
+    seconds_20,
+    seconds_30,
+    seconds_60,
+    seconds_120,
+    seconds_180,
+    seconds_240,
+    seconds_300,
+    seconds_360,
+    seconds_420,
+    seconds_480,
+    seconds_540,
+    seconds_600
+  ];
+
+  static StatusUpdateInterval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatusUpdateInterval._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatusUpdateInterval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -24571,22 +28719,39 @@ class TeletextDestinationSettings {
 }
 
 /// A page type as defined in the standard ETSI EN 300 468, Table 94
-enum TeletextPageType {
-  pageTypeInitial('PAGE_TYPE_INITIAL'),
-  pageTypeSubtitle('PAGE_TYPE_SUBTITLE'),
-  pageTypeAddlInfo('PAGE_TYPE_ADDL_INFO'),
-  pageTypeProgramSchedule('PAGE_TYPE_PROGRAM_SCHEDULE'),
-  pageTypeHearingImpairedSubtitle('PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE'),
-  ;
+class TeletextPageType {
+  static const pageTypeInitial = TeletextPageType._('PAGE_TYPE_INITIAL');
+  static const pageTypeSubtitle = TeletextPageType._('PAGE_TYPE_SUBTITLE');
+  static const pageTypeAddlInfo = TeletextPageType._('PAGE_TYPE_ADDL_INFO');
+  static const pageTypeProgramSchedule =
+      TeletextPageType._('PAGE_TYPE_PROGRAM_SCHEDULE');
+  static const pageTypeHearingImpairedSubtitle =
+      TeletextPageType._('PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE');
 
   final String value;
 
-  const TeletextPageType(this.value);
+  const TeletextPageType._(this.value);
+
+  static const values = [
+    pageTypeInitial,
+    pageTypeSubtitle,
+    pageTypeAddlInfo,
+    pageTypeProgramSchedule,
+    pageTypeHearingImpairedSubtitle
+  ];
 
   static TeletextPageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TeletextPageType'));
+          orElse: () => TeletextPageType._(value));
+
+  @override
+  bool operator ==(other) => other is TeletextPageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings specific to Teletext caption sources, including Page number.
@@ -24662,26 +28827,46 @@ class TimecodeBurnin {
 
 /// Use Position under Timecode burn-in to specify the location the burned-in
 /// timecode on output video.
-enum TimecodeBurninPosition {
-  topCenter('TOP_CENTER'),
-  topLeft('TOP_LEFT'),
-  topRight('TOP_RIGHT'),
-  middleLeft('MIDDLE_LEFT'),
-  middleCenter('MIDDLE_CENTER'),
-  middleRight('MIDDLE_RIGHT'),
-  bottomLeft('BOTTOM_LEFT'),
-  bottomCenter('BOTTOM_CENTER'),
-  bottomRight('BOTTOM_RIGHT'),
-  ;
+class TimecodeBurninPosition {
+  static const topCenter = TimecodeBurninPosition._('TOP_CENTER');
+  static const topLeft = TimecodeBurninPosition._('TOP_LEFT');
+  static const topRight = TimecodeBurninPosition._('TOP_RIGHT');
+  static const middleLeft = TimecodeBurninPosition._('MIDDLE_LEFT');
+  static const middleCenter = TimecodeBurninPosition._('MIDDLE_CENTER');
+  static const middleRight = TimecodeBurninPosition._('MIDDLE_RIGHT');
+  static const bottomLeft = TimecodeBurninPosition._('BOTTOM_LEFT');
+  static const bottomCenter = TimecodeBurninPosition._('BOTTOM_CENTER');
+  static const bottomRight = TimecodeBurninPosition._('BOTTOM_RIGHT');
 
   final String value;
 
-  const TimecodeBurninPosition(this.value);
+  const TimecodeBurninPosition._(this.value);
+
+  static const values = [
+    topCenter,
+    topLeft,
+    topRight,
+    middleLeft,
+    middleCenter,
+    middleRight,
+    bottomLeft,
+    bottomCenter,
+    bottomRight
+  ];
 
   static TimecodeBurninPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TimecodeBurninPosition'));
+          orElse: () => TimecodeBurninPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimecodeBurninPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// These settings control how the service handles timecodes throughout the job.
@@ -24765,39 +28950,57 @@ class TimecodeConfig {
 /// timecode of the initial frame to 00:00:00:00. * Specified Start - Set the
 /// timecode of the initial frame to a value other than zero. You use Start
 /// timecode to provide this value.
-enum TimecodeSource {
-  embedded('EMBEDDED'),
-  zerobased('ZEROBASED'),
-  specifiedstart('SPECIFIEDSTART'),
-  ;
+class TimecodeSource {
+  static const embedded = TimecodeSource._('EMBEDDED');
+  static const zerobased = TimecodeSource._('ZEROBASED');
+  static const specifiedstart = TimecodeSource._('SPECIFIEDSTART');
 
   final String value;
 
-  const TimecodeSource(this.value);
+  const TimecodeSource._(this.value);
+
+  static const values = [embedded, zerobased, specifiedstart];
 
   static TimecodeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimecodeSource'));
+          orElse: () => TimecodeSource._(value));
+
+  @override
+  bool operator ==(other) => other is TimecodeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set ID3 metadata to Passthrough to include ID3 metadata in this output. This
 /// includes ID3 metadata from the following features: ID3 timestamp period, and
 /// Custom ID3 metadata inserter. To exclude this ID3 metadata in this output:
 /// set ID3 metadata to None or leave blank.
-enum TimedMetadata {
-  passthrough('PASSTHROUGH'),
-  none('NONE'),
-  ;
+class TimedMetadata {
+  static const passthrough = TimedMetadata._('PASSTHROUGH');
+  static const none = TimedMetadata._('NONE');
 
   final String value;
 
-  const TimedMetadata(this.value);
+  const TimedMetadata._(this.value);
+
+  static const values = [passthrough, none];
 
   static TimedMetadata fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimedMetadata'));
+          orElse: () => TimedMetadata._(value));
+
+  @override
+  bool operator ==(other) => other is TimedMetadata && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Insert user-defined custom ID3 metadata at timecodes that you specify. In
@@ -24905,18 +29108,27 @@ class TrackSourceSettings {
 /// seconds and vary depending on your output's bitrate, HRD buffer size and HRD
 /// buffer initial fill percentage. To manually specify an initial PTS offset:
 /// Choose Seconds. Then specify the number of seconds with PTS offset.
-enum TsPtsOffset {
-  auto('AUTO'),
-  seconds('SECONDS'),
-  ;
+class TsPtsOffset {
+  static const auto = TsPtsOffset._('AUTO');
+  static const seconds = TsPtsOffset._('SECONDS');
 
   final String value;
 
-  const TsPtsOffset(this.value);
+  const TsPtsOffset._(this.value);
 
-  static TsPtsOffset fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TsPtsOffset'));
+  static const values = [auto, seconds];
+
+  static TsPtsOffset fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TsPtsOffset._(value));
+
+  @override
+  bool operator ==(other) => other is TsPtsOffset && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to TTML captions. TTML is a sidecar format that holds
@@ -24950,50 +29162,79 @@ class TtmlDestinationSettings {
 
 /// Pass through style and position information from a TTML-like input source
 /// (TTML, IMSC, SMPTE-TT) to the TTML output.
-enum TtmlStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class TtmlStylePassthrough {
+  static const enabled = TtmlStylePassthrough._('ENABLED');
+  static const disabled = TtmlStylePassthrough._('DISABLED');
 
   final String value;
 
-  const TtmlStylePassthrough(this.value);
+  const TtmlStylePassthrough._(this.value);
 
-  static TtmlStylePassthrough fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TtmlStylePassthrough'));
+  static const values = [enabled, disabled];
+
+  static TtmlStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TtmlStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TtmlStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Type {
-  system('SYSTEM'),
-  custom('CUSTOM'),
-  ;
+class Type {
+  static const system = Type._('SYSTEM');
+  static const custom = Type._('CUSTOM');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [system, custom];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The four character code for the uncompressed video.
-enum UncompressedFourcc {
-  i420('I420'),
-  i422('I422'),
-  i444('I444'),
-  ;
+class UncompressedFourcc {
+  static const i420 = UncompressedFourcc._('I420');
+  static const i422 = UncompressedFourcc._('I422');
+  static const i444 = UncompressedFourcc._('I444');
 
   final String value;
 
-  const UncompressedFourcc(this.value);
+  const UncompressedFourcc._(this.value);
 
-  static UncompressedFourcc fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UncompressedFourcc'));
+  static const values = [i420, i422, i444];
+
+  static UncompressedFourcc fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UncompressedFourcc._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedFourcc && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -25002,19 +29243,30 @@ enum UncompressedFourcc {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
-enum UncompressedFramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class UncompressedFramerateControl {
+  static const initializeFromSource =
+      UncompressedFramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = UncompressedFramerateControl._('SPECIFIED');
 
   final String value;
 
-  const UncompressedFramerateControl(this.value);
+  const UncompressedFramerateControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static UncompressedFramerateControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UncompressedFramerateControl'));
+          orElse: () => UncompressedFramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedFramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -25028,37 +29280,60 @@ enum UncompressedFramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum UncompressedFramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class UncompressedFramerateConversionAlgorithm {
+  static const duplicateDrop =
+      UncompressedFramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate =
+      UncompressedFramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer =
+      UncompressedFramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const UncompressedFramerateConversionAlgorithm(this.value);
+  const UncompressedFramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static UncompressedFramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UncompressedFramerateConversionAlgorithm'));
+          orElse: () => UncompressedFramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedFramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
-enum UncompressedInterlaceMode {
-  interlaced('INTERLACED'),
-  progressive('PROGRESSIVE'),
-  ;
+class UncompressedInterlaceMode {
+  static const interlaced = UncompressedInterlaceMode._('INTERLACED');
+  static const progressive = UncompressedInterlaceMode._('PROGRESSIVE');
 
   final String value;
 
-  const UncompressedInterlaceMode(this.value);
+  const UncompressedInterlaceMode._(this.value);
+
+  static const values = [interlaced, progressive];
 
   static UncompressedInterlaceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UncompressedInterlaceMode'));
+          orElse: () => UncompressedInterlaceMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedInterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -25073,19 +29348,30 @@ enum UncompressedInterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum UncompressedScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class UncompressedScanTypeConversionMode {
+  static const interlaced = UncompressedScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      UncompressedScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const UncompressedScanTypeConversionMode(this.value);
+  const UncompressedScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static UncompressedScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UncompressedScanTypeConversionMode'));
+          orElse: () => UncompressedScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
@@ -25229,19 +29515,29 @@ class UncompressedSettings {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
-enum UncompressedSlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class UncompressedSlowPal {
+  static const disabled = UncompressedSlowPal._('DISABLED');
+  static const enabled = UncompressedSlowPal._('ENABLED');
 
   final String value;
 
-  const UncompressedSlowPal(this.value);
+  const UncompressedSlowPal._(this.value);
 
-  static UncompressedSlowPal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UncompressedSlowPal'));
+  static const values = [disabled, enabled];
+
+  static UncompressedSlowPal fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UncompressedSlowPal._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedSlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -25249,19 +29545,29 @@ enum UncompressedSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
-enum UncompressedTelecine {
-  none('NONE'),
-  hard('HARD'),
-  ;
+class UncompressedTelecine {
+  static const none = UncompressedTelecine._('NONE');
+  static const hard = UncompressedTelecine._('HARD');
 
   final String value;
 
-  const UncompressedTelecine(this.value);
+  const UncompressedTelecine._(this.value);
 
-  static UncompressedTelecine fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UncompressedTelecine'));
+  static const values = [none, hard];
+
+  static UncompressedTelecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UncompressedTelecine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UncompressedTelecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -25362,19 +29668,28 @@ class UpdateQueueResponse {
 /// of approximately 145 Mbps and Class 220 gives you and output with a bitrate
 /// of approximately 220 Mbps. VC3 class also specifies the color bit depth of
 /// your output.
-enum Vc3Class {
-  class_145_8bit('CLASS_145_8BIT'),
-  class_220_8bit('CLASS_220_8BIT'),
-  class_220_10bit('CLASS_220_10BIT'),
-  ;
+class Vc3Class {
+  static const class_145_8bit = Vc3Class._('CLASS_145_8BIT');
+  static const class_220_8bit = Vc3Class._('CLASS_220_8BIT');
+  static const class_220_10bit = Vc3Class._('CLASS_220_10BIT');
 
   final String value;
 
-  const Vc3Class(this.value);
+  const Vc3Class._(this.value);
 
-  static Vc3Class fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Vc3Class'));
+  static const values = [class_145_8bit, class_220_8bit, class_220_10bit];
+
+  static Vc3Class fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Vc3Class._(value));
+
+  @override
+  bool operator ==(other) => other is Vc3Class && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -25383,19 +29698,30 @@ enum Vc3Class {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum Vc3FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Vc3FramerateControl {
+  static const initializeFromSource =
+      Vc3FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Vc3FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const Vc3FramerateControl(this.value);
+  const Vc3FramerateControl._(this.value);
 
-  static Vc3FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vc3FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static Vc3FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vc3FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vc3FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -25409,37 +29735,57 @@ enum Vc3FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum Vc3FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class Vc3FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      Vc3FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = Vc3FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = Vc3FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const Vc3FramerateConversionAlgorithm(this.value);
+  const Vc3FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static Vc3FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Vc3FramerateConversionAlgorithm'));
+          orElse: () => Vc3FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vc3FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
-enum Vc3InterlaceMode {
-  interlaced('INTERLACED'),
-  progressive('PROGRESSIVE'),
-  ;
+class Vc3InterlaceMode {
+  static const interlaced = Vc3InterlaceMode._('INTERLACED');
+  static const progressive = Vc3InterlaceMode._('PROGRESSIVE');
 
   final String value;
 
-  const Vc3InterlaceMode(this.value);
+  const Vc3InterlaceMode._(this.value);
+
+  static const values = [interlaced, progressive];
 
   static Vc3InterlaceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Vc3InterlaceMode'));
+          orElse: () => Vc3InterlaceMode._(value));
+
+  @override
+  bool operator ==(other) => other is Vc3InterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -25454,19 +29800,30 @@ enum Vc3InterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
-enum Vc3ScanTypeConversionMode {
-  interlaced('INTERLACED'),
-  interlacedOptimize('INTERLACED_OPTIMIZE'),
-  ;
+class Vc3ScanTypeConversionMode {
+  static const interlaced = Vc3ScanTypeConversionMode._('INTERLACED');
+  static const interlacedOptimize =
+      Vc3ScanTypeConversionMode._('INTERLACED_OPTIMIZE');
 
   final String value;
 
-  const Vc3ScanTypeConversionMode(this.value);
+  const Vc3ScanTypeConversionMode._(this.value);
+
+  static const values = [interlaced, interlacedOptimize];
 
   static Vc3ScanTypeConversionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Vc3ScanTypeConversionMode'));
+          orElse: () => Vc3ScanTypeConversionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vc3ScanTypeConversionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value VC3
@@ -25614,18 +29971,27 @@ class Vc3Settings {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
-enum Vc3SlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class Vc3SlowPal {
+  static const disabled = Vc3SlowPal._('DISABLED');
+  static const enabled = Vc3SlowPal._('ENABLED');
 
   final String value;
 
-  const Vc3SlowPal(this.value);
+  const Vc3SlowPal._(this.value);
 
-  static Vc3SlowPal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Vc3SlowPal'));
+  static const values = [disabled, enabled];
+
+  static Vc3SlowPal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Vc3SlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is Vc3SlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -25633,61 +29999,102 @@ enum Vc3SlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
-enum Vc3Telecine {
-  none('NONE'),
-  hard('HARD'),
-  ;
+class Vc3Telecine {
+  static const none = Vc3Telecine._('NONE');
+  static const hard = Vc3Telecine._('HARD');
 
   final String value;
 
-  const Vc3Telecine(this.value);
+  const Vc3Telecine._(this.value);
 
-  static Vc3Telecine fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Vc3Telecine'));
+  static const values = [none, hard];
+
+  static Vc3Telecine fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Vc3Telecine._(value));
+
+  @override
+  bool operator ==(other) => other is Vc3Telecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The action to take on content advisory XDS packets. If you select
 /// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
 /// will be removed in output captions.
-enum VchipAction {
-  passthrough('PASSTHROUGH'),
-  strip('STRIP'),
-  ;
+class VchipAction {
+  static const passthrough = VchipAction._('PASSTHROUGH');
+  static const strip = VchipAction._('STRIP');
 
   final String value;
 
-  const VchipAction(this.value);
+  const VchipAction._(this.value);
 
-  static VchipAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VchipAction'));
+  static const values = [passthrough, strip];
+
+  static VchipAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VchipAction._(value));
+
+  @override
+  bool operator ==(other) => other is VchipAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Type of video codec
-enum VideoCodec {
-  av1('AV1'),
-  avcIntra('AVC_INTRA'),
-  frameCapture('FRAME_CAPTURE'),
-  h_264('H_264'),
-  h_265('H_265'),
-  mpeg2('MPEG2'),
-  passthrough('PASSTHROUGH'),
-  prores('PRORES'),
-  uncompressed('UNCOMPRESSED'),
-  vc3('VC3'),
-  vp8('VP8'),
-  vp9('VP9'),
-  xavc('XAVC'),
-  ;
+class VideoCodec {
+  static const av1 = VideoCodec._('AV1');
+  static const avcIntra = VideoCodec._('AVC_INTRA');
+  static const frameCapture = VideoCodec._('FRAME_CAPTURE');
+  static const h_264 = VideoCodec._('H_264');
+  static const h_265 = VideoCodec._('H_265');
+  static const mpeg2 = VideoCodec._('MPEG2');
+  static const passthrough = VideoCodec._('PASSTHROUGH');
+  static const prores = VideoCodec._('PRORES');
+  static const uncompressed = VideoCodec._('UNCOMPRESSED');
+  static const vc3 = VideoCodec._('VC3');
+  static const vp8 = VideoCodec._('VP8');
+  static const vp9 = VideoCodec._('VP9');
+  static const xavc = VideoCodec._('XAVC');
 
   final String value;
 
-  const VideoCodec(this.value);
+  const VideoCodec._(this.value);
 
-  static VideoCodec fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VideoCodec'));
+  static const values = [
+    av1,
+    avcIntra,
+    frameCapture,
+    h_264,
+    h_265,
+    mpeg2,
+    passthrough,
+    prores,
+    uncompressed,
+    vc3,
+    vp8,
+    vp9,
+    xavc
+  ];
+
+  static VideoCodec fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VideoCodec._(value));
+
+  @override
+  bool operator ==(other) => other is VideoCodec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Video codec settings contains the group of settings related to video
@@ -26524,19 +30931,29 @@ class VideoSelector {
 /// configuration. Note - Timecode source under input settings does not affect
 /// the timecodes that are inserted in the output. Source under Job settings >
 /// Timecode configuration does.
-enum VideoTimecodeInsertion {
-  disabled('DISABLED'),
-  picTimingSei('PIC_TIMING_SEI'),
-  ;
+class VideoTimecodeInsertion {
+  static const disabled = VideoTimecodeInsertion._('DISABLED');
+  static const picTimingSei = VideoTimecodeInsertion._('PIC_TIMING_SEI');
 
   final String value;
 
-  const VideoTimecodeInsertion(this.value);
+  const VideoTimecodeInsertion._(this.value);
+
+  static const values = [disabled, picTimingSei];
 
   static VideoTimecodeInsertion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VideoTimecodeInsertion'));
+          orElse: () => VideoTimecodeInsertion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VideoTimecodeInsertion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -26589,19 +31006,30 @@ class VorbisSettings {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum Vp8FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Vp8FramerateControl {
+  static const initializeFromSource =
+      Vp8FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Vp8FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const Vp8FramerateControl(this.value);
+  const Vp8FramerateControl._(this.value);
 
-  static Vp8FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp8FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static Vp8FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp8FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp8FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -26615,20 +31043,31 @@ enum Vp8FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum Vp8FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class Vp8FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      Vp8FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = Vp8FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = Vp8FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const Vp8FramerateConversionAlgorithm(this.value);
+  const Vp8FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static Vp8FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Vp8FramerateConversionAlgorithm'));
+          orElse: () => Vp8FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp8FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -26637,53 +31076,82 @@ enum Vp8FramerateConversionAlgorithm {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
-enum Vp8ParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Vp8ParControl {
+  static const initializeFromSource = Vp8ParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Vp8ParControl._('SPECIFIED');
 
   final String value;
 
-  const Vp8ParControl(this.value);
+  const Vp8ParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static Vp8ParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Vp8ParControl'));
+          orElse: () => Vp8ParControl._(value));
+
+  @override
+  bool operator ==(other) => other is Vp8ParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
-enum Vp8QualityTuningLevel {
-  multiPass('MULTI_PASS'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class Vp8QualityTuningLevel {
+  static const multiPass = Vp8QualityTuningLevel._('MULTI_PASS');
+  static const multiPassHq = Vp8QualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const Vp8QualityTuningLevel(this.value);
+  const Vp8QualityTuningLevel._(this.value);
 
-  static Vp8QualityTuningLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp8QualityTuningLevel'));
+  static const values = [multiPass, multiPassHq];
+
+  static Vp8QualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp8QualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp8QualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
-enum Vp8RateControlMode {
-  vbr('VBR'),
-  ;
+class Vp8RateControlMode {
+  static const vbr = Vp8RateControlMode._('VBR');
 
   final String value;
 
-  const Vp8RateControlMode(this.value);
+  const Vp8RateControlMode._(this.value);
 
-  static Vp8RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp8RateControlMode'));
+  static const values = [vbr];
+
+  static Vp8RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp8RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp8RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value VP8.
@@ -26857,19 +31325,30 @@ class Vp8Settings {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
-enum Vp9FramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Vp9FramerateControl {
+  static const initializeFromSource =
+      Vp9FramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Vp9FramerateControl._('SPECIFIED');
 
   final String value;
 
-  const Vp9FramerateControl(this.value);
+  const Vp9FramerateControl._(this.value);
 
-  static Vp9FramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp9FramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static Vp9FramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp9FramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp9FramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -26883,20 +31362,31 @@ enum Vp9FramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum Vp9FramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class Vp9FramerateConversionAlgorithm {
+  static const duplicateDrop =
+      Vp9FramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = Vp9FramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = Vp9FramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const Vp9FramerateConversionAlgorithm(this.value);
+  const Vp9FramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static Vp9FramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Vp9FramerateConversionAlgorithm'));
+          orElse: () => Vp9FramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp9FramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -26905,53 +31395,82 @@ enum Vp9FramerateConversionAlgorithm {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
-enum Vp9ParControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class Vp9ParControl {
+  static const initializeFromSource = Vp9ParControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = Vp9ParControl._('SPECIFIED');
 
   final String value;
 
-  const Vp9ParControl(this.value);
+  const Vp9ParControl._(this.value);
+
+  static const values = [initializeFromSource, specified];
 
   static Vp9ParControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Vp9ParControl'));
+          orElse: () => Vp9ParControl._(value));
+
+  @override
+  bool operator ==(other) => other is Vp9ParControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
-enum Vp9QualityTuningLevel {
-  multiPass('MULTI_PASS'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class Vp9QualityTuningLevel {
+  static const multiPass = Vp9QualityTuningLevel._('MULTI_PASS');
+  static const multiPassHq = Vp9QualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const Vp9QualityTuningLevel(this.value);
+  const Vp9QualityTuningLevel._(this.value);
 
-  static Vp9QualityTuningLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp9QualityTuningLevel'));
+  static const values = [multiPass, multiPassHq];
+
+  static Vp9QualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp9QualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp9QualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
-enum Vp9RateControlMode {
-  vbr('VBR'),
-  ;
+class Vp9RateControlMode {
+  static const vbr = Vp9RateControlMode._('VBR');
 
   final String value;
 
-  const Vp9RateControlMode(this.value);
+  const Vp9RateControlMode._(this.value);
 
-  static Vp9RateControlMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum Vp9RateControlMode'));
+  static const values = [vbr];
+
+  static Vp9RateControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Vp9RateControlMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Vp9RateControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value VP9.
@@ -27151,39 +31670,58 @@ class WarningGroup {
 /// Optional. Ignore this setting unless Nagra support directs you to specify a
 /// value. When you don't specify a value here, the Nagra NexGuard library uses
 /// its default value.
-enum WatermarkingStrength {
-  lightest('LIGHTEST'),
-  lighter('LIGHTER'),
-  $default('DEFAULT'),
-  stronger('STRONGER'),
-  strongest('STRONGEST'),
-  ;
+class WatermarkingStrength {
+  static const lightest = WatermarkingStrength._('LIGHTEST');
+  static const lighter = WatermarkingStrength._('LIGHTER');
+  static const $default = WatermarkingStrength._('DEFAULT');
+  static const stronger = WatermarkingStrength._('STRONGER');
+  static const strongest = WatermarkingStrength._('STRONGEST');
 
   final String value;
 
-  const WatermarkingStrength(this.value);
+  const WatermarkingStrength._(this.value);
 
-  static WatermarkingStrength fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WatermarkingStrength'));
+  static const values = [lightest, lighter, $default, stronger, strongest];
+
+  static WatermarkingStrength fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WatermarkingStrength._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WatermarkingStrength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The service defaults to using RIFF for WAV outputs. If your output audio is
 /// likely to exceed 4 GB in file size, or if you otherwise need the extended
 /// support of the RF64 format, set your output WAV file format to RF64.
-enum WavFormat {
-  riff('RIFF'),
-  rf64('RF64'),
-  ;
+class WavFormat {
+  static const riff = WavFormat._('RIFF');
+  static const rf64 = WavFormat._('RF64');
 
   final String value;
 
-  const WavFormat(this.value);
+  const WavFormat._(this.value);
 
-  static WavFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum WavFormat'));
+  static const values = [riff, rf64];
+
+  static WavFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WavFormat._(value));
+
+  @override
+  bool operator ==(other) => other is WavFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value WAV.
@@ -27247,19 +31785,29 @@ class WavSettings {
 /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
-enum WebvttAccessibilitySubs {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class WebvttAccessibilitySubs {
+  static const disabled = WebvttAccessibilitySubs._('DISABLED');
+  static const enabled = WebvttAccessibilitySubs._('ENABLED');
 
   final String value;
 
-  const WebvttAccessibilitySubs(this.value);
+  const WebvttAccessibilitySubs._(this.value);
+
+  static const values = [disabled, enabled];
 
   static WebvttAccessibilitySubs fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WebvttAccessibilitySubs'));
+          orElse: () => WebvttAccessibilitySubs._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebvttAccessibilitySubs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
@@ -27374,39 +31922,59 @@ class WebvttHlsSourceSettings {
 /// input captions format must be WebVTT. To ignore the style and position
 /// information from your input captions and use simplified output captions: Set
 /// Style passthrough to Disabled, or leave blank.
-enum WebvttStylePassthrough {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  strict('STRICT'),
-  ;
+class WebvttStylePassthrough {
+  static const enabled = WebvttStylePassthrough._('ENABLED');
+  static const disabled = WebvttStylePassthrough._('DISABLED');
+  static const strict = WebvttStylePassthrough._('STRICT');
 
   final String value;
 
-  const WebvttStylePassthrough(this.value);
+  const WebvttStylePassthrough._(this.value);
+
+  static const values = [enabled, disabled, strict];
 
   static WebvttStylePassthrough fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WebvttStylePassthrough'));
+          orElse: () => WebvttStylePassthrough._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebvttStylePassthrough && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
-enum Xavc4kIntraCbgProfileClass {
-  class_100('CLASS_100'),
-  class_300('CLASS_300'),
-  class_480('CLASS_480'),
-  ;
+class Xavc4kIntraCbgProfileClass {
+  static const class_100 = Xavc4kIntraCbgProfileClass._('CLASS_100');
+  static const class_300 = Xavc4kIntraCbgProfileClass._('CLASS_300');
+  static const class_480 = Xavc4kIntraCbgProfileClass._('CLASS_480');
 
   final String value;
 
-  const Xavc4kIntraCbgProfileClass(this.value);
+  const Xavc4kIntraCbgProfileClass._(this.value);
+
+  static const values = [class_100, class_300, class_480];
 
   static Xavc4kIntraCbgProfileClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Xavc4kIntraCbgProfileClass'));
+          orElse: () => Xavc4kIntraCbgProfileClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Xavc4kIntraCbgProfileClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_CBG.
@@ -27438,20 +32006,30 @@ class Xavc4kIntraCbgProfileSettings {
 /// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
-enum Xavc4kIntraVbrProfileClass {
-  class_100('CLASS_100'),
-  class_300('CLASS_300'),
-  class_480('CLASS_480'),
-  ;
+class Xavc4kIntraVbrProfileClass {
+  static const class_100 = Xavc4kIntraVbrProfileClass._('CLASS_100');
+  static const class_300 = Xavc4kIntraVbrProfileClass._('CLASS_300');
+  static const class_480 = Xavc4kIntraVbrProfileClass._('CLASS_480');
 
   final String value;
 
-  const Xavc4kIntraVbrProfileClass(this.value);
+  const Xavc4kIntraVbrProfileClass._(this.value);
+
+  static const values = [class_100, class_300, class_480];
 
   static Xavc4kIntraVbrProfileClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Xavc4kIntraVbrProfileClass'));
+          orElse: () => Xavc4kIntraVbrProfileClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Xavc4kIntraVbrProfileClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_VBR.
@@ -27483,57 +32061,91 @@ class Xavc4kIntraVbrProfileSettings {
 /// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
-enum Xavc4kProfileBitrateClass {
-  bitrateClass_100('BITRATE_CLASS_100'),
-  bitrateClass_140('BITRATE_CLASS_140'),
-  bitrateClass_200('BITRATE_CLASS_200'),
-  ;
+class Xavc4kProfileBitrateClass {
+  static const bitrateClass_100 =
+      Xavc4kProfileBitrateClass._('BITRATE_CLASS_100');
+  static const bitrateClass_140 =
+      Xavc4kProfileBitrateClass._('BITRATE_CLASS_140');
+  static const bitrateClass_200 =
+      Xavc4kProfileBitrateClass._('BITRATE_CLASS_200');
 
   final String value;
 
-  const Xavc4kProfileBitrateClass(this.value);
+  const Xavc4kProfileBitrateClass._(this.value);
+
+  static const values = [bitrateClass_100, bitrateClass_140, bitrateClass_200];
 
   static Xavc4kProfileBitrateClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Xavc4kProfileBitrateClass'));
+          orElse: () => Xavc4kProfileBitrateClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Xavc4kProfileBitrateClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH)
 /// or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T
 /// H.264.
-enum Xavc4kProfileCodecProfile {
-  high('HIGH'),
-  high_422('HIGH_422'),
-  ;
+class Xavc4kProfileCodecProfile {
+  static const high = Xavc4kProfileCodecProfile._('HIGH');
+  static const high_422 = Xavc4kProfileCodecProfile._('HIGH_422');
 
   final String value;
 
-  const Xavc4kProfileCodecProfile(this.value);
+  const Xavc4kProfileCodecProfile._(this.value);
+
+  static const values = [high, high_422];
 
   static Xavc4kProfileCodecProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Xavc4kProfileCodecProfile'));
+          orElse: () => Xavc4kProfileCodecProfile._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Xavc4kProfileCodecProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
-enum Xavc4kProfileQualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  singlePassHq('SINGLE_PASS_HQ'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class Xavc4kProfileQualityTuningLevel {
+  static const singlePass = Xavc4kProfileQualityTuningLevel._('SINGLE_PASS');
+  static const singlePassHq =
+      Xavc4kProfileQualityTuningLevel._('SINGLE_PASS_HQ');
+  static const multiPassHq = Xavc4kProfileQualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const Xavc4kProfileQualityTuningLevel(this.value);
+  const Xavc4kProfileQualityTuningLevel._(this.value);
+
+  static const values = [singlePass, singlePassHq, multiPassHq];
 
   static Xavc4kProfileQualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum Xavc4kProfileQualityTuningLevel'));
+          orElse: () => Xavc4kProfileQualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is Xavc4kProfileQualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Profile to the value XAVC_4K.
@@ -27657,44 +32269,64 @@ class Xavc4kProfileSettings {
 /// that you choose here applies to the following settings: Flicker adaptive
 /// quantization (flickerAdaptiveQuantization), Spatial adaptive quantization,
 /// and Temporal adaptive quantization.
-enum XavcAdaptiveQuantization {
-  off('OFF'),
-  auto('AUTO'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  higher('HIGHER'),
-  max('MAX'),
-  ;
+class XavcAdaptiveQuantization {
+  static const off = XavcAdaptiveQuantization._('OFF');
+  static const auto = XavcAdaptiveQuantization._('AUTO');
+  static const low = XavcAdaptiveQuantization._('LOW');
+  static const medium = XavcAdaptiveQuantization._('MEDIUM');
+  static const high = XavcAdaptiveQuantization._('HIGH');
+  static const higher = XavcAdaptiveQuantization._('HIGHER');
+  static const max = XavcAdaptiveQuantization._('MAX');
 
   final String value;
 
-  const XavcAdaptiveQuantization(this.value);
+  const XavcAdaptiveQuantization._(this.value);
+
+  static const values = [off, auto, low, medium, high, higher, max];
 
   static XavcAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcAdaptiveQuantization'));
+          orElse: () => XavcAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Choose a specific entropy encoding mode only when you want to
 /// override XAVC recommendations. If you choose the value auto, MediaConvert
 /// uses the mode that the XAVC file format specifies given this output's
 /// operating point.
-enum XavcEntropyEncoding {
-  auto('AUTO'),
-  cabac('CABAC'),
-  cavlc('CAVLC'),
-  ;
+class XavcEntropyEncoding {
+  static const auto = XavcEntropyEncoding._('AUTO');
+  static const cabac = XavcEntropyEncoding._('CABAC');
+  static const cavlc = XavcEntropyEncoding._('CAVLC');
 
   final String value;
 
-  const XavcEntropyEncoding(this.value);
+  const XavcEntropyEncoding._(this.value);
 
-  static XavcEntropyEncoding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum XavcEntropyEncoding'));
+  static const values = [auto, cabac, cavlc];
+
+  static XavcEntropyEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => XavcEntropyEncoding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcEntropyEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -27711,19 +32343,29 @@ enum XavcEntropyEncoding {
 /// Adaptive quantization to a value other than Off or Auto. Use Adaptive
 /// quantization to adjust the degree of smoothing that Flicker adaptive
 /// quantization provides.
-enum XavcFlickerAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class XavcFlickerAdaptiveQuantization {
+  static const disabled = XavcFlickerAdaptiveQuantization._('DISABLED');
+  static const enabled = XavcFlickerAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const XavcFlickerAdaptiveQuantization(this.value);
+  const XavcFlickerAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static XavcFlickerAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcFlickerAdaptiveQuantization'));
+          orElse: () => XavcFlickerAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcFlickerAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// If you are using the console, use the Frame rate setting to specify the
@@ -27731,19 +32373,30 @@ enum XavcFlickerAdaptiveQuantization {
 /// input video, choose Follow source. If you want to do frame rate conversion,
 /// choose a frame rate from the dropdown list. The framerates shown in the
 /// dropdown list are decimal approximations of fractions.
-enum XavcFramerateControl {
-  initializeFromSource('INITIALIZE_FROM_SOURCE'),
-  specified('SPECIFIED'),
-  ;
+class XavcFramerateControl {
+  static const initializeFromSource =
+      XavcFramerateControl._('INITIALIZE_FROM_SOURCE');
+  static const specified = XavcFramerateControl._('SPECIFIED');
 
   final String value;
 
-  const XavcFramerateControl(this.value);
+  const XavcFramerateControl._(this.value);
 
-  static XavcFramerateControl fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum XavcFramerateControl'));
+  static const values = [initializeFromSource, specified];
+
+  static XavcFramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => XavcFramerateControl._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcFramerateControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -27757,58 +32410,88 @@ enum XavcFramerateControl {
 /// best conversion method frame by frame. Note that using FrameFormer increases
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
-enum XavcFramerateConversionAlgorithm {
-  duplicateDrop('DUPLICATE_DROP'),
-  interpolate('INTERPOLATE'),
-  frameformer('FRAMEFORMER'),
-  ;
+class XavcFramerateConversionAlgorithm {
+  static const duplicateDrop =
+      XavcFramerateConversionAlgorithm._('DUPLICATE_DROP');
+  static const interpolate = XavcFramerateConversionAlgorithm._('INTERPOLATE');
+  static const frameformer = XavcFramerateConversionAlgorithm._('FRAMEFORMER');
 
   final String value;
 
-  const XavcFramerateConversionAlgorithm(this.value);
+  const XavcFramerateConversionAlgorithm._(this.value);
+
+  static const values = [duplicateDrop, interpolate, frameformer];
 
   static XavcFramerateConversionAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcFramerateConversionAlgorithm'));
+          orElse: () => XavcFramerateConversionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcFramerateConversionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify whether the encoder uses B-frames as reference frames for other
 /// pictures in the same GOP. Choose Allow to allow the encoder to use B-frames
 /// as reference frames. Choose Don't allow to prevent the encoder from using
 /// B-frames as reference frames.
-enum XavcGopBReference {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class XavcGopBReference {
+  static const disabled = XavcGopBReference._('DISABLED');
+  static const enabled = XavcGopBReference._('ENABLED');
 
   final String value;
 
-  const XavcGopBReference(this.value);
+  const XavcGopBReference._(this.value);
+
+  static const values = [disabled, enabled];
 
   static XavcGopBReference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum XavcGopBReference'));
+          orElse: () => XavcGopBReference._(value));
+
+  @override
+  bool operator ==(other) => other is XavcGopBReference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
-enum XavcHdIntraCbgProfileClass {
-  class_50('CLASS_50'),
-  class_100('CLASS_100'),
-  class_200('CLASS_200'),
-  ;
+class XavcHdIntraCbgProfileClass {
+  static const class_50 = XavcHdIntraCbgProfileClass._('CLASS_50');
+  static const class_100 = XavcHdIntraCbgProfileClass._('CLASS_100');
+  static const class_200 = XavcHdIntraCbgProfileClass._('CLASS_200');
 
   final String value;
 
-  const XavcHdIntraCbgProfileClass(this.value);
+  const XavcHdIntraCbgProfileClass._(this.value);
+
+  static const values = [class_50, class_100, class_200];
 
   static XavcHdIntraCbgProfileClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcHdIntraCbgProfileClass'));
+          orElse: () => XavcHdIntraCbgProfileClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcHdIntraCbgProfileClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
@@ -27840,39 +32523,63 @@ class XavcHdIntraCbgProfileSettings {
 /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
-enum XavcHdProfileBitrateClass {
-  bitrateClass_25('BITRATE_CLASS_25'),
-  bitrateClass_35('BITRATE_CLASS_35'),
-  bitrateClass_50('BITRATE_CLASS_50'),
-  ;
+class XavcHdProfileBitrateClass {
+  static const bitrateClass_25 =
+      XavcHdProfileBitrateClass._('BITRATE_CLASS_25');
+  static const bitrateClass_35 =
+      XavcHdProfileBitrateClass._('BITRATE_CLASS_35');
+  static const bitrateClass_50 =
+      XavcHdProfileBitrateClass._('BITRATE_CLASS_50');
 
   final String value;
 
-  const XavcHdProfileBitrateClass(this.value);
+  const XavcHdProfileBitrateClass._(this.value);
+
+  static const values = [bitrateClass_25, bitrateClass_35, bitrateClass_50];
 
   static XavcHdProfileBitrateClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcHdProfileBitrateClass'));
+          orElse: () => XavcHdProfileBitrateClass._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcHdProfileBitrateClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
-enum XavcHdProfileQualityTuningLevel {
-  singlePass('SINGLE_PASS'),
-  singlePassHq('SINGLE_PASS_HQ'),
-  multiPassHq('MULTI_PASS_HQ'),
-  ;
+class XavcHdProfileQualityTuningLevel {
+  static const singlePass = XavcHdProfileQualityTuningLevel._('SINGLE_PASS');
+  static const singlePassHq =
+      XavcHdProfileQualityTuningLevel._('SINGLE_PASS_HQ');
+  static const multiPassHq = XavcHdProfileQualityTuningLevel._('MULTI_PASS_HQ');
 
   final String value;
 
-  const XavcHdProfileQualityTuningLevel(this.value);
+  const XavcHdProfileQualityTuningLevel._(this.value);
+
+  static const values = [singlePass, singlePassHq, multiPassHq];
 
   static XavcHdProfileQualityTuningLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcHdProfileQualityTuningLevel'));
+          orElse: () => XavcHdProfileQualityTuningLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcHdProfileQualityTuningLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Profile to the value XAVC_HD.
@@ -28009,19 +32716,29 @@ class XavcHdProfileSettings {
 /// framerateDenominator) to 29.970. If your input framerate is 23.976, choose
 /// Hard. Otherwise, keep the default value None. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
-enum XavcHdProfileTelecine {
-  none('NONE'),
-  hard('HARD'),
-  ;
+class XavcHdProfileTelecine {
+  static const none = XavcHdProfileTelecine._('NONE');
+  static const hard = XavcHdProfileTelecine._('HARD');
 
   final String value;
 
-  const XavcHdProfileTelecine(this.value);
+  const XavcHdProfileTelecine._(this.value);
 
-  static XavcHdProfileTelecine fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum XavcHdProfileTelecine'));
+  static const values = [none, hard];
+
+  static XavcHdProfileTelecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => XavcHdProfileTelecine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcHdProfileTelecine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -28035,43 +32752,73 @@ enum XavcHdProfileTelecine {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
-enum XavcInterlaceMode {
-  progressive('PROGRESSIVE'),
-  topField('TOP_FIELD'),
-  bottomField('BOTTOM_FIELD'),
-  followTopField('FOLLOW_TOP_FIELD'),
-  followBottomField('FOLLOW_BOTTOM_FIELD'),
-  ;
+class XavcInterlaceMode {
+  static const progressive = XavcInterlaceMode._('PROGRESSIVE');
+  static const topField = XavcInterlaceMode._('TOP_FIELD');
+  static const bottomField = XavcInterlaceMode._('BOTTOM_FIELD');
+  static const followTopField = XavcInterlaceMode._('FOLLOW_TOP_FIELD');
+  static const followBottomField = XavcInterlaceMode._('FOLLOW_BOTTOM_FIELD');
 
   final String value;
 
-  const XavcInterlaceMode(this.value);
+  const XavcInterlaceMode._(this.value);
+
+  static const values = [
+    progressive,
+    topField,
+    bottomField,
+    followTopField,
+    followBottomField
+  ];
 
   static XavcInterlaceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum XavcInterlaceMode'));
+          orElse: () => XavcInterlaceMode._(value));
+
+  @override
+  bool operator ==(other) => other is XavcInterlaceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specify the XAVC profile for this output. For more information, see the Sony
 /// documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't
 /// support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To
 /// create an interlaced XAVC output, choose the profile XAVC_HD.
-enum XavcProfile {
-  xavcHdIntraCbg('XAVC_HD_INTRA_CBG'),
-  xavc_4kIntraCbg('XAVC_4K_INTRA_CBG'),
-  xavc_4kIntraVbr('XAVC_4K_INTRA_VBR'),
-  xavcHd('XAVC_HD'),
-  xavc_4k('XAVC_4K'),
-  ;
+class XavcProfile {
+  static const xavcHdIntraCbg = XavcProfile._('XAVC_HD_INTRA_CBG');
+  static const xavc_4kIntraCbg = XavcProfile._('XAVC_4K_INTRA_CBG');
+  static const xavc_4kIntraVbr = XavcProfile._('XAVC_4K_INTRA_VBR');
+  static const xavcHd = XavcProfile._('XAVC_HD');
+  static const xavc_4k = XavcProfile._('XAVC_4K');
 
   final String value;
 
-  const XavcProfile(this.value);
+  const XavcProfile._(this.value);
 
-  static XavcProfile fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum XavcProfile'));
+  static const values = [
+    xavcHdIntraCbg,
+    xavc_4kIntraCbg,
+    xavc_4kIntraVbr,
+    xavcHd,
+    xavc_4k
+  ];
+
+  static XavcProfile fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => XavcProfile._(value));
+
+  @override
+  bool operator ==(other) => other is XavcProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Required when you set Codec to the value XAVC.
@@ -28333,18 +33080,27 @@ class XavcSettings {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Frame rate to 25.
-enum XavcSlowPal {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class XavcSlowPal {
+  static const disabled = XavcSlowPal._('DISABLED');
+  static const enabled = XavcSlowPal._('ENABLED');
 
   final String value;
 
-  const XavcSlowPal(this.value);
+  const XavcSlowPal._(this.value);
 
-  static XavcSlowPal fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum XavcSlowPal'));
+  static const values = [disabled, enabled];
+
+  static XavcSlowPal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => XavcSlowPal._(value));
+
+  @override
+  bool operator ==(other) => other is XavcSlowPal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -28367,19 +33123,29 @@ enum XavcSlowPal {
 /// your content. For homogeneous content, such as cartoons and video games, set
 /// it to Low. For content with a wider variety of textures, set it to High or
 /// Higher.
-enum XavcSpatialAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class XavcSpatialAdaptiveQuantization {
+  static const disabled = XavcSpatialAdaptiveQuantization._('DISABLED');
+  static const enabled = XavcSpatialAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const XavcSpatialAdaptiveQuantization(this.value);
+  const XavcSpatialAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static XavcSpatialAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcSpatialAdaptiveQuantization'));
+          orElse: () => XavcSpatialAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcSpatialAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -28400,19 +33166,29 @@ enum XavcSpatialAdaptiveQuantization {
 /// might choose to disable this feature. Related setting: When you enable
 /// temporal adaptive quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
-enum XavcTemporalAdaptiveQuantization {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class XavcTemporalAdaptiveQuantization {
+  static const disabled = XavcTemporalAdaptiveQuantization._('DISABLED');
+  static const enabled = XavcTemporalAdaptiveQuantization._('ENABLED');
 
   final String value;
 
-  const XavcTemporalAdaptiveQuantization(this.value);
+  const XavcTemporalAdaptiveQuantization._(this.value);
+
+  static const values = [disabled, enabled];
 
   static XavcTemporalAdaptiveQuantization fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum XavcTemporalAdaptiveQuantization'));
+          orElse: () => XavcTemporalAdaptiveQuantization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is XavcTemporalAdaptiveQuantization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

@@ -2402,18 +2402,28 @@ class BatchAssociateScramSecretResponse {
 /// Amazon MSK distributes the broker nodes evenly across the Availability Zones
 /// that correspond to the subnets you provide when you create the cluster.
 ///
-enum BrokerAZDistribution {
-  $default('DEFAULT'),
-  ;
+class BrokerAZDistribution {
+  static const $default = BrokerAZDistribution._('DEFAULT');
 
   final String value;
 
-  const BrokerAZDistribution(this.value);
+  const BrokerAZDistribution._(this.value);
 
-  static BrokerAZDistribution fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BrokerAZDistribution'));
+  static const values = [$default];
+
+  static BrokerAZDistribution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BrokerAZDistribution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BrokerAZDistribution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -2911,20 +2921,28 @@ class ServerlessClientAuthentication {
 ///
 /// Client-broker encryption in transit setting.
 ///
-enum ClientBroker {
-  tls('TLS'),
-  tlsPlaintext('TLS_PLAINTEXT'),
-  plaintext('PLAINTEXT'),
-  ;
+class ClientBroker {
+  static const tls = ClientBroker._('TLS');
+  static const tlsPlaintext = ClientBroker._('TLS_PLAINTEXT');
+  static const plaintext = ClientBroker._('PLAINTEXT');
 
   final String value;
 
-  const ClientBroker(this.value);
+  const ClientBroker._(this.value);
 
-  static ClientBroker fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClientBroker'));
+  static const values = [tls, tlsPlaintext, plaintext];
+
+  static ClientBroker fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClientBroker._(value));
+
+  @override
+  bool operator ==(other) => other is ClientBroker && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CloudWatchLogs {
@@ -3516,42 +3534,68 @@ class ClusterOperationStepInfo {
 ///
 /// The state of the Apache Kafka cluster.
 ///
-enum ClusterState {
-  active('ACTIVE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  healing('HEALING'),
-  maintenance('MAINTENANCE'),
-  rebootingBroker('REBOOTING_BROKER'),
-  updating('UPDATING'),
-  ;
+class ClusterState {
+  static const active = ClusterState._('ACTIVE');
+  static const creating = ClusterState._('CREATING');
+  static const deleting = ClusterState._('DELETING');
+  static const failed = ClusterState._('FAILED');
+  static const healing = ClusterState._('HEALING');
+  static const maintenance = ClusterState._('MAINTENANCE');
+  static const rebootingBroker = ClusterState._('REBOOTING_BROKER');
+  static const updating = ClusterState._('UPDATING');
 
   final String value;
 
-  const ClusterState(this.value);
+  const ClusterState._(this.value);
 
-  static ClusterState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterState'));
+  static const values = [
+    active,
+    creating,
+    deleting,
+    failed,
+    healing,
+    maintenance,
+    rebootingBroker,
+    updating
+  ];
+
+  static ClusterState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
 /// The type of cluster.
 ///
-enum ClusterType {
-  provisioned('PROVISIONED'),
-  serverless('SERVERLESS'),
-  ;
+class ClusterType {
+  static const provisioned = ClusterType._('PROVISIONED');
+  static const serverless = ClusterType._('SERVERLESS');
 
   final String value;
 
-  const ClusterType(this.value);
+  const ClusterType._(this.value);
 
-  static ClusterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ClusterType'));
+  static const values = [provisioned, serverless];
+
+  static ClusterType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterType._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -4159,7 +4203,7 @@ class Configuration {
           (json['latestRevision'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['name'] as String?) ?? '',
-      state: ConfigurationState.fromString((json['state'] as String)),
+      state: ConfigurationState.fromString((json['state'] as String?) ?? ''),
     );
   }
 
@@ -4267,20 +4311,30 @@ class ConfigurationRevision {
 ///
 /// The state of a configuration.
 ///
-enum ConfigurationState {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ConfigurationState {
+  static const active = ConfigurationState._('ACTIVE');
+  static const deleting = ConfigurationState._('DELETING');
+  static const deleteFailed = ConfigurationState._('DELETE_FAILED');
 
   final String value;
 
-  const ConfigurationState(this.value);
+  const ConfigurationState._(this.value);
 
-  static ConfigurationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigurationState'));
+  static const values = [active, deleting, deleteFailed];
+
+  static ConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -5015,20 +5069,31 @@ class ControllerNodeInfo {
 
 ///
 /// A type of an action required from the customer.
-enum CustomerActionStatus {
-  criticalActionRequired('CRITICAL_ACTION_REQUIRED'),
-  actionRecommended('ACTION_RECOMMENDED'),
-  none('NONE'),
-  ;
+class CustomerActionStatus {
+  static const criticalActionRequired =
+      CustomerActionStatus._('CRITICAL_ACTION_REQUIRED');
+  static const actionRecommended = CustomerActionStatus._('ACTION_RECOMMENDED');
+  static const none = CustomerActionStatus._('NONE');
 
   final String value;
 
-  const CustomerActionStatus(this.value);
+  const CustomerActionStatus._(this.value);
 
-  static CustomerActionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomerActionStatus'));
+  static const values = [criticalActionRequired, actionRecommended, none];
+
+  static CustomerActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteClusterResponse {
@@ -5884,21 +5949,37 @@ class EncryptionInfo {
 /// of these levels of monitoring, see <a
 /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
 ///
-enum EnhancedMonitoring {
-  $default('DEFAULT'),
-  perBroker('PER_BROKER'),
-  perTopicPerBroker('PER_TOPIC_PER_BROKER'),
-  perTopicPerPartition('PER_TOPIC_PER_PARTITION'),
-  ;
+class EnhancedMonitoring {
+  static const $default = EnhancedMonitoring._('DEFAULT');
+  static const perBroker = EnhancedMonitoring._('PER_BROKER');
+  static const perTopicPerBroker = EnhancedMonitoring._('PER_TOPIC_PER_BROKER');
+  static const perTopicPerPartition =
+      EnhancedMonitoring._('PER_TOPIC_PER_PARTITION');
 
   final String value;
 
-  const EnhancedMonitoring(this.value);
+  const EnhancedMonitoring._(this.value);
 
-  static EnhancedMonitoring fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EnhancedMonitoring'));
+  static const values = [
+    $default,
+    perBroker,
+    perTopicPerBroker,
+    perTopicPerPartition
+  ];
+
+  static EnhancedMonitoring fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnhancedMonitoring._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnhancedMonitoring && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -6330,19 +6411,29 @@ class KafkaVersion {
   }
 }
 
-enum KafkaVersionStatus {
-  active('ACTIVE'),
-  deprecated('DEPRECATED'),
-  ;
+class KafkaVersionStatus {
+  static const active = KafkaVersionStatus._('ACTIVE');
+  static const deprecated = KafkaVersionStatus._('DEPRECATED');
 
   final String value;
 
-  const KafkaVersionStatus(this.value);
+  const KafkaVersionStatus._(this.value);
 
-  static KafkaVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KafkaVersionStatus'));
+  static const values = [active, deprecated];
+
+  static KafkaVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListClusterOperationsResponse {
@@ -7729,17 +7820,26 @@ class NodeInfo {
 ///
 /// The broker or Zookeeper node.
 ///
-enum NodeType {
-  broker('BROKER'),
-  ;
+class NodeType {
+  static const broker = NodeType._('BROKER');
 
   final String value;
 
-  const NodeType(this.value);
+  const NodeType._(this.value);
 
-  static NodeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NodeType'));
+  static const values = [broker];
+
+  static NodeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NodeType._(value));
+
+  @override
+  bool operator ==(other) => other is NodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies configuration for replication between a source and target Kafka
@@ -7905,19 +8005,29 @@ class ReplicationStartingPosition {
 }
 
 /// The type of replication starting position.
-enum ReplicationStartingPositionType {
-  latest('LATEST'),
-  earliest('EARLIEST'),
-  ;
+class ReplicationStartingPositionType {
+  static const latest = ReplicationStartingPositionType._('LATEST');
+  static const earliest = ReplicationStartingPositionType._('EARLIEST');
 
   final String value;
 
-  const ReplicationStartingPositionType(this.value);
+  const ReplicationStartingPositionType._(this.value);
+
+  static const values = [latest, earliest];
 
   static ReplicationStartingPositionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplicationStartingPositionType'));
+          orElse: () => ReplicationStartingPositionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationStartingPositionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the state of a replicator
@@ -7951,22 +8061,31 @@ class ReplicationStateInfo {
 }
 
 /// The state of a replicator.
-enum ReplicatorState {
-  running('RUNNING'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ReplicatorState {
+  static const running = ReplicatorState._('RUNNING');
+  static const creating = ReplicatorState._('CREATING');
+  static const updating = ReplicatorState._('UPDATING');
+  static const deleting = ReplicatorState._('DELETING');
+  static const failed = ReplicatorState._('FAILED');
 
   final String value;
 
-  const ReplicatorState(this.value);
+  const ReplicatorState._(this.value);
+
+  static const values = [running, creating, updating, deleting, failed];
 
   static ReplicatorState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicatorState'));
+          orElse: () => ReplicatorState._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicatorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a replicator.
@@ -8118,37 +8237,56 @@ class StorageInfo {
 }
 
 /// Controls storage mode for various supported storage tiers.
-enum StorageMode {
-  local('LOCAL'),
-  tiered('TIERED'),
-  ;
+class StorageMode {
+  static const local = StorageMode._('LOCAL');
+  static const tiered = StorageMode._('TIERED');
 
   final String value;
 
-  const StorageMode(this.value);
+  const StorageMode._(this.value);
 
-  static StorageMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageMode'));
+  static const values = [local, tiered];
+
+  static StorageMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageMode._(value));
+
+  @override
+  bool operator ==(other) => other is StorageMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of compression to use producing records to the target cluster.
-enum TargetCompressionType {
-  none('NONE'),
-  gzip('GZIP'),
-  snappy('SNAPPY'),
-  lz4('LZ4'),
-  zstd('ZSTD'),
-  ;
+class TargetCompressionType {
+  static const none = TargetCompressionType._('NONE');
+  static const gzip = TargetCompressionType._('GZIP');
+  static const snappy = TargetCompressionType._('SNAPPY');
+  static const lz4 = TargetCompressionType._('LZ4');
+  static const zstd = TargetCompressionType._('ZSTD');
 
   final String value;
 
-  const TargetCompressionType(this.value);
+  const TargetCompressionType._(this.value);
 
-  static TargetCompressionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetCompressionType'));
+  static const values = [none, gzip, snappy, lz4, zstd];
+
+  static TargetCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -8823,19 +8961,28 @@ class UserIdentity {
 ///
 /// The identity type of the requester that calls the API operation.
 ///
-enum UserIdentityType {
-  awsaccount('AWSACCOUNT'),
-  awsservice('AWSSERVICE'),
-  ;
+class UserIdentityType {
+  static const awsaccount = UserIdentityType._('AWSACCOUNT');
+  static const awsservice = UserIdentityType._('AWSSERVICE');
 
   final String value;
 
-  const UserIdentityType(this.value);
+  const UserIdentityType._(this.value);
+
+  static const values = [awsaccount, awsservice];
 
   static UserIdentityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserIdentityType'));
+          orElse: () => UserIdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is UserIdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 ///
@@ -8947,25 +9094,44 @@ class VpcConnectionInfoServerless {
 ///
 /// The state of a VPC connection.
 ///
-enum VpcConnectionState {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  inactive('INACTIVE'),
-  deactivating('DEACTIVATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  rejected('REJECTED'),
-  rejecting('REJECTING'),
-  ;
+class VpcConnectionState {
+  static const creating = VpcConnectionState._('CREATING');
+  static const available = VpcConnectionState._('AVAILABLE');
+  static const inactive = VpcConnectionState._('INACTIVE');
+  static const deactivating = VpcConnectionState._('DEACTIVATING');
+  static const deleting = VpcConnectionState._('DELETING');
+  static const failed = VpcConnectionState._('FAILED');
+  static const rejected = VpcConnectionState._('REJECTED');
+  static const rejecting = VpcConnectionState._('REJECTING');
 
   final String value;
 
-  const VpcConnectionState(this.value);
+  const VpcConnectionState._(this.value);
 
-  static VpcConnectionState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpcConnectionState'));
+  static const values = [
+    creating,
+    available,
+    inactive,
+    deactivating,
+    deleting,
+    failed,
+    rejected,
+    rejecting
+  ];
+
+  static VpcConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcConnectionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// VPC connectivity access control for brokers.

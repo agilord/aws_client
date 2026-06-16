@@ -2151,7 +2151,7 @@ class BackupPolicy {
 
   factory BackupPolicy.fromJson(Map<String, dynamic> json) {
     return BackupPolicy(
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
     );
   }
 
@@ -2561,7 +2561,7 @@ class Destination {
     return Destination(
       fileSystemId: (json['FileSystemId'] as String?) ?? '',
       region: (json['Region'] as String?) ?? '',
-      status: ReplicationStatus.fromString((json['Status'] as String)),
+      status: ReplicationStatus.fromString((json['Status'] as String?) ?? ''),
       lastReplicatedTimestamp:
           timeStampFromJson(json['LastReplicatedTimestamp']),
     );
@@ -2758,11 +2758,11 @@ class FileSystemDescription {
       creationToken: (json['CreationToken'] as String?) ?? '',
       fileSystemId: (json['FileSystemId'] as String?) ?? '',
       lifeCycleState:
-          LifeCycleState.fromString((json['LifeCycleState'] as String)),
+          LifeCycleState.fromString((json['LifeCycleState'] as String?) ?? ''),
       numberOfMountTargets: (json['NumberOfMountTargets'] as int?) ?? 0,
       ownerId: (json['OwnerId'] as String?) ?? '',
-      performanceMode:
-          PerformanceMode.fromString((json['PerformanceMode'] as String)),
+      performanceMode: PerformanceMode.fromString(
+          (json['PerformanceMode'] as String?) ?? ''),
       sizeInBytes: FileSystemSize.fromJson(
           (json['SizeInBytes'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2971,23 +2971,39 @@ class FileSystemSize {
   }
 }
 
-enum LifeCycleState {
-  creating('creating'),
-  available('available'),
-  updating('updating'),
-  deleting('deleting'),
-  deleted('deleted'),
-  error('error'),
-  ;
+class LifeCycleState {
+  static const creating = LifeCycleState._('creating');
+  static const available = LifeCycleState._('available');
+  static const updating = LifeCycleState._('updating');
+  static const deleting = LifeCycleState._('deleting');
+  static const deleted = LifeCycleState._('deleted');
+  static const error = LifeCycleState._('error');
 
   final String value;
 
-  const LifeCycleState(this.value);
+  const LifeCycleState._(this.value);
+
+  static const values = [
+    creating,
+    available,
+    updating,
+    deleting,
+    deleted,
+    error
+  ];
 
   static LifeCycleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LifeCycleState'));
+          orElse: () => LifeCycleState._(value));
+
+  @override
+  bool operator ==(other) => other is LifeCycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class LifecycleConfigurationDescription {
@@ -3174,7 +3190,7 @@ class MountTargetDescription {
     return MountTargetDescription(
       fileSystemId: (json['FileSystemId'] as String?) ?? '',
       lifeCycleState:
-          LifeCycleState.fromString((json['LifeCycleState'] as String)),
+          LifeCycleState.fromString((json['LifeCycleState'] as String?) ?? ''),
       mountTargetId: (json['MountTargetId'] as String?) ?? '',
       subnetId: (json['SubnetId'] as String?) ?? '',
       availabilityZoneId: json['AvailabilityZoneId'] as String?,
@@ -3213,19 +3229,28 @@ class MountTargetDescription {
   }
 }
 
-enum PerformanceMode {
-  generalPurpose('generalPurpose'),
-  maxIO('maxIO'),
-  ;
+class PerformanceMode {
+  static const generalPurpose = PerformanceMode._('generalPurpose');
+  static const maxIO = PerformanceMode._('maxIO');
 
   final String value;
 
-  const PerformanceMode(this.value);
+  const PerformanceMode._(this.value);
+
+  static const values = [generalPurpose, maxIO];
 
   static PerformanceMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PerformanceMode'));
+          orElse: () => PerformanceMode._(value));
+
+  @override
+  bool operator ==(other) => other is PerformanceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The full POSIX identity, including the user ID, group ID, and any secondary
@@ -3364,54 +3389,82 @@ class ReplicationConfigurationDescription {
   }
 }
 
-enum ReplicationOverwriteProtection {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  replicating('REPLICATING'),
-  ;
+class ReplicationOverwriteProtection {
+  static const enabled = ReplicationOverwriteProtection._('ENABLED');
+  static const disabled = ReplicationOverwriteProtection._('DISABLED');
+  static const replicating = ReplicationOverwriteProtection._('REPLICATING');
 
   final String value;
 
-  const ReplicationOverwriteProtection(this.value);
+  const ReplicationOverwriteProtection._(this.value);
+
+  static const values = [enabled, disabled, replicating];
 
   static ReplicationOverwriteProtection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplicationOverwriteProtection'));
+          orElse: () => ReplicationOverwriteProtection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationOverwriteProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReplicationStatus {
-  enabled('ENABLED'),
-  enabling('ENABLING'),
-  deleting('DELETING'),
-  error('ERROR'),
-  paused('PAUSED'),
-  pausing('PAUSING'),
-  ;
+class ReplicationStatus {
+  static const enabled = ReplicationStatus._('ENABLED');
+  static const enabling = ReplicationStatus._('ENABLING');
+  static const deleting = ReplicationStatus._('DELETING');
+  static const error = ReplicationStatus._('ERROR');
+  static const paused = ReplicationStatus._('PAUSED');
+  static const pausing = ReplicationStatus._('PAUSING');
 
   final String value;
 
-  const ReplicationStatus(this.value);
+  const ReplicationStatus._(this.value);
+
+  static const values = [enabled, enabling, deleting, error, paused, pausing];
 
   static ReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationStatus'));
+          orElse: () => ReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An EFS resource, for example a file system or a mount target.
-enum Resource {
-  fileSystem('FILE_SYSTEM'),
-  mountTarget('MOUNT_TARGET'),
-  ;
+class Resource {
+  static const fileSystem = Resource._('FILE_SYSTEM');
+  static const mountTarget = Resource._('MOUNT_TARGET');
 
   final String value;
 
-  const Resource(this.value);
+  const Resource._(this.value);
 
-  static Resource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Resource'));
+  static const values = [fileSystem, mountTarget];
+
+  static Resource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Resource._(value));
+
+  @override
+  bool operator ==(other) => other is Resource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the resource type and its ID preference for the user's Amazon Web
@@ -3454,19 +3507,28 @@ class ResourceIdPreference {
 
 /// A preference indicating a choice to use 63bit/32bit IDs for all applicable
 /// resources.
-enum ResourceIdType {
-  longId('LONG_ID'),
-  shortId('SHORT_ID'),
-  ;
+class ResourceIdType {
+  static const longId = ResourceIdType._('LONG_ID');
+  static const shortId = ResourceIdType._('SHORT_ID');
 
   final String value;
 
-  const ResourceIdType(this.value);
+  const ResourceIdType._(this.value);
+
+  static const values = [longId, shortId];
 
   static ResourceIdType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceIdType'));
+          orElse: () => ResourceIdType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the directory on the Amazon EFS file system that the access point
@@ -3518,20 +3580,29 @@ class RootDirectory {
   }
 }
 
-enum Status {
-  enabled('ENABLED'),
-  enabling('ENABLING'),
-  disabled('DISABLED'),
-  disabling('DISABLING'),
-  ;
+class Status {
+  static const enabled = Status._('ENABLED');
+  static const enabling = Status._('ENABLING');
+  static const disabled = Status._('DISABLED');
+  static const disabling = Status._('DISABLING');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [enabled, enabling, disabled, disabling];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
@@ -3566,78 +3637,138 @@ class Tag {
   }
 }
 
-enum ThroughputMode {
-  bursting('bursting'),
-  provisioned('provisioned'),
-  elastic('elastic'),
-  ;
+class ThroughputMode {
+  static const bursting = ThroughputMode._('bursting');
+  static const provisioned = ThroughputMode._('provisioned');
+  static const elastic = ThroughputMode._('elastic');
 
   final String value;
 
-  const ThroughputMode(this.value);
+  const ThroughputMode._(this.value);
+
+  static const values = [bursting, provisioned, elastic];
 
   static ThroughputMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThroughputMode'));
+          orElse: () => ThroughputMode._(value));
+
+  @override
+  bool operator ==(other) => other is ThroughputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitionToArchiveRules {
-  after_1Day('AFTER_1_DAY'),
-  after_7Days('AFTER_7_DAYS'),
-  after_14Days('AFTER_14_DAYS'),
-  after_30Days('AFTER_30_DAYS'),
-  after_60Days('AFTER_60_DAYS'),
-  after_90Days('AFTER_90_DAYS'),
-  after_180Days('AFTER_180_DAYS'),
-  after_270Days('AFTER_270_DAYS'),
-  after_365Days('AFTER_365_DAYS'),
-  ;
+class TransitionToArchiveRules {
+  static const after_1Day = TransitionToArchiveRules._('AFTER_1_DAY');
+  static const after_7Days = TransitionToArchiveRules._('AFTER_7_DAYS');
+  static const after_14Days = TransitionToArchiveRules._('AFTER_14_DAYS');
+  static const after_30Days = TransitionToArchiveRules._('AFTER_30_DAYS');
+  static const after_60Days = TransitionToArchiveRules._('AFTER_60_DAYS');
+  static const after_90Days = TransitionToArchiveRules._('AFTER_90_DAYS');
+  static const after_180Days = TransitionToArchiveRules._('AFTER_180_DAYS');
+  static const after_270Days = TransitionToArchiveRules._('AFTER_270_DAYS');
+  static const after_365Days = TransitionToArchiveRules._('AFTER_365_DAYS');
 
   final String value;
 
-  const TransitionToArchiveRules(this.value);
+  const TransitionToArchiveRules._(this.value);
+
+  static const values = [
+    after_1Day,
+    after_7Days,
+    after_14Days,
+    after_30Days,
+    after_60Days,
+    after_90Days,
+    after_180Days,
+    after_270Days,
+    after_365Days
+  ];
 
   static TransitionToArchiveRules fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitionToArchiveRules'));
+          orElse: () => TransitionToArchiveRules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToArchiveRules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitionToIARules {
-  after_7Days('AFTER_7_DAYS'),
-  after_14Days('AFTER_14_DAYS'),
-  after_30Days('AFTER_30_DAYS'),
-  after_60Days('AFTER_60_DAYS'),
-  after_90Days('AFTER_90_DAYS'),
-  after_1Day('AFTER_1_DAY'),
-  after_180Days('AFTER_180_DAYS'),
-  after_270Days('AFTER_270_DAYS'),
-  after_365Days('AFTER_365_DAYS'),
-  ;
+class TransitionToIARules {
+  static const after_7Days = TransitionToIARules._('AFTER_7_DAYS');
+  static const after_14Days = TransitionToIARules._('AFTER_14_DAYS');
+  static const after_30Days = TransitionToIARules._('AFTER_30_DAYS');
+  static const after_60Days = TransitionToIARules._('AFTER_60_DAYS');
+  static const after_90Days = TransitionToIARules._('AFTER_90_DAYS');
+  static const after_1Day = TransitionToIARules._('AFTER_1_DAY');
+  static const after_180Days = TransitionToIARules._('AFTER_180_DAYS');
+  static const after_270Days = TransitionToIARules._('AFTER_270_DAYS');
+  static const after_365Days = TransitionToIARules._('AFTER_365_DAYS');
 
   final String value;
 
-  const TransitionToIARules(this.value);
+  const TransitionToIARules._(this.value);
 
-  static TransitionToIARules fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransitionToIARules'));
+  static const values = [
+    after_7Days,
+    after_14Days,
+    after_30Days,
+    after_60Days,
+    after_90Days,
+    after_1Day,
+    after_180Days,
+    after_270Days,
+    after_365Days
+  ];
+
+  static TransitionToIARules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitionToIARules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToIARules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TransitionToPrimaryStorageClassRules {
-  after_1Access('AFTER_1_ACCESS'),
-  ;
+class TransitionToPrimaryStorageClassRules {
+  static const after_1Access =
+      TransitionToPrimaryStorageClassRules._('AFTER_1_ACCESS');
 
   final String value;
 
-  const TransitionToPrimaryStorageClassRules(this.value);
+  const TransitionToPrimaryStorageClassRules._(this.value);
+
+  static const values = [after_1Access];
 
   static TransitionToPrimaryStorageClassRules fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransitionToPrimaryStorageClassRules'));
+          orElse: () => TransitionToPrimaryStorageClassRules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToPrimaryStorageClassRules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessPointAlreadyExists extends _s.GenericAwsException {

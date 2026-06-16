@@ -1017,22 +1017,31 @@ class CloudWatchLogsLogDeliveryDescription {
   }
 }
 
-enum ConnectorState {
-  running('RUNNING'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ConnectorState {
+  static const running = ConnectorState._('RUNNING');
+  static const creating = ConnectorState._('CREATING');
+  static const updating = ConnectorState._('UPDATING');
+  static const deleting = ConnectorState._('DELETING');
+  static const failed = ConnectorState._('FAILED');
 
   final String value;
 
-  const ConnectorState(this.value);
+  const ConnectorState._(this.value);
+
+  static const values = [running, creating, updating, deleting, failed];
 
   static ConnectorState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorState'));
+          orElse: () => ConnectorState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of a connector.
@@ -1359,19 +1368,29 @@ class CustomPlugin {
   }
 }
 
-enum CustomPluginContentType {
-  jar('JAR'),
-  zip('ZIP'),
-  ;
+class CustomPluginContentType {
+  static const jar = CustomPluginContentType._('JAR');
+  static const zip = CustomPluginContentType._('ZIP');
 
   final String value;
 
-  const CustomPluginContentType(this.value);
+  const CustomPluginContentType._(this.value);
+
+  static const values = [jar, zip];
 
   static CustomPluginContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomPluginContentType'));
+          orElse: () => CustomPluginContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomPluginContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a custom plugin.
@@ -1546,23 +1565,39 @@ class CustomPluginRevisionSummary {
   }
 }
 
-enum CustomPluginState {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  updateFailed('UPDATE_FAILED'),
-  deleting('DELETING'),
-  ;
+class CustomPluginState {
+  static const creating = CustomPluginState._('CREATING');
+  static const createFailed = CustomPluginState._('CREATE_FAILED');
+  static const active = CustomPluginState._('ACTIVE');
+  static const updating = CustomPluginState._('UPDATING');
+  static const updateFailed = CustomPluginState._('UPDATE_FAILED');
+  static const deleting = CustomPluginState._('DELETING');
 
   final String value;
 
-  const CustomPluginState(this.value);
+  const CustomPluginState._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    updating,
+    updateFailed,
+    deleting
+  ];
 
   static CustomPluginState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CustomPluginState'));
+          orElse: () => CustomPluginState._(value));
+
+  @override
+  bool operator ==(other) => other is CustomPluginState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the custom plugin.
@@ -2164,19 +2199,29 @@ class KafkaClusterClientAuthenticationDescription {
   }
 }
 
-enum KafkaClusterClientAuthenticationType {
-  none('NONE'),
-  iam('IAM'),
-  ;
+class KafkaClusterClientAuthenticationType {
+  static const none = KafkaClusterClientAuthenticationType._('NONE');
+  static const iam = KafkaClusterClientAuthenticationType._('IAM');
 
   final String value;
 
-  const KafkaClusterClientAuthenticationType(this.value);
+  const KafkaClusterClientAuthenticationType._(this.value);
+
+  static const values = [none, iam];
 
   static KafkaClusterClientAuthenticationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KafkaClusterClientAuthenticationType'));
+          orElse: () => KafkaClusterClientAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaClusterClientAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of how to connect to the Apache Kafka cluster.
@@ -2247,19 +2292,29 @@ class KafkaClusterEncryptionInTransitDescription {
   }
 }
 
-enum KafkaClusterEncryptionInTransitType {
-  plaintext('PLAINTEXT'),
-  tls('TLS'),
-  ;
+class KafkaClusterEncryptionInTransitType {
+  static const plaintext = KafkaClusterEncryptionInTransitType._('PLAINTEXT');
+  static const tls = KafkaClusterEncryptionInTransitType._('TLS');
 
   final String value;
 
-  const KafkaClusterEncryptionInTransitType(this.value);
+  const KafkaClusterEncryptionInTransitType._(this.value);
+
+  static const values = [plaintext, tls];
 
   static KafkaClusterEncryptionInTransitType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KafkaClusterEncryptionInTransitType'));
+          orElse: () => KafkaClusterEncryptionInTransitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaClusterEncryptionInTransitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListConnectorsResponse {
@@ -3094,19 +3149,29 @@ class WorkerConfigurationRevisionSummary {
   }
 }
 
-enum WorkerConfigurationState {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class WorkerConfigurationState {
+  static const active = WorkerConfigurationState._('ACTIVE');
+  static const deleting = WorkerConfigurationState._('DELETING');
 
   final String value;
 
-  const WorkerConfigurationState(this.value);
+  const WorkerConfigurationState._(this.value);
+
+  static const values = [active, deleting];
 
   static WorkerConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkerConfigurationState'));
+          orElse: () => WorkerConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkerConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a worker configuration.

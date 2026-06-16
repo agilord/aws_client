@@ -1495,20 +1495,29 @@ class CreateWorkflowStepResponse {
   }
 }
 
-enum DataType {
-  string('STRING'),
-  integer('INTEGER'),
-  stringlist('STRINGLIST'),
-  stringmap('STRINGMAP'),
-  ;
+class DataType {
+  static const string = DataType._('STRING');
+  static const integer = DataType._('INTEGER');
+  static const stringlist = DataType._('STRINGLIST');
+  static const stringmap = DataType._('STRINGMAP');
 
   final String value;
 
-  const DataType(this.value);
+  const DataType._(this.value);
 
-  static DataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataType'));
+  static const values = [string, integer, stringlist, stringmap];
+
+  static DataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataType._(value));
+
+  @override
+  bool operator ==(other) => other is DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteMigrationWorkflowResponse {
@@ -2632,31 +2641,60 @@ class ListWorkflowStepsResponse {
   }
 }
 
-enum MigrationWorkflowStatusEnum {
-  creating('CREATING'),
-  notStarted('NOT_STARTED'),
-  creationFailed('CREATION_FAILED'),
-  starting('STARTING'),
-  inProgress('IN_PROGRESS'),
-  workflowFailed('WORKFLOW_FAILED'),
-  paused('PAUSED'),
-  pausing('PAUSING'),
-  pausingFailed('PAUSING_FAILED'),
-  userAttentionRequired('USER_ATTENTION_REQUIRED'),
-  deleting('DELETING'),
-  deletionFailed('DELETION_FAILED'),
-  deleted('DELETED'),
-  completed('COMPLETED'),
-  ;
+class MigrationWorkflowStatusEnum {
+  static const creating = MigrationWorkflowStatusEnum._('CREATING');
+  static const notStarted = MigrationWorkflowStatusEnum._('NOT_STARTED');
+  static const creationFailed =
+      MigrationWorkflowStatusEnum._('CREATION_FAILED');
+  static const starting = MigrationWorkflowStatusEnum._('STARTING');
+  static const inProgress = MigrationWorkflowStatusEnum._('IN_PROGRESS');
+  static const workflowFailed =
+      MigrationWorkflowStatusEnum._('WORKFLOW_FAILED');
+  static const paused = MigrationWorkflowStatusEnum._('PAUSED');
+  static const pausing = MigrationWorkflowStatusEnum._('PAUSING');
+  static const pausingFailed = MigrationWorkflowStatusEnum._('PAUSING_FAILED');
+  static const userAttentionRequired =
+      MigrationWorkflowStatusEnum._('USER_ATTENTION_REQUIRED');
+  static const deleting = MigrationWorkflowStatusEnum._('DELETING');
+  static const deletionFailed =
+      MigrationWorkflowStatusEnum._('DELETION_FAILED');
+  static const deleted = MigrationWorkflowStatusEnum._('DELETED');
+  static const completed = MigrationWorkflowStatusEnum._('COMPLETED');
 
   final String value;
 
-  const MigrationWorkflowStatusEnum(this.value);
+  const MigrationWorkflowStatusEnum._(this.value);
+
+  static const values = [
+    creating,
+    notStarted,
+    creationFailed,
+    starting,
+    inProgress,
+    workflowFailed,
+    paused,
+    pausing,
+    pausingFailed,
+    userAttentionRequired,
+    deleting,
+    deletionFailed,
+    deleted,
+    completed
+  ];
 
   static MigrationWorkflowStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MigrationWorkflowStatusEnum'));
+          orElse: () => MigrationWorkflowStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationWorkflowStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a migration workflow.
@@ -2750,18 +2788,27 @@ class MigrationWorkflowSummary {
   }
 }
 
-enum Owner {
-  awsManaged('AWS_MANAGED'),
-  custom('CUSTOM'),
-  ;
+class Owner {
+  static const awsManaged = Owner._('AWS_MANAGED');
+  static const custom = Owner._('CUSTOM');
 
   final String value;
 
-  const Owner(this.value);
+  const Owner._(this.value);
+
+  static const values = [awsManaged, custom];
 
   static Owner fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Owner'));
+      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
+
+  @override
+  bool operator ==(other) => other is Owner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Command to be run on a particular operating system.
@@ -2824,19 +2871,27 @@ class PlatformScriptKey {
   }
 }
 
-enum PluginHealth {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class PluginHealth {
+  static const healthy = PluginHealth._('HEALTHY');
+  static const unhealthy = PluginHealth._('UNHEALTHY');
 
   final String value;
 
-  const PluginHealth(this.value);
+  const PluginHealth._(this.value);
 
-  static PluginHealth fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PluginHealth'));
+  static const values = [healthy, unhealthy];
+
+  static PluginHealth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PluginHealth._(value));
+
+  @override
+  bool operator ==(other) => other is PluginHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the Migration Hub Orchestrator plugin.
@@ -2940,19 +2995,28 @@ class RetryWorkflowStepResponse {
   }
 }
 
-enum RunEnvironment {
-  aws('AWS'),
-  onpremise('ONPREMISE'),
-  ;
+class RunEnvironment {
+  static const aws = RunEnvironment._('AWS');
+  static const onpremise = RunEnvironment._('ONPREMISE');
 
   final String value;
 
-  const RunEnvironment(this.value);
+  const RunEnvironment._(this.value);
+
+  static const values = [aws, onpremise];
 
   static RunEnvironment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RunEnvironment'));
+          orElse: () => RunEnvironment._(value));
+
+  @override
+  bool operator ==(other) => other is RunEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartMigrationWorkflowResponse {
@@ -3007,19 +3071,28 @@ class StartMigrationWorkflowResponse {
   }
 }
 
-enum StepActionType {
-  manual('MANUAL'),
-  automated('AUTOMATED'),
-  ;
+class StepActionType {
+  static const manual = StepActionType._('MANUAL');
+  static const automated = StepActionType._('AUTOMATED');
 
   final String value;
 
-  const StepActionType(this.value);
+  const StepActionType._(this.value);
+
+  static const values = [manual, automated];
 
   static StepActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StepActionType'));
+          orElse: () => StepActionType._(value));
+
+  @override
+  bool operator ==(other) => other is StepActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The custom script to run tests on source or target environments.
@@ -3081,25 +3154,45 @@ class StepAutomationConfiguration {
   }
 }
 
-enum StepGroupStatus {
-  awaitingDependencies('AWAITING_DEPENDENCIES'),
-  ready('READY'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  paused('PAUSED'),
-  pausing('PAUSING'),
-  userAttentionRequired('USER_ATTENTION_REQUIRED'),
-  ;
+class StepGroupStatus {
+  static const awaitingDependencies =
+      StepGroupStatus._('AWAITING_DEPENDENCIES');
+  static const ready = StepGroupStatus._('READY');
+  static const inProgress = StepGroupStatus._('IN_PROGRESS');
+  static const completed = StepGroupStatus._('COMPLETED');
+  static const failed = StepGroupStatus._('FAILED');
+  static const paused = StepGroupStatus._('PAUSED');
+  static const pausing = StepGroupStatus._('PAUSING');
+  static const userAttentionRequired =
+      StepGroupStatus._('USER_ATTENTION_REQUIRED');
 
   final String value;
 
-  const StepGroupStatus(this.value);
+  const StepGroupStatus._(this.value);
+
+  static const values = [
+    awaitingDependencies,
+    ready,
+    inProgress,
+    completed,
+    failed,
+    paused,
+    pausing,
+    userAttentionRequired
+  ];
 
   static StepGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StepGroupStatus'));
+          orElse: () => StepGroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A map of key value pairs that is generated when you create a migration
@@ -3189,24 +3282,42 @@ class StepOutput {
   }
 }
 
-enum StepStatus {
-  awaitingDependencies('AWAITING_DEPENDENCIES'),
-  skipped('SKIPPED'),
-  ready('READY'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  paused('PAUSED'),
-  userAttentionRequired('USER_ATTENTION_REQUIRED'),
-  ;
+class StepStatus {
+  static const awaitingDependencies = StepStatus._('AWAITING_DEPENDENCIES');
+  static const skipped = StepStatus._('SKIPPED');
+  static const ready = StepStatus._('READY');
+  static const inProgress = StepStatus._('IN_PROGRESS');
+  static const completed = StepStatus._('COMPLETED');
+  static const failed = StepStatus._('FAILED');
+  static const paused = StepStatus._('PAUSED');
+  static const userAttentionRequired = StepStatus._('USER_ATTENTION_REQUIRED');
 
   final String value;
 
-  const StepStatus(this.value);
+  const StepStatus._(this.value);
 
-  static StepStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StepStatus'));
+  static const values = [
+    awaitingDependencies,
+    skipped,
+    ready,
+    inProgress,
+    completed,
+    failed,
+    paused,
+    userAttentionRequired
+  ];
+
+  static StepStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StepStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopMigrationWorkflowResponse {
@@ -3273,19 +3384,28 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  single('SINGLE'),
-  all('ALL'),
-  none('NONE'),
-  ;
+class TargetType {
+  static const single = TargetType._('SINGLE');
+  static const all = TargetType._('ALL');
+  static const none = TargetType._('NONE');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [single, all, none];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input parameters of a template.
@@ -3342,22 +3462,37 @@ class TemplateSource {
   }
 }
 
-enum TemplateStatus {
-  created('CREATED'),
-  ready('READY'),
-  pendingCreation('PENDING_CREATION'),
-  creating('CREATING'),
-  creationFailed('CREATION_FAILED'),
-  ;
+class TemplateStatus {
+  static const created = TemplateStatus._('CREATED');
+  static const ready = TemplateStatus._('READY');
+  static const pendingCreation = TemplateStatus._('PENDING_CREATION');
+  static const creating = TemplateStatus._('CREATING');
+  static const creationFailed = TemplateStatus._('CREATION_FAILED');
 
   final String value;
 
-  const TemplateStatus(this.value);
+  const TemplateStatus._(this.value);
+
+  static const values = [
+    created,
+    ready,
+    pendingCreation,
+    creating,
+    creationFailed
+  ];
 
   static TemplateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateStatus'));
+          orElse: () => TemplateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the step group in the template.

@@ -1784,34 +1784,52 @@ class EncryptionConfig {
   }
 }
 
-enum EncryptionStatus {
-  updating('UPDATING'),
-  active('ACTIVE'),
-  ;
+class EncryptionStatus {
+  static const updating = EncryptionStatus._('UPDATING');
+  static const active = EncryptionStatus._('ACTIVE');
 
   final String value;
 
-  const EncryptionStatus(this.value);
+  const EncryptionStatus._(this.value);
+
+  static const values = [updating, active];
 
   static EncryptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionStatus'));
+          orElse: () => EncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncryptionType {
-  none('NONE'),
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const none = EncryptionType._('NONE');
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [none, kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The root cause of a trace summary error.
@@ -3073,18 +3091,27 @@ class Insight {
   }
 }
 
-enum InsightCategory {
-  fault('FAULT'),
-  ;
+class InsightCategory {
+  static const fault = InsightCategory._('FAULT');
 
   final String value;
 
-  const InsightCategory(this.value);
+  const InsightCategory._(this.value);
+
+  static const values = [fault];
 
   static InsightCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InsightCategory'));
+          orElse: () => InsightCategory._(value));
+
+  @override
+  bool operator ==(other) => other is InsightCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// X-Ray reevaluates insights periodically until they are resolved, and records
@@ -3269,19 +3296,27 @@ class InsightImpactGraphService {
   }
 }
 
-enum InsightState {
-  active('ACTIVE'),
-  closed('CLOSED'),
-  ;
+class InsightState {
+  static const active = InsightState._('ACTIVE');
+  static const closed = InsightState._('CLOSED');
 
   final String value;
 
-  const InsightState(this.value);
+  const InsightState._(this.value);
 
-  static InsightState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InsightState'));
+  static const values = [active, closed];
+
+  static InsightState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InsightState._(value));
+
+  @override
+  bool operator ==(other) => other is InsightState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information that describes an insight.
@@ -4280,19 +4315,29 @@ class SamplingStrategy {
   }
 }
 
-enum SamplingStrategyName {
-  partialScan('PartialScan'),
-  fixedRate('FixedRate'),
-  ;
+class SamplingStrategyName {
+  static const partialScan = SamplingStrategyName._('PartialScan');
+  static const fixedRate = SamplingStrategyName._('FixedRate');
 
   final String value;
 
-  const SamplingStrategyName(this.value);
+  const SamplingStrategyName._(this.value);
 
-  static SamplingStrategyName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SamplingStrategyName'));
+  static const values = [partialScan, fixedRate];
+
+  static SamplingStrategyName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SamplingStrategyName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SamplingStrategyName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Temporary changes to a sampling rule configuration. To meet the global
@@ -4756,20 +4801,29 @@ class TelemetryRecord {
   }
 }
 
-enum TimeRangeType {
-  traceId('TraceId'),
-  event('Event'),
-  service('Service'),
-  ;
+class TimeRangeType {
+  static const traceId = TimeRangeType._('TraceId');
+  static const event = TimeRangeType._('Event');
+  static const service = TimeRangeType._('Service');
 
   final String value;
 
-  const TimeRangeType(this.value);
+  const TimeRangeType._(this.value);
+
+  static const values = [traceId, event, service];
 
   static TimeRangeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeRangeType'));
+          orElse: () => TimeRangeType._(value));
+
+  @override
+  bool operator ==(other) => other is TimeRangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of TimeSeriesStatistic structures.

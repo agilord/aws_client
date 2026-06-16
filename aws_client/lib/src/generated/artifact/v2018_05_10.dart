@@ -258,19 +258,28 @@ class Artifact {
   }
 }
 
-enum AcceptanceType {
-  passthrough('PASSTHROUGH'),
-  explicit('EXPLICIT'),
-  ;
+class AcceptanceType {
+  static const passthrough = AcceptanceType._('PASSTHROUGH');
+  static const explicit = AcceptanceType._('EXPLICIT');
 
   final String value;
 
-  const AcceptanceType(this.value);
+  const AcceptanceType._(this.value);
+
+  static const values = [passthrough, explicit];
 
   static AcceptanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceptanceType'));
+          orElse: () => AcceptanceType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Account settings for the customer.
@@ -432,34 +441,54 @@ class ListReportsResponse {
   }
 }
 
-enum NotificationSubscriptionStatus {
-  subscribed('SUBSCRIBED'),
-  notSubscribed('NOT_SUBSCRIBED'),
-  ;
+class NotificationSubscriptionStatus {
+  static const subscribed = NotificationSubscriptionStatus._('SUBSCRIBED');
+  static const notSubscribed =
+      NotificationSubscriptionStatus._('NOT_SUBSCRIBED');
 
   final String value;
 
-  const NotificationSubscriptionStatus(this.value);
+  const NotificationSubscriptionStatus._(this.value);
+
+  static const values = [subscribed, notSubscribed];
 
   static NotificationSubscriptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationSubscriptionStatus'));
+          orElse: () => NotificationSubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationSubscriptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PublishedState {
-  published('PUBLISHED'),
-  unpublished('UNPUBLISHED'),
-  ;
+class PublishedState {
+  static const published = PublishedState._('PUBLISHED');
+  static const unpublished = PublishedState._('UNPUBLISHED');
 
   final String value;
 
-  const PublishedState(this.value);
+  const PublishedState._(this.value);
+
+  static const values = [published, unpublished];
 
   static PublishedState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PublishedState'));
+          orElse: () => PublishedState._(value));
+
+  @override
+  bool operator ==(other) => other is PublishedState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutAccountSettingsResponse {
@@ -768,20 +797,29 @@ class ReportSummary {
   }
 }
 
-enum UploadState {
-  processing('PROCESSING'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  fault('FAULT'),
-  ;
+class UploadState {
+  static const processing = UploadState._('PROCESSING');
+  static const complete = UploadState._('COMPLETE');
+  static const failed = UploadState._('FAILED');
+  static const fault = UploadState._('FAULT');
 
   final String value;
 
-  const UploadState(this.value);
+  const UploadState._(this.value);
 
-  static UploadState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UploadState'));
+  static const values = [processing, complete, failed, fault];
+
+  static UploadState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadState._(value));
+
+  @override
+  bool operator ==(other) => other is UploadState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

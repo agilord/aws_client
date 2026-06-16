@@ -2655,19 +2655,28 @@ class AddOutputRequest {
   }
 }
 
-enum Algorithm {
-  aes128('aes128'),
-  aes192('aes192'),
-  aes256('aes256'),
-  ;
+class Algorithm {
+  static const aes128 = Algorithm._('aes128');
+  static const aes192 = Algorithm._('aes192');
+  static const aes256 = Algorithm._('aes256');
 
   final String value;
 
-  const Algorithm(this.value);
+  const Algorithm._(this.value);
 
-  static Algorithm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Algorithm'));
+  static const values = [aes128, aes192, aes256];
+
+  static Algorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Algorithm._(value));
+
+  @override
+  bool operator ==(other) => other is Algorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Bridge is the connection between your datacenter's Instances and the AWS
@@ -2710,7 +2719,8 @@ class Bridge {
   factory Bridge.fromJson(Map<String, dynamic> json) {
     return Bridge(
       bridgeArn: (json['bridgeArn'] as String?) ?? '',
-      bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
+      bridgeState:
+          BridgeState.fromString((json['bridgeState'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       placementArn: (json['placementArn'] as String?) ?? '',
       bridgeMessages: (json['bridgeMessages'] as List?)
@@ -2890,7 +2900,7 @@ class BridgeNetworkOutput {
       name: (json['name'] as String?) ?? '',
       networkName: (json['networkName'] as String?) ?? '',
       port: (json['port'] as int?) ?? 0,
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       ttl: (json['ttl'] as int?) ?? 0,
     );
   }
@@ -2944,7 +2954,7 @@ class BridgeNetworkSource {
       name: (json['name'] as String?) ?? '',
       networkName: (json['networkName'] as String?) ?? '',
       port: (json['port'] as int?) ?? 0,
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
     );
   }
 
@@ -2997,19 +3007,28 @@ class BridgeOutput {
   }
 }
 
-enum BridgePlacement {
-  available('AVAILABLE'),
-  locked('LOCKED'),
-  ;
+class BridgePlacement {
+  static const available = BridgePlacement._('AVAILABLE');
+  static const locked = BridgePlacement._('LOCKED');
 
   final String value;
 
-  const BridgePlacement(this.value);
+  const BridgePlacement._(this.value);
+
+  static const values = [available, locked];
 
   static BridgePlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BridgePlacement'));
+          orElse: () => BridgePlacement._(value));
+
+  @override
+  bool operator ==(other) => other is BridgePlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The bridge's source.
@@ -3045,62 +3064,102 @@ class BridgeSource {
   }
 }
 
-enum BridgeState {
-  creating('CREATING'),
-  standby('STANDBY'),
-  starting('STARTING'),
-  deploying('DEPLOYING'),
-  active('ACTIVE'),
-  stopping('STOPPING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  startFailed('START_FAILED'),
-  startPending('START_PENDING'),
-  stopFailed('STOP_FAILED'),
-  updating('UPDATING'),
-  ;
+class BridgeState {
+  static const creating = BridgeState._('CREATING');
+  static const standby = BridgeState._('STANDBY');
+  static const starting = BridgeState._('STARTING');
+  static const deploying = BridgeState._('DEPLOYING');
+  static const active = BridgeState._('ACTIVE');
+  static const stopping = BridgeState._('STOPPING');
+  static const deleting = BridgeState._('DELETING');
+  static const deleted = BridgeState._('DELETED');
+  static const startFailed = BridgeState._('START_FAILED');
+  static const startPending = BridgeState._('START_PENDING');
+  static const stopFailed = BridgeState._('STOP_FAILED');
+  static const updating = BridgeState._('UPDATING');
 
   final String value;
 
-  const BridgeState(this.value);
+  const BridgeState._(this.value);
 
-  static BridgeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BridgeState'));
+  static const values = [
+    creating,
+    standby,
+    starting,
+    deploying,
+    active,
+    stopping,
+    deleting,
+    deleted,
+    startFailed,
+    startPending,
+    stopFailed,
+    updating
+  ];
+
+  static BridgeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BridgeState._(value));
+
+  @override
+  bool operator ==(other) => other is BridgeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Colorimetry {
-  bt601('BT601'),
-  bt709('BT709'),
-  bt2020('BT2020'),
-  bt2100('BT2100'),
-  st2065_1('ST2065-1'),
-  st2065_3('ST2065-3'),
-  xyz('XYZ'),
-  ;
+class Colorimetry {
+  static const bt601 = Colorimetry._('BT601');
+  static const bt709 = Colorimetry._('BT709');
+  static const bt2020 = Colorimetry._('BT2020');
+  static const bt2100 = Colorimetry._('BT2100');
+  static const st2065_1 = Colorimetry._('ST2065-1');
+  static const st2065_3 = Colorimetry._('ST2065-3');
+  static const xyz = Colorimetry._('XYZ');
 
   final String value;
 
-  const Colorimetry(this.value);
+  const Colorimetry._(this.value);
 
-  static Colorimetry fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Colorimetry'));
+  static const values = [bt601, bt709, bt2020, bt2100, st2065_1, st2065_3, xyz];
+
+  static Colorimetry fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Colorimetry._(value));
+
+  @override
+  bool operator ==(other) => other is Colorimetry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionStatus {
-  connected('CONNECTED'),
-  disconnected('DISCONNECTED'),
-  ;
+class ConnectionStatus {
+  static const connected = ConnectionStatus._('CONNECTED');
+  static const disconnected = ConnectionStatus._('DISCONNECTED');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [connected, disconnected];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateBridgeResponse {
@@ -3496,20 +3555,28 @@ class DescribeReservationResponse {
   }
 }
 
-enum DesiredState {
-  active('ACTIVE'),
-  standby('STANDBY'),
-  deleted('DELETED'),
-  ;
+class DesiredState {
+  static const active = DesiredState._('ACTIVE');
+  static const standby = DesiredState._('STANDBY');
+  static const deleted = DesiredState._('DELETED');
 
   final String value;
 
-  const DesiredState(this.value);
+  const DesiredState._(this.value);
 
-  static DesiredState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DesiredState'));
+  static const values = [active, standby, deleted];
+
+  static DesiredState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DesiredState._(value));
+
+  @override
+  bool operator ==(other) => other is DesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The transport parameters that are associated with an outbound media stream.
@@ -3596,18 +3663,27 @@ class DestinationConfigurationRequest {
   }
 }
 
-enum DurationUnits {
-  months('MONTHS'),
-  ;
+class DurationUnits {
+  static const months = DurationUnits._('MONTHS');
 
   final String value;
 
-  const DurationUnits(this.value);
+  const DurationUnits._(this.value);
+
+  static const values = [months];
 
   static DurationUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DurationUnits'));
+          orElse: () => DurationUnits._(value));
+
+  @override
+  bool operator ==(other) => other is DurationUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EgressGatewayBridge {
@@ -3639,36 +3715,53 @@ class EgressGatewayBridge {
   }
 }
 
-enum EncoderProfile {
-  main('main'),
-  high('high'),
-  ;
+class EncoderProfile {
+  static const main = EncoderProfile._('main');
+  static const high = EncoderProfile._('high');
 
   final String value;
 
-  const EncoderProfile(this.value);
+  const EncoderProfile._(this.value);
+
+  static const values = [main, high];
 
   static EncoderProfile fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncoderProfile'));
+          orElse: () => EncoderProfile._(value));
+
+  @override
+  bool operator ==(other) => other is EncoderProfile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncodingName {
-  jxsv('jxsv'),
-  raw('raw'),
-  smpte291('smpte291'),
-  pcm('pcm'),
-  ;
+class EncodingName {
+  static const jxsv = EncodingName._('jxsv');
+  static const raw = EncodingName._('raw');
+  static const smpte291 = EncodingName._('smpte291');
+  static const pcm = EncodingName._('pcm');
 
   final String value;
 
-  const EncodingName(this.value);
+  const EncodingName._(this.value);
 
-  static EncodingName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncodingName'));
+  static const values = [jxsv, raw, smpte291, pcm];
+
+  static EncodingName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingName._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of parameters that determine how MediaConnect will convert the
@@ -3696,7 +3789,7 @@ class EncodingParameters {
     return EncodingParameters(
       compressionFactor: (json['compressionFactor'] as double?) ?? 0,
       encoderProfile:
-          EncoderProfile.fromString((json['encoderProfile'] as String)),
+          EncoderProfile.fromString((json['encoderProfile'] as String?) ?? ''),
     );
   }
 
@@ -3918,19 +4011,28 @@ class Entitlement {
   }
 }
 
-enum EntitlementStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EntitlementStatus {
+  static const enabled = EntitlementStatus._('ENABLED');
+  static const disabled = EntitlementStatus._('DISABLED');
 
   final String value;
 
-  const EntitlementStatus(this.value);
+  const EntitlementStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EntitlementStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntitlementStatus'));
+          orElse: () => EntitlementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EntitlementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The settings for source failover.
@@ -3982,19 +4084,27 @@ class FailoverConfig {
   }
 }
 
-enum FailoverMode {
-  merge('MERGE'),
-  failover('FAILOVER'),
-  ;
+class FailoverMode {
+  static const merge = FailoverMode._('MERGE');
+  static const failover = FailoverMode._('FAILOVER');
 
   final String value;
 
-  const FailoverMode(this.value);
+  const FailoverMode._(this.value);
 
-  static FailoverMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailoverMode'));
+  static const values = [merge, failover];
+
+  static FailoverMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailoverMode._(value));
+
+  @override
+  bool operator ==(other) => other is FailoverMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The settings for a flow, including its source, outputs, and entitlements.
@@ -4071,7 +4181,7 @@ class Flow {
           .toList(),
       source: Source.fromJson((json['source'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       egressIp: json['egressIp'] as String?,
       maintenance: json['maintenance'] != null
@@ -4438,15 +4548,15 @@ class GatewayInstance {
 
   factory GatewayInstance.fromJson(Map<String, dynamic> json) {
     return GatewayInstance(
-      bridgePlacement:
-          BridgePlacement.fromString((json['bridgePlacement'] as String)),
-      connectionStatus:
-          ConnectionStatus.fromString((json['connectionStatus'] as String)),
+      bridgePlacement: BridgePlacement.fromString(
+          (json['bridgePlacement'] as String?) ?? ''),
+      connectionStatus: ConnectionStatus.fromString(
+          (json['connectionStatus'] as String?) ?? ''),
       gatewayArn: (json['gatewayArn'] as String?) ?? '',
       gatewayInstanceArn: (json['gatewayInstanceArn'] as String?) ?? '',
       instanceId: (json['instanceId'] as String?) ?? '',
       instanceState:
-          InstanceState.fromString((json['instanceState'] as String)),
+          InstanceState.fromString((json['instanceState'] as String?) ?? ''),
       runningBridgeCount: (json['runningBridgeCount'] as int?) ?? 0,
       instanceMessages: (json['instanceMessages'] as List?)
           ?.nonNulls
@@ -4510,23 +4620,31 @@ class GatewayNetwork {
   }
 }
 
-enum GatewayState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  error('ERROR'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class GatewayState {
+  static const creating = GatewayState._('CREATING');
+  static const active = GatewayState._('ACTIVE');
+  static const updating = GatewayState._('UPDATING');
+  static const error = GatewayState._('ERROR');
+  static const deleting = GatewayState._('DELETING');
+  static const deleted = GatewayState._('DELETED');
 
   final String value;
 
-  const GatewayState(this.value);
+  const GatewayState._(this.value);
 
-  static GatewayState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GatewayState'));
+  static const values = [creating, active, updating, error, deleting, deleted];
+
+  static GatewayState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayState._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The entitlements that you want to grant on a flow.
@@ -4720,23 +4838,39 @@ class InputConfigurationRequest {
   }
 }
 
-enum InstanceState {
-  registering('REGISTERING'),
-  active('ACTIVE'),
-  deregistering('DEREGISTERING'),
-  deregistered('DEREGISTERED'),
-  registrationError('REGISTRATION_ERROR'),
-  deregistrationError('DEREGISTRATION_ERROR'),
-  ;
+class InstanceState {
+  static const registering = InstanceState._('REGISTERING');
+  static const active = InstanceState._('ACTIVE');
+  static const deregistering = InstanceState._('DEREGISTERING');
+  static const deregistered = InstanceState._('DEREGISTERED');
+  static const registrationError = InstanceState._('REGISTRATION_ERROR');
+  static const deregistrationError = InstanceState._('DEREGISTRATION_ERROR');
 
   final String value;
 
-  const InstanceState(this.value);
+  const InstanceState._(this.value);
+
+  static const values = [
+    registering,
+    active,
+    deregistering,
+    deregistered,
+    registrationError,
+    deregistrationError
+  ];
 
   static InstanceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceState'));
+          orElse: () => InstanceState._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPC interface that is used for the media stream associated with the
@@ -4781,19 +4915,28 @@ class InterfaceRequest {
   }
 }
 
-enum KeyType {
-  speke('speke'),
-  staticKey('static-key'),
-  srtPassword('srt-password'),
-  ;
+class KeyType {
+  static const speke = KeyType._('speke');
+  static const staticKey = KeyType._('static-key');
+  static const srtPassword = KeyType._('srt-password');
 
   final String value;
 
-  const KeyType(this.value);
+  const KeyType._(this.value);
 
-  static KeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeyType'));
+  static const values = [speke, staticKey, srtPassword];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListBridgesResponse {
@@ -5102,7 +5245,8 @@ class ListedBridge {
   factory ListedBridge.fromJson(Map<String, dynamic> json) {
     return ListedBridge(
       bridgeArn: (json['bridgeArn'] as String?) ?? '',
-      bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
+      bridgeState:
+          BridgeState.fromString((json['bridgeState'] as String?) ?? ''),
       bridgeType: (json['bridgeType'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       placementArn: (json['placementArn'] as String?) ?? '',
@@ -5207,8 +5351,8 @@ class ListedFlow {
       description: (json['description'] as String?) ?? '',
       flowArn: (json['flowArn'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      sourceType: SourceType.fromString((json['sourceType'] as String)),
-      status: Status.fromString((json['status'] as String)),
+      sourceType: SourceType.fromString((json['sourceType'] as String?) ?? ''),
+      status: Status.fromString((json['status'] as String?) ?? ''),
       maintenance: json['maintenance'] != null
           ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
           : null,
@@ -5253,7 +5397,8 @@ class ListedGateway {
   factory ListedGateway.fromJson(Map<String, dynamic> json) {
     return ListedGateway(
       gatewayArn: (json['gatewayArn'] as String?) ?? '',
-      gatewayState: GatewayState.fromString((json['gatewayState'] as String)),
+      gatewayState:
+          GatewayState.fromString((json['gatewayState'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
     );
   }
@@ -5368,24 +5513,41 @@ class Maintenance {
   }
 }
 
-enum MaintenanceDay {
-  monday('Monday'),
-  tuesday('Tuesday'),
-  wednesday('Wednesday'),
-  thursday('Thursday'),
-  friday('Friday'),
-  saturday('Saturday'),
-  sunday('Sunday'),
-  ;
+class MaintenanceDay {
+  static const monday = MaintenanceDay._('Monday');
+  static const tuesday = MaintenanceDay._('Tuesday');
+  static const wednesday = MaintenanceDay._('Wednesday');
+  static const thursday = MaintenanceDay._('Thursday');
+  static const friday = MaintenanceDay._('Friday');
+  static const saturday = MaintenanceDay._('Saturday');
+  static const sunday = MaintenanceDay._('Sunday');
 
   final String value;
 
-  const MaintenanceDay(this.value);
+  const MaintenanceDay._(this.value);
+
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
 
   static MaintenanceDay fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MaintenanceDay'));
+          orElse: () => MaintenanceDay._(value));
+
+  @override
+  bool operator ==(other) => other is MaintenanceDay && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single track or stream of media that contains video, audio, or ancillary
@@ -5437,8 +5599,8 @@ class MediaStream {
       fmt: (json['fmt'] as int?) ?? 0,
       mediaStreamId: (json['mediaStreamId'] as int?) ?? 0,
       mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
-      mediaStreamType:
-          MediaStreamType.fromString((json['mediaStreamType'] as String)),
+      mediaStreamType: MediaStreamType.fromString(
+          (json['mediaStreamType'] as String?) ?? ''),
       attributes: json['attributes'] != null
           ? MediaStreamAttributes.fromJson(
               json['attributes'] as Map<String, dynamic>)
@@ -5553,7 +5715,8 @@ class MediaStreamOutputConfiguration {
 
   factory MediaStreamOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamOutputConfiguration(
-      encodingName: EncodingName.fromString((json['encodingName'] as String)),
+      encodingName:
+          EncodingName.fromString((json['encodingName'] as String?) ?? ''),
       mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
       destinationConfigurations: (json['destinationConfigurations'] as List?)
           ?.nonNulls
@@ -5646,7 +5809,8 @@ class MediaStreamSourceConfiguration {
 
   factory MediaStreamSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamSourceConfiguration(
-      encodingName: EncodingName.fromString((json['encodingName'] as String)),
+      encodingName:
+          EncodingName.fromString((json['encodingName'] as String?) ?? ''),
       mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
       inputConfigurations: (json['inputConfigurations'] as List?)
           ?.nonNulls
@@ -5701,20 +5865,29 @@ class MediaStreamSourceConfigurationRequest {
   }
 }
 
-enum MediaStreamType {
-  video('video'),
-  audio('audio'),
-  ancillaryData('ancillary-data'),
-  ;
+class MediaStreamType {
+  static const video = MediaStreamType._('video');
+  static const audio = MediaStreamType._('audio');
+  static const ancillaryData = MediaStreamType._('ancillary-data');
 
   final String value;
 
-  const MediaStreamType(this.value);
+  const MediaStreamType._(this.value);
+
+  static const values = [video, audio, ancillaryData];
 
   static MediaStreamType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MediaStreamType'));
+          orElse: () => MediaStreamType._(value));
+
+  @override
+  bool operator ==(other) => other is MediaStreamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MessageDetail {
@@ -5804,19 +5977,29 @@ class MonitoringConfig {
   }
 }
 
-enum NetworkInterfaceType {
-  ena('ena'),
-  efa('efa'),
-  ;
+class NetworkInterfaceType {
+  static const ena = NetworkInterfaceType._('ena');
+  static const efa = NetworkInterfaceType._('efa');
 
   final String value;
 
-  const NetworkInterfaceType(this.value);
+  const NetworkInterfaceType._(this.value);
 
-  static NetworkInterfaceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkInterfaceType'));
+  static const values = [ena, efa];
+
+  static NetworkInterfaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkInterfaceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A savings plan that reserves a certain amount of outbound bandwidth usage at
@@ -5866,11 +6049,11 @@ class Offering {
       currencyCode: (json['currencyCode'] as String?) ?? '',
       duration: (json['duration'] as int?) ?? 0,
       durationUnits:
-          DurationUnits.fromString((json['durationUnits'] as String)),
+          DurationUnits.fromString((json['durationUnits'] as String?) ?? ''),
       offeringArn: (json['offeringArn'] as String?) ?? '',
       offeringDescription: (json['offeringDescription'] as String?) ?? '',
       pricePerUnit: (json['pricePerUnit'] as String?) ?? '',
-      priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
+      priceUnits: PriceUnits.fromString((json['priceUnits'] as String?) ?? ''),
       resourceSpecification: ResourceSpecification.fromJson(
           (json['resourceSpecification'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6058,55 +6241,93 @@ class Output {
   }
 }
 
-enum OutputStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class OutputStatus {
+  static const enabled = OutputStatus._('ENABLED');
+  static const disabled = OutputStatus._('DISABLED');
 
   final String value;
 
-  const OutputStatus(this.value);
+  const OutputStatus._(this.value);
 
-  static OutputStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputStatus'));
+  static const values = [enabled, disabled];
+
+  static OutputStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OutputStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PriceUnits {
-  hourly('HOURLY'),
-  ;
+class PriceUnits {
+  static const hourly = PriceUnits._('HOURLY');
 
   final String value;
 
-  const PriceUnits(this.value);
+  const PriceUnits._(this.value);
 
-  static PriceUnits fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PriceUnits'));
+  static const values = [hourly];
+
+  static PriceUnits fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PriceUnits._(value));
+
+  @override
+  bool operator ==(other) => other is PriceUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Protocol {
-  zixiPush('zixi-push'),
-  rtpFec('rtp-fec'),
-  rtp('rtp'),
-  zixiPull('zixi-pull'),
-  rist('rist'),
-  st2110Jpegxs('st2110-jpegxs'),
-  cdi('cdi'),
-  srtListener('srt-listener'),
-  srtCaller('srt-caller'),
-  fujitsuQos('fujitsu-qos'),
-  udp('udp'),
-  ;
+class Protocol {
+  static const zixiPush = Protocol._('zixi-push');
+  static const rtpFec = Protocol._('rtp-fec');
+  static const rtp = Protocol._('rtp');
+  static const zixiPull = Protocol._('zixi-pull');
+  static const rist = Protocol._('rist');
+  static const st2110Jpegxs = Protocol._('st2110-jpegxs');
+  static const cdi = Protocol._('cdi');
+  static const srtListener = Protocol._('srt-listener');
+  static const srtCaller = Protocol._('srt-caller');
+  static const fujitsuQos = Protocol._('fujitsu-qos');
+  static const udp = Protocol._('udp');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [
+    zixiPush,
+    rtpFec,
+    rtp,
+    zixiPull,
+    rist,
+    st2110Jpegxs,
+    cdi,
+    srtListener,
+    srtCaller,
+    fujitsuQos,
+    udp
+  ];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PurchaseOfferingResponse {
@@ -6132,19 +6353,28 @@ class PurchaseOfferingResponse {
   }
 }
 
-enum Range {
-  narrow('NARROW'),
-  full('FULL'),
-  fullprotect('FULLPROTECT'),
-  ;
+class Range {
+  static const narrow = Range._('NARROW');
+  static const full = Range._('FULL');
+  static const fullprotect = Range._('FULLPROTECT');
 
   final String value;
 
-  const Range(this.value);
+  const Range._(this.value);
+
+  static const values = [narrow, full, fullprotect];
 
   static Range fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Range'));
+      values.firstWhere((e) => e.value == value, orElse: () => Range._(value));
+
+  @override
+  bool operator ==(other) => other is Range && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RemoveBridgeOutputResponse {
@@ -6409,16 +6639,16 @@ class Reservation {
       currencyCode: (json['currencyCode'] as String?) ?? '',
       duration: (json['duration'] as int?) ?? 0,
       durationUnits:
-          DurationUnits.fromString((json['durationUnits'] as String)),
+          DurationUnits.fromString((json['durationUnits'] as String?) ?? ''),
       end: (json['end'] as String?) ?? '',
       offeringArn: (json['offeringArn'] as String?) ?? '',
       offeringDescription: (json['offeringDescription'] as String?) ?? '',
       pricePerUnit: (json['pricePerUnit'] as String?) ?? '',
-      priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
+      priceUnits: PriceUnits.fromString((json['priceUnits'] as String?) ?? ''),
       reservationArn: (json['reservationArn'] as String?) ?? '',
       reservationName: (json['reservationName'] as String?) ?? '',
-      reservationState:
-          ReservationState.fromString((json['reservationState'] as String)),
+      reservationState: ReservationState.fromString(
+          (json['reservationState'] as String?) ?? ''),
       resourceSpecification: ResourceSpecification.fromJson(
           (json['resourceSpecification'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6458,21 +6688,30 @@ class Reservation {
   }
 }
 
-enum ReservationState {
-  active('ACTIVE'),
-  expired('EXPIRED'),
-  processing('PROCESSING'),
-  canceled('CANCELED'),
-  ;
+class ReservationState {
+  static const active = ReservationState._('ACTIVE');
+  static const expired = ReservationState._('EXPIRED');
+  static const processing = ReservationState._('PROCESSING');
+  static const canceled = ReservationState._('CANCELED');
 
   final String value;
 
-  const ReservationState(this.value);
+  const ReservationState._(this.value);
+
+  static const values = [active, expired, processing, canceled];
 
   static ReservationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReservationState'));
+          orElse: () => ReservationState._(value));
+
+  @override
+  bool operator ==(other) => other is ReservationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A definition of what is being billed for, including the type and amount.
@@ -6490,7 +6729,8 @@ class ResourceSpecification {
 
   factory ResourceSpecification.fromJson(Map<String, dynamic> json) {
     return ResourceSpecification(
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
       reservedBitrate: json['reservedBitrate'] as int?,
     );
   }
@@ -6505,18 +6745,27 @@ class ResourceSpecification {
   }
 }
 
-enum ResourceType {
-  mbpsOutboundBandwidth('Mbps_Outbound_Bandwidth'),
-  ;
+class ResourceType {
+  static const mbpsOutboundBandwidth =
+      ResourceType._('Mbps_Outbound_Bandwidth');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [mbpsOutboundBandwidth];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RevokeFlowEntitlementResponse {
@@ -6548,19 +6797,29 @@ class RevokeFlowEntitlementResponse {
   }
 }
 
-enum ScanMode {
-  progressive('progressive'),
-  interlace('interlace'),
-  progressiveSegmentedFrame('progressive-segmented-frame'),
-  ;
+class ScanMode {
+  static const progressive = ScanMode._('progressive');
+  static const interlace = ScanMode._('interlace');
+  static const progressiveSegmentedFrame =
+      ScanMode._('progressive-segmented-frame');
 
   final String value;
 
-  const ScanMode(this.value);
+  const ScanMode._(this.value);
 
-  static ScanMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScanMode'));
+  static const values = [progressive, interlace, progressiveSegmentedFrame];
+
+  static ScanMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScanMode._(value));
+
+  @override
+  bool operator ==(other) => other is ScanMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The source configuration for cloud flows receiving a stream from a bridge.
@@ -6906,18 +7165,27 @@ class SourcePriority {
   }
 }
 
-enum SourceType {
-  owned('OWNED'),
-  entitled('ENTITLED'),
-  ;
+class SourceType {
+  static const owned = SourceType._('OWNED');
+  static const entitled = SourceType._('ENTITLED');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [owned, entitled];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartFlowResponse {
@@ -6949,37 +7217,63 @@ class StartFlowResponse {
   }
 }
 
-enum State {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class State {
+  static const enabled = State._('ENABLED');
+  static const disabled = State._('DISABLED');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [enabled, disabled];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  standby('STANDBY'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  error('ERROR'),
-  ;
+class Status {
+  static const standby = Status._('STANDBY');
+  static const active = Status._('ACTIVE');
+  static const updating = Status._('UPDATING');
+  static const deleting = Status._('DELETING');
+  static const starting = Status._('STARTING');
+  static const stopping = Status._('STOPPING');
+  static const error = Status._('ERROR');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    standby,
+    active,
+    updating,
+    deleting,
+    starting,
+    stopping,
+    error
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopFlowResponse {
@@ -7011,25 +7305,44 @@ class StopFlowResponse {
   }
 }
 
-enum Tcs {
-  sdr('SDR'),
-  pq('PQ'),
-  hlg('HLG'),
-  linear('LINEAR'),
-  bt2100linpq('BT2100LINPQ'),
-  bt2100linhlg('BT2100LINHLG'),
-  st2065_1('ST2065-1'),
-  st428_1('ST428-1'),
-  density('DENSITY'),
-  ;
+class Tcs {
+  static const sdr = Tcs._('SDR');
+  static const pq = Tcs._('PQ');
+  static const hlg = Tcs._('HLG');
+  static const linear = Tcs._('LINEAR');
+  static const bt2100linpq = Tcs._('BT2100LINPQ');
+  static const bt2100linhlg = Tcs._('BT2100LINHLG');
+  static const st2065_1 = Tcs._('ST2065-1');
+  static const st428_1 = Tcs._('ST428-1');
+  static const density = Tcs._('DENSITY');
 
   final String value;
 
-  const Tcs(this.value);
+  const Tcs._(this.value);
+
+  static const values = [
+    sdr,
+    pq,
+    hlg,
+    linear,
+    bt2100linpq,
+    bt2100linhlg,
+    st2065_1,
+    st428_1,
+    density
+  ];
 
   static Tcs fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tcs'));
+      values.firstWhere((e) => e.value == value, orElse: () => Tcs._(value));
+
+  @override
+  bool operator ==(other) => other is Tcs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the thumbnail, including thumbnail base64 string, timecode
@@ -7087,19 +7400,28 @@ class ThumbnailDetails {
   }
 }
 
-enum ThumbnailState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ThumbnailState {
+  static const enabled = ThumbnailState._('ENABLED');
+  static const disabled = ThumbnailState._('DISABLED');
 
   final String value;
 
-  const ThumbnailState(this.value);
+  const ThumbnailState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ThumbnailState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThumbnailState'));
+          orElse: () => ThumbnailState._(value));
+
+  @override
+  bool operator ==(other) => other is ThumbnailState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Attributes related to the transport stream that are used in a source or
@@ -7173,7 +7495,7 @@ class Transport {
 
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       cidrAllowList: (json['cidrAllowList'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8027,7 +8349,7 @@ class VpcInterface {
           .map((e) => e as String)
           .toList(),
       networkInterfaceType: NetworkInterfaceType.fromString(
-          (json['networkInterfaceType'] as String)),
+          (json['networkInterfaceType'] as String?) ?? ''),
       roleArn: (json['roleArn'] as String?) ?? '',
       securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls

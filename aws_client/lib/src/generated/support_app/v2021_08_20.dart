@@ -527,18 +527,27 @@ class SupportApp {
   }
 }
 
-enum AccountType {
-  management('management'),
-  member('member'),
-  ;
+class AccountType {
+  static const management = AccountType._('management');
+  static const member = AccountType._('member');
 
   final String value;
 
-  const AccountType(this.value);
+  const AccountType._(this.value);
 
-  static AccountType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AccountType'));
+  static const values = [management, member];
+
+  static AccountType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountType._(value));
+
+  @override
+  bool operator ==(other) => other is AccountType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateSlackChannelConfigurationResult {
@@ -687,20 +696,30 @@ class ListSlackWorkspaceConfigurationsResult {
   }
 }
 
-enum NotificationSeverityLevel {
-  none('none'),
-  all('all'),
-  high('high'),
-  ;
+class NotificationSeverityLevel {
+  static const none = NotificationSeverityLevel._('none');
+  static const all = NotificationSeverityLevel._('all');
+  static const high = NotificationSeverityLevel._('high');
 
   final String value;
 
-  const NotificationSeverityLevel(this.value);
+  const NotificationSeverityLevel._(this.value);
+
+  static const values = [none, all, high];
 
   static NotificationSeverityLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationSeverityLevel'));
+          orElse: () => NotificationSeverityLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationSeverityLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutAccountAliasResult {

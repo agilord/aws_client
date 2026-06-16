@@ -4583,21 +4583,30 @@ class StructureListMember {
   }
 }
 
-enum FooEnum {
-  foo('Foo'),
-  baz('Baz'),
-  bar('Bar'),
-  $1('1'),
-  $0('0'),
-  ;
+class FooEnum {
+  static const foo = FooEnum._('Foo');
+  static const baz = FooEnum._('Baz');
+  static const bar = FooEnum._('Bar');
+  static const $1 = FooEnum._('1');
+  static const $0 = FooEnum._('0');
 
   final String value;
 
-  const FooEnum(this.value);
+  const FooEnum._(this.value);
 
-  static FooEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum FooEnum'));
+  static const values = [foo, baz, bar, $1, $0];
+
+  static FooEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FooEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FooEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class XmlAttributesPayloadResponse {
@@ -5006,17 +5015,26 @@ class NestedPayload {
   }
 }
 
-enum StringEnum {
-  enumvalue('enumvalue'),
-  ;
+class StringEnum {
+  static const enumvalue = StringEnum._('enumvalue');
 
   final String value;
 
-  const StringEnum(this.value);
+  const StringEnum._(this.value);
 
-  static StringEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StringEnum'));
+  static const values = [enumvalue];
+
+  static StringEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StringEnum._(value));
+
+  @override
+  bool operator ==(other) => other is StringEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ComplexError extends _s.GenericAwsException {

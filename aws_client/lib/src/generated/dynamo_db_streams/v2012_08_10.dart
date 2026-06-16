@@ -598,7 +598,7 @@ class KeySchemaElement {
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: (json['AttributeName'] as String?) ?? '',
-      keyType: KeyType.fromString((json['KeyType'] as String)),
+      keyType: KeyType.fromString((json['KeyType'] as String?) ?? ''),
     );
   }
 
@@ -612,18 +612,27 @@ class KeySchemaElement {
   }
 }
 
-enum KeyType {
-  hash('HASH'),
-  range('RANGE'),
-  ;
+class KeyType {
+  static const hash = KeyType._('HASH');
+  static const range = KeyType._('RANGE');
 
   final String value;
 
-  const KeyType(this.value);
+  const KeyType._(this.value);
 
-  static KeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeyType'));
+  static const values = [hash, range];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>ListStreams</code> operation.
@@ -671,20 +680,29 @@ class ListStreamsOutput {
   }
 }
 
-enum OperationType {
-  insert('INSERT'),
-  modify('MODIFY'),
-  remove('REMOVE'),
-  ;
+class OperationType {
+  static const insert = OperationType._('INSERT');
+  static const modify = OperationType._('MODIFY');
+  static const remove = OperationType._('REMOVE');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [insert, modify, remove];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A description of a unique event within a stream.
@@ -868,21 +886,36 @@ class Shard {
   }
 }
 
-enum ShardIteratorType {
-  trimHorizon('TRIM_HORIZON'),
-  latest('LATEST'),
-  atSequenceNumber('AT_SEQUENCE_NUMBER'),
-  afterSequenceNumber('AFTER_SEQUENCE_NUMBER'),
-  ;
+class ShardIteratorType {
+  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
+  static const latest = ShardIteratorType._('LATEST');
+  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber =
+      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
 
   final String value;
 
-  const ShardIteratorType(this.value);
+  const ShardIteratorType._(this.value);
+
+  static const values = [
+    trimHorizon,
+    latest,
+    atSequenceNumber,
+    afterSequenceNumber
+  ];
 
   static ShardIteratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShardIteratorType'));
+          orElse: () => ShardIteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardIteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents all of the data describing a particular stream.
@@ -1187,38 +1220,55 @@ class StreamRecord {
   }
 }
 
-enum StreamStatus {
-  enabling('ENABLING'),
-  enabled('ENABLED'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  ;
+class StreamStatus {
+  static const enabling = StreamStatus._('ENABLING');
+  static const enabled = StreamStatus._('ENABLED');
+  static const disabling = StreamStatus._('DISABLING');
+  static const disabled = StreamStatus._('DISABLED');
 
   final String value;
 
-  const StreamStatus(this.value);
+  const StreamStatus._(this.value);
 
-  static StreamStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamStatus'));
+  static const values = [enabling, enabled, disabling, disabled];
+
+  static StreamStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamViewType {
-  newImage('NEW_IMAGE'),
-  oldImage('OLD_IMAGE'),
-  newAndOldImages('NEW_AND_OLD_IMAGES'),
-  keysOnly('KEYS_ONLY'),
-  ;
+class StreamViewType {
+  static const newImage = StreamViewType._('NEW_IMAGE');
+  static const oldImage = StreamViewType._('OLD_IMAGE');
+  static const newAndOldImages = StreamViewType._('NEW_AND_OLD_IMAGES');
+  static const keysOnly = StreamViewType._('KEYS_ONLY');
 
   final String value;
 
-  const StreamViewType(this.value);
+  const StreamViewType._(this.value);
+
+  static const values = [newImage, oldImage, newAndOldImages, keysOnly];
 
   static StreamViewType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamViewType'));
+          orElse: () => StreamViewType._(value));
+
+  @override
+  bool operator ==(other) => other is StreamViewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExpiredIteratorException extends _s.GenericAwsException {

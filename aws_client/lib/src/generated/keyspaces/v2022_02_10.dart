@@ -1611,7 +1611,7 @@ class CapacitySpecificationSummary {
   factory CapacitySpecificationSummary.fromJson(Map<String, dynamic> json) {
     return CapacitySpecificationSummary(
       throughputMode:
-          ThroughputMode.fromString((json['throughputMode'] as String)),
+          ThroughputMode.fromString((json['throughputMode'] as String?) ?? ''),
       lastUpdateToPayPerRequestTimestamp:
           timeStampFromJson(json['lastUpdateToPayPerRequestTimestamp']),
       readCapacityUnits: json['readCapacityUnits'] as int?,
@@ -1652,7 +1652,8 @@ class ClientSideTimestamps {
 
   factory ClientSideTimestamps.fromJson(Map<String, dynamic> json) {
     return ClientSideTimestamps(
-      status: ClientSideTimestampsStatus.fromString((json['status'] as String)),
+      status: ClientSideTimestampsStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -1664,18 +1665,28 @@ class ClientSideTimestamps {
   }
 }
 
-enum ClientSideTimestampsStatus {
-  enabled('ENABLED'),
-  ;
+class ClientSideTimestampsStatus {
+  static const enabled = ClientSideTimestampsStatus._('ENABLED');
 
   final String value;
 
-  const ClientSideTimestampsStatus(this.value);
+  const ClientSideTimestampsStatus._(this.value);
+
+  static const values = [enabled];
 
   static ClientSideTimestampsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientSideTimestampsStatus'));
+          orElse: () => ClientSideTimestampsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientSideTimestampsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The optional clustering column portion of your primary key determines how
@@ -1696,7 +1707,7 @@ class ClusteringKey {
   factory ClusteringKey.fromJson(Map<String, dynamic> json) {
     return ClusteringKey(
       name: (json['name'] as String?) ?? '',
-      orderBy: SortOrder.fromString((json['orderBy'] as String)),
+      orderBy: SortOrder.fromString((json['orderBy'] as String?) ?? ''),
     );
   }
 
@@ -1891,7 +1902,7 @@ class EncryptionSpecification {
 
   factory EncryptionSpecification.fromJson(Map<String, dynamic> json) {
     return EncryptionSpecification(
-      type: EncryptionType.fromString((json['type'] as String)),
+      type: EncryptionType.fromString((json['type'] as String?) ?? ''),
       kmsKeyIdentifier: json['kmsKeyIdentifier'] as String?,
     );
   }
@@ -1906,19 +1917,29 @@ class EncryptionSpecification {
   }
 }
 
-enum EncryptionType {
-  customerManagedKmsKey('CUSTOMER_MANAGED_KMS_KEY'),
-  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
-  ;
+class EncryptionType {
+  static const customerManagedKmsKey =
+      EncryptionType._('CUSTOMER_MANAGED_KMS_KEY');
+  static const awsOwnedKmsKey = EncryptionType._('AWS_OWNED_KMS_KEY');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [customerManagedKmsKey, awsOwnedKmsKey];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetKeyspaceResponse {
@@ -1947,7 +1968,7 @@ class GetKeyspaceResponse {
     return GetKeyspaceResponse(
       keyspaceName: (json['keyspaceName'] as String?) ?? '',
       replicationStrategy:
-          Rs.fromString((json['replicationStrategy'] as String)),
+          Rs.fromString((json['replicationStrategy'] as String?) ?? ''),
       resourceArn: (json['resourceArn'] as String?) ?? '',
       replicationRegions: (json['replicationRegions'] as List?)
           ?.nonNulls
@@ -2212,7 +2233,7 @@ class KeyspaceSummary {
     return KeyspaceSummary(
       keyspaceName: (json['keyspaceName'] as String?) ?? '',
       replicationStrategy:
-          Rs.fromString((json['replicationStrategy'] as String)),
+          Rs.fromString((json['replicationStrategy'] as String?) ?? ''),
       resourceArn: (json['resourceArn'] as String?) ?? '',
       replicationRegions: (json['replicationRegions'] as List?)
           ?.nonNulls
@@ -2391,19 +2412,29 @@ class PointInTimeRecovery {
   }
 }
 
-enum PointInTimeRecoveryStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class PointInTimeRecoveryStatus {
+  static const enabled = PointInTimeRecoveryStatus._('ENABLED');
+  static const disabled = PointInTimeRecoveryStatus._('DISABLED');
 
   final String value;
 
-  const PointInTimeRecoveryStatus(this.value);
+  const PointInTimeRecoveryStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PointInTimeRecoveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PointInTimeRecoveryStatus'));
+          orElse: () => PointInTimeRecoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PointInTimeRecoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The point-in-time recovery status of the specified table.
@@ -2423,7 +2454,8 @@ class PointInTimeRecoverySummary {
 
   factory PointInTimeRecoverySummary.fromJson(Map<String, dynamic> json) {
     return PointInTimeRecoverySummary(
-      status: PointInTimeRecoveryStatus.fromString((json['status'] as String)),
+      status: PointInTimeRecoveryStatus.fromString(
+          (json['status'] as String?) ?? ''),
       earliestRestorableTimestamp:
           timeStampFromJson(json['earliestRestorableTimestamp']),
     );
@@ -2692,18 +2724,27 @@ class SchemaDefinition {
   }
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The static columns of the table. Static columns store values that are shared
@@ -2730,23 +2771,41 @@ class StaticColumn {
   }
 }
 
-enum TableStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  restoring('RESTORING'),
-  inaccessibleEncryptionCredentials('INACCESSIBLE_ENCRYPTION_CREDENTIALS'),
-  ;
+class TableStatus {
+  static const active = TableStatus._('ACTIVE');
+  static const creating = TableStatus._('CREATING');
+  static const updating = TableStatus._('UPDATING');
+  static const deleting = TableStatus._('DELETING');
+  static const deleted = TableStatus._('DELETED');
+  static const restoring = TableStatus._('RESTORING');
+  static const inaccessibleEncryptionCredentials =
+      TableStatus._('INACCESSIBLE_ENCRYPTION_CREDENTIALS');
 
   final String value;
 
-  const TableStatus(this.value);
+  const TableStatus._(this.value);
 
-  static TableStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TableStatus'));
+  static const values = [
+    active,
+    creating,
+    updating,
+    deleting,
+    deleted,
+    restoring,
+    inaccessibleEncryptionCredentials
+  ];
+
+  static TableStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns the name of the specified table, the keyspace it is stored in, and
@@ -2907,19 +2966,28 @@ class TargetTrackingScalingPolicyConfiguration {
   }
 }
 
-enum ThroughputMode {
-  payPerRequest('PAY_PER_REQUEST'),
-  provisioned('PROVISIONED'),
-  ;
+class ThroughputMode {
+  static const payPerRequest = ThroughputMode._('PAY_PER_REQUEST');
+  static const provisioned = ThroughputMode._('PROVISIONED');
 
   final String value;
 
-  const ThroughputMode(this.value);
+  const ThroughputMode._(this.value);
+
+  static const values = [payPerRequest, provisioned];
 
   static ThroughputMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThroughputMode'));
+          orElse: () => ThroughputMode._(value));
+
+  @override
+  bool operator ==(other) => other is ThroughputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Enable custom Time to Live (TTL) settings for rows and columns without
@@ -2939,7 +3007,7 @@ class TimeToLive {
 
   factory TimeToLive.fromJson(Map<String, dynamic> json) {
     return TimeToLive(
-      status: TimeToLiveStatus.fromString((json['status'] as String)),
+      status: TimeToLiveStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -2951,18 +3019,27 @@ class TimeToLive {
   }
 }
 
-enum TimeToLiveStatus {
-  enabled('ENABLED'),
-  ;
+class TimeToLiveStatus {
+  static const enabled = TimeToLiveStatus._('ENABLED');
 
   final String value;
 
-  const TimeToLiveStatus(this.value);
+  const TimeToLiveStatus._(this.value);
+
+  static const values = [enabled];
 
   static TimeToLiveStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeToLiveStatus'));
+          orElse: () => TimeToLiveStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TimeToLiveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -2999,18 +3076,27 @@ class UpdateTableResponse {
   }
 }
 
-enum Rs {
-  singleRegion('SINGLE_REGION'),
-  multiRegion('MULTI_REGION'),
-  ;
+class Rs {
+  static const singleRegion = Rs._('SINGLE_REGION');
+  static const multiRegion = Rs._('MULTI_REGION');
 
   final String value;
 
-  const Rs(this.value);
+  const Rs._(this.value);
+
+  static const values = [singleRegion, multiRegion];
 
   static Rs fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Rs'));
+      values.firstWhere((e) => e.value == value, orElse: () => Rs._(value));
+
+  @override
+  bool operator ==(other) => other is Rs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

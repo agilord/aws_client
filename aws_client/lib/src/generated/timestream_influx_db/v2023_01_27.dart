@@ -886,25 +886,43 @@ class DbInstanceSummary {
   }
 }
 
-enum DbInstanceType {
-  dbInfluxMedium('db.influx.medium'),
-  dbInfluxLarge('db.influx.large'),
-  dbInfluxXlarge('db.influx.xlarge'),
-  dbInflux_2xlarge('db.influx.2xlarge'),
-  dbInflux_4xlarge('db.influx.4xlarge'),
-  dbInflux_8xlarge('db.influx.8xlarge'),
-  dbInflux_12xlarge('db.influx.12xlarge'),
-  dbInflux_16xlarge('db.influx.16xlarge'),
-  ;
+class DbInstanceType {
+  static const dbInfluxMedium = DbInstanceType._('db.influx.medium');
+  static const dbInfluxLarge = DbInstanceType._('db.influx.large');
+  static const dbInfluxXlarge = DbInstanceType._('db.influx.xlarge');
+  static const dbInflux_2xlarge = DbInstanceType._('db.influx.2xlarge');
+  static const dbInflux_4xlarge = DbInstanceType._('db.influx.4xlarge');
+  static const dbInflux_8xlarge = DbInstanceType._('db.influx.8xlarge');
+  static const dbInflux_12xlarge = DbInstanceType._('db.influx.12xlarge');
+  static const dbInflux_16xlarge = DbInstanceType._('db.influx.16xlarge');
 
   final String value;
 
-  const DbInstanceType(this.value);
+  const DbInstanceType._(this.value);
+
+  static const values = [
+    dbInfluxMedium,
+    dbInfluxLarge,
+    dbInfluxXlarge,
+    dbInflux_2xlarge,
+    dbInflux_4xlarge,
+    dbInflux_8xlarge,
+    dbInflux_12xlarge,
+    dbInflux_16xlarge
+  ];
 
   static DbInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DbInstanceType'));
+          orElse: () => DbInstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is DbInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of a DB parameter group.
@@ -951,20 +969,33 @@ class DbParameterGroupSummary {
   }
 }
 
-enum DbStorageType {
-  influxIOIncludedT1('InfluxIOIncludedT1'),
-  influxIOIncludedT2('InfluxIOIncludedT2'),
-  influxIOIncludedT3('InfluxIOIncludedT3'),
-  ;
+class DbStorageType {
+  static const influxIOIncludedT1 = DbStorageType._('InfluxIOIncludedT1');
+  static const influxIOIncludedT2 = DbStorageType._('InfluxIOIncludedT2');
+  static const influxIOIncludedT3 = DbStorageType._('InfluxIOIncludedT3');
 
   final String value;
 
-  const DbStorageType(this.value);
+  const DbStorageType._(this.value);
+
+  static const values = [
+    influxIOIncludedT1,
+    influxIOIncludedT2,
+    influxIOIncludedT3
+  ];
 
   static DbStorageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DbStorageType'));
+          orElse: () => DbStorageType._(value));
+
+  @override
+  bool operator ==(other) => other is DbStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDbInstanceOutput {
@@ -1126,19 +1157,28 @@ class DeleteDbInstanceOutput {
   }
 }
 
-enum DeploymentType {
-  singleAz('SINGLE_AZ'),
-  withMultiazStandby('WITH_MULTIAZ_STANDBY'),
-  ;
+class DeploymentType {
+  static const singleAz = DeploymentType._('SINGLE_AZ');
+  static const withMultiazStandby = DeploymentType._('WITH_MULTIAZ_STANDBY');
 
   final String value;
 
-  const DeploymentType(this.value);
+  const DeploymentType._(this.value);
+
+  static const values = [singleAz, withMultiazStandby];
 
   static DeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentType'));
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDbInstanceOutput {
@@ -1558,19 +1598,28 @@ class LogDeliveryConfiguration {
   }
 }
 
-enum LogLevel {
-  debug('debug'),
-  info('info'),
-  error('error'),
-  ;
+class LogLevel {
+  static const debug = LogLevel._('debug');
+  static const info = LogLevel._('info');
+  static const error = LogLevel._('error');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [debug, info, error];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters that comprise the parameter group.
@@ -1630,39 +1679,67 @@ class S3Configuration {
   }
 }
 
-enum Status {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  modifying('MODIFYING'),
-  updating('UPDATING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  updatingDeploymentType('UPDATING_DEPLOYMENT_TYPE'),
-  updatingInstanceType('UPDATING_INSTANCE_TYPE'),
-  ;
+class Status {
+  static const creating = Status._('CREATING');
+  static const available = Status._('AVAILABLE');
+  static const deleting = Status._('DELETING');
+  static const modifying = Status._('MODIFYING');
+  static const updating = Status._('UPDATING');
+  static const deleted = Status._('DELETED');
+  static const failed = Status._('FAILED');
+  static const updatingDeploymentType = Status._('UPDATING_DEPLOYMENT_TYPE');
+  static const updatingInstanceType = Status._('UPDATING_INSTANCE_TYPE');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    creating,
+    available,
+    deleting,
+    modifying,
+    updating,
+    deleted,
+    failed,
+    updatingDeploymentType,
+    updatingInstanceType
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TracingType {
-  log('log'),
-  jaeger('jaeger'),
-  ;
+class TracingType {
+  static const log = TracingType._('log');
+  static const jaeger = TracingType._('jaeger');
 
   final String value;
 
-  const TracingType(this.value);
+  const TracingType._(this.value);
 
-  static TracingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TracingType'));
+  static const values = [log, jaeger];
+
+  static TracingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TracingType._(value));
+
+  @override
+  bool operator ==(other) => other is TracingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateDbInstanceOutput {

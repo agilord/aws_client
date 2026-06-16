@@ -1283,23 +1283,39 @@ class ProfileResourceAssociation {
   }
 }
 
-enum ProfileStatus {
-  complete('COMPLETE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  creating('CREATING'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  ;
+class ProfileStatus {
+  static const complete = ProfileStatus._('COMPLETE');
+  static const deleting = ProfileStatus._('DELETING');
+  static const updating = ProfileStatus._('UPDATING');
+  static const creating = ProfileStatus._('CREATING');
+  static const deleted = ProfileStatus._('DELETED');
+  static const failed = ProfileStatus._('FAILED');
 
   final String value;
 
-  const ProfileStatus(this.value);
+  const ProfileStatus._(this.value);
+
+  static const values = [
+    complete,
+    deleting,
+    updating,
+    creating,
+    deleted,
+    failed
+  ];
 
   static ProfileStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProfileStatus'));
+          orElse: () => ProfileStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a Route 53 Profile.
@@ -1347,19 +1363,28 @@ class ProfileSummary {
   }
 }
 
-enum ShareStatus {
-  notShared('NOT_SHARED'),
-  sharedWithMe('SHARED_WITH_ME'),
-  sharedByMe('SHARED_BY_ME'),
-  ;
+class ShareStatus {
+  static const notShared = ShareStatus._('NOT_SHARED');
+  static const sharedWithMe = ShareStatus._('SHARED_WITH_ME');
+  static const sharedByMe = ShareStatus._('SHARED_BY_ME');
 
   final String value;
 
-  const ShareStatus(this.value);
+  const ShareStatus._(this.value);
 
-  static ShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
+  static const values = [notShared, sharedWithMe, sharedByMe];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tag for the Profile.

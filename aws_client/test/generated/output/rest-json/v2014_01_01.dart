@@ -115,22 +115,31 @@ class OutputShape {
   }
 }
 
-enum RESTJSONEnumType {
-  foo('foo'),
-  bar('bar'),
-  baz('baz'),
-  $0('0'),
-  $1('1'),
-  ;
+class RESTJSONEnumType {
+  static const foo = RESTJSONEnumType._('foo');
+  static const bar = RESTJSONEnumType._('bar');
+  static const baz = RESTJSONEnumType._('baz');
+  static const $0 = RESTJSONEnumType._('0');
+  static const $1 = RESTJSONEnumType._('1');
 
   final String value;
 
-  const RESTJSONEnumType(this.value);
+  const RESTJSONEnumType._(this.value);
+
+  static const values = [foo, bar, baz, $0, $1];
 
   static RESTJSONEnumType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RESTJSONEnumType'));
+          orElse: () => RESTJSONEnumType._(value));
+
+  @override
+  bool operator ==(other) => other is RESTJSONEnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

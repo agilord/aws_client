@@ -1966,18 +1966,27 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
-enum ApplyMethod {
-  immediate('immediate'),
-  pendingReboot('pending-reboot'),
-  ;
+class ApplyMethod {
+  static const immediate = ApplyMethod._('immediate');
+  static const pendingReboot = ApplyMethod._('pending-reboot');
 
   final String value;
 
-  const ApplyMethod(this.value);
+  const ApplyMethod._(this.value);
 
-  static ApplyMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ApplyMethod'));
+  static const values = [immediate, pendingReboot];
+
+  static ApplyMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApplyMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ApplyMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AuthorizeDBSecurityGroupIngressResult {
@@ -4862,20 +4871,34 @@ class RevokeDBSecurityGroupIngressResult {
   }
 }
 
-enum SourceType {
-  dbInstance('db-instance'),
-  dbParameterGroup('db-parameter-group'),
-  dbSecurityGroup('db-security-group'),
-  dbSnapshot('db-snapshot'),
-  ;
+class SourceType {
+  static const dbInstance = SourceType._('db-instance');
+  static const dbParameterGroup = SourceType._('db-parameter-group');
+  static const dbSecurityGroup = SourceType._('db-security-group');
+  static const dbSnapshot = SourceType._('db-snapshot');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [
+    dbInstance,
+    dbParameterGroup,
+    dbSecurityGroup,
+    dbSnapshot
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Subnet {

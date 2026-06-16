@@ -6611,50 +6611,79 @@ class ApplyPendingMaintenanceActionResponse {
   }
 }
 
-enum AssessmentReportType {
-  pdf('pdf'),
-  csv('csv'),
-  ;
+class AssessmentReportType {
+  static const pdf = AssessmentReportType._('pdf');
+  static const csv = AssessmentReportType._('csv');
 
   final String value;
 
-  const AssessmentReportType(this.value);
+  const AssessmentReportType._(this.value);
 
-  static AssessmentReportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssessmentReportType'));
+  static const values = [pdf, csv];
+
+  static AssessmentReportType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentReportType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthMechanismValue {
-  $default('default'),
-  mongodbCr('mongodb_cr'),
-  scramSha_1('scram_sha_1'),
-  ;
+class AuthMechanismValue {
+  static const $default = AuthMechanismValue._('default');
+  static const mongodbCr = AuthMechanismValue._('mongodb_cr');
+  static const scramSha_1 = AuthMechanismValue._('scram_sha_1');
 
   final String value;
 
-  const AuthMechanismValue(this.value);
+  const AuthMechanismValue._(this.value);
 
-  static AuthMechanismValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthMechanismValue'));
+  static const values = [$default, mongodbCr, scramSha_1];
+
+  static AuthMechanismValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthMechanismValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthMechanismValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthTypeValue {
-  no('no'),
-  password('password'),
-  ;
+class AuthTypeValue {
+  static const no = AuthTypeValue._('no');
+  static const password = AuthTypeValue._('password');
 
   final String value;
 
-  const AuthTypeValue(this.value);
+  const AuthTypeValue._(this.value);
+
+  static const values = [no, password];
 
   static AuthTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthTypeValue'));
+          orElse: () => AuthTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is AuthTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name of an Availability Zone for use during database migration.
@@ -6782,25 +6811,48 @@ class CancelReplicationTaskAssessmentRunResponse {
   }
 }
 
-enum CannedAclForObjectsValue {
-  none('none'),
-  private('private'),
-  publicRead('public-read'),
-  publicReadWrite('public-read-write'),
-  authenticatedRead('authenticated-read'),
-  awsExecRead('aws-exec-read'),
-  bucketOwnerRead('bucket-owner-read'),
-  bucketOwnerFullControl('bucket-owner-full-control'),
-  ;
+class CannedAclForObjectsValue {
+  static const none = CannedAclForObjectsValue._('none');
+  static const private = CannedAclForObjectsValue._('private');
+  static const publicRead = CannedAclForObjectsValue._('public-read');
+  static const publicReadWrite =
+      CannedAclForObjectsValue._('public-read-write');
+  static const authenticatedRead =
+      CannedAclForObjectsValue._('authenticated-read');
+  static const awsExecRead = CannedAclForObjectsValue._('aws-exec-read');
+  static const bucketOwnerRead =
+      CannedAclForObjectsValue._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      CannedAclForObjectsValue._('bucket-owner-full-control');
 
   final String value;
 
-  const CannedAclForObjectsValue(this.value);
+  const CannedAclForObjectsValue._(this.value);
+
+  static const values = [
+    none,
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead,
+    awsExecRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
+  ];
 
   static CannedAclForObjectsValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CannedAclForObjectsValue'));
+          orElse: () => CannedAclForObjectsValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CannedAclForObjectsValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SSL certificate that can be used to encrypt connections between the
@@ -6900,20 +6952,30 @@ class Certificate {
   }
 }
 
-enum CharLengthSemantics {
-  $default('default'),
-  char('char'),
-  byte('byte'),
-  ;
+class CharLengthSemantics {
+  static const $default = CharLengthSemantics._('default');
+  static const char = CharLengthSemantics._('char');
+  static const byte = CharLengthSemantics._('byte');
 
   final String value;
 
-  const CharLengthSemantics(this.value);
+  const CharLengthSemantics._(this.value);
 
-  static CharLengthSemantics fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CharLengthSemantics'));
+  static const values = [$default, char, byte];
+
+  static CharLengthSemantics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CharLengthSemantics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CharLengthSemantics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the last Fleet Advisor collector health check.
@@ -7120,34 +7182,53 @@ class CollectorShortInfoResponse {
   }
 }
 
-enum CollectorStatus {
-  unregistered('UNREGISTERED'),
-  active('ACTIVE'),
-  ;
+class CollectorStatus {
+  static const unregistered = CollectorStatus._('UNREGISTERED');
+  static const active = CollectorStatus._('ACTIVE');
 
   final String value;
 
-  const CollectorStatus(this.value);
+  const CollectorStatus._(this.value);
+
+  static const values = [unregistered, active];
 
   static CollectorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CollectorStatus'));
+          orElse: () => CollectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CollectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompressionTypeValue {
-  none('none'),
-  gzip('gzip'),
-  ;
+class CompressionTypeValue {
+  static const none = CompressionTypeValue._('none');
+  static const gzip = CompressionTypeValue._('gzip');
 
   final String value;
 
-  const CompressionTypeValue(this.value);
+  const CompressionTypeValue._(this.value);
 
-  static CompressionTypeValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CompressionTypeValue'));
+  static const values = [none, gzip];
+
+  static CompressionTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompressionTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompressionTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration parameters for provisioning an DMS Serverless replication.
@@ -7651,19 +7732,28 @@ class CreateReplicationTaskResponse {
   }
 }
 
-enum DataFormatValue {
-  csv('csv'),
-  parquet('parquet'),
-  ;
+class DataFormatValue {
+  static const csv = DataFormatValue._('csv');
+  static const parquet = DataFormatValue._('parquet');
 
   final String value;
 
-  const DataFormatValue(this.value);
+  const DataFormatValue._(this.value);
+
+  static const values = [csv, parquet];
 
   static DataFormatValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataFormatValue'));
+          orElse: () => DataFormatValue._(value));
+
+  @override
+  bool operator ==(other) => other is DataFormatValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a data provider.
@@ -7975,19 +8065,27 @@ class DatabaseInstanceSoftwareDetailsResponse {
   }
 }
 
-enum DatabaseMode {
-  $default('default'),
-  babelfish('babelfish'),
-  ;
+class DatabaseMode {
+  static const $default = DatabaseMode._('default');
+  static const babelfish = DatabaseMode._('babelfish');
 
   final String value;
 
-  const DatabaseMode(this.value);
+  const DatabaseMode._(this.value);
 
-  static DatabaseMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatabaseMode'));
+  static const values = [$default, babelfish];
+
+  static DatabaseMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatabaseMode._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a database in a Fleet Advisor collector inventory.
@@ -8111,39 +8209,59 @@ class DatabaseShortInfoResponse {
   }
 }
 
-enum DatePartitionDelimiterValue {
-  slash('SLASH'),
-  underscore('UNDERSCORE'),
-  dash('DASH'),
-  none('NONE'),
-  ;
+class DatePartitionDelimiterValue {
+  static const slash = DatePartitionDelimiterValue._('SLASH');
+  static const underscore = DatePartitionDelimiterValue._('UNDERSCORE');
+  static const dash = DatePartitionDelimiterValue._('DASH');
+  static const none = DatePartitionDelimiterValue._('NONE');
 
   final String value;
 
-  const DatePartitionDelimiterValue(this.value);
+  const DatePartitionDelimiterValue._(this.value);
+
+  static const values = [slash, underscore, dash, none];
 
   static DatePartitionDelimiterValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatePartitionDelimiterValue'));
+          orElse: () => DatePartitionDelimiterValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatePartitionDelimiterValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatePartitionSequenceValue {
-  yyyymmdd('YYYYMMDD'),
-  yyyymmddhh('YYYYMMDDHH'),
-  yyyymm('YYYYMM'),
-  mmyyyydd('MMYYYYDD'),
-  ddmmyyyy('DDMMYYYY'),
-  ;
+class DatePartitionSequenceValue {
+  static const yyyymmdd = DatePartitionSequenceValue._('YYYYMMDD');
+  static const yyyymmddhh = DatePartitionSequenceValue._('YYYYMMDDHH');
+  static const yyyymm = DatePartitionSequenceValue._('YYYYMM');
+  static const mmyyyydd = DatePartitionSequenceValue._('MMYYYYDD');
+  static const ddmmyyyy = DatePartitionSequenceValue._('DDMMYYYY');
 
   final String value;
 
-  const DatePartitionSequenceValue(this.value);
+  const DatePartitionSequenceValue._(this.value);
+
+  static const values = [yyyymmdd, yyyymmddhh, yyyymm, mmyyyydd, ddmmyyyy];
 
   static DatePartitionSequenceValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatePartitionSequenceValue'));
+          orElse: () => DatePartitionSequenceValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatePartitionSequenceValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides error information about a schema conversion operation.
@@ -10146,21 +10264,30 @@ class DescribeTableStatisticsResponse {
   }
 }
 
-enum DmsSslModeValue {
-  none('none'),
-  require('require'),
-  verifyCa('verify-ca'),
-  verifyFull('verify-full'),
-  ;
+class DmsSslModeValue {
+  static const none = DmsSslModeValue._('none');
+  static const require = DmsSslModeValue._('require');
+  static const verifyCa = DmsSslModeValue._('verify-ca');
+  static const verifyFull = DmsSslModeValue._('verify-full');
 
   final String value;
 
-  const DmsSslModeValue(this.value);
+  const DmsSslModeValue._(this.value);
+
+  static const values = [none, require, verifyCa, verifyFull];
 
   static DmsSslModeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DmsSslModeValue'));
+          orElse: () => DmsSslModeValue._(value));
+
+  @override
+  bool operator ==(other) => other is DmsSslModeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The settings in JSON format for the DMS Transfer type source endpoint.
@@ -10500,35 +10627,54 @@ class ElasticsearchSettings {
   }
 }
 
-enum EncodingTypeValue {
-  plain('plain'),
-  plainDictionary('plain-dictionary'),
-  rleDictionary('rle-dictionary'),
-  ;
+class EncodingTypeValue {
+  static const plain = EncodingTypeValue._('plain');
+  static const plainDictionary = EncodingTypeValue._('plain-dictionary');
+  static const rleDictionary = EncodingTypeValue._('rle-dictionary');
 
   final String value;
 
-  const EncodingTypeValue(this.value);
+  const EncodingTypeValue._(this.value);
+
+  static const values = [plain, plainDictionary, rleDictionary];
 
   static EncodingTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncodingTypeValue'));
+          orElse: () => EncodingTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EncryptionModeValue {
-  sseS3('sse-s3'),
-  sseKms('sse-kms'),
-  ;
+class EncryptionModeValue {
+  static const sseS3 = EncryptionModeValue._('sse-s3');
+  static const sseKms = EncryptionModeValue._('sse-kms');
 
   final String value;
 
-  const EncryptionModeValue(this.value);
+  const EncryptionModeValue._(this.value);
 
-  static EncryptionModeValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EncryptionModeValue'));
+  static const values = [sseS3, sseKms];
+
+  static EncryptionModeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionModeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionModeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an endpoint of a database instance in response to operations such
@@ -11000,21 +11146,31 @@ class EndpointSetting {
   }
 }
 
-enum EndpointSettingTypeValue {
-  string('string'),
-  boolean('boolean'),
-  integer('integer'),
-  $enum('enum'),
-  ;
+class EndpointSettingTypeValue {
+  static const string = EndpointSettingTypeValue._('string');
+  static const boolean = EndpointSettingTypeValue._('boolean');
+  static const integer = EndpointSettingTypeValue._('integer');
+  static const $enum = EndpointSettingTypeValue._('enum');
 
   final String value;
 
-  const EndpointSettingTypeValue(this.value);
+  const EndpointSettingTypeValue._(this.value);
+
+  static const values = [string, boolean, integer, $enum];
 
   static EndpointSettingTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EndpointSettingTypeValue'));
+          orElse: () => EndpointSettingTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointSettingTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a replication instance version.
@@ -12047,36 +12203,57 @@ class InventoryData {
   }
 }
 
-enum KafkaSaslMechanism {
-  scramSha_512('scram-sha-512'),
-  plain('plain'),
-  ;
+class KafkaSaslMechanism {
+  static const scramSha_512 = KafkaSaslMechanism._('scram-sha-512');
+  static const plain = KafkaSaslMechanism._('plain');
 
   final String value;
 
-  const KafkaSaslMechanism(this.value);
+  const KafkaSaslMechanism._(this.value);
 
-  static KafkaSaslMechanism fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KafkaSaslMechanism'));
+  static const values = [scramSha_512, plain];
+
+  static KafkaSaslMechanism fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaSaslMechanism._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSaslMechanism && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KafkaSecurityProtocol {
-  plaintext('plaintext'),
-  sslAuthentication('ssl-authentication'),
-  sslEncryption('ssl-encryption'),
-  saslSsl('sasl-ssl'),
-  ;
+class KafkaSecurityProtocol {
+  static const plaintext = KafkaSecurityProtocol._('plaintext');
+  static const sslAuthentication =
+      KafkaSecurityProtocol._('ssl-authentication');
+  static const sslEncryption = KafkaSecurityProtocol._('ssl-encryption');
+  static const saslSsl = KafkaSecurityProtocol._('sasl-ssl');
 
   final String value;
 
-  const KafkaSecurityProtocol(this.value);
+  const KafkaSecurityProtocol._(this.value);
 
-  static KafkaSecurityProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KafkaSecurityProtocol'));
+  static const values = [plaintext, sslAuthentication, sslEncryption, saslSsl];
+
+  static KafkaSecurityProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaSecurityProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSecurityProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that describes an Apache Kafka endpoint. This
@@ -12304,19 +12481,29 @@ class KafkaSettings {
   }
 }
 
-enum KafkaSslEndpointIdentificationAlgorithm {
-  none('none'),
-  https('https'),
-  ;
+class KafkaSslEndpointIdentificationAlgorithm {
+  static const none = KafkaSslEndpointIdentificationAlgorithm._('none');
+  static const https = KafkaSslEndpointIdentificationAlgorithm._('https');
 
   final String value;
 
-  const KafkaSslEndpointIdentificationAlgorithm(this.value);
+  const KafkaSslEndpointIdentificationAlgorithm._(this.value);
+
+  static const values = [none, https];
 
   static KafkaSslEndpointIdentificationAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KafkaSslEndpointIdentificationAlgorithm'));
+          orElse: () => KafkaSslEndpointIdentificationAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSslEndpointIdentificationAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that describes an Amazon Kinesis Data Stream endpoint.
@@ -12543,20 +12730,30 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LongVarcharMappingType {
-  wstring('wstring'),
-  clob('clob'),
-  nclob('nclob'),
-  ;
+class LongVarcharMappingType {
+  static const wstring = LongVarcharMappingType._('wstring');
+  static const clob = LongVarcharMappingType._('clob');
+  static const nclob = LongVarcharMappingType._('nclob');
 
   final String value;
 
-  const LongVarcharMappingType(this.value);
+  const LongVarcharMappingType._(this.value);
+
+  static const values = [wstring, clob, nclob];
 
   static LongVarcharMappingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LongVarcharMappingType'));
+          orElse: () => LongVarcharMappingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LongVarcharMappingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a MariaDB data provider.
@@ -12604,19 +12801,29 @@ class MariaDbDataProviderSettings {
   }
 }
 
-enum MessageFormatValue {
-  json('json'),
-  jsonUnformatted('json-unformatted'),
-  ;
+class MessageFormatValue {
+  static const json = MessageFormatValue._('json');
+  static const jsonUnformatted = MessageFormatValue._('json-unformatted');
 
   final String value;
 
-  const MessageFormatValue(this.value);
+  const MessageFormatValue._(this.value);
 
-  static MessageFormatValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MessageFormatValue'));
+  static const values = [json, jsonUnformatted];
+
+  static MessageFormatValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageFormatValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageFormatValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a Microsoft SQL Server endpoint.
@@ -12992,20 +13199,30 @@ class MigrationProject {
   }
 }
 
-enum MigrationTypeValue {
-  fullLoad('full-load'),
-  cdc('cdc'),
-  fullLoadAndCdc('full-load-and-cdc'),
-  ;
+class MigrationTypeValue {
+  static const fullLoad = MigrationTypeValue._('full-load');
+  static const cdc = MigrationTypeValue._('cdc');
+  static const fullLoadAndCdc = MigrationTypeValue._('full-load-and-cdc');
 
   final String value;
 
-  const MigrationTypeValue(this.value);
+  const MigrationTypeValue._(this.value);
 
-  static MigrationTypeValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MigrationTypeValue'));
+  static const values = [fullLoad, cdc, fullLoadAndCdc];
+
+  static MigrationTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ModifyConversionConfigurationResponse {
@@ -13892,19 +14109,28 @@ class NeptuneSettings {
   }
 }
 
-enum NestingLevelValue {
-  none('none'),
-  one('one'),
-  ;
+class NestingLevelValue {
+  static const none = NestingLevelValue._('none');
+  static const one = NestingLevelValue._('one');
 
   final String value;
 
-  const NestingLevelValue(this.value);
+  const NestingLevelValue._(this.value);
+
+  static const values = [none, one];
 
   static NestingLevelValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NestingLevelValue'));
+          orElse: () => NestingLevelValue._(value));
+
+  @override
+  bool operator ==(other) => other is NestingLevelValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines an Oracle data provider.
@@ -14702,34 +14928,53 @@ class OrderableReplicationInstance {
   }
 }
 
-enum OriginTypeValue {
-  source('SOURCE'),
-  target('TARGET'),
-  ;
+class OriginTypeValue {
+  static const source = OriginTypeValue._('SOURCE');
+  static const target = OriginTypeValue._('TARGET');
 
   final String value;
 
-  const OriginTypeValue(this.value);
+  const OriginTypeValue._(this.value);
+
+  static const values = [source, target];
 
   static OriginTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OriginTypeValue'));
+          orElse: () => OriginTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is OriginTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParquetVersionValue {
-  parquet_1_0('parquet-1-0'),
-  parquet_2_0('parquet-2-0'),
-  ;
+class ParquetVersionValue {
+  static const parquet_1_0 = ParquetVersionValue._('parquet-1-0');
+  static const parquet_2_0 = ParquetVersionValue._('parquet-2-0');
 
   final String value;
 
-  const ParquetVersionValue(this.value);
+  const ParquetVersionValue._(this.value);
 
-  static ParquetVersionValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParquetVersionValue'));
+  static const values = [parquet_1_0, parquet_2_0];
+
+  static ParquetVersionValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetVersionValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetVersionValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a maintenance action pending for an DMS resource, including when
@@ -14807,20 +15052,29 @@ class PendingMaintenanceAction {
   }
 }
 
-enum PluginNameValue {
-  noPreference('no-preference'),
-  testDecoding('test-decoding'),
-  pglogical('pglogical'),
-  ;
+class PluginNameValue {
+  static const noPreference = PluginNameValue._('no-preference');
+  static const testDecoding = PluginNameValue._('test-decoding');
+  static const pglogical = PluginNameValue._('pglogical');
 
   final String value;
 
-  const PluginNameValue(this.value);
+  const PluginNameValue._(this.value);
+
+  static const values = [noPreference, testDecoding, pglogical];
 
   static PluginNameValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PluginNameValue'));
+          orElse: () => PluginNameValue._(value));
+
+  @override
+  bool operator ==(other) => other is PluginNameValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a PostgreSQL endpoint.
@@ -15600,20 +15854,30 @@ class RecommendationSettings {
   }
 }
 
-enum RedisAuthTypeValue {
-  none('none'),
-  authRole('auth-role'),
-  authToken('auth-token'),
-  ;
+class RedisAuthTypeValue {
+  static const none = RedisAuthTypeValue._('none');
+  static const authRole = RedisAuthTypeValue._('auth-role');
+  static const authToken = RedisAuthTypeValue._('auth-token');
 
   final String value;
 
-  const RedisAuthTypeValue(this.value);
+  const RedisAuthTypeValue._(this.value);
 
-  static RedisAuthTypeValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RedisAuthTypeValue'));
+  static const values = [none, authRole, authToken];
+
+  static RedisAuthTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedisAuthTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedisAuthTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a Redis target endpoint.
@@ -16180,50 +16444,79 @@ class RefreshSchemasStatus {
   }
 }
 
-enum RefreshSchemasStatusTypeValue {
-  successful('successful'),
-  failed('failed'),
-  refreshing('refreshing'),
-  ;
+class RefreshSchemasStatusTypeValue {
+  static const successful = RefreshSchemasStatusTypeValue._('successful');
+  static const failed = RefreshSchemasStatusTypeValue._('failed');
+  static const refreshing = RefreshSchemasStatusTypeValue._('refreshing');
 
   final String value;
 
-  const RefreshSchemasStatusTypeValue(this.value);
+  const RefreshSchemasStatusTypeValue._(this.value);
+
+  static const values = [successful, failed, refreshing];
 
   static RefreshSchemasStatusTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RefreshSchemasStatusTypeValue'));
+          orElse: () => RefreshSchemasStatusTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RefreshSchemasStatusTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReleaseStatusValues {
-  beta('beta'),
-  prod('prod'),
-  ;
+class ReleaseStatusValues {
+  static const beta = ReleaseStatusValues._('beta');
+  static const prod = ReleaseStatusValues._('prod');
 
   final String value;
 
-  const ReleaseStatusValues(this.value);
+  const ReleaseStatusValues._(this.value);
 
-  static ReleaseStatusValues fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReleaseStatusValues'));
+  static const values = [beta, prod];
+
+  static ReleaseStatusValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReleaseStatusValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReleaseStatusValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReloadOptionValue {
-  dataReload('data-reload'),
-  validateOnly('validate-only'),
-  ;
+class ReloadOptionValue {
+  static const dataReload = ReloadOptionValue._('data-reload');
+  static const validateOnly = ReloadOptionValue._('validate-only');
 
   final String value;
 
-  const ReloadOptionValue(this.value);
+  const ReloadOptionValue._(this.value);
+
+  static const values = [dataReload, validateOnly];
 
   static ReloadOptionValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReloadOptionValue'));
+          orElse: () => ReloadOptionValue._(value));
+
+  @override
+  bool operator ==(other) => other is ReloadOptionValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -16637,19 +16930,29 @@ class ReplicationConfig {
   }
 }
 
-enum ReplicationEndpointTypeValue {
-  source('source'),
-  target('target'),
-  ;
+class ReplicationEndpointTypeValue {
+  static const source = ReplicationEndpointTypeValue._('source');
+  static const target = ReplicationEndpointTypeValue._('target');
 
   final String value;
 
-  const ReplicationEndpointTypeValue(this.value);
+  const ReplicationEndpointTypeValue._(this.value);
+
+  static const values = [source, target];
 
   static ReplicationEndpointTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplicationEndpointTypeValue'));
+          orElse: () => ReplicationEndpointTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationEndpointTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information that defines a replication instance.
@@ -18924,20 +19227,36 @@ class SCApplicationAttributes {
   }
 }
 
-enum SafeguardPolicy {
-  relyOnSqlServerReplicationAgent('rely-on-sql-server-replication-agent'),
-  exclusiveAutomaticTruncation('exclusive-automatic-truncation'),
-  sharedAutomaticTruncation('shared-automatic-truncation'),
-  ;
+class SafeguardPolicy {
+  static const relyOnSqlServerReplicationAgent =
+      SafeguardPolicy._('rely-on-sql-server-replication-agent');
+  static const exclusiveAutomaticTruncation =
+      SafeguardPolicy._('exclusive-automatic-truncation');
+  static const sharedAutomaticTruncation =
+      SafeguardPolicy._('shared-automatic-truncation');
 
   final String value;
 
-  const SafeguardPolicy(this.value);
+  const SafeguardPolicy._(this.value);
+
+  static const values = [
+    relyOnSqlServerReplicationAgent,
+    exclusiveAutomaticTruncation,
+    sharedAutomaticTruncation
+  ];
 
   static SafeguardPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SafeguardPolicy'));
+          orElse: () => SafeguardPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is SafeguardPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about a schema conversion action.
@@ -19172,32 +19491,51 @@ class ServerShortInfoResponse {
   }
 }
 
-enum SourceType {
-  replicationInstance('replication-instance'),
-  ;
+class SourceType {
+  static const replicationInstance = SourceType._('replication-instance');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [replicationInstance];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SslSecurityProtocolValue {
-  plaintext('plaintext'),
-  sslEncryption('ssl-encryption'),
-  ;
+class SslSecurityProtocolValue {
+  static const plaintext = SslSecurityProtocolValue._('plaintext');
+  static const sslEncryption = SslSecurityProtocolValue._('ssl-encryption');
 
   final String value;
 
-  const SslSecurityProtocolValue(this.value);
+  const SslSecurityProtocolValue._(this.value);
+
+  static const values = [plaintext, sslEncryption];
 
   static SslSecurityProtocolValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SslSecurityProtocolValue'));
+          orElse: () => SslSecurityProtocolValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SslSecurityProtocolValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartExtensionPackAssociationResponse {
@@ -19467,20 +19805,32 @@ class StartReplicationTaskResponse {
   }
 }
 
-enum StartReplicationTaskTypeValue {
-  startReplication('start-replication'),
-  resumeProcessing('resume-processing'),
-  reloadTarget('reload-target'),
-  ;
+class StartReplicationTaskTypeValue {
+  static const startReplication =
+      StartReplicationTaskTypeValue._('start-replication');
+  static const resumeProcessing =
+      StartReplicationTaskTypeValue._('resume-processing');
+  static const reloadTarget = StartReplicationTaskTypeValue._('reload-target');
 
   final String value;
 
-  const StartReplicationTaskTypeValue(this.value);
+  const StartReplicationTaskTypeValue._(this.value);
+
+  static const values = [startReplication, resumeProcessing, reloadTarget];
 
   static StartReplicationTaskTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StartReplicationTaskTypeValue'));
+          orElse: () => StartReplicationTaskTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartReplicationTaskTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopReplicationResponse {
@@ -20058,19 +20408,27 @@ class Tag {
   }
 }
 
-enum TargetDbType {
-  specificDatabase('specific-database'),
-  multipleDatabases('multiple-databases'),
-  ;
+class TargetDbType {
+  static const specificDatabase = TargetDbType._('specific-database');
+  static const multipleDatabases = TargetDbType._('multiple-databases');
 
   final String value;
 
-  const TargetDbType(this.value);
+  const TargetDbType._(this.value);
 
-  static TargetDbType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetDbType'));
+  static const values = [specificDatabase, multipleDatabases];
+
+  static TargetDbType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetDbType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDbType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -20173,21 +20531,30 @@ class TimestreamSettings {
   }
 }
 
-enum TlogAccessMode {
-  backupOnly('BackupOnly'),
-  preferBackup('PreferBackup'),
-  preferTlog('PreferTlog'),
-  tlogOnly('TlogOnly'),
-  ;
+class TlogAccessMode {
+  static const backupOnly = TlogAccessMode._('BackupOnly');
+  static const preferBackup = TlogAccessMode._('PreferBackup');
+  static const preferTlog = TlogAccessMode._('PreferTlog');
+  static const tlogOnly = TlogAccessMode._('TlogOnly');
 
   final String value;
 
-  const TlogAccessMode(this.value);
+  const TlogAccessMode._(this.value);
+
+  static const values = [backupOnly, preferBackup, preferTlog, tlogOnly];
 
   static TlogAccessMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TlogAccessMode'));
+          orElse: () => TlogAccessMode._(value));
+
+  @override
+  bool operator ==(other) => other is TlogAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -20215,20 +20582,29 @@ class UpdateSubscriptionsToEventBridgeResponse {
   }
 }
 
-enum VersionStatus {
-  upToDate('UP_TO_DATE'),
-  outdated('OUTDATED'),
-  unsupported('UNSUPPORTED'),
-  ;
+class VersionStatus {
+  static const upToDate = VersionStatus._('UP_TO_DATE');
+  static const outdated = VersionStatus._('OUTDATED');
+  static const unsupported = VersionStatus._('UNSUPPORTED');
 
   final String value;
 
-  const VersionStatus(this.value);
+  const VersionStatus._(this.value);
+
+  static const values = [upToDate, outdated, unsupported];
 
   static VersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VersionStatus'));
+          orElse: () => VersionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the status of a security group associated with the virtual private

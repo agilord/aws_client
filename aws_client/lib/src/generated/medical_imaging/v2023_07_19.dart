@@ -1187,8 +1187,8 @@ class CreateDatastoreResponse {
   factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateDatastoreResponse(
       datastoreId: (json['datastoreId'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['datastoreStatus'] as String?) ?? ''),
     );
   }
 
@@ -1257,7 +1257,7 @@ class DICOMImportJobProperties {
       inputS3Uri: (json['inputS3Uri'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       outputS3Uri: (json['outputS3Uri'] as String?) ?? '',
       endedAt: timeStampFromJson(json['endedAt']),
       message: json['message'] as String?,
@@ -1334,7 +1334,7 @@ class DICOMImportJobSummary {
       datastoreId: (json['datastoreId'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       dataAccessRoleArn: json['dataAccessRoleArn'] as String?,
       endedAt: timeStampFromJson(json['endedAt']),
       message: json['message'] as String?,
@@ -1595,8 +1595,8 @@ class DatastoreProperties {
     return DatastoreProperties(
       datastoreId: (json['datastoreId'] as String?) ?? '',
       datastoreName: (json['datastoreName'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['datastoreStatus'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       datastoreArn: json['datastoreArn'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
@@ -1624,22 +1624,31 @@ class DatastoreProperties {
   }
 }
 
-enum DatastoreStatus {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class DatastoreStatus {
+  static const creating = DatastoreStatus._('CREATING');
+  static const createFailed = DatastoreStatus._('CREATE_FAILED');
+  static const active = DatastoreStatus._('ACTIVE');
+  static const deleting = DatastoreStatus._('DELETING');
+  static const deleted = DatastoreStatus._('DELETED');
 
   final String value;
 
-  const DatastoreStatus(this.value);
+  const DatastoreStatus._(this.value);
+
+  static const values = [creating, createFailed, active, deleting, deleted];
 
   static DatastoreStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatastoreStatus'));
+          orElse: () => DatastoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatastoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// List of summaries of data stores.
@@ -1675,8 +1684,8 @@ class DatastoreSummary {
     return DatastoreSummary(
       datastoreId: (json['datastoreId'] as String?) ?? '',
       datastoreName: (json['datastoreName'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['datastoreStatus'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       datastoreArn: json['datastoreArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1716,8 +1725,8 @@ class DeleteDatastoreResponse {
   factory DeleteDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDatastoreResponse(
       datastoreId: (json['datastoreId'] as String?) ?? '',
-      datastoreStatus:
-          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['datastoreStatus'] as String?) ?? ''),
     );
   }
 
@@ -1756,9 +1765,9 @@ class DeleteImageSetResponse {
       datastoreId: (json['datastoreId'] as String?) ?? '',
       imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
-          ImageSetState.fromString((json['imageSetState'] as String)),
+          ImageSetState.fromString((json['imageSetState'] as String?) ?? ''),
       imageSetWorkflowStatus: ImageSetWorkflowStatus.fromString(
-          (json['imageSetWorkflowStatus'] as String)),
+          (json['imageSetWorkflowStatus'] as String?) ?? ''),
     );
   }
 
@@ -1929,7 +1938,7 @@ class GetImageSetResponse {
       datastoreId: (json['datastoreId'] as String?) ?? '',
       imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
-          ImageSetState.fromString((json['imageSetState'] as String)),
+          ImageSetState.fromString((json['imageSetState'] as String?) ?? ''),
       versionId: (json['versionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       deletedAt: timeStampFromJson(json['deletedAt']),
@@ -2037,7 +2046,7 @@ class ImageSetProperties {
     return ImageSetProperties(
       imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
-          ImageSetState.fromString((json['imageSetState'] as String)),
+          ImageSetState.fromString((json['imageSetState'] as String?) ?? ''),
       versionId: (json['versionId'] as String?) ?? '',
       imageSetWorkflowStatus: (json['ImageSetWorkflowStatus'] as String?)
           ?.let(ImageSetWorkflowStatus.fromString),
@@ -2076,43 +2085,74 @@ class ImageSetProperties {
   }
 }
 
-enum ImageSetState {
-  active('ACTIVE'),
-  locked('LOCKED'),
-  deleted('DELETED'),
-  ;
+class ImageSetState {
+  static const active = ImageSetState._('ACTIVE');
+  static const locked = ImageSetState._('LOCKED');
+  static const deleted = ImageSetState._('DELETED');
 
   final String value;
 
-  const ImageSetState(this.value);
+  const ImageSetState._(this.value);
+
+  static const values = [active, locked, deleted];
 
   static ImageSetState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageSetState'));
+          orElse: () => ImageSetState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageSetWorkflowStatus {
-  created('CREATED'),
-  copied('COPIED'),
-  copying('COPYING'),
-  copyingWithReadOnlyAccess('COPYING_WITH_READ_ONLY_ACCESS'),
-  copyFailed('COPY_FAILED'),
-  updating('UPDATING'),
-  updated('UPDATED'),
-  updateFailed('UPDATE_FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ImageSetWorkflowStatus {
+  static const created = ImageSetWorkflowStatus._('CREATED');
+  static const copied = ImageSetWorkflowStatus._('COPIED');
+  static const copying = ImageSetWorkflowStatus._('COPYING');
+  static const copyingWithReadOnlyAccess =
+      ImageSetWorkflowStatus._('COPYING_WITH_READ_ONLY_ACCESS');
+  static const copyFailed = ImageSetWorkflowStatus._('COPY_FAILED');
+  static const updating = ImageSetWorkflowStatus._('UPDATING');
+  static const updated = ImageSetWorkflowStatus._('UPDATED');
+  static const updateFailed = ImageSetWorkflowStatus._('UPDATE_FAILED');
+  static const deleting = ImageSetWorkflowStatus._('DELETING');
+  static const deleted = ImageSetWorkflowStatus._('DELETED');
 
   final String value;
 
-  const ImageSetWorkflowStatus(this.value);
+  const ImageSetWorkflowStatus._(this.value);
+
+  static const values = [
+    created,
+    copied,
+    copying,
+    copyingWithReadOnlyAccess,
+    copyFailed,
+    updating,
+    updated,
+    updateFailed,
+    deleting,
+    deleted
+  ];
 
   static ImageSetWorkflowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageSetWorkflowStatus'));
+          orElse: () => ImageSetWorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageSetWorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the image set metadata.
@@ -2169,20 +2209,29 @@ class ImageSetsMetadataSummary {
   }
 }
 
-enum JobStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [submitted, inProgress, completed, failed];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDICOMImportJobsResponse {
@@ -2359,18 +2408,27 @@ class MetadataUpdates {
   }
 }
 
-enum Operator {
-  equal('EQUAL'),
-  between('BETWEEN'),
-  ;
+class Operator {
+  static const equal = Operator._('EQUAL');
+  static const between = Operator._('BETWEEN');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [equal, between];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the overrides used in image set modification calls to
@@ -2567,8 +2625,8 @@ class Sort {
 
   factory Sort.fromJson(Map<String, dynamic> json) {
     return Sort(
-      sortField: SortField.fromString((json['sortField'] as String)),
-      sortOrder: SortOrder.fromString((json['sortOrder'] as String)),
+      sortField: SortField.fromString((json['sortField'] as String?) ?? ''),
+      sortOrder: SortOrder.fromString((json['sortOrder'] as String?) ?? ''),
     );
   }
 
@@ -2582,33 +2640,51 @@ class Sort {
   }
 }
 
-enum SortField {
-  updatedAt('updatedAt'),
-  createdAt('createdAt'),
-  dICOMStudyDateAndTime('DICOMStudyDateAndTime'),
-  ;
+class SortField {
+  static const updatedAt = SortField._('updatedAt');
+  static const createdAt = SortField._('createdAt');
+  static const dICOMStudyDateAndTime = SortField._('DICOMStudyDateAndTime');
 
   final String value;
 
-  const SortField(this.value);
+  const SortField._(this.value);
 
-  static SortField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortField'));
+  static const values = [updatedAt, createdAt, dICOMStudyDateAndTime];
+
+  static SortField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortField._(value));
+
+  @override
+  bool operator ==(other) => other is SortField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartDICOMImportJobResponse {
@@ -2635,7 +2711,7 @@ class StartDICOMImportJobResponse {
     return StartDICOMImportJobResponse(
       datastoreId: (json['datastoreId'] as String?) ?? '',
       jobId: (json['jobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] ?? 0),
     );
   }
@@ -2719,7 +2795,7 @@ class UpdateImageSetMetadataResponse {
       datastoreId: (json['datastoreId'] as String?) ?? '',
       imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
-          ImageSetState.fromString((json['imageSetState'] as String)),
+          ImageSetState.fromString((json['imageSetState'] as String?) ?? ''),
       latestVersionId: (json['latestVersionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)

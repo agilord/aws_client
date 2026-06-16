@@ -719,37 +719,55 @@ class SimSpaceWeaver {
   }
 }
 
-enum ClockStatus {
-  unknown('UNKNOWN'),
-  starting('STARTING'),
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class ClockStatus {
+  static const unknown = ClockStatus._('UNKNOWN');
+  static const starting = ClockStatus._('STARTING');
+  static const started = ClockStatus._('STARTED');
+  static const stopping = ClockStatus._('STOPPING');
+  static const stopped = ClockStatus._('STOPPED');
 
   final String value;
 
-  const ClockStatus(this.value);
+  const ClockStatus._(this.value);
 
-  static ClockStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ClockStatus'));
+  static const values = [unknown, starting, started, stopping, stopped];
+
+  static ClockStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClockStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClockStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClockTargetStatus {
-  unknown('UNKNOWN'),
-  started('STARTED'),
-  stopped('STOPPED'),
-  ;
+class ClockTargetStatus {
+  static const unknown = ClockTargetStatus._('UNKNOWN');
+  static const started = ClockTargetStatus._('STARTED');
+  static const stopped = ClockTargetStatus._('STOPPED');
 
   final String value;
 
-  const ClockTargetStatus(this.value);
+  const ClockTargetStatus._(this.value);
+
+  static const values = [unknown, started, stopped];
 
   static ClockTargetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClockTargetStatus'));
+          orElse: () => ClockTargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClockTargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon CloudWatch Logs log group for the simulation. For more
@@ -1138,21 +1156,32 @@ class LaunchOverrides {
   }
 }
 
-enum LifecycleManagementStrategy {
-  unknown('Unknown'),
-  perWorker('PerWorker'),
-  bySpatialSubdivision('BySpatialSubdivision'),
-  byRequest('ByRequest'),
-  ;
+class LifecycleManagementStrategy {
+  static const unknown = LifecycleManagementStrategy._('Unknown');
+  static const perWorker = LifecycleManagementStrategy._('PerWorker');
+  static const bySpatialSubdivision =
+      LifecycleManagementStrategy._('BySpatialSubdivision');
+  static const byRequest = LifecycleManagementStrategy._('ByRequest');
 
   final String value;
 
-  const LifecycleManagementStrategy(this.value);
+  const LifecycleManagementStrategy._(this.value);
+
+  static const values = [unknown, perWorker, bySpatialSubdivision, byRequest];
 
   static LifecycleManagementStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecycleManagementStrategy'));
+          orElse: () => LifecycleManagementStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleManagementStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAppsOutput {
@@ -1560,39 +1589,59 @@ class SimulationAppPortMapping {
   }
 }
 
-enum SimulationAppStatus {
-  starting('STARTING'),
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  error('ERROR'),
-  unknown('UNKNOWN'),
-  ;
+class SimulationAppStatus {
+  static const starting = SimulationAppStatus._('STARTING');
+  static const started = SimulationAppStatus._('STARTED');
+  static const stopping = SimulationAppStatus._('STOPPING');
+  static const stopped = SimulationAppStatus._('STOPPED');
+  static const error = SimulationAppStatus._('ERROR');
+  static const unknown = SimulationAppStatus._('UNKNOWN');
 
   final String value;
 
-  const SimulationAppStatus(this.value);
+  const SimulationAppStatus._(this.value);
 
-  static SimulationAppStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SimulationAppStatus'));
+  static const values = [starting, started, stopping, stopped, error, unknown];
+
+  static SimulationAppStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SimulationAppStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationAppStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SimulationAppTargetStatus {
-  unknown('UNKNOWN'),
-  started('STARTED'),
-  stopped('STOPPED'),
-  ;
+class SimulationAppTargetStatus {
+  static const unknown = SimulationAppTargetStatus._('UNKNOWN');
+  static const started = SimulationAppTargetStatus._('STARTED');
+  static const stopped = SimulationAppTargetStatus._('STOPPED');
 
   final String value;
 
-  const SimulationAppTargetStatus(this.value);
+  const SimulationAppTargetStatus._(this.value);
+
+  static const values = [unknown, started, stopped];
 
   static SimulationAppTargetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationAppTargetStatus'));
+          orElse: () => SimulationAppTargetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationAppTargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status information about the simulation clock.
@@ -1684,43 +1733,72 @@ class SimulationMetadata {
   }
 }
 
-enum SimulationStatus {
-  unknown('UNKNOWN'),
-  starting('STARTING'),
-  started('STARTED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  snapshotInProgress('SNAPSHOT_IN_PROGRESS'),
-  ;
+class SimulationStatus {
+  static const unknown = SimulationStatus._('UNKNOWN');
+  static const starting = SimulationStatus._('STARTING');
+  static const started = SimulationStatus._('STARTED');
+  static const stopping = SimulationStatus._('STOPPING');
+  static const stopped = SimulationStatus._('STOPPED');
+  static const failed = SimulationStatus._('FAILED');
+  static const deleting = SimulationStatus._('DELETING');
+  static const deleted = SimulationStatus._('DELETED');
+  static const snapshotInProgress = SimulationStatus._('SNAPSHOT_IN_PROGRESS');
 
   final String value;
 
-  const SimulationStatus(this.value);
+  const SimulationStatus._(this.value);
+
+  static const values = [
+    unknown,
+    starting,
+    started,
+    stopping,
+    stopped,
+    failed,
+    deleting,
+    deleted,
+    snapshotInProgress
+  ];
 
   static SimulationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SimulationStatus'));
+          orElse: () => SimulationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SimulationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SimulationTargetStatus {
-  unknown('UNKNOWN'),
-  started('STARTED'),
-  stopped('STOPPED'),
-  deleted('DELETED'),
-  ;
+class SimulationTargetStatus {
+  static const unknown = SimulationTargetStatus._('UNKNOWN');
+  static const started = SimulationTargetStatus._('STARTED');
+  static const stopped = SimulationTargetStatus._('STOPPED');
+  static const deleted = SimulationTargetStatus._('DELETED');
 
   final String value;
 
-  const SimulationTargetStatus(this.value);
+  const SimulationTargetStatus._(this.value);
+
+  static const values = [unknown, started, stopped, deleted];
 
   static SimulationTargetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimulationTargetStatus'));
+          orElse: () => SimulationTargetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimulationTargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAppOutput {

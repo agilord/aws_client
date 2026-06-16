@@ -2543,7 +2543,8 @@ class BatchDeleteEvaluationJobItem {
   factory BatchDeleteEvaluationJobItem.fromJson(Map<String, dynamic> json) {
     return BatchDeleteEvaluationJobItem(
       jobIdentifier: (json['jobIdentifier'] as String?) ?? '',
-      jobStatus: EvaluationJobStatus.fromString((json['jobStatus'] as String)),
+      jobStatus:
+          EvaluationJobStatus.fromString((json['jobStatus'] as String?) ?? ''),
     );
   }
 
@@ -2636,19 +2637,29 @@ class CloudWatchConfig {
   }
 }
 
-enum CommitmentDuration {
-  oneMonth('OneMonth'),
-  sixMonths('SixMonths'),
-  ;
+class CommitmentDuration {
+  static const oneMonth = CommitmentDuration._('OneMonth');
+  static const sixMonths = CommitmentDuration._('SixMonths');
 
   final String value;
 
-  const CommitmentDuration(this.value);
+  const CommitmentDuration._(this.value);
 
-  static CommitmentDuration fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CommitmentDuration'));
+  static const values = [oneMonth, sixMonths];
+
+  static CommitmentDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CommitmentDuration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CommitmentDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateEvaluationJobResponse {
@@ -2928,19 +2939,29 @@ class CustomModelSummary {
   }
 }
 
-enum CustomizationType {
-  fineTuning('FINE_TUNING'),
-  continuedPreTraining('CONTINUED_PRE_TRAINING'),
-  ;
+class CustomizationType {
+  static const fineTuning = CustomizationType._('FINE_TUNING');
+  static const continuedPreTraining =
+      CustomizationType._('CONTINUED_PRE_TRAINING');
 
   final String value;
 
-  const CustomizationType(this.value);
+  const CustomizationType._(this.value);
+
+  static const values = [fineTuning, continuedPreTraining];
 
   static CustomizationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CustomizationType'));
+          orElse: () => CustomizationType._(value));
+
+  @override
+  bool operator ==(other) => other is CustomizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteCustomModelResponse {
@@ -3182,7 +3203,8 @@ class EvaluationDatasetMetricConfig {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      taskType: EvaluationTaskType.fromString((json['taskType'] as String)),
+      taskType:
+          EvaluationTaskType.fromString((json['taskType'] as String?) ?? ''),
     );
   }
 
@@ -3227,38 +3249,64 @@ class EvaluationInferenceConfig {
   }
 }
 
-enum EvaluationJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  deleting('Deleting'),
-  ;
+class EvaluationJobStatus {
+  static const inProgress = EvaluationJobStatus._('InProgress');
+  static const completed = EvaluationJobStatus._('Completed');
+  static const failed = EvaluationJobStatus._('Failed');
+  static const stopping = EvaluationJobStatus._('Stopping');
+  static const stopped = EvaluationJobStatus._('Stopped');
+  static const deleting = EvaluationJobStatus._('Deleting');
 
   final String value;
 
-  const EvaluationJobStatus(this.value);
+  const EvaluationJobStatus._(this.value);
 
-  static EvaluationJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EvaluationJobStatus'));
+  static const values = [
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped,
+    deleting
+  ];
+
+  static EvaluationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EvaluationJobType {
-  human('Human'),
-  automated('Automated'),
-  ;
+class EvaluationJobType {
+  static const human = EvaluationJobType._('Human');
+  static const automated = EvaluationJobType._('Automated');
 
   final String value;
 
-  const EvaluationJobType(this.value);
+  const EvaluationJobType._(this.value);
+
+  static const values = [human, automated];
 
   static EvaluationJobType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationJobType'));
+          orElse: () => EvaluationJobType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the models used in the model evaluation job.
@@ -3354,12 +3402,12 @@ class EvaluationSummary {
           .toList(),
       jobArn: (json['jobArn'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      jobType: EvaluationJobType.fromString((json['jobType'] as String)),
+      jobType: EvaluationJobType.fromString((json['jobType'] as String?) ?? ''),
       modelIdentifiers: ((json['modelIdentifiers'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      status: EvaluationJobStatus.fromString((json['status'] as String)),
+      status: EvaluationJobStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -3383,40 +3431,66 @@ class EvaluationSummary {
   }
 }
 
-enum EvaluationTaskType {
-  summarization('Summarization'),
-  classification('Classification'),
-  questionAndAnswer('QuestionAndAnswer'),
-  generation('Generation'),
-  custom('Custom'),
-  ;
+class EvaluationTaskType {
+  static const summarization = EvaluationTaskType._('Summarization');
+  static const classification = EvaluationTaskType._('Classification');
+  static const questionAndAnswer = EvaluationTaskType._('QuestionAndAnswer');
+  static const generation = EvaluationTaskType._('Generation');
+  static const custom = EvaluationTaskType._('Custom');
 
   final String value;
 
-  const EvaluationTaskType(this.value);
+  const EvaluationTaskType._(this.value);
 
-  static EvaluationTaskType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EvaluationTaskType'));
+  static const values = [
+    summarization,
+    classification,
+    questionAndAnswer,
+    generation,
+    custom
+  ];
+
+  static EvaluationTaskType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationTaskType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationTaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FineTuningJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class FineTuningJobStatus {
+  static const inProgress = FineTuningJobStatus._('InProgress');
+  static const completed = FineTuningJobStatus._('Completed');
+  static const failed = FineTuningJobStatus._('Failed');
+  static const stopping = FineTuningJobStatus._('Stopping');
+  static const stopped = FineTuningJobStatus._('Stopped');
 
   final String value;
 
-  const FineTuningJobStatus(this.value);
+  const FineTuningJobStatus._(this.value);
 
-  static FineTuningJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FineTuningJobStatus'));
+  static const values = [inProgress, completed, failed, stopping, stopped];
+
+  static FineTuningJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FineTuningJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FineTuningJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a foundation model.
@@ -3539,8 +3613,8 @@ class FoundationModelLifecycle {
 
   factory FoundationModelLifecycle.fromJson(Map<String, dynamic> json) {
     return FoundationModelLifecycle(
-      status:
-          FoundationModelLifecycleStatus.fromString((json['status'] as String)),
+      status: FoundationModelLifecycleStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -3552,19 +3626,29 @@ class FoundationModelLifecycle {
   }
 }
 
-enum FoundationModelLifecycleStatus {
-  active('ACTIVE'),
-  legacy('LEGACY'),
-  ;
+class FoundationModelLifecycleStatus {
+  static const active = FoundationModelLifecycleStatus._('ACTIVE');
+  static const legacy = FoundationModelLifecycleStatus._('LEGACY');
 
   final String value;
 
-  const FoundationModelLifecycleStatus(this.value);
+  const FoundationModelLifecycleStatus._(this.value);
+
+  static const values = [active, legacy];
 
   static FoundationModelLifecycleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FoundationModelLifecycleStatus'));
+          orElse: () => FoundationModelLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FoundationModelLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for a foundation model.
@@ -3879,12 +3963,12 @@ class GetEvaluationJobResponse {
               const <String, dynamic>{}),
       jobArn: (json['jobArn'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      jobType: EvaluationJobType.fromString((json['jobType'] as String)),
+      jobType: EvaluationJobType.fromString((json['jobType'] as String?) ?? ''),
       outputDataConfig: EvaluationOutputDataConfig.fromJson(
           (json['outputDataConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       roleArn: (json['roleArn'] as String?) ?? '',
-      status: EvaluationJobStatus.fromString((json['status'] as String)),
+      status: EvaluationJobStatus.fromString((json['status'] as String?) ?? ''),
       customerEncryptionKeyId: json['customerEncryptionKeyId'] as String?,
       failureMessages: (json['failureMessages'] as List?)
           ?.nonNulls
@@ -4041,7 +4125,7 @@ class GetGuardrailResponse {
       guardrailArn: (json['guardrailArn'] as String?) ?? '',
       guardrailId: (json['guardrailId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GuardrailStatus.fromString((json['status'] as String)),
+      status: GuardrailStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       contentPolicy: json['contentPolicy'] != null
@@ -4247,8 +4331,9 @@ class GetInferenceProfileResponse {
           .nonNulls
           .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: InferenceProfileStatus.fromString((json['status'] as String)),
-      type: InferenceProfileType.fromString((json['type'] as String)),
+      status:
+          InferenceProfileStatus.fromString((json['status'] as String?) ?? ''),
+      type: InferenceProfileType.fromString((json['type'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -4334,7 +4419,7 @@ class GetModelCopyJobResponse {
       jobArn: (json['jobArn'] as String?) ?? '',
       sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
       sourceModelArn: (json['sourceModelArn'] as String?) ?? '',
-      status: ModelCopyJobStatus.fromString((json['status'] as String)),
+      status: ModelCopyJobStatus.fromString((json['status'] as String?) ?? ''),
       targetModelArn: (json['targetModelArn'] as String?) ?? '',
       failureMessage: json['failureMessage'] as String?,
       sourceModelName: json['sourceModelName'] as String?,
@@ -4916,7 +5001,8 @@ class GetProvisionedModelThroughputResponse {
       modelUnits: (json['modelUnits'] as int?) ?? 0,
       provisionedModelArn: (json['provisionedModelArn'] as String?) ?? '',
       provisionedModelName: (json['provisionedModelName'] as String?) ?? '',
-      status: ProvisionedModelStatus.fromString((json['status'] as String)),
+      status:
+          ProvisionedModelStatus.fromString((json['status'] as String?) ?? ''),
       commitmentDuration: (json['commitmentDuration'] as String?)
           ?.let(CommitmentDuration.fromString),
       commitmentExpirationTime:
@@ -5033,11 +5119,12 @@ class GuardrailContentFilter {
 
   factory GuardrailContentFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailContentFilter(
-      inputStrength:
-          GuardrailFilterStrength.fromString((json['inputStrength'] as String)),
+      inputStrength: GuardrailFilterStrength.fromString(
+          (json['inputStrength'] as String?) ?? ''),
       outputStrength: GuardrailFilterStrength.fromString(
-          (json['outputStrength'] as String)),
-      type: GuardrailContentFilterType.fromString((json['type'] as String)),
+          (json['outputStrength'] as String?) ?? ''),
+      type: GuardrailContentFilterType.fromString(
+          (json['type'] as String?) ?? ''),
     );
   }
 
@@ -5127,23 +5214,40 @@ class GuardrailContentFilterConfig {
   }
 }
 
-enum GuardrailContentFilterType {
-  sexual('SEXUAL'),
-  violence('VIOLENCE'),
-  hate('HATE'),
-  insults('INSULTS'),
-  misconduct('MISCONDUCT'),
-  promptAttack('PROMPT_ATTACK'),
-  ;
+class GuardrailContentFilterType {
+  static const sexual = GuardrailContentFilterType._('SEXUAL');
+  static const violence = GuardrailContentFilterType._('VIOLENCE');
+  static const hate = GuardrailContentFilterType._('HATE');
+  static const insults = GuardrailContentFilterType._('INSULTS');
+  static const misconduct = GuardrailContentFilterType._('MISCONDUCT');
+  static const promptAttack = GuardrailContentFilterType._('PROMPT_ATTACK');
 
   final String value;
 
-  const GuardrailContentFilterType(this.value);
+  const GuardrailContentFilterType._(this.value);
+
+  static const values = [
+    sexual,
+    violence,
+    hate,
+    insults,
+    misconduct,
+    promptAttack
+  ];
 
   static GuardrailContentFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContentFilterType'));
+          orElse: () => GuardrailContentFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContentFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about how to handle harmful content.
@@ -5220,7 +5324,7 @@ class GuardrailContextualGroundingFilter {
     return GuardrailContextualGroundingFilter(
       threshold: (json['threshold'] as double?) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
-          (json['type'] as String)),
+          (json['type'] as String?) ?? ''),
     );
   }
 
@@ -5258,19 +5362,31 @@ class GuardrailContextualGroundingFilterConfig {
   }
 }
 
-enum GuardrailContextualGroundingFilterType {
-  grounding('GROUNDING'),
-  relevance('RELEVANCE'),
-  ;
+class GuardrailContextualGroundingFilterType {
+  static const grounding =
+      GuardrailContextualGroundingFilterType._('GROUNDING');
+  static const relevance =
+      GuardrailContextualGroundingFilterType._('RELEVANCE');
 
   final String value;
 
-  const GuardrailContextualGroundingFilterType(this.value);
+  const GuardrailContextualGroundingFilterType._(this.value);
+
+  static const values = [grounding, relevance];
 
   static GuardrailContextualGroundingFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailContextualGroundingFilterType'));
+          orElse: () => GuardrailContextualGroundingFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailContextualGroundingFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for the guardrails contextual grounding policy.
@@ -5320,21 +5436,31 @@ class GuardrailContextualGroundingPolicyConfig {
   }
 }
 
-enum GuardrailFilterStrength {
-  none('NONE'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class GuardrailFilterStrength {
+  static const none = GuardrailFilterStrength._('NONE');
+  static const low = GuardrailFilterStrength._('LOW');
+  static const medium = GuardrailFilterStrength._('MEDIUM');
+  static const high = GuardrailFilterStrength._('HIGH');
 
   final String value;
 
-  const GuardrailFilterStrength(this.value);
+  const GuardrailFilterStrength._(this.value);
+
+  static const values = [none, low, medium, high];
 
   static GuardrailFilterStrength fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailFilterStrength'));
+          orElse: () => GuardrailFilterStrength._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailFilterStrength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The managed word list that was configured for the guardrail. (This is a list
@@ -5350,7 +5476,8 @@ class GuardrailManagedWords {
 
   factory GuardrailManagedWords.fromJson(Map<String, dynamic> json) {
     return GuardrailManagedWords(
-      type: GuardrailManagedWordsType.fromString((json['type'] as String)),
+      type:
+          GuardrailManagedWordsType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -5379,18 +5506,28 @@ class GuardrailManagedWordsConfig {
   }
 }
 
-enum GuardrailManagedWordsType {
-  profanity('PROFANITY'),
-  ;
+class GuardrailManagedWordsType {
+  static const profanity = GuardrailManagedWordsType._('PROFANITY');
 
   final String value;
 
-  const GuardrailManagedWordsType(this.value);
+  const GuardrailManagedWordsType._(this.value);
+
+  static const values = [profanity];
 
   static GuardrailManagedWordsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailManagedWordsType'));
+          orElse: () => GuardrailManagedWordsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailManagedWordsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The PII entity configured for the guardrail.
@@ -5409,8 +5546,8 @@ class GuardrailPiiEntity {
   factory GuardrailPiiEntity.fromJson(Map<String, dynamic> json) {
     return GuardrailPiiEntity(
       action: GuardrailSensitiveInformationAction.fromString(
-          (json['action'] as String)),
-      type: GuardrailPiiEntityType.fromString((json['type'] as String)),
+          (json['action'] as String?) ?? ''),
+      type: GuardrailPiiEntityType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -5707,49 +5844,104 @@ class GuardrailPiiEntityConfig {
   }
 }
 
-enum GuardrailPiiEntityType {
-  address('ADDRESS'),
-  age('AGE'),
-  awsAccessKey('AWS_ACCESS_KEY'),
-  awsSecretKey('AWS_SECRET_KEY'),
-  caHealthNumber('CA_HEALTH_NUMBER'),
-  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
-  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
-  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
-  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
-  driverId('DRIVER_ID'),
-  email('EMAIL'),
-  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
-  ipAddress('IP_ADDRESS'),
-  licensePlate('LICENSE_PLATE'),
-  macAddress('MAC_ADDRESS'),
-  name('NAME'),
-  password('PASSWORD'),
-  phone('PHONE'),
-  pin('PIN'),
-  swiftCode('SWIFT_CODE'),
-  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
-  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
-  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
-  url('URL'),
-  username('USERNAME'),
-  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
-  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
-  usIndividualTaxIdentificationNumber(
-      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
-  usPassportNumber('US_PASSPORT_NUMBER'),
-  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
-  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
-  ;
+class GuardrailPiiEntityType {
+  static const address = GuardrailPiiEntityType._('ADDRESS');
+  static const age = GuardrailPiiEntityType._('AGE');
+  static const awsAccessKey = GuardrailPiiEntityType._('AWS_ACCESS_KEY');
+  static const awsSecretKey = GuardrailPiiEntityType._('AWS_SECRET_KEY');
+  static const caHealthNumber = GuardrailPiiEntityType._('CA_HEALTH_NUMBER');
+  static const caSocialInsuranceNumber =
+      GuardrailPiiEntityType._('CA_SOCIAL_INSURANCE_NUMBER');
+  static const creditDebitCardCvv =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_CVV');
+  static const creditDebitCardExpiry =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_EXPIRY');
+  static const creditDebitCardNumber =
+      GuardrailPiiEntityType._('CREDIT_DEBIT_CARD_NUMBER');
+  static const driverId = GuardrailPiiEntityType._('DRIVER_ID');
+  static const email = GuardrailPiiEntityType._('EMAIL');
+  static const internationalBankAccountNumber =
+      GuardrailPiiEntityType._('INTERNATIONAL_BANK_ACCOUNT_NUMBER');
+  static const ipAddress = GuardrailPiiEntityType._('IP_ADDRESS');
+  static const licensePlate = GuardrailPiiEntityType._('LICENSE_PLATE');
+  static const macAddress = GuardrailPiiEntityType._('MAC_ADDRESS');
+  static const name = GuardrailPiiEntityType._('NAME');
+  static const password = GuardrailPiiEntityType._('PASSWORD');
+  static const phone = GuardrailPiiEntityType._('PHONE');
+  static const pin = GuardrailPiiEntityType._('PIN');
+  static const swiftCode = GuardrailPiiEntityType._('SWIFT_CODE');
+  static const ukNationalHealthServiceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_HEALTH_SERVICE_NUMBER');
+  static const ukNationalInsuranceNumber =
+      GuardrailPiiEntityType._('UK_NATIONAL_INSURANCE_NUMBER');
+  static const ukUniqueTaxpayerReferenceNumber =
+      GuardrailPiiEntityType._('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER');
+  static const url = GuardrailPiiEntityType._('URL');
+  static const username = GuardrailPiiEntityType._('USERNAME');
+  static const usBankAccountNumber =
+      GuardrailPiiEntityType._('US_BANK_ACCOUNT_NUMBER');
+  static const usBankRoutingNumber =
+      GuardrailPiiEntityType._('US_BANK_ROUTING_NUMBER');
+  static const usIndividualTaxIdentificationNumber =
+      GuardrailPiiEntityType._('US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER');
+  static const usPassportNumber =
+      GuardrailPiiEntityType._('US_PASSPORT_NUMBER');
+  static const usSocialSecurityNumber =
+      GuardrailPiiEntityType._('US_SOCIAL_SECURITY_NUMBER');
+  static const vehicleIdentificationNumber =
+      GuardrailPiiEntityType._('VEHICLE_IDENTIFICATION_NUMBER');
 
   final String value;
 
-  const GuardrailPiiEntityType(this.value);
+  const GuardrailPiiEntityType._(this.value);
+
+  static const values = [
+    address,
+    age,
+    awsAccessKey,
+    awsSecretKey,
+    caHealthNumber,
+    caSocialInsuranceNumber,
+    creditDebitCardCvv,
+    creditDebitCardExpiry,
+    creditDebitCardNumber,
+    driverId,
+    email,
+    internationalBankAccountNumber,
+    ipAddress,
+    licensePlate,
+    macAddress,
+    name,
+    password,
+    phone,
+    pin,
+    swiftCode,
+    ukNationalHealthServiceNumber,
+    ukNationalInsuranceNumber,
+    ukUniqueTaxpayerReferenceNumber,
+    url,
+    username,
+    usBankAccountNumber,
+    usBankRoutingNumber,
+    usIndividualTaxIdentificationNumber,
+    usPassportNumber,
+    usSocialSecurityNumber,
+    vehicleIdentificationNumber
+  ];
 
   static GuardrailPiiEntityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailPiiEntityType'));
+          orElse: () => GuardrailPiiEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailPiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The regular expression configured for the guardrail.
@@ -5776,7 +5968,7 @@ class GuardrailRegex {
   factory GuardrailRegex.fromJson(Map<String, dynamic> json) {
     return GuardrailRegex(
       action: GuardrailSensitiveInformationAction.fromString(
-          (json['action'] as String)),
+          (json['action'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       pattern: (json['pattern'] as String?) ?? '',
       description: json['description'] as String?,
@@ -5833,19 +6025,29 @@ class GuardrailRegexConfig {
   }
 }
 
-enum GuardrailSensitiveInformationAction {
-  block('BLOCK'),
-  anonymize('ANONYMIZE'),
-  ;
+class GuardrailSensitiveInformationAction {
+  static const block = GuardrailSensitiveInformationAction._('BLOCK');
+  static const anonymize = GuardrailSensitiveInformationAction._('ANONYMIZE');
 
   final String value;
 
-  const GuardrailSensitiveInformationAction(this.value);
+  const GuardrailSensitiveInformationAction._(this.value);
+
+  static const values = [block, anonymize];
 
   static GuardrailSensitiveInformationAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GuardrailSensitiveInformationAction'));
+          orElse: () => GuardrailSensitiveInformationAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailSensitiveInformationAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about PII entities and regular expressions configured for
@@ -5910,23 +6112,39 @@ class GuardrailSensitiveInformationPolicyConfig {
   }
 }
 
-enum GuardrailStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  versioning('VERSIONING'),
-  ready('READY'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  ;
+class GuardrailStatus {
+  static const creating = GuardrailStatus._('CREATING');
+  static const updating = GuardrailStatus._('UPDATING');
+  static const versioning = GuardrailStatus._('VERSIONING');
+  static const ready = GuardrailStatus._('READY');
+  static const failed = GuardrailStatus._('FAILED');
+  static const deleting = GuardrailStatus._('DELETING');
 
   final String value;
 
-  const GuardrailStatus(this.value);
+  const GuardrailStatus._(this.value);
+
+  static const values = [
+    creating,
+    updating,
+    versioning,
+    ready,
+    failed,
+    deleting
+  ];
 
   static GuardrailStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GuardrailStatus'));
+          orElse: () => GuardrailStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a guardrail.
@@ -5982,7 +6200,7 @@ class GuardrailSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: GuardrailStatus.fromString((json['status'] as String)),
+      status: GuardrailStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       version: (json['version'] as String?) ?? '',
       description: json['description'] as String?,
@@ -6158,18 +6376,28 @@ class GuardrailTopicPolicyConfig {
   }
 }
 
-enum GuardrailTopicType {
-  deny('DENY'),
-  ;
+class GuardrailTopicType {
+  static const deny = GuardrailTopicType._('DENY');
 
   final String value;
 
-  const GuardrailTopicType(this.value);
+  const GuardrailTopicType._(this.value);
 
-  static GuardrailTopicType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GuardrailTopicType'));
+  static const values = [deny];
+
+  static GuardrailTopicType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailTopicType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailTopicType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A word configured for the guardrail.
@@ -6475,18 +6703,28 @@ class InferenceProfileModel {
   }
 }
 
-enum InferenceProfileStatus {
-  active('ACTIVE'),
-  ;
+class InferenceProfileStatus {
+  static const active = InferenceProfileStatus._('ACTIVE');
 
   final String value;
 
-  const InferenceProfileStatus(this.value);
+  const InferenceProfileStatus._(this.value);
+
+  static const values = [active];
 
   static InferenceProfileStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceProfileStatus'));
+          orElse: () => InferenceProfileStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an inference profile.
@@ -6541,8 +6779,9 @@ class InferenceProfileSummary {
           .nonNulls
           .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: InferenceProfileStatus.fromString((json['status'] as String)),
-      type: InferenceProfileType.fromString((json['type'] as String)),
+      status:
+          InferenceProfileStatus.fromString((json['status'] as String?) ?? ''),
+      type: InferenceProfileType.fromString((json['type'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -6573,33 +6812,52 @@ class InferenceProfileSummary {
   }
 }
 
-enum InferenceProfileType {
-  systemDefined('SYSTEM_DEFINED'),
-  ;
+class InferenceProfileType {
+  static const systemDefined = InferenceProfileType._('SYSTEM_DEFINED');
 
   final String value;
 
-  const InferenceProfileType(this.value);
+  const InferenceProfileType._(this.value);
 
-  static InferenceProfileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InferenceProfileType'));
+  static const values = [systemDefined];
+
+  static InferenceProfileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InferenceProfileType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InferenceType {
-  onDemand('ON_DEMAND'),
-  provisioned('PROVISIONED'),
-  ;
+class InferenceType {
+  static const onDemand = InferenceType._('ON_DEMAND');
+  static const provisioned = InferenceType._('PROVISIONED');
 
   final String value;
 
-  const InferenceType(this.value);
+  const InferenceType._(this.value);
+
+  static const values = [onDemand, provisioned];
 
   static InferenceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InferenceType'));
+          orElse: () => InferenceType._(value));
+
+  @override
+  bool operator ==(other) => other is InferenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListCustomModelsResponse {
@@ -7068,20 +7326,30 @@ class LoggingConfig {
   }
 }
 
-enum ModelCopyJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class ModelCopyJobStatus {
+  static const inProgress = ModelCopyJobStatus._('InProgress');
+  static const completed = ModelCopyJobStatus._('Completed');
+  static const failed = ModelCopyJobStatus._('Failed');
 
   final String value;
 
-  const ModelCopyJobStatus(this.value);
+  const ModelCopyJobStatus._(this.value);
 
-  static ModelCopyJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelCopyJobStatus'));
+  static const values = [inProgress, completed, failed];
+
+  static ModelCopyJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelCopyJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCopyJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about each model copy job.
@@ -7152,7 +7420,7 @@ class ModelCopyJobSummary {
       jobArn: (json['jobArn'] as String?) ?? '',
       sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
       sourceModelArn: (json['sourceModelArn'] as String?) ?? '',
-      status: ModelCopyJobStatus.fromString((json['status'] as String)),
+      status: ModelCopyJobStatus.fromString((json['status'] as String?) ?? ''),
       targetModelArn: (json['targetModelArn'] as String?) ?? '',
       failureMessage: json['failureMessage'] as String?,
       sourceModelName: json['sourceModelName'] as String?,
@@ -7194,37 +7462,58 @@ class ModelCopyJobSummary {
   }
 }
 
-enum ModelCustomization {
-  fineTuning('FINE_TUNING'),
-  continuedPreTraining('CONTINUED_PRE_TRAINING'),
-  ;
+class ModelCustomization {
+  static const fineTuning = ModelCustomization._('FINE_TUNING');
+  static const continuedPreTraining =
+      ModelCustomization._('CONTINUED_PRE_TRAINING');
 
   final String value;
 
-  const ModelCustomization(this.value);
+  const ModelCustomization._(this.value);
 
-  static ModelCustomization fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelCustomization'));
+  static const values = [fineTuning, continuedPreTraining];
+
+  static ModelCustomization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelCustomization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCustomization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelCustomizationJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class ModelCustomizationJobStatus {
+  static const inProgress = ModelCustomizationJobStatus._('InProgress');
+  static const completed = ModelCustomizationJobStatus._('Completed');
+  static const failed = ModelCustomizationJobStatus._('Failed');
+  static const stopping = ModelCustomizationJobStatus._('Stopping');
+  static const stopped = ModelCustomizationJobStatus._('Stopped');
 
   final String value;
 
-  const ModelCustomizationJobStatus(this.value);
+  const ModelCustomizationJobStatus._(this.value);
+
+  static const values = [inProgress, completed, failed, stopping, stopped];
 
   static ModelCustomizationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCustomizationJobStatus'));
+          orElse: () => ModelCustomizationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCustomizationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about one customization job
@@ -7281,8 +7570,8 @@ class ModelCustomizationJobSummary {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       jobArn: (json['jobArn'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      status:
-          ModelCustomizationJobStatus.fromString((json['status'] as String)),
+      status: ModelCustomizationJobStatus.fromString(
+          (json['status'] as String?) ?? ''),
       customModelArn: json['customModelArn'] as String?,
       customModelName: json['customModelName'] as String?,
       customizationType: (json['customizationType'] as String?)
@@ -7345,20 +7634,30 @@ class ModelDataSource {
   }
 }
 
-enum ModelImportJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class ModelImportJobStatus {
+  static const inProgress = ModelImportJobStatus._('InProgress');
+  static const completed = ModelImportJobStatus._('Completed');
+  static const failed = ModelImportJobStatus._('Failed');
 
   final String value;
 
-  const ModelImportJobStatus(this.value);
+  const ModelImportJobStatus._(this.value);
 
-  static ModelImportJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelImportJobStatus'));
+  static const values = [inProgress, completed, failed];
+
+  static ModelImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the import job.
@@ -7403,7 +7702,8 @@ class ModelImportJobSummary {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       jobArn: (json['jobArn'] as String?) ?? '',
       jobName: (json['jobName'] as String?) ?? '',
-      status: ModelImportJobStatus.fromString((json['status'] as String)),
+      status:
+          ModelImportJobStatus.fromString((json['status'] as String?) ?? ''),
       endTime: timeStampFromJson(json['endTime']),
       importedModelArn: json['importedModelArn'] as String?,
       importedModelName: json['importedModelName'] as String?,
@@ -7552,27 +7852,49 @@ class ModelInvocationJobS3OutputDataConfig {
   }
 }
 
-enum ModelInvocationJobStatus {
-  submitted('Submitted'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  partiallyCompleted('PartiallyCompleted'),
-  expired('Expired'),
-  validating('Validating'),
-  scheduled('Scheduled'),
-  ;
+class ModelInvocationJobStatus {
+  static const submitted = ModelInvocationJobStatus._('Submitted');
+  static const inProgress = ModelInvocationJobStatus._('InProgress');
+  static const completed = ModelInvocationJobStatus._('Completed');
+  static const failed = ModelInvocationJobStatus._('Failed');
+  static const stopping = ModelInvocationJobStatus._('Stopping');
+  static const stopped = ModelInvocationJobStatus._('Stopped');
+  static const partiallyCompleted =
+      ModelInvocationJobStatus._('PartiallyCompleted');
+  static const expired = ModelInvocationJobStatus._('Expired');
+  static const validating = ModelInvocationJobStatus._('Validating');
+  static const scheduled = ModelInvocationJobStatus._('Scheduled');
 
   final String value;
 
-  const ModelInvocationJobStatus(this.value);
+  const ModelInvocationJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped,
+    partiallyCompleted,
+    expired,
+    validating,
+    scheduled
+  ];
 
   static ModelInvocationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelInvocationJobStatus'));
+          orElse: () => ModelInvocationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelInvocationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a batch inference job.
@@ -7707,20 +8029,29 @@ class ModelInvocationJobSummary {
   }
 }
 
-enum ModelModality {
-  text('TEXT'),
-  image('IMAGE'),
-  embedding('EMBEDDING'),
-  ;
+class ModelModality {
+  static const text = ModelModality._('TEXT');
+  static const image = ModelModality._('IMAGE');
+  static const embedding = ModelModality._('EMBEDDING');
 
   final String value;
 
-  const ModelModality(this.value);
+  const ModelModality._(this.value);
+
+  static const values = [text, image, embedding];
 
   static ModelModality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelModality'));
+          orElse: () => ModelModality._(value));
+
+  @override
+  bool operator ==(other) => other is ModelModality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// S3 Location of the output data.
@@ -7746,21 +8077,31 @@ class OutputDataConfig {
   }
 }
 
-enum ProvisionedModelStatus {
-  creating('Creating'),
-  inService('InService'),
-  updating('Updating'),
-  failed('Failed'),
-  ;
+class ProvisionedModelStatus {
+  static const creating = ProvisionedModelStatus._('Creating');
+  static const inService = ProvisionedModelStatus._('InService');
+  static const updating = ProvisionedModelStatus._('Updating');
+  static const failed = ProvisionedModelStatus._('Failed');
 
   final String value;
 
-  const ProvisionedModelStatus(this.value);
+  const ProvisionedModelStatus._(this.value);
+
+  static const values = [creating, inService, updating, failed];
 
   static ProvisionedModelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProvisionedModelStatus'));
+          orElse: () => ProvisionedModelStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about a Provisioned Throughput.
@@ -7845,7 +8186,8 @@ class ProvisionedModelSummary {
       modelUnits: (json['modelUnits'] as int?) ?? 0,
       provisionedModelArn: (json['provisionedModelArn'] as String?) ?? '',
       provisionedModelName: (json['provisionedModelName'] as String?) ?? '',
-      status: ProvisionedModelStatus.fromString((json['status'] as String)),
+      status:
+          ProvisionedModelStatus.fromString((json['status'] as String?) ?? ''),
       commitmentDuration: (json['commitmentDuration'] as String?)
           ?.let(CommitmentDuration.fromString),
       commitmentExpirationTime:
@@ -7951,73 +8293,118 @@ class S3DataSource {
   }
 }
 
-enum S3InputFormat {
-  jsonl('JSONL'),
-  ;
+class S3InputFormat {
+  static const jsonl = S3InputFormat._('JSONL');
 
   final String value;
 
-  const S3InputFormat(this.value);
+  const S3InputFormat._(this.value);
+
+  static const values = [jsonl];
 
   static S3InputFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3InputFormat'));
+          orElse: () => S3InputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is S3InputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortByProvisionedModels {
-  creationTime('CreationTime'),
-  ;
+class SortByProvisionedModels {
+  static const creationTime = SortByProvisionedModels._('CreationTime');
 
   final String value;
 
-  const SortByProvisionedModels(this.value);
+  const SortByProvisionedModels._(this.value);
+
+  static const values = [creationTime];
 
   static SortByProvisionedModels fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SortByProvisionedModels'));
+          orElse: () => SortByProvisionedModels._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortByProvisionedModels && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortJobsBy {
-  creationTime('CreationTime'),
-  ;
+class SortJobsBy {
+  static const creationTime = SortJobsBy._('CreationTime');
 
   final String value;
 
-  const SortJobsBy(this.value);
+  const SortJobsBy._(this.value);
 
-  static SortJobsBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortJobsBy'));
+  static const values = [creationTime];
+
+  static SortJobsBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortJobsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortJobsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortModelsBy {
-  creationTime('CreationTime'),
-  ;
+class SortModelsBy {
+  static const creationTime = SortModelsBy._('CreationTime');
 
   final String value;
 
-  const SortModelsBy(this.value);
+  const SortModelsBy._(this.value);
 
-  static SortModelsBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortModelsBy'));
+  static const values = [creationTime];
+
+  static SortModelsBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortModelsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortModelsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('Ascending');
+  static const descending = SortOrder._('Descending');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopEvaluationJobResponse {

@@ -2568,18 +2568,28 @@ class AutoScalingConfiguration {
   }
 }
 
-enum AutoScalingMetric {
-  cpuUtilizationPercentage('CPU_UTILIZATION_PERCENTAGE'),
-  ;
+class AutoScalingMetric {
+  static const cpuUtilizationPercentage =
+      AutoScalingMetric._('CPU_UTILIZATION_PERCENTAGE');
 
   final String value;
 
-  const AutoScalingMetric(this.value);
+  const AutoScalingMetric._(this.value);
+
+  static const values = [cpuUtilizationPercentage];
 
   static AutoScalingMetric fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoScalingMetric'));
+          orElse: () => AutoScalingMetric._(value));
+
+  @override
+  bool operator ==(other) => other is AutoScalingMetric && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure for the metadata of a cluster. It includes information like the
@@ -2679,7 +2689,7 @@ class ChangeRequest {
 
   factory ChangeRequest.fromJson(Map<String, dynamic> json) {
     return ChangeRequest(
-      changeType: ChangeType.fromString((json['changeType'] as String)),
+      changeType: ChangeType.fromString((json['changeType'] as String?) ?? ''),
       dbPath: (json['dbPath'] as String?) ?? '',
       s3Path: json['s3Path'] as String?,
     );
@@ -2697,35 +2707,53 @@ class ChangeRequest {
   }
 }
 
-enum ChangeType {
-  put('PUT'),
-  delete('DELETE'),
-  ;
+class ChangeType {
+  static const put = ChangeType._('PUT');
+  static const delete = ChangeType._('DELETE');
 
   final String value;
 
-  const ChangeType(this.value);
+  const ChangeType._(this.value);
 
-  static ChangeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChangeType'));
+  static const values = [put, delete];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChangesetStatus {
-  pending('PENDING'),
-  processing('PROCESSING'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class ChangesetStatus {
+  static const pending = ChangesetStatus._('PENDING');
+  static const processing = ChangesetStatus._('PROCESSING');
+  static const failed = ChangesetStatus._('FAILED');
+  static const completed = ChangesetStatus._('COMPLETED');
 
   final String value;
 
-  const ChangesetStatus(this.value);
+  const ChangesetStatus._(this.value);
+
+  static const values = [pending, processing, failed, completed];
 
   static ChangesetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangesetStatus'));
+          orElse: () => ChangesetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangesetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure of the customer code available within the running cluster.
@@ -4017,54 +4045,101 @@ class Environment {
   }
 }
 
-enum EnvironmentStatus {
-  createRequested('CREATE_REQUESTED'),
-  creating('CREATING'),
-  created('CREATED'),
-  deleteRequested('DELETE_REQUESTED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  failedCreation('FAILED_CREATION'),
-  retryDeletion('RETRY_DELETION'),
-  failedDeletion('FAILED_DELETION'),
-  updateNetworkRequested('UPDATE_NETWORK_REQUESTED'),
-  updatingNetwork('UPDATING_NETWORK'),
-  failedUpdatingNetwork('FAILED_UPDATING_NETWORK'),
-  suspended('SUSPENDED'),
-  ;
+class EnvironmentStatus {
+  static const createRequested = EnvironmentStatus._('CREATE_REQUESTED');
+  static const creating = EnvironmentStatus._('CREATING');
+  static const created = EnvironmentStatus._('CREATED');
+  static const deleteRequested = EnvironmentStatus._('DELETE_REQUESTED');
+  static const deleting = EnvironmentStatus._('DELETING');
+  static const deleted = EnvironmentStatus._('DELETED');
+  static const failedCreation = EnvironmentStatus._('FAILED_CREATION');
+  static const retryDeletion = EnvironmentStatus._('RETRY_DELETION');
+  static const failedDeletion = EnvironmentStatus._('FAILED_DELETION');
+  static const updateNetworkRequested =
+      EnvironmentStatus._('UPDATE_NETWORK_REQUESTED');
+  static const updatingNetwork = EnvironmentStatus._('UPDATING_NETWORK');
+  static const failedUpdatingNetwork =
+      EnvironmentStatus._('FAILED_UPDATING_NETWORK');
+  static const suspended = EnvironmentStatus._('SUSPENDED');
 
   final String value;
 
-  const EnvironmentStatus(this.value);
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    createRequested,
+    creating,
+    created,
+    deleteRequested,
+    deleting,
+    deleted,
+    failedCreation,
+    retryDeletion,
+    failedDeletion,
+    updateNetworkRequested,
+    updatingNetwork,
+    failedUpdatingNetwork,
+    suspended
+  ];
 
   static EnvironmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentStatus'));
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ErrorDetails {
-  theInputsToThisRequestAreInvalid('The inputs to this request are invalid.'),
-  serviceLimitsHaveBeenExceeded('Service limits have been exceeded.'),
-  missingRequiredPermissionToPerformThisRequest(
-      'Missing required permission to perform this request.'),
-  oneOrMoreInputsToThisRequestWereNotFound(
-      'One or more inputs to this request were not found.'),
-  theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest(
-      'The system temporarily lacks sufficient resources to process the request.'),
-  anInternalErrorHasOccurred('An internal error has occurred.'),
-  cancelled('Cancelled'),
-  aUserRecoverableErrorHasOccurred('A user recoverable error has occurred'),
-  ;
+class ErrorDetails {
+  static const theInputsToThisRequestAreInvalid =
+      ErrorDetails._('The inputs to this request are invalid.');
+  static const serviceLimitsHaveBeenExceeded =
+      ErrorDetails._('Service limits have been exceeded.');
+  static const missingRequiredPermissionToPerformThisRequest =
+      ErrorDetails._('Missing required permission to perform this request.');
+  static const oneOrMoreInputsToThisRequestWereNotFound =
+      ErrorDetails._('One or more inputs to this request were not found.');
+  static const theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest =
+      ErrorDetails._(
+          'The system temporarily lacks sufficient resources to process the request.');
+  static const anInternalErrorHasOccurred =
+      ErrorDetails._('An internal error has occurred.');
+  static const cancelled = ErrorDetails._('Cancelled');
+  static const aUserRecoverableErrorHasOccurred =
+      ErrorDetails._('A user recoverable error has occurred');
 
   final String value;
 
-  const ErrorDetails(this.value);
+  const ErrorDetails._(this.value);
 
-  static ErrorDetails fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ErrorDetails'));
+  static const values = [
+    theInputsToThisRequestAreInvalid,
+    serviceLimitsHaveBeenExceeded,
+    missingRequiredPermissionToPerformThisRequest,
+    oneOrMoreInputsToThisRequestWereNotFound,
+    theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest,
+    anInternalErrorHasOccurred,
+    cancelled,
+    aUserRecoverableErrorHasOccurred
+  ];
+
+  static ErrorDetails fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorDetails._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorDetails && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides details in the event of a failed flow, including the error type and
@@ -4098,19 +4173,28 @@ class ErrorInfo {
   }
 }
 
-enum FederationMode {
-  federated('FEDERATED'),
-  local('LOCAL'),
-  ;
+class FederationMode {
+  static const federated = FederationMode._('FEDERATED');
+  static const local = FederationMode._('LOCAL');
 
   final String value;
 
-  const FederationMode(this.value);
+  const FederationMode._(this.value);
+
+  static const values = [federated, local];
 
   static FederationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FederationMode'));
+          orElse: () => FederationMode._(value));
+
+  @override
+  bool operator ==(other) => other is FederationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information when authentication mode is FEDERATED.
@@ -5409,18 +5493,27 @@ class GetKxVolumeResponse {
   }
 }
 
-enum IPAddressType {
-  ipV4('IP_V4'),
-  ;
+class IPAddressType {
+  static const ipV4 = IPAddressType._('IP_V4');
 
   final String value;
 
-  const IPAddressType(this.value);
+  const IPAddressType._(this.value);
+
+  static const values = [ipV4];
 
   static IPAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IPAddressType'));
+          orElse: () => IPAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IPAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the ICMP protocol that consists of the ICMP type and code.
@@ -5521,18 +5614,27 @@ class KxAttachedCluster {
   }
 }
 
-enum KxAzMode {
-  single('SINGLE'),
-  multi('MULTI'),
-  ;
+class KxAzMode {
+  static const single = KxAzMode._('SINGLE');
+  static const multi = KxAzMode._('MULTI');
 
   final String value;
 
-  const KxAzMode(this.value);
+  const KxAzMode._(this.value);
 
-  static KxAzMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KxAzMode'));
+  static const values = [single, multi];
+
+  static KxAzMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxAzMode._(value));
+
+  @override
+  bool operator ==(other) => other is KxAzMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for read only disk cache associated with a cluster.
@@ -5895,59 +5997,96 @@ class KxClusterCodeDeploymentConfiguration {
   }
 }
 
-enum KxClusterCodeDeploymentStrategy {
-  noRestart('NO_RESTART'),
-  rolling('ROLLING'),
-  force('FORCE'),
-  ;
+class KxClusterCodeDeploymentStrategy {
+  static const noRestart = KxClusterCodeDeploymentStrategy._('NO_RESTART');
+  static const rolling = KxClusterCodeDeploymentStrategy._('ROLLING');
+  static const force = KxClusterCodeDeploymentStrategy._('FORCE');
 
   final String value;
 
-  const KxClusterCodeDeploymentStrategy(this.value);
+  const KxClusterCodeDeploymentStrategy._(this.value);
+
+  static const values = [noRestart, rolling, force];
 
   static KxClusterCodeDeploymentStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KxClusterCodeDeploymentStrategy'));
+          orElse: () => KxClusterCodeDeploymentStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxClusterCodeDeploymentStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KxClusterStatus {
-  pending('PENDING'),
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  running('RUNNING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class KxClusterStatus {
+  static const pending = KxClusterStatus._('PENDING');
+  static const creating = KxClusterStatus._('CREATING');
+  static const createFailed = KxClusterStatus._('CREATE_FAILED');
+  static const running = KxClusterStatus._('RUNNING');
+  static const updating = KxClusterStatus._('UPDATING');
+  static const deleting = KxClusterStatus._('DELETING');
+  static const deleted = KxClusterStatus._('DELETED');
+  static const deleteFailed = KxClusterStatus._('DELETE_FAILED');
 
   final String value;
 
-  const KxClusterStatus(this.value);
+  const KxClusterStatus._(this.value);
+
+  static const values = [
+    pending,
+    creating,
+    createFailed,
+    running,
+    updating,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
 
   static KxClusterStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxClusterStatus'));
+          orElse: () => KxClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KxClusterType {
-  hdb('HDB'),
-  rdb('RDB'),
-  gateway('GATEWAY'),
-  gp('GP'),
-  tickerplant('TICKERPLANT'),
-  ;
+class KxClusterType {
+  static const hdb = KxClusterType._('HDB');
+  static const rdb = KxClusterType._('RDB');
+  static const gateway = KxClusterType._('GATEWAY');
+  static const gp = KxClusterType._('GP');
+  static const tickerplant = KxClusterType._('TICKERPLANT');
 
   final String value;
 
-  const KxClusterType(this.value);
+  const KxClusterType._(this.value);
+
+  static const values = [hdb, rdb, gateway, gp, tickerplant];
 
   static KxClusterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxClusterType'));
+          orElse: () => KxClusterType._(value));
+
+  @override
+  bool operator ==(other) => other is KxClusterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the key-value pairs to make them available inside the cluster.
@@ -6443,22 +6582,31 @@ class KxDataviewSegmentConfiguration {
   }
 }
 
-enum KxDataviewStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  ;
+class KxDataviewStatus {
+  static const creating = KxDataviewStatus._('CREATING');
+  static const active = KxDataviewStatus._('ACTIVE');
+  static const updating = KxDataviewStatus._('UPDATING');
+  static const failed = KxDataviewStatus._('FAILED');
+  static const deleting = KxDataviewStatus._('DELETING');
 
   final String value;
 
-  const KxDataviewStatus(this.value);
+  const KxDataviewStatus._(this.value);
+
+  static const values = [creating, active, updating, failed, deleting];
 
   static KxDataviewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxDataviewStatus'));
+          orElse: () => KxDataviewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxDataviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration that allows you to choose how you want to update the
@@ -6497,19 +6645,29 @@ class KxDeploymentConfiguration {
   }
 }
 
-enum KxDeploymentStrategy {
-  noRestart('NO_RESTART'),
-  rolling('ROLLING'),
-  ;
+class KxDeploymentStrategy {
+  static const noRestart = KxDeploymentStrategy._('NO_RESTART');
+  static const rolling = KxDeploymentStrategy._('ROLLING');
 
   final String value;
 
-  const KxDeploymentStrategy(this.value);
+  const KxDeploymentStrategy._(this.value);
 
-  static KxDeploymentStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KxDeploymentStrategy'));
+  static const values = [noRestart, rolling];
+
+  static KxDeploymentStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxDeploymentStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxDeploymentStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a kdb environment.
@@ -6737,19 +6895,28 @@ class KxNAS1Configuration {
   }
 }
 
-enum KxNAS1Type {
-  ssd_1000('SSD_1000'),
-  ssd_250('SSD_250'),
-  hdd_12('HDD_12'),
-  ;
+class KxNAS1Type {
+  static const ssd_1000 = KxNAS1Type._('SSD_1000');
+  static const ssd_250 = KxNAS1Type._('SSD_250');
+  static const hdd_12 = KxNAS1Type._('HDD_12');
 
   final String value;
 
-  const KxNAS1Type(this.value);
+  const KxNAS1Type._(this.value);
 
-  static KxNAS1Type fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum KxNAS1Type'));
+  static const values = [ssd_1000, ssd_250, hdd_12];
+
+  static KxNAS1Type fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxNAS1Type._(value));
+
+  @override
+  bool operator ==(other) => other is KxNAS1Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that stores metadata for a kdb node.
@@ -6808,19 +6975,27 @@ class KxNode {
   }
 }
 
-enum KxNodeStatus {
-  running('RUNNING'),
-  provisioning('PROVISIONING'),
-  ;
+class KxNodeStatus {
+  static const running = KxNodeStatus._('RUNNING');
+  static const provisioning = KxNodeStatus._('PROVISIONING');
 
   final String value;
 
-  const KxNodeStatus(this.value);
+  const KxNodeStatus._(this.value);
 
-  static KxNodeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxNodeStatus'));
+  static const values = [running, provisioning];
+
+  static KxNodeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxNodeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxNodeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The size and type of temporary storage that is used to hold data during the
@@ -6870,18 +7045,28 @@ class KxSavedownStorageConfiguration {
   }
 }
 
-enum KxSavedownStorageType {
-  sds01('SDS01'),
-  ;
+class KxSavedownStorageType {
+  static const sds01 = KxSavedownStorageType._('SDS01');
 
   final String value;
 
-  const KxSavedownStorageType(this.value);
+  const KxSavedownStorageType._(this.value);
 
-  static KxSavedownStorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KxSavedownStorageType'));
+  static const values = [sds01];
+
+  static KxSavedownStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxSavedownStorageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxSavedownStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure for storing metadata of scaling group.
@@ -7062,23 +7247,40 @@ class KxScalingGroupConfiguration {
   }
 }
 
-enum KxScalingGroupStatus {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class KxScalingGroupStatus {
+  static const creating = KxScalingGroupStatus._('CREATING');
+  static const createFailed = KxScalingGroupStatus._('CREATE_FAILED');
+  static const active = KxScalingGroupStatus._('ACTIVE');
+  static const deleting = KxScalingGroupStatus._('DELETING');
+  static const deleted = KxScalingGroupStatus._('DELETED');
+  static const deleteFailed = KxScalingGroupStatus._('DELETE_FAILED');
 
   final String value;
 
-  const KxScalingGroupStatus(this.value);
+  const KxScalingGroupStatus._(this.value);
 
-  static KxScalingGroupStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KxScalingGroupStatus'));
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
+
+  static KxScalingGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxScalingGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxScalingGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that stores metadata for a kdb user.
@@ -7259,40 +7461,67 @@ class KxVolume {
   }
 }
 
-enum KxVolumeStatus {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  updated('UPDATED'),
-  updateFailed('UPDATE_FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class KxVolumeStatus {
+  static const creating = KxVolumeStatus._('CREATING');
+  static const createFailed = KxVolumeStatus._('CREATE_FAILED');
+  static const active = KxVolumeStatus._('ACTIVE');
+  static const updating = KxVolumeStatus._('UPDATING');
+  static const updated = KxVolumeStatus._('UPDATED');
+  static const updateFailed = KxVolumeStatus._('UPDATE_FAILED');
+  static const deleting = KxVolumeStatus._('DELETING');
+  static const deleted = KxVolumeStatus._('DELETED');
+  static const deleteFailed = KxVolumeStatus._('DELETE_FAILED');
 
   final String value;
 
-  const KxVolumeStatus(this.value);
+  const KxVolumeStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    updating,
+    updated,
+    updateFailed,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
 
   static KxVolumeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxVolumeStatus'));
+          orElse: () => KxVolumeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxVolumeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum KxVolumeType {
-  nas_1('NAS_1'),
-  ;
+class KxVolumeType {
+  static const nas_1 = KxVolumeType._('NAS_1');
 
   final String value;
 
-  const KxVolumeType(this.value);
+  const KxVolumeType._(this.value);
 
-  static KxVolumeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KxVolumeType'));
+  static const values = [nas_1];
+
+  static KxVolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxVolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is KxVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEnvironmentsResponse {
@@ -7681,7 +7910,7 @@ class NetworkACLEntry {
     return NetworkACLEntry(
       cidrBlock: (json['cidrBlock'] as String?) ?? '',
       protocol: (json['protocol'] as String?) ?? '',
-      ruleAction: RuleAction.fromString((json['ruleAction'] as String)),
+      ruleAction: RuleAction.fromString((json['ruleAction'] as String?) ?? ''),
       ruleNumber: (json['ruleNumber'] as int?) ?? 0,
       icmpTypeCode: json['icmpTypeCode'] != null
           ? IcmpTypeCode.fromJson(json['icmpTypeCode'] as Map<String, dynamic>)
@@ -7740,18 +7969,27 @@ class PortRange {
   }
 }
 
-enum RuleAction {
-  allow('allow'),
-  deny('deny'),
-  ;
+class RuleAction {
+  static const allow = RuleAction._('allow');
+  static const deny = RuleAction._('deny');
 
   final String value;
 
-  const RuleAction(this.value);
+  const RuleAction._(this.value);
 
-  static RuleAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleAction'));
+  static const values = [allow, deny];
+
+  static RuleAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleAction._(value));
+
+  @override
+  bool operator ==(other) => other is RuleAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for the superuser.
@@ -8651,17 +8889,26 @@ class Volume {
   }
 }
 
-enum VolumeType {
-  nas_1('NAS_1'),
-  ;
+class VolumeType {
+  static const nas_1 = VolumeType._('NAS_1');
 
   final String value;
 
-  const VolumeType(this.value);
+  const VolumeType._(this.value);
 
-  static VolumeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VolumeType'));
+  static const values = [nas_1];
+
+  static VolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is VolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration details about the network where the Privatelink endpoint of
@@ -8725,38 +8972,68 @@ class VpcConfiguration {
   }
 }
 
-enum DnsStatus {
-  none('NONE'),
-  updateRequested('UPDATE_REQUESTED'),
-  updating('UPDATING'),
-  failedUpdate('FAILED_UPDATE'),
-  successfullyUpdated('SUCCESSFULLY_UPDATED'),
-  ;
+class DnsStatus {
+  static const none = DnsStatus._('NONE');
+  static const updateRequested = DnsStatus._('UPDATE_REQUESTED');
+  static const updating = DnsStatus._('UPDATING');
+  static const failedUpdate = DnsStatus._('FAILED_UPDATE');
+  static const successfullyUpdated = DnsStatus._('SUCCESSFULLY_UPDATED');
 
   final String value;
 
-  const DnsStatus(this.value);
+  const DnsStatus._(this.value);
 
-  static DnsStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DnsStatus'));
+  static const values = [
+    none,
+    updateRequested,
+    updating,
+    failedUpdate,
+    successfullyUpdated
+  ];
+
+  static DnsStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DnsStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DnsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TgwStatus {
-  none('NONE'),
-  updateRequested('UPDATE_REQUESTED'),
-  updating('UPDATING'),
-  failedUpdate('FAILED_UPDATE'),
-  successfullyUpdated('SUCCESSFULLY_UPDATED'),
-  ;
+class TgwStatus {
+  static const none = TgwStatus._('NONE');
+  static const updateRequested = TgwStatus._('UPDATE_REQUESTED');
+  static const updating = TgwStatus._('UPDATING');
+  static const failedUpdate = TgwStatus._('FAILED_UPDATE');
+  static const successfullyUpdated = TgwStatus._('SUCCESSFULLY_UPDATED');
 
   final String value;
 
-  const TgwStatus(this.value);
+  const TgwStatus._(this.value);
 
-  static TgwStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TgwStatus'));
+  static const values = [
+    none,
+    updateRequested,
+    updating,
+    failedUpdate,
+    successfullyUpdated
+  ];
+
+  static TgwStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TgwStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TgwStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

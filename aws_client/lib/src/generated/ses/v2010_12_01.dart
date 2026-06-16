@@ -3593,19 +3593,29 @@ class AddHeaderAction {
   }
 }
 
-enum BehaviorOnMXFailure {
-  useDefaultValue('UseDefaultValue'),
-  rejectMessage('RejectMessage'),
-  ;
+class BehaviorOnMXFailure {
+  static const useDefaultValue = BehaviorOnMXFailure._('UseDefaultValue');
+  static const rejectMessage = BehaviorOnMXFailure._('RejectMessage');
 
   final String value;
 
-  const BehaviorOnMXFailure(this.value);
+  const BehaviorOnMXFailure._(this.value);
 
-  static BehaviorOnMXFailure fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BehaviorOnMXFailure'));
+  static const values = [useDefaultValue, rejectMessage];
+
+  static BehaviorOnMXFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BehaviorOnMXFailure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BehaviorOnMXFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the body of the message. You can specify text, HTML, or both. If
@@ -3729,22 +3739,38 @@ class BounceAction {
   }
 }
 
-enum BounceType {
-  doesNotExist('DoesNotExist'),
-  messageTooLarge('MessageTooLarge'),
-  exceededQuota('ExceededQuota'),
-  contentRejected('ContentRejected'),
-  undefined('Undefined'),
-  temporaryFailure('TemporaryFailure'),
-  ;
+class BounceType {
+  static const doesNotExist = BounceType._('DoesNotExist');
+  static const messageTooLarge = BounceType._('MessageTooLarge');
+  static const exceededQuota = BounceType._('ExceededQuota');
+  static const contentRejected = BounceType._('ContentRejected');
+  static const undefined = BounceType._('Undefined');
+  static const temporaryFailure = BounceType._('TemporaryFailure');
 
   final String value;
 
-  const BounceType(this.value);
+  const BounceType._(this.value);
 
-  static BounceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BounceType'));
+  static const values = [
+    doesNotExist,
+    messageTooLarge,
+    exceededQuota,
+    contentRejected,
+    undefined,
+    temporaryFailure
+  ];
+
+  static BounceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BounceType._(value));
+
+  @override
+  bool operator ==(other) => other is BounceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Recipient-related information to include in the Delivery Status Notification
@@ -3969,31 +3995,61 @@ class BulkEmailDestinationStatus {
   }
 }
 
-enum BulkEmailStatus {
-  success('Success'),
-  messageRejected('MessageRejected'),
-  mailFromDomainNotVerified('MailFromDomainNotVerified'),
-  configurationSetDoesNotExist('ConfigurationSetDoesNotExist'),
-  templateDoesNotExist('TemplateDoesNotExist'),
-  accountSuspended('AccountSuspended'),
-  accountThrottled('AccountThrottled'),
-  accountDailyQuotaExceeded('AccountDailyQuotaExceeded'),
-  invalidSendingPoolName('InvalidSendingPoolName'),
-  accountSendingPaused('AccountSendingPaused'),
-  configurationSetSendingPaused('ConfigurationSetSendingPaused'),
-  invalidParameterValue('InvalidParameterValue'),
-  transientFailure('TransientFailure'),
-  failed('Failed'),
-  ;
+class BulkEmailStatus {
+  static const success = BulkEmailStatus._('Success');
+  static const messageRejected = BulkEmailStatus._('MessageRejected');
+  static const mailFromDomainNotVerified =
+      BulkEmailStatus._('MailFromDomainNotVerified');
+  static const configurationSetDoesNotExist =
+      BulkEmailStatus._('ConfigurationSetDoesNotExist');
+  static const templateDoesNotExist = BulkEmailStatus._('TemplateDoesNotExist');
+  static const accountSuspended = BulkEmailStatus._('AccountSuspended');
+  static const accountThrottled = BulkEmailStatus._('AccountThrottled');
+  static const accountDailyQuotaExceeded =
+      BulkEmailStatus._('AccountDailyQuotaExceeded');
+  static const invalidSendingPoolName =
+      BulkEmailStatus._('InvalidSendingPoolName');
+  static const accountSendingPaused = BulkEmailStatus._('AccountSendingPaused');
+  static const configurationSetSendingPaused =
+      BulkEmailStatus._('ConfigurationSetSendingPaused');
+  static const invalidParameterValue =
+      BulkEmailStatus._('InvalidParameterValue');
+  static const transientFailure = BulkEmailStatus._('TransientFailure');
+  static const failed = BulkEmailStatus._('Failed');
 
   final String value;
 
-  const BulkEmailStatus(this.value);
+  const BulkEmailStatus._(this.value);
+
+  static const values = [
+    success,
+    messageRejected,
+    mailFromDomainNotVerified,
+    configurationSetDoesNotExist,
+    templateDoesNotExist,
+    accountSuspended,
+    accountThrottled,
+    accountDailyQuotaExceeded,
+    invalidSendingPoolName,
+    accountSendingPaused,
+    configurationSetSendingPaused,
+    invalidParameterValue,
+    transientFailure,
+    failed
+  ];
 
   static BulkEmailStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BulkEmailStatus'));
+          orElse: () => BulkEmailStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BulkEmailStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An empty element returned on a successful request.
@@ -4189,21 +4245,38 @@ class ConfigurationSet {
   }
 }
 
-enum ConfigurationSetAttribute {
-  eventDestinations('eventDestinations'),
-  trackingOptions('trackingOptions'),
-  deliveryOptions('deliveryOptions'),
-  reputationOptions('reputationOptions'),
-  ;
+class ConfigurationSetAttribute {
+  static const eventDestinations =
+      ConfigurationSetAttribute._('eventDestinations');
+  static const trackingOptions = ConfigurationSetAttribute._('trackingOptions');
+  static const deliveryOptions = ConfigurationSetAttribute._('deliveryOptions');
+  static const reputationOptions =
+      ConfigurationSetAttribute._('reputationOptions');
 
   final String value;
 
-  const ConfigurationSetAttribute(this.value);
+  const ConfigurationSetAttribute._(this.value);
+
+  static const values = [
+    eventDestinations,
+    trackingOptions,
+    deliveryOptions,
+    reputationOptions
+  ];
 
   static ConfigurationSetAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationSetAttribute'));
+          orElse: () => ConfigurationSetAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSetAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents textual data, plus an optional character set specification.
@@ -4339,21 +4412,31 @@ class CreateTemplateResponse {
   }
 }
 
-enum CustomMailFromStatus {
-  pending('Pending'),
-  success('Success'),
-  failed('Failed'),
-  temporaryFailure('TemporaryFailure'),
-  ;
+class CustomMailFromStatus {
+  static const pending = CustomMailFromStatus._('Pending');
+  static const success = CustomMailFromStatus._('Success');
+  static const failed = CustomMailFromStatus._('Failed');
+  static const temporaryFailure = CustomMailFromStatus._('TemporaryFailure');
 
   final String value;
 
-  const CustomMailFromStatus(this.value);
+  const CustomMailFromStatus._(this.value);
 
-  static CustomMailFromStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomMailFromStatus'));
+  static const values = [pending, success, failed, temporaryFailure];
+
+  static CustomMailFromStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomMailFromStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomMailFromStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a custom verification email template.
@@ -4801,37 +4884,56 @@ class Destination {
   }
 }
 
-enum DimensionValueSource {
-  messageTag('messageTag'),
-  emailHeader('emailHeader'),
-  linkTag('linkTag'),
-  ;
+class DimensionValueSource {
+  static const messageTag = DimensionValueSource._('messageTag');
+  static const emailHeader = DimensionValueSource._('emailHeader');
+  static const linkTag = DimensionValueSource._('linkTag');
 
   final String value;
 
-  const DimensionValueSource(this.value);
+  const DimensionValueSource._(this.value);
 
-  static DimensionValueSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DimensionValueSource'));
+  static const values = [messageTag, emailHeader, linkTag];
+
+  static DimensionValueSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DsnAction {
-  failed('failed'),
-  delayed('delayed'),
-  delivered('delivered'),
-  relayed('relayed'),
-  expanded('expanded'),
-  ;
+class DsnAction {
+  static const failed = DsnAction._('failed');
+  static const delayed = DsnAction._('delayed');
+  static const delivered = DsnAction._('delivered');
+  static const relayed = DsnAction._('relayed');
+  static const expanded = DsnAction._('expanded');
 
   final String value;
 
-  const DsnAction(this.value);
+  const DsnAction._(this.value);
 
-  static DsnAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DsnAction'));
+  static const values = [failed, delayed, delivered, relayed, expanded];
+
+  static DsnAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DsnAction._(value));
+
+  @override
+  bool operator ==(other) => other is DsnAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an event destination.
@@ -4991,24 +5093,42 @@ class EventDestination {
   }
 }
 
-enum EventType {
-  send('send'),
-  reject('reject'),
-  bounce('bounce'),
-  complaint('complaint'),
-  delivery('delivery'),
-  open('open'),
-  click('click'),
-  renderingFailure('renderingFailure'),
-  ;
+class EventType {
+  static const send = EventType._('send');
+  static const reject = EventType._('reject');
+  static const bounce = EventType._('bounce');
+  static const complaint = EventType._('complaint');
+  static const delivery = EventType._('delivery');
+  static const open = EventType._('open');
+  static const click = EventType._('click');
+  static const renderingFailure = EventType._('renderingFailure');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    send,
+    reject,
+    bounce,
+    complaint,
+    delivery,
+    open,
+    click,
+    renderingFailure
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional X-headers to include in the Delivery Status Notification (DSN)
@@ -5594,19 +5714,27 @@ class IdentityNotificationAttributes {
   }
 }
 
-enum IdentityType {
-  emailAddress('EmailAddress'),
-  domain('Domain'),
-  ;
+class IdentityType {
+  static const emailAddress = IdentityType._('EmailAddress');
+  static const domain = IdentityType._('Domain');
 
   final String value;
 
-  const IdentityType(this.value);
+  const IdentityType._(this.value);
 
-  static IdentityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityType'));
+  static const values = [emailAddress, domain];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the verification attributes of a single identity.
@@ -5642,19 +5770,28 @@ class IdentityVerificationAttributes {
   }
 }
 
-enum InvocationType {
-  event('Event'),
-  requestResponse('RequestResponse'),
-  ;
+class InvocationType {
+  static const event = InvocationType._('Event');
+  static const requestResponse = InvocationType._('RequestResponse');
 
   final String value;
 
-  const InvocationType(this.value);
+  const InvocationType._(this.value);
+
+  static const values = [event, requestResponse];
 
   static InvocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvocationType'));
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the delivery stream ARN and the IAM role ARN associated with an
@@ -6198,20 +6335,29 @@ class MessageTag {
   }
 }
 
-enum NotificationType {
-  bounce('Bounce'),
-  complaint('Complaint'),
-  delivery('Delivery'),
-  ;
+class NotificationType {
+  static const bounce = NotificationType._('Bounce');
+  static const complaint = NotificationType._('Complaint');
+  static const delivery = NotificationType._('Delivery');
 
   final String value;
 
-  const NotificationType(this.value);
+  const NotificationType._(this.value);
+
+  static const values = [bounce, complaint, delivery];
 
   static NotificationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationType'));
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -6461,19 +6607,29 @@ class ReceiptFilter {
   }
 }
 
-enum ReceiptFilterPolicy {
-  block('Block'),
-  allow('Allow'),
-  ;
+class ReceiptFilterPolicy {
+  static const block = ReceiptFilterPolicy._('Block');
+  static const allow = ReceiptFilterPolicy._('Allow');
 
   final String value;
 
-  const ReceiptFilterPolicy(this.value);
+  const ReceiptFilterPolicy._(this.value);
 
-  static ReceiptFilterPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReceiptFilterPolicy'));
+  static const values = [block, allow];
+
+  static ReceiptFilterPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReceiptFilterPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReceiptFilterPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A receipt IP address filter enables you to specify whether to accept or
@@ -7103,19 +7259,28 @@ class SNSAction {
   }
 }
 
-enum SNSActionEncoding {
-  utf_8('UTF-8'),
-  base64('Base64'),
-  ;
+class SNSActionEncoding {
+  static const utf_8 = SNSActionEncoding._('UTF-8');
+  static const base64 = SNSActionEncoding._('Base64');
 
   final String value;
 
-  const SNSActionEncoding(this.value);
+  const SNSActionEncoding._(this.value);
+
+  static const values = [utf_8, base64];
 
   static SNSActionEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SNSActionEncoding'));
+          orElse: () => SNSActionEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is SNSActionEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the topic ARN associated with an Amazon Simple Notification Service
@@ -7503,17 +7668,26 @@ class StopAction {
   }
 }
 
-enum StopScope {
-  ruleSet('RuleSet'),
-  ;
+class StopScope {
+  static const ruleSet = StopScope._('RuleSet');
 
   final String value;
 
-  const StopScope(this.value);
+  const StopScope._(this.value);
 
-  static StopScope fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StopScope'));
+  static const values = [ruleSet];
+
+  static StopScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopScope._(value));
+
+  @override
+  bool operator ==(other) => other is StopScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The content of the email, composed of a subject line and either an HTML part
@@ -7628,18 +7802,27 @@ class TestRenderTemplateResponse {
   }
 }
 
-enum TlsPolicy {
-  require('Require'),
-  optional('Optional'),
-  ;
+class TlsPolicy {
+  static const require = TlsPolicy._('Require');
+  static const optional = TlsPolicy._('Optional');
 
   final String value;
 
-  const TlsPolicy(this.value);
+  const TlsPolicy._(this.value);
 
-  static TlsPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TlsPolicy'));
+  static const values = [require, optional];
+
+  static TlsPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TlsPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is TlsPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A domain that is used to redirect email recipients to an Amazon SES-operated
@@ -7737,22 +7920,38 @@ class UpdateTemplateResponse {
   }
 }
 
-enum VerificationStatus {
-  pending('Pending'),
-  success('Success'),
-  failed('Failed'),
-  temporaryFailure('TemporaryFailure'),
-  notStarted('NotStarted'),
-  ;
+class VerificationStatus {
+  static const pending = VerificationStatus._('Pending');
+  static const success = VerificationStatus._('Success');
+  static const failed = VerificationStatus._('Failed');
+  static const temporaryFailure = VerificationStatus._('TemporaryFailure');
+  static const notStarted = VerificationStatus._('NotStarted');
 
   final String value;
 
-  const VerificationStatus(this.value);
+  const VerificationStatus._(this.value);
 
-  static VerificationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerificationStatus'));
+  static const values = [
+    pending,
+    success,
+    failed,
+    temporaryFailure,
+    notStarted
+  ];
+
+  static VerificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns CNAME records that you must publish to the DNS server of your domain

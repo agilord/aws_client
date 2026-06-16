@@ -3913,23 +3913,40 @@ class AllowDenyList {
   }
 }
 
-enum AsyncJobStatus {
-  inProgressInitializing('IN_PROGRESS_INITIALIZING'),
-  inProgress('IN_PROGRESS'),
-  cancelInProgress('CANCEL_IN_PROGRESS'),
-  canceled('CANCELED'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class AsyncJobStatus {
+  static const inProgressInitializing =
+      AsyncJobStatus._('IN_PROGRESS_INITIALIZING');
+  static const inProgress = AsyncJobStatus._('IN_PROGRESS');
+  static const cancelInProgress = AsyncJobStatus._('CANCEL_IN_PROGRESS');
+  static const canceled = AsyncJobStatus._('CANCELED');
+  static const complete = AsyncJobStatus._('COMPLETE');
+  static const failed = AsyncJobStatus._('FAILED');
 
   final String value;
 
-  const AsyncJobStatus(this.value);
+  const AsyncJobStatus._(this.value);
+
+  static const values = [
+    inProgressInitializing,
+    inProgress,
+    cancelInProgress,
+    canceled,
+    complete,
+    failed
+  ];
 
   static AsyncJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AsyncJobStatus'));
+          orElse: () => AsyncJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AsyncJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the error of the batch create variable API.
@@ -4486,36 +4503,54 @@ class CreateVariableResult {
   }
 }
 
-enum DataSource {
-  event('EVENT'),
-  modelScore('MODEL_SCORE'),
-  externalModelScore('EXTERNAL_MODEL_SCORE'),
-  ;
+class DataSource {
+  static const event = DataSource._('EVENT');
+  static const modelScore = DataSource._('MODEL_SCORE');
+  static const externalModelScore = DataSource._('EXTERNAL_MODEL_SCORE');
 
   final String value;
 
-  const DataSource(this.value);
+  const DataSource._(this.value);
 
-  static DataSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataSource'));
+  static const values = [event, modelScore, externalModelScore];
+
+  static DataSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSource._(value));
+
+  @override
+  bool operator ==(other) => other is DataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataType {
-  string('STRING'),
-  integer('INTEGER'),
-  float('FLOAT'),
-  boolean('BOOLEAN'),
-  datetime('DATETIME'),
-  ;
+class DataType {
+  static const string = DataType._('STRING');
+  static const integer = DataType._('INTEGER');
+  static const float = DataType._('FLOAT');
+  static const boolean = DataType._('BOOLEAN');
+  static const datetime = DataType._('DATETIME');
 
   final String value;
 
-  const DataType(this.value);
+  const DataType._(this.value);
 
-  static DataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataType'));
+  static const values = [string, integer, float, boolean, datetime];
+
+  static DataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataType._(value));
+
+  @override
+  bool operator ==(other) => other is DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The model training data validation metrics.
@@ -4904,20 +4939,30 @@ class Detector {
   }
 }
 
-enum DetectorVersionStatus {
-  draft('DRAFT'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class DetectorVersionStatus {
+  static const draft = DetectorVersionStatus._('DRAFT');
+  static const active = DetectorVersionStatus._('ACTIVE');
+  static const inactive = DetectorVersionStatus._('INACTIVE');
 
   final String value;
 
-  const DetectorVersionStatus(this.value);
+  const DetectorVersionStatus._(this.value);
 
-  static DetectorVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DetectorVersionStatus'));
+  static const values = [draft, active, inactive];
+
+  static DetectorVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetectorVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetectorVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the detector version.
@@ -5287,19 +5332,28 @@ class Event {
   }
 }
 
-enum EventIngestion {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EventIngestion {
+  static const enabled = EventIngestion._('ENABLED');
+  static const disabled = EventIngestion._('DISABLED');
 
   final String value;
 
-  const EventIngestion(this.value);
+  const EventIngestion._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EventIngestion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventIngestion'));
+          orElse: () => EventIngestion._(value));
+
+  @override
+  bool operator ==(other) => other is EventIngestion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The event orchestration status.
@@ -7005,17 +7059,26 @@ class LabelSchema {
   }
 }
 
-enum Language {
-  detectorpl('DETECTORPL'),
-  ;
+class Language {
+  static const detectorpl = Language._('DETECTORPL');
 
   final String value;
 
-  const Language(this.value);
+  const Language._(this.value);
 
-  static Language fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Language'));
+  static const values = [detectorpl];
+
+  static Language fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Language._(value));
+
+  @override
+  bool operator ==(other) => other is Language && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEventPredictionsResult {
@@ -7086,20 +7149,29 @@ class ListTagsForResourceResult {
   }
 }
 
-enum ListUpdateMode {
-  replace('REPLACE'),
-  append('APPEND'),
-  remove('REMOVE'),
-  ;
+class ListUpdateMode {
+  static const replace = ListUpdateMode._('REPLACE');
+  static const append = ListUpdateMode._('APPEND');
+  static const remove = ListUpdateMode._('REMOVE');
 
   final String value;
 
-  const ListUpdateMode(this.value);
+  const ListUpdateMode._(this.value);
+
+  static const values = [replace, append, remove];
 
   static ListUpdateMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListUpdateMode'));
+          orElse: () => ListUpdateMode._(value));
+
+  @override
+  bool operator ==(other) => other is ListUpdateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The log odds metric details.
@@ -7280,19 +7352,29 @@ class ModelEndpointDataBlob {
   }
 }
 
-enum ModelEndpointStatus {
-  associated('ASSOCIATED'),
-  dissociated('DISSOCIATED'),
-  ;
+class ModelEndpointStatus {
+  static const associated = ModelEndpointStatus._('ASSOCIATED');
+  static const dissociated = ModelEndpointStatus._('DISSOCIATED');
 
   final String value;
 
-  const ModelEndpointStatus(this.value);
+  const ModelEndpointStatus._(this.value);
 
-  static ModelEndpointStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelEndpointStatus'));
+  static const values = [associated, dissociated];
+
+  static ModelEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon SageMaker model input configuration.
@@ -7352,19 +7434,29 @@ class ModelInputConfiguration {
   }
 }
 
-enum ModelInputDataFormat {
-  textCsv('TEXT_CSV'),
-  applicationJson('APPLICATION_JSON'),
-  ;
+class ModelInputDataFormat {
+  static const textCsv = ModelInputDataFormat._('TEXT_CSV');
+  static const applicationJson = ModelInputDataFormat._('APPLICATION_JSON');
 
   final String value;
 
-  const ModelInputDataFormat(this.value);
+  const ModelInputDataFormat._(this.value);
 
-  static ModelInputDataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelInputDataFormat'));
+  static const values = [textCsv, applicationJson];
+
+  static ModelInputDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelInputDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelInputDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the Amazon Sagemaker model output configuration.
@@ -7388,7 +7480,8 @@ class ModelOutputConfiguration {
 
   factory ModelOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelOutputConfiguration(
-      format: ModelOutputDataFormat.fromString((json['format'] as String)),
+      format:
+          ModelOutputDataFormat.fromString((json['format'] as String?) ?? ''),
       csvIndexToVariableMap:
           (json['csvIndexToVariableMap'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -7412,19 +7505,30 @@ class ModelOutputConfiguration {
   }
 }
 
-enum ModelOutputDataFormat {
-  textCsv('TEXT_CSV'),
-  applicationJsonlines('APPLICATION_JSONLINES'),
-  ;
+class ModelOutputDataFormat {
+  static const textCsv = ModelOutputDataFormat._('TEXT_CSV');
+  static const applicationJsonlines =
+      ModelOutputDataFormat._('APPLICATION_JSONLINES');
 
   final String value;
 
-  const ModelOutputDataFormat(this.value);
+  const ModelOutputDataFormat._(this.value);
 
-  static ModelOutputDataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelOutputDataFormat'));
+  static const values = [textCsv, applicationJsonlines];
+
+  static ModelOutputDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelOutputDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelOutputDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The fraud prediction scores.
@@ -7460,33 +7564,57 @@ class ModelScores {
   }
 }
 
-enum ModelSource {
-  sagemaker('SAGEMAKER'),
-  ;
+class ModelSource {
+  static const sagemaker = ModelSource._('SAGEMAKER');
 
   final String value;
 
-  const ModelSource(this.value);
+  const ModelSource._(this.value);
 
-  static ModelSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ModelSource'));
+  static const values = [sagemaker];
+
+  static ModelSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelSource._(value));
+
+  @override
+  bool operator ==(other) => other is ModelSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelTypeEnum {
-  onlineFraudInsights('ONLINE_FRAUD_INSIGHTS'),
-  transactionFraudInsights('TRANSACTION_FRAUD_INSIGHTS'),
-  accountTakeoverInsights('ACCOUNT_TAKEOVER_INSIGHTS'),
-  ;
+class ModelTypeEnum {
+  static const onlineFraudInsights = ModelTypeEnum._('ONLINE_FRAUD_INSIGHTS');
+  static const transactionFraudInsights =
+      ModelTypeEnum._('TRANSACTION_FRAUD_INSIGHTS');
+  static const accountTakeoverInsights =
+      ModelTypeEnum._('ACCOUNT_TAKEOVER_INSIGHTS');
 
   final String value;
 
-  const ModelTypeEnum(this.value);
+  const ModelTypeEnum._(this.value);
+
+  static const values = [
+    onlineFraudInsights,
+    transactionFraudInsights,
+    accountTakeoverInsights
+  ];
 
   static ModelTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelTypeEnum'));
+          orElse: () => ModelTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ModelTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The model version.
@@ -7513,7 +7641,7 @@ class ModelVersion {
   factory ModelVersion.fromJson(Map<String, dynamic> json) {
     return ModelVersion(
       modelId: (json['modelId'] as String?) ?? '',
-      modelType: ModelTypeEnum.fromString((json['modelType'] as String)),
+      modelType: ModelTypeEnum.fromString((json['modelType'] as String?) ?? ''),
       modelVersionNumber: (json['modelVersionNumber'] as String?) ?? '',
       arn: json['arn'] as String?,
     );
@@ -7705,20 +7833,30 @@ class ModelVersionEvaluation {
   }
 }
 
-enum ModelVersionStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  trainingCancelled('TRAINING_CANCELLED'),
-  ;
+class ModelVersionStatus {
+  static const active = ModelVersionStatus._('ACTIVE');
+  static const inactive = ModelVersionStatus._('INACTIVE');
+  static const trainingCancelled = ModelVersionStatus._('TRAINING_CANCELLED');
 
   final String value;
 
-  const ModelVersionStatus(this.value);
+  const ModelVersionStatus._(this.value);
 
-  static ModelVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelVersionStatus'));
+  static const values = [active, inactive, trainingCancelled];
+
+  static ModelVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Online Fraud Insights (OFI) model performance metrics data points.
@@ -8178,19 +8316,28 @@ class RuleDetail {
   }
 }
 
-enum RuleExecutionMode {
-  allMatched('ALL_MATCHED'),
-  firstMatched('FIRST_MATCHED'),
-  ;
+class RuleExecutionMode {
+  static const allMatched = RuleExecutionMode._('ALL_MATCHED');
+  static const firstMatched = RuleExecutionMode._('FIRST_MATCHED');
 
   final String value;
 
-  const RuleExecutionMode(this.value);
+  const RuleExecutionMode._(this.value);
+
+  static const values = [allMatched, firstMatched];
 
   static RuleExecutionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleExecutionMode'));
+          orElse: () => RuleExecutionMode._(value));
+
+  @override
+  bool operator ==(other) => other is RuleExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The rule results.
@@ -8435,19 +8582,29 @@ class TrainingDataSchema {
   }
 }
 
-enum TrainingDataSourceEnum {
-  externalEvents('EXTERNAL_EVENTS'),
-  ingestedEvents('INGESTED_EVENTS'),
-  ;
+class TrainingDataSourceEnum {
+  static const externalEvents = TrainingDataSourceEnum._('EXTERNAL_EVENTS');
+  static const ingestedEvents = TrainingDataSourceEnum._('INGESTED_EVENTS');
 
   final String value;
 
-  const TrainingDataSourceEnum(this.value);
+  const TrainingDataSourceEnum._(this.value);
+
+  static const values = [externalEvents, ingestedEvents];
 
   static TrainingDataSourceEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrainingDataSourceEnum'));
+          orElse: () => TrainingDataSourceEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingDataSourceEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The training metric details.
@@ -8679,21 +8836,31 @@ class UncertaintyRange {
   }
 }
 
-enum UnlabeledEventsTreatment {
-  ignore('IGNORE'),
-  fraud('FRAUD'),
-  legit('LEGIT'),
-  auto('AUTO'),
-  ;
+class UnlabeledEventsTreatment {
+  static const ignore = UnlabeledEventsTreatment._('IGNORE');
+  static const fraud = UnlabeledEventsTreatment._('FRAUD');
+  static const legit = UnlabeledEventsTreatment._('LEGIT');
+  static const auto = UnlabeledEventsTreatment._('AUTO');
 
   final String value;
 
-  const UnlabeledEventsTreatment(this.value);
+  const UnlabeledEventsTreatment._(this.value);
+
+  static const values = [ignore, fraud, legit, auto];
 
   static UnlabeledEventsTreatment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnlabeledEventsTreatment'));
+          orElse: () => UnlabeledEventsTreatment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnlabeledEventsTreatment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResult {

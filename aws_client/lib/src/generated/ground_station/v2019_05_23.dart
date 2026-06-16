@@ -1374,20 +1374,29 @@ class AgentDetails {
   }
 }
 
-enum AgentStatus {
-  success('SUCCESS'),
-  failed('FAILED'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class AgentStatus {
+  static const success = AgentStatus._('SUCCESS');
+  static const failed = AgentStatus._('FAILED');
+  static const active = AgentStatus._('ACTIVE');
+  static const inactive = AgentStatus._('INACTIVE');
 
   final String value;
 
-  const AgentStatus(this.value);
+  const AgentStatus._(this.value);
 
-  static AgentStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AgentStatus'));
+  static const values = [success, failed, active, inactive];
+
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Aggregate status of Agent components.
@@ -1413,18 +1422,27 @@ class AggregateStatus {
   }
 }
 
-enum AngleUnits {
-  degreeAngle('DEGREE_ANGLE'),
-  radian('RADIAN'),
-  ;
+class AngleUnits {
+  static const degreeAngle = AngleUnits._('DEGREE_ANGLE');
+  static const radian = AngleUnits._('RADIAN');
 
   final String value;
 
-  const AngleUnits(this.value);
+  const AngleUnits._(this.value);
 
-  static AngleUnits fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AngleUnits'));
+  static const values = [degreeAngle, radian];
+
+  static AngleUnits fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AngleUnits._(value));
+
+  @override
+  bool operator ==(other) => other is AngleUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an antenna demod decode <code>Config</code> used in a contact.
@@ -1560,19 +1578,27 @@ class AntennaUplinkConfig {
   }
 }
 
-enum AuditResults {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class AuditResults {
+  static const healthy = AuditResults._('HEALTHY');
+  static const unhealthy = AuditResults._('UNHEALTHY');
 
   final String value;
 
-  const AuditResults(this.value);
+  const AuditResults._(this.value);
 
-  static AuditResults fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuditResults'));
+  static const values = [healthy, unhealthy];
+
+  static AuditResults fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuditResults._(value));
+
+  @override
+  bool operator ==(other) => other is AuditResults && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about AwsGroundStationAgentEndpoint.
@@ -1633,55 +1659,96 @@ class AwsGroundStationAgentEndpoint {
   }
 }
 
-enum BandwidthUnits {
-  gHz('GHz'),
-  mHz('MHz'),
-  kHz('kHz'),
-  ;
+class BandwidthUnits {
+  static const gHz = BandwidthUnits._('GHz');
+  static const mHz = BandwidthUnits._('MHz');
+  static const kHz = BandwidthUnits._('kHz');
 
   final String value;
 
-  const BandwidthUnits(this.value);
+  const BandwidthUnits._(this.value);
+
+  static const values = [gHz, mHz, kHz];
 
   static BandwidthUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BandwidthUnits'));
+          orElse: () => BandwidthUnits._(value));
+
+  @override
+  bool operator ==(other) => other is BandwidthUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CapabilityHealth {
-  unhealthy('UNHEALTHY'),
-  healthy('HEALTHY'),
-  ;
+class CapabilityHealth {
+  static const unhealthy = CapabilityHealth._('UNHEALTHY');
+  static const healthy = CapabilityHealth._('HEALTHY');
 
   final String value;
 
-  const CapabilityHealth(this.value);
+  const CapabilityHealth._(this.value);
+
+  static const values = [unhealthy, healthy];
 
   static CapabilityHealth fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CapabilityHealth'));
+          orElse: () => CapabilityHealth._(value));
+
+  @override
+  bool operator ==(other) => other is CapabilityHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CapabilityHealthReason {
-  noRegisteredAgent('NO_REGISTERED_AGENT'),
-  invalidIpOwnership('INVALID_IP_OWNERSHIP'),
-  notAuthorizedToCreateSlr('NOT_AUTHORIZED_TO_CREATE_SLR'),
-  unverifiedIpOwnership('UNVERIFIED_IP_OWNERSHIP'),
-  initializingDataplane('INITIALIZING_DATAPLANE'),
-  dataplaneFailure('DATAPLANE_FAILURE'),
-  healthy('HEALTHY'),
-  ;
+class CapabilityHealthReason {
+  static const noRegisteredAgent =
+      CapabilityHealthReason._('NO_REGISTERED_AGENT');
+  static const invalidIpOwnership =
+      CapabilityHealthReason._('INVALID_IP_OWNERSHIP');
+  static const notAuthorizedToCreateSlr =
+      CapabilityHealthReason._('NOT_AUTHORIZED_TO_CREATE_SLR');
+  static const unverifiedIpOwnership =
+      CapabilityHealthReason._('UNVERIFIED_IP_OWNERSHIP');
+  static const initializingDataplane =
+      CapabilityHealthReason._('INITIALIZING_DATAPLANE');
+  static const dataplaneFailure = CapabilityHealthReason._('DATAPLANE_FAILURE');
+  static const healthy = CapabilityHealthReason._('HEALTHY');
 
   final String value;
 
-  const CapabilityHealthReason(this.value);
+  const CapabilityHealthReason._(this.value);
+
+  static const values = [
+    noRegisteredAgent,
+    invalidIpOwnership,
+    notAuthorizedToCreateSlr,
+    unverifiedIpOwnership,
+    initializingDataplane,
+    dataplaneFailure,
+    healthy
+  ];
 
   static CapabilityHealthReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapabilityHealthReason'));
+          orElse: () => CapabilityHealthReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapabilityHealthReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Data on the status of agent components.
@@ -1760,24 +1827,43 @@ class ComponentVersion {
   }
 }
 
-enum ConfigCapabilityType {
-  antennaDownlink('antenna-downlink'),
-  antennaDownlinkDemodDecode('antenna-downlink-demod-decode'),
-  antennaUplink('antenna-uplink'),
-  dataflowEndpoint('dataflow-endpoint'),
-  tracking('tracking'),
-  uplinkEcho('uplink-echo'),
-  s3Recording('s3-recording'),
-  ;
+class ConfigCapabilityType {
+  static const antennaDownlink = ConfigCapabilityType._('antenna-downlink');
+  static const antennaDownlinkDemodDecode =
+      ConfigCapabilityType._('antenna-downlink-demod-decode');
+  static const antennaUplink = ConfigCapabilityType._('antenna-uplink');
+  static const dataflowEndpoint = ConfigCapabilityType._('dataflow-endpoint');
+  static const tracking = ConfigCapabilityType._('tracking');
+  static const uplinkEcho = ConfigCapabilityType._('uplink-echo');
+  static const s3Recording = ConfigCapabilityType._('s3-recording');
 
   final String value;
 
-  const ConfigCapabilityType(this.value);
+  const ConfigCapabilityType._(this.value);
 
-  static ConfigCapabilityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigCapabilityType'));
+  static const values = [
+    antennaDownlink,
+    antennaDownlinkDemodDecode,
+    antennaUplink,
+    dataflowEndpoint,
+    tracking,
+    uplinkEcho,
+    s3Recording
+  ];
+
+  static ConfigCapabilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigCapabilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigCapabilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details for certain <code>Config</code> object types in a contact.
@@ -2208,45 +2294,77 @@ class ContactIdResponse {
   }
 }
 
-enum ContactStatus {
-  available('AVAILABLE'),
-  awsCancelled('AWS_CANCELLED'),
-  awsFailed('AWS_FAILED'),
-  cancelled('CANCELLED'),
-  cancelling('CANCELLING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  failedToSchedule('FAILED_TO_SCHEDULE'),
-  pass('PASS'),
-  postpass('POSTPASS'),
-  prepass('PREPASS'),
-  scheduled('SCHEDULED'),
-  scheduling('SCHEDULING'),
-  ;
+class ContactStatus {
+  static const available = ContactStatus._('AVAILABLE');
+  static const awsCancelled = ContactStatus._('AWS_CANCELLED');
+  static const awsFailed = ContactStatus._('AWS_FAILED');
+  static const cancelled = ContactStatus._('CANCELLED');
+  static const cancelling = ContactStatus._('CANCELLING');
+  static const completed = ContactStatus._('COMPLETED');
+  static const failed = ContactStatus._('FAILED');
+  static const failedToSchedule = ContactStatus._('FAILED_TO_SCHEDULE');
+  static const pass = ContactStatus._('PASS');
+  static const postpass = ContactStatus._('POSTPASS');
+  static const prepass = ContactStatus._('PREPASS');
+  static const scheduled = ContactStatus._('SCHEDULED');
+  static const scheduling = ContactStatus._('SCHEDULING');
 
   final String value;
 
-  const ContactStatus(this.value);
+  const ContactStatus._(this.value);
+
+  static const values = [
+    available,
+    awsCancelled,
+    awsFailed,
+    cancelled,
+    cancelling,
+    completed,
+    failed,
+    failedToSchedule,
+    pass,
+    postpass,
+    prepass,
+    scheduled,
+    scheduling
+  ];
 
   static ContactStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContactStatus'));
+          orElse: () => ContactStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContactStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Criticality {
-  preferred('PREFERRED'),
-  removed('REMOVED'),
-  required('REQUIRED'),
-  ;
+class Criticality {
+  static const preferred = Criticality._('PREFERRED');
+  static const removed = Criticality._('REMOVED');
+  static const required = Criticality._('REQUIRED');
 
   final String value;
 
-  const Criticality(this.value);
+  const Criticality._(this.value);
 
-  static Criticality fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Criticality'));
+  static const values = [preferred, removed, required];
+
+  static Criticality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Criticality._(value));
+
+  @override
+  bool operator ==(other) => other is Criticality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a dataflow edge used in a contact.
@@ -2808,7 +2926,7 @@ class Eirp {
 
   factory Eirp.fromJson(Map<String, dynamic> json) {
     return Eirp(
-      units: EirpUnits.fromString((json['units'] as String)),
+      units: EirpUnits.fromString((json['units'] as String?) ?? ''),
       value: (json['value'] as double?) ?? 0,
     );
   }
@@ -2823,17 +2941,26 @@ class Eirp {
   }
 }
 
-enum EirpUnits {
-  dbw('dBW'),
-  ;
+class EirpUnits {
+  static const dbw = EirpUnits._('dBW');
 
   final String value;
 
-  const EirpUnits(this.value);
+  const EirpUnits._(this.value);
 
-  static EirpUnits fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EirpUnits'));
+  static const values = [dbw];
+
+  static EirpUnits fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EirpUnits._(value));
+
+  @override
+  bool operator ==(other) => other is EirpUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Elevation angle of the satellite in the sky during a contact.
@@ -2851,7 +2978,7 @@ class Elevation {
 
   factory Elevation.fromJson(Map<String, dynamic> json) {
     return Elevation(
-      unit: AngleUnits.fromString((json['unit'] as String)),
+      unit: AngleUnits.fromString((json['unit'] as String?) ?? ''),
       value: (json['value'] as double?) ?? 0,
     );
   }
@@ -2935,22 +3062,31 @@ class EndpointDetails {
   }
 }
 
-enum EndpointStatus {
-  created('created'),
-  creating('creating'),
-  deleted('deleted'),
-  deleting('deleting'),
-  failed('failed'),
-  ;
+class EndpointStatus {
+  static const created = EndpointStatus._('created');
+  static const creating = EndpointStatus._('creating');
+  static const deleted = EndpointStatus._('deleted');
+  static const deleting = EndpointStatus._('deleting');
+  static const failed = EndpointStatus._('failed');
 
   final String value;
 
-  const EndpointStatus(this.value);
+  const EndpointStatus._(this.value);
+
+  static const values = [created, creating, deleted, deleting, failed];
 
   static EndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointStatus'));
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ephemeris data.
@@ -3027,22 +3163,40 @@ class EphemerisIdResponse {
   }
 }
 
-enum EphemerisInvalidReason {
-  metadataInvalid('METADATA_INVALID'),
-  timeRangeInvalid('TIME_RANGE_INVALID'),
-  trajectoryInvalid('TRAJECTORY_INVALID'),
-  kmsKeyInvalid('KMS_KEY_INVALID'),
-  validationError('VALIDATION_ERROR'),
-  ;
+class EphemerisInvalidReason {
+  static const metadataInvalid = EphemerisInvalidReason._('METADATA_INVALID');
+  static const timeRangeInvalid =
+      EphemerisInvalidReason._('TIME_RANGE_INVALID');
+  static const trajectoryInvalid =
+      EphemerisInvalidReason._('TRAJECTORY_INVALID');
+  static const kmsKeyInvalid = EphemerisInvalidReason._('KMS_KEY_INVALID');
+  static const validationError = EphemerisInvalidReason._('VALIDATION_ERROR');
 
   final String value;
 
-  const EphemerisInvalidReason(this.value);
+  const EphemerisInvalidReason._(this.value);
+
+  static const values = [
+    metadataInvalid,
+    timeRangeInvalid,
+    trajectoryInvalid,
+    kmsKeyInvalid,
+    validationError
+  ];
 
   static EphemerisInvalidReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EphemerisInvalidReason'));
+          orElse: () => EphemerisInvalidReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EphemerisInvalidReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ephemeris item.
@@ -3151,7 +3305,7 @@ class EphemerisMetaData {
 
   factory EphemerisMetaData.fromJson(Map<String, dynamic> json) {
     return EphemerisMetaData(
-      source: EphemerisSource.fromString((json['source'] as String)),
+      source: EphemerisSource.fromString((json['source'] as String?) ?? ''),
       ephemerisId: json['ephemerisId'] as String?,
       epoch: timeStampFromJson(json['epoch']),
       name: json['name'] as String?,
@@ -3172,38 +3326,63 @@ class EphemerisMetaData {
   }
 }
 
-enum EphemerisSource {
-  customerProvided('CUSTOMER_PROVIDED'),
-  spaceTrack('SPACE_TRACK'),
-  ;
+class EphemerisSource {
+  static const customerProvided = EphemerisSource._('CUSTOMER_PROVIDED');
+  static const spaceTrack = EphemerisSource._('SPACE_TRACK');
 
   final String value;
 
-  const EphemerisSource(this.value);
+  const EphemerisSource._(this.value);
+
+  static const values = [customerProvided, spaceTrack];
 
   static EphemerisSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EphemerisSource'));
+          orElse: () => EphemerisSource._(value));
+
+  @override
+  bool operator ==(other) => other is EphemerisSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EphemerisStatus {
-  validating('VALIDATING'),
-  invalid('INVALID'),
-  error('ERROR'),
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  expired('EXPIRED'),
-  ;
+class EphemerisStatus {
+  static const validating = EphemerisStatus._('VALIDATING');
+  static const invalid = EphemerisStatus._('INVALID');
+  static const error = EphemerisStatus._('ERROR');
+  static const enabled = EphemerisStatus._('ENABLED');
+  static const disabled = EphemerisStatus._('DISABLED');
+  static const expired = EphemerisStatus._('EXPIRED');
 
   final String value;
 
-  const EphemerisStatus(this.value);
+  const EphemerisStatus._(this.value);
+
+  static const values = [
+    validating,
+    invalid,
+    error,
+    enabled,
+    disabled,
+    expired
+  ];
 
   static EphemerisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EphemerisStatus'));
+          orElse: () => EphemerisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EphemerisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -3253,7 +3432,7 @@ class Frequency {
 
   factory Frequency.fromJson(Map<String, dynamic> json) {
     return Frequency(
-      units: FrequencyUnits.fromString((json['units'] as String)),
+      units: FrequencyUnits.fromString((json['units'] as String?) ?? ''),
       value: (json['value'] as double?) ?? 0,
     );
   }
@@ -3299,7 +3478,7 @@ class FrequencyBandwidth {
 
   factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
     return FrequencyBandwidth(
-      units: BandwidthUnits.fromString((json['units'] as String)),
+      units: BandwidthUnits.fromString((json['units'] as String?) ?? ''),
       value: (json['value'] as double?) ?? 0,
     );
   }
@@ -3314,20 +3493,29 @@ class FrequencyBandwidth {
   }
 }
 
-enum FrequencyUnits {
-  gHz('GHz'),
-  mHz('MHz'),
-  kHz('kHz'),
-  ;
+class FrequencyUnits {
+  static const gHz = FrequencyUnits._('GHz');
+  static const mHz = FrequencyUnits._('MHz');
+  static const kHz = FrequencyUnits._('kHz');
 
   final String value;
 
-  const FrequencyUnits(this.value);
+  const FrequencyUnits._(this.value);
+
+  static const values = [gHz, mHz, kHz];
 
   static FrequencyUnits fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FrequencyUnits'));
+          orElse: () => FrequencyUnits._(value));
+
+  @override
+  bool operator ==(other) => other is FrequencyUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAgentConfigurationResponse {
@@ -4200,20 +4388,28 @@ class OEMEphemeris {
   }
 }
 
-enum Polarization {
-  leftHand('LEFT_HAND'),
-  none('NONE'),
-  rightHand('RIGHT_HAND'),
-  ;
+class Polarization {
+  static const leftHand = Polarization._('LEFT_HAND');
+  static const none = Polarization._('NONE');
+  static const rightHand = Polarization._('RIGHT_HAND');
 
   final String value;
 
-  const Polarization(this.value);
+  const Polarization._(this.value);
 
-  static Polarization fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Polarization'));
+  static const values = [leftHand, none, rightHand];
+
+  static Polarization fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Polarization._(value));
+
+  @override
+  bool operator ==(other) => other is Polarization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Ingress address of AgentEndpoint with a port range and an optional mtu.
@@ -4750,7 +4946,7 @@ class TrackingConfig {
 
   factory TrackingConfig.fromJson(Map<String, dynamic> json) {
     return TrackingConfig(
-      autotrack: Criticality.fromString((json['autotrack'] as String)),
+      autotrack: Criticality.fromString((json['autotrack'] as String?) ?? ''),
     );
   }
 

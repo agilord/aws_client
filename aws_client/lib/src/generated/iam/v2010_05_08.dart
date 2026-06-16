@@ -10806,19 +10806,31 @@ class Iam {
   }
 }
 
-enum AccessAdvisorUsageGranularityType {
-  serviceLevel('SERVICE_LEVEL'),
-  actionLevel('ACTION_LEVEL'),
-  ;
+class AccessAdvisorUsageGranularityType {
+  static const serviceLevel =
+      AccessAdvisorUsageGranularityType._('SERVICE_LEVEL');
+  static const actionLevel =
+      AccessAdvisorUsageGranularityType._('ACTION_LEVEL');
 
   final String value;
 
-  const AccessAdvisorUsageGranularityType(this.value);
+  const AccessAdvisorUsageGranularityType._(this.value);
+
+  static const values = [serviceLevel, actionLevel];
 
   static AccessAdvisorUsageGranularityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AccessAdvisorUsageGranularityType'));
+          orElse: () => AccessAdvisorUsageGranularityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessAdvisorUsageGranularityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains details about when a principal in the reported
@@ -11255,29 +11267,52 @@ class ContextEntry {
   }
 }
 
-enum ContextKeyTypeEnum {
-  string('string'),
-  stringList('stringList'),
-  numeric('numeric'),
-  numericList('numericList'),
-  boolean('boolean'),
-  booleanList('booleanList'),
-  ip('ip'),
-  ipList('ipList'),
-  binary('binary'),
-  binaryList('binaryList'),
-  date('date'),
-  dateList('dateList'),
-  ;
+class ContextKeyTypeEnum {
+  static const string = ContextKeyTypeEnum._('string');
+  static const stringList = ContextKeyTypeEnum._('stringList');
+  static const numeric = ContextKeyTypeEnum._('numeric');
+  static const numericList = ContextKeyTypeEnum._('numericList');
+  static const boolean = ContextKeyTypeEnum._('boolean');
+  static const booleanList = ContextKeyTypeEnum._('booleanList');
+  static const ip = ContextKeyTypeEnum._('ip');
+  static const ipList = ContextKeyTypeEnum._('ipList');
+  static const binary = ContextKeyTypeEnum._('binary');
+  static const binaryList = ContextKeyTypeEnum._('binaryList');
+  static const date = ContextKeyTypeEnum._('date');
+  static const dateList = ContextKeyTypeEnum._('dateList');
 
   final String value;
 
-  const ContextKeyTypeEnum(this.value);
+  const ContextKeyTypeEnum._(this.value);
 
-  static ContextKeyTypeEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ContextKeyTypeEnum'));
+  static const values = [
+    string,
+    stringList,
+    numeric,
+    numericList,
+    boolean,
+    booleanList,
+    ip,
+    ipList,
+    binary,
+    binaryList,
+    date,
+    dateList
+  ];
+
+  static ContextKeyTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContextKeyTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContextKeyTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the response to a successful <a>CreateAccessKey</a> request.
@@ -11667,21 +11702,31 @@ class DeletionTaskFailureReasonType {
   }
 }
 
-enum DeletionTaskStatusType {
-  succeeded('SUCCEEDED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  notStarted('NOT_STARTED'),
-  ;
+class DeletionTaskStatusType {
+  static const succeeded = DeletionTaskStatusType._('SUCCEEDED');
+  static const inProgress = DeletionTaskStatusType._('IN_PROGRESS');
+  static const failed = DeletionTaskStatusType._('FAILED');
+  static const notStarted = DeletionTaskStatusType._('NOT_STARTED');
 
   final String value;
 
-  const DeletionTaskStatusType(this.value);
+  const DeletionTaskStatusType._(this.value);
+
+  static const values = [succeeded, inProgress, failed, notStarted];
 
   static DeletionTaskStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeletionTaskStatusType'));
+          orElse: () => DeletionTaskStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionTaskStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains details about when the IAM entities (users or roles)
@@ -11784,21 +11829,36 @@ class EntityInfo {
   }
 }
 
-enum EntityType {
-  user('User'),
-  role('Role'),
-  group('Group'),
-  localManagedPolicy('LocalManagedPolicy'),
-  awsManagedPolicy('AWSManagedPolicy'),
-  ;
+class EntityType {
+  static const user = EntityType._('User');
+  static const role = EntityType._('Role');
+  static const group = EntityType._('Group');
+  static const localManagedPolicy = EntityType._('LocalManagedPolicy');
+  static const awsManagedPolicy = EntityType._('AWSManagedPolicy');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [
+    user,
+    role,
+    group,
+    localManagedPolicy,
+    awsManagedPolicy
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the reason that the operation failed.
@@ -15427,18 +15487,29 @@ class PasswordPolicy {
   }
 }
 
-enum PermissionsBoundaryAttachmentType {
-  permissionsBoundaryPolicy('PermissionsBoundaryPolicy'),
-  ;
+class PermissionsBoundaryAttachmentType {
+  static const permissionsBoundaryPolicy =
+      PermissionsBoundaryAttachmentType._('PermissionsBoundaryPolicy');
 
   final String value;
 
-  const PermissionsBoundaryAttachmentType(this.value);
+  const PermissionsBoundaryAttachmentType._(this.value);
+
+  static const values = [permissionsBoundaryPolicy];
 
   static PermissionsBoundaryAttachmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PermissionsBoundaryAttachmentType'));
+          orElse: () => PermissionsBoundaryAttachmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionsBoundaryAttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the effect that a permissions boundary has on a
@@ -15642,20 +15713,30 @@ class PolicyDetail {
   }
 }
 
-enum PolicyEvaluationDecisionType {
-  allowed('allowed'),
-  explicitDeny('explicitDeny'),
-  implicitDeny('implicitDeny'),
-  ;
+class PolicyEvaluationDecisionType {
+  static const allowed = PolicyEvaluationDecisionType._('allowed');
+  static const explicitDeny = PolicyEvaluationDecisionType._('explicitDeny');
+  static const implicitDeny = PolicyEvaluationDecisionType._('implicitDeny');
 
   final String value;
 
-  const PolicyEvaluationDecisionType(this.value);
+  const PolicyEvaluationDecisionType._(this.value);
+
+  static const values = [allowed, explicitDeny, implicitDeny];
 
   static PolicyEvaluationDecisionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PolicyEvaluationDecisionType'));
+          orElse: () => PolicyEvaluationDecisionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyEvaluationDecisionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the permissions policies that are attached to the
@@ -15806,24 +15887,41 @@ class PolicyRole {
   }
 }
 
-enum PolicySourceType {
-  user('user'),
-  group('group'),
-  role('role'),
-  awsManaged('aws-managed'),
-  userManaged('user-managed'),
-  resource('resource'),
-  none('none'),
-  ;
+class PolicySourceType {
+  static const user = PolicySourceType._('user');
+  static const group = PolicySourceType._('group');
+  static const role = PolicySourceType._('role');
+  static const awsManaged = PolicySourceType._('aws-managed');
+  static const userManaged = PolicySourceType._('user-managed');
+  static const resource = PolicySourceType._('resource');
+  static const none = PolicySourceType._('none');
 
   final String value;
 
-  const PolicySourceType(this.value);
+  const PolicySourceType._(this.value);
+
+  static const values = [
+    user,
+    group,
+    role,
+    awsManaged,
+    userManaged,
+    resource,
+    none
+  ];
 
   static PolicySourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicySourceType'));
+          orElse: () => PolicySourceType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicySourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The policy usage type that indicates whether the policy is used as a
@@ -15832,19 +15930,28 @@ enum PolicySourceType {
 /// For more information about permissions boundaries, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
 /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-enum PolicyUsageType {
-  permissionsPolicy('PermissionsPolicy'),
-  permissionsBoundary('PermissionsBoundary'),
-  ;
+class PolicyUsageType {
+  static const permissionsPolicy = PolicyUsageType._('PermissionsPolicy');
+  static const permissionsBoundary = PolicyUsageType._('PermissionsBoundary');
 
   final String value;
 
-  const PolicyUsageType(this.value);
+  const PolicyUsageType._(this.value);
+
+  static const values = [permissionsPolicy, permissionsBoundary];
 
   static PolicyUsageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicyUsageType'));
+          orElse: () => PolicyUsageType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a user that a managed policy is attached to.
@@ -15988,34 +16095,52 @@ class Position {
   }
 }
 
-enum ReportFormatType {
-  textCsv('text/csv'),
-  ;
+class ReportFormatType {
+  static const textCsv = ReportFormatType._('text/csv');
 
   final String value;
 
-  const ReportFormatType(this.value);
+  const ReportFormatType._(this.value);
+
+  static const values = [textCsv];
 
   static ReportFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportFormatType'));
+          orElse: () => ReportFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportStateType {
-  started('STARTED'),
-  inprogress('INPROGRESS'),
-  complete('COMPLETE'),
-  ;
+class ReportStateType {
+  static const started = ReportStateType._('STARTED');
+  static const inprogress = ReportStateType._('INPROGRESS');
+  static const complete = ReportStateType._('COMPLETE');
 
   final String value;
 
-  const ReportStateType(this.value);
+  const ReportStateType._(this.value);
+
+  static const values = [started, inprogress, complete];
 
   static ReportStateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportStateType'));
+          orElse: () => ReportStateType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResetServiceSpecificCredentialResponse {
@@ -17756,181 +17881,320 @@ class VirtualMFADevice {
   }
 }
 
-enum AssignmentStatusType {
-  assigned('Assigned'),
-  unassigned('Unassigned'),
-  any('Any'),
-  ;
+class AssignmentStatusType {
+  static const assigned = AssignmentStatusType._('Assigned');
+  static const unassigned = AssignmentStatusType._('Unassigned');
+  static const any = AssignmentStatusType._('Any');
 
   final String value;
 
-  const AssignmentStatusType(this.value);
+  const AssignmentStatusType._(this.value);
 
-  static AssignmentStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssignmentStatusType'));
-}
+  static const values = [assigned, unassigned, any];
 
-enum EncodingType {
-  ssh('SSH'),
-  pem('PEM'),
-  ;
-
-  final String value;
-
-  const EncodingType(this.value);
-
-  static EncodingType fromString(String value) =>
+  static AssignmentStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncodingType'));
+          orElse: () => AssignmentStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssignmentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GlobalEndpointTokenVersion {
-  v1Token('v1Token'),
-  v2Token('v2Token'),
-  ;
+class EncodingType {
+  static const ssh = EncodingType._('SSH');
+  static const pem = EncodingType._('PEM');
 
   final String value;
 
-  const GlobalEndpointTokenVersion(this.value);
+  const EncodingType._(this.value);
+
+  static const values = [ssh, pem];
+
+  static EncodingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GlobalEndpointTokenVersion {
+  static const v1Token = GlobalEndpointTokenVersion._('v1Token');
+  static const v2Token = GlobalEndpointTokenVersion._('v2Token');
+
+  final String value;
+
+  const GlobalEndpointTokenVersion._(this.value);
+
+  static const values = [v1Token, v2Token];
 
   static GlobalEndpointTokenVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GlobalEndpointTokenVersion'));
+          orElse: () => GlobalEndpointTokenVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalEndpointTokenVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStatusType {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class JobStatusType {
+  static const inProgress = JobStatusType._('IN_PROGRESS');
+  static const completed = JobStatusType._('COMPLETED');
+  static const failed = JobStatusType._('FAILED');
 
   final String value;
 
-  const JobStatusType(this.value);
+  const JobStatusType._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static JobStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobStatusType'));
+          orElse: () => JobStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyOwnerEntityType {
-  user('USER'),
-  role('ROLE'),
-  group('GROUP'),
-  ;
+class PolicyOwnerEntityType {
+  static const user = PolicyOwnerEntityType._('USER');
+  static const role = PolicyOwnerEntityType._('ROLE');
+  static const group = PolicyOwnerEntityType._('GROUP');
 
   final String value;
 
-  const PolicyOwnerEntityType(this.value);
+  const PolicyOwnerEntityType._(this.value);
 
-  static PolicyOwnerEntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PolicyOwnerEntityType'));
+  static const values = [user, role, group];
+
+  static PolicyOwnerEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyOwnerEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyOwnerEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyScopeType {
-  all('All'),
-  aws('AWS'),
-  local('Local'),
-  ;
+class PolicyScopeType {
+  static const all = PolicyScopeType._('All');
+  static const aws = PolicyScopeType._('AWS');
+  static const local = PolicyScopeType._('Local');
 
   final String value;
 
-  const PolicyScopeType(this.value);
+  const PolicyScopeType._(this.value);
+
+  static const values = [all, aws, local];
 
   static PolicyScopeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PolicyScopeType'));
+          orElse: () => PolicyScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyType {
-  inline('INLINE'),
-  managed('MANAGED'),
-  ;
+class PolicyType {
+  static const inline = PolicyType._('INLINE');
+  static const managed = PolicyType._('MANAGED');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [inline, managed];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortKeyType {
-  serviceNamespaceAscending('SERVICE_NAMESPACE_ASCENDING'),
-  serviceNamespaceDescending('SERVICE_NAMESPACE_DESCENDING'),
-  lastAuthenticatedTimeAscending('LAST_AUTHENTICATED_TIME_ASCENDING'),
-  lastAuthenticatedTimeDescending('LAST_AUTHENTICATED_TIME_DESCENDING'),
-  ;
+class SortKeyType {
+  static const serviceNamespaceAscending =
+      SortKeyType._('SERVICE_NAMESPACE_ASCENDING');
+  static const serviceNamespaceDescending =
+      SortKeyType._('SERVICE_NAMESPACE_DESCENDING');
+  static const lastAuthenticatedTimeAscending =
+      SortKeyType._('LAST_AUTHENTICATED_TIME_ASCENDING');
+  static const lastAuthenticatedTimeDescending =
+      SortKeyType._('LAST_AUTHENTICATED_TIME_DESCENDING');
 
   final String value;
 
-  const SortKeyType(this.value);
+  const SortKeyType._(this.value);
 
-  static SortKeyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortKeyType'));
+  static const values = [
+    serviceNamespaceAscending,
+    serviceNamespaceDescending,
+    lastAuthenticatedTimeAscending,
+    lastAuthenticatedTimeDescending
+  ];
+
+  static SortKeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is SortKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusType {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class StatusType {
+  static const active = StatusType._('Active');
+  static const inactive = StatusType._('Inactive');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [active, inactive];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SummaryKeyType {
-  users('Users'),
-  usersQuota('UsersQuota'),
-  groups('Groups'),
-  groupsQuota('GroupsQuota'),
-  serverCertificates('ServerCertificates'),
-  serverCertificatesQuota('ServerCertificatesQuota'),
-  userPolicySizeQuota('UserPolicySizeQuota'),
-  groupPolicySizeQuota('GroupPolicySizeQuota'),
-  groupsPerUserQuota('GroupsPerUserQuota'),
-  signingCertificatesPerUserQuota('SigningCertificatesPerUserQuota'),
-  accessKeysPerUserQuota('AccessKeysPerUserQuota'),
-  mFADevices('MFADevices'),
-  mFADevicesInUse('MFADevicesInUse'),
-  accountMFAEnabled('AccountMFAEnabled'),
-  accountAccessKeysPresent('AccountAccessKeysPresent'),
-  accountSigningCertificatesPresent('AccountSigningCertificatesPresent'),
-  attachedPoliciesPerGroupQuota('AttachedPoliciesPerGroupQuota'),
-  attachedPoliciesPerRoleQuota('AttachedPoliciesPerRoleQuota'),
-  attachedPoliciesPerUserQuota('AttachedPoliciesPerUserQuota'),
-  policies('Policies'),
-  policiesQuota('PoliciesQuota'),
-  policySizeQuota('PolicySizeQuota'),
-  policyVersionsInUse('PolicyVersionsInUse'),
-  policyVersionsInUseQuota('PolicyVersionsInUseQuota'),
-  versionsPerPolicyQuota('VersionsPerPolicyQuota'),
-  globalEndpointTokenVersion('GlobalEndpointTokenVersion'),
-  ;
+class SummaryKeyType {
+  static const users = SummaryKeyType._('Users');
+  static const usersQuota = SummaryKeyType._('UsersQuota');
+  static const groups = SummaryKeyType._('Groups');
+  static const groupsQuota = SummaryKeyType._('GroupsQuota');
+  static const serverCertificates = SummaryKeyType._('ServerCertificates');
+  static const serverCertificatesQuota =
+      SummaryKeyType._('ServerCertificatesQuota');
+  static const userPolicySizeQuota = SummaryKeyType._('UserPolicySizeQuota');
+  static const groupPolicySizeQuota = SummaryKeyType._('GroupPolicySizeQuota');
+  static const groupsPerUserQuota = SummaryKeyType._('GroupsPerUserQuota');
+  static const signingCertificatesPerUserQuota =
+      SummaryKeyType._('SigningCertificatesPerUserQuota');
+  static const accessKeysPerUserQuota =
+      SummaryKeyType._('AccessKeysPerUserQuota');
+  static const mFADevices = SummaryKeyType._('MFADevices');
+  static const mFADevicesInUse = SummaryKeyType._('MFADevicesInUse');
+  static const accountMFAEnabled = SummaryKeyType._('AccountMFAEnabled');
+  static const accountAccessKeysPresent =
+      SummaryKeyType._('AccountAccessKeysPresent');
+  static const accountSigningCertificatesPresent =
+      SummaryKeyType._('AccountSigningCertificatesPresent');
+  static const attachedPoliciesPerGroupQuota =
+      SummaryKeyType._('AttachedPoliciesPerGroupQuota');
+  static const attachedPoliciesPerRoleQuota =
+      SummaryKeyType._('AttachedPoliciesPerRoleQuota');
+  static const attachedPoliciesPerUserQuota =
+      SummaryKeyType._('AttachedPoliciesPerUserQuota');
+  static const policies = SummaryKeyType._('Policies');
+  static const policiesQuota = SummaryKeyType._('PoliciesQuota');
+  static const policySizeQuota = SummaryKeyType._('PolicySizeQuota');
+  static const policyVersionsInUse = SummaryKeyType._('PolicyVersionsInUse');
+  static const policyVersionsInUseQuota =
+      SummaryKeyType._('PolicyVersionsInUseQuota');
+  static const versionsPerPolicyQuota =
+      SummaryKeyType._('VersionsPerPolicyQuota');
+  static const globalEndpointTokenVersion =
+      SummaryKeyType._('GlobalEndpointTokenVersion');
 
   final String value;
 
-  const SummaryKeyType(this.value);
+  const SummaryKeyType._(this.value);
+
+  static const values = [
+    users,
+    usersQuota,
+    groups,
+    groupsQuota,
+    serverCertificates,
+    serverCertificatesQuota,
+    userPolicySizeQuota,
+    groupPolicySizeQuota,
+    groupsPerUserQuota,
+    signingCertificatesPerUserQuota,
+    accessKeysPerUserQuota,
+    mFADevices,
+    mFADevicesInUse,
+    accountMFAEnabled,
+    accountAccessKeysPresent,
+    accountSigningCertificatesPresent,
+    attachedPoliciesPerGroupQuota,
+    attachedPoliciesPerRoleQuota,
+    attachedPoliciesPerUserQuota,
+    policies,
+    policiesQuota,
+    policySizeQuota,
+    policyVersionsInUse,
+    policyVersionsInUseQuota,
+    versionsPerPolicyQuota,
+    globalEndpointTokenVersion
+  ];
 
   static SummaryKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SummaryKeyType'));
+          orElse: () => SummaryKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

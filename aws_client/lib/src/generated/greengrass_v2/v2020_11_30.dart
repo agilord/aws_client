@@ -1571,22 +1571,32 @@ class CancelDeploymentResponse {
   }
 }
 
-enum CloudComponentState {
-  requested('REQUESTED'),
-  initiated('INITIATED'),
-  deployable('DEPLOYABLE'),
-  failed('FAILED'),
-  deprecated('DEPRECATED'),
-  ;
+class CloudComponentState {
+  static const requested = CloudComponentState._('REQUESTED');
+  static const initiated = CloudComponentState._('INITIATED');
+  static const deployable = CloudComponentState._('DEPLOYABLE');
+  static const failed = CloudComponentState._('FAILED');
+  static const deprecated = CloudComponentState._('DEPRECATED');
 
   final String value;
 
-  const CloudComponentState(this.value);
+  const CloudComponentState._(this.value);
 
-  static CloudComponentState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CloudComponentState'));
+  static const values = [requested, initiated, deployable, failed, deprecated];
+
+  static CloudComponentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudComponentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudComponentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the status of a component version in the IoT Greengrass service.
@@ -1834,19 +1844,29 @@ class ComponentDependencyRequirement {
   }
 }
 
-enum ComponentDependencyType {
-  hard('HARD'),
-  soft('SOFT'),
-  ;
+class ComponentDependencyType {
+  static const hard = ComponentDependencyType._('HARD');
+  static const soft = ComponentDependencyType._('SOFT');
 
   final String value;
 
-  const ComponentDependencyType(this.value);
+  const ComponentDependencyType._(this.value);
+
+  static const values = [hard, soft];
 
   static ComponentDependencyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ComponentDependencyType'));
+          orElse: () => ComponentDependencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComponentDependencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a component to deploy.
@@ -2123,19 +2143,29 @@ class ComponentVersionListItem {
   }
 }
 
-enum ComponentVisibilityScope {
-  private('PRIVATE'),
-  public('PUBLIC'),
-  ;
+class ComponentVisibilityScope {
+  static const private = ComponentVisibilityScope._('PRIVATE');
+  static const public = ComponentVisibilityScope._('PUBLIC');
 
   final String value;
 
-  const ComponentVisibilityScope(this.value);
+  const ComponentVisibilityScope._(this.value);
+
+  static const values = [private, public];
 
   static ComponentVisibilityScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ComponentVisibilityScope'));
+          orElse: () => ComponentVisibilityScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComponentVisibilityScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an endpoint and port where client devices can
@@ -2241,19 +2271,28 @@ class CoreDevice {
   }
 }
 
-enum CoreDeviceStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class CoreDeviceStatus {
+  static const healthy = CoreDeviceStatus._('HEALTHY');
+  static const unhealthy = CoreDeviceStatus._('UNHEALTHY');
 
   final String value;
 
-  const CoreDeviceStatus(this.value);
+  const CoreDeviceStatus._(this.value);
+
+  static const values = [healthy, unhealthy];
 
   static CoreDeviceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CoreDeviceStatus'));
+          orElse: () => CoreDeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CoreDeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateComponentVersionResponse {
@@ -2491,19 +2530,31 @@ class DeploymentComponentUpdatePolicy {
   }
 }
 
-enum DeploymentComponentUpdatePolicyAction {
-  notifyComponents('NOTIFY_COMPONENTS'),
-  skipNotifyComponents('SKIP_NOTIFY_COMPONENTS'),
-  ;
+class DeploymentComponentUpdatePolicyAction {
+  static const notifyComponents =
+      DeploymentComponentUpdatePolicyAction._('NOTIFY_COMPONENTS');
+  static const skipNotifyComponents =
+      DeploymentComponentUpdatePolicyAction._('SKIP_NOTIFY_COMPONENTS');
 
   final String value;
 
-  const DeploymentComponentUpdatePolicyAction(this.value);
+  const DeploymentComponentUpdatePolicyAction._(this.value);
+
+  static const values = [notifyComponents, skipNotifyComponents];
 
   static DeploymentComponentUpdatePolicyAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentComponentUpdatePolicyAction'));
+          orElse: () => DeploymentComponentUpdatePolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentComponentUpdatePolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about how long a component on a core device can
@@ -2543,34 +2594,54 @@ class DeploymentConfigurationValidationPolicy {
   }
 }
 
-enum DeploymentFailureHandlingPolicy {
-  rollback('ROLLBACK'),
-  doNothing('DO_NOTHING'),
-  ;
+class DeploymentFailureHandlingPolicy {
+  static const rollback = DeploymentFailureHandlingPolicy._('ROLLBACK');
+  static const doNothing = DeploymentFailureHandlingPolicy._('DO_NOTHING');
 
   final String value;
 
-  const DeploymentFailureHandlingPolicy(this.value);
+  const DeploymentFailureHandlingPolicy._(this.value);
+
+  static const values = [rollback, doNothing];
 
   static DeploymentFailureHandlingPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentFailureHandlingPolicy'));
+          orElse: () => DeploymentFailureHandlingPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentFailureHandlingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeploymentHistoryFilter {
-  all('ALL'),
-  latestOnly('LATEST_ONLY'),
-  ;
+class DeploymentHistoryFilter {
+  static const all = DeploymentHistoryFilter._('ALL');
+  static const latestOnly = DeploymentHistoryFilter._('LATEST_ONLY');
 
   final String value;
 
-  const DeploymentHistoryFilter(this.value);
+  const DeploymentHistoryFilter._(this.value);
+
+  static const values = [all, latestOnly];
 
   static DeploymentHistoryFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentHistoryFilter'));
+          orElse: () => DeploymentHistoryFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentHistoryFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an IoT job configuration.
@@ -2678,22 +2749,31 @@ class DeploymentPolicies {
   }
 }
 
-enum DeploymentStatus {
-  active('ACTIVE'),
-  completed('COMPLETED'),
-  canceled('CANCELED'),
-  failed('FAILED'),
-  inactive('INACTIVE'),
-  ;
+class DeploymentStatus {
+  static const active = DeploymentStatus._('ACTIVE');
+  static const completed = DeploymentStatus._('COMPLETED');
+  static const canceled = DeploymentStatus._('CANCELED');
+  static const failed = DeploymentStatus._('FAILED');
+  static const inactive = DeploymentStatus._('INACTIVE');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [active, completed, canceled, failed, inactive];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeComponentResponse {
@@ -2965,7 +3045,7 @@ class EffectiveDeployment {
   factory EffectiveDeployment.fromJson(Map<String, dynamic> json) {
     return EffectiveDeployment(
       coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus.fromString(
-          (json['coreDeviceExecutionStatus'] as String)),
+          (json['coreDeviceExecutionStatus'] as String?) ?? ''),
       creationTimestamp:
           nonNullableTimeStampFromJson(json['creationTimestamp'] ?? 0),
       deploymentId: (json['deploymentId'] as String?) ?? '',
@@ -3012,25 +3092,44 @@ class EffectiveDeployment {
   }
 }
 
-enum EffectiveDeploymentExecutionStatus {
-  inProgress('IN_PROGRESS'),
-  queued('QUEUED'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  timedOut('TIMED_OUT'),
-  canceled('CANCELED'),
-  rejected('REJECTED'),
-  succeeded('SUCCEEDED'),
-  ;
+class EffectiveDeploymentExecutionStatus {
+  static const inProgress = EffectiveDeploymentExecutionStatus._('IN_PROGRESS');
+  static const queued = EffectiveDeploymentExecutionStatus._('QUEUED');
+  static const failed = EffectiveDeploymentExecutionStatus._('FAILED');
+  static const completed = EffectiveDeploymentExecutionStatus._('COMPLETED');
+  static const timedOut = EffectiveDeploymentExecutionStatus._('TIMED_OUT');
+  static const canceled = EffectiveDeploymentExecutionStatus._('CANCELED');
+  static const rejected = EffectiveDeploymentExecutionStatus._('REJECTED');
+  static const succeeded = EffectiveDeploymentExecutionStatus._('SUCCEEDED');
 
   final String value;
 
-  const EffectiveDeploymentExecutionStatus(this.value);
+  const EffectiveDeploymentExecutionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    queued,
+    failed,
+    completed,
+    timedOut,
+    canceled,
+    rejected,
+    succeeded
+  ];
 
   static EffectiveDeploymentExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EffectiveDeploymentExecutionStatus'));
+          orElse: () => EffectiveDeploymentExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EffectiveDeploymentExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains all error-related information for the deployment record. The status
@@ -3102,8 +3201,8 @@ class GetComponentResponse {
   factory GetComponentResponse.fromJson(Map<String, dynamic> json) {
     return GetComponentResponse(
       recipe: _s.decodeUint8List((json['recipe'] as String?) ?? ''),
-      recipeOutputFormat:
-          RecipeOutputFormat.fromString((json['recipeOutputFormat'] as String)),
+      recipeOutputFormat: RecipeOutputFormat.fromString(
+          (json['recipeOutputFormat'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3548,54 +3647,92 @@ class InstalledComponent {
   }
 }
 
-enum InstalledComponentLifecycleState {
-  $new('NEW'),
-  installed('INSTALLED'),
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  errored('ERRORED'),
-  broken('BROKEN'),
-  finished('FINISHED'),
-  ;
+class InstalledComponentLifecycleState {
+  static const $new = InstalledComponentLifecycleState._('NEW');
+  static const installed = InstalledComponentLifecycleState._('INSTALLED');
+  static const starting = InstalledComponentLifecycleState._('STARTING');
+  static const running = InstalledComponentLifecycleState._('RUNNING');
+  static const stopping = InstalledComponentLifecycleState._('STOPPING');
+  static const errored = InstalledComponentLifecycleState._('ERRORED');
+  static const broken = InstalledComponentLifecycleState._('BROKEN');
+  static const finished = InstalledComponentLifecycleState._('FINISHED');
 
   final String value;
 
-  const InstalledComponentLifecycleState(this.value);
+  const InstalledComponentLifecycleState._(this.value);
+
+  static const values = [
+    $new,
+    installed,
+    starting,
+    running,
+    stopping,
+    errored,
+    broken,
+    finished
+  ];
 
   static InstalledComponentLifecycleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstalledComponentLifecycleState'));
+          orElse: () => InstalledComponentLifecycleState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstalledComponentLifecycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstalledComponentTopologyFilter {
-  all('ALL'),
-  root('ROOT'),
-  ;
+class InstalledComponentTopologyFilter {
+  static const all = InstalledComponentTopologyFilter._('ALL');
+  static const root = InstalledComponentTopologyFilter._('ROOT');
 
   final String value;
 
-  const InstalledComponentTopologyFilter(this.value);
+  const InstalledComponentTopologyFilter._(this.value);
+
+  static const values = [all, root];
 
   static InstalledComponentTopologyFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstalledComponentTopologyFilter'));
+          orElse: () => InstalledComponentTopologyFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstalledComponentTopologyFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IoTJobAbortAction {
-  cancel('CANCEL'),
-  ;
+class IoTJobAbortAction {
+  static const cancel = IoTJobAbortAction._('CANCEL');
 
   final String value;
 
-  const IoTJobAbortAction(this.value);
+  const IoTJobAbortAction._(this.value);
+
+  static const values = [cancel];
 
   static IoTJobAbortAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IoTJobAbortAction'));
+          orElse: () => IoTJobAbortAction._(value));
+
+  @override
+  bool operator ==(other) => other is IoTJobAbortAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a list of criteria that define when and how to cancel a
@@ -3666,9 +3803,9 @@ class IoTJobAbortCriteria {
 
   factory IoTJobAbortCriteria.fromJson(Map<String, dynamic> json) {
     return IoTJobAbortCriteria(
-      action: IoTJobAbortAction.fromString((json['action'] as String)),
+      action: IoTJobAbortAction.fromString((json['action'] as String?) ?? ''),
       failureType: IoTJobExecutionFailureType.fromString(
-          (json['failureType'] as String)),
+          (json['failureType'] as String?) ?? ''),
       minNumberOfExecutedThings:
           (json['minNumberOfExecutedThings'] as int?) ?? 0,
       thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
@@ -3689,21 +3826,31 @@ class IoTJobAbortCriteria {
   }
 }
 
-enum IoTJobExecutionFailureType {
-  failed('FAILED'),
-  rejected('REJECTED'),
-  timedOut('TIMED_OUT'),
-  all('ALL'),
-  ;
+class IoTJobExecutionFailureType {
+  static const failed = IoTJobExecutionFailureType._('FAILED');
+  static const rejected = IoTJobExecutionFailureType._('REJECTED');
+  static const timedOut = IoTJobExecutionFailureType._('TIMED_OUT');
+  static const all = IoTJobExecutionFailureType._('ALL');
 
   final String value;
 
-  const IoTJobExecutionFailureType(this.value);
+  const IoTJobExecutionFailureType._(this.value);
+
+  static const values = [failed, rejected, timedOut, all];
 
   static IoTJobExecutionFailureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IoTJobExecutionFailureType'));
+          orElse: () => IoTJobExecutionFailureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IoTJobExecutionFailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the rollout configuration for a job. This
@@ -3852,19 +3999,28 @@ class IoTJobTimeoutConfig {
   }
 }
 
-enum IotEndpointType {
-  fips('fips'),
-  standard('standard'),
-  ;
+class IotEndpointType {
+  static const fips = IotEndpointType._('fips');
+  static const standard = IotEndpointType._('standard');
 
   final String value;
 
-  const IotEndpointType(this.value);
+  const IotEndpointType._(this.value);
+
+  static const values = [fips, standard];
 
   static IotEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IotEndpointType'));
+          orElse: () => IotEndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is IotEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a container in which Lambda functions run on
@@ -3981,19 +4137,29 @@ class LambdaEventSource {
   }
 }
 
-enum LambdaEventSourceType {
-  pubSub('PUB_SUB'),
-  iotCore('IOT_CORE'),
-  ;
+class LambdaEventSourceType {
+  static const pubSub = LambdaEventSourceType._('PUB_SUB');
+  static const iotCore = LambdaEventSourceType._('IOT_CORE');
 
   final String value;
 
-  const LambdaEventSourceType(this.value);
+  const LambdaEventSourceType._(this.value);
 
-  static LambdaEventSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LambdaEventSourceType'));
+  static const values = [pubSub, iotCore];
+
+  static LambdaEventSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LambdaEventSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaEventSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains parameters for a Lambda function that runs on IoT Greengrass.
@@ -4103,19 +4269,29 @@ class LambdaExecutionParameters {
   }
 }
 
-enum LambdaFilesystemPermission {
-  ro('ro'),
-  rw('rw'),
-  ;
+class LambdaFilesystemPermission {
+  static const ro = LambdaFilesystemPermission._('ro');
+  static const rw = LambdaFilesystemPermission._('rw');
 
   final String value;
 
-  const LambdaFilesystemPermission(this.value);
+  const LambdaFilesystemPermission._(this.value);
+
+  static const values = [ro, rw];
 
   static LambdaFilesystemPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFilesystemPermission'));
+          orElse: () => LambdaFilesystemPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFilesystemPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an Lambda function to import to create a
@@ -4178,34 +4354,55 @@ class LambdaFunctionRecipeSource {
   }
 }
 
-enum LambdaInputPayloadEncodingType {
-  json('json'),
-  binary('binary'),
-  ;
+class LambdaInputPayloadEncodingType {
+  static const json = LambdaInputPayloadEncodingType._('json');
+  static const binary = LambdaInputPayloadEncodingType._('binary');
 
   final String value;
 
-  const LambdaInputPayloadEncodingType(this.value);
+  const LambdaInputPayloadEncodingType._(this.value);
+
+  static const values = [json, binary];
 
   static LambdaInputPayloadEncodingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaInputPayloadEncodingType'));
+          orElse: () => LambdaInputPayloadEncodingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaInputPayloadEncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaIsolationMode {
-  greengrassContainer('GreengrassContainer'),
-  noContainer('NoContainer'),
-  ;
+class LambdaIsolationMode {
+  static const greengrassContainer =
+      LambdaIsolationMode._('GreengrassContainer');
+  static const noContainer = LambdaIsolationMode._('NoContainer');
 
   final String value;
 
-  const LambdaIsolationMode(this.value);
+  const LambdaIsolationMode._(this.value);
 
-  static LambdaIsolationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LambdaIsolationMode'));
+  static const values = [greengrassContainer, noContainer];
+
+  static LambdaIsolationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LambdaIsolationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaIsolationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains parameters for a Linux process that contains an Lambda function.
@@ -4552,19 +4749,29 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum RecipeOutputFormat {
-  json('JSON'),
-  yaml('YAML'),
-  ;
+class RecipeOutputFormat {
+  static const json = RecipeOutputFormat._('JSON');
+  static const yaml = RecipeOutputFormat._('YAML');
 
   final String value;
 
-  const RecipeOutputFormat(this.value);
+  const RecipeOutputFormat._(this.value);
 
-  static RecipeOutputFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecipeOutputFormat'));
+  static const values = [json, yaml];
+
+  static RecipeOutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecipeOutputFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecipeOutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResolveComponentCandidatesResponse {
@@ -4680,19 +4887,28 @@ class ResolvedComponentVersion {
   }
 }
 
-enum S3EndpointType {
-  regional('REGIONAL'),
-  global('GLOBAL'),
-  ;
+class S3EndpointType {
+  static const regional = S3EndpointType._('REGIONAL');
+  static const global = S3EndpointType._('GLOBAL');
 
   final String value;
 
-  const S3EndpointType(this.value);
+  const S3EndpointType._(this.value);
+
+  static const values = [regional, global];
 
   static S3EndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3EndpointType'));
+          orElse: () => S3EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is S3EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about system resource limits that the IoT Greengrass
@@ -4791,20 +5007,29 @@ class UpdateConnectivityInfoResponse {
   }
 }
 
-enum VendorGuidance {
-  active('ACTIVE'),
-  discontinued('DISCONTINUED'),
-  deleted('DELETED'),
-  ;
+class VendorGuidance {
+  static const active = VendorGuidance._('ACTIVE');
+  static const discontinued = VendorGuidance._('DISCONTINUED');
+  static const deleted = VendorGuidance._('DELETED');
 
   final String value;
 
-  const VendorGuidance(this.value);
+  const VendorGuidance._(this.value);
+
+  static const values = [active, discontinued, deleted];
 
   static VendorGuidance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VendorGuidance'));
+          orElse: () => VendorGuidance._(value));
+
+  @override
+  bool operator ==(other) => other is VendorGuidance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

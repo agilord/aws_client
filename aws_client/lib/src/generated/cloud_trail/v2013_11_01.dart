@@ -4545,18 +4545,28 @@ class AdvancedFieldSelector {
   }
 }
 
-enum BillingMode {
-  extendableRetentionPricing('EXTENDABLE_RETENTION_PRICING'),
-  fixedRetentionPricing('FIXED_RETENTION_PRICING'),
-  ;
+class BillingMode {
+  static const extendableRetentionPricing =
+      BillingMode._('EXTENDABLE_RETENTION_PRICING');
+  static const fixedRetentionPricing = BillingMode._('FIXED_RETENTION_PRICING');
 
   final String value;
 
-  const BillingMode(this.value);
+  const BillingMode._(this.value);
 
-  static BillingMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BillingMode'));
+  static const values = [extendableRetentionPricing, fixedRetentionPricing];
+
+  static BillingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BillingMode._(value));
+
+  @override
+  bool operator ==(other) => other is BillingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelQueryResponse {
@@ -4576,7 +4586,8 @@ class CancelQueryResponse {
   factory CancelQueryResponse.fromJson(Map<String, dynamic> json) {
     return CancelQueryResponse(
       queryId: (json['QueryId'] as String?) ?? '',
-      queryStatus: QueryStatus.fromString((json['QueryStatus'] as String)),
+      queryStatus:
+          QueryStatus.fromString((json['QueryStatus'] as String?) ?? ''),
     );
   }
 
@@ -5148,26 +5159,46 @@ class DeleteTrailResponse {
   }
 }
 
-enum DeliveryStatus {
-  success('SUCCESS'),
-  failed('FAILED'),
-  failedSigningFile('FAILED_SIGNING_FILE'),
-  pending('PENDING'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  accessDenied('ACCESS_DENIED'),
-  accessDeniedSigningFile('ACCESS_DENIED_SIGNING_FILE'),
-  cancelled('CANCELLED'),
-  unknown('UNKNOWN'),
-  ;
+class DeliveryStatus {
+  static const success = DeliveryStatus._('SUCCESS');
+  static const failed = DeliveryStatus._('FAILED');
+  static const failedSigningFile = DeliveryStatus._('FAILED_SIGNING_FILE');
+  static const pending = DeliveryStatus._('PENDING');
+  static const resourceNotFound = DeliveryStatus._('RESOURCE_NOT_FOUND');
+  static const accessDenied = DeliveryStatus._('ACCESS_DENIED');
+  static const accessDeniedSigningFile =
+      DeliveryStatus._('ACCESS_DENIED_SIGNING_FILE');
+  static const cancelled = DeliveryStatus._('CANCELLED');
+  static const unknown = DeliveryStatus._('UNKNOWN');
 
   final String value;
 
-  const DeliveryStatus(this.value);
+  const DeliveryStatus._(this.value);
+
+  static const values = [
+    success,
+    failed,
+    failedSigningFile,
+    pending,
+    resourceNotFound,
+    accessDenied,
+    accessDeniedSigningFile,
+    cancelled,
+    unknown
+  ];
 
   static DeliveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeliveryStatus'));
+          orElse: () => DeliveryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeliveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
@@ -5312,7 +5343,7 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       location: (json['Location'] as String?) ?? '',
-      type: DestinationType.fromString((json['Type'] as String)),
+      type: DestinationType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -5326,19 +5357,28 @@ class Destination {
   }
 }
 
-enum DestinationType {
-  eventDataStore('EVENT_DATA_STORE'),
-  awsService('AWS_SERVICE'),
-  ;
+class DestinationType {
+  static const eventDataStore = DestinationType._('EVENT_DATA_STORE');
+  static const awsService = DestinationType._('AWS_SERVICE');
 
   final String value;
 
-  const DestinationType(this.value);
+  const DestinationType._(this.value);
+
+  static const values = [eventDataStore, awsService];
 
   static DestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DestinationType'));
+          orElse: () => DestinationType._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisableFederationResponse {
@@ -5495,18 +5535,27 @@ class Event {
   }
 }
 
-enum EventCategory {
-  insight('insight'),
-  ;
+class EventCategory {
+  static const insight = EventCategory._('insight');
 
   final String value;
 
-  const EventCategory(this.value);
+  const EventCategory._(this.value);
+
+  static const values = [insight];
 
   static EventCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventCategory'));
+          orElse: () => EventCategory._(value));
+
+  @override
+  bool operator ==(other) => other is EventCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A storage lake of event data against which you can run complex SQL-based
@@ -5613,23 +5662,40 @@ class EventDataStore {
   }
 }
 
-enum EventDataStoreStatus {
-  created('CREATED'),
-  enabled('ENABLED'),
-  pendingDeletion('PENDING_DELETION'),
-  startingIngestion('STARTING_INGESTION'),
-  stoppingIngestion('STOPPING_INGESTION'),
-  stoppedIngestion('STOPPED_INGESTION'),
-  ;
+class EventDataStoreStatus {
+  static const created = EventDataStoreStatus._('CREATED');
+  static const enabled = EventDataStoreStatus._('ENABLED');
+  static const pendingDeletion = EventDataStoreStatus._('PENDING_DELETION');
+  static const startingIngestion = EventDataStoreStatus._('STARTING_INGESTION');
+  static const stoppingIngestion = EventDataStoreStatus._('STOPPING_INGESTION');
+  static const stoppedIngestion = EventDataStoreStatus._('STOPPED_INGESTION');
 
   final String value;
 
-  const EventDataStoreStatus(this.value);
+  const EventDataStoreStatus._(this.value);
 
-  static EventDataStoreStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EventDataStoreStatus'));
+  static const values = [
+    created,
+    enabled,
+    pendingDeletion,
+    startingIngestion,
+    stoppingIngestion,
+    stoppedIngestion
+  ];
+
+  static EventDataStoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventDataStoreStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventDataStoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use event selectors to further specify the management and data event
@@ -5731,21 +5797,30 @@ class EventSelector {
   }
 }
 
-enum FederationStatus {
-  enabling('ENABLING'),
-  enabled('ENABLED'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  ;
+class FederationStatus {
+  static const enabling = FederationStatus._('ENABLING');
+  static const enabled = FederationStatus._('ENABLED');
+  static const disabling = FederationStatus._('DISABLING');
+  static const disabled = FederationStatus._('DISABLED');
 
   final String value;
 
-  const FederationStatus(this.value);
+  const FederationStatus._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled];
 
   static FederationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FederationStatus'));
+          orElse: () => FederationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FederationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetChannelResponse {
@@ -6526,20 +6601,30 @@ class ImportFailureListItem {
   }
 }
 
-enum ImportFailureStatus {
-  failed('FAILED'),
-  retry('RETRY'),
-  succeeded('SUCCEEDED'),
-  ;
+class ImportFailureStatus {
+  static const failed = ImportFailureStatus._('FAILED');
+  static const retry = ImportFailureStatus._('RETRY');
+  static const succeeded = ImportFailureStatus._('SUCCEEDED');
 
   final String value;
 
-  const ImportFailureStatus(this.value);
+  const ImportFailureStatus._(this.value);
 
-  static ImportFailureStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportFailureStatus'));
+  static const values = [failed, retry, succeeded];
+
+  static ImportFailureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportFailureStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportFailureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The import source.
@@ -6621,22 +6706,30 @@ class ImportStatistics {
   }
 }
 
-enum ImportStatus {
-  initializing('INITIALIZING'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  completed('COMPLETED'),
-  ;
+class ImportStatus {
+  static const initializing = ImportStatus._('INITIALIZING');
+  static const inProgress = ImportStatus._('IN_PROGRESS');
+  static const failed = ImportStatus._('FAILED');
+  static const stopped = ImportStatus._('STOPPED');
+  static const completed = ImportStatus._('COMPLETED');
 
   final String value;
 
-  const ImportStatus(this.value);
+  const ImportStatus._(this.value);
 
-  static ImportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportStatus'));
+  static const values = [initializing, inProgress, failed, stopped, completed];
+
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an import that was returned by a lookup request.
@@ -6795,33 +6888,52 @@ class InsightSelector {
   }
 }
 
-enum InsightType {
-  apiCallRateInsight('ApiCallRateInsight'),
-  apiErrorRateInsight('ApiErrorRateInsight'),
-  ;
+class InsightType {
+  static const apiCallRateInsight = InsightType._('ApiCallRateInsight');
+  static const apiErrorRateInsight = InsightType._('ApiErrorRateInsight');
 
   final String value;
 
-  const InsightType(this.value);
+  const InsightType._(this.value);
 
-  static InsightType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InsightType'));
+  static const values = [apiCallRateInsight, apiErrorRateInsight];
+
+  static InsightType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InsightType._(value));
+
+  @override
+  bool operator ==(other) => other is InsightType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InsightsMetricDataType {
-  fillWithZeros('FillWithZeros'),
-  nonZeroData('NonZeroData'),
-  ;
+class InsightsMetricDataType {
+  static const fillWithZeros = InsightsMetricDataType._('FillWithZeros');
+  static const nonZeroData = InsightsMetricDataType._('NonZeroData');
 
   final String value;
 
-  const InsightsMetricDataType(this.value);
+  const InsightsMetricDataType._(this.value);
+
+  static const values = [fillWithZeros, nonZeroData];
 
   static InsightsMetricDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InsightsMetricDataType'));
+          orElse: () => InsightsMetricDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightsMetricDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListChannelsResponse {
@@ -7207,25 +7319,44 @@ class LookupAttribute {
   }
 }
 
-enum LookupAttributeKey {
-  eventId('EventId'),
-  eventName('EventName'),
-  readOnly('ReadOnly'),
-  username('Username'),
-  resourceType('ResourceType'),
-  resourceName('ResourceName'),
-  eventSource('EventSource'),
-  accessKeyId('AccessKeyId'),
-  ;
+class LookupAttributeKey {
+  static const eventId = LookupAttributeKey._('EventId');
+  static const eventName = LookupAttributeKey._('EventName');
+  static const readOnly = LookupAttributeKey._('ReadOnly');
+  static const username = LookupAttributeKey._('Username');
+  static const resourceType = LookupAttributeKey._('ResourceType');
+  static const resourceName = LookupAttributeKey._('ResourceName');
+  static const eventSource = LookupAttributeKey._('EventSource');
+  static const accessKeyId = LookupAttributeKey._('AccessKeyId');
 
   final String value;
 
-  const LookupAttributeKey(this.value);
+  const LookupAttributeKey._(this.value);
 
-  static LookupAttributeKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LookupAttributeKey'));
+  static const values = [
+    eventId,
+    eventName,
+    readOnly,
+    username,
+    resourceType,
+    resourceName,
+    eventSource,
+    accessKeyId
+  ];
+
+  static LookupAttributeKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LookupAttributeKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LookupAttributeKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a response to a LookupEvents action.
@@ -7611,38 +7742,63 @@ class QueryStatisticsForDescribeQuery {
   }
 }
 
-enum QueryStatus {
-  queued('QUEUED'),
-  running('RUNNING'),
-  finished('FINISHED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  timedOut('TIMED_OUT'),
-  ;
+class QueryStatus {
+  static const queued = QueryStatus._('QUEUED');
+  static const running = QueryStatus._('RUNNING');
+  static const finished = QueryStatus._('FINISHED');
+  static const failed = QueryStatus._('FAILED');
+  static const cancelled = QueryStatus._('CANCELLED');
+  static const timedOut = QueryStatus._('TIMED_OUT');
 
   final String value;
 
-  const QueryStatus(this.value);
+  const QueryStatus._(this.value);
 
-  static QueryStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueryStatus'));
+  static const values = [
+    queued,
+    running,
+    finished,
+    failed,
+    cancelled,
+    timedOut
+  ];
+
+  static QueryStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReadWriteType {
-  readOnly('ReadOnly'),
-  writeOnly('WriteOnly'),
-  all('All'),
-  ;
+class ReadWriteType {
+  static const readOnly = ReadWriteType._('ReadOnly');
+  static const writeOnly = ReadWriteType._('WriteOnly');
+  static const all = ReadWriteType._('All');
 
   final String value;
 
-  const ReadWriteType(this.value);
+  const ReadWriteType._(this.value);
+
+  static const values = [readOnly, writeOnly, all];
 
   static ReadWriteType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReadWriteType'));
+          orElse: () => ReadWriteType._(value));
+
+  @override
+  bool operator ==(other) => other is ReadWriteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.

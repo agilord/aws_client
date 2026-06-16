@@ -1291,21 +1291,31 @@ class ActiveSpeakerOnlyConfiguration {
   }
 }
 
-enum ActiveSpeakerPosition {
-  topLeft('TopLeft'),
-  topRight('TopRight'),
-  bottomLeft('BottomLeft'),
-  bottomRight('BottomRight'),
-  ;
+class ActiveSpeakerPosition {
+  static const topLeft = ActiveSpeakerPosition._('TopLeft');
+  static const topRight = ActiveSpeakerPosition._('TopRight');
+  static const bottomLeft = ActiveSpeakerPosition._('BottomLeft');
+  static const bottomRight = ActiveSpeakerPosition._('BottomRight');
 
   final String value;
 
-  const ActiveSpeakerPosition(this.value);
+  const ActiveSpeakerPosition._(this.value);
 
-  static ActiveSpeakerPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActiveSpeakerPosition'));
+  static const values = [topLeft, topRight, bottomLeft, bottomRight];
+
+  static ActiveSpeakerPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActiveSpeakerPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActiveSpeakerPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the configuration settings for an Amazon
@@ -1466,7 +1476,7 @@ class AmazonTranscribeCallAnalyticsProcessorConfiguration {
       Map<String, dynamic> json) {
     return AmazonTranscribeCallAnalyticsProcessorConfiguration(
       languageCode: CallAnalyticsLanguageCode.fromString(
-          (json['LanguageCode'] as String)),
+          (json['LanguageCode'] as String?) ?? ''),
       callAnalyticsStreamCategories:
           (json['CallAnalyticsStreamCategories'] as List?)
               ?.nonNulls
@@ -1873,19 +1883,29 @@ class ArtifactsConcatenationConfiguration {
   }
 }
 
-enum ArtifactsConcatenationState {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ArtifactsConcatenationState {
+  static const enabled = ArtifactsConcatenationState._('Enabled');
+  static const disabled = ArtifactsConcatenationState._('Disabled');
 
   final String value;
 
-  const ArtifactsConcatenationState(this.value);
+  const ArtifactsConcatenationState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ArtifactsConcatenationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ArtifactsConcatenationState'));
+          orElse: () => ArtifactsConcatenationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArtifactsConcatenationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the artifacts.
@@ -1941,33 +1961,52 @@ class ArtifactsConfiguration {
   }
 }
 
-enum ArtifactsState {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ArtifactsState {
+  static const enabled = ArtifactsState._('Enabled');
+  static const disabled = ArtifactsState._('Disabled');
 
   final String value;
 
-  const ArtifactsState(this.value);
+  const ArtifactsState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ArtifactsState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactsState'));
+          orElse: () => ArtifactsState._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactsState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AudioArtifactsConcatenationState {
-  enabled('Enabled'),
-  ;
+class AudioArtifactsConcatenationState {
+  static const enabled = AudioArtifactsConcatenationState._('Enabled');
 
   final String value;
 
-  const AudioArtifactsConcatenationState(this.value);
+  const AudioArtifactsConcatenationState._(this.value);
+
+  static const values = [enabled];
 
   static AudioArtifactsConcatenationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AudioArtifactsConcatenationState'));
+          orElse: () => AudioArtifactsConcatenationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioArtifactsConcatenationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The audio artifact configuration object.
@@ -1981,7 +2020,7 @@ class AudioArtifactsConfiguration {
 
   factory AudioArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
     return AudioArtifactsConfiguration(
-      muxType: AudioMuxType.fromString((json['MuxType'] as String)),
+      muxType: AudioMuxType.fromString((json['MuxType'] as String?) ?? ''),
     );
   }
 
@@ -1993,19 +2032,29 @@ class AudioArtifactsConfiguration {
   }
 }
 
-enum AudioChannelsOption {
-  stereo('Stereo'),
-  mono('Mono'),
-  ;
+class AudioChannelsOption {
+  static const stereo = AudioChannelsOption._('Stereo');
+  static const mono = AudioChannelsOption._('Mono');
 
   final String value;
 
-  const AudioChannelsOption(this.value);
+  const AudioChannelsOption._(this.value);
 
-  static AudioChannelsOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AudioChannelsOption'));
+  static const values = [stereo, mono];
+
+  static AudioChannelsOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AudioChannelsOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioChannelsOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The audio artifact concatenation configuration object.
@@ -2020,7 +2069,7 @@ class AudioConcatenationConfiguration {
   factory AudioConcatenationConfiguration.fromJson(Map<String, dynamic> json) {
     return AudioConcatenationConfiguration(
       state: AudioArtifactsConcatenationState.fromString(
-          (json['State'] as String)),
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -2032,75 +2081,117 @@ class AudioConcatenationConfiguration {
   }
 }
 
-enum AudioMuxType {
-  audioOnly('AudioOnly'),
-  audioWithActiveSpeakerVideo('AudioWithActiveSpeakerVideo'),
-  audioWithCompositedVideo('AudioWithCompositedVideo'),
-  ;
+class AudioMuxType {
+  static const audioOnly = AudioMuxType._('AudioOnly');
+  static const audioWithActiveSpeakerVideo =
+      AudioMuxType._('AudioWithActiveSpeakerVideo');
+  static const audioWithCompositedVideo =
+      AudioMuxType._('AudioWithCompositedVideo');
 
   final String value;
 
-  const AudioMuxType(this.value);
+  const AudioMuxType._(this.value);
 
-  static AudioMuxType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AudioMuxType'));
+  static const values = [
+    audioOnly,
+    audioWithActiveSpeakerVideo,
+    audioWithCompositedVideo
+  ];
+
+  static AudioMuxType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AudioMuxType._(value));
+
+  @override
+  bool operator ==(other) => other is AudioMuxType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BorderColor {
-  black('Black'),
-  blue('Blue'),
-  red('Red'),
-  green('Green'),
-  white('White'),
-  yellow('Yellow'),
-  ;
+class BorderColor {
+  static const black = BorderColor._('Black');
+  static const blue = BorderColor._('Blue');
+  static const red = BorderColor._('Red');
+  static const green = BorderColor._('Green');
+  static const white = BorderColor._('White');
+  static const yellow = BorderColor._('Yellow');
 
   final String value;
 
-  const BorderColor(this.value);
+  const BorderColor._(this.value);
 
-  static BorderColor fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BorderColor'));
+  static const values = [black, blue, red, green, white, yellow];
+
+  static BorderColor fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BorderColor._(value));
+
+  @override
+  bool operator ==(other) => other is BorderColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CallAnalyticsLanguageCode {
-  enUs('en-US'),
-  enGb('en-GB'),
-  esUs('es-US'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  enAu('en-AU'),
-  itIt('it-IT'),
-  deDe('de-DE'),
-  ptBr('pt-BR'),
-  ;
+class CallAnalyticsLanguageCode {
+  static const enUs = CallAnalyticsLanguageCode._('en-US');
+  static const enGb = CallAnalyticsLanguageCode._('en-GB');
+  static const esUs = CallAnalyticsLanguageCode._('es-US');
+  static const frCa = CallAnalyticsLanguageCode._('fr-CA');
+  static const frFr = CallAnalyticsLanguageCode._('fr-FR');
+  static const enAu = CallAnalyticsLanguageCode._('en-AU');
+  static const itIt = CallAnalyticsLanguageCode._('it-IT');
+  static const deDe = CallAnalyticsLanguageCode._('de-DE');
+  static const ptBr = CallAnalyticsLanguageCode._('pt-BR');
 
   final String value;
 
-  const CallAnalyticsLanguageCode(this.value);
+  const CallAnalyticsLanguageCode._(this.value);
+
+  static const values = [enUs, enGb, esUs, frCa, frFr, enAu, itIt, deDe, ptBr];
 
   static CallAnalyticsLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CallAnalyticsLanguageCode'));
+          orElse: () => CallAnalyticsLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CanvasOrientation {
-  landscape('Landscape'),
-  portrait('Portrait'),
-  ;
+class CanvasOrientation {
+  static const landscape = CanvasOrientation._('Landscape');
+  static const portrait = CanvasOrientation._('Portrait');
 
   final String value;
 
-  const CanvasOrientation(this.value);
+  const CanvasOrientation._(this.value);
+
+  static const values = [landscape, portrait];
 
   static CanvasOrientation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CanvasOrientation'));
+          orElse: () => CanvasOrientation._(value));
+
+  @override
+  bool operator ==(other) => other is CanvasOrientation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an audio channel in a Kinesis video stream.
@@ -2229,7 +2320,8 @@ class ChimeSdkMeetingLiveConnectorConfiguration {
       Map<String, dynamic> json) {
     return ChimeSdkMeetingLiveConnectorConfiguration(
       arn: (json['Arn'] as String?) ?? '',
-      muxType: LiveConnectorMuxType.fromString((json['MuxType'] as String)),
+      muxType:
+          LiveConnectorMuxType.fromString((json['MuxType'] as String?) ?? ''),
       compositedVideo: json['CompositedVideo'] != null
           ? CompositedVideoArtifactsConfiguration.fromJson(
               json['CompositedVideo'] as Map<String, dynamic>)
@@ -2312,7 +2404,8 @@ class CompositedVideoConcatenationConfiguration {
   factory CompositedVideoConcatenationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CompositedVideoConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -2342,7 +2435,7 @@ class ConcatenationSink {
       s3BucketSinkConfiguration: S3BucketSinkConfiguration.fromJson(
           (json['S3BucketSinkConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      type: ConcatenationSinkType.fromString((json['Type'] as String)),
+      type: ConcatenationSinkType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -2356,18 +2449,28 @@ class ConcatenationSink {
   }
 }
 
-enum ConcatenationSinkType {
-  s3Bucket('S3Bucket'),
-  ;
+class ConcatenationSinkType {
+  static const s3Bucket = ConcatenationSinkType._('S3Bucket');
 
   final String value;
 
-  const ConcatenationSinkType(this.value);
+  const ConcatenationSinkType._(this.value);
 
-  static ConcatenationSinkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConcatenationSinkType'));
+  static const values = [s3Bucket];
+
+  static ConcatenationSinkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConcatenationSinkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConcatenationSinkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The source type and media pipeline configuration settings in a configuration
@@ -2392,7 +2495,7 @@ class ConcatenationSource {
               (json['MediaCapturePipelineSourceConfiguration']
                       as Map<String, dynamic>?) ??
                   const <String, dynamic>{}),
-      type: ConcatenationSourceType.fromString((json['Type'] as String)),
+      type: ConcatenationSourceType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -2408,18 +2511,29 @@ class ConcatenationSource {
   }
 }
 
-enum ConcatenationSourceType {
-  mediaCapturePipeline('MediaCapturePipeline'),
-  ;
+class ConcatenationSourceType {
+  static const mediaCapturePipeline =
+      ConcatenationSourceType._('MediaCapturePipeline');
 
   final String value;
 
-  const ConcatenationSourceType(this.value);
+  const ConcatenationSourceType._(this.value);
+
+  static const values = [mediaCapturePipeline];
 
   static ConcatenationSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConcatenationSourceType'));
+          orElse: () => ConcatenationSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConcatenationSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The content artifact object.
@@ -2437,7 +2551,7 @@ class ContentArtifactsConfiguration {
 
   factory ContentArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
     return ContentArtifactsConfiguration(
-      state: ArtifactsState.fromString((json['State'] as String)),
+      state: ArtifactsState.fromString((json['State'] as String?) ?? ''),
       muxType: (json['MuxType'] as String?)?.let(ContentMuxType.fromString),
     );
   }
@@ -2464,7 +2578,8 @@ class ContentConcatenationConfiguration {
   factory ContentConcatenationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ContentConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -2476,63 +2591,108 @@ class ContentConcatenationConfiguration {
   }
 }
 
-enum ContentMuxType {
-  contentOnly('ContentOnly'),
-  ;
+class ContentMuxType {
+  static const contentOnly = ContentMuxType._('ContentOnly');
 
   final String value;
 
-  const ContentMuxType(this.value);
+  const ContentMuxType._(this.value);
+
+  static const values = [contentOnly];
 
   static ContentMuxType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentMuxType'));
+          orElse: () => ContentMuxType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentMuxType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentRedactionOutput {
-  redacted('redacted'),
-  redactedAndUnredacted('redacted_and_unredacted'),
-  ;
+class ContentRedactionOutput {
+  static const redacted = ContentRedactionOutput._('redacted');
+  static const redactedAndUnredacted =
+      ContentRedactionOutput._('redacted_and_unredacted');
 
   final String value;
 
-  const ContentRedactionOutput(this.value);
+  const ContentRedactionOutput._(this.value);
+
+  static const values = [redacted, redactedAndUnredacted];
 
   static ContentRedactionOutput fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentRedactionOutput'));
+          orElse: () => ContentRedactionOutput._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentRedactionOutput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentShareLayoutOption {
-  presenterOnly('PresenterOnly'),
-  horizontal('Horizontal'),
-  vertical('Vertical'),
-  activeSpeakerOnly('ActiveSpeakerOnly'),
-  ;
+class ContentShareLayoutOption {
+  static const presenterOnly = ContentShareLayoutOption._('PresenterOnly');
+  static const horizontal = ContentShareLayoutOption._('Horizontal');
+  static const vertical = ContentShareLayoutOption._('Vertical');
+  static const activeSpeakerOnly =
+      ContentShareLayoutOption._('ActiveSpeakerOnly');
 
   final String value;
 
-  const ContentShareLayoutOption(this.value);
+  const ContentShareLayoutOption._(this.value);
+
+  static const values = [
+    presenterOnly,
+    horizontal,
+    vertical,
+    activeSpeakerOnly
+  ];
 
   static ContentShareLayoutOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentShareLayoutOption'));
+          orElse: () => ContentShareLayoutOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentShareLayoutOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentType {
-  pii('PII'),
-  ;
+class ContentType {
+  static const pii = ContentType._('PII');
 
   final String value;
 
-  const ContentType(this.value);
+  const ContentType._(this.value);
 
-  static ContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContentType'));
+  static const values = [pii];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateMediaCapturePipelineResponse {
@@ -2747,7 +2907,8 @@ class DataChannelConcatenationConfiguration {
   factory DataChannelConcatenationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DataChannelConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -2800,7 +2961,7 @@ class FragmentSelector {
   factory FragmentSelector.fromJson(Map<String, dynamic> json) {
     return FragmentSelector(
       fragmentSelectorType: FragmentSelectorType.fromString(
-          (json['FragmentSelectorType'] as String)),
+          (json['FragmentSelectorType'] as String?) ?? ''),
       timestampRange: TimestampRange.fromJson(
           (json['TimestampRange'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2817,19 +2978,29 @@ class FragmentSelector {
   }
 }
 
-enum FragmentSelectorType {
-  producerTimestamp('ProducerTimestamp'),
-  serverTimestamp('ServerTimestamp'),
-  ;
+class FragmentSelectorType {
+  static const producerTimestamp = FragmentSelectorType._('ProducerTimestamp');
+  static const serverTimestamp = FragmentSelectorType._('ServerTimestamp');
 
   final String value;
 
-  const FragmentSelectorType(this.value);
+  const FragmentSelectorType._(this.value);
 
-  static FragmentSelectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FragmentSelectorType'));
+  static const values = [producerTimestamp, serverTimestamp];
+
+  static FragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetMediaCapturePipelineResponse {
@@ -3033,7 +3204,7 @@ class GridViewConfiguration {
   factory GridViewConfiguration.fromJson(Map<String, dynamic> json) {
     return GridViewConfiguration(
       contentShareLayout: ContentShareLayoutOption.fromString(
-          (json['ContentShareLayout'] as String)),
+          (json['ContentShareLayout'] as String?) ?? ''),
       activeSpeakerOnlyConfiguration: json['ActiveSpeakerOnlyConfiguration'] !=
               null
           ? ActiveSpeakerOnlyConfiguration.fromJson(
@@ -3086,23 +3257,32 @@ class GridViewConfiguration {
   }
 }
 
-enum HighlightColor {
-  black('Black'),
-  blue('Blue'),
-  red('Red'),
-  green('Green'),
-  white('White'),
-  yellow('Yellow'),
-  ;
+class HighlightColor {
+  static const black = HighlightColor._('Black');
+  static const blue = HighlightColor._('Blue');
+  static const red = HighlightColor._('Red');
+  static const green = HighlightColor._('Green');
+  static const white = HighlightColor._('White');
+  static const yellow = HighlightColor._('Yellow');
 
   final String value;
 
-  const HighlightColor(this.value);
+  const HighlightColor._(this.value);
+
+  static const values = [black, blue, red, green, white, yellow];
 
   static HighlightColor fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HighlightColor'));
+          orElse: () => HighlightColor._(value));
+
+  @override
+  bool operator ==(other) => other is HighlightColor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the configuration settings for the horizontal layout.
@@ -3150,19 +3330,29 @@ class HorizontalLayoutConfiguration {
   }
 }
 
-enum HorizontalTilePosition {
-  top('Top'),
-  bottom('Bottom'),
-  ;
+class HorizontalTilePosition {
+  static const top = HorizontalTilePosition._('Top');
+  static const bottom = HorizontalTilePosition._('Bottom');
 
   final String value;
 
-  const HorizontalTilePosition(this.value);
+  const HorizontalTilePosition._(this.value);
+
+  static const values = [top, bottom];
 
   static HorizontalTilePosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HorizontalTilePosition'));
+          orElse: () => HorizontalTilePosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HorizontalTilePosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the configuration settings for an issue detection
@@ -3410,22 +3600,32 @@ class KinesisVideoStreamPoolConfiguration {
   }
 }
 
-enum KinesisVideoStreamPoolStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class KinesisVideoStreamPoolStatus {
+  static const creating = KinesisVideoStreamPoolStatus._('CREATING');
+  static const active = KinesisVideoStreamPoolStatus._('ACTIVE');
+  static const updating = KinesisVideoStreamPoolStatus._('UPDATING');
+  static const deleting = KinesisVideoStreamPoolStatus._('DELETING');
+  static const failed = KinesisVideoStreamPoolStatus._('FAILED');
 
   final String value;
 
-  const KinesisVideoStreamPoolStatus(this.value);
+  const KinesisVideoStreamPoolStatus._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
 
   static KinesisVideoStreamPoolStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KinesisVideoStreamPoolStatus'));
+          orElse: () => KinesisVideoStreamPoolStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KinesisVideoStreamPoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the Kinesis video stream pool.
@@ -3535,7 +3735,7 @@ class KinesisVideoStreamSourceRuntimeConfiguration {
       Map<String, dynamic> json) {
     return KinesisVideoStreamSourceRuntimeConfiguration(
       mediaEncoding:
-          MediaEncoding.fromString((json['MediaEncoding'] as String)),
+          MediaEncoding.fromString((json['MediaEncoding'] as String?) ?? ''),
       mediaSampleRate: (json['MediaSampleRate'] as int?) ?? 0,
       streams: ((json['Streams'] as List?) ?? const [])
           .nonNulls
@@ -3609,18 +3809,26 @@ class LambdaFunctionSinkConfiguration {
   }
 }
 
-enum LayoutOption {
-  gridView('GridView'),
-  ;
+class LayoutOption {
+  static const gridView = LayoutOption._('GridView');
 
   final String value;
 
-  const LayoutOption(this.value);
+  const LayoutOption._(this.value);
 
-  static LayoutOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayoutOption'));
+  static const values = [gridView];
+
+  static LayoutOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LayoutOption._(value));
+
+  @override
+  bool operator ==(other) => other is LayoutOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListMediaCapturePipelinesResponse {
@@ -3789,19 +3997,31 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LiveConnectorMuxType {
-  audioWithCompositedVideo('AudioWithCompositedVideo'),
-  audioWithActiveSpeakerVideo('AudioWithActiveSpeakerVideo'),
-  ;
+class LiveConnectorMuxType {
+  static const audioWithCompositedVideo =
+      LiveConnectorMuxType._('AudioWithCompositedVideo');
+  static const audioWithActiveSpeakerVideo =
+      LiveConnectorMuxType._('AudioWithActiveSpeakerVideo');
 
   final String value;
 
-  const LiveConnectorMuxType(this.value);
+  const LiveConnectorMuxType._(this.value);
 
-  static LiveConnectorMuxType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LiveConnectorMuxType'));
+  static const values = [audioWithCompositedVideo, audioWithActiveSpeakerVideo];
+
+  static LiveConnectorMuxType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LiveConnectorMuxType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LiveConnectorMuxType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The media pipeline's RTMP configuration object.
@@ -3860,7 +4080,8 @@ class LiveConnectorSinkConfiguration {
       rTMPConfiguration: LiveConnectorRTMPConfiguration.fromJson(
           (json['RTMPConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      sinkType: LiveConnectorSinkType.fromString((json['SinkType'] as String)),
+      sinkType:
+          LiveConnectorSinkType.fromString((json['SinkType'] as String?) ?? ''),
     );
   }
 
@@ -3874,18 +4095,28 @@ class LiveConnectorSinkConfiguration {
   }
 }
 
-enum LiveConnectorSinkType {
-  rtmp('RTMP'),
-  ;
+class LiveConnectorSinkType {
+  static const rtmp = LiveConnectorSinkType._('RTMP');
 
   final String value;
 
-  const LiveConnectorSinkType(this.value);
+  const LiveConnectorSinkType._(this.value);
 
-  static LiveConnectorSinkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LiveConnectorSinkType'));
+  static const values = [rtmp];
+
+  static LiveConnectorSinkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LiveConnectorSinkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LiveConnectorSinkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data source configuration object of a streaming media pipeline.
@@ -3909,8 +4140,8 @@ class LiveConnectorSourceConfiguration {
               (json['ChimeSdkMeetingLiveConnectorConfiguration']
                       as Map<String, dynamic>?) ??
                   const <String, dynamic>{}),
-      sourceType:
-          LiveConnectorSourceType.fromString((json['SourceType'] as String)),
+      sourceType: LiveConnectorSourceType.fromString(
+          (json['SourceType'] as String?) ?? ''),
     );
   }
 
@@ -3926,18 +4157,28 @@ class LiveConnectorSourceConfiguration {
   }
 }
 
-enum LiveConnectorSourceType {
-  chimeSdkMeeting('ChimeSdkMeeting'),
-  ;
+class LiveConnectorSourceType {
+  static const chimeSdkMeeting = LiveConnectorSourceType._('ChimeSdkMeeting');
 
   final String value;
 
-  const LiveConnectorSourceType(this.value);
+  const LiveConnectorSourceType._(this.value);
+
+  static const values = [chimeSdkMeeting];
 
   static LiveConnectorSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LiveConnectorSourceType'));
+          orElse: () => LiveConnectorSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LiveConnectorSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A media pipeline object consisting of an ID, source type, source ARN, a sink
@@ -4178,18 +4419,27 @@ class MediaConcatenationPipeline {
   }
 }
 
-enum MediaEncoding {
-  pcm('pcm'),
-  ;
+class MediaEncoding {
+  static const pcm = MediaEncoding._('pcm');
 
   final String value;
 
-  const MediaEncoding(this.value);
+  const MediaEncoding._(this.value);
+
+  static const values = [pcm];
 
   static MediaEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MediaEncoding'));
+          orElse: () => MediaEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is MediaEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A media pipeline that streams call analytics data.
@@ -4480,7 +4730,7 @@ class MediaInsightsPipelineConfigurationElement {
       Map<String, dynamic> json) {
     return MediaInsightsPipelineConfigurationElement(
       type: MediaInsightsPipelineConfigurationElementType.fromString(
-          (json['Type'] as String)),
+          (json['Type'] as String?) ?? ''),
       amazonTranscribeCallAnalyticsProcessorConfiguration:
           json['AmazonTranscribeCallAnalyticsProcessorConfiguration'] != null
               ? AmazonTranscribeCallAnalyticsProcessorConfiguration.fromJson(
@@ -4577,28 +4827,60 @@ class MediaInsightsPipelineConfigurationElement {
   }
 }
 
-enum MediaInsightsPipelineConfigurationElementType {
-  amazonTranscribeCallAnalyticsProcessor(
-      'AmazonTranscribeCallAnalyticsProcessor'),
-  voiceAnalyticsProcessor('VoiceAnalyticsProcessor'),
-  amazonTranscribeProcessor('AmazonTranscribeProcessor'),
-  kinesisDataStreamSink('KinesisDataStreamSink'),
-  lambdaFunctionSink('LambdaFunctionSink'),
-  sqsQueueSink('SqsQueueSink'),
-  snsTopicSink('SnsTopicSink'),
-  s3RecordingSink('S3RecordingSink'),
-  voiceEnhancementSink('VoiceEnhancementSink'),
-  ;
+class MediaInsightsPipelineConfigurationElementType {
+  static const amazonTranscribeCallAnalyticsProcessor =
+      MediaInsightsPipelineConfigurationElementType._(
+          'AmazonTranscribeCallAnalyticsProcessor');
+  static const voiceAnalyticsProcessor =
+      MediaInsightsPipelineConfigurationElementType._(
+          'VoiceAnalyticsProcessor');
+  static const amazonTranscribeProcessor =
+      MediaInsightsPipelineConfigurationElementType._(
+          'AmazonTranscribeProcessor');
+  static const kinesisDataStreamSink =
+      MediaInsightsPipelineConfigurationElementType._('KinesisDataStreamSink');
+  static const lambdaFunctionSink =
+      MediaInsightsPipelineConfigurationElementType._('LambdaFunctionSink');
+  static const sqsQueueSink =
+      MediaInsightsPipelineConfigurationElementType._('SqsQueueSink');
+  static const snsTopicSink =
+      MediaInsightsPipelineConfigurationElementType._('SnsTopicSink');
+  static const s3RecordingSink =
+      MediaInsightsPipelineConfigurationElementType._('S3RecordingSink');
+  static const voiceEnhancementSink =
+      MediaInsightsPipelineConfigurationElementType._('VoiceEnhancementSink');
 
   final String value;
 
-  const MediaInsightsPipelineConfigurationElementType(this.value);
+  const MediaInsightsPipelineConfigurationElementType._(this.value);
+
+  static const values = [
+    amazonTranscribeCallAnalyticsProcessor,
+    voiceAnalyticsProcessor,
+    amazonTranscribeProcessor,
+    kinesisDataStreamSink,
+    lambdaFunctionSink,
+    sqsQueueSink,
+    snsTopicSink,
+    s3RecordingSink,
+    voiceEnhancementSink
+  ];
 
   static MediaInsightsPipelineConfigurationElementType fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaInsightsPipelineConfigurationElementType'));
+          orElse: () => MediaInsightsPipelineConfigurationElementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaInsightsPipelineConfigurationElementType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the media insights pipeline configuration.
@@ -4831,88 +5113,155 @@ class MediaPipeline {
   }
 }
 
-enum MediaPipelineElementStatus {
-  notStarted('NotStarted'),
-  notSupported('NotSupported'),
-  initializing('Initializing'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  paused('Paused'),
-  ;
+class MediaPipelineElementStatus {
+  static const notStarted = MediaPipelineElementStatus._('NotStarted');
+  static const notSupported = MediaPipelineElementStatus._('NotSupported');
+  static const initializing = MediaPipelineElementStatus._('Initializing');
+  static const inProgress = MediaPipelineElementStatus._('InProgress');
+  static const failed = MediaPipelineElementStatus._('Failed');
+  static const stopping = MediaPipelineElementStatus._('Stopping');
+  static const stopped = MediaPipelineElementStatus._('Stopped');
+  static const paused = MediaPipelineElementStatus._('Paused');
 
   final String value;
 
-  const MediaPipelineElementStatus(this.value);
+  const MediaPipelineElementStatus._(this.value);
+
+  static const values = [
+    notStarted,
+    notSupported,
+    initializing,
+    inProgress,
+    failed,
+    stopping,
+    stopped,
+    paused
+  ];
 
   static MediaPipelineElementStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaPipelineElementStatus'));
+          orElse: () => MediaPipelineElementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineElementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MediaPipelineSinkType {
-  s3Bucket('S3Bucket'),
-  ;
+class MediaPipelineSinkType {
+  static const s3Bucket = MediaPipelineSinkType._('S3Bucket');
 
   final String value;
 
-  const MediaPipelineSinkType(this.value);
+  const MediaPipelineSinkType._(this.value);
 
-  static MediaPipelineSinkType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MediaPipelineSinkType'));
+  static const values = [s3Bucket];
+
+  static MediaPipelineSinkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaPipelineSinkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineSinkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MediaPipelineSourceType {
-  chimeSdkMeeting('ChimeSdkMeeting'),
-  ;
+class MediaPipelineSourceType {
+  static const chimeSdkMeeting = MediaPipelineSourceType._('ChimeSdkMeeting');
 
   final String value;
 
-  const MediaPipelineSourceType(this.value);
+  const MediaPipelineSourceType._(this.value);
+
+  static const values = [chimeSdkMeeting];
 
   static MediaPipelineSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaPipelineSourceType'));
+          orElse: () => MediaPipelineSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MediaPipelineStatus {
-  initializing('Initializing'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  paused('Paused'),
-  notStarted('NotStarted'),
-  ;
+class MediaPipelineStatus {
+  static const initializing = MediaPipelineStatus._('Initializing');
+  static const inProgress = MediaPipelineStatus._('InProgress');
+  static const failed = MediaPipelineStatus._('Failed');
+  static const stopping = MediaPipelineStatus._('Stopping');
+  static const stopped = MediaPipelineStatus._('Stopped');
+  static const paused = MediaPipelineStatus._('Paused');
+  static const notStarted = MediaPipelineStatus._('NotStarted');
 
   final String value;
 
-  const MediaPipelineStatus(this.value);
+  const MediaPipelineStatus._(this.value);
 
-  static MediaPipelineStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MediaPipelineStatus'));
+  static const values = [
+    initializing,
+    inProgress,
+    failed,
+    stopping,
+    stopped,
+    paused,
+    notStarted
+  ];
+
+  static MediaPipelineStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaPipelineStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MediaPipelineStatusUpdate {
-  pause('Pause'),
-  resume('Resume'),
-  ;
+class MediaPipelineStatusUpdate {
+  static const pause = MediaPipelineStatusUpdate._('Pause');
+  static const resume = MediaPipelineStatusUpdate._('Resume');
 
   final String value;
 
-  const MediaPipelineStatusUpdate(this.value);
+  const MediaPipelineStatusUpdate._(this.value);
+
+  static const values = [pause, resume];
 
   static MediaPipelineStatusUpdate fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaPipelineStatusUpdate'));
+          orElse: () => MediaPipelineStatusUpdate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineStatusUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the media pipeline.
@@ -4945,23 +5294,40 @@ class MediaPipelineSummary {
   }
 }
 
-enum MediaPipelineTaskStatus {
-  notStarted('NotStarted'),
-  initializing('Initializing'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class MediaPipelineTaskStatus {
+  static const notStarted = MediaPipelineTaskStatus._('NotStarted');
+  static const initializing = MediaPipelineTaskStatus._('Initializing');
+  static const inProgress = MediaPipelineTaskStatus._('InProgress');
+  static const failed = MediaPipelineTaskStatus._('Failed');
+  static const stopping = MediaPipelineTaskStatus._('Stopping');
+  static const stopped = MediaPipelineTaskStatus._('Stopped');
 
   final String value;
 
-  const MediaPipelineTaskStatus(this.value);
+  const MediaPipelineTaskStatus._(this.value);
+
+  static const values = [
+    notStarted,
+    initializing,
+    inProgress,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static MediaPipelineTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaPipelineTaskStatus'));
+          orElse: () => MediaPipelineTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPipelineTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure that contains the settings for a media stream pipeline.
@@ -5037,18 +5403,29 @@ class MediaStreamPipeline {
   }
 }
 
-enum MediaStreamPipelineSinkType {
-  kinesisVideoStreamPool('KinesisVideoStreamPool'),
-  ;
+class MediaStreamPipelineSinkType {
+  static const kinesisVideoStreamPool =
+      MediaStreamPipelineSinkType._('KinesisVideoStreamPool');
 
   final String value;
 
-  const MediaStreamPipelineSinkType(this.value);
+  const MediaStreamPipelineSinkType._(this.value);
+
+  static const values = [kinesisVideoStreamPool];
 
   static MediaStreamPipelineSinkType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MediaStreamPipelineSinkType'));
+          orElse: () => MediaStreamPipelineSinkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaStreamPipelineSinkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure that contains the settings for a media stream sink.
@@ -5075,12 +5452,12 @@ class MediaStreamSink {
 
   factory MediaStreamSink.fromJson(Map<String, dynamic> json) {
     return MediaStreamSink(
-      mediaStreamType:
-          MediaStreamType.fromString((json['MediaStreamType'] as String)),
+      mediaStreamType: MediaStreamType.fromString(
+          (json['MediaStreamType'] as String?) ?? ''),
       reservedStreamCapacity: (json['ReservedStreamCapacity'] as int?) ?? 0,
       sinkArn: (json['SinkArn'] as String?) ?? '',
-      sinkType:
-          MediaStreamPipelineSinkType.fromString((json['SinkType'] as String)),
+      sinkType: MediaStreamPipelineSinkType.fromString(
+          (json['SinkType'] as String?) ?? ''),
     );
   }
 
@@ -5114,8 +5491,8 @@ class MediaStreamSource {
   factory MediaStreamSource.fromJson(Map<String, dynamic> json) {
     return MediaStreamSource(
       sourceArn: (json['SourceArn'] as String?) ?? '',
-      sourceType:
-          MediaPipelineSourceType.fromString((json['SourceType'] as String)),
+      sourceType: MediaPipelineSourceType.fromString(
+          (json['SourceType'] as String?) ?? ''),
     );
   }
 
@@ -5129,19 +5506,28 @@ class MediaStreamSource {
   }
 }
 
-enum MediaStreamType {
-  mixedAudio('MixedAudio'),
-  individualAudio('IndividualAudio'),
-  ;
+class MediaStreamType {
+  static const mixedAudio = MediaStreamType._('MixedAudio');
+  static const individualAudio = MediaStreamType._('IndividualAudio');
 
   final String value;
 
-  const MediaStreamType(this.value);
+  const MediaStreamType._(this.value);
+
+  static const values = [mixedAudio, individualAudio];
 
   static MediaStreamType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MediaStreamType'));
+          orElse: () => MediaStreamType._(value));
+
+  @override
+  bool operator ==(other) => other is MediaStreamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration object for an event concatenation pipeline.
@@ -5156,7 +5542,8 @@ class MeetingEventsConcatenationConfiguration {
   factory MeetingEventsConcatenationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return MeetingEventsConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -5168,35 +5555,54 @@ class MeetingEventsConcatenationConfiguration {
   }
 }
 
-enum PartialResultsStability {
-  high('high'),
-  medium('medium'),
-  low('low'),
-  ;
+class PartialResultsStability {
+  static const high = PartialResultsStability._('high');
+  static const medium = PartialResultsStability._('medium');
+  static const low = PartialResultsStability._('low');
 
   final String value;
 
-  const PartialResultsStability(this.value);
+  const PartialResultsStability._(this.value);
+
+  static const values = [high, medium, low];
 
   static PartialResultsStability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PartialResultsStability'));
+          orElse: () => PartialResultsStability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartialResultsStability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantRole {
-  agent('AGENT'),
-  customer('CUSTOMER'),
-  ;
+class ParticipantRole {
+  static const agent = ParticipantRole._('AGENT');
+  static const customer = ParticipantRole._('CUSTOMER');
 
   final String value;
 
-  const ParticipantRole(this.value);
+  const ParticipantRole._(this.value);
+
+  static const values = [agent, customer];
 
   static ParticipantRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParticipantRole'));
+          orElse: () => ParticipantRole._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Allows you to specify additional settings for your Call Analytics post-call
@@ -5287,21 +5693,30 @@ class PresenterOnlyConfiguration {
   }
 }
 
-enum PresenterPosition {
-  topLeft('TopLeft'),
-  topRight('TopRight'),
-  bottomLeft('BottomLeft'),
-  bottomRight('BottomRight'),
-  ;
+class PresenterPosition {
+  static const topLeft = PresenterPosition._('TopLeft');
+  static const topRight = PresenterPosition._('TopRight');
+  static const bottomLeft = PresenterPosition._('BottomLeft');
+  static const bottomRight = PresenterPosition._('BottomRight');
 
   final String value;
 
-  const PresenterPosition(this.value);
+  const PresenterPosition._(this.value);
+
+  static const values = [topLeft, topRight, bottomLeft, bottomRight];
 
   static PresenterPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PresenterPosition'));
+          orElse: () => PresenterPosition._(value));
+
+  @override
+  bool operator ==(other) => other is PresenterPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the configuration settings for real-time alerts.
@@ -5361,7 +5776,7 @@ class RealTimeAlertRule {
 
   factory RealTimeAlertRule.fromJson(Map<String, dynamic> json) {
     return RealTimeAlertRule(
-      type: RealTimeAlertRuleType.fromString((json['Type'] as String)),
+      type: RealTimeAlertRuleType.fromString((json['Type'] as String?) ?? ''),
       issueDetectionConfiguration: json['IssueDetectionConfiguration'] != null
           ? IssueDetectionConfiguration.fromJson(
               json['IssueDetectionConfiguration'] as Map<String, dynamic>)
@@ -5394,35 +5809,55 @@ class RealTimeAlertRule {
   }
 }
 
-enum RealTimeAlertRuleType {
-  keywordMatch('KeywordMatch'),
-  sentiment('Sentiment'),
-  issueDetection('IssueDetection'),
-  ;
+class RealTimeAlertRuleType {
+  static const keywordMatch = RealTimeAlertRuleType._('KeywordMatch');
+  static const sentiment = RealTimeAlertRuleType._('Sentiment');
+  static const issueDetection = RealTimeAlertRuleType._('IssueDetection');
 
   final String value;
 
-  const RealTimeAlertRuleType(this.value);
+  const RealTimeAlertRuleType._(this.value);
 
-  static RealTimeAlertRuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RealTimeAlertRuleType'));
+  static const values = [keywordMatch, sentiment, issueDetection];
+
+  static RealTimeAlertRuleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RealTimeAlertRuleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeAlertRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecordingFileFormat {
-  wav('Wav'),
-  opus('Opus'),
-  ;
+class RecordingFileFormat {
+  static const wav = RecordingFileFormat._('Wav');
+  static const opus = RecordingFileFormat._('Opus');
 
   final String value;
 
-  const RecordingFileFormat(this.value);
+  const RecordingFileFormat._(this.value);
 
-  static RecordingFileFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecordingFileFormat'));
+  static const values = [wav, opus];
+
+  static RecordingFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingFileFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that holds the settings for recording media.
@@ -5448,19 +5883,28 @@ class RecordingStreamConfiguration {
   }
 }
 
-enum ResolutionOption {
-  hd('HD'),
-  fhd('FHD'),
-  ;
+class ResolutionOption {
+  static const hd = ResolutionOption._('HD');
+  static const fhd = ResolutionOption._('FHD');
 
   final String value;
 
-  const ResolutionOption(this.value);
+  const ResolutionOption._(this.value);
+
+  static const values = [hd, fhd];
 
   static ResolutionOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResolutionOption'));
+          orElse: () => ResolutionOption._(value));
+
+  @override
+  bool operator ==(other) => other is ResolutionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings for the S3 bucket.
@@ -5540,7 +5984,7 @@ class S3RecordingSinkRuntimeConfiguration {
     return S3RecordingSinkRuntimeConfiguration(
       destination: (json['Destination'] as String?) ?? '',
       recordingFileFormat: RecordingFileFormat.fromString(
-          (json['RecordingFileFormat'] as String)),
+          (json['RecordingFileFormat'] as String?) ?? ''),
     );
   }
 
@@ -5614,7 +6058,7 @@ class SentimentConfiguration {
     return SentimentConfiguration(
       ruleName: (json['RuleName'] as String?) ?? '',
       sentimentType:
-          SentimentType.fromString((json['SentimentType'] as String)),
+          SentimentType.fromString((json['SentimentType'] as String?) ?? ''),
       timePeriod: (json['TimePeriod'] as int?) ?? 0,
     );
   }
@@ -5631,18 +6075,27 @@ class SentimentConfiguration {
   }
 }
 
-enum SentimentType {
-  negative('NEGATIVE'),
-  ;
+class SentimentType {
+  static const negative = SentimentType._('NEGATIVE');
 
   final String value;
 
-  const SentimentType(this.value);
+  const SentimentType._(this.value);
+
+  static const values = [negative];
 
   static SentimentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SentimentType'));
+          orElse: () => SentimentType._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings for the SNS topic sink.
@@ -5935,18 +6388,27 @@ class TagResourceResponse {
   }
 }
 
-enum TileOrder {
-  joinSequence('JoinSequence'),
-  speakerSequence('SpeakerSequence'),
-  ;
+class TileOrder {
+  static const joinSequence = TileOrder._('JoinSequence');
+  static const speakerSequence = TileOrder._('SpeakerSequence');
 
   final String value;
 
-  const TileOrder(this.value);
+  const TileOrder._(this.value);
 
-  static TileOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TileOrder'));
+  static const values = [joinSequence, speakerSequence];
+
+  static TileOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TileOrder._(value));
+
+  @override
+  bool operator ==(other) => other is TileOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range of timestamps to return.
@@ -5991,7 +6453,8 @@ class TranscriptionMessagesConcatenationConfiguration {
   factory TranscriptionMessagesConcatenationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TranscriptionMessagesConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -6123,19 +6586,29 @@ class VerticalLayoutConfiguration {
   }
 }
 
-enum VerticalTilePosition {
-  left('Left'),
-  right('Right'),
-  ;
+class VerticalTilePosition {
+  static const left = VerticalTilePosition._('Left');
+  static const right = VerticalTilePosition._('Right');
 
   final String value;
 
-  const VerticalTilePosition(this.value);
+  const VerticalTilePosition._(this.value);
 
-  static VerticalTilePosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerticalTilePosition'));
+  static const values = [left, right];
+
+  static VerticalTilePosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerticalTilePosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerticalTilePosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The video artifact configuration object.
@@ -6153,7 +6626,7 @@ class VideoArtifactsConfiguration {
 
   factory VideoArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
     return VideoArtifactsConfiguration(
-      state: ArtifactsState.fromString((json['State'] as String)),
+      state: ArtifactsState.fromString((json['State'] as String?) ?? ''),
       muxType: (json['MuxType'] as String?)?.let(VideoMuxType.fromString),
     );
   }
@@ -6225,7 +6698,8 @@ class VideoConcatenationConfiguration {
 
   factory VideoConcatenationConfiguration.fromJson(Map<String, dynamic> json) {
     return VideoConcatenationConfiguration(
-      state: ArtifactsConcatenationState.fromString((json['State'] as String)),
+      state: ArtifactsConcatenationState.fromString(
+          (json['State'] as String?) ?? ''),
     );
   }
 
@@ -6237,63 +6711,101 @@ class VideoConcatenationConfiguration {
   }
 }
 
-enum VideoMuxType {
-  videoOnly('VideoOnly'),
-  ;
+class VideoMuxType {
+  static const videoOnly = VideoMuxType._('VideoOnly');
 
   final String value;
 
-  const VideoMuxType(this.value);
+  const VideoMuxType._(this.value);
 
-  static VideoMuxType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoMuxType'));
+  static const values = [videoOnly];
+
+  static VideoMuxType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VideoMuxType._(value));
+
+  @override
+  bool operator ==(other) => other is VideoMuxType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VocabularyFilterMethod {
-  remove('remove'),
-  mask('mask'),
-  tag('tag'),
-  ;
+class VocabularyFilterMethod {
+  static const remove = VocabularyFilterMethod._('remove');
+  static const mask = VocabularyFilterMethod._('mask');
+  static const tag = VocabularyFilterMethod._('tag');
 
   final String value;
 
-  const VocabularyFilterMethod(this.value);
+  const VocabularyFilterMethod._(this.value);
+
+  static const values = [remove, mask, tag];
 
   static VocabularyFilterMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VocabularyFilterMethod'));
+          orElse: () => VocabularyFilterMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VocabularyFilterMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VoiceAnalyticsConfigurationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class VoiceAnalyticsConfigurationStatus {
+  static const enabled = VoiceAnalyticsConfigurationStatus._('Enabled');
+  static const disabled = VoiceAnalyticsConfigurationStatus._('Disabled');
 
   final String value;
 
-  const VoiceAnalyticsConfigurationStatus(this.value);
+  const VoiceAnalyticsConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static VoiceAnalyticsConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VoiceAnalyticsConfigurationStatus'));
+          orElse: () => VoiceAnalyticsConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceAnalyticsConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VoiceAnalyticsLanguageCode {
-  enUs('en-US'),
-  ;
+class VoiceAnalyticsLanguageCode {
+  static const enUs = VoiceAnalyticsLanguageCode._('en-US');
 
   final String value;
 
-  const VoiceAnalyticsLanguageCode(this.value);
+  const VoiceAnalyticsLanguageCode._(this.value);
+
+  static const values = [enUs];
 
   static VoiceAnalyticsLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VoiceAnalyticsLanguageCode'));
+          orElse: () => VoiceAnalyticsLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceAnalyticsLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings for a voice analytics processor.

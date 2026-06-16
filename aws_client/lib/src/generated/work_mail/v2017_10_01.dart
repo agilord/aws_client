@@ -4746,34 +4746,52 @@ class AccessControlRule {
   }
 }
 
-enum AccessControlRuleEffect {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class AccessControlRuleEffect {
+  static const allow = AccessControlRuleEffect._('ALLOW');
+  static const deny = AccessControlRuleEffect._('DENY');
 
   final String value;
 
-  const AccessControlRuleEffect(this.value);
+  const AccessControlRuleEffect._(this.value);
+
+  static const values = [allow, deny];
 
   static AccessControlRuleEffect fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AccessControlRuleEffect'));
+          orElse: () => AccessControlRuleEffect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessControlRuleEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AccessEffect {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class AccessEffect {
+  static const allow = AccessEffect._('ALLOW');
+  static const deny = AccessEffect._('DENY');
 
   final String value;
 
-  const AccessEffect(this.value);
+  const AccessEffect._(this.value);
 
-  static AccessEffect fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccessEffect'));
+  static const values = [allow, deny];
+
+  static AccessEffect fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessEffect._(value));
+
+  @override
+  bool operator ==(other) => other is AccessEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateDelegateToResourceResponse {
@@ -4898,19 +4916,29 @@ class AvailabilityConfiguration {
   }
 }
 
-enum AvailabilityProviderType {
-  ews('EWS'),
-  lambda('LAMBDA'),
-  ;
+class AvailabilityProviderType {
+  static const ews = AvailabilityProviderType._('EWS');
+  static const lambda = AvailabilityProviderType._('LAMBDA');
 
   final String value;
 
-  const AvailabilityProviderType(this.value);
+  const AvailabilityProviderType._(this.value);
+
+  static const values = [ews, lambda];
 
   static AvailabilityProviderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AvailabilityProviderType'));
+          orElse: () => AvailabilityProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvailabilityProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// At least one delegate must be associated to the resource to disable
@@ -5145,7 +5173,7 @@ class Delegate {
   factory Delegate.fromJson(Map<String, dynamic> json) {
     return Delegate(
       id: (json['Id'] as String?) ?? '',
-      type: MemberType.fromString((json['Type'] as String)),
+      type: MemberType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -6066,20 +6094,30 @@ class DnsRecord {
   }
 }
 
-enum DnsRecordVerificationStatus {
-  pending('PENDING'),
-  verified('VERIFIED'),
-  failed('FAILED'),
-  ;
+class DnsRecordVerificationStatus {
+  static const pending = DnsRecordVerificationStatus._('PENDING');
+  static const verified = DnsRecordVerificationStatus._('VERIFIED');
+  static const failed = DnsRecordVerificationStatus._('FAILED');
 
   final String value;
 
-  const DnsRecordVerificationStatus(this.value);
+  const DnsRecordVerificationStatus._(this.value);
+
+  static const values = [pending, verified, failed];
 
   static DnsRecordVerificationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DnsRecordVerificationStatus'));
+          orElse: () => DnsRecordVerificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DnsRecordVerificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The domain to associate with an WorkMail organization.
@@ -6112,34 +6150,52 @@ class Domain {
   }
 }
 
-enum EntityState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  deleted('DELETED'),
-  ;
+class EntityState {
+  static const enabled = EntityState._('ENABLED');
+  static const disabled = EntityState._('DISABLED');
+  static const deleted = EntityState._('DELETED');
 
   final String value;
 
-  const EntityState(this.value);
+  const EntityState._(this.value);
 
-  static EntityState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityState'));
+  static const values = [enabled, disabled, deleted];
+
+  static EntityState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityState._(value));
+
+  @override
+  bool operator ==(other) => other is EntityState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EntityType {
-  group('GROUP'),
-  user('USER'),
-  resource('RESOURCE'),
-  ;
+class EntityType {
+  static const group = EntityType._('GROUP');
+  static const user = EntityType._('USER');
+  static const resource = EntityType._('RESOURCE');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [group, user, resource];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an EWS based availability provider. This is only used as input to
@@ -6193,8 +6249,8 @@ class FolderConfiguration {
 
   factory FolderConfiguration.fromJson(Map<String, dynamic> json) {
     return FolderConfiguration(
-      action: RetentionAction.fromString((json['Action'] as String)),
-      name: FolderName.fromString((json['Name'] as String)),
+      action: RetentionAction.fromString((json['Action'] as String?) ?? ''),
+      name: FolderName.fromString((json['Name'] as String?) ?? ''),
       period: json['Period'] as int?,
     );
   }
@@ -6211,21 +6267,30 @@ class FolderConfiguration {
   }
 }
 
-enum FolderName {
-  inbox('INBOX'),
-  deletedItems('DELETED_ITEMS'),
-  sentItems('SENT_ITEMS'),
-  drafts('DRAFTS'),
-  junkEmail('JUNK_EMAIL'),
-  ;
+class FolderName {
+  static const inbox = FolderName._('INBOX');
+  static const deletedItems = FolderName._('DELETED_ITEMS');
+  static const sentItems = FolderName._('SENT_ITEMS');
+  static const drafts = FolderName._('DRAFTS');
+  static const junkEmail = FolderName._('JUNK_EMAIL');
 
   final String value;
 
-  const FolderName(this.value);
+  const FolderName._(this.value);
 
-  static FolderName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FolderName'));
+  static const values = [inbox, deletedItems, sentItems, drafts, junkEmail];
+
+  static FolderName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FolderName._(value));
+
+  @override
+  bool operator ==(other) => other is FolderName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAccessControlEffectResponse {
@@ -6782,19 +6847,29 @@ class ImpersonationRole {
   }
 }
 
-enum ImpersonationRoleType {
-  fullAccess('FULL_ACCESS'),
-  readOnly('READ_ONLY'),
-  ;
+class ImpersonationRoleType {
+  static const fullAccess = ImpersonationRoleType._('FULL_ACCESS');
+  static const readOnly = ImpersonationRoleType._('READ_ONLY');
 
   final String value;
 
-  const ImpersonationRoleType(this.value);
+  const ImpersonationRoleType._(this.value);
 
-  static ImpersonationRoleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImpersonationRoleType'));
+  static const values = [fullAccess, readOnly];
+
+  static ImpersonationRoleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImpersonationRoleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImpersonationRoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The rules for the given impersonation role.
@@ -6829,7 +6904,7 @@ class ImpersonationRule {
 
   factory ImpersonationRule.fromJson(Map<String, dynamic> json) {
     return ImpersonationRule(
-      effect: AccessEffect.fromString((json['Effect'] as String)),
+      effect: AccessEffect.fromString((json['Effect'] as String?) ?? ''),
       impersonationRuleId: (json['ImpersonationRuleId'] as String?) ?? '',
       description: json['Description'] as String?,
       name: json['Name'] as String?,
@@ -7661,21 +7736,31 @@ class MailboxExportJob {
   }
 }
 
-enum MailboxExportJobState {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  ;
+class MailboxExportJobState {
+  static const running = MailboxExportJobState._('RUNNING');
+  static const completed = MailboxExportJobState._('COMPLETED');
+  static const failed = MailboxExportJobState._('FAILED');
+  static const cancelled = MailboxExportJobState._('CANCELLED');
 
   final String value;
 
-  const MailboxExportJobState(this.value);
+  const MailboxExportJobState._(this.value);
 
-  static MailboxExportJobState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MailboxExportJobState'));
+  static const values = [running, completed, failed, cancelled];
+
+  static MailboxExportJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MailboxExportJobState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MailboxExportJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The representation of a user or group.
@@ -7737,18 +7822,27 @@ class Member {
   }
 }
 
-enum MemberType {
-  group('GROUP'),
-  user('USER'),
-  ;
+class MemberType {
+  static const group = MemberType._('GROUP');
+  static const user = MemberType._('USER');
 
   final String value;
 
-  const MemberType(this.value);
+  const MemberType._(this.value);
 
-  static MemberType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MemberType'));
+  static const values = [group, user];
+
+  static MemberType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemberType._(value));
+
+  @override
+  bool operator ==(other) => other is MemberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The rule that a simulated user matches.
@@ -7991,19 +8085,29 @@ class MobileDeviceAccessRule {
   }
 }
 
-enum MobileDeviceAccessRuleEffect {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class MobileDeviceAccessRuleEffect {
+  static const allow = MobileDeviceAccessRuleEffect._('ALLOW');
+  static const deny = MobileDeviceAccessRuleEffect._('DENY');
 
   final String value;
 
-  const MobileDeviceAccessRuleEffect(this.value);
+  const MobileDeviceAccessRuleEffect._(this.value);
+
+  static const values = [allow, deny];
 
   static MobileDeviceAccessRuleEffect fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MobileDeviceAccessRuleEffect'));
+          orElse: () => MobileDeviceAccessRuleEffect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MobileDeviceAccessRuleEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The representation of an organization.
@@ -8086,7 +8190,8 @@ class Permission {
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       granteeId: (json['GranteeId'] as String?) ?? '',
-      granteeType: MemberType.fromString((json['GranteeType'] as String)),
+      granteeType:
+          MemberType.fromString((json['GranteeType'] as String?) ?? ''),
       permissionValues: ((json['PermissionValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => PermissionType.fromString((e as String)))
@@ -8106,20 +8211,29 @@ class Permission {
   }
 }
 
-enum PermissionType {
-  fullAccess('FULL_ACCESS'),
-  sendAs('SEND_AS'),
-  sendOnBehalf('SEND_ON_BEHALF'),
-  ;
+class PermissionType {
+  static const fullAccess = PermissionType._('FULL_ACCESS');
+  static const sendAs = PermissionType._('SEND_AS');
+  static const sendOnBehalf = PermissionType._('SEND_ON_BEHALF');
 
   final String value;
 
-  const PermissionType(this.value);
+  const PermissionType._(this.value);
+
+  static const values = [fullAccess, sendAs, sendOnBehalf];
 
   static PermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionType'));
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutAccessControlRuleResponse {
@@ -8336,35 +8450,52 @@ class Resource {
   }
 }
 
-enum ResourceType {
-  room('ROOM'),
-  equipment('EQUIPMENT'),
-  ;
+class ResourceType {
+  static const room = ResourceType._('ROOM');
+  static const equipment = ResourceType._('EQUIPMENT');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [room, equipment];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RetentionAction {
-  none('NONE'),
-  delete('DELETE'),
-  permanentlyDelete('PERMANENTLY_DELETE'),
-  ;
+class RetentionAction {
+  static const none = RetentionAction._('NONE');
+  static const delete = RetentionAction._('DELETE');
+  static const permanentlyDelete = RetentionAction._('PERMANENTLY_DELETE');
 
   final String value;
 
-  const RetentionAction(this.value);
+  const RetentionAction._(this.value);
+
+  static const values = [none, delete, permanentlyDelete];
 
   static RetentionAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetentionAction'));
+          orElse: () => RetentionAction._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartMailboxExportJobResponse {
@@ -8657,20 +8788,29 @@ class User {
   }
 }
 
-enum UserRole {
-  user('USER'),
-  resource('RESOURCE'),
-  systemUser('SYSTEM_USER'),
-  remoteUser('REMOTE_USER'),
-  ;
+class UserRole {
+  static const user = UserRole._('USER');
+  static const resource = UserRole._('RESOURCE');
+  static const systemUser = UserRole._('SYSTEM_USER');
+  static const remoteUser = UserRole._('REMOTE_USER');
 
   final String value;
 
-  const UserRole(this.value);
+  const UserRole._(this.value);
 
-  static UserRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserRole'));
+  static const values = [user, resource, systemUser, remoteUser];
+
+  static UserRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserRole._(value));
+
+  @override
+  bool operator ==(other) => other is UserRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DirectoryInUseException extends _s.GenericAwsException {

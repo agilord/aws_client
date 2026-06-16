@@ -1311,18 +1311,27 @@ class SecurityLake {
   }
 }
 
-enum AccessType {
-  lakeformation('LAKEFORMATION'),
-  s3('S3'),
-  ;
+class AccessType {
+  static const lakeformation = AccessType._('LAKEFORMATION');
+  static const s3 = AccessType._('S3');
 
   final String value;
 
-  const AccessType(this.value);
+  const AccessType._(this.value);
 
-  static AccessType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AccessType'));
+  static const values = [lakeformation, s3];
+
+  static AccessType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The AWS identity.
@@ -1394,25 +1403,43 @@ class AwsLogSourceConfiguration {
   }
 }
 
-enum AwsLogSourceName {
-  route53('ROUTE53'),
-  vpcFlow('VPC_FLOW'),
-  shFindings('SH_FINDINGS'),
-  cloudTrailMgmt('CLOUD_TRAIL_MGMT'),
-  lambdaExecution('LAMBDA_EXECUTION'),
-  s3Data('S3_DATA'),
-  eksAudit('EKS_AUDIT'),
-  waf('WAF'),
-  ;
+class AwsLogSourceName {
+  static const route53 = AwsLogSourceName._('ROUTE53');
+  static const vpcFlow = AwsLogSourceName._('VPC_FLOW');
+  static const shFindings = AwsLogSourceName._('SH_FINDINGS');
+  static const cloudTrailMgmt = AwsLogSourceName._('CLOUD_TRAIL_MGMT');
+  static const lambdaExecution = AwsLogSourceName._('LAMBDA_EXECUTION');
+  static const s3Data = AwsLogSourceName._('S3_DATA');
+  static const eksAudit = AwsLogSourceName._('EKS_AUDIT');
+  static const waf = AwsLogSourceName._('WAF');
 
   final String value;
 
-  const AwsLogSourceName(this.value);
+  const AwsLogSourceName._(this.value);
+
+  static const values = [
+    route53,
+    vpcFlow,
+    shFindings,
+    cloudTrailMgmt,
+    lambdaExecution,
+    s3Data,
+    eksAudit,
+    waf
+  ];
 
   static AwsLogSourceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AwsLogSourceName'));
+          orElse: () => AwsLogSourceName._(value));
+
+  @override
+  bool operator ==(other) => other is AwsLogSourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Amazon Security Lake can collect logs and events from natively-supported
@@ -2332,21 +2359,30 @@ class DataLakeSourceStatus {
   }
 }
 
-enum DataLakeStatus {
-  initialized('INITIALIZED'),
-  pending('PENDING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class DataLakeStatus {
+  static const initialized = DataLakeStatus._('INITIALIZED');
+  static const pending = DataLakeStatus._('PENDING');
+  static const completed = DataLakeStatus._('COMPLETED');
+  static const failed = DataLakeStatus._('FAILED');
 
   final String value;
 
-  const DataLakeStatus(this.value);
+  const DataLakeStatus._(this.value);
+
+  static const values = [initialized, pending, completed, failed];
 
   static DataLakeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataLakeStatus'));
+          orElse: () => DataLakeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataLakeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of the last <code>UpdateDataLake</code> or
@@ -2680,18 +2716,27 @@ class GetSubscriberResponse {
   }
 }
 
-enum HttpMethod {
-  post('POST'),
-  put('PUT'),
-  ;
+class HttpMethod {
+  static const post = HttpMethod._('POST');
+  static const put = HttpMethod._('PUT');
 
   final String value;
 
-  const HttpMethod(this.value);
+  const HttpMethod._(this.value);
 
-  static HttpMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpMethod'));
+  static const values = [post, put];
+
+  static HttpMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpMethod._(value));
+
+  @override
+  bool operator ==(other) => other is HttpMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configurations for HTTPS subscriber notification.
@@ -3027,20 +3072,30 @@ class RegisterDataLakeDelegatedAdministratorResponse {
   }
 }
 
-enum SourceCollectionStatus {
-  collecting('COLLECTING'),
-  misconfigured('MISCONFIGURED'),
-  notCollecting('NOT_COLLECTING'),
-  ;
+class SourceCollectionStatus {
+  static const collecting = SourceCollectionStatus._('COLLECTING');
+  static const misconfigured = SourceCollectionStatus._('MISCONFIGURED');
+  static const notCollecting = SourceCollectionStatus._('NOT_COLLECTING');
 
   final String value;
 
-  const SourceCollectionStatus(this.value);
+  const SourceCollectionStatus._(this.value);
+
+  static const values = [collecting, misconfigured, notCollecting];
 
   static SourceCollectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SourceCollectionStatus'));
+          orElse: () => SourceCollectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceCollectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configurations for SQS subscriber notification.
@@ -3202,21 +3257,30 @@ class SubscriberResource {
   }
 }
 
-enum SubscriberStatus {
-  active('ACTIVE'),
-  deactivated('DEACTIVATED'),
-  pending('PENDING'),
-  ready('READY'),
-  ;
+class SubscriberStatus {
+  static const active = SubscriberStatus._('ACTIVE');
+  static const deactivated = SubscriberStatus._('DEACTIVATED');
+  static const pending = SubscriberStatus._('PENDING');
+  static const ready = SubscriberStatus._('READY');
 
   final String value;
 
-  const SubscriberStatus(this.value);
+  const SubscriberStatus._(this.value);
+
+  static const values = [active, deactivated, pending, ready];
 
   static SubscriberStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriberStatus'));
+          orElse: () => SubscriberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <i>tag</i> is a label that you can define and associate with Amazon Web

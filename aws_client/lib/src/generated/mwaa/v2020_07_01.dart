@@ -1036,19 +1036,29 @@ class Dimension {
   }
 }
 
-enum EndpointManagement {
-  customer('CUSTOMER'),
-  service('SERVICE'),
-  ;
+class EndpointManagement {
+  static const customer = EndpointManagement._('CUSTOMER');
+  static const service = EndpointManagement._('SERVICE');
 
   final String value;
 
-  const EndpointManagement(this.value);
+  const EndpointManagement._(this.value);
 
-  static EndpointManagement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EndpointManagement'));
+  static const values = [customer, service];
+
+  static EndpointManagement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointManagement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointManagement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
@@ -1529,29 +1539,51 @@ class Environment {
   }
 }
 
-enum EnvironmentStatus {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  unavailable('UNAVAILABLE'),
-  updateFailed('UPDATE_FAILED'),
-  rollingBack('ROLLING_BACK'),
-  creatingSnapshot('CREATING_SNAPSHOT'),
-  pending('PENDING'),
-  maintenance('MAINTENANCE'),
-  ;
+class EnvironmentStatus {
+  static const creating = EnvironmentStatus._('CREATING');
+  static const createFailed = EnvironmentStatus._('CREATE_FAILED');
+  static const available = EnvironmentStatus._('AVAILABLE');
+  static const updating = EnvironmentStatus._('UPDATING');
+  static const deleting = EnvironmentStatus._('DELETING');
+  static const deleted = EnvironmentStatus._('DELETED');
+  static const unavailable = EnvironmentStatus._('UNAVAILABLE');
+  static const updateFailed = EnvironmentStatus._('UPDATE_FAILED');
+  static const rollingBack = EnvironmentStatus._('ROLLING_BACK');
+  static const creatingSnapshot = EnvironmentStatus._('CREATING_SNAPSHOT');
+  static const pending = EnvironmentStatus._('PENDING');
+  static const maintenance = EnvironmentStatus._('MAINTENANCE');
 
   final String value;
 
-  const EnvironmentStatus(this.value);
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    available,
+    updating,
+    deleting,
+    deleted,
+    unavailable,
+    updateFailed,
+    rollingBack,
+    creatingSnapshot,
+    pending,
+    maintenance
+  ];
 
   static EnvironmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentStatus'));
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetEnvironmentOutput {
@@ -1793,22 +1825,30 @@ class LoggingConfigurationInput {
   }
 }
 
-enum LoggingLevel {
-  critical('CRITICAL'),
-  error('ERROR'),
-  warning('WARNING'),
-  info('INFO'),
-  debug('DEBUG'),
-  ;
+class LoggingLevel {
+  static const critical = LoggingLevel._('CRITICAL');
+  static const error = LoggingLevel._('ERROR');
+  static const warning = LoggingLevel._('WARNING');
+  static const info = LoggingLevel._('INFO');
+  static const debug = LoggingLevel._('DEBUG');
 
   final String value;
 
-  const LoggingLevel(this.value);
+  const LoggingLevel._(this.value);
 
-  static LoggingLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoggingLevel'));
+  static const values = [critical, error, warning, info, debug];
+
+  static LoggingLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <b>Internal only</b>. Collects Apache Airflow metrics. To learn more about
@@ -2045,43 +2085,80 @@ class TagResourceOutput {
   }
 }
 
-enum Unit {
-  seconds('Seconds'),
-  microseconds('Microseconds'),
-  milliseconds('Milliseconds'),
-  bytes('Bytes'),
-  kilobytes('Kilobytes'),
-  megabytes('Megabytes'),
-  gigabytes('Gigabytes'),
-  terabytes('Terabytes'),
-  bits('Bits'),
-  kilobits('Kilobits'),
-  megabits('Megabits'),
-  gigabits('Gigabits'),
-  terabits('Terabits'),
-  percent('Percent'),
-  count('Count'),
-  bytesSecond('Bytes/Second'),
-  kilobytesSecond('Kilobytes/Second'),
-  megabytesSecond('Megabytes/Second'),
-  gigabytesSecond('Gigabytes/Second'),
-  terabytesSecond('Terabytes/Second'),
-  bitsSecond('Bits/Second'),
-  kilobitsSecond('Kilobits/Second'),
-  megabitsSecond('Megabits/Second'),
-  gigabitsSecond('Gigabits/Second'),
-  terabitsSecond('Terabits/Second'),
-  countSecond('Count/Second'),
-  none('None'),
-  ;
+class Unit {
+  static const seconds = Unit._('Seconds');
+  static const microseconds = Unit._('Microseconds');
+  static const milliseconds = Unit._('Milliseconds');
+  static const bytes = Unit._('Bytes');
+  static const kilobytes = Unit._('Kilobytes');
+  static const megabytes = Unit._('Megabytes');
+  static const gigabytes = Unit._('Gigabytes');
+  static const terabytes = Unit._('Terabytes');
+  static const bits = Unit._('Bits');
+  static const kilobits = Unit._('Kilobits');
+  static const megabits = Unit._('Megabits');
+  static const gigabits = Unit._('Gigabits');
+  static const terabits = Unit._('Terabits');
+  static const percent = Unit._('Percent');
+  static const count = Unit._('Count');
+  static const bytesSecond = Unit._('Bytes/Second');
+  static const kilobytesSecond = Unit._('Kilobytes/Second');
+  static const megabytesSecond = Unit._('Megabytes/Second');
+  static const gigabytesSecond = Unit._('Gigabytes/Second');
+  static const terabytesSecond = Unit._('Terabytes/Second');
+  static const bitsSecond = Unit._('Bits/Second');
+  static const kilobitsSecond = Unit._('Kilobits/Second');
+  static const megabitsSecond = Unit._('Megabits/Second');
+  static const gigabitsSecond = Unit._('Gigabits/Second');
+  static const terabitsSecond = Unit._('Terabits/Second');
+  static const countSecond = Unit._('Count/Second');
+  static const none = Unit._('None');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [
+    seconds,
+    microseconds,
+    milliseconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    count,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond,
+    none
+  ];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceOutput {
@@ -2173,35 +2250,53 @@ class UpdateNetworkConfigurationInput {
   }
 }
 
-enum UpdateStatus {
-  success('SUCCESS'),
-  pending('PENDING'),
-  failed('FAILED'),
-  ;
+class UpdateStatus {
+  static const success = UpdateStatus._('SUCCESS');
+  static const pending = UpdateStatus._('PENDING');
+  static const failed = UpdateStatus._('FAILED');
 
   final String value;
 
-  const UpdateStatus(this.value);
+  const UpdateStatus._(this.value);
 
-  static UpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateStatus'));
+  static const values = [success, pending, failed];
+
+  static UpdateStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WebserverAccessMode {
-  privateOnly('PRIVATE_ONLY'),
-  publicOnly('PUBLIC_ONLY'),
-  ;
+class WebserverAccessMode {
+  static const privateOnly = WebserverAccessMode._('PRIVATE_ONLY');
+  static const publicOnly = WebserverAccessMode._('PUBLIC_ONLY');
 
   final String value;
 
-  const WebserverAccessMode(this.value);
+  const WebserverAccessMode._(this.value);
 
-  static WebserverAccessMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WebserverAccessMode'));
+  static const values = [privateOnly, publicOnly];
+
+  static WebserverAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WebserverAccessMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WebserverAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -1009,20 +1009,29 @@ class UpdateVirtualRouterOutput {
   }
 }
 
-enum MeshStatusCode {
-  active('ACTIVE'),
-  deleted('DELETED'),
-  inactive('INACTIVE'),
-  ;
+class MeshStatusCode {
+  static const active = MeshStatusCode._('ACTIVE');
+  static const deleted = MeshStatusCode._('DELETED');
+  static const inactive = MeshStatusCode._('INACTIVE');
 
   final String value;
 
-  const MeshStatusCode(this.value);
+  const MeshStatusCode._(this.value);
+
+  static const values = [active, deleted, inactive];
 
   static MeshStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MeshStatusCode'));
+          orElse: () => MeshStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is MeshStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a target and its relative weight. Traffic is
@@ -1728,20 +1737,30 @@ class VirtualRouterRef {
   }
 }
 
-enum VirtualRouterStatusCode {
-  active('ACTIVE'),
-  deleted('DELETED'),
-  inactive('INACTIVE'),
-  ;
+class VirtualRouterStatusCode {
+  static const active = VirtualRouterStatusCode._('ACTIVE');
+  static const deleted = VirtualRouterStatusCode._('DELETED');
+  static const inactive = VirtualRouterStatusCode._('INACTIVE');
 
   final String value;
 
-  const VirtualRouterStatusCode(this.value);
+  const VirtualRouterStatusCode._(this.value);
+
+  static const values = [active, deleted, inactive];
 
   static VirtualRouterStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualRouterStatusCode'));
+          orElse: () => VirtualRouterStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualRouterStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListVirtualNodesOutput {
@@ -1867,19 +1886,27 @@ class DeleteVirtualRouterOutput {
   }
 }
 
-enum PortProtocol {
-  http('http'),
-  tcp('tcp'),
-  ;
+class PortProtocol {
+  static const http = PortProtocol._('http');
+  static const tcp = PortProtocol._('tcp');
 
   final String value;
 
-  const PortProtocol(this.value);
+  const PortProtocol._(this.value);
 
-  static PortProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PortProtocol'));
+  static const values = [http, tcp];
+
+  static PortProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is PortProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing metadata for a resource.
@@ -1986,20 +2013,30 @@ class PortMapping {
   }
 }
 
-enum VirtualNodeStatusCode {
-  active('ACTIVE'),
-  deleted('DELETED'),
-  inactive('INACTIVE'),
-  ;
+class VirtualNodeStatusCode {
+  static const active = VirtualNodeStatusCode._('ACTIVE');
+  static const deleted = VirtualNodeStatusCode._('DELETED');
+  static const inactive = VirtualNodeStatusCode._('INACTIVE');
 
   final String value;
 
-  const VirtualNodeStatusCode(this.value);
+  const VirtualNodeStatusCode._(this.value);
 
-  static VirtualNodeStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualNodeStatusCode'));
+  static const values = [active, deleted, inactive];
+
+  static VirtualNodeStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualNodeStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualNodeStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the specification of a virtual router.
@@ -2185,7 +2222,7 @@ class HealthCheckPolicy {
     return HealthCheckPolicy(
       healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
       intervalMillis: (json['intervalMillis'] as int?) ?? 0,
-      protocol: PortProtocol.fromString((json['protocol'] as String)),
+      protocol: PortProtocol.fromString((json['protocol'] as String?) ?? ''),
       timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
       unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
@@ -2372,20 +2409,29 @@ class RouteRef {
   }
 }
 
-enum RouteStatusCode {
-  active('ACTIVE'),
-  deleted('DELETED'),
-  inactive('INACTIVE'),
-  ;
+class RouteStatusCode {
+  static const active = RouteStatusCode._('ACTIVE');
+  static const deleted = RouteStatusCode._('DELETED');
+  static const inactive = RouteStatusCode._('INACTIVE');
 
   final String value;
 
-  const RouteStatusCode(this.value);
+  const RouteStatusCode._(this.value);
+
+  static const values = [active, deleted, inactive];
 
   static RouteStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RouteStatusCode'));
+          orElse: () => RouteStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is RouteStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateVirtualNodeOutput {

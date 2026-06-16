@@ -1491,20 +1491,30 @@ class CreateMembersResponse {
   }
 }
 
-enum DatasourcePackage {
-  detectiveCore('DETECTIVE_CORE'),
-  eksAudit('EKS_AUDIT'),
-  asffSecurityhubFinding('ASFF_SECURITYHUB_FINDING'),
-  ;
+class DatasourcePackage {
+  static const detectiveCore = DatasourcePackage._('DETECTIVE_CORE');
+  static const eksAudit = DatasourcePackage._('EKS_AUDIT');
+  static const asffSecurityhubFinding =
+      DatasourcePackage._('ASFF_SECURITYHUB_FINDING');
 
   final String value;
 
-  const DatasourcePackage(this.value);
+  const DatasourcePackage._(this.value);
+
+  static const values = [detectiveCore, eksAudit, asffSecurityhubFinding];
 
   static DatasourcePackage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatasourcePackage'));
+          orElse: () => DatasourcePackage._(value));
+
+  @override
+  bool operator ==(other) => other is DatasourcePackage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the data source packages ingested by your behavior graph.
@@ -1546,20 +1556,30 @@ class DatasourcePackageIngestDetail {
   }
 }
 
-enum DatasourcePackageIngestState {
-  started('STARTED'),
-  stopped('STOPPED'),
-  disabled('DISABLED'),
-  ;
+class DatasourcePackageIngestState {
+  static const started = DatasourcePackageIngestState._('STARTED');
+  static const stopped = DatasourcePackageIngestState._('STOPPED');
+  static const disabled = DatasourcePackageIngestState._('DISABLED');
 
   final String value;
 
-  const DatasourcePackageIngestState(this.value);
+  const DatasourcePackageIngestState._(this.value);
+
+  static const values = [started, stopped, disabled];
 
   static DatasourcePackageIngestState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatasourcePackageIngestState'));
+          orElse: () => DatasourcePackageIngestState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasourcePackageIngestState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information on the usage of a data source package in the behavior graph.
@@ -1684,33 +1704,51 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
-enum EntityType {
-  iamRole('IAM_ROLE'),
-  iamUser('IAM_USER'),
-  ;
+class EntityType {
+  static const iamRole = EntityType._('IAM_ROLE');
+  static const iamUser = EntityType._('IAM_USER');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [iamRole, iamUser];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Field {
-  severity('SEVERITY'),
-  status('STATUS'),
-  createdTime('CREATED_TIME'),
-  ;
+class Field {
+  static const severity = Field._('SEVERITY');
+  static const status = Field._('STATUS');
+  static const createdTime = Field._('CREATED_TIME');
 
   final String value;
 
-  const Field(this.value);
+  const Field._(this.value);
+
+  static const values = [severity, status, createdTime];
 
   static Field fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Field'));
+      values.firstWhere((e) => e.value == value, orElse: () => Field._(value));
+
+  @override
+  bool operator ==(other) => other is Field && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on the criteria used to define the filter for investigation results.
@@ -2157,25 +2195,43 @@ class IndicatorDetail {
   }
 }
 
-enum IndicatorType {
-  ttpObserved('TTP_OBSERVED'),
-  impossibleTravel('IMPOSSIBLE_TRAVEL'),
-  flaggedIpAddress('FLAGGED_IP_ADDRESS'),
-  newGeolocation('NEW_GEOLOCATION'),
-  newAso('NEW_ASO'),
-  newUserAgent('NEW_USER_AGENT'),
-  relatedFinding('RELATED_FINDING'),
-  relatedFindingGroup('RELATED_FINDING_GROUP'),
-  ;
+class IndicatorType {
+  static const ttpObserved = IndicatorType._('TTP_OBSERVED');
+  static const impossibleTravel = IndicatorType._('IMPOSSIBLE_TRAVEL');
+  static const flaggedIpAddress = IndicatorType._('FLAGGED_IP_ADDRESS');
+  static const newGeolocation = IndicatorType._('NEW_GEOLOCATION');
+  static const newAso = IndicatorType._('NEW_ASO');
+  static const newUserAgent = IndicatorType._('NEW_USER_AGENT');
+  static const relatedFinding = IndicatorType._('RELATED_FINDING');
+  static const relatedFindingGroup = IndicatorType._('RELATED_FINDING_GROUP');
 
   final String value;
 
-  const IndicatorType(this.value);
+  const IndicatorType._(this.value);
+
+  static const values = [
+    ttpObserved,
+    impossibleTravel,
+    flaggedIpAddress,
+    newGeolocation,
+    newAso,
+    newUserAgent,
+    relatedFinding,
+    relatedFindingGroup
+  ];
 
   static IndicatorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IndicatorType'));
+          orElse: () => IndicatorType._(value));
+
+  @override
+  bool operator ==(other) => other is IndicatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the investigation related to a potential security event
@@ -2249,19 +2305,28 @@ class InvestigationDetail {
   }
 }
 
-enum InvitationType {
-  invitation('INVITATION'),
-  organization('ORGANIZATION'),
-  ;
+class InvitationType {
+  static const invitation = InvitationType._('INVITATION');
+  static const organization = InvitationType._('ORGANIZATION');
 
   final String value;
 
-  const InvitationType(this.value);
+  const InvitationType._(this.value);
+
+  static const values = [invitation, organization];
 
   static InvitationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InvitationType'));
+          orElse: () => InvitationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvitationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDatasourcePackagesResponse {
@@ -2787,37 +2852,62 @@ class MemberDetail {
   }
 }
 
-enum MemberDisabledReason {
-  volumeTooHigh('VOLUME_TOO_HIGH'),
-  volumeUnknown('VOLUME_UNKNOWN'),
-  ;
+class MemberDisabledReason {
+  static const volumeTooHigh = MemberDisabledReason._('VOLUME_TOO_HIGH');
+  static const volumeUnknown = MemberDisabledReason._('VOLUME_UNKNOWN');
 
   final String value;
 
-  const MemberDisabledReason(this.value);
+  const MemberDisabledReason._(this.value);
 
-  static MemberDisabledReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MemberDisabledReason'));
+  static const values = [volumeTooHigh, volumeUnknown];
+
+  static MemberDisabledReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MemberDisabledReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MemberDisabledReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MemberStatus {
-  invited('INVITED'),
-  verificationInProgress('VERIFICATION_IN_PROGRESS'),
-  verificationFailed('VERIFICATION_FAILED'),
-  enabled('ENABLED'),
-  acceptedButDisabled('ACCEPTED_BUT_DISABLED'),
-  ;
+class MemberStatus {
+  static const invited = MemberStatus._('INVITED');
+  static const verificationInProgress =
+      MemberStatus._('VERIFICATION_IN_PROGRESS');
+  static const verificationFailed = MemberStatus._('VERIFICATION_FAILED');
+  static const enabled = MemberStatus._('ENABLED');
+  static const acceptedButDisabled = MemberStatus._('ACCEPTED_BUT_DISABLED');
 
   final String value;
 
-  const MemberStatus(this.value);
+  const MemberStatus._(this.value);
 
-  static MemberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MemberStatus'));
+  static const values = [
+    invited,
+    verificationInProgress,
+    verificationFailed,
+    enabled,
+    acceptedButDisabled
+  ];
+
+  static MemberStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MemberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on data source packages for members of the behavior graph.
@@ -2972,17 +3062,26 @@ class NewUserAgentDetail {
   }
 }
 
-enum Reason {
-  awsThreatIntelligence('AWS_THREAT_INTELLIGENCE'),
-  ;
+class Reason {
+  static const awsThreatIntelligence = Reason._('AWS_THREAT_INTELLIGENCE');
 
   final String value;
 
-  const Reason(this.value);
+  const Reason._(this.value);
+
+  static const values = [awsThreatIntelligence];
 
   static Reason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Reason'));
+      values.firstWhere((e) => e.value == value, orElse: () => Reason._(value));
+
+  @override
+  bool operator ==(other) => other is Reason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details related activities associated with a potential security event. Lists
@@ -3049,21 +3148,30 @@ class RelatedFindingGroupDetail {
   }
 }
 
-enum Severity {
-  informational('INFORMATIONAL'),
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  critical('CRITICAL'),
-  ;
+class Severity {
+  static const informational = Severity._('INFORMATIONAL');
+  static const low = Severity._('LOW');
+  static const medium = Severity._('MEDIUM');
+  static const high = Severity._('HIGH');
+  static const critical = Severity._('CRITICAL');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [informational, low, medium, high, critical];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the criteria used for sorting investigations.
@@ -3089,18 +3197,27 @@ class SortCriteria {
   }
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartInvestigationResponse {
@@ -3125,33 +3242,51 @@ class StartInvestigationResponse {
   }
 }
 
-enum State {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  ;
+class State {
+  static const active = State._('ACTIVE');
+  static const archived = State._('ARCHIVED');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [active, archived];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  running('RUNNING'),
-  failed('FAILED'),
-  successful('SUCCESSFUL'),
-  ;
+class Status {
+  static const running = Status._('RUNNING');
+  static const failed = Status._('FAILED');
+  static const successful = Status._('SUCCESSFUL');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [running, failed, successful];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A string for filtering Detective investigations.

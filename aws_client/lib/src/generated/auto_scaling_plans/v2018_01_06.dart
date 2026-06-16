@@ -535,7 +535,8 @@ class CustomizedLoadMetricSpecification {
     return CustomizedLoadMetricSpecification(
       metricName: (json['MetricName'] as String?) ?? '',
       namespace: (json['Namespace'] as String?) ?? '',
-      statistic: MetricStatistic.fromString((json['Statistic'] as String)),
+      statistic:
+          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -617,7 +618,8 @@ class CustomizedScalingMetricSpecification {
     return CustomizedScalingMetricSpecification(
       metricName: (json['MetricName'] as String?) ?? '',
       namespace: (json['Namespace'] as String?) ?? '',
-      statistic: MetricStatistic.fromString((json['Statistic'] as String)),
+      statistic:
+          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -752,21 +754,37 @@ class DescribeScalingPlansResponse {
   }
 }
 
-enum ForecastDataType {
-  capacityForecast('CapacityForecast'),
-  loadForecast('LoadForecast'),
-  scheduledActionMinCapacity('ScheduledActionMinCapacity'),
-  scheduledActionMaxCapacity('ScheduledActionMaxCapacity'),
-  ;
+class ForecastDataType {
+  static const capacityForecast = ForecastDataType._('CapacityForecast');
+  static const loadForecast = ForecastDataType._('LoadForecast');
+  static const scheduledActionMinCapacity =
+      ForecastDataType._('ScheduledActionMinCapacity');
+  static const scheduledActionMaxCapacity =
+      ForecastDataType._('ScheduledActionMaxCapacity');
 
   final String value;
 
-  const ForecastDataType(this.value);
+  const ForecastDataType._(this.value);
+
+  static const values = [
+    capacityForecast,
+    loadForecast,
+    scheduledActionMinCapacity,
+    scheduledActionMaxCapacity
+  ];
 
   static ForecastDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ForecastDataType'));
+          orElse: () => ForecastDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ForecastDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetScalingPlanResourceForecastDataResponse {
@@ -795,21 +813,37 @@ class GetScalingPlanResourceForecastDataResponse {
   }
 }
 
-enum LoadMetricType {
-  aSGTotalCPUUtilization('ASGTotalCPUUtilization'),
-  aSGTotalNetworkIn('ASGTotalNetworkIn'),
-  aSGTotalNetworkOut('ASGTotalNetworkOut'),
-  aLBTargetGroupRequestCount('ALBTargetGroupRequestCount'),
-  ;
+class LoadMetricType {
+  static const aSGTotalCPUUtilization =
+      LoadMetricType._('ASGTotalCPUUtilization');
+  static const aSGTotalNetworkIn = LoadMetricType._('ASGTotalNetworkIn');
+  static const aSGTotalNetworkOut = LoadMetricType._('ASGTotalNetworkOut');
+  static const aLBTargetGroupRequestCount =
+      LoadMetricType._('ALBTargetGroupRequestCount');
 
   final String value;
 
-  const LoadMetricType(this.value);
+  const LoadMetricType._(this.value);
+
+  static const values = [
+    aSGTotalCPUUtilization,
+    aSGTotalNetworkIn,
+    aSGTotalNetworkOut,
+    aLBTargetGroupRequestCount
+  ];
 
   static LoadMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoadMetricType'));
+          orElse: () => LoadMetricType._(value));
+
+  @override
+  bool operator ==(other) => other is LoadMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a dimension for a customized metric.
@@ -842,35 +876,53 @@ class MetricDimension {
   }
 }
 
-enum MetricStatistic {
-  average('Average'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  sampleCount('SampleCount'),
-  sum('Sum'),
-  ;
+class MetricStatistic {
+  static const average = MetricStatistic._('Average');
+  static const minimum = MetricStatistic._('Minimum');
+  static const maximum = MetricStatistic._('Maximum');
+  static const sampleCount = MetricStatistic._('SampleCount');
+  static const sum = MetricStatistic._('Sum');
 
   final String value;
 
-  const MetricStatistic(this.value);
+  const MetricStatistic._(this.value);
+
+  static const values = [average, minimum, maximum, sampleCount, sum];
 
   static MetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricStatistic'));
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PolicyType {
-  targetTrackingScaling('TargetTrackingScaling'),
-  ;
+class PolicyType {
+  static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [targetTrackingScaling];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a predefined metric that can be used for predictive scaling.
@@ -925,7 +977,7 @@ class PredefinedLoadMetricSpecification {
       Map<String, dynamic> json) {
     return PredefinedLoadMetricSpecification(
       predefinedLoadMetricType: LoadMetricType.fromString(
-          (json['PredefinedLoadMetricType'] as String)),
+          (json['PredefinedLoadMetricType'] as String?) ?? ''),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -988,7 +1040,7 @@ class PredefinedScalingMetricSpecification {
       Map<String, dynamic> json) {
     return PredefinedScalingMetricSpecification(
       predefinedScalingMetricType: ScalingMetricType.fromString(
-          (json['PredefinedScalingMetricType'] as String)),
+          (json['PredefinedScalingMetricType'] as String?) ?? ''),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -1003,57 +1055,112 @@ class PredefinedScalingMetricSpecification {
   }
 }
 
-enum PredictiveScalingMaxCapacityBehavior {
-  setForecastCapacityToMaxCapacity('SetForecastCapacityToMaxCapacity'),
-  setMaxCapacityToForecastCapacity('SetMaxCapacityToForecastCapacity'),
-  setMaxCapacityAboveForecastCapacity('SetMaxCapacityAboveForecastCapacity'),
-  ;
+class PredictiveScalingMaxCapacityBehavior {
+  static const setForecastCapacityToMaxCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetForecastCapacityToMaxCapacity');
+  static const setMaxCapacityToForecastCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetMaxCapacityToForecastCapacity');
+  static const setMaxCapacityAboveForecastCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetMaxCapacityAboveForecastCapacity');
 
   final String value;
 
-  const PredictiveScalingMaxCapacityBehavior(this.value);
+  const PredictiveScalingMaxCapacityBehavior._(this.value);
+
+  static const values = [
+    setForecastCapacityToMaxCapacity,
+    setMaxCapacityToForecastCapacity,
+    setMaxCapacityAboveForecastCapacity
+  ];
 
   static PredictiveScalingMaxCapacityBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PredictiveScalingMaxCapacityBehavior'));
+          orElse: () => PredictiveScalingMaxCapacityBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMaxCapacityBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PredictiveScalingMode {
-  forecastAndScale('ForecastAndScale'),
-  forecastOnly('ForecastOnly'),
-  ;
+class PredictiveScalingMode {
+  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
+  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
 
   final String value;
 
-  const PredictiveScalingMode(this.value);
+  const PredictiveScalingMode._(this.value);
 
-  static PredictiveScalingMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PredictiveScalingMode'));
+  static const values = [forecastAndScale, forecastOnly];
+
+  static PredictiveScalingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredictiveScalingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalableDimension {
-  autoscalingAutoScalingGroupDesiredCapacity(
-      'autoscaling:autoScalingGroup:DesiredCapacity'),
-  ecsServiceDesiredCount('ecs:service:DesiredCount'),
-  ec2SpotFleetRequestTargetCapacity('ec2:spot-fleet-request:TargetCapacity'),
-  rdsClusterReadReplicaCount('rds:cluster:ReadReplicaCount'),
-  dynamodbTableReadCapacityUnits('dynamodb:table:ReadCapacityUnits'),
-  dynamodbTableWriteCapacityUnits('dynamodb:table:WriteCapacityUnits'),
-  dynamodbIndexReadCapacityUnits('dynamodb:index:ReadCapacityUnits'),
-  dynamodbIndexWriteCapacityUnits('dynamodb:index:WriteCapacityUnits'),
-  ;
+class ScalableDimension {
+  static const autoscalingAutoScalingGroupDesiredCapacity =
+      ScalableDimension._('autoscaling:autoScalingGroup:DesiredCapacity');
+  static const ecsServiceDesiredCount =
+      ScalableDimension._('ecs:service:DesiredCount');
+  static const ec2SpotFleetRequestTargetCapacity =
+      ScalableDimension._('ec2:spot-fleet-request:TargetCapacity');
+  static const rdsClusterReadReplicaCount =
+      ScalableDimension._('rds:cluster:ReadReplicaCount');
+  static const dynamodbTableReadCapacityUnits =
+      ScalableDimension._('dynamodb:table:ReadCapacityUnits');
+  static const dynamodbTableWriteCapacityUnits =
+      ScalableDimension._('dynamodb:table:WriteCapacityUnits');
+  static const dynamodbIndexReadCapacityUnits =
+      ScalableDimension._('dynamodb:index:ReadCapacityUnits');
+  static const dynamodbIndexWriteCapacityUnits =
+      ScalableDimension._('dynamodb:index:WriteCapacityUnits');
 
   final String value;
 
-  const ScalableDimension(this.value);
+  const ScalableDimension._(this.value);
+
+  static const values = [
+    autoscalingAutoScalingGroupDesiredCapacity,
+    ecsServiceDesiredCount,
+    ec2SpotFleetRequestTargetCapacity,
+    rdsClusterReadReplicaCount,
+    dynamodbTableReadCapacityUnits,
+    dynamodbTableWriteCapacityUnits,
+    dynamodbIndexReadCapacityUnits,
+    dynamodbIndexWriteCapacityUnits
+  ];
 
   static ScalableDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalableDimension'));
+          orElse: () => ScalableDimension._(value));
+
+  @override
+  bool operator ==(other) => other is ScalableDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a scaling instruction for a scalable resource in a scaling plan.
@@ -1287,10 +1394,10 @@ class ScalingInstruction {
       maxCapacity: (json['MaxCapacity'] as int?) ?? 0,
       minCapacity: (json['MinCapacity'] as int?) ?? 0,
       resourceId: (json['ResourceId'] as String?) ?? '',
-      scalableDimension:
-          ScalableDimension.fromString((json['ScalableDimension'] as String)),
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      scalableDimension: ScalableDimension.fromString(
+          (json['ScalableDimension'] as String?) ?? ''),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       targetTrackingConfigurations: ((json['TargetTrackingConfigurations']
                   as List?) ??
               const [])
@@ -1373,31 +1480,65 @@ class ScalingInstruction {
   }
 }
 
-enum ScalingMetricType {
-  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
-  aSGAverageNetworkIn('ASGAverageNetworkIn'),
-  aSGAverageNetworkOut('ASGAverageNetworkOut'),
-  dynamoDBReadCapacityUtilization('DynamoDBReadCapacityUtilization'),
-  dynamoDBWriteCapacityUtilization('DynamoDBWriteCapacityUtilization'),
-  eCSServiceAverageCPUUtilization('ECSServiceAverageCPUUtilization'),
-  eCSServiceAverageMemoryUtilization('ECSServiceAverageMemoryUtilization'),
-  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
-  rDSReaderAverageCPUUtilization('RDSReaderAverageCPUUtilization'),
-  rDSReaderAverageDatabaseConnections('RDSReaderAverageDatabaseConnections'),
-  eC2SpotFleetRequestAverageCPUUtilization(
-      'EC2SpotFleetRequestAverageCPUUtilization'),
-  eC2SpotFleetRequestAverageNetworkIn('EC2SpotFleetRequestAverageNetworkIn'),
-  eC2SpotFleetRequestAverageNetworkOut('EC2SpotFleetRequestAverageNetworkOut'),
-  ;
+class ScalingMetricType {
+  static const aSGAverageCPUUtilization =
+      ScalingMetricType._('ASGAverageCPUUtilization');
+  static const aSGAverageNetworkIn = ScalingMetricType._('ASGAverageNetworkIn');
+  static const aSGAverageNetworkOut =
+      ScalingMetricType._('ASGAverageNetworkOut');
+  static const dynamoDBReadCapacityUtilization =
+      ScalingMetricType._('DynamoDBReadCapacityUtilization');
+  static const dynamoDBWriteCapacityUtilization =
+      ScalingMetricType._('DynamoDBWriteCapacityUtilization');
+  static const eCSServiceAverageCPUUtilization =
+      ScalingMetricType._('ECSServiceAverageCPUUtilization');
+  static const eCSServiceAverageMemoryUtilization =
+      ScalingMetricType._('ECSServiceAverageMemoryUtilization');
+  static const aLBRequestCountPerTarget =
+      ScalingMetricType._('ALBRequestCountPerTarget');
+  static const rDSReaderAverageCPUUtilization =
+      ScalingMetricType._('RDSReaderAverageCPUUtilization');
+  static const rDSReaderAverageDatabaseConnections =
+      ScalingMetricType._('RDSReaderAverageDatabaseConnections');
+  static const eC2SpotFleetRequestAverageCPUUtilization =
+      ScalingMetricType._('EC2SpotFleetRequestAverageCPUUtilization');
+  static const eC2SpotFleetRequestAverageNetworkIn =
+      ScalingMetricType._('EC2SpotFleetRequestAverageNetworkIn');
+  static const eC2SpotFleetRequestAverageNetworkOut =
+      ScalingMetricType._('EC2SpotFleetRequestAverageNetworkOut');
 
   final String value;
 
-  const ScalingMetricType(this.value);
+  const ScalingMetricType._(this.value);
+
+  static const values = [
+    aSGAverageCPUUtilization,
+    aSGAverageNetworkIn,
+    aSGAverageNetworkOut,
+    dynamoDBReadCapacityUtilization,
+    dynamoDBWriteCapacityUtilization,
+    eCSServiceAverageCPUUtilization,
+    eCSServiceAverageMemoryUtilization,
+    aLBRequestCountPerTarget,
+    rDSReaderAverageCPUUtilization,
+    rDSReaderAverageDatabaseConnections,
+    eC2SpotFleetRequestAverageCPUUtilization,
+    eC2SpotFleetRequestAverageNetworkIn,
+    eC2SpotFleetRequestAverageNetworkOut
+  ];
 
   static ScalingMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalingMetricType'));
+          orElse: () => ScalingMetricType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a scaling plan.
@@ -1477,8 +1618,8 @@ class ScalingPlan {
           .toList(),
       scalingPlanName: (json['ScalingPlanName'] as String?) ?? '',
       scalingPlanVersion: (json['ScalingPlanVersion'] as int?) ?? 0,
-      statusCode:
-          ScalingPlanStatusCode.fromString((json['StatusCode'] as String)),
+      statusCode: ScalingPlanStatusCode.fromString(
+          (json['StatusCode'] as String?) ?? ''),
       creationTime: timeStampFromJson(json['CreationTime']),
       statusMessage: json['StatusMessage'] as String?,
       statusStartTime: timeStampFromJson(json['StatusStartTime']),
@@ -1634,14 +1775,14 @@ class ScalingPlanResource {
   factory ScalingPlanResource.fromJson(Map<String, dynamic> json) {
     return ScalingPlanResource(
       resourceId: (json['ResourceId'] as String?) ?? '',
-      scalableDimension:
-          ScalableDimension.fromString((json['ScalableDimension'] as String)),
+      scalableDimension: ScalableDimension.fromString(
+          (json['ScalableDimension'] as String?) ?? ''),
       scalingPlanName: (json['ScalingPlanName'] as String?) ?? '',
       scalingPlanVersion: (json['ScalingPlanVersion'] as int?) ?? 0,
-      scalingStatusCode:
-          ScalingStatusCode.fromString((json['ScalingStatusCode'] as String)),
-      serviceNamespace:
-          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
+      scalingStatusCode: ScalingStatusCode.fromString(
+          (json['ScalingStatusCode'] as String?) ?? ''),
+      serviceNamespace: ServiceNamespace.fromString(
+          (json['ServiceNamespace'] as String?) ?? ''),
       scalingPolicies: (json['ScalingPolicies'] as List?)
           ?.nonNulls
           .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
@@ -1673,25 +1814,47 @@ class ScalingPlanResource {
   }
 }
 
-enum ScalingPlanStatusCode {
-  active('Active'),
-  activeWithProblems('ActiveWithProblems'),
-  creationInProgress('CreationInProgress'),
-  creationFailed('CreationFailed'),
-  deletionInProgress('DeletionInProgress'),
-  deletionFailed('DeletionFailed'),
-  updateInProgress('UpdateInProgress'),
-  updateFailed('UpdateFailed'),
-  ;
+class ScalingPlanStatusCode {
+  static const active = ScalingPlanStatusCode._('Active');
+  static const activeWithProblems =
+      ScalingPlanStatusCode._('ActiveWithProblems');
+  static const creationInProgress =
+      ScalingPlanStatusCode._('CreationInProgress');
+  static const creationFailed = ScalingPlanStatusCode._('CreationFailed');
+  static const deletionInProgress =
+      ScalingPlanStatusCode._('DeletionInProgress');
+  static const deletionFailed = ScalingPlanStatusCode._('DeletionFailed');
+  static const updateInProgress = ScalingPlanStatusCode._('UpdateInProgress');
+  static const updateFailed = ScalingPlanStatusCode._('UpdateFailed');
 
   final String value;
 
-  const ScalingPlanStatusCode(this.value);
+  const ScalingPlanStatusCode._(this.value);
 
-  static ScalingPlanStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScalingPlanStatusCode'));
+  static const values = [
+    active,
+    activeWithProblems,
+    creationInProgress,
+    creationFailed,
+    deletionInProgress,
+    deletionFailed,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static ScalingPlanStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalingPlanStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingPlanStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a scaling policy.
@@ -1715,7 +1878,7 @@ class ScalingPolicy {
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
       policyName: (json['PolicyName'] as String?) ?? '',
-      policyType: PolicyType.fromString((json['PolicyType'] as String)),
+      policyType: PolicyType.fromString((json['PolicyType'] as String?) ?? ''),
       targetTrackingConfiguration: json['TargetTrackingConfiguration'] != null
           ? TargetTrackingConfiguration.fromJson(
               json['TargetTrackingConfiguration'] as Map<String, dynamic>)
@@ -1736,53 +1899,83 @@ class ScalingPolicy {
   }
 }
 
-enum ScalingPolicyUpdateBehavior {
-  keepExternalPolicies('KeepExternalPolicies'),
-  replaceExternalPolicies('ReplaceExternalPolicies'),
-  ;
+class ScalingPolicyUpdateBehavior {
+  static const keepExternalPolicies =
+      ScalingPolicyUpdateBehavior._('KeepExternalPolicies');
+  static const replaceExternalPolicies =
+      ScalingPolicyUpdateBehavior._('ReplaceExternalPolicies');
 
   final String value;
 
-  const ScalingPolicyUpdateBehavior(this.value);
+  const ScalingPolicyUpdateBehavior._(this.value);
+
+  static const values = [keepExternalPolicies, replaceExternalPolicies];
 
   static ScalingPolicyUpdateBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScalingPolicyUpdateBehavior'));
+          orElse: () => ScalingPolicyUpdateBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingPolicyUpdateBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalingStatusCode {
-  inactive('Inactive'),
-  partiallyActive('PartiallyActive'),
-  active('Active'),
-  ;
+class ScalingStatusCode {
+  static const inactive = ScalingStatusCode._('Inactive');
+  static const partiallyActive = ScalingStatusCode._('PartiallyActive');
+  static const active = ScalingStatusCode._('Active');
 
   final String value;
 
-  const ScalingStatusCode(this.value);
+  const ScalingStatusCode._(this.value);
+
+  static const values = [inactive, partiallyActive, active];
 
   static ScalingStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScalingStatusCode'));
+          orElse: () => ScalingStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceNamespace {
-  autoscaling('autoscaling'),
-  ecs('ecs'),
-  ec2('ec2'),
-  rds('rds'),
-  dynamodb('dynamodb'),
-  ;
+class ServiceNamespace {
+  static const autoscaling = ServiceNamespace._('autoscaling');
+  static const ecs = ServiceNamespace._('ecs');
+  static const ec2 = ServiceNamespace._('ec2');
+  static const rds = ServiceNamespace._('rds');
+  static const dynamodb = ServiceNamespace._('dynamodb');
 
   final String value;
 
-  const ServiceNamespace(this.value);
+  const ServiceNamespace._(this.value);
+
+  static const values = [autoscaling, ecs, ec2, rds, dynamodb];
 
   static ServiceNamespace fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceNamespace'));
+          orElse: () => ServiceNamespace._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceNamespace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a tag.

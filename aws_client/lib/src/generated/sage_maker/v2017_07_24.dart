@@ -19586,23 +19586,38 @@ class ActionSource {
   }
 }
 
-enum ActionStatus {
-  unknown('Unknown'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class ActionStatus {
+  static const unknown = ActionStatus._('Unknown');
+  static const inProgress = ActionStatus._('InProgress');
+  static const completed = ActionStatus._('Completed');
+  static const failed = ActionStatus._('Failed');
+  static const stopping = ActionStatus._('Stopping');
+  static const stopped = ActionStatus._('Stopped');
 
   final String value;
 
-  const ActionStatus(this.value);
+  const ActionStatus._(this.value);
 
-  static ActionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActionStatus'));
+  static const values = [
+    unknown,
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped
+  ];
+
+  static ActionStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists the properties of an <i>action</i>. An action represents an action or
@@ -19890,7 +19905,7 @@ class AdditionalS3DataSource {
   factory AdditionalS3DataSource.fromJson(Map<String, dynamic> json) {
     return AdditionalS3DataSource(
       s3DataType: AdditionalS3DataSourceDataType.fromString(
-          (json['S3DataType'] as String)),
+          (json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       compressionType:
           (json['CompressionType'] as String?)?.let(CompressionType.fromString),
@@ -19909,19 +19924,29 @@ class AdditionalS3DataSource {
   }
 }
 
-enum AdditionalS3DataSourceDataType {
-  s3Object('S3Object'),
-  s3Prefix('S3Prefix'),
-  ;
+class AdditionalS3DataSourceDataType {
+  static const s3Object = AdditionalS3DataSourceDataType._('S3Object');
+  static const s3Prefix = AdditionalS3DataSourceDataType._('S3Prefix');
 
   final String value;
 
-  const AdditionalS3DataSourceDataType(this.value);
+  const AdditionalS3DataSourceDataType._(this.value);
+
+  static const values = [s3Object, s3Prefix];
 
   static AdditionalS3DataSourceDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdditionalS3DataSourceDataType'));
+          orElse: () => AdditionalS3DataSourceDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalS3DataSourceDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Edge Manager agent version.
@@ -19954,22 +19979,32 @@ class AgentVersion {
   }
 }
 
-enum AggregationTransformationValue {
-  sum('sum'),
-  avg('avg'),
-  first('first'),
-  min('min'),
-  max('max'),
-  ;
+class AggregationTransformationValue {
+  static const sum = AggregationTransformationValue._('sum');
+  static const avg = AggregationTransformationValue._('avg');
+  static const first = AggregationTransformationValue._('first');
+  static const min = AggregationTransformationValue._('min');
+  static const max = AggregationTransformationValue._('max');
 
   final String value;
 
-  const AggregationTransformationValue(this.value);
+  const AggregationTransformationValue._(this.value);
+
+  static const values = [sum, avg, first, min, max];
 
   static AggregationTransformationValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AggregationTransformationValue'));
+          orElse: () => AggregationTransformationValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregationTransformationValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon CloudWatch alarm configured to monitor metrics on an endpoint.
@@ -19995,19 +20030,28 @@ class Alarm {
   }
 }
 
-enum AlgorithmSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class AlgorithmSortBy {
+  static const name = AlgorithmSortBy._('Name');
+  static const creationTime = AlgorithmSortBy._('CreationTime');
 
   final String value;
 
-  const AlgorithmSortBy(this.value);
+  const AlgorithmSortBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static AlgorithmSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlgorithmSortBy'));
+          orElse: () => AlgorithmSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is AlgorithmSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the training algorithm to use in a <a
@@ -20126,8 +20170,8 @@ class AlgorithmSpecification {
 
   factory AlgorithmSpecification.fromJson(Map<String, dynamic> json) {
     return AlgorithmSpecification(
-      trainingInputMode:
-          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
+      trainingInputMode: TrainingInputMode.fromString(
+          (json['TrainingInputMode'] as String?) ?? ''),
       algorithmName: json['AlgorithmName'] as String?,
       containerArguments: (json['ContainerArguments'] as List?)
           ?.nonNulls
@@ -20177,22 +20221,31 @@ class AlgorithmSpecification {
   }
 }
 
-enum AlgorithmStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class AlgorithmStatus {
+  static const pending = AlgorithmStatus._('Pending');
+  static const inProgress = AlgorithmStatus._('InProgress');
+  static const completed = AlgorithmStatus._('Completed');
+  static const failed = AlgorithmStatus._('Failed');
+  static const deleting = AlgorithmStatus._('Deleting');
 
   final String value;
 
-  const AlgorithmStatus(this.value);
+  const AlgorithmStatus._(this.value);
+
+  static const values = [pending, inProgress, completed, failed, deleting];
 
   static AlgorithmStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AlgorithmStatus'));
+          orElse: () => AlgorithmStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AlgorithmStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the validation and image scan statuses of the algorithm.
@@ -20251,7 +20304,8 @@ class AlgorithmStatusItem {
   factory AlgorithmStatusItem.fromJson(Map<String, dynamic> json) {
     return AlgorithmStatusItem(
       name: (json['Name'] as String?) ?? '',
-      status: DetailedAlgorithmStatus.fromString((json['Status'] as String)),
+      status:
+          DetailedAlgorithmStatus.fromString((json['Status'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -20297,8 +20351,8 @@ class AlgorithmSummary {
     return AlgorithmSummary(
       algorithmArn: (json['AlgorithmArn'] as String?) ?? '',
       algorithmName: (json['AlgorithmName'] as String?) ?? '',
-      algorithmStatus:
-          AlgorithmStatus.fromString((json['AlgorithmStatus'] as String)),
+      algorithmStatus: AlgorithmStatus.fromString(
+          (json['AlgorithmStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       algorithmDescription: json['AlgorithmDescription'] as String?,
     );
@@ -21570,186 +21624,360 @@ class AppImageConfigDetails {
   }
 }
 
-enum AppImageConfigSortKey {
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  name('Name'),
-  ;
+class AppImageConfigSortKey {
+  static const creationTime = AppImageConfigSortKey._('CreationTime');
+  static const lastModifiedTime = AppImageConfigSortKey._('LastModifiedTime');
+  static const name = AppImageConfigSortKey._('Name');
 
   final String value;
 
-  const AppImageConfigSortKey(this.value);
+  const AppImageConfigSortKey._(this.value);
 
-  static AppImageConfigSortKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppImageConfigSortKey'));
+  static const values = [creationTime, lastModifiedTime, name];
+
+  static AppImageConfigSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppImageConfigSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppImageConfigSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppInstanceType {
-  system('system'),
-  mlT3Micro('ml.t3.micro'),
-  mlT3Small('ml.t3.small'),
-  mlT3Medium('ml.t3.medium'),
-  mlT3Large('ml.t3.large'),
-  mlT3Xlarge('ml.t3.xlarge'),
-  mlT3_2xlarge('ml.t3.2xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_8xlarge('ml.m5.8xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_16xlarge('ml.m5.16xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlM5dLarge('ml.m5d.large'),
-  mlM5dXlarge('ml.m5d.xlarge'),
-  mlM5d_2xlarge('ml.m5d.2xlarge'),
-  mlM5d_4xlarge('ml.m5d.4xlarge'),
-  mlM5d_8xlarge('ml.m5d.8xlarge'),
-  mlM5d_12xlarge('ml.m5d.12xlarge'),
-  mlM5d_16xlarge('ml.m5d.16xlarge'),
-  mlM5d_24xlarge('ml.m5d.24xlarge'),
-  mlC5Large('ml.c5.large'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_12xlarge('ml.c5.12xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5_24xlarge('ml.c5.24xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlR5Large('ml.r5.large'),
-  mlR5Xlarge('ml.r5.xlarge'),
-  mlR5_2xlarge('ml.r5.2xlarge'),
-  mlR5_4xlarge('ml.r5.4xlarge'),
-  mlR5_8xlarge('ml.r5.8xlarge'),
-  mlR5_12xlarge('ml.r5.12xlarge'),
-  mlR5_16xlarge('ml.r5.16xlarge'),
-  mlR5_24xlarge('ml.r5.24xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlG6Xlarge('ml.g6.xlarge'),
-  mlG6_2xlarge('ml.g6.2xlarge'),
-  mlG6_4xlarge('ml.g6.4xlarge'),
-  mlG6_8xlarge('ml.g6.8xlarge'),
-  mlG6_12xlarge('ml.g6.12xlarge'),
-  mlG6_16xlarge('ml.g6.16xlarge'),
-  mlG6_24xlarge('ml.g6.24xlarge'),
-  mlG6_48xlarge('ml.g6.48xlarge'),
-  mlGeospatialInteractive('ml.geospatial.interactive'),
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlTrn1_2xlarge('ml.trn1.2xlarge'),
-  mlTrn1_32xlarge('ml.trn1.32xlarge'),
-  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlM6iLarge('ml.m6i.large'),
-  mlM6iXlarge('ml.m6i.xlarge'),
-  mlM6i_2xlarge('ml.m6i.2xlarge'),
-  mlM6i_4xlarge('ml.m6i.4xlarge'),
-  mlM6i_8xlarge('ml.m6i.8xlarge'),
-  mlM6i_12xlarge('ml.m6i.12xlarge'),
-  mlM6i_16xlarge('ml.m6i.16xlarge'),
-  mlM6i_24xlarge('ml.m6i.24xlarge'),
-  mlM6i_32xlarge('ml.m6i.32xlarge'),
-  mlM7iLarge('ml.m7i.large'),
-  mlM7iXlarge('ml.m7i.xlarge'),
-  mlM7i_2xlarge('ml.m7i.2xlarge'),
-  mlM7i_4xlarge('ml.m7i.4xlarge'),
-  mlM7i_8xlarge('ml.m7i.8xlarge'),
-  mlM7i_12xlarge('ml.m7i.12xlarge'),
-  mlM7i_16xlarge('ml.m7i.16xlarge'),
-  mlM7i_24xlarge('ml.m7i.24xlarge'),
-  mlM7i_48xlarge('ml.m7i.48xlarge'),
-  mlC6iLarge('ml.c6i.large'),
-  mlC6iXlarge('ml.c6i.xlarge'),
-  mlC6i_2xlarge('ml.c6i.2xlarge'),
-  mlC6i_4xlarge('ml.c6i.4xlarge'),
-  mlC6i_8xlarge('ml.c6i.8xlarge'),
-  mlC6i_12xlarge('ml.c6i.12xlarge'),
-  mlC6i_16xlarge('ml.c6i.16xlarge'),
-  mlC6i_24xlarge('ml.c6i.24xlarge'),
-  mlC6i_32xlarge('ml.c6i.32xlarge'),
-  mlC7iLarge('ml.c7i.large'),
-  mlC7iXlarge('ml.c7i.xlarge'),
-  mlC7i_2xlarge('ml.c7i.2xlarge'),
-  mlC7i_4xlarge('ml.c7i.4xlarge'),
-  mlC7i_8xlarge('ml.c7i.8xlarge'),
-  mlC7i_12xlarge('ml.c7i.12xlarge'),
-  mlC7i_16xlarge('ml.c7i.16xlarge'),
-  mlC7i_24xlarge('ml.c7i.24xlarge'),
-  mlC7i_48xlarge('ml.c7i.48xlarge'),
-  mlR6iLarge('ml.r6i.large'),
-  mlR6iXlarge('ml.r6i.xlarge'),
-  mlR6i_2xlarge('ml.r6i.2xlarge'),
-  mlR6i_4xlarge('ml.r6i.4xlarge'),
-  mlR6i_8xlarge('ml.r6i.8xlarge'),
-  mlR6i_12xlarge('ml.r6i.12xlarge'),
-  mlR6i_16xlarge('ml.r6i.16xlarge'),
-  mlR6i_24xlarge('ml.r6i.24xlarge'),
-  mlR6i_32xlarge('ml.r6i.32xlarge'),
-  mlR7iLarge('ml.r7i.large'),
-  mlR7iXlarge('ml.r7i.xlarge'),
-  mlR7i_2xlarge('ml.r7i.2xlarge'),
-  mlR7i_4xlarge('ml.r7i.4xlarge'),
-  mlR7i_8xlarge('ml.r7i.8xlarge'),
-  mlR7i_12xlarge('ml.r7i.12xlarge'),
-  mlR7i_16xlarge('ml.r7i.16xlarge'),
-  mlR7i_24xlarge('ml.r7i.24xlarge'),
-  mlR7i_48xlarge('ml.r7i.48xlarge'),
-  mlM6idLarge('ml.m6id.large'),
-  mlM6idXlarge('ml.m6id.xlarge'),
-  mlM6id_2xlarge('ml.m6id.2xlarge'),
-  mlM6id_4xlarge('ml.m6id.4xlarge'),
-  mlM6id_8xlarge('ml.m6id.8xlarge'),
-  mlM6id_12xlarge('ml.m6id.12xlarge'),
-  mlM6id_16xlarge('ml.m6id.16xlarge'),
-  mlM6id_24xlarge('ml.m6id.24xlarge'),
-  mlM6id_32xlarge('ml.m6id.32xlarge'),
-  mlC6idLarge('ml.c6id.large'),
-  mlC6idXlarge('ml.c6id.xlarge'),
-  mlC6id_2xlarge('ml.c6id.2xlarge'),
-  mlC6id_4xlarge('ml.c6id.4xlarge'),
-  mlC6id_8xlarge('ml.c6id.8xlarge'),
-  mlC6id_12xlarge('ml.c6id.12xlarge'),
-  mlC6id_16xlarge('ml.c6id.16xlarge'),
-  mlC6id_24xlarge('ml.c6id.24xlarge'),
-  mlC6id_32xlarge('ml.c6id.32xlarge'),
-  mlR6idLarge('ml.r6id.large'),
-  mlR6idXlarge('ml.r6id.xlarge'),
-  mlR6id_2xlarge('ml.r6id.2xlarge'),
-  mlR6id_4xlarge('ml.r6id.4xlarge'),
-  mlR6id_8xlarge('ml.r6id.8xlarge'),
-  mlR6id_12xlarge('ml.r6id.12xlarge'),
-  mlR6id_16xlarge('ml.r6id.16xlarge'),
-  mlR6id_24xlarge('ml.r6id.24xlarge'),
-  mlR6id_32xlarge('ml.r6id.32xlarge'),
-  ;
+class AppInstanceType {
+  static const system = AppInstanceType._('system');
+  static const mlT3Micro = AppInstanceType._('ml.t3.micro');
+  static const mlT3Small = AppInstanceType._('ml.t3.small');
+  static const mlT3Medium = AppInstanceType._('ml.t3.medium');
+  static const mlT3Large = AppInstanceType._('ml.t3.large');
+  static const mlT3Xlarge = AppInstanceType._('ml.t3.xlarge');
+  static const mlT3_2xlarge = AppInstanceType._('ml.t3.2xlarge');
+  static const mlM5Large = AppInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = AppInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = AppInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = AppInstanceType._('ml.m5.4xlarge');
+  static const mlM5_8xlarge = AppInstanceType._('ml.m5.8xlarge');
+  static const mlM5_12xlarge = AppInstanceType._('ml.m5.12xlarge');
+  static const mlM5_16xlarge = AppInstanceType._('ml.m5.16xlarge');
+  static const mlM5_24xlarge = AppInstanceType._('ml.m5.24xlarge');
+  static const mlM5dLarge = AppInstanceType._('ml.m5d.large');
+  static const mlM5dXlarge = AppInstanceType._('ml.m5d.xlarge');
+  static const mlM5d_2xlarge = AppInstanceType._('ml.m5d.2xlarge');
+  static const mlM5d_4xlarge = AppInstanceType._('ml.m5d.4xlarge');
+  static const mlM5d_8xlarge = AppInstanceType._('ml.m5d.8xlarge');
+  static const mlM5d_12xlarge = AppInstanceType._('ml.m5d.12xlarge');
+  static const mlM5d_16xlarge = AppInstanceType._('ml.m5d.16xlarge');
+  static const mlM5d_24xlarge = AppInstanceType._('ml.m5d.24xlarge');
+  static const mlC5Large = AppInstanceType._('ml.c5.large');
+  static const mlC5Xlarge = AppInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = AppInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = AppInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = AppInstanceType._('ml.c5.9xlarge');
+  static const mlC5_12xlarge = AppInstanceType._('ml.c5.12xlarge');
+  static const mlC5_18xlarge = AppInstanceType._('ml.c5.18xlarge');
+  static const mlC5_24xlarge = AppInstanceType._('ml.c5.24xlarge');
+  static const mlP3_2xlarge = AppInstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = AppInstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = AppInstanceType._('ml.p3.16xlarge');
+  static const mlP3dn_24xlarge = AppInstanceType._('ml.p3dn.24xlarge');
+  static const mlG4dnXlarge = AppInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = AppInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = AppInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = AppInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = AppInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = AppInstanceType._('ml.g4dn.16xlarge');
+  static const mlR5Large = AppInstanceType._('ml.r5.large');
+  static const mlR5Xlarge = AppInstanceType._('ml.r5.xlarge');
+  static const mlR5_2xlarge = AppInstanceType._('ml.r5.2xlarge');
+  static const mlR5_4xlarge = AppInstanceType._('ml.r5.4xlarge');
+  static const mlR5_8xlarge = AppInstanceType._('ml.r5.8xlarge');
+  static const mlR5_12xlarge = AppInstanceType._('ml.r5.12xlarge');
+  static const mlR5_16xlarge = AppInstanceType._('ml.r5.16xlarge');
+  static const mlR5_24xlarge = AppInstanceType._('ml.r5.24xlarge');
+  static const mlG5Xlarge = AppInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = AppInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = AppInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = AppInstanceType._('ml.g5.8xlarge');
+  static const mlG5_16xlarge = AppInstanceType._('ml.g5.16xlarge');
+  static const mlG5_12xlarge = AppInstanceType._('ml.g5.12xlarge');
+  static const mlG5_24xlarge = AppInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = AppInstanceType._('ml.g5.48xlarge');
+  static const mlG6Xlarge = AppInstanceType._('ml.g6.xlarge');
+  static const mlG6_2xlarge = AppInstanceType._('ml.g6.2xlarge');
+  static const mlG6_4xlarge = AppInstanceType._('ml.g6.4xlarge');
+  static const mlG6_8xlarge = AppInstanceType._('ml.g6.8xlarge');
+  static const mlG6_12xlarge = AppInstanceType._('ml.g6.12xlarge');
+  static const mlG6_16xlarge = AppInstanceType._('ml.g6.16xlarge');
+  static const mlG6_24xlarge = AppInstanceType._('ml.g6.24xlarge');
+  static const mlG6_48xlarge = AppInstanceType._('ml.g6.48xlarge');
+  static const mlGeospatialInteractive =
+      AppInstanceType._('ml.geospatial.interactive');
+  static const mlP4d_24xlarge = AppInstanceType._('ml.p4d.24xlarge');
+  static const mlP4de_24xlarge = AppInstanceType._('ml.p4de.24xlarge');
+  static const mlTrn1_2xlarge = AppInstanceType._('ml.trn1.2xlarge');
+  static const mlTrn1_32xlarge = AppInstanceType._('ml.trn1.32xlarge');
+  static const mlTrn1n_32xlarge = AppInstanceType._('ml.trn1n.32xlarge');
+  static const mlP5_48xlarge = AppInstanceType._('ml.p5.48xlarge');
+  static const mlM6iLarge = AppInstanceType._('ml.m6i.large');
+  static const mlM6iXlarge = AppInstanceType._('ml.m6i.xlarge');
+  static const mlM6i_2xlarge = AppInstanceType._('ml.m6i.2xlarge');
+  static const mlM6i_4xlarge = AppInstanceType._('ml.m6i.4xlarge');
+  static const mlM6i_8xlarge = AppInstanceType._('ml.m6i.8xlarge');
+  static const mlM6i_12xlarge = AppInstanceType._('ml.m6i.12xlarge');
+  static const mlM6i_16xlarge = AppInstanceType._('ml.m6i.16xlarge');
+  static const mlM6i_24xlarge = AppInstanceType._('ml.m6i.24xlarge');
+  static const mlM6i_32xlarge = AppInstanceType._('ml.m6i.32xlarge');
+  static const mlM7iLarge = AppInstanceType._('ml.m7i.large');
+  static const mlM7iXlarge = AppInstanceType._('ml.m7i.xlarge');
+  static const mlM7i_2xlarge = AppInstanceType._('ml.m7i.2xlarge');
+  static const mlM7i_4xlarge = AppInstanceType._('ml.m7i.4xlarge');
+  static const mlM7i_8xlarge = AppInstanceType._('ml.m7i.8xlarge');
+  static const mlM7i_12xlarge = AppInstanceType._('ml.m7i.12xlarge');
+  static const mlM7i_16xlarge = AppInstanceType._('ml.m7i.16xlarge');
+  static const mlM7i_24xlarge = AppInstanceType._('ml.m7i.24xlarge');
+  static const mlM7i_48xlarge = AppInstanceType._('ml.m7i.48xlarge');
+  static const mlC6iLarge = AppInstanceType._('ml.c6i.large');
+  static const mlC6iXlarge = AppInstanceType._('ml.c6i.xlarge');
+  static const mlC6i_2xlarge = AppInstanceType._('ml.c6i.2xlarge');
+  static const mlC6i_4xlarge = AppInstanceType._('ml.c6i.4xlarge');
+  static const mlC6i_8xlarge = AppInstanceType._('ml.c6i.8xlarge');
+  static const mlC6i_12xlarge = AppInstanceType._('ml.c6i.12xlarge');
+  static const mlC6i_16xlarge = AppInstanceType._('ml.c6i.16xlarge');
+  static const mlC6i_24xlarge = AppInstanceType._('ml.c6i.24xlarge');
+  static const mlC6i_32xlarge = AppInstanceType._('ml.c6i.32xlarge');
+  static const mlC7iLarge = AppInstanceType._('ml.c7i.large');
+  static const mlC7iXlarge = AppInstanceType._('ml.c7i.xlarge');
+  static const mlC7i_2xlarge = AppInstanceType._('ml.c7i.2xlarge');
+  static const mlC7i_4xlarge = AppInstanceType._('ml.c7i.4xlarge');
+  static const mlC7i_8xlarge = AppInstanceType._('ml.c7i.8xlarge');
+  static const mlC7i_12xlarge = AppInstanceType._('ml.c7i.12xlarge');
+  static const mlC7i_16xlarge = AppInstanceType._('ml.c7i.16xlarge');
+  static const mlC7i_24xlarge = AppInstanceType._('ml.c7i.24xlarge');
+  static const mlC7i_48xlarge = AppInstanceType._('ml.c7i.48xlarge');
+  static const mlR6iLarge = AppInstanceType._('ml.r6i.large');
+  static const mlR6iXlarge = AppInstanceType._('ml.r6i.xlarge');
+  static const mlR6i_2xlarge = AppInstanceType._('ml.r6i.2xlarge');
+  static const mlR6i_4xlarge = AppInstanceType._('ml.r6i.4xlarge');
+  static const mlR6i_8xlarge = AppInstanceType._('ml.r6i.8xlarge');
+  static const mlR6i_12xlarge = AppInstanceType._('ml.r6i.12xlarge');
+  static const mlR6i_16xlarge = AppInstanceType._('ml.r6i.16xlarge');
+  static const mlR6i_24xlarge = AppInstanceType._('ml.r6i.24xlarge');
+  static const mlR6i_32xlarge = AppInstanceType._('ml.r6i.32xlarge');
+  static const mlR7iLarge = AppInstanceType._('ml.r7i.large');
+  static const mlR7iXlarge = AppInstanceType._('ml.r7i.xlarge');
+  static const mlR7i_2xlarge = AppInstanceType._('ml.r7i.2xlarge');
+  static const mlR7i_4xlarge = AppInstanceType._('ml.r7i.4xlarge');
+  static const mlR7i_8xlarge = AppInstanceType._('ml.r7i.8xlarge');
+  static const mlR7i_12xlarge = AppInstanceType._('ml.r7i.12xlarge');
+  static const mlR7i_16xlarge = AppInstanceType._('ml.r7i.16xlarge');
+  static const mlR7i_24xlarge = AppInstanceType._('ml.r7i.24xlarge');
+  static const mlR7i_48xlarge = AppInstanceType._('ml.r7i.48xlarge');
+  static const mlM6idLarge = AppInstanceType._('ml.m6id.large');
+  static const mlM6idXlarge = AppInstanceType._('ml.m6id.xlarge');
+  static const mlM6id_2xlarge = AppInstanceType._('ml.m6id.2xlarge');
+  static const mlM6id_4xlarge = AppInstanceType._('ml.m6id.4xlarge');
+  static const mlM6id_8xlarge = AppInstanceType._('ml.m6id.8xlarge');
+  static const mlM6id_12xlarge = AppInstanceType._('ml.m6id.12xlarge');
+  static const mlM6id_16xlarge = AppInstanceType._('ml.m6id.16xlarge');
+  static const mlM6id_24xlarge = AppInstanceType._('ml.m6id.24xlarge');
+  static const mlM6id_32xlarge = AppInstanceType._('ml.m6id.32xlarge');
+  static const mlC6idLarge = AppInstanceType._('ml.c6id.large');
+  static const mlC6idXlarge = AppInstanceType._('ml.c6id.xlarge');
+  static const mlC6id_2xlarge = AppInstanceType._('ml.c6id.2xlarge');
+  static const mlC6id_4xlarge = AppInstanceType._('ml.c6id.4xlarge');
+  static const mlC6id_8xlarge = AppInstanceType._('ml.c6id.8xlarge');
+  static const mlC6id_12xlarge = AppInstanceType._('ml.c6id.12xlarge');
+  static const mlC6id_16xlarge = AppInstanceType._('ml.c6id.16xlarge');
+  static const mlC6id_24xlarge = AppInstanceType._('ml.c6id.24xlarge');
+  static const mlC6id_32xlarge = AppInstanceType._('ml.c6id.32xlarge');
+  static const mlR6idLarge = AppInstanceType._('ml.r6id.large');
+  static const mlR6idXlarge = AppInstanceType._('ml.r6id.xlarge');
+  static const mlR6id_2xlarge = AppInstanceType._('ml.r6id.2xlarge');
+  static const mlR6id_4xlarge = AppInstanceType._('ml.r6id.4xlarge');
+  static const mlR6id_8xlarge = AppInstanceType._('ml.r6id.8xlarge');
+  static const mlR6id_12xlarge = AppInstanceType._('ml.r6id.12xlarge');
+  static const mlR6id_16xlarge = AppInstanceType._('ml.r6id.16xlarge');
+  static const mlR6id_24xlarge = AppInstanceType._('ml.r6id.24xlarge');
+  static const mlR6id_32xlarge = AppInstanceType._('ml.r6id.32xlarge');
 
   final String value;
 
-  const AppInstanceType(this.value);
+  const AppInstanceType._(this.value);
+
+  static const values = [
+    system,
+    mlT3Micro,
+    mlT3Small,
+    mlT3Medium,
+    mlT3Large,
+    mlT3Xlarge,
+    mlT3_2xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_8xlarge,
+    mlM5_12xlarge,
+    mlM5_16xlarge,
+    mlM5_24xlarge,
+    mlM5dLarge,
+    mlM5dXlarge,
+    mlM5d_2xlarge,
+    mlM5d_4xlarge,
+    mlM5d_8xlarge,
+    mlM5d_12xlarge,
+    mlM5d_16xlarge,
+    mlM5d_24xlarge,
+    mlC5Large,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_12xlarge,
+    mlC5_18xlarge,
+    mlC5_24xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlP3dn_24xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlR5Large,
+    mlR5Xlarge,
+    mlR5_2xlarge,
+    mlR5_4xlarge,
+    mlR5_8xlarge,
+    mlR5_12xlarge,
+    mlR5_16xlarge,
+    mlR5_24xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_16xlarge,
+    mlG5_12xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlG6Xlarge,
+    mlG6_2xlarge,
+    mlG6_4xlarge,
+    mlG6_8xlarge,
+    mlG6_12xlarge,
+    mlG6_16xlarge,
+    mlG6_24xlarge,
+    mlG6_48xlarge,
+    mlGeospatialInteractive,
+    mlP4d_24xlarge,
+    mlP4de_24xlarge,
+    mlTrn1_2xlarge,
+    mlTrn1_32xlarge,
+    mlTrn1n_32xlarge,
+    mlP5_48xlarge,
+    mlM6iLarge,
+    mlM6iXlarge,
+    mlM6i_2xlarge,
+    mlM6i_4xlarge,
+    mlM6i_8xlarge,
+    mlM6i_12xlarge,
+    mlM6i_16xlarge,
+    mlM6i_24xlarge,
+    mlM6i_32xlarge,
+    mlM7iLarge,
+    mlM7iXlarge,
+    mlM7i_2xlarge,
+    mlM7i_4xlarge,
+    mlM7i_8xlarge,
+    mlM7i_12xlarge,
+    mlM7i_16xlarge,
+    mlM7i_24xlarge,
+    mlM7i_48xlarge,
+    mlC6iLarge,
+    mlC6iXlarge,
+    mlC6i_2xlarge,
+    mlC6i_4xlarge,
+    mlC6i_8xlarge,
+    mlC6i_12xlarge,
+    mlC6i_16xlarge,
+    mlC6i_24xlarge,
+    mlC6i_32xlarge,
+    mlC7iLarge,
+    mlC7iXlarge,
+    mlC7i_2xlarge,
+    mlC7i_4xlarge,
+    mlC7i_8xlarge,
+    mlC7i_12xlarge,
+    mlC7i_16xlarge,
+    mlC7i_24xlarge,
+    mlC7i_48xlarge,
+    mlR6iLarge,
+    mlR6iXlarge,
+    mlR6i_2xlarge,
+    mlR6i_4xlarge,
+    mlR6i_8xlarge,
+    mlR6i_12xlarge,
+    mlR6i_16xlarge,
+    mlR6i_24xlarge,
+    mlR6i_32xlarge,
+    mlR7iLarge,
+    mlR7iXlarge,
+    mlR7i_2xlarge,
+    mlR7i_4xlarge,
+    mlR7i_8xlarge,
+    mlR7i_12xlarge,
+    mlR7i_16xlarge,
+    mlR7i_24xlarge,
+    mlR7i_48xlarge,
+    mlM6idLarge,
+    mlM6idXlarge,
+    mlM6id_2xlarge,
+    mlM6id_4xlarge,
+    mlM6id_8xlarge,
+    mlM6id_12xlarge,
+    mlM6id_16xlarge,
+    mlM6id_24xlarge,
+    mlM6id_32xlarge,
+    mlC6idLarge,
+    mlC6idXlarge,
+    mlC6id_2xlarge,
+    mlC6id_4xlarge,
+    mlC6id_8xlarge,
+    mlC6id_12xlarge,
+    mlC6id_16xlarge,
+    mlC6id_24xlarge,
+    mlC6id_32xlarge,
+    mlR6idLarge,
+    mlR6idXlarge,
+    mlR6id_2xlarge,
+    mlR6id_4xlarge,
+    mlR6id_8xlarge,
+    mlR6id_12xlarge,
+    mlR6id_16xlarge,
+    mlR6id_24xlarge,
+    mlR6id_32xlarge
+  ];
 
   static AppInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppInstanceType'));
+          orElse: () => AppInstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is AppInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that are used to configure and manage the lifecycle of Amazon
@@ -21778,47 +22006,77 @@ class AppLifecycleManagement {
   }
 }
 
-enum AppNetworkAccessType {
-  publicInternetOnly('PublicInternetOnly'),
-  vpcOnly('VpcOnly'),
-  ;
+class AppNetworkAccessType {
+  static const publicInternetOnly =
+      AppNetworkAccessType._('PublicInternetOnly');
+  static const vpcOnly = AppNetworkAccessType._('VpcOnly');
 
   final String value;
 
-  const AppNetworkAccessType(this.value);
+  const AppNetworkAccessType._(this.value);
 
-  static AppNetworkAccessType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppNetworkAccessType'));
+  static const values = [publicInternetOnly, vpcOnly];
+
+  static AppNetworkAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppNetworkAccessType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppNetworkAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppSecurityGroupManagement {
-  service('Service'),
-  customer('Customer'),
-  ;
+class AppSecurityGroupManagement {
+  static const service = AppSecurityGroupManagement._('Service');
+  static const customer = AppSecurityGroupManagement._('Customer');
 
   final String value;
 
-  const AppSecurityGroupManagement(this.value);
+  const AppSecurityGroupManagement._(this.value);
+
+  static const values = [service, customer];
 
   static AppSecurityGroupManagement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppSecurityGroupManagement'));
+          orElse: () => AppSecurityGroupManagement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppSecurityGroupManagement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppSortKey {
-  creationTime('CreationTime'),
-  ;
+class AppSortKey {
+  static const creationTime = AppSortKey._('CreationTime');
 
   final String value;
 
-  const AppSortKey(this.value);
+  const AppSortKey._(this.value);
 
-  static AppSortKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AppSortKey'));
+  static const values = [creationTime];
+
+  static AppSortKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppSortKey._(value));
+
+  @override
+  bool operator ==(other) => other is AppSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration to run a processing job in a specified container image.
@@ -21865,42 +22123,70 @@ class AppSpecification {
   }
 }
 
-enum AppStatus {
-  deleted('Deleted'),
-  deleting('Deleting'),
-  failed('Failed'),
-  inService('InService'),
-  pending('Pending'),
-  ;
+class AppStatus {
+  static const deleted = AppStatus._('Deleted');
+  static const deleting = AppStatus._('Deleting');
+  static const failed = AppStatus._('Failed');
+  static const inService = AppStatus._('InService');
+  static const pending = AppStatus._('Pending');
 
   final String value;
 
-  const AppStatus(this.value);
+  const AppStatus._(this.value);
 
-  static AppStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AppStatus'));
+  static const values = [deleted, deleting, failed, inService, pending];
+
+  static AppStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AppStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppType {
-  jupyterServer('JupyterServer'),
-  kernelGateway('KernelGateway'),
-  detailedProfiler('DetailedProfiler'),
-  tensorBoard('TensorBoard'),
-  codeEditor('CodeEditor'),
-  jupyterLab('JupyterLab'),
-  rStudioServerPro('RStudioServerPro'),
-  rSessionGateway('RSessionGateway'),
-  canvas('Canvas'),
-  ;
+class AppType {
+  static const jupyterServer = AppType._('JupyterServer');
+  static const kernelGateway = AppType._('KernelGateway');
+  static const detailedProfiler = AppType._('DetailedProfiler');
+  static const tensorBoard = AppType._('TensorBoard');
+  static const codeEditor = AppType._('CodeEditor');
+  static const jupyterLab = AppType._('JupyterLab');
+  static const rStudioServerPro = AppType._('RStudioServerPro');
+  static const rSessionGateway = AppType._('RSessionGateway');
+  static const canvas = AppType._('Canvas');
 
   final String value;
 
-  const AppType(this.value);
+  const AppType._(this.value);
 
-  static AppType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum AppType'));
+  static const values = [
+    jupyterServer,
+    kernelGateway,
+    detailedProfiler,
+    tensorBoard,
+    codeEditor,
+    jupyterLab,
+    rStudioServerPro,
+    rSessionGateway,
+    canvas
+  ];
+
+  static AppType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppType._(value));
+
+  @override
+  bool operator ==(other) => other is AppType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure describing the source of an artifact.
@@ -21936,21 +22222,31 @@ class ArtifactSource {
   }
 }
 
-enum ArtifactSourceIdType {
-  mD5Hash('MD5Hash'),
-  s3ETag('S3ETag'),
-  s3Version('S3Version'),
-  custom('Custom'),
-  ;
+class ArtifactSourceIdType {
+  static const mD5Hash = ArtifactSourceIdType._('MD5Hash');
+  static const s3ETag = ArtifactSourceIdType._('S3ETag');
+  static const s3Version = ArtifactSourceIdType._('S3Version');
+  static const custom = ArtifactSourceIdType._('Custom');
 
   final String value;
 
-  const ArtifactSourceIdType(this.value);
+  const ArtifactSourceIdType._(this.value);
 
-  static ArtifactSourceIdType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArtifactSourceIdType'));
+  static const values = [mD5Hash, s3ETag, s3Version, custom];
+
+  static ArtifactSourceIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArtifactSourceIdType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArtifactSourceIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ID and ID type of an artifact source.
@@ -21968,8 +22264,8 @@ class ArtifactSourceType {
 
   factory ArtifactSourceType.fromJson(Map<String, dynamic> json) {
     return ArtifactSourceType(
-      sourceIdType:
-          ArtifactSourceIdType.fromString((json['SourceIdType'] as String)),
+      sourceIdType: ArtifactSourceIdType.fromString(
+          (json['SourceIdType'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -22047,19 +22343,27 @@ class ArtifactSummary {
   }
 }
 
-enum AssemblyType {
-  none('None'),
-  line('Line'),
-  ;
+class AssemblyType {
+  static const none = AssemblyType._('None');
+  static const line = AssemblyType._('Line');
 
   final String value;
 
-  const AssemblyType(this.value);
+  const AssemblyType._(this.value);
 
-  static AssemblyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssemblyType'));
+  static const values = [none, line];
+
+  static AssemblyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssemblyType._(value));
+
+  @override
+  bool operator ==(other) => other is AssemblyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateTrialComponentResponse {
@@ -22091,22 +22395,38 @@ class AssociateTrialComponentResponse {
   }
 }
 
-enum AssociationEdgeType {
-  contributedTo('ContributedTo'),
-  associatedWith('AssociatedWith'),
-  derivedFrom('DerivedFrom'),
-  produced('Produced'),
-  sameAs('SameAs'),
-  ;
+class AssociationEdgeType {
+  static const contributedTo = AssociationEdgeType._('ContributedTo');
+  static const associatedWith = AssociationEdgeType._('AssociatedWith');
+  static const derivedFrom = AssociationEdgeType._('DerivedFrom');
+  static const produced = AssociationEdgeType._('Produced');
+  static const sameAs = AssociationEdgeType._('SameAs');
 
   final String value;
 
-  const AssociationEdgeType(this.value);
+  const AssociationEdgeType._(this.value);
 
-  static AssociationEdgeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssociationEdgeType'));
+  static const values = [
+    contributedTo,
+    associatedWith,
+    derivedFrom,
+    produced,
+    sameAs
+  ];
+
+  static AssociationEdgeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssociationEdgeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociationEdgeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists a summary of the properties of an association. An association is an
@@ -22358,19 +22678,31 @@ class AsyncInferenceOutputConfig {
   }
 }
 
-enum AsyncNotificationTopicTypes {
-  successNotificationTopic('SUCCESS_NOTIFICATION_TOPIC'),
-  errorNotificationTopic('ERROR_NOTIFICATION_TOPIC'),
-  ;
+class AsyncNotificationTopicTypes {
+  static const successNotificationTopic =
+      AsyncNotificationTopicTypes._('SUCCESS_NOTIFICATION_TOPIC');
+  static const errorNotificationTopic =
+      AsyncNotificationTopicTypes._('ERROR_NOTIFICATION_TOPIC');
 
   final String value;
 
-  const AsyncNotificationTopicTypes(this.value);
+  const AsyncNotificationTopicTypes._(this.value);
+
+  static const values = [successNotificationTopic, errorNotificationTopic];
 
   static AsyncNotificationTopicTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AsyncNotificationTopicTypes'));
+          orElse: () => AsyncNotificationTopicTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AsyncNotificationTopicTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for Athena Dataset Definition input.
@@ -22405,8 +22737,8 @@ class AthenaDatasetDefinition {
     return AthenaDatasetDefinition(
       catalog: (json['Catalog'] as String?) ?? '',
       database: (json['Database'] as String?) ?? '',
-      outputFormat:
-          AthenaResultFormat.fromString((json['OutputFormat'] as String)),
+      outputFormat: AthenaResultFormat.fromString(
+          (json['OutputFormat'] as String?) ?? ''),
       outputS3Uri: (json['OutputS3Uri'] as String?) ?? '',
       queryString: (json['QueryString'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -22440,81 +22772,135 @@ class AthenaDatasetDefinition {
 }
 
 /// The compression used for Athena query results.
-enum AthenaResultCompressionType {
-  gzip('GZIP'),
-  snappy('SNAPPY'),
-  zlib('ZLIB'),
-  ;
+class AthenaResultCompressionType {
+  static const gzip = AthenaResultCompressionType._('GZIP');
+  static const snappy = AthenaResultCompressionType._('SNAPPY');
+  static const zlib = AthenaResultCompressionType._('ZLIB');
 
   final String value;
 
-  const AthenaResultCompressionType(this.value);
+  const AthenaResultCompressionType._(this.value);
+
+  static const values = [gzip, snappy, zlib];
 
   static AthenaResultCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AthenaResultCompressionType'));
+          orElse: () => AthenaResultCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AthenaResultCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data storage format for Athena query results.
-enum AthenaResultFormat {
-  parquet('PARQUET'),
-  orc('ORC'),
-  avro('AVRO'),
-  json('JSON'),
-  textfile('TEXTFILE'),
-  ;
+class AthenaResultFormat {
+  static const parquet = AthenaResultFormat._('PARQUET');
+  static const orc = AthenaResultFormat._('ORC');
+  static const avro = AthenaResultFormat._('AVRO');
+  static const json = AthenaResultFormat._('JSON');
+  static const textfile = AthenaResultFormat._('TEXTFILE');
 
   final String value;
 
-  const AthenaResultFormat(this.value);
+  const AthenaResultFormat._(this.value);
 
-  static AthenaResultFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AthenaResultFormat'));
+  static const values = [parquet, orc, avro, json, textfile];
+
+  static AthenaResultFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AthenaResultFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AthenaResultFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthMode {
-  sso('SSO'),
-  iam('IAM'),
-  ;
+class AuthMode {
+  static const sso = AuthMode._('SSO');
+  static const iam = AuthMode._('IAM');
 
   final String value;
 
-  const AuthMode(this.value);
+  const AuthMode._(this.value);
 
-  static AuthMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthMode'));
+  static const values = [sso, iam];
+
+  static AuthMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthMode._(value));
+
+  @override
+  bool operator ==(other) => other is AuthMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLAlgorithm {
-  xgboost('xgboost'),
-  linearLearner('linear-learner'),
-  mlp('mlp'),
-  lightgbm('lightgbm'),
-  catboost('catboost'),
-  randomforest('randomforest'),
-  extraTrees('extra-trees'),
-  nnTorch('nn-torch'),
-  fastai('fastai'),
-  cnnQr('cnn-qr'),
-  deepar('deepar'),
-  prophet('prophet'),
-  npts('npts'),
-  arima('arima'),
-  ets('ets'),
-  ;
+class AutoMLAlgorithm {
+  static const xgboost = AutoMLAlgorithm._('xgboost');
+  static const linearLearner = AutoMLAlgorithm._('linear-learner');
+  static const mlp = AutoMLAlgorithm._('mlp');
+  static const lightgbm = AutoMLAlgorithm._('lightgbm');
+  static const catboost = AutoMLAlgorithm._('catboost');
+  static const randomforest = AutoMLAlgorithm._('randomforest');
+  static const extraTrees = AutoMLAlgorithm._('extra-trees');
+  static const nnTorch = AutoMLAlgorithm._('nn-torch');
+  static const fastai = AutoMLAlgorithm._('fastai');
+  static const cnnQr = AutoMLAlgorithm._('cnn-qr');
+  static const deepar = AutoMLAlgorithm._('deepar');
+  static const prophet = AutoMLAlgorithm._('prophet');
+  static const npts = AutoMLAlgorithm._('npts');
+  static const arima = AutoMLAlgorithm._('arima');
+  static const ets = AutoMLAlgorithm._('ets');
 
   final String value;
 
-  const AutoMLAlgorithm(this.value);
+  const AutoMLAlgorithm._(this.value);
+
+  static const values = [
+    xgboost,
+    linearLearner,
+    mlp,
+    lightgbm,
+    catboost,
+    randomforest,
+    extraTrees,
+    nnTorch,
+    fastai,
+    cnnQr,
+    deepar,
+    prophet,
+    npts,
+    arima,
+    ets
+  ];
 
   static AutoMLAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLAlgorithm'));
+          orElse: () => AutoMLAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The selection of algorithms trained on your dataset to generate the model
@@ -22691,8 +23077,8 @@ class AutoMLCandidate {
   factory AutoMLCandidate.fromJson(Map<String, dynamic> json) {
     return AutoMLCandidate(
       candidateName: (json['CandidateName'] as String?) ?? '',
-      candidateStatus:
-          CandidateStatus.fromString((json['CandidateStatus'] as String)),
+      candidateStatus: CandidateStatus.fromString(
+          (json['CandidateStatus'] as String?) ?? ''),
       candidateSteps: ((json['CandidateSteps'] as List?) ?? const [])
           .nonNulls
           .map((e) => AutoMLCandidateStep.fromJson(e as Map<String, dynamic>))
@@ -22700,8 +23086,8 @@ class AutoMLCandidate {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
-      objectiveStatus:
-          ObjectiveStatus.fromString((json['ObjectiveStatus'] as String)),
+      objectiveStatus: ObjectiveStatus.fromString(
+          (json['ObjectiveStatus'] as String?) ?? ''),
       candidateProperties: json['CandidateProperties'] != null
           ? CandidateProperties.fromJson(
               json['CandidateProperties'] as Map<String, dynamic>)
@@ -22887,8 +23273,8 @@ class AutoMLCandidateStep {
     return AutoMLCandidateStep(
       candidateStepArn: (json['CandidateStepArn'] as String?) ?? '',
       candidateStepName: (json['CandidateStepName'] as String?) ?? '',
-      candidateStepType:
-          CandidateStepType.fromString((json['CandidateStepType'] as String)),
+      candidateStepType: CandidateStepType.fromString(
+          (json['CandidateStepType'] as String?) ?? ''),
     );
   }
 
@@ -23000,19 +23386,28 @@ class AutoMLChannel {
   }
 }
 
-enum AutoMLChannelType {
-  training('training'),
-  validation('validation'),
-  ;
+class AutoMLChannelType {
+  static const training = AutoMLChannelType._('training');
+  static const validation = AutoMLChannelType._('validation');
 
   final String value;
 
-  const AutoMLChannelType(this.value);
+  const AutoMLChannelType._(this.value);
+
+  static const values = [training, validation];
 
   static AutoMLChannelType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLChannelType'));
+          orElse: () => AutoMLChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -23558,7 +23953,8 @@ class AutoMLJobObjective {
 
   factory AutoMLJobObjective.fromJson(Map<String, dynamic> json) {
     return AutoMLJobObjective(
-      metricName: AutoMLMetricEnum.fromString((json['MetricName'] as String)),
+      metricName:
+          AutoMLMetricEnum.fromString((json['MetricName'] as String?) ?? ''),
     );
   }
 
@@ -23570,69 +23966,127 @@ class AutoMLJobObjective {
   }
 }
 
-enum AutoMLJobObjectiveType {
-  maximize('Maximize'),
-  minimize('Minimize'),
-  ;
+class AutoMLJobObjectiveType {
+  static const maximize = AutoMLJobObjectiveType._('Maximize');
+  static const minimize = AutoMLJobObjectiveType._('Minimize');
 
   final String value;
 
-  const AutoMLJobObjectiveType(this.value);
+  const AutoMLJobObjectiveType._(this.value);
+
+  static const values = [maximize, minimize];
 
   static AutoMLJobObjectiveType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoMLJobObjectiveType'));
+          orElse: () => AutoMLJobObjectiveType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLJobObjectiveType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLJobSecondaryStatus {
-  starting('Starting'),
-  maxCandidatesReached('MaxCandidatesReached'),
-  failed('Failed'),
-  stopped('Stopped'),
-  maxAutoMLJobRuntimeReached('MaxAutoMLJobRuntimeReached'),
-  stopping('Stopping'),
-  candidateDefinitionsGenerated('CandidateDefinitionsGenerated'),
-  completed('Completed'),
-  explainabilityError('ExplainabilityError'),
-  deployingModel('DeployingModel'),
-  modelDeploymentError('ModelDeploymentError'),
-  generatingModelInsightsReport('GeneratingModelInsightsReport'),
-  modelInsightsError('ModelInsightsError'),
-  analyzingData('AnalyzingData'),
-  featureEngineering('FeatureEngineering'),
-  modelTuning('ModelTuning'),
-  generatingExplainabilityReport('GeneratingExplainabilityReport'),
-  trainingModels('TrainingModels'),
-  preTraining('PreTraining'),
-  ;
+class AutoMLJobSecondaryStatus {
+  static const starting = AutoMLJobSecondaryStatus._('Starting');
+  static const maxCandidatesReached =
+      AutoMLJobSecondaryStatus._('MaxCandidatesReached');
+  static const failed = AutoMLJobSecondaryStatus._('Failed');
+  static const stopped = AutoMLJobSecondaryStatus._('Stopped');
+  static const maxAutoMLJobRuntimeReached =
+      AutoMLJobSecondaryStatus._('MaxAutoMLJobRuntimeReached');
+  static const stopping = AutoMLJobSecondaryStatus._('Stopping');
+  static const candidateDefinitionsGenerated =
+      AutoMLJobSecondaryStatus._('CandidateDefinitionsGenerated');
+  static const completed = AutoMLJobSecondaryStatus._('Completed');
+  static const explainabilityError =
+      AutoMLJobSecondaryStatus._('ExplainabilityError');
+  static const deployingModel = AutoMLJobSecondaryStatus._('DeployingModel');
+  static const modelDeploymentError =
+      AutoMLJobSecondaryStatus._('ModelDeploymentError');
+  static const generatingModelInsightsReport =
+      AutoMLJobSecondaryStatus._('GeneratingModelInsightsReport');
+  static const modelInsightsError =
+      AutoMLJobSecondaryStatus._('ModelInsightsError');
+  static const analyzingData = AutoMLJobSecondaryStatus._('AnalyzingData');
+  static const featureEngineering =
+      AutoMLJobSecondaryStatus._('FeatureEngineering');
+  static const modelTuning = AutoMLJobSecondaryStatus._('ModelTuning');
+  static const generatingExplainabilityReport =
+      AutoMLJobSecondaryStatus._('GeneratingExplainabilityReport');
+  static const trainingModels = AutoMLJobSecondaryStatus._('TrainingModels');
+  static const preTraining = AutoMLJobSecondaryStatus._('PreTraining');
 
   final String value;
 
-  const AutoMLJobSecondaryStatus(this.value);
+  const AutoMLJobSecondaryStatus._(this.value);
+
+  static const values = [
+    starting,
+    maxCandidatesReached,
+    failed,
+    stopped,
+    maxAutoMLJobRuntimeReached,
+    stopping,
+    candidateDefinitionsGenerated,
+    completed,
+    explainabilityError,
+    deployingModel,
+    modelDeploymentError,
+    generatingModelInsightsReport,
+    modelInsightsError,
+    analyzingData,
+    featureEngineering,
+    modelTuning,
+    generatingExplainabilityReport,
+    trainingModels,
+    preTraining
+  ];
 
   static AutoMLJobSecondaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoMLJobSecondaryStatus'));
+          orElse: () => AutoMLJobSecondaryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLJobSecondaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLJobStatus {
-  completed('Completed'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  ;
+class AutoMLJobStatus {
+  static const completed = AutoMLJobStatus._('Completed');
+  static const inProgress = AutoMLJobStatus._('InProgress');
+  static const failed = AutoMLJobStatus._('Failed');
+  static const stopped = AutoMLJobStatus._('Stopped');
+  static const stopping = AutoMLJobStatus._('Stopping');
 
   final String value;
 
-  const AutoMLJobStatus(this.value);
+  const AutoMLJobStatus._(this.value);
+
+  static const values = [completed, inProgress, failed, stopped, stopping];
 
   static AutoMLJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLJobStatus'));
+          orElse: () => AutoMLJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for an AutoML job step.
@@ -23704,9 +24158,9 @@ class AutoMLJobSummary {
       autoMLJobArn: (json['AutoMLJobArn'] as String?) ?? '',
       autoMLJobName: (json['AutoMLJobName'] as String?) ?? '',
       autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
-          (json['AutoMLJobSecondaryStatus'] as String)),
-      autoMLJobStatus:
-          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
+          (json['AutoMLJobSecondaryStatus'] as String?) ?? ''),
+      autoMLJobStatus: AutoMLJobStatus.fromString(
+          (json['AutoMLJobStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
@@ -23745,88 +24199,165 @@ class AutoMLJobSummary {
   }
 }
 
-enum AutoMLMetricEnum {
-  accuracy('Accuracy'),
-  mse('MSE'),
-  f1('F1'),
-  f1macro('F1macro'),
-  auc('AUC'),
-  rmse('RMSE'),
-  balancedAccuracy('BalancedAccuracy'),
-  r2('R2'),
-  recall('Recall'),
-  recallMacro('RecallMacro'),
-  precision('Precision'),
-  precisionMacro('PrecisionMacro'),
-  mae('MAE'),
-  mape('MAPE'),
-  mase('MASE'),
-  wape('WAPE'),
-  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
-  ;
+class AutoMLMetricEnum {
+  static const accuracy = AutoMLMetricEnum._('Accuracy');
+  static const mse = AutoMLMetricEnum._('MSE');
+  static const f1 = AutoMLMetricEnum._('F1');
+  static const f1macro = AutoMLMetricEnum._('F1macro');
+  static const auc = AutoMLMetricEnum._('AUC');
+  static const rmse = AutoMLMetricEnum._('RMSE');
+  static const balancedAccuracy = AutoMLMetricEnum._('BalancedAccuracy');
+  static const r2 = AutoMLMetricEnum._('R2');
+  static const recall = AutoMLMetricEnum._('Recall');
+  static const recallMacro = AutoMLMetricEnum._('RecallMacro');
+  static const precision = AutoMLMetricEnum._('Precision');
+  static const precisionMacro = AutoMLMetricEnum._('PrecisionMacro');
+  static const mae = AutoMLMetricEnum._('MAE');
+  static const mape = AutoMLMetricEnum._('MAPE');
+  static const mase = AutoMLMetricEnum._('MASE');
+  static const wape = AutoMLMetricEnum._('WAPE');
+  static const averageWeightedQuantileLoss =
+      AutoMLMetricEnum._('AverageWeightedQuantileLoss');
 
   final String value;
 
-  const AutoMLMetricEnum(this.value);
+  const AutoMLMetricEnum._(this.value);
+
+  static const values = [
+    accuracy,
+    mse,
+    f1,
+    f1macro,
+    auc,
+    rmse,
+    balancedAccuracy,
+    r2,
+    recall,
+    recallMacro,
+    precision,
+    precisionMacro,
+    mae,
+    mape,
+    mase,
+    wape,
+    averageWeightedQuantileLoss
+  ];
 
   static AutoMLMetricEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLMetricEnum'));
+          orElse: () => AutoMLMetricEnum._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLMetricEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLMetricExtendedEnum {
-  accuracy('Accuracy'),
-  mse('MSE'),
-  f1('F1'),
-  f1macro('F1macro'),
-  auc('AUC'),
-  rmse('RMSE'),
-  mae('MAE'),
-  r2('R2'),
-  balancedAccuracy('BalancedAccuracy'),
-  precision('Precision'),
-  precisionMacro('PrecisionMacro'),
-  recall('Recall'),
-  recallMacro('RecallMacro'),
-  logLoss('LogLoss'),
-  inferenceLatency('InferenceLatency'),
-  mape('MAPE'),
-  mase('MASE'),
-  wape('WAPE'),
-  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
-  rouge1('Rouge1'),
-  rouge2('Rouge2'),
-  rougeL('RougeL'),
-  rougeLSum('RougeLSum'),
-  perplexity('Perplexity'),
-  validationLoss('ValidationLoss'),
-  trainingLoss('TrainingLoss'),
-  ;
+class AutoMLMetricExtendedEnum {
+  static const accuracy = AutoMLMetricExtendedEnum._('Accuracy');
+  static const mse = AutoMLMetricExtendedEnum._('MSE');
+  static const f1 = AutoMLMetricExtendedEnum._('F1');
+  static const f1macro = AutoMLMetricExtendedEnum._('F1macro');
+  static const auc = AutoMLMetricExtendedEnum._('AUC');
+  static const rmse = AutoMLMetricExtendedEnum._('RMSE');
+  static const mae = AutoMLMetricExtendedEnum._('MAE');
+  static const r2 = AutoMLMetricExtendedEnum._('R2');
+  static const balancedAccuracy =
+      AutoMLMetricExtendedEnum._('BalancedAccuracy');
+  static const precision = AutoMLMetricExtendedEnum._('Precision');
+  static const precisionMacro = AutoMLMetricExtendedEnum._('PrecisionMacro');
+  static const recall = AutoMLMetricExtendedEnum._('Recall');
+  static const recallMacro = AutoMLMetricExtendedEnum._('RecallMacro');
+  static const logLoss = AutoMLMetricExtendedEnum._('LogLoss');
+  static const inferenceLatency =
+      AutoMLMetricExtendedEnum._('InferenceLatency');
+  static const mape = AutoMLMetricExtendedEnum._('MAPE');
+  static const mase = AutoMLMetricExtendedEnum._('MASE');
+  static const wape = AutoMLMetricExtendedEnum._('WAPE');
+  static const averageWeightedQuantileLoss =
+      AutoMLMetricExtendedEnum._('AverageWeightedQuantileLoss');
+  static const rouge1 = AutoMLMetricExtendedEnum._('Rouge1');
+  static const rouge2 = AutoMLMetricExtendedEnum._('Rouge2');
+  static const rougeL = AutoMLMetricExtendedEnum._('RougeL');
+  static const rougeLSum = AutoMLMetricExtendedEnum._('RougeLSum');
+  static const perplexity = AutoMLMetricExtendedEnum._('Perplexity');
+  static const validationLoss = AutoMLMetricExtendedEnum._('ValidationLoss');
+  static const trainingLoss = AutoMLMetricExtendedEnum._('TrainingLoss');
 
   final String value;
 
-  const AutoMLMetricExtendedEnum(this.value);
+  const AutoMLMetricExtendedEnum._(this.value);
+
+  static const values = [
+    accuracy,
+    mse,
+    f1,
+    f1macro,
+    auc,
+    rmse,
+    mae,
+    r2,
+    balancedAccuracy,
+    precision,
+    precisionMacro,
+    recall,
+    recallMacro,
+    logLoss,
+    inferenceLatency,
+    mape,
+    mase,
+    wape,
+    averageWeightedQuantileLoss,
+    rouge1,
+    rouge2,
+    rougeL,
+    rougeLSum,
+    perplexity,
+    validationLoss,
+    trainingLoss
+  ];
 
   static AutoMLMetricExtendedEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoMLMetricExtendedEnum'));
+          orElse: () => AutoMLMetricExtendedEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLMetricExtendedEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLMode {
-  auto('AUTO'),
-  ensembling('ENSEMBLING'),
-  hyperparameterTuning('HYPERPARAMETER_TUNING'),
-  ;
+class AutoMLMode {
+  static const auto = AutoMLMode._('AUTO');
+  static const ensembling = AutoMLMode._('ENSEMBLING');
+  static const hyperparameterTuning = AutoMLMode._('HYPERPARAMETER_TUNING');
 
   final String value;
 
-  const AutoMLMode(this.value);
+  const AutoMLMode._(this.value);
 
-  static AutoMLMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AutoMLMode'));
+  static const values = [auto, ensembling, hyperparameterTuning];
+
+  static AutoMLMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoMLMode._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The output data configuration.
@@ -23967,22 +24498,41 @@ class AutoMLProblemTypeConfig {
   }
 }
 
-enum AutoMLProblemTypeConfigName {
-  imageClassification('ImageClassification'),
-  textClassification('TextClassification'),
-  timeSeriesForecasting('TimeSeriesForecasting'),
-  tabular('Tabular'),
-  textGeneration('TextGeneration'),
-  ;
+class AutoMLProblemTypeConfigName {
+  static const imageClassification =
+      AutoMLProblemTypeConfigName._('ImageClassification');
+  static const textClassification =
+      AutoMLProblemTypeConfigName._('TextClassification');
+  static const timeSeriesForecasting =
+      AutoMLProblemTypeConfigName._('TimeSeriesForecasting');
+  static const tabular = AutoMLProblemTypeConfigName._('Tabular');
+  static const textGeneration = AutoMLProblemTypeConfigName._('TextGeneration');
 
   final String value;
 
-  const AutoMLProblemTypeConfigName(this.value);
+  const AutoMLProblemTypeConfigName._(this.value);
+
+  static const values = [
+    imageClassification,
+    textClassification,
+    timeSeriesForecasting,
+    tabular,
+    textGeneration
+  ];
 
   static AutoMLProblemTypeConfigName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoMLProblemTypeConfigName'));
+          orElse: () => AutoMLProblemTypeConfigName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLProblemTypeConfigName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Stores resolved attributes specific to the problem type of an AutoML job V2.
@@ -24027,19 +24577,29 @@ class AutoMLProblemTypeResolvedAttributes {
   }
 }
 
-enum AutoMLProcessingUnit {
-  cpu('CPU'),
-  gpu('GPU'),
-  ;
+class AutoMLProcessingUnit {
+  static const cpu = AutoMLProcessingUnit._('CPU');
+  static const gpu = AutoMLProcessingUnit._('GPU');
 
   final String value;
 
-  const AutoMLProcessingUnit(this.value);
+  const AutoMLProcessingUnit._(this.value);
 
-  static AutoMLProcessingUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AutoMLProcessingUnit'));
+  static const values = [cpu, gpu];
+
+  static AutoMLProcessingUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoMLProcessingUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLProcessingUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resolved attributes used to configure an AutoML job V2.
@@ -24154,7 +24714,8 @@ class AutoMLS3DataSource {
 
   factory AutoMLS3DataSource.fromJson(Map<String, dynamic> json) {
     return AutoMLS3DataSource(
-      s3DataType: AutoMLS3DataType.fromString((json['S3DataType'] as String)),
+      s3DataType:
+          AutoMLS3DataType.fromString((json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
@@ -24169,20 +24730,30 @@ class AutoMLS3DataSource {
   }
 }
 
-enum AutoMLS3DataType {
-  manifestFile('ManifestFile'),
-  s3Prefix('S3Prefix'),
-  augmentedManifestFile('AugmentedManifestFile'),
-  ;
+class AutoMLS3DataType {
+  static const manifestFile = AutoMLS3DataType._('ManifestFile');
+  static const s3Prefix = AutoMLS3DataType._('S3Prefix');
+  static const augmentedManifestFile =
+      AutoMLS3DataType._('AugmentedManifestFile');
 
   final String value;
 
-  const AutoMLS3DataType(this.value);
+  const AutoMLS3DataType._(this.value);
+
+  static const values = [manifestFile, s3Prefix, augmentedManifestFile];
 
   static AutoMLS3DataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLS3DataType'));
+          orElse: () => AutoMLS3DataType._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLS3DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Security options.
@@ -24228,51 +24799,77 @@ class AutoMLSecurityConfig {
   }
 }
 
-enum AutoMLSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class AutoMLSortBy {
+  static const name = AutoMLSortBy._('Name');
+  static const creationTime = AutoMLSortBy._('CreationTime');
+  static const status = AutoMLSortBy._('Status');
 
   final String value;
 
-  const AutoMLSortBy(this.value);
+  const AutoMLSortBy._(this.value);
 
-  static AutoMLSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLSortBy'));
+  static const values = [name, creationTime, status];
+
+  static AutoMLSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoMLSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class AutoMLSortOrder {
+  static const ascending = AutoMLSortOrder._('Ascending');
+  static const descending = AutoMLSortOrder._('Descending');
 
   final String value;
 
-  const AutoMLSortOrder(this.value);
+  const AutoMLSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static AutoMLSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMLSortOrder'));
+          orElse: () => AutoMLSortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMLSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMountHomeEFS {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  defaultAsDomain('DefaultAsDomain'),
-  ;
+class AutoMountHomeEFS {
+  static const enabled = AutoMountHomeEFS._('Enabled');
+  static const disabled = AutoMountHomeEFS._('Disabled');
+  static const defaultAsDomain = AutoMountHomeEFS._('DefaultAsDomain');
 
   final String value;
 
-  const AutoMountHomeEFS(this.value);
+  const AutoMountHomeEFS._(this.value);
+
+  static const values = [enabled, disabled, defaultAsDomain];
 
   static AutoMountHomeEFS fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutoMountHomeEFS'));
+          orElse: () => AutoMountHomeEFS._(value));
+
+  @override
+  bool operator ==(other) => other is AutoMountHomeEFS && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name and an example value of the hyperparameter that you want to use in
@@ -24388,7 +24985,7 @@ class Autotune {
 
   factory Autotune.fromJson(Map<String, dynamic> json) {
     return Autotune(
-      mode: AutotuneMode.fromString((json['Mode'] as String)),
+      mode: AutotuneMode.fromString((json['Mode'] as String?) ?? ''),
     );
   }
 
@@ -24400,34 +24997,58 @@ class Autotune {
   }
 }
 
-enum AutotuneMode {
-  enabled('Enabled'),
-  ;
+class AutotuneMode {
+  static const enabled = AutotuneMode._('Enabled');
 
   final String value;
 
-  const AutotuneMode(this.value);
+  const AutotuneMode._(this.value);
 
-  static AutotuneMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutotuneMode'));
+  static const values = [enabled];
+
+  static AutotuneMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutotuneMode._(value));
+
+  @override
+  bool operator ==(other) => other is AutotuneMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AwsManagedHumanLoopRequestSource {
-  awsRekognitionDetectModerationLabelsImageV3(
-      'AWS/Rekognition/DetectModerationLabels/Image/V3'),
-  awsTextractAnalyzeDocumentFormsV1('AWS/Textract/AnalyzeDocument/Forms/V1'),
-  ;
+class AwsManagedHumanLoopRequestSource {
+  static const awsRekognitionDetectModerationLabelsImageV3 =
+      AwsManagedHumanLoopRequestSource._(
+          'AWS/Rekognition/DetectModerationLabels/Image/V3');
+  static const awsTextractAnalyzeDocumentFormsV1 =
+      AwsManagedHumanLoopRequestSource._(
+          'AWS/Textract/AnalyzeDocument/Forms/V1');
 
   final String value;
 
-  const AwsManagedHumanLoopRequestSource(this.value);
+  const AwsManagedHumanLoopRequestSource._(this.value);
+
+  static const values = [
+    awsRekognitionDetectModerationLabelsImageV3,
+    awsTextractAnalyzeDocumentFormsV1
+  ];
 
   static AwsManagedHumanLoopRequestSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AwsManagedHumanLoopRequestSource'));
+          orElse: () => AwsManagedHumanLoopRequestSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AwsManagedHumanLoopRequestSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration to control how SageMaker captures inference data for batch
@@ -24607,8 +25228,8 @@ class BatchDescribeModelPackageSummary {
               const <String, dynamic>{}),
       modelPackageArn: (json['ModelPackageArn'] as String?) ?? '',
       modelPackageGroupName: (json['ModelPackageGroupName'] as String?) ?? '',
-      modelPackageStatus:
-          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
+      modelPackageStatus: ModelPackageStatus.fromString(
+          (json['ModelPackageStatus'] as String?) ?? ''),
       modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
           ?.let(ModelApprovalStatus.fromString),
       modelPackageDescription: json['ModelPackageDescription'] as String?,
@@ -24641,19 +25262,28 @@ class BatchDescribeModelPackageSummary {
   }
 }
 
-enum BatchStrategy {
-  multiRecord('MultiRecord'),
-  singleRecord('SingleRecord'),
-  ;
+class BatchStrategy {
+  static const multiRecord = BatchStrategy._('MultiRecord');
+  static const singleRecord = BatchStrategy._('SingleRecord');
 
   final String value;
 
-  const BatchStrategy(this.value);
+  const BatchStrategy._(this.value);
+
+  static const values = [multiRecord, singleRecord];
 
   static BatchStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BatchStrategy'));
+          orElse: () => BatchStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is BatchStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input object for the batch transform job.
@@ -24909,19 +25539,28 @@ class BlueGreenUpdatePolicy {
   }
 }
 
-enum BooleanOperator {
-  and('And'),
-  or('Or'),
-  ;
+class BooleanOperator {
+  static const and = BooleanOperator._('And');
+  static const or = BooleanOperator._('Or');
 
   final String value;
 
-  const BooleanOperator(this.value);
+  const BooleanOperator._(this.value);
+
+  static const values = [and, or];
 
   static BooleanOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BooleanOperator'));
+          orElse: () => BooleanOperator._(value));
+
+  @override
+  bool operator ==(other) => other is BooleanOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on the cache hit of a pipeline execution step.
@@ -25165,54 +25804,89 @@ class CandidateProperties {
   }
 }
 
-enum CandidateSortBy {
-  creationTime('CreationTime'),
-  status('Status'),
-  finalObjectiveMetricValue('FinalObjectiveMetricValue'),
-  ;
+class CandidateSortBy {
+  static const creationTime = CandidateSortBy._('CreationTime');
+  static const status = CandidateSortBy._('Status');
+  static const finalObjectiveMetricValue =
+      CandidateSortBy._('FinalObjectiveMetricValue');
 
   final String value;
 
-  const CandidateSortBy(this.value);
+  const CandidateSortBy._(this.value);
+
+  static const values = [creationTime, status, finalObjectiveMetricValue];
 
   static CandidateSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CandidateSortBy'));
+          orElse: () => CandidateSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is CandidateSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CandidateStatus {
-  completed('Completed'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  ;
+class CandidateStatus {
+  static const completed = CandidateStatus._('Completed');
+  static const inProgress = CandidateStatus._('InProgress');
+  static const failed = CandidateStatus._('Failed');
+  static const stopped = CandidateStatus._('Stopped');
+  static const stopping = CandidateStatus._('Stopping');
 
   final String value;
 
-  const CandidateStatus(this.value);
+  const CandidateStatus._(this.value);
+
+  static const values = [completed, inProgress, failed, stopped, stopping];
 
   static CandidateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CandidateStatus'));
+          orElse: () => CandidateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CandidateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CandidateStepType {
-  awsSageMakerTrainingJob('AWS::SageMaker::TrainingJob'),
-  awsSageMakerTransformJob('AWS::SageMaker::TransformJob'),
-  awsSageMakerProcessingJob('AWS::SageMaker::ProcessingJob'),
-  ;
+class CandidateStepType {
+  static const awsSageMakerTrainingJob =
+      CandidateStepType._('AWS::SageMaker::TrainingJob');
+  static const awsSageMakerTransformJob =
+      CandidateStepType._('AWS::SageMaker::TransformJob');
+  static const awsSageMakerProcessingJob =
+      CandidateStepType._('AWS::SageMaker::ProcessingJob');
 
   final String value;
 
-  const CandidateStepType(this.value);
+  const CandidateStepType._(this.value);
+
+  static const values = [
+    awsSageMakerTrainingJob,
+    awsSageMakerTransformJob,
+    awsSageMakerProcessingJob
+  ];
 
   static CandidateStepType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CandidateStepType'));
+          orElse: () => CandidateStepType._(value));
+
+  @override
+  bool operator ==(other) => other is CandidateStepType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SageMaker Canvas application settings.
@@ -25355,7 +26029,7 @@ class CapacitySize {
 
   factory CapacitySize.fromJson(Map<String, dynamic> json) {
     return CapacitySize(
-      type: CapacitySizeType.fromString((json['Type'] as String)),
+      type: CapacitySizeType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as int?) ?? 0,
     );
   }
@@ -25370,19 +26044,28 @@ class CapacitySize {
   }
 }
 
-enum CapacitySizeType {
-  instanceCount('INSTANCE_COUNT'),
-  capacityPercent('CAPACITY_PERCENT'),
-  ;
+class CapacitySizeType {
+  static const instanceCount = CapacitySizeType._('INSTANCE_COUNT');
+  static const capacityPercent = CapacitySizeType._('CAPACITY_PERCENT');
 
   final String value;
 
-  const CapacitySizeType(this.value);
+  const CapacitySizeType._(this.value);
+
+  static const values = [instanceCount, capacityPercent];
 
   static CapacitySizeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CapacitySizeType'));
+          orElse: () => CapacitySizeType._(value));
+
+  @override
+  bool operator ==(other) => other is CapacitySizeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration specifying how to treat different headers. If no headers are
@@ -25425,19 +26108,28 @@ class CaptureContentTypeHeader {
   }
 }
 
-enum CaptureMode {
-  input('Input'),
-  output('Output'),
-  inputAndOutput('InputAndOutput'),
-  ;
+class CaptureMode {
+  static const input = CaptureMode._('Input');
+  static const output = CaptureMode._('Output');
+  static const inputAndOutput = CaptureMode._('InputAndOutput');
 
   final String value;
 
-  const CaptureMode(this.value);
+  const CaptureMode._(this.value);
 
-  static CaptureMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CaptureMode'));
+  static const values = [input, output, inputAndOutput];
+
+  static CaptureMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CaptureMode._(value));
+
+  @override
+  bool operator ==(other) => other is CaptureMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies data Model Monitor will capture.
@@ -25451,7 +26143,8 @@ class CaptureOption {
 
   factory CaptureOption.fromJson(Map<String, dynamic> json) {
     return CaptureOption(
-      captureMode: CaptureMode.fromString((json['CaptureMode'] as String)),
+      captureMode:
+          CaptureMode.fromString((json['CaptureMode'] as String?) ?? ''),
     );
   }
 
@@ -25463,19 +26156,28 @@ class CaptureOption {
   }
 }
 
-enum CaptureStatus {
-  started('Started'),
-  stopped('Stopped'),
-  ;
+class CaptureStatus {
+  static const started = CaptureStatus._('Started');
+  static const stopped = CaptureStatus._('Stopped');
 
   final String value;
 
-  const CaptureStatus(this.value);
+  const CaptureStatus._(this.value);
+
+  static const values = [started, stopped];
 
   static CaptureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CaptureStatus'));
+          orElse: () => CaptureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CaptureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Environment parameters you want to benchmark your load test against.
@@ -25930,20 +26632,30 @@ class ClarifyExplainerConfig {
   }
 }
 
-enum ClarifyFeatureType {
-  numerical('numerical'),
-  categorical('categorical'),
-  text('text'),
-  ;
+class ClarifyFeatureType {
+  static const numerical = ClarifyFeatureType._('numerical');
+  static const categorical = ClarifyFeatureType._('categorical');
+  static const text = ClarifyFeatureType._('text');
 
   final String value;
 
-  const ClarifyFeatureType(this.value);
+  const ClarifyFeatureType._(this.value);
 
-  static ClarifyFeatureType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClarifyFeatureType'));
+  static const values = [numerical, categorical, text];
+
+  static ClarifyFeatureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClarifyFeatureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClarifyFeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The inference configuration parameter for the model container.
@@ -26294,9 +27006,10 @@ class ClarifyTextConfig {
 
   factory ClarifyTextConfig.fromJson(Map<String, dynamic> json) {
     return ClarifyTextConfig(
-      granularity:
-          ClarifyTextGranularity.fromString((json['Granularity'] as String)),
-      language: ClarifyTextLanguage.fromString((json['Language'] as String)),
+      granularity: ClarifyTextGranularity.fromString(
+          (json['Granularity'] as String?) ?? ''),
+      language:
+          ClarifyTextLanguage.fromString((json['Language'] as String?) ?? ''),
     );
   }
 
@@ -26310,93 +27023,174 @@ class ClarifyTextConfig {
   }
 }
 
-enum ClarifyTextGranularity {
-  token('token'),
-  sentence('sentence'),
-  paragraph('paragraph'),
-  ;
+class ClarifyTextGranularity {
+  static const token = ClarifyTextGranularity._('token');
+  static const sentence = ClarifyTextGranularity._('sentence');
+  static const paragraph = ClarifyTextGranularity._('paragraph');
 
   final String value;
 
-  const ClarifyTextGranularity(this.value);
+  const ClarifyTextGranularity._(this.value);
+
+  static const values = [token, sentence, paragraph];
 
   static ClarifyTextGranularity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClarifyTextGranularity'));
+          orElse: () => ClarifyTextGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClarifyTextGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClarifyTextLanguage {
-  af('af'),
-  sq('sq'),
-  ar('ar'),
-  hy('hy'),
-  eu('eu'),
-  bn('bn'),
-  bg('bg'),
-  ca('ca'),
-  zh('zh'),
-  hr('hr'),
-  cs('cs'),
-  da('da'),
-  nl('nl'),
-  en('en'),
-  et('et'),
-  fi('fi'),
-  fr('fr'),
-  de('de'),
-  el('el'),
-  gu('gu'),
-  he('he'),
-  hi('hi'),
-  hu('hu'),
-  $is('is'),
-  id('id'),
-  ga('ga'),
-  it('it'),
-  kn('kn'),
-  ky('ky'),
-  lv('lv'),
-  lt('lt'),
-  lb('lb'),
-  mk('mk'),
-  ml('ml'),
-  mr('mr'),
-  ne('ne'),
-  nb('nb'),
-  fa('fa'),
-  pl('pl'),
-  pt('pt'),
-  ro('ro'),
-  ru('ru'),
-  sa('sa'),
-  sr('sr'),
-  tn('tn'),
-  si('si'),
-  sk('sk'),
-  sl('sl'),
-  es('es'),
-  sv('sv'),
-  tl('tl'),
-  ta('ta'),
-  tt('tt'),
-  te('te'),
-  tr('tr'),
-  uk('uk'),
-  ur('ur'),
-  yo('yo'),
-  lij('lij'),
-  xx('xx'),
-  ;
+class ClarifyTextLanguage {
+  static const af = ClarifyTextLanguage._('af');
+  static const sq = ClarifyTextLanguage._('sq');
+  static const ar = ClarifyTextLanguage._('ar');
+  static const hy = ClarifyTextLanguage._('hy');
+  static const eu = ClarifyTextLanguage._('eu');
+  static const bn = ClarifyTextLanguage._('bn');
+  static const bg = ClarifyTextLanguage._('bg');
+  static const ca = ClarifyTextLanguage._('ca');
+  static const zh = ClarifyTextLanguage._('zh');
+  static const hr = ClarifyTextLanguage._('hr');
+  static const cs = ClarifyTextLanguage._('cs');
+  static const da = ClarifyTextLanguage._('da');
+  static const nl = ClarifyTextLanguage._('nl');
+  static const en = ClarifyTextLanguage._('en');
+  static const et = ClarifyTextLanguage._('et');
+  static const fi = ClarifyTextLanguage._('fi');
+  static const fr = ClarifyTextLanguage._('fr');
+  static const de = ClarifyTextLanguage._('de');
+  static const el = ClarifyTextLanguage._('el');
+  static const gu = ClarifyTextLanguage._('gu');
+  static const he = ClarifyTextLanguage._('he');
+  static const hi = ClarifyTextLanguage._('hi');
+  static const hu = ClarifyTextLanguage._('hu');
+  static const $is = ClarifyTextLanguage._('is');
+  static const id = ClarifyTextLanguage._('id');
+  static const ga = ClarifyTextLanguage._('ga');
+  static const it = ClarifyTextLanguage._('it');
+  static const kn = ClarifyTextLanguage._('kn');
+  static const ky = ClarifyTextLanguage._('ky');
+  static const lv = ClarifyTextLanguage._('lv');
+  static const lt = ClarifyTextLanguage._('lt');
+  static const lb = ClarifyTextLanguage._('lb');
+  static const mk = ClarifyTextLanguage._('mk');
+  static const ml = ClarifyTextLanguage._('ml');
+  static const mr = ClarifyTextLanguage._('mr');
+  static const ne = ClarifyTextLanguage._('ne');
+  static const nb = ClarifyTextLanguage._('nb');
+  static const fa = ClarifyTextLanguage._('fa');
+  static const pl = ClarifyTextLanguage._('pl');
+  static const pt = ClarifyTextLanguage._('pt');
+  static const ro = ClarifyTextLanguage._('ro');
+  static const ru = ClarifyTextLanguage._('ru');
+  static const sa = ClarifyTextLanguage._('sa');
+  static const sr = ClarifyTextLanguage._('sr');
+  static const tn = ClarifyTextLanguage._('tn');
+  static const si = ClarifyTextLanguage._('si');
+  static const sk = ClarifyTextLanguage._('sk');
+  static const sl = ClarifyTextLanguage._('sl');
+  static const es = ClarifyTextLanguage._('es');
+  static const sv = ClarifyTextLanguage._('sv');
+  static const tl = ClarifyTextLanguage._('tl');
+  static const ta = ClarifyTextLanguage._('ta');
+  static const tt = ClarifyTextLanguage._('tt');
+  static const te = ClarifyTextLanguage._('te');
+  static const tr = ClarifyTextLanguage._('tr');
+  static const uk = ClarifyTextLanguage._('uk');
+  static const ur = ClarifyTextLanguage._('ur');
+  static const yo = ClarifyTextLanguage._('yo');
+  static const lij = ClarifyTextLanguage._('lij');
+  static const xx = ClarifyTextLanguage._('xx');
 
   final String value;
 
-  const ClarifyTextLanguage(this.value);
+  const ClarifyTextLanguage._(this.value);
 
-  static ClarifyTextLanguage fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClarifyTextLanguage'));
+  static const values = [
+    af,
+    sq,
+    ar,
+    hy,
+    eu,
+    bn,
+    bg,
+    ca,
+    zh,
+    hr,
+    cs,
+    da,
+    nl,
+    en,
+    et,
+    fi,
+    fr,
+    de,
+    el,
+    gu,
+    he,
+    hi,
+    hu,
+    $is,
+    id,
+    ga,
+    it,
+    kn,
+    ky,
+    lv,
+    lt,
+    lb,
+    mk,
+    ml,
+    mr,
+    ne,
+    nb,
+    fa,
+    pl,
+    pt,
+    ro,
+    ru,
+    sa,
+    sr,
+    tn,
+    si,
+    sk,
+    sl,
+    es,
+    sv,
+    tl,
+    ta,
+    tt,
+    te,
+    tr,
+    uk,
+    ur,
+    yo,
+    lij,
+    xx
+  ];
+
+  static ClarifyTextLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClarifyTextLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClarifyTextLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the configuration for attaching an additional Amazon Elastic Block
@@ -26617,22 +27411,38 @@ class ClusterInstancePlacement {
   }
 }
 
-enum ClusterInstanceStatus {
-  running('Running'),
-  failure('Failure'),
-  pending('Pending'),
-  shuttingDown('ShuttingDown'),
-  systemUpdating('SystemUpdating'),
-  ;
+class ClusterInstanceStatus {
+  static const running = ClusterInstanceStatus._('Running');
+  static const failure = ClusterInstanceStatus._('Failure');
+  static const pending = ClusterInstanceStatus._('Pending');
+  static const shuttingDown = ClusterInstanceStatus._('ShuttingDown');
+  static const systemUpdating = ClusterInstanceStatus._('SystemUpdating');
 
   final String value;
 
-  const ClusterInstanceStatus(this.value);
+  const ClusterInstanceStatus._(this.value);
 
-  static ClusterInstanceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClusterInstanceStatus'));
+  static const values = [
+    running,
+    failure,
+    pending,
+    shuttingDown,
+    systemUpdating
+  ];
+
+  static ClusterInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of an instance in a SageMaker HyperPod cluster.
@@ -26650,7 +27460,8 @@ class ClusterInstanceStatusDetails {
 
   factory ClusterInstanceStatusDetails.fromJson(Map<String, dynamic> json) {
     return ClusterInstanceStatusDetails(
-      status: ClusterInstanceStatus.fromString((json['Status'] as String)),
+      status:
+          ClusterInstanceStatus.fromString((json['Status'] as String?) ?? ''),
       message: json['Message'] as String?,
     );
   }
@@ -26698,55 +27509,104 @@ class ClusterInstanceStorageConfig {
   }
 }
 
-enum ClusterInstanceType {
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlTrn1_32xlarge('ml.trn1.32xlarge'),
-  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlC5Large('ml.c5.large'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_12xlarge('ml.c5.12xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5_24xlarge('ml.c5.24xlarge'),
-  mlC5nLarge('ml.c5n.large'),
-  mlC5n_2xlarge('ml.c5n.2xlarge'),
-  mlC5n_4xlarge('ml.c5n.4xlarge'),
-  mlC5n_9xlarge('ml.c5n.9xlarge'),
-  mlC5n_18xlarge('ml.c5n.18xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_8xlarge('ml.m5.8xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_16xlarge('ml.m5.16xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlT3Medium('ml.t3.medium'),
-  mlT3Large('ml.t3.large'),
-  mlT3Xlarge('ml.t3.xlarge'),
-  mlT3_2xlarge('ml.t3.2xlarge'),
-  ;
+class ClusterInstanceType {
+  static const mlP4d_24xlarge = ClusterInstanceType._('ml.p4d.24xlarge');
+  static const mlP4de_24xlarge = ClusterInstanceType._('ml.p4de.24xlarge');
+  static const mlP5_48xlarge = ClusterInstanceType._('ml.p5.48xlarge');
+  static const mlTrn1_32xlarge = ClusterInstanceType._('ml.trn1.32xlarge');
+  static const mlTrn1n_32xlarge = ClusterInstanceType._('ml.trn1n.32xlarge');
+  static const mlG5Xlarge = ClusterInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = ClusterInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = ClusterInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = ClusterInstanceType._('ml.g5.8xlarge');
+  static const mlG5_12xlarge = ClusterInstanceType._('ml.g5.12xlarge');
+  static const mlG5_16xlarge = ClusterInstanceType._('ml.g5.16xlarge');
+  static const mlG5_24xlarge = ClusterInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = ClusterInstanceType._('ml.g5.48xlarge');
+  static const mlC5Large = ClusterInstanceType._('ml.c5.large');
+  static const mlC5Xlarge = ClusterInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = ClusterInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = ClusterInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = ClusterInstanceType._('ml.c5.9xlarge');
+  static const mlC5_12xlarge = ClusterInstanceType._('ml.c5.12xlarge');
+  static const mlC5_18xlarge = ClusterInstanceType._('ml.c5.18xlarge');
+  static const mlC5_24xlarge = ClusterInstanceType._('ml.c5.24xlarge');
+  static const mlC5nLarge = ClusterInstanceType._('ml.c5n.large');
+  static const mlC5n_2xlarge = ClusterInstanceType._('ml.c5n.2xlarge');
+  static const mlC5n_4xlarge = ClusterInstanceType._('ml.c5n.4xlarge');
+  static const mlC5n_9xlarge = ClusterInstanceType._('ml.c5n.9xlarge');
+  static const mlC5n_18xlarge = ClusterInstanceType._('ml.c5n.18xlarge');
+  static const mlM5Large = ClusterInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = ClusterInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = ClusterInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = ClusterInstanceType._('ml.m5.4xlarge');
+  static const mlM5_8xlarge = ClusterInstanceType._('ml.m5.8xlarge');
+  static const mlM5_12xlarge = ClusterInstanceType._('ml.m5.12xlarge');
+  static const mlM5_16xlarge = ClusterInstanceType._('ml.m5.16xlarge');
+  static const mlM5_24xlarge = ClusterInstanceType._('ml.m5.24xlarge');
+  static const mlT3Medium = ClusterInstanceType._('ml.t3.medium');
+  static const mlT3Large = ClusterInstanceType._('ml.t3.large');
+  static const mlT3Xlarge = ClusterInstanceType._('ml.t3.xlarge');
+  static const mlT3_2xlarge = ClusterInstanceType._('ml.t3.2xlarge');
 
   final String value;
 
-  const ClusterInstanceType(this.value);
+  const ClusterInstanceType._(this.value);
 
-  static ClusterInstanceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClusterInstanceType'));
+  static const values = [
+    mlP4d_24xlarge,
+    mlP4de_24xlarge,
+    mlP5_48xlarge,
+    mlTrn1_32xlarge,
+    mlTrn1n_32xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_12xlarge,
+    mlG5_16xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlC5Large,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_12xlarge,
+    mlC5_18xlarge,
+    mlC5_24xlarge,
+    mlC5nLarge,
+    mlC5n_2xlarge,
+    mlC5n_4xlarge,
+    mlC5n_9xlarge,
+    mlC5n_18xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_8xlarge,
+    mlM5_12xlarge,
+    mlM5_16xlarge,
+    mlM5_24xlarge,
+    mlT3Medium,
+    mlT3Large,
+    mlT3Xlarge,
+    mlT3_2xlarge
+  ];
+
+  static ClusterInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The lifecycle configuration for a SageMaker HyperPod cluster.
@@ -26935,8 +27795,8 @@ class ClusterNodeSummary {
       instanceStatus: ClusterInstanceStatusDetails.fromJson(
           (json['InstanceStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      instanceType:
-          ClusterInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: ClusterInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
       launchTime: nonNullableTimeStampFromJson(json['LaunchTime'] ?? 0),
     );
   }
@@ -26957,39 +27817,65 @@ class ClusterNodeSummary {
   }
 }
 
-enum ClusterSortBy {
-  creationTime('CREATION_TIME'),
-  name('NAME'),
-  ;
+class ClusterSortBy {
+  static const creationTime = ClusterSortBy._('CREATION_TIME');
+  static const name = ClusterSortBy._('NAME');
 
   final String value;
 
-  const ClusterSortBy(this.value);
+  const ClusterSortBy._(this.value);
+
+  static const values = [creationTime, name];
 
   static ClusterSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterSortBy'));
+          orElse: () => ClusterSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClusterStatus {
-  creating('Creating'),
-  deleting('Deleting'),
-  failed('Failed'),
-  inService('InService'),
-  rollingBack('RollingBack'),
-  systemUpdating('SystemUpdating'),
-  updating('Updating'),
-  ;
+class ClusterStatus {
+  static const creating = ClusterStatus._('Creating');
+  static const deleting = ClusterStatus._('Deleting');
+  static const failed = ClusterStatus._('Failed');
+  static const inService = ClusterStatus._('InService');
+  static const rollingBack = ClusterStatus._('RollingBack');
+  static const systemUpdating = ClusterStatus._('SystemUpdating');
+  static const updating = ClusterStatus._('Updating');
 
   final String value;
 
-  const ClusterStatus(this.value);
+  const ClusterStatus._(this.value);
+
+  static const values = [
+    creating,
+    deleting,
+    failed,
+    inService,
+    rollingBack,
+    systemUpdating,
+    updating
+  ];
 
   static ClusterStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterStatus'));
+          orElse: () => ClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists a summary of the properties of a SageMaker HyperPod cluster.
@@ -27018,7 +27904,7 @@ class ClusterSummary {
       clusterArn: (json['ClusterArn'] as String?) ?? '',
       clusterName: (json['ClusterName'] as String?) ?? '',
       clusterStatus:
-          ClusterStatus.fromString((json['ClusterStatus'] as String)),
+          ClusterStatus.fromString((json['ClusterStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
     );
   }
@@ -27161,35 +28047,55 @@ class CodeRepository {
   }
 }
 
-enum CodeRepositorySortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  ;
+class CodeRepositorySortBy {
+  static const name = CodeRepositorySortBy._('Name');
+  static const creationTime = CodeRepositorySortBy._('CreationTime');
+  static const lastModifiedTime = CodeRepositorySortBy._('LastModifiedTime');
 
   final String value;
 
-  const CodeRepositorySortBy(this.value);
+  const CodeRepositorySortBy._(this.value);
 
-  static CodeRepositorySortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CodeRepositorySortBy'));
+  static const values = [name, creationTime, lastModifiedTime];
+
+  static CodeRepositorySortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodeRepositorySortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodeRepositorySortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CodeRepositorySortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class CodeRepositorySortOrder {
+  static const ascending = CodeRepositorySortOrder._('Ascending');
+  static const descending = CodeRepositorySortOrder._('Descending');
 
   final String value;
 
-  const CodeRepositorySortOrder(this.value);
+  const CodeRepositorySortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static CodeRepositorySortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CodeRepositorySortOrder'));
+          orElse: () => CodeRepositorySortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodeRepositorySortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies summary information about a Git repository.
@@ -27395,39 +28301,65 @@ class CollectionConfiguration {
   }
 }
 
-enum CollectionType {
-  list('List'),
-  set('Set'),
-  vector('Vector'),
-  ;
+class CollectionType {
+  static const list = CollectionType._('List');
+  static const set = CollectionType._('Set');
+  static const vector = CollectionType._('Vector');
 
   final String value;
 
-  const CollectionType(this.value);
+  const CollectionType._(this.value);
+
+  static const values = [list, set, vector];
 
   static CollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CollectionType'));
+          orElse: () => CollectionType._(value));
+
+  @override
+  bool operator ==(other) => other is CollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompilationJobStatus {
-  inprogress('INPROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class CompilationJobStatus {
+  static const inprogress = CompilationJobStatus._('INPROGRESS');
+  static const completed = CompilationJobStatus._('COMPLETED');
+  static const failed = CompilationJobStatus._('FAILED');
+  static const starting = CompilationJobStatus._('STARTING');
+  static const stopping = CompilationJobStatus._('STOPPING');
+  static const stopped = CompilationJobStatus._('STOPPED');
 
   final String value;
 
-  const CompilationJobStatus(this.value);
+  const CompilationJobStatus._(this.value);
 
-  static CompilationJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CompilationJobStatus'));
+  static const values = [
+    inprogress,
+    completed,
+    failed,
+    starting,
+    stopping,
+    stopped
+  ];
+
+  static CompilationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompilationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompilationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a model compilation job.
@@ -27488,7 +28420,7 @@ class CompilationJobSummary {
       compilationJobArn: (json['CompilationJobArn'] as String?) ?? '',
       compilationJobName: (json['CompilationJobName'] as String?) ?? '',
       compilationJobStatus: CompilationJobStatus.fromString(
-          (json['CompilationJobStatus'] as String)),
+          (json['CompilationJobStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       compilationEndTime: timeStampFromJson(json['CompilationEndTime']),
       compilationStartTime: timeStampFromJson(json['CompilationStartTime']),
@@ -27544,49 +28476,77 @@ class CompilationJobSummary {
   }
 }
 
-enum CompleteOnConvergence {
-  disabled('Disabled'),
-  enabled('Enabled'),
-  ;
+class CompleteOnConvergence {
+  static const disabled = CompleteOnConvergence._('Disabled');
+  static const enabled = CompleteOnConvergence._('Enabled');
 
   final String value;
 
-  const CompleteOnConvergence(this.value);
+  const CompleteOnConvergence._(this.value);
 
-  static CompleteOnConvergence fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CompleteOnConvergence'));
+  static const values = [disabled, enabled];
+
+  static CompleteOnConvergence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompleteOnConvergence._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompleteOnConvergence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CompressionType {
-  none('None'),
-  gzip('Gzip'),
-  ;
+class CompressionType {
+  static const none = CompressionType._('None');
+  static const gzip = CompressionType._('Gzip');
 
   final String value;
 
-  const CompressionType(this.value);
+  const CompressionType._(this.value);
+
+  static const values = [none, gzip];
 
   static CompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionType'));
+          orElse: () => CompressionType._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConditionOutcome {
-  $true('True'),
-  $false('False'),
-  ;
+class ConditionOutcome {
+  static const $true = ConditionOutcome._('True');
+  static const $false = ConditionOutcome._('False');
 
   final String value;
 
-  const ConditionOutcome(this.value);
+  const ConditionOutcome._(this.value);
+
+  static const values = [$true, $false];
 
   static ConditionOutcome fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConditionOutcome'));
+          orElse: () => ConditionOutcome._(value));
+
+  @override
+  bool operator ==(other) => other is ConditionOutcome && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for a Condition step.
@@ -27843,35 +28803,56 @@ class ContainerDefinition {
   }
 }
 
-enum ContainerMode {
-  singleModel('SingleModel'),
-  multiModel('MultiModel'),
-  ;
+class ContainerMode {
+  static const singleModel = ContainerMode._('SingleModel');
+  static const multiModel = ContainerMode._('MultiModel');
 
   final String value;
 
-  const ContainerMode(this.value);
+  const ContainerMode._(this.value);
+
+  static const values = [singleModel, multiModel];
 
   static ContainerMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerMode'));
+          orElse: () => ContainerMode._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation(
-      'FreeOfPersonallyIdentifiableInformation'),
-  freeOfAdultContent('FreeOfAdultContent'),
-  ;
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
 
   final String value;
 
-  const ContentClassifier(this.value);
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
 
   static ContentClassifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentClassifier'));
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure describing the source of a context.
@@ -29410,19 +30391,29 @@ class CreateWorkteamResponse {
   }
 }
 
-enum CrossAccountFilterOption {
-  sameAccount('SameAccount'),
-  crossAccount('CrossAccount'),
-  ;
+class CrossAccountFilterOption {
+  static const sameAccount = CrossAccountFilterOption._('SameAccount');
+  static const crossAccount = CrossAccountFilterOption._('CrossAccount');
 
   final String value;
 
-  const CrossAccountFilterOption(this.value);
+  const CrossAccountFilterOption._(this.value);
+
+  static const values = [sameAccount, crossAccount];
 
   static CrossAccountFilterOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CrossAccountFilterOption'));
+          orElse: () => CrossAccountFilterOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CrossAccountFilterOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A file system, created by you, that you assign to a user profile or space
@@ -29706,7 +30697,7 @@ class DataCaptureConfigSummary {
   factory DataCaptureConfigSummary.fromJson(Map<String, dynamic> json) {
     return DataCaptureConfigSummary(
       captureStatus:
-          CaptureStatus.fromString((json['CaptureStatus'] as String)),
+          CaptureStatus.fromString((json['CaptureStatus'] as String?) ?? ''),
       currentSamplingPercentage:
           (json['CurrentSamplingPercentage'] as int?) ?? 0,
       destinationS3Uri: (json['DestinationS3Uri'] as String?) ?? '',
@@ -29769,19 +30760,29 @@ class DataCatalogConfig {
   }
 }
 
-enum DataDistributionType {
-  fullyReplicated('FullyReplicated'),
-  shardedByS3Key('ShardedByS3Key'),
-  ;
+class DataDistributionType {
+  static const fullyReplicated = DataDistributionType._('FullyReplicated');
+  static const shardedByS3Key = DataDistributionType._('ShardedByS3Key');
 
   final String value;
 
-  const DataDistributionType(this.value);
+  const DataDistributionType._(this.value);
 
-  static DataDistributionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataDistributionType'));
+  static const values = [fullyReplicated, shardedByS3Key];
+
+  static DataDistributionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataDistributionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataDistributionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data structure used to specify the data to be used for inference in a
@@ -30061,19 +31062,28 @@ class DataSource {
   }
 }
 
-enum DataSourceName {
-  salesforceGenie('SalesforceGenie'),
-  snowflake('Snowflake'),
-  ;
+class DataSourceName {
+  static const salesforceGenie = DataSourceName._('SalesforceGenie');
+  static const snowflake = DataSourceName._('Snowflake');
 
   final String value;
 
-  const DataSourceName(this.value);
+  const DataSourceName._(this.value);
+
+  static const values = [salesforceGenie, snowflake];
 
   static DataSourceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceName'));
+          orElse: () => DataSourceName._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for Dataset Definition inputs. The Dataset Definition input
@@ -30967,7 +31977,7 @@ class DeploymentRecommendation {
   factory DeploymentRecommendation.fromJson(Map<String, dynamic> json) {
     return DeploymentRecommendation(
       recommendationStatus: RecommendationStatus.fromString(
-          (json['RecommendationStatus'] as String)),
+          (json['RecommendationStatus'] as String?) ?? ''),
       realTimeInferenceRecommendations:
           (json['RealTimeInferenceRecommendations'] as List?)
               ?.nonNulls
@@ -31260,8 +32270,8 @@ class DescribeAlgorithmOutput {
     return DescribeAlgorithmOutput(
       algorithmArn: (json['AlgorithmArn'] as String?) ?? '',
       algorithmName: (json['AlgorithmName'] as String?) ?? '',
-      algorithmStatus:
-          AlgorithmStatus.fromString((json['AlgorithmStatus'] as String)),
+      algorithmStatus: AlgorithmStatus.fromString(
+          (json['AlgorithmStatus'] as String?) ?? ''),
       algorithmStatusDetails: AlgorithmStatusDetails.fromJson(
           (json['AlgorithmStatusDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -31714,9 +32724,9 @@ class DescribeAutoMLJobResponse {
       autoMLJobArn: (json['AutoMLJobArn'] as String?) ?? '',
       autoMLJobName: (json['AutoMLJobName'] as String?) ?? '',
       autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
-          (json['AutoMLJobSecondaryStatus'] as String)),
-      autoMLJobStatus:
-          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
+          (json['AutoMLJobSecondaryStatus'] as String?) ?? ''),
+      autoMLJobStatus: AutoMLJobStatus.fromString(
+          (json['AutoMLJobStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       inputDataConfig: ((json['InputDataConfig'] as List?) ?? const [])
           .nonNulls
@@ -31933,9 +32943,9 @@ class DescribeAutoMLJobV2Response {
               .toList(),
       autoMLJobName: (json['AutoMLJobName'] as String?) ?? '',
       autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
-          (json['AutoMLJobSecondaryStatus'] as String)),
-      autoMLJobStatus:
-          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
+          (json['AutoMLJobSecondaryStatus'] as String?) ?? ''),
+      autoMLJobStatus: AutoMLJobStatus.fromString(
+          (json['AutoMLJobStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
@@ -32110,7 +33120,7 @@ class DescribeClusterResponse {
     return DescribeClusterResponse(
       clusterArn: (json['ClusterArn'] as String?) ?? '',
       clusterStatus:
-          ClusterStatus.fromString((json['ClusterStatus'] as String)),
+          ClusterStatus.fromString((json['ClusterStatus'] as String?) ?? ''),
       instanceGroups: ((json['InstanceGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
@@ -32309,7 +33319,7 @@ class DescribeCompilationJobResponse {
       compilationJobArn: (json['CompilationJobArn'] as String?) ?? '',
       compilationJobName: (json['CompilationJobName'] as String?) ?? '',
       compilationJobStatus: CompilationJobStatus.fromString(
-          (json['CompilationJobStatus'] as String)),
+          (json['CompilationJobStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       failureReason: (json['FailureReason'] as String?) ?? '',
       inputConfig: InputConfig.fromJson(
@@ -33169,7 +34179,7 @@ class DescribeEdgePackagingJobResponse {
       edgePackagingJobArn: (json['EdgePackagingJobArn'] as String?) ?? '',
       edgePackagingJobName: (json['EdgePackagingJobName'] as String?) ?? '',
       edgePackagingJobStatus: EdgePackagingJobStatus.fromString(
-          (json['EdgePackagingJobStatus'] as String)),
+          (json['EdgePackagingJobStatus'] as String?) ?? ''),
       compilationJobName: json['CompilationJobName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       edgePackagingJobStatusMessage:
@@ -33492,7 +34502,7 @@ class DescribeEndpointOutput {
       endpointArn: (json['EndpointArn'] as String?) ?? '',
       endpointName: (json['EndpointName'] as String?) ?? '',
       endpointStatus:
-          EndpointStatus.fromString((json['EndpointStatus'] as String)),
+          EndpointStatus.fromString((json['EndpointStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       asyncInferenceConfig: json['AsyncInferenceConfig'] != null
@@ -33908,7 +34918,8 @@ class DescribeFeatureMetadataResponse {
       featureGroupArn: (json['FeatureGroupArn'] as String?) ?? '',
       featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
       featureName: (json['FeatureName'] as String?) ?? '',
-      featureType: FeatureType.fromString((json['FeatureType'] as String)),
+      featureType:
+          FeatureType.fromString((json['FeatureType'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       description: json['Description'] as String?,
@@ -33995,7 +35006,7 @@ class DescribeFlowDefinitionResponse {
       flowDefinitionArn: (json['FlowDefinitionArn'] as String?) ?? '',
       flowDefinitionName: (json['FlowDefinitionName'] as String?) ?? '',
       flowDefinitionStatus: FlowDefinitionStatus.fromString(
-          (json['FlowDefinitionStatus'] as String)),
+          (json['FlowDefinitionStatus'] as String?) ?? ''),
       outputConfig: FlowDefinitionOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -34135,10 +35146,10 @@ class DescribeHubContentResponse {
       hubContentArn: (json['HubContentArn'] as String?) ?? '',
       hubContentDocument: (json['HubContentDocument'] as String?) ?? '',
       hubContentName: (json['HubContentName'] as String?) ?? '',
-      hubContentStatus:
-          HubContentStatus.fromString((json['HubContentStatus'] as String)),
+      hubContentStatus: HubContentStatus.fromString(
+          (json['HubContentStatus'] as String?) ?? ''),
       hubContentType:
-          HubContentType.fromString((json['HubContentType'] as String)),
+          HubContentType.fromString((json['HubContentType'] as String?) ?? ''),
       hubContentVersion: (json['HubContentVersion'] as String?) ?? '',
       hubName: (json['HubName'] as String?) ?? '',
       failureReason: json['FailureReason'] as String?,
@@ -34260,7 +35271,7 @@ class DescribeHubResponse {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       hubArn: (json['HubArn'] as String?) ?? '',
       hubName: (json['HubName'] as String?) ?? '',
-      hubStatus: HubStatus.fromString((json['HubStatus'] as String)),
+      hubStatus: HubStatus.fromString((json['HubStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       failureReason: json['FailureReason'] as String?,
@@ -34472,7 +35483,7 @@ class DescribeHyperParameterTuningJobResponse {
       hyperParameterTuningJobName:
           (json['HyperParameterTuningJobName'] as String?) ?? '',
       hyperParameterTuningJobStatus: HyperParameterTuningJobStatus.fromString(
-          (json['HyperParameterTuningJobStatus'] as String)),
+          (json['HyperParameterTuningJobStatus'] as String?) ?? ''),
       objectiveStatusCounters: ObjectiveStatusCounters.fromJson(
           (json['ObjectiveStatusCounters'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -35061,8 +36072,9 @@ class DescribeInferenceExperimentResponse {
               ModelVariantConfigSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: (json['Name'] as String?) ?? '',
-      status: InferenceExperimentStatus.fromString((json['Status'] as String)),
-      type: InferenceExperimentType.fromString((json['Type'] as String)),
+      status: InferenceExperimentStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      type: InferenceExperimentType.fromString((json['Type'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['CompletionTime']),
       creationTime: timeStampFromJson(json['CreationTime']),
       dataStorageConfig: json['DataStorageConfig'] != null
@@ -35200,11 +36212,13 @@ class DescribeInferenceRecommendationsJobResponse {
               const <String, dynamic>{}),
       jobArn: (json['JobArn'] as String?) ?? '',
       jobName: (json['JobName'] as String?) ?? '',
-      jobType: RecommendationJobType.fromString((json['JobType'] as String)),
+      jobType:
+          RecommendationJobType.fromString((json['JobType'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       roleArn: (json['RoleArn'] as String?) ?? '',
-      status: RecommendationJobStatus.fromString((json['Status'] as String)),
+      status:
+          RecommendationJobStatus.fromString((json['Status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['CompletionTime']),
       endpointPerformances: (json['EndpointPerformances'] as List?)
           ?.nonNulls
@@ -35406,8 +36420,8 @@ class DescribeLabelingJobResponse {
               const <String, dynamic>{}),
       labelingJobArn: (json['LabelingJobArn'] as String?) ?? '',
       labelingJobName: (json['LabelingJobName'] as String?) ?? '',
-      labelingJobStatus:
-          LabelingJobStatus.fromString((json['LabelingJobStatus'] as String)),
+      labelingJobStatus: LabelingJobStatus.fromString(
+          (json['LabelingJobStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       outputConfig: LabelingJobOutputConfig.fromJson(
@@ -35871,7 +36885,8 @@ class DescribeModelCardExportJobResponse {
       outputConfig: ModelCardExportOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ModelCardExportJobStatus.fromString((json['Status'] as String)),
+      status: ModelCardExportJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       exportArtifacts: json['ExportArtifacts'] != null
           ? ModelCardExportArtifacts.fromJson(
               json['ExportArtifacts'] as Map<String, dynamic>)
@@ -36001,8 +37016,8 @@ class DescribeModelCardResponse {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       modelCardArn: (json['ModelCardArn'] as String?) ?? '',
       modelCardName: (json['ModelCardName'] as String?) ?? '',
-      modelCardStatus:
-          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
+      modelCardStatus: ModelCardStatus.fromString(
+          (json['ModelCardStatus'] as String?) ?? ''),
       modelCardVersion: (json['ModelCardVersion'] as int?) ?? 0,
       lastModifiedBy: json['LastModifiedBy'] != null
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
@@ -36313,7 +37328,7 @@ class DescribeModelPackageGroupOutput {
       modelPackageGroupArn: (json['ModelPackageGroupArn'] as String?) ?? '',
       modelPackageGroupName: (json['ModelPackageGroupName'] as String?) ?? '',
       modelPackageGroupStatus: ModelPackageGroupStatus.fromString(
-          (json['ModelPackageGroupStatus'] as String)),
+          (json['ModelPackageGroupStatus'] as String?) ?? ''),
       modelPackageGroupDescription:
           json['ModelPackageGroupDescription'] as String?,
     );
@@ -36488,8 +37503,8 @@ class DescribeModelPackageOutput {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       modelPackageArn: (json['ModelPackageArn'] as String?) ?? '',
       modelPackageName: (json['ModelPackageName'] as String?) ?? '',
-      modelPackageStatus:
-          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
+      modelPackageStatus: ModelPackageStatus.fromString(
+          (json['ModelPackageStatus'] as String?) ?? ''),
       modelPackageStatusDetails: ModelPackageStatusDetails.fromJson(
           (json['ModelPackageStatusDetails'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -36819,7 +37834,7 @@ class DescribeMonitoringScheduleResponse {
               const <String, dynamic>{}),
       monitoringScheduleName: (json['MonitoringScheduleName'] as String?) ?? '',
       monitoringScheduleStatus: ScheduleStatus.fromString(
-          (json['MonitoringScheduleStatus'] as String)),
+          (json['MonitoringScheduleStatus'] as String?) ?? ''),
       endpointName: json['EndpointName'] as String?,
       failureReason: json['FailureReason'] as String?,
       lastMonitoringExecutionSummary: json['LastMonitoringExecutionSummary'] !=
@@ -37259,7 +38274,7 @@ class DescribeOptimizationJobResponse {
     return DescribeOptimizationJobResponse(
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       deploymentInstanceType: OptimizationJobDeploymentInstanceType.fromString(
-          (json['DeploymentInstanceType'] as String)),
+          (json['DeploymentInstanceType'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       modelSource: OptimizationJobModelSource.fromJson(
@@ -37272,7 +38287,7 @@ class DescribeOptimizationJobResponse {
       optimizationJobArn: (json['OptimizationJobArn'] as String?) ?? '',
       optimizationJobName: (json['OptimizationJobName'] as String?) ?? '',
       optimizationJobStatus: OptimizationJobStatus.fromString(
-          (json['OptimizationJobStatus'] as String)),
+          (json['OptimizationJobStatus'] as String?) ?? ''),
       outputConfig: OptimizationJobOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -37718,7 +38733,7 @@ class DescribeProcessingJobResponse {
       processingJobArn: (json['ProcessingJobArn'] as String?) ?? '',
       processingJobName: (json['ProcessingJobName'] as String?) ?? '',
       processingJobStatus: ProcessingJobStatus.fromString(
-          (json['ProcessingJobStatus'] as String)),
+          (json['ProcessingJobStatus'] as String?) ?? ''),
       processingResources: ProcessingResources.fromJson(
           (json['ProcessingResources'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -37864,7 +38879,7 @@ class DescribeProjectOutput {
       projectId: (json['ProjectId'] as String?) ?? '',
       projectName: (json['ProjectName'] as String?) ?? '',
       projectStatus:
-          ProjectStatus.fromString((json['ProjectStatus'] as String)),
+          ProjectStatus.fromString((json['ProjectStatus'] as String?) ?? ''),
       serviceCatalogProvisioningDetails:
           ServiceCatalogProvisioningDetails.fromJson(
               (json['ServiceCatalogProvisioningDetails']
@@ -38490,15 +39505,15 @@ class DescribeTrainingJobResponse {
       resourceConfig: ResourceConfig.fromJson(
           (json['ResourceConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      secondaryStatus:
-          SecondaryStatus.fromString((json['SecondaryStatus'] as String)),
+      secondaryStatus: SecondaryStatus.fromString(
+          (json['SecondaryStatus'] as String?) ?? ''),
       stoppingCondition: StoppingCondition.fromJson(
           (json['StoppingCondition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       trainingJobArn: (json['TrainingJobArn'] as String?) ?? '',
       trainingJobName: (json['TrainingJobName'] as String?) ?? '',
-      trainingJobStatus:
-          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
+      trainingJobStatus: TrainingJobStatus.fromString(
+          (json['TrainingJobStatus'] as String?) ?? ''),
       autoMLJobArn: json['AutoMLJobArn'] as String?,
       billableTimeInSeconds: json['BillableTimeInSeconds'] as int?,
       checkpointConfig: json['CheckpointConfig'] != null
@@ -38824,8 +39839,8 @@ class DescribeTransformJobResponse {
               const <String, dynamic>{}),
       transformJobArn: (json['TransformJobArn'] as String?) ?? '',
       transformJobName: (json['TransformJobName'] as String?) ?? '',
-      transformJobStatus:
-          TransformJobStatus.fromString((json['TransformJobStatus'] as String)),
+      transformJobStatus: TransformJobStatus.fromString(
+          (json['TransformJobStatus'] as String?) ?? ''),
       transformResources: TransformResources.fromJson(
           (json['TransformResources'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -39383,38 +40398,58 @@ class DesiredWeightAndCapacity {
   }
 }
 
-enum DetailedAlgorithmStatus {
-  notStarted('NotStarted'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class DetailedAlgorithmStatus {
+  static const notStarted = DetailedAlgorithmStatus._('NotStarted');
+  static const inProgress = DetailedAlgorithmStatus._('InProgress');
+  static const completed = DetailedAlgorithmStatus._('Completed');
+  static const failed = DetailedAlgorithmStatus._('Failed');
 
   final String value;
 
-  const DetailedAlgorithmStatus(this.value);
+  const DetailedAlgorithmStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed, failed];
 
   static DetailedAlgorithmStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DetailedAlgorithmStatus'));
+          orElse: () => DetailedAlgorithmStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetailedAlgorithmStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DetailedModelPackageStatus {
-  notStarted('NotStarted'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class DetailedModelPackageStatus {
+  static const notStarted = DetailedModelPackageStatus._('NotStarted');
+  static const inProgress = DetailedModelPackageStatus._('InProgress');
+  static const completed = DetailedModelPackageStatus._('Completed');
+  static const failed = DetailedModelPackageStatus._('Failed');
 
   final String value;
 
-  const DetailedModelPackageStatus(this.value);
+  const DetailedModelPackageStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed, failed];
 
   static DetailedModelPackageStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DetailedModelPackageStatus'));
+          orElse: () => DetailedModelPackageStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetailedModelPackageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information of a particular device.
@@ -39446,23 +40481,40 @@ class Device {
   }
 }
 
-enum DeviceDeploymentStatus {
-  readytodeploy('READYTODEPLOY'),
-  inprogress('INPROGRESS'),
-  deployed('DEPLOYED'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class DeviceDeploymentStatus {
+  static const readytodeploy = DeviceDeploymentStatus._('READYTODEPLOY');
+  static const inprogress = DeviceDeploymentStatus._('INPROGRESS');
+  static const deployed = DeviceDeploymentStatus._('DEPLOYED');
+  static const failed = DeviceDeploymentStatus._('FAILED');
+  static const stopping = DeviceDeploymentStatus._('STOPPING');
+  static const stopped = DeviceDeploymentStatus._('STOPPED');
 
   final String value;
 
-  const DeviceDeploymentStatus(this.value);
+  const DeviceDeploymentStatus._(this.value);
+
+  static const values = [
+    readytodeploy,
+    inprogress,
+    deployed,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static DeviceDeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceDeploymentStatus'));
+          orElse: () => DeviceDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information summarizing device details and deployment status.
@@ -39632,8 +40684,8 @@ class DeviceSelectionConfig {
 
   factory DeviceSelectionConfig.fromJson(Map<String, dynamic> json) {
     return DeviceSelectionConfig(
-      deviceSubsetType:
-          DeviceSubsetType.fromString((json['DeviceSubsetType'] as String)),
+      deviceSubsetType: DeviceSubsetType.fromString(
+          (json['DeviceSubsetType'] as String?) ?? ''),
       deviceNameContains: json['DeviceNameContains'] as String?,
       deviceNames: (json['DeviceNames'] as List?)
           ?.nonNulls
@@ -39687,20 +40739,29 @@ class DeviceStats {
   }
 }
 
-enum DeviceSubsetType {
-  percentage('PERCENTAGE'),
-  selection('SELECTION'),
-  namecontains('NAMECONTAINS'),
-  ;
+class DeviceSubsetType {
+  static const percentage = DeviceSubsetType._('PERCENTAGE');
+  static const selection = DeviceSubsetType._('SELECTION');
+  static const namecontains = DeviceSubsetType._('NAMECONTAINS');
 
   final String value;
 
-  const DeviceSubsetType(this.value);
+  const DeviceSubsetType._(this.value);
+
+  static const values = [percentage, selection, namecontains];
 
   static DeviceSubsetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceSubsetType'));
+          orElse: () => DeviceSubsetType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceSubsetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the device.
@@ -39819,34 +40880,53 @@ class DirectDeploySettings {
   }
 }
 
-enum DirectInternetAccess {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class DirectInternetAccess {
+  static const enabled = DirectInternetAccess._('Enabled');
+  static const disabled = DirectInternetAccess._('Disabled');
 
   final String value;
 
-  const DirectInternetAccess(this.value);
+  const DirectInternetAccess._(this.value);
 
-  static DirectInternetAccess fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DirectInternetAccess'));
+  static const values = [enabled, disabled];
+
+  static DirectInternetAccess fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DirectInternetAccess._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectInternetAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Direction {
-  both('Both'),
-  ascendants('Ascendants'),
-  descendants('Descendants'),
-  ;
+class Direction {
+  static const both = Direction._('Both');
+  static const ascendants = Direction._('Ascendants');
+  static const descendants = Direction._('Descendants');
 
   final String value;
 
-  const Direction(this.value);
+  const Direction._(this.value);
 
-  static Direction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Direction'));
+  static const values = [both, ascendants, descendants];
+
+  static Direction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Direction._(value));
+
+  @override
+  bool operator ==(other) => other is Direction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisableSagemakerServicecatalogPortfolioOutput {
@@ -40128,24 +41208,40 @@ class DomainSettingsForUpdate {
   }
 }
 
-enum DomainStatus {
-  deleting('Deleting'),
-  failed('Failed'),
-  inService('InService'),
-  pending('Pending'),
-  updating('Updating'),
-  updateFailed('Update_Failed'),
-  deleteFailed('Delete_Failed'),
-  ;
+class DomainStatus {
+  static const deleting = DomainStatus._('Deleting');
+  static const failed = DomainStatus._('Failed');
+  static const inService = DomainStatus._('InService');
+  static const pending = DomainStatus._('Pending');
+  static const updating = DomainStatus._('Updating');
+  static const updateFailed = DomainStatus._('Update_Failed');
+  static const deleteFailed = DomainStatus._('Delete_Failed');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [
+    deleting,
+    failed,
+    inService,
+    pending,
+    updating,
+    updateFailed,
+    deleteFailed
+  ];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the drift check baselines that can be used when the model monitor
@@ -40598,7 +41694,7 @@ class EdgeDeploymentConfig {
   factory EdgeDeploymentConfig.fromJson(Map<String, dynamic> json) {
     return EdgeDeploymentConfig(
       failureHandlingPolicy: FailureHandlingPolicy.fromString(
-          (json['FailureHandlingPolicy'] as String)),
+          (json['FailureHandlingPolicy'] as String?) ?? ''),
     );
   }
 
@@ -40753,7 +41849,8 @@ class EdgeDeploymentStatus {
           (json['EdgeDeploymentPendingInStage'] as int?) ?? 0,
       edgeDeploymentSuccessInStage:
           (json['EdgeDeploymentSuccessInStage'] as int?) ?? 0,
-      stageStatus: StageStatus.fromString((json['StageStatus'] as String)),
+      stageStatus:
+          StageStatus.fromString((json['StageStatus'] as String?) ?? ''),
       edgeDeploymentStageStartTime:
           timeStampFromJson(json['EdgeDeploymentStageStartTime']),
       edgeDeploymentStatusMessage:
@@ -41004,23 +42101,40 @@ class EdgeOutputConfig {
   }
 }
 
-enum EdgePackagingJobStatus {
-  starting('STARTING'),
-  inprogress('INPROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class EdgePackagingJobStatus {
+  static const starting = EdgePackagingJobStatus._('STARTING');
+  static const inprogress = EdgePackagingJobStatus._('INPROGRESS');
+  static const completed = EdgePackagingJobStatus._('COMPLETED');
+  static const failed = EdgePackagingJobStatus._('FAILED');
+  static const stopping = EdgePackagingJobStatus._('STOPPING');
+  static const stopped = EdgePackagingJobStatus._('STOPPED');
 
   final String value;
 
-  const EdgePackagingJobStatus(this.value);
+  const EdgePackagingJobStatus._(this.value);
+
+  static const values = [
+    starting,
+    inprogress,
+    completed,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static EdgePackagingJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EdgePackagingJobStatus'));
+          orElse: () => EdgePackagingJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EdgePackagingJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of edge packaging job.
@@ -41065,7 +42179,7 @@ class EdgePackagingJobSummary {
       edgePackagingJobArn: (json['EdgePackagingJobArn'] as String?) ?? '',
       edgePackagingJobName: (json['EdgePackagingJobName'] as String?) ?? '',
       edgePackagingJobStatus: EdgePackagingJobStatus.fromString(
-          (json['EdgePackagingJobStatus'] as String)),
+          (json['EdgePackagingJobStatus'] as String?) ?? ''),
       compilationJobName: json['CompilationJobName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -41122,7 +42236,8 @@ class EdgePresetDeploymentOutput {
 
   factory EdgePresetDeploymentOutput.fromJson(Map<String, dynamic> json) {
     return EdgePresetDeploymentOutput(
-      type: EdgePresetDeploymentType.fromString((json['Type'] as String)),
+      type:
+          EdgePresetDeploymentType.fromString((json['Type'] as String?) ?? ''),
       artifact: json['Artifact'] as String?,
       status: (json['Status'] as String?)
           ?.let(EdgePresetDeploymentStatus.fromString),
@@ -41144,33 +42259,54 @@ class EdgePresetDeploymentOutput {
   }
 }
 
-enum EdgePresetDeploymentStatus {
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class EdgePresetDeploymentStatus {
+  static const completed = EdgePresetDeploymentStatus._('COMPLETED');
+  static const failed = EdgePresetDeploymentStatus._('FAILED');
 
   final String value;
 
-  const EdgePresetDeploymentStatus(this.value);
+  const EdgePresetDeploymentStatus._(this.value);
+
+  static const values = [completed, failed];
 
   static EdgePresetDeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EdgePresetDeploymentStatus'));
+          orElse: () => EdgePresetDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EdgePresetDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EdgePresetDeploymentType {
-  greengrassV2Component('GreengrassV2Component'),
-  ;
+class EdgePresetDeploymentType {
+  static const greengrassV2Component =
+      EdgePresetDeploymentType._('GreengrassV2Component');
 
   final String value;
 
-  const EdgePresetDeploymentType(this.value);
+  const EdgePresetDeploymentType._(this.value);
+
+  static const values = [greengrassV2Component];
 
   static EdgePresetDeploymentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EdgePresetDeploymentType'));
+          orElse: () => EdgePresetDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EdgePresetDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -41309,19 +42445,28 @@ class EnableSagemakerServicecatalogPortfolioOutput {
   }
 }
 
-enum EnabledOrDisabled {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class EnabledOrDisabled {
+  static const enabled = EnabledOrDisabled._('Enabled');
+  static const disabled = EnabledOrDisabled._('Disabled');
 
   final String value;
 
-  const EnabledOrDisabled(this.value);
+  const EnabledOrDisabled._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EnabledOrDisabled fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnabledOrDisabled'));
+          orElse: () => EnabledOrDisabled._(value));
+
+  @override
+  bool operator ==(other) => other is EnabledOrDisabled && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A hosted endpoint for real-time inference.
@@ -41392,7 +42537,7 @@ class Endpoint {
       endpointConfigName: (json['EndpointConfigName'] as String?) ?? '',
       endpointName: (json['EndpointName'] as String?) ?? '',
       endpointStatus:
-          EndpointStatus.fromString((json['EndpointStatus'] as String)),
+          EndpointStatus.fromString((json['EndpointStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       dataCaptureConfig: json['DataCaptureConfig'] != null
@@ -41453,19 +42598,29 @@ class Endpoint {
   }
 }
 
-enum EndpointConfigSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class EndpointConfigSortKey {
+  static const name = EndpointConfigSortKey._('Name');
+  static const creationTime = EndpointConfigSortKey._('CreationTime');
 
   final String value;
 
-  const EndpointConfigSortKey(this.value);
+  const EndpointConfigSortKey._(this.value);
 
-  static EndpointConfigSortKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EndpointConfigSortKey'));
+  static const values = [name, creationTime];
+
+  static EndpointConfigSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointConfigSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointConfigSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for an endpoint configuration step.
@@ -41857,42 +43012,70 @@ class EndpointPerformance {
   }
 }
 
-enum EndpointSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class EndpointSortKey {
+  static const name = EndpointSortKey._('Name');
+  static const creationTime = EndpointSortKey._('CreationTime');
+  static const status = EndpointSortKey._('Status');
 
   final String value;
 
-  const EndpointSortKey(this.value);
+  const EndpointSortKey._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static EndpointSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointSortKey'));
+          orElse: () => EndpointSortKey._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EndpointStatus {
-  outOfService('OutOfService'),
-  creating('Creating'),
-  updating('Updating'),
-  systemUpdating('SystemUpdating'),
-  rollingBack('RollingBack'),
-  inService('InService'),
-  deleting('Deleting'),
-  failed('Failed'),
-  updateRollbackFailed('UpdateRollbackFailed'),
-  ;
+class EndpointStatus {
+  static const outOfService = EndpointStatus._('OutOfService');
+  static const creating = EndpointStatus._('Creating');
+  static const updating = EndpointStatus._('Updating');
+  static const systemUpdating = EndpointStatus._('SystemUpdating');
+  static const rollingBack = EndpointStatus._('RollingBack');
+  static const inService = EndpointStatus._('InService');
+  static const deleting = EndpointStatus._('Deleting');
+  static const failed = EndpointStatus._('Failed');
+  static const updateRollbackFailed = EndpointStatus._('UpdateRollbackFailed');
 
   final String value;
 
-  const EndpointStatus(this.value);
+  const EndpointStatus._(this.value);
+
+  static const values = [
+    outOfService,
+    creating,
+    updating,
+    systemUpdating,
+    rollingBack,
+    inService,
+    deleting,
+    failed,
+    updateRollbackFailed
+  ];
 
   static EndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointStatus'));
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for an endpoint step.
@@ -42004,7 +43187,7 @@ class EndpointSummary {
       endpointArn: (json['EndpointArn'] as String?) ?? '',
       endpointName: (json['EndpointName'] as String?) ?? '',
       endpointStatus:
-          EndpointStatus.fromString((json['EndpointStatus'] as String)),
+          EndpointStatus.fromString((json['EndpointStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
     );
@@ -42091,39 +43274,68 @@ class EnvironmentParameterRanges {
   }
 }
 
-enum ExecutionRoleIdentityConfig {
-  userProfileName('USER_PROFILE_NAME'),
-  disabled('DISABLED'),
-  ;
+class ExecutionRoleIdentityConfig {
+  static const userProfileName =
+      ExecutionRoleIdentityConfig._('USER_PROFILE_NAME');
+  static const disabled = ExecutionRoleIdentityConfig._('DISABLED');
 
   final String value;
 
-  const ExecutionRoleIdentityConfig(this.value);
+  const ExecutionRoleIdentityConfig._(this.value);
+
+  static const values = [userProfileName, disabled];
 
   static ExecutionRoleIdentityConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExecutionRoleIdentityConfig'));
+          orElse: () => ExecutionRoleIdentityConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionRoleIdentityConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  pending('Pending'),
-  completed('Completed'),
-  completedWithViolations('CompletedWithViolations'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class ExecutionStatus {
+  static const pending = ExecutionStatus._('Pending');
+  static const completed = ExecutionStatus._('Completed');
+  static const completedWithViolations =
+      ExecutionStatus._('CompletedWithViolations');
+  static const inProgress = ExecutionStatus._('InProgress');
+  static const failed = ExecutionStatus._('Failed');
+  static const stopping = ExecutionStatus._('Stopping');
+  static const stopped = ExecutionStatus._('Stopped');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    pending,
+    completed,
+    completedWithViolations,
+    inProgress,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of an experiment as returned by the <a
@@ -42459,19 +43671,30 @@ class FailStepMetadata {
   }
 }
 
-enum FailureHandlingPolicy {
-  rollbackOnFailure('ROLLBACK_ON_FAILURE'),
-  doNothing('DO_NOTHING'),
-  ;
+class FailureHandlingPolicy {
+  static const rollbackOnFailure =
+      FailureHandlingPolicy._('ROLLBACK_ON_FAILURE');
+  static const doNothing = FailureHandlingPolicy._('DO_NOTHING');
 
   final String value;
 
-  const FailureHandlingPolicy(this.value);
+  const FailureHandlingPolicy._(this.value);
 
-  static FailureHandlingPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FailureHandlingPolicy'));
+  static const values = [rollbackOnFailure, doNothing];
+
+  static FailureHandlingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailureHandlingPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FailureHandlingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of features. You must include <code>FeatureName</code> and
@@ -42531,7 +43754,8 @@ class FeatureDefinition {
   factory FeatureDefinition.fromJson(Map<String, dynamic> json) {
     return FeatureDefinition(
       featureName: (json['FeatureName'] as String?) ?? '',
-      featureType: FeatureType.fromString((json['FeatureType'] as String)),
+      featureType:
+          FeatureType.fromString((json['FeatureType'] as String?) ?? ''),
       collectionConfig: json['CollectionConfig'] != null
           ? CollectionConfig.fromJson(
               json['CollectionConfig'] as Map<String, dynamic>)
@@ -42729,54 +43953,95 @@ class FeatureGroup {
   }
 }
 
-enum FeatureGroupSortBy {
-  name('Name'),
-  featureGroupStatus('FeatureGroupStatus'),
-  offlineStoreStatus('OfflineStoreStatus'),
-  creationTime('CreationTime'),
-  ;
+class FeatureGroupSortBy {
+  static const name = FeatureGroupSortBy._('Name');
+  static const featureGroupStatus = FeatureGroupSortBy._('FeatureGroupStatus');
+  static const offlineStoreStatus = FeatureGroupSortBy._('OfflineStoreStatus');
+  static const creationTime = FeatureGroupSortBy._('CreationTime');
 
   final String value;
 
-  const FeatureGroupSortBy(this.value);
+  const FeatureGroupSortBy._(this.value);
 
-  static FeatureGroupSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FeatureGroupSortBy'));
+  static const values = [
+    name,
+    featureGroupStatus,
+    offlineStoreStatus,
+    creationTime
+  ];
+
+  static FeatureGroupSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeatureGroupSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeatureGroupSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeatureGroupSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class FeatureGroupSortOrder {
+  static const ascending = FeatureGroupSortOrder._('Ascending');
+  static const descending = FeatureGroupSortOrder._('Descending');
 
   final String value;
 
-  const FeatureGroupSortOrder(this.value);
+  const FeatureGroupSortOrder._(this.value);
 
-  static FeatureGroupSortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FeatureGroupSortOrder'));
+  static const values = [ascending, descending];
+
+  static FeatureGroupSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeatureGroupSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeatureGroupSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeatureGroupStatus {
-  creating('Creating'),
-  created('Created'),
-  createFailed('CreateFailed'),
-  deleting('Deleting'),
-  deleteFailed('DeleteFailed'),
-  ;
+class FeatureGroupStatus {
+  static const creating = FeatureGroupStatus._('Creating');
+  static const created = FeatureGroupStatus._('Created');
+  static const createFailed = FeatureGroupStatus._('CreateFailed');
+  static const deleting = FeatureGroupStatus._('Deleting');
+  static const deleteFailed = FeatureGroupStatus._('DeleteFailed');
 
   final String value;
 
-  const FeatureGroupStatus(this.value);
+  const FeatureGroupStatus._(this.value);
 
-  static FeatureGroupStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FeatureGroupStatus'));
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    deleting,
+    deleteFailed
+  ];
+
+  static FeatureGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeatureGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeatureGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name, ARN, <code>CreationTime</code>, <code>FeatureGroup</code> values,
@@ -42950,34 +44215,52 @@ class FeatureParameter {
   }
 }
 
-enum FeatureStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class FeatureStatus {
+  static const enabled = FeatureStatus._('ENABLED');
+  static const disabled = FeatureStatus._('DISABLED');
 
   final String value;
 
-  const FeatureStatus(this.value);
+  const FeatureStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static FeatureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeatureStatus'));
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeatureType {
-  integral('Integral'),
-  fractional('Fractional'),
-  string('String'),
-  ;
+class FeatureType {
+  static const integral = FeatureType._('Integral');
+  static const fractional = FeatureType._('Fractional');
+  static const string = FeatureType._('String');
 
   final String value;
 
-  const FeatureType(this.value);
+  const FeatureType._(this.value);
 
-  static FeatureType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FeatureType'));
+  static const values = [integral, fractional, string];
+
+  static FeatureType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeatureType._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details regarding the file source.
@@ -43017,19 +44300,29 @@ class FileSource {
   }
 }
 
-enum FileSystemAccessMode {
-  rw('rw'),
-  ro('ro'),
-  ;
+class FileSystemAccessMode {
+  static const rw = FileSystemAccessMode._('rw');
+  static const ro = FileSystemAccessMode._('ro');
 
   final String value;
 
-  const FileSystemAccessMode(this.value);
+  const FileSystemAccessMode._(this.value);
 
-  static FileSystemAccessMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FileSystemAccessMode'));
+  static const values = [rw, ro];
+
+  static FileSystemAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileSystemAccessMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileSystemAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Elastic File System storage configuration for a SageMaker image.
@@ -43100,10 +44393,10 @@ class FileSystemDataSource {
     return FileSystemDataSource(
       directoryPath: (json['DirectoryPath'] as String?) ?? '',
       fileSystemAccessMode: FileSystemAccessMode.fromString(
-          (json['FileSystemAccessMode'] as String)),
+          (json['FileSystemAccessMode'] as String?) ?? ''),
       fileSystemId: (json['FileSystemId'] as String?) ?? '',
       fileSystemType:
-          FileSystemType.fromString((json['FileSystemType'] as String)),
+          FileSystemType.fromString((json['FileSystemType'] as String?) ?? ''),
     );
   }
 
@@ -43121,39 +44414,66 @@ class FileSystemDataSource {
   }
 }
 
-enum FileSystemType {
-  efs('EFS'),
-  fSxLustre('FSxLustre'),
-  ;
+class FileSystemType {
+  static const efs = FileSystemType._('EFS');
+  static const fSxLustre = FileSystemType._('FSxLustre');
 
   final String value;
 
-  const FileSystemType(this.value);
+  const FileSystemType._(this.value);
+
+  static const values = [efs, fSxLustre];
 
   static FileSystemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileSystemType'));
+          orElse: () => FileSystemType._(value));
+
+  @override
+  bool operator ==(other) => other is FileSystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FillingType {
-  frontfill('frontfill'),
-  middlefill('middlefill'),
-  backfill('backfill'),
-  futurefill('futurefill'),
-  frontfillValue('frontfill_value'),
-  middlefillValue('middlefill_value'),
-  backfillValue('backfill_value'),
-  futurefillValue('futurefill_value'),
-  ;
+class FillingType {
+  static const frontfill = FillingType._('frontfill');
+  static const middlefill = FillingType._('middlefill');
+  static const backfill = FillingType._('backfill');
+  static const futurefill = FillingType._('futurefill');
+  static const frontfillValue = FillingType._('frontfill_value');
+  static const middlefillValue = FillingType._('middlefill_value');
+  static const backfillValue = FillingType._('backfill_value');
+  static const futurefillValue = FillingType._('futurefill_value');
 
   final String value;
 
-  const FillingType(this.value);
+  const FillingType._(this.value);
 
-  static FillingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FillingType'));
+  static const values = [
+    frontfill,
+    middlefill,
+    backfill,
+    futurefill,
+    frontfillValue,
+    middlefillValue,
+    backfillValue,
+    futurefillValue
+  ];
+
+  static FillingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FillingType._(value));
+
+  @override
+  bool operator ==(other) => other is FillingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A conditional statement for a search expression that includes a resource
@@ -43340,7 +44660,8 @@ class FinalAutoMLJobObjectiveMetric {
 
   factory FinalAutoMLJobObjectiveMetric.fromJson(Map<String, dynamic> json) {
     return FinalAutoMLJobObjectiveMetric(
-      metricName: AutoMLMetricEnum.fromString((json['MetricName'] as String)),
+      metricName:
+          AutoMLMetricEnum.fromString((json['MetricName'] as String?) ?? ''),
       value: (json['Value'] as double?) ?? 0,
       standardMetricName: (json['StandardMetricName'] as String?)
           ?.let(AutoMLMetricEnum.fromString),
@@ -43412,19 +44733,28 @@ class FinalHyperParameterTuningJobObjectiveMetric {
   }
 }
 
-enum FlatInvocations {
-  $continue('Continue'),
-  stop('Stop'),
-  ;
+class FlatInvocations {
+  static const $continue = FlatInvocations._('Continue');
+  static const stop = FlatInvocations._('Stop');
 
   final String value;
 
-  const FlatInvocations(this.value);
+  const FlatInvocations._(this.value);
+
+  static const values = [$continue, stop];
 
   static FlatInvocations fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FlatInvocations'));
+          orElse: () => FlatInvocations._(value));
+
+  @override
+  bool operator ==(other) => other is FlatInvocations && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about where human output will be stored.
@@ -43462,21 +44792,31 @@ class FlowDefinitionOutputConfig {
   }
 }
 
-enum FlowDefinitionStatus {
-  initializing('Initializing'),
-  active('Active'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class FlowDefinitionStatus {
+  static const initializing = FlowDefinitionStatus._('Initializing');
+  static const active = FlowDefinitionStatus._('Active');
+  static const failed = FlowDefinitionStatus._('Failed');
+  static const deleting = FlowDefinitionStatus._('Deleting');
 
   final String value;
 
-  const FlowDefinitionStatus(this.value);
+  const FlowDefinitionStatus._(this.value);
 
-  static FlowDefinitionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowDefinitionStatus'));
+  static const values = [initializing, active, failed, deleting];
+
+  static FlowDefinitionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowDefinitionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowDefinitionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about the flow definition.
@@ -43511,7 +44851,7 @@ class FlowDefinitionSummary {
       flowDefinitionArn: (json['FlowDefinitionArn'] as String?) ?? '',
       flowDefinitionName: (json['FlowDefinitionName'] as String?) ?? '',
       flowDefinitionStatus: FlowDefinitionStatus.fromString(
-          (json['FlowDefinitionStatus'] as String)),
+          (json['FlowDefinitionStatus'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -43532,25 +44872,44 @@ class FlowDefinitionSummary {
   }
 }
 
-enum Framework {
-  tensorflow('TENSORFLOW'),
-  keras('KERAS'),
-  mxnet('MXNET'),
-  onnx('ONNX'),
-  pytorch('PYTORCH'),
-  xgboost('XGBOOST'),
-  tflite('TFLITE'),
-  darknet('DARKNET'),
-  sklearn('SKLEARN'),
-  ;
+class Framework {
+  static const tensorflow = Framework._('TENSORFLOW');
+  static const keras = Framework._('KERAS');
+  static const mxnet = Framework._('MXNET');
+  static const onnx = Framework._('ONNX');
+  static const pytorch = Framework._('PYTORCH');
+  static const xgboost = Framework._('XGBOOST');
+  static const tflite = Framework._('TFLITE');
+  static const darknet = Framework._('DARKNET');
+  static const sklearn = Framework._('SKLEARN');
 
   final String value;
 
-  const Framework(this.value);
+  const Framework._(this.value);
 
-  static Framework fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Framework'));
+  static const values = [
+    tensorflow,
+    keras,
+    mxnet,
+    onnx,
+    pytorch,
+    xgboost,
+    tflite,
+    darknet,
+    sklearn
+  ];
+
+  static Framework fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Framework._(value));
+
+  @override
+  bool operator ==(other) => other is Framework && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The generative AI settings for the SageMaker Canvas application.
@@ -44047,10 +45406,10 @@ class HubContentInfo {
       documentSchemaVersion: (json['DocumentSchemaVersion'] as String?) ?? '',
       hubContentArn: (json['HubContentArn'] as String?) ?? '',
       hubContentName: (json['HubContentName'] as String?) ?? '',
-      hubContentStatus:
-          HubContentStatus.fromString((json['HubContentStatus'] as String)),
+      hubContentStatus: HubContentStatus.fromString(
+          (json['HubContentStatus'] as String?) ?? ''),
       hubContentType:
-          HubContentType.fromString((json['HubContentType'] as String)),
+          HubContentType.fromString((json['HubContentType'] as String?) ?? ''),
       hubContentVersion: (json['HubContentVersion'] as String?) ?? '',
       hubContentDescription: json['HubContentDescription'] as String?,
       hubContentDisplayName: json['HubContentDisplayName'] as String?,
@@ -44103,69 +45462,112 @@ class HubContentInfo {
   }
 }
 
-enum HubContentSortBy {
-  hubContentName('HubContentName'),
-  creationTime('CreationTime'),
-  hubContentStatus('HubContentStatus'),
-  ;
+class HubContentSortBy {
+  static const hubContentName = HubContentSortBy._('HubContentName');
+  static const creationTime = HubContentSortBy._('CreationTime');
+  static const hubContentStatus = HubContentSortBy._('HubContentStatus');
 
   final String value;
 
-  const HubContentSortBy(this.value);
+  const HubContentSortBy._(this.value);
+
+  static const values = [hubContentName, creationTime, hubContentStatus];
 
   static HubContentSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HubContentSortBy'));
+          orElse: () => HubContentSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is HubContentSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HubContentStatus {
-  available('Available'),
-  importing('Importing'),
-  deleting('Deleting'),
-  importFailed('ImportFailed'),
-  deleteFailed('DeleteFailed'),
-  ;
+class HubContentStatus {
+  static const available = HubContentStatus._('Available');
+  static const importing = HubContentStatus._('Importing');
+  static const deleting = HubContentStatus._('Deleting');
+  static const importFailed = HubContentStatus._('ImportFailed');
+  static const deleteFailed = HubContentStatus._('DeleteFailed');
 
   final String value;
 
-  const HubContentStatus(this.value);
+  const HubContentStatus._(this.value);
+
+  static const values = [
+    available,
+    importing,
+    deleting,
+    importFailed,
+    deleteFailed
+  ];
 
   static HubContentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HubContentStatus'));
+          orElse: () => HubContentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HubContentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HubContentSupportStatus {
-  supported('Supported'),
-  deprecated('Deprecated'),
-  ;
+class HubContentSupportStatus {
+  static const supported = HubContentSupportStatus._('Supported');
+  static const deprecated = HubContentSupportStatus._('Deprecated');
 
   final String value;
 
-  const HubContentSupportStatus(this.value);
+  const HubContentSupportStatus._(this.value);
+
+  static const values = [supported, deprecated];
 
   static HubContentSupportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HubContentSupportStatus'));
+          orElse: () => HubContentSupportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HubContentSupportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HubContentType {
-  model('Model'),
-  notebook('Notebook'),
-  modelReference('ModelReference'),
-  ;
+class HubContentType {
+  static const model = HubContentType._('Model');
+  static const notebook = HubContentType._('Notebook');
+  static const modelReference = HubContentType._('ModelReference');
 
   final String value;
 
-  const HubContentType(this.value);
+  const HubContentType._(this.value);
+
+  static const values = [model, notebook, modelReference];
 
   static HubContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HubContentType'));
+          orElse: () => HubContentType._(value));
+
+  @override
+  bool operator ==(other) => other is HubContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a hub.
@@ -44210,7 +45612,7 @@ class HubInfo {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       hubArn: (json['HubArn'] as String?) ?? '',
       hubName: (json['HubName'] as String?) ?? '',
-      hubStatus: HubStatus.fromString((json['HubStatus'] as String)),
+      hubStatus: HubStatus.fromString((json['HubStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       hubDescription: json['HubDescription'] as String?,
@@ -44267,39 +45669,65 @@ class HubS3StorageConfig {
   }
 }
 
-enum HubSortBy {
-  hubName('HubName'),
-  creationTime('CreationTime'),
-  hubStatus('HubStatus'),
-  accountIdOwner('AccountIdOwner'),
-  ;
+class HubSortBy {
+  static const hubName = HubSortBy._('HubName');
+  static const creationTime = HubSortBy._('CreationTime');
+  static const hubStatus = HubSortBy._('HubStatus');
+  static const accountIdOwner = HubSortBy._('AccountIdOwner');
 
   final String value;
 
-  const HubSortBy(this.value);
+  const HubSortBy._(this.value);
 
-  static HubSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HubSortBy'));
+  static const values = [hubName, creationTime, hubStatus, accountIdOwner];
+
+  static HubSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HubSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is HubSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HubStatus {
-  inService('InService'),
-  creating('Creating'),
-  updating('Updating'),
-  deleting('Deleting'),
-  createFailed('CreateFailed'),
-  updateFailed('UpdateFailed'),
-  deleteFailed('DeleteFailed'),
-  ;
+class HubStatus {
+  static const inService = HubStatus._('InService');
+  static const creating = HubStatus._('Creating');
+  static const updating = HubStatus._('Updating');
+  static const deleting = HubStatus._('Deleting');
+  static const createFailed = HubStatus._('CreateFailed');
+  static const updateFailed = HubStatus._('UpdateFailed');
+  static const deleteFailed = HubStatus._('DeleteFailed');
 
   final String value;
 
-  const HubStatus(this.value);
+  const HubStatus._(this.value);
 
-  static HubStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HubStatus'));
+  static const values = [
+    inService,
+    creating,
+    updating,
+    deleting,
+    createFailed,
+    updateFailed,
+    deleteFailed
+  ];
+
+  static HubStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HubStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HubStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines under what conditions SageMaker creates a human loop. Used within <a
@@ -44494,7 +45922,7 @@ class HumanLoopRequestSource {
     return HumanLoopRequestSource(
       awsManagedHumanLoopRequestSource:
           AwsManagedHumanLoopRequestSource.fromString(
-              (json['AwsManagedHumanLoopRequestSource'] as String)),
+              (json['AwsManagedHumanLoopRequestSource'] as String?) ?? ''),
     );
   }
 
@@ -45624,19 +47052,28 @@ class HumanTaskConfig {
   }
 }
 
-enum HumanTaskUiStatus {
-  active('Active'),
-  deleting('Deleting'),
-  ;
+class HumanTaskUiStatus {
+  static const active = HumanTaskUiStatus._('Active');
+  static const deleting = HumanTaskUiStatus._('Deleting');
 
   final String value;
 
-  const HumanTaskUiStatus(this.value);
+  const HumanTaskUiStatus._(this.value);
+
+  static const values = [active, deleting];
 
   static HumanTaskUiStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HumanTaskUiStatus'));
+          orElse: () => HumanTaskUiStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HumanTaskUiStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for human task user interface information.
@@ -45712,8 +47149,8 @@ class HyperParameterAlgorithmSpecification {
   factory HyperParameterAlgorithmSpecification.fromJson(
       Map<String, dynamic> json) {
     return HyperParameterAlgorithmSpecification(
-      trainingInputMode:
-          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
+      trainingInputMode: TrainingInputMode.fromString(
+          (json['TrainingInputMode'] as String?) ?? ''),
       algorithmName: json['AlgorithmName'] as String?,
       metricDefinitions: (json['MetricDefinitions'] as List?)
           ?.nonNulls
@@ -45737,21 +47174,32 @@ class HyperParameterAlgorithmSpecification {
   }
 }
 
-enum HyperParameterScalingType {
-  auto('Auto'),
-  linear('Linear'),
-  logarithmic('Logarithmic'),
-  reverseLogarithmic('ReverseLogarithmic'),
-  ;
+class HyperParameterScalingType {
+  static const auto = HyperParameterScalingType._('Auto');
+  static const linear = HyperParameterScalingType._('Linear');
+  static const logarithmic = HyperParameterScalingType._('Logarithmic');
+  static const reverseLogarithmic =
+      HyperParameterScalingType._('ReverseLogarithmic');
 
   final String value;
 
-  const HyperParameterScalingType(this.value);
+  const HyperParameterScalingType._(this.value);
+
+  static const values = [auto, linear, logarithmic, reverseLogarithmic];
 
   static HyperParameterScalingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterScalingType'));
+          orElse: () => HyperParameterScalingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a hyperparameter to be used by an algorithm.
@@ -45794,7 +47242,7 @@ class HyperParameterSpecification {
   factory HyperParameterSpecification.fromJson(Map<String, dynamic> json) {
     return HyperParameterSpecification(
       name: (json['Name'] as String?) ?? '',
-      type: ParameterType.fromString((json['Type'] as String)),
+      type: ParameterType.fromString((json['Type'] as String?) ?? ''),
       defaultValue: json['DefaultValue'] as String?,
       description: json['Description'] as String?,
       isRequired: json['IsRequired'] as bool?,
@@ -46154,8 +47602,8 @@ class HyperParameterTrainingJobSummary {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       trainingJobArn: (json['TrainingJobArn'] as String?) ?? '',
       trainingJobName: (json['TrainingJobName'] as String?) ?? '',
-      trainingJobStatus:
-          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
+      trainingJobStatus: TrainingJobStatus.fromString(
+          (json['TrainingJobStatus'] as String?) ?? ''),
       tunedHyperParameters:
           ((json['TunedHyperParameters'] as Map<String, dynamic>?) ??
                   const <String, dynamic>{})
@@ -46212,18 +47660,29 @@ class HyperParameterTrainingJobSummary {
   }
 }
 
-enum HyperParameterTuningAllocationStrategy {
-  prioritized('Prioritized'),
-  ;
+class HyperParameterTuningAllocationStrategy {
+  static const prioritized =
+      HyperParameterTuningAllocationStrategy._('Prioritized');
 
   final String value;
 
-  const HyperParameterTuningAllocationStrategy(this.value);
+  const HyperParameterTuningAllocationStrategy._(this.value);
+
+  static const values = [prioritized];
 
   static HyperParameterTuningAllocationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningAllocationStrategy'));
+          orElse: () => HyperParameterTuningAllocationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningAllocationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for hyperparameter tuning resources for use in training
@@ -46262,8 +47721,8 @@ class HyperParameterTuningInstanceConfig {
       Map<String, dynamic> json) {
     return HyperParameterTuningInstanceConfig(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
-      instanceType:
-          TrainingInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: TrainingInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
       volumeSizeInGB: (json['VolumeSizeInGB'] as int?) ?? 0,
     );
   }
@@ -46399,7 +47858,7 @@ class HyperParameterTuningJobConfig {
           (json['ResourceLimits'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       strategy: HyperParameterTuningJobStrategyType.fromString(
-          (json['Strategy'] as String)),
+          (json['Strategy'] as String?) ?? ''),
       hyperParameterTuningJobObjective:
           json['HyperParameterTuningJobObjective'] != null
               ? HyperParameterTuningJobObjective.fromJson(
@@ -46499,7 +47958,7 @@ class HyperParameterTuningJobObjective {
     return HyperParameterTuningJobObjective(
       metricName: (json['MetricName'] as String?) ?? '',
       type: HyperParameterTuningJobObjectiveType.fromString(
-          (json['Type'] as String)),
+          (json['Type'] as String?) ?? ''),
     );
   }
 
@@ -46513,19 +47972,29 @@ class HyperParameterTuningJobObjective {
   }
 }
 
-enum HyperParameterTuningJobObjectiveType {
-  maximize('Maximize'),
-  minimize('Minimize'),
-  ;
+class HyperParameterTuningJobObjectiveType {
+  static const maximize = HyperParameterTuningJobObjectiveType._('Maximize');
+  static const minimize = HyperParameterTuningJobObjectiveType._('Minimize');
 
   final String value;
 
-  const HyperParameterTuningJobObjectiveType(this.value);
+  const HyperParameterTuningJobObjectiveType._(this.value);
+
+  static const values = [maximize, minimize];
 
   static HyperParameterTuningJobObjectiveType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningJobObjectiveType'));
+          orElse: () => HyperParameterTuningJobObjectiveType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningJobObjectiveType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An entity returned by the <a
@@ -46716,40 +48185,69 @@ class HyperParameterTuningJobSearchEntity {
   }
 }
 
-enum HyperParameterTuningJobSortByOptions {
-  name('Name'),
-  status('Status'),
-  creationTime('CreationTime'),
-  ;
+class HyperParameterTuningJobSortByOptions {
+  static const name = HyperParameterTuningJobSortByOptions._('Name');
+  static const status = HyperParameterTuningJobSortByOptions._('Status');
+  static const creationTime =
+      HyperParameterTuningJobSortByOptions._('CreationTime');
 
   final String value;
 
-  const HyperParameterTuningJobSortByOptions(this.value);
+  const HyperParameterTuningJobSortByOptions._(this.value);
+
+  static const values = [name, status, creationTime];
 
   static HyperParameterTuningJobSortByOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningJobSortByOptions'));
+          orElse: () => HyperParameterTuningJobSortByOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningJobSortByOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HyperParameterTuningJobStatus {
-  completed('Completed'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  stopped('Stopped'),
-  stopping('Stopping'),
-  deleting('Deleting'),
-  deleteFailed('DeleteFailed'),
-  ;
+class HyperParameterTuningJobStatus {
+  static const completed = HyperParameterTuningJobStatus._('Completed');
+  static const inProgress = HyperParameterTuningJobStatus._('InProgress');
+  static const failed = HyperParameterTuningJobStatus._('Failed');
+  static const stopped = HyperParameterTuningJobStatus._('Stopped');
+  static const stopping = HyperParameterTuningJobStatus._('Stopping');
+  static const deleting = HyperParameterTuningJobStatus._('Deleting');
+  static const deleteFailed = HyperParameterTuningJobStatus._('DeleteFailed');
 
   final String value;
 
-  const HyperParameterTuningJobStatus(this.value);
+  const HyperParameterTuningJobStatus._(this.value);
+
+  static const values = [
+    completed,
+    inProgress,
+    failed,
+    stopped,
+    stopping,
+    deleting,
+    deleteFailed
+  ];
 
   static HyperParameterTuningJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningJobStatus'));
+          orElse: () => HyperParameterTuningJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a training job launched by a hyperparameter tuning
@@ -46792,21 +48290,31 @@ class HyperParameterTuningJobStrategyConfig {
 
 /// The strategy hyperparameter tuning uses to find the best combination of
 /// hyperparameters for your model.
-enum HyperParameterTuningJobStrategyType {
-  bayesian('Bayesian'),
-  random('Random'),
-  hyperband('Hyperband'),
-  grid('Grid'),
-  ;
+class HyperParameterTuningJobStrategyType {
+  static const bayesian = HyperParameterTuningJobStrategyType._('Bayesian');
+  static const random = HyperParameterTuningJobStrategyType._('Random');
+  static const hyperband = HyperParameterTuningJobStrategyType._('Hyperband');
+  static const grid = HyperParameterTuningJobStrategyType._('Grid');
 
   final String value;
 
-  const HyperParameterTuningJobStrategyType(this.value);
+  const HyperParameterTuningJobStrategyType._(this.value);
+
+  static const values = [bayesian, random, hyperband, grid];
 
   static HyperParameterTuningJobStrategyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningJobStrategyType'));
+          orElse: () => HyperParameterTuningJobStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningJobStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about a hyperparameter tuning job.
@@ -46872,12 +48380,12 @@ class HyperParameterTuningJobSummary {
       hyperParameterTuningJobName:
           (json['HyperParameterTuningJobName'] as String?) ?? '',
       hyperParameterTuningJobStatus: HyperParameterTuningJobStatus.fromString(
-          (json['HyperParameterTuningJobStatus'] as String)),
+          (json['HyperParameterTuningJobStatus'] as String?) ?? ''),
       objectiveStatusCounters: ObjectiveStatusCounters.fromJson(
           (json['ObjectiveStatusCounters'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       strategy: HyperParameterTuningJobStrategyType.fromString(
-          (json['Strategy'] as String)),
+          (json['Strategy'] as String?) ?? ''),
       trainingJobStatusCounters: TrainingJobStatusCounters.fromJson(
           (json['TrainingJobStatusCounters'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -46988,7 +48496,7 @@ class HyperParameterTuningJobWarmStartConfig {
               ParentHyperParameterTuningJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       warmStartType: HyperParameterTuningJobWarmStartType.fromString(
-          (json['WarmStartType'] as String)),
+          (json['WarmStartType'] as String?) ?? ''),
     );
   }
 
@@ -47002,19 +48510,31 @@ class HyperParameterTuningJobWarmStartConfig {
   }
 }
 
-enum HyperParameterTuningJobWarmStartType {
-  identicalDataAndAlgorithm('IdenticalDataAndAlgorithm'),
-  transferLearning('TransferLearning'),
-  ;
+class HyperParameterTuningJobWarmStartType {
+  static const identicalDataAndAlgorithm =
+      HyperParameterTuningJobWarmStartType._('IdenticalDataAndAlgorithm');
+  static const transferLearning =
+      HyperParameterTuningJobWarmStartType._('TransferLearning');
 
   final String value;
 
-  const HyperParameterTuningJobWarmStartType(this.value);
+  const HyperParameterTuningJobWarmStartType._(this.value);
+
+  static const values = [identicalDataAndAlgorithm, transferLearning];
 
   static HyperParameterTuningJobWarmStartType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HyperParameterTuningJobWarmStartType'));
+          orElse: () => HyperParameterTuningJobWarmStartType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HyperParameterTuningJobWarmStartType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of resources, including compute instances and storage
@@ -47451,7 +48971,8 @@ class Image {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       imageArn: (json['ImageArn'] as String?) ?? '',
       imageName: (json['ImageName'] as String?) ?? '',
-      imageStatus: ImageStatus.fromString((json['ImageStatus'] as String)),
+      imageStatus:
+          ImageStatus.fromString((json['ImageStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       description: json['Description'] as String?,
@@ -47541,7 +49062,7 @@ class ImageConfig {
   factory ImageConfig.fromJson(Map<String, dynamic> json) {
     return ImageConfig(
       repositoryAccessMode: RepositoryAccessMode.fromString(
-          (json['RepositoryAccessMode'] as String)),
+          (json['RepositoryAccessMode'] as String?) ?? ''),
       repositoryAuthConfig: json['RepositoryAuthConfig'] != null
           ? RepositoryAuthConfig.fromJson(
               json['RepositoryAuthConfig'] as Map<String, dynamic>)
@@ -47560,53 +49081,88 @@ class ImageConfig {
   }
 }
 
-enum ImageSortBy {
-  creationTime('CREATION_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  imageName('IMAGE_NAME'),
-  ;
+class ImageSortBy {
+  static const creationTime = ImageSortBy._('CREATION_TIME');
+  static const lastModifiedTime = ImageSortBy._('LAST_MODIFIED_TIME');
+  static const imageName = ImageSortBy._('IMAGE_NAME');
 
   final String value;
 
-  const ImageSortBy(this.value);
+  const ImageSortBy._(this.value);
 
-  static ImageSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageSortBy'));
+  static const values = [creationTime, lastModifiedTime, imageName];
+
+  static ImageSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageSortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class ImageSortOrder {
+  static const ascending = ImageSortOrder._('ASCENDING');
+  static const descending = ImageSortOrder._('DESCENDING');
 
   final String value;
 
-  const ImageSortOrder(this.value);
+  const ImageSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static ImageSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageSortOrder'));
+          orElse: () => ImageSortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageStatus {
-  creating('CREATING'),
-  created('CREATED'),
-  createFailed('CREATE_FAILED'),
-  updating('UPDATING'),
-  updateFailed('UPDATE_FAILED'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ImageStatus {
+  static const creating = ImageStatus._('CREATING');
+  static const created = ImageStatus._('CREATED');
+  static const createFailed = ImageStatus._('CREATE_FAILED');
+  static const updating = ImageStatus._('UPDATING');
+  static const updateFailed = ImageStatus._('UPDATE_FAILED');
+  static const deleting = ImageStatus._('DELETING');
+  static const deleteFailed = ImageStatus._('DELETE_FAILED');
 
   final String value;
 
-  const ImageStatus(this.value);
+  const ImageStatus._(this.value);
 
-  static ImageStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageStatus'));
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    updating,
+    updateFailed,
+    deleting,
+    deleteFailed
+  ];
+
+  static ImageStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A version of a SageMaker <code>Image</code>. A version represents an
@@ -47648,8 +49204,8 @@ class ImageVersion {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       imageArn: (json['ImageArn'] as String?) ?? '',
       imageVersionArn: (json['ImageVersionArn'] as String?) ?? '',
-      imageVersionStatus:
-          ImageVersionStatus.fromString((json['ImageVersionStatus'] as String)),
+      imageVersionStatus: ImageVersionStatus.fromString(
+          (json['ImageVersionStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       version: (json['Version'] as int?) ?? 0,
@@ -47677,53 +49233,89 @@ class ImageVersion {
   }
 }
 
-enum ImageVersionSortBy {
-  creationTime('CREATION_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  version('VERSION'),
-  ;
+class ImageVersionSortBy {
+  static const creationTime = ImageVersionSortBy._('CREATION_TIME');
+  static const lastModifiedTime = ImageVersionSortBy._('LAST_MODIFIED_TIME');
+  static const version = ImageVersionSortBy._('VERSION');
 
   final String value;
 
-  const ImageVersionSortBy(this.value);
+  const ImageVersionSortBy._(this.value);
 
-  static ImageVersionSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageVersionSortBy'));
+  static const values = [creationTime, lastModifiedTime, version];
+
+  static ImageVersionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageVersionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageVersionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageVersionSortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class ImageVersionSortOrder {
+  static const ascending = ImageVersionSortOrder._('ASCENDING');
+  static const descending = ImageVersionSortOrder._('DESCENDING');
 
   final String value;
 
-  const ImageVersionSortOrder(this.value);
+  const ImageVersionSortOrder._(this.value);
 
-  static ImageVersionSortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageVersionSortOrder'));
+  static const values = [ascending, descending];
+
+  static ImageVersionSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageVersionSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageVersionSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageVersionStatus {
-  creating('CREATING'),
-  created('CREATED'),
-  createFailed('CREATE_FAILED'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ImageVersionStatus {
+  static const creating = ImageVersionStatus._('CREATING');
+  static const created = ImageVersionStatus._('CREATED');
+  static const createFailed = ImageVersionStatus._('CREATE_FAILED');
+  static const deleting = ImageVersionStatus._('DELETING');
+  static const deleteFailed = ImageVersionStatus._('DELETE_FAILED');
 
   final String value;
 
-  const ImageVersionStatus(this.value);
+  const ImageVersionStatus._(this.value);
 
-  static ImageVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImageVersionStatus'));
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    deleting,
+    deleteFailed
+  ];
+
+  static ImageVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportHubContentResponse {
@@ -47940,20 +49532,30 @@ class InferenceComponentRuntimeConfigSummary {
   }
 }
 
-enum InferenceComponentSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class InferenceComponentSortKey {
+  static const name = InferenceComponentSortKey._('Name');
+  static const creationTime = InferenceComponentSortKey._('CreationTime');
+  static const status = InferenceComponentSortKey._('Status');
 
   final String value;
 
-  const InferenceComponentSortKey(this.value);
+  const InferenceComponentSortKey._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static InferenceComponentSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceComponentSortKey'));
+          orElse: () => InferenceComponentSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceComponentSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the resources to deploy with this inference component,
@@ -48098,22 +49700,32 @@ class InferenceComponentStartupParameters {
   }
 }
 
-enum InferenceComponentStatus {
-  inService('InService'),
-  creating('Creating'),
-  updating('Updating'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class InferenceComponentStatus {
+  static const inService = InferenceComponentStatus._('InService');
+  static const creating = InferenceComponentStatus._('Creating');
+  static const updating = InferenceComponentStatus._('Updating');
+  static const failed = InferenceComponentStatus._('Failed');
+  static const deleting = InferenceComponentStatus._('Deleting');
 
   final String value;
 
-  const InferenceComponentStatus(this.value);
+  const InferenceComponentStatus._(this.value);
+
+  static const values = [inService, creating, updating, failed, deleting];
 
   static InferenceComponentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceComponentStatus'));
+          orElse: () => InferenceComponentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceComponentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the properties of an inference component.
@@ -48213,7 +49825,7 @@ class InferenceExecutionConfig {
 
   factory InferenceExecutionConfig.fromJson(Map<String, dynamic> json) {
     return InferenceExecutionConfig(
-      mode: InferenceExecutionMode.fromString((json['Mode'] as String)),
+      mode: InferenceExecutionMode.fromString((json['Mode'] as String?) ?? ''),
     );
   }
 
@@ -48225,19 +49837,29 @@ class InferenceExecutionConfig {
   }
 }
 
-enum InferenceExecutionMode {
-  serial('Serial'),
-  direct('Direct'),
-  ;
+class InferenceExecutionMode {
+  static const serial = InferenceExecutionMode._('Serial');
+  static const direct = InferenceExecutionMode._('Direct');
 
   final String value;
 
-  const InferenceExecutionMode(this.value);
+  const InferenceExecutionMode._(this.value);
+
+  static const values = [serial, direct];
 
   static InferenceExecutionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceExecutionMode'));
+          orElse: () => InferenceExecutionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon S3 location and configuration for storing inference request and
@@ -48316,40 +49938,69 @@ class InferenceExperimentSchedule {
   }
 }
 
-enum InferenceExperimentStatus {
-  creating('Creating'),
-  created('Created'),
-  updating('Updating'),
-  running('Running'),
-  starting('Starting'),
-  stopping('Stopping'),
-  completed('Completed'),
-  cancelled('Cancelled'),
-  ;
+class InferenceExperimentStatus {
+  static const creating = InferenceExperimentStatus._('Creating');
+  static const created = InferenceExperimentStatus._('Created');
+  static const updating = InferenceExperimentStatus._('Updating');
+  static const running = InferenceExperimentStatus._('Running');
+  static const starting = InferenceExperimentStatus._('Starting');
+  static const stopping = InferenceExperimentStatus._('Stopping');
+  static const completed = InferenceExperimentStatus._('Completed');
+  static const cancelled = InferenceExperimentStatus._('Cancelled');
 
   final String value;
 
-  const InferenceExperimentStatus(this.value);
+  const InferenceExperimentStatus._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    updating,
+    running,
+    starting,
+    stopping,
+    completed,
+    cancelled
+  ];
 
   static InferenceExperimentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceExperimentStatus'));
+          orElse: () => InferenceExperimentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceExperimentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InferenceExperimentStopDesiredState {
-  completed('Completed'),
-  cancelled('Cancelled'),
-  ;
+class InferenceExperimentStopDesiredState {
+  static const completed = InferenceExperimentStopDesiredState._('Completed');
+  static const cancelled = InferenceExperimentStopDesiredState._('Cancelled');
 
   final String value;
 
-  const InferenceExperimentStopDesiredState(this.value);
+  const InferenceExperimentStopDesiredState._(this.value);
+
+  static const values = [completed, cancelled];
 
   static InferenceExperimentStopDesiredState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceExperimentStopDesiredState'));
+          orElse: () => InferenceExperimentStopDesiredState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceExperimentStopDesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists a summary of properties of an inference experiment.
@@ -48408,8 +50059,9 @@ class InferenceExperimentSummary {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      status: InferenceExperimentStatus.fromString((json['Status'] as String)),
-      type: InferenceExperimentType.fromString((json['Type'] as String)),
+      status: InferenceExperimentStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      type: InferenceExperimentType.fromString((json['Type'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['CompletionTime']),
       description: json['Description'] as String?,
       roleArn: json['RoleArn'] as String?,
@@ -48448,18 +50100,28 @@ class InferenceExperimentSummary {
   }
 }
 
-enum InferenceExperimentType {
-  shadowMode('ShadowMode'),
-  ;
+class InferenceExperimentType {
+  static const shadowMode = InferenceExperimentType._('ShadowMode');
 
   final String value;
 
-  const InferenceExperimentType(this.value);
+  const InferenceExperimentType._(this.value);
+
+  static const values = [shadowMode];
 
   static InferenceExperimentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferenceExperimentType'));
+          orElse: () => InferenceExperimentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceExperimentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information specifying which hub contents have accessible
@@ -48651,11 +50313,13 @@ class InferenceRecommendationsJob {
       jobArn: (json['JobArn'] as String?) ?? '',
       jobDescription: (json['JobDescription'] as String?) ?? '',
       jobName: (json['JobName'] as String?) ?? '',
-      jobType: RecommendationJobType.fromString((json['JobType'] as String)),
+      jobType:
+          RecommendationJobType.fromString((json['JobType'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       roleArn: (json['RoleArn'] as String?) ?? '',
-      status: RecommendationJobStatus.fromString((json['Status'] as String)),
+      status:
+          RecommendationJobStatus.fromString((json['Status'] as String?) ?? ''),
       completionTime: timeStampFromJson(json['CompletionTime']),
       failureReason: json['FailureReason'] as String?,
       modelName: json['ModelName'] as String?,
@@ -48727,8 +50391,10 @@ class InferenceRecommendationsJobStep {
   factory InferenceRecommendationsJobStep.fromJson(Map<String, dynamic> json) {
     return InferenceRecommendationsJobStep(
       jobName: (json['JobName'] as String?) ?? '',
-      status: RecommendationJobStatus.fromString((json['Status'] as String)),
-      stepType: RecommendationStepType.fromString((json['StepType'] as String)),
+      status:
+          RecommendationJobStatus.fromString((json['Status'] as String?) ?? ''),
+      stepType: RecommendationStepType.fromString(
+          (json['StepType'] as String?) ?? ''),
       inferenceBenchmark: json['InferenceBenchmark'] != null
           ? RecommendationJobInferenceBenchmark.fromJson(
               json['InferenceBenchmark'] as Map<String, dynamic>)
@@ -49178,7 +50844,7 @@ class InputConfig {
 
   factory InputConfig.fromJson(Map<String, dynamic> json) {
     return InputConfig(
-      framework: Framework.fromString((json['Framework'] as String)),
+      framework: Framework.fromString((json['Framework'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       dataInputConfig: json['DataInputConfig'] as String?,
       frameworkVersion: json['FrameworkVersion'] as String?,
@@ -49199,18 +50865,27 @@ class InputConfig {
   }
 }
 
-enum InputMode {
-  pipe('Pipe'),
-  file('File'),
-  ;
+class InputMode {
+  static const pipe = InputMode._('Pipe');
+  static const file = InputMode._('File');
 
   final String value;
 
-  const InputMode(this.value);
+  const InputMode._(this.value);
 
-  static InputMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputMode'));
+  static const values = [pipe, file];
+
+  static InputMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputMode._(value));
+
+  @override
+  bool operator ==(other) => other is InputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an instance group for heterogeneous cluster training. When
@@ -49237,8 +50912,8 @@ class InstanceGroup {
     return InstanceGroup(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
       instanceGroupName: (json['InstanceGroupName'] as String?) ?? '',
-      instanceType:
-          TrainingInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: TrainingInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
     );
   }
 
@@ -49285,182 +50960,356 @@ class InstanceMetadataServiceConfiguration {
   }
 }
 
-enum InstanceType {
-  mlT2Medium('ml.t2.medium'),
-  mlT2Large('ml.t2.large'),
-  mlT2Xlarge('ml.t2.xlarge'),
-  mlT2_2xlarge('ml.t2.2xlarge'),
-  mlT3Medium('ml.t3.medium'),
-  mlT3Large('ml.t3.large'),
-  mlT3Xlarge('ml.t3.xlarge'),
-  mlT3_2xlarge('ml.t3.2xlarge'),
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlM5dLarge('ml.m5d.large'),
-  mlM5dXlarge('ml.m5d.xlarge'),
-  mlM5d_2xlarge('ml.m5d.2xlarge'),
-  mlM5d_4xlarge('ml.m5d.4xlarge'),
-  mlM5d_8xlarge('ml.m5d.8xlarge'),
-  mlM5d_12xlarge('ml.m5d.12xlarge'),
-  mlM5d_16xlarge('ml.m5d.16xlarge'),
-  mlM5d_24xlarge('ml.m5d.24xlarge'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5dXlarge('ml.c5d.xlarge'),
-  mlC5d_2xlarge('ml.c5d.2xlarge'),
-  mlC5d_4xlarge('ml.c5d.4xlarge'),
-  mlC5d_9xlarge('ml.c5d.9xlarge'),
-  mlC5d_18xlarge('ml.c5d.18xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlR5Large('ml.r5.large'),
-  mlR5Xlarge('ml.r5.xlarge'),
-  mlR5_2xlarge('ml.r5.2xlarge'),
-  mlR5_4xlarge('ml.r5.4xlarge'),
-  mlR5_8xlarge('ml.r5.8xlarge'),
-  mlR5_12xlarge('ml.r5.12xlarge'),
-  mlR5_16xlarge('ml.r5.16xlarge'),
-  mlR5_24xlarge('ml.r5.24xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlInf1Xlarge('ml.inf1.xlarge'),
-  mlInf1_2xlarge('ml.inf1.2xlarge'),
-  mlInf1_6xlarge('ml.inf1.6xlarge'),
-  mlInf1_24xlarge('ml.inf1.24xlarge'),
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlM6iLarge('ml.m6i.large'),
-  mlM6iXlarge('ml.m6i.xlarge'),
-  mlM6i_2xlarge('ml.m6i.2xlarge'),
-  mlM6i_4xlarge('ml.m6i.4xlarge'),
-  mlM6i_8xlarge('ml.m6i.8xlarge'),
-  mlM6i_12xlarge('ml.m6i.12xlarge'),
-  mlM6i_16xlarge('ml.m6i.16xlarge'),
-  mlM6i_24xlarge('ml.m6i.24xlarge'),
-  mlM6i_32xlarge('ml.m6i.32xlarge'),
-  mlM7iLarge('ml.m7i.large'),
-  mlM7iXlarge('ml.m7i.xlarge'),
-  mlM7i_2xlarge('ml.m7i.2xlarge'),
-  mlM7i_4xlarge('ml.m7i.4xlarge'),
-  mlM7i_8xlarge('ml.m7i.8xlarge'),
-  mlM7i_12xlarge('ml.m7i.12xlarge'),
-  mlM7i_16xlarge('ml.m7i.16xlarge'),
-  mlM7i_24xlarge('ml.m7i.24xlarge'),
-  mlM7i_48xlarge('ml.m7i.48xlarge'),
-  mlC6iLarge('ml.c6i.large'),
-  mlC6iXlarge('ml.c6i.xlarge'),
-  mlC6i_2xlarge('ml.c6i.2xlarge'),
-  mlC6i_4xlarge('ml.c6i.4xlarge'),
-  mlC6i_8xlarge('ml.c6i.8xlarge'),
-  mlC6i_12xlarge('ml.c6i.12xlarge'),
-  mlC6i_16xlarge('ml.c6i.16xlarge'),
-  mlC6i_24xlarge('ml.c6i.24xlarge'),
-  mlC6i_32xlarge('ml.c6i.32xlarge'),
-  mlC7iLarge('ml.c7i.large'),
-  mlC7iXlarge('ml.c7i.xlarge'),
-  mlC7i_2xlarge('ml.c7i.2xlarge'),
-  mlC7i_4xlarge('ml.c7i.4xlarge'),
-  mlC7i_8xlarge('ml.c7i.8xlarge'),
-  mlC7i_12xlarge('ml.c7i.12xlarge'),
-  mlC7i_16xlarge('ml.c7i.16xlarge'),
-  mlC7i_24xlarge('ml.c7i.24xlarge'),
-  mlC7i_48xlarge('ml.c7i.48xlarge'),
-  mlR6iLarge('ml.r6i.large'),
-  mlR6iXlarge('ml.r6i.xlarge'),
-  mlR6i_2xlarge('ml.r6i.2xlarge'),
-  mlR6i_4xlarge('ml.r6i.4xlarge'),
-  mlR6i_8xlarge('ml.r6i.8xlarge'),
-  mlR6i_12xlarge('ml.r6i.12xlarge'),
-  mlR6i_16xlarge('ml.r6i.16xlarge'),
-  mlR6i_24xlarge('ml.r6i.24xlarge'),
-  mlR6i_32xlarge('ml.r6i.32xlarge'),
-  mlR7iLarge('ml.r7i.large'),
-  mlR7iXlarge('ml.r7i.xlarge'),
-  mlR7i_2xlarge('ml.r7i.2xlarge'),
-  mlR7i_4xlarge('ml.r7i.4xlarge'),
-  mlR7i_8xlarge('ml.r7i.8xlarge'),
-  mlR7i_12xlarge('ml.r7i.12xlarge'),
-  mlR7i_16xlarge('ml.r7i.16xlarge'),
-  mlR7i_24xlarge('ml.r7i.24xlarge'),
-  mlR7i_48xlarge('ml.r7i.48xlarge'),
-  mlM6idLarge('ml.m6id.large'),
-  mlM6idXlarge('ml.m6id.xlarge'),
-  mlM6id_2xlarge('ml.m6id.2xlarge'),
-  mlM6id_4xlarge('ml.m6id.4xlarge'),
-  mlM6id_8xlarge('ml.m6id.8xlarge'),
-  mlM6id_12xlarge('ml.m6id.12xlarge'),
-  mlM6id_16xlarge('ml.m6id.16xlarge'),
-  mlM6id_24xlarge('ml.m6id.24xlarge'),
-  mlM6id_32xlarge('ml.m6id.32xlarge'),
-  mlC6idLarge('ml.c6id.large'),
-  mlC6idXlarge('ml.c6id.xlarge'),
-  mlC6id_2xlarge('ml.c6id.2xlarge'),
-  mlC6id_4xlarge('ml.c6id.4xlarge'),
-  mlC6id_8xlarge('ml.c6id.8xlarge'),
-  mlC6id_12xlarge('ml.c6id.12xlarge'),
-  mlC6id_16xlarge('ml.c6id.16xlarge'),
-  mlC6id_24xlarge('ml.c6id.24xlarge'),
-  mlC6id_32xlarge('ml.c6id.32xlarge'),
-  mlR6idLarge('ml.r6id.large'),
-  mlR6idXlarge('ml.r6id.xlarge'),
-  mlR6id_2xlarge('ml.r6id.2xlarge'),
-  mlR6id_4xlarge('ml.r6id.4xlarge'),
-  mlR6id_8xlarge('ml.r6id.8xlarge'),
-  mlR6id_12xlarge('ml.r6id.12xlarge'),
-  mlR6id_16xlarge('ml.r6id.16xlarge'),
-  mlR6id_24xlarge('ml.r6id.24xlarge'),
-  mlR6id_32xlarge('ml.r6id.32xlarge'),
-  mlG6Xlarge('ml.g6.xlarge'),
-  mlG6_2xlarge('ml.g6.2xlarge'),
-  mlG6_4xlarge('ml.g6.4xlarge'),
-  mlG6_8xlarge('ml.g6.8xlarge'),
-  mlG6_12xlarge('ml.g6.12xlarge'),
-  mlG6_16xlarge('ml.g6.16xlarge'),
-  mlG6_24xlarge('ml.g6.24xlarge'),
-  mlG6_48xlarge('ml.g6.48xlarge'),
-  ;
+class InstanceType {
+  static const mlT2Medium = InstanceType._('ml.t2.medium');
+  static const mlT2Large = InstanceType._('ml.t2.large');
+  static const mlT2Xlarge = InstanceType._('ml.t2.xlarge');
+  static const mlT2_2xlarge = InstanceType._('ml.t2.2xlarge');
+  static const mlT3Medium = InstanceType._('ml.t3.medium');
+  static const mlT3Large = InstanceType._('ml.t3.large');
+  static const mlT3Xlarge = InstanceType._('ml.t3.xlarge');
+  static const mlT3_2xlarge = InstanceType._('ml.t3.2xlarge');
+  static const mlM4Xlarge = InstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = InstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = InstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge = InstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge = InstanceType._('ml.m4.16xlarge');
+  static const mlM5Xlarge = InstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = InstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = InstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge = InstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge = InstanceType._('ml.m5.24xlarge');
+  static const mlM5dLarge = InstanceType._('ml.m5d.large');
+  static const mlM5dXlarge = InstanceType._('ml.m5d.xlarge');
+  static const mlM5d_2xlarge = InstanceType._('ml.m5d.2xlarge');
+  static const mlM5d_4xlarge = InstanceType._('ml.m5d.4xlarge');
+  static const mlM5d_8xlarge = InstanceType._('ml.m5d.8xlarge');
+  static const mlM5d_12xlarge = InstanceType._('ml.m5d.12xlarge');
+  static const mlM5d_16xlarge = InstanceType._('ml.m5d.16xlarge');
+  static const mlM5d_24xlarge = InstanceType._('ml.m5d.24xlarge');
+  static const mlC4Xlarge = InstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = InstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = InstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = InstanceType._('ml.c4.8xlarge');
+  static const mlC5Xlarge = InstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = InstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = InstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = InstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge = InstanceType._('ml.c5.18xlarge');
+  static const mlC5dXlarge = InstanceType._('ml.c5d.xlarge');
+  static const mlC5d_2xlarge = InstanceType._('ml.c5d.2xlarge');
+  static const mlC5d_4xlarge = InstanceType._('ml.c5d.4xlarge');
+  static const mlC5d_9xlarge = InstanceType._('ml.c5d.9xlarge');
+  static const mlC5d_18xlarge = InstanceType._('ml.c5d.18xlarge');
+  static const mlP2Xlarge = InstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = InstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge = InstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = InstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = InstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = InstanceType._('ml.p3.16xlarge');
+  static const mlP3dn_24xlarge = InstanceType._('ml.p3dn.24xlarge');
+  static const mlG4dnXlarge = InstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = InstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = InstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = InstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = InstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = InstanceType._('ml.g4dn.16xlarge');
+  static const mlR5Large = InstanceType._('ml.r5.large');
+  static const mlR5Xlarge = InstanceType._('ml.r5.xlarge');
+  static const mlR5_2xlarge = InstanceType._('ml.r5.2xlarge');
+  static const mlR5_4xlarge = InstanceType._('ml.r5.4xlarge');
+  static const mlR5_8xlarge = InstanceType._('ml.r5.8xlarge');
+  static const mlR5_12xlarge = InstanceType._('ml.r5.12xlarge');
+  static const mlR5_16xlarge = InstanceType._('ml.r5.16xlarge');
+  static const mlR5_24xlarge = InstanceType._('ml.r5.24xlarge');
+  static const mlG5Xlarge = InstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = InstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = InstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = InstanceType._('ml.g5.8xlarge');
+  static const mlG5_16xlarge = InstanceType._('ml.g5.16xlarge');
+  static const mlG5_12xlarge = InstanceType._('ml.g5.12xlarge');
+  static const mlG5_24xlarge = InstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = InstanceType._('ml.g5.48xlarge');
+  static const mlInf1Xlarge = InstanceType._('ml.inf1.xlarge');
+  static const mlInf1_2xlarge = InstanceType._('ml.inf1.2xlarge');
+  static const mlInf1_6xlarge = InstanceType._('ml.inf1.6xlarge');
+  static const mlInf1_24xlarge = InstanceType._('ml.inf1.24xlarge');
+  static const mlP4d_24xlarge = InstanceType._('ml.p4d.24xlarge');
+  static const mlP4de_24xlarge = InstanceType._('ml.p4de.24xlarge');
+  static const mlP5_48xlarge = InstanceType._('ml.p5.48xlarge');
+  static const mlM6iLarge = InstanceType._('ml.m6i.large');
+  static const mlM6iXlarge = InstanceType._('ml.m6i.xlarge');
+  static const mlM6i_2xlarge = InstanceType._('ml.m6i.2xlarge');
+  static const mlM6i_4xlarge = InstanceType._('ml.m6i.4xlarge');
+  static const mlM6i_8xlarge = InstanceType._('ml.m6i.8xlarge');
+  static const mlM6i_12xlarge = InstanceType._('ml.m6i.12xlarge');
+  static const mlM6i_16xlarge = InstanceType._('ml.m6i.16xlarge');
+  static const mlM6i_24xlarge = InstanceType._('ml.m6i.24xlarge');
+  static const mlM6i_32xlarge = InstanceType._('ml.m6i.32xlarge');
+  static const mlM7iLarge = InstanceType._('ml.m7i.large');
+  static const mlM7iXlarge = InstanceType._('ml.m7i.xlarge');
+  static const mlM7i_2xlarge = InstanceType._('ml.m7i.2xlarge');
+  static const mlM7i_4xlarge = InstanceType._('ml.m7i.4xlarge');
+  static const mlM7i_8xlarge = InstanceType._('ml.m7i.8xlarge');
+  static const mlM7i_12xlarge = InstanceType._('ml.m7i.12xlarge');
+  static const mlM7i_16xlarge = InstanceType._('ml.m7i.16xlarge');
+  static const mlM7i_24xlarge = InstanceType._('ml.m7i.24xlarge');
+  static const mlM7i_48xlarge = InstanceType._('ml.m7i.48xlarge');
+  static const mlC6iLarge = InstanceType._('ml.c6i.large');
+  static const mlC6iXlarge = InstanceType._('ml.c6i.xlarge');
+  static const mlC6i_2xlarge = InstanceType._('ml.c6i.2xlarge');
+  static const mlC6i_4xlarge = InstanceType._('ml.c6i.4xlarge');
+  static const mlC6i_8xlarge = InstanceType._('ml.c6i.8xlarge');
+  static const mlC6i_12xlarge = InstanceType._('ml.c6i.12xlarge');
+  static const mlC6i_16xlarge = InstanceType._('ml.c6i.16xlarge');
+  static const mlC6i_24xlarge = InstanceType._('ml.c6i.24xlarge');
+  static const mlC6i_32xlarge = InstanceType._('ml.c6i.32xlarge');
+  static const mlC7iLarge = InstanceType._('ml.c7i.large');
+  static const mlC7iXlarge = InstanceType._('ml.c7i.xlarge');
+  static const mlC7i_2xlarge = InstanceType._('ml.c7i.2xlarge');
+  static const mlC7i_4xlarge = InstanceType._('ml.c7i.4xlarge');
+  static const mlC7i_8xlarge = InstanceType._('ml.c7i.8xlarge');
+  static const mlC7i_12xlarge = InstanceType._('ml.c7i.12xlarge');
+  static const mlC7i_16xlarge = InstanceType._('ml.c7i.16xlarge');
+  static const mlC7i_24xlarge = InstanceType._('ml.c7i.24xlarge');
+  static const mlC7i_48xlarge = InstanceType._('ml.c7i.48xlarge');
+  static const mlR6iLarge = InstanceType._('ml.r6i.large');
+  static const mlR6iXlarge = InstanceType._('ml.r6i.xlarge');
+  static const mlR6i_2xlarge = InstanceType._('ml.r6i.2xlarge');
+  static const mlR6i_4xlarge = InstanceType._('ml.r6i.4xlarge');
+  static const mlR6i_8xlarge = InstanceType._('ml.r6i.8xlarge');
+  static const mlR6i_12xlarge = InstanceType._('ml.r6i.12xlarge');
+  static const mlR6i_16xlarge = InstanceType._('ml.r6i.16xlarge');
+  static const mlR6i_24xlarge = InstanceType._('ml.r6i.24xlarge');
+  static const mlR6i_32xlarge = InstanceType._('ml.r6i.32xlarge');
+  static const mlR7iLarge = InstanceType._('ml.r7i.large');
+  static const mlR7iXlarge = InstanceType._('ml.r7i.xlarge');
+  static const mlR7i_2xlarge = InstanceType._('ml.r7i.2xlarge');
+  static const mlR7i_4xlarge = InstanceType._('ml.r7i.4xlarge');
+  static const mlR7i_8xlarge = InstanceType._('ml.r7i.8xlarge');
+  static const mlR7i_12xlarge = InstanceType._('ml.r7i.12xlarge');
+  static const mlR7i_16xlarge = InstanceType._('ml.r7i.16xlarge');
+  static const mlR7i_24xlarge = InstanceType._('ml.r7i.24xlarge');
+  static const mlR7i_48xlarge = InstanceType._('ml.r7i.48xlarge');
+  static const mlM6idLarge = InstanceType._('ml.m6id.large');
+  static const mlM6idXlarge = InstanceType._('ml.m6id.xlarge');
+  static const mlM6id_2xlarge = InstanceType._('ml.m6id.2xlarge');
+  static const mlM6id_4xlarge = InstanceType._('ml.m6id.4xlarge');
+  static const mlM6id_8xlarge = InstanceType._('ml.m6id.8xlarge');
+  static const mlM6id_12xlarge = InstanceType._('ml.m6id.12xlarge');
+  static const mlM6id_16xlarge = InstanceType._('ml.m6id.16xlarge');
+  static const mlM6id_24xlarge = InstanceType._('ml.m6id.24xlarge');
+  static const mlM6id_32xlarge = InstanceType._('ml.m6id.32xlarge');
+  static const mlC6idLarge = InstanceType._('ml.c6id.large');
+  static const mlC6idXlarge = InstanceType._('ml.c6id.xlarge');
+  static const mlC6id_2xlarge = InstanceType._('ml.c6id.2xlarge');
+  static const mlC6id_4xlarge = InstanceType._('ml.c6id.4xlarge');
+  static const mlC6id_8xlarge = InstanceType._('ml.c6id.8xlarge');
+  static const mlC6id_12xlarge = InstanceType._('ml.c6id.12xlarge');
+  static const mlC6id_16xlarge = InstanceType._('ml.c6id.16xlarge');
+  static const mlC6id_24xlarge = InstanceType._('ml.c6id.24xlarge');
+  static const mlC6id_32xlarge = InstanceType._('ml.c6id.32xlarge');
+  static const mlR6idLarge = InstanceType._('ml.r6id.large');
+  static const mlR6idXlarge = InstanceType._('ml.r6id.xlarge');
+  static const mlR6id_2xlarge = InstanceType._('ml.r6id.2xlarge');
+  static const mlR6id_4xlarge = InstanceType._('ml.r6id.4xlarge');
+  static const mlR6id_8xlarge = InstanceType._('ml.r6id.8xlarge');
+  static const mlR6id_12xlarge = InstanceType._('ml.r6id.12xlarge');
+  static const mlR6id_16xlarge = InstanceType._('ml.r6id.16xlarge');
+  static const mlR6id_24xlarge = InstanceType._('ml.r6id.24xlarge');
+  static const mlR6id_32xlarge = InstanceType._('ml.r6id.32xlarge');
+  static const mlG6Xlarge = InstanceType._('ml.g6.xlarge');
+  static const mlG6_2xlarge = InstanceType._('ml.g6.2xlarge');
+  static const mlG6_4xlarge = InstanceType._('ml.g6.4xlarge');
+  static const mlG6_8xlarge = InstanceType._('ml.g6.8xlarge');
+  static const mlG6_12xlarge = InstanceType._('ml.g6.12xlarge');
+  static const mlG6_16xlarge = InstanceType._('ml.g6.16xlarge');
+  static const mlG6_24xlarge = InstanceType._('ml.g6.24xlarge');
+  static const mlG6_48xlarge = InstanceType._('ml.g6.48xlarge');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [
+    mlT2Medium,
+    mlT2Large,
+    mlT2Xlarge,
+    mlT2_2xlarge,
+    mlT3Medium,
+    mlT3Large,
+    mlT3Xlarge,
+    mlT3_2xlarge,
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlM5dLarge,
+    mlM5dXlarge,
+    mlM5d_2xlarge,
+    mlM5d_4xlarge,
+    mlM5d_8xlarge,
+    mlM5d_12xlarge,
+    mlM5d_16xlarge,
+    mlM5d_24xlarge,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlC5dXlarge,
+    mlC5d_2xlarge,
+    mlC5d_4xlarge,
+    mlC5d_9xlarge,
+    mlC5d_18xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlP3dn_24xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlR5Large,
+    mlR5Xlarge,
+    mlR5_2xlarge,
+    mlR5_4xlarge,
+    mlR5_8xlarge,
+    mlR5_12xlarge,
+    mlR5_16xlarge,
+    mlR5_24xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_16xlarge,
+    mlG5_12xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlInf1Xlarge,
+    mlInf1_2xlarge,
+    mlInf1_6xlarge,
+    mlInf1_24xlarge,
+    mlP4d_24xlarge,
+    mlP4de_24xlarge,
+    mlP5_48xlarge,
+    mlM6iLarge,
+    mlM6iXlarge,
+    mlM6i_2xlarge,
+    mlM6i_4xlarge,
+    mlM6i_8xlarge,
+    mlM6i_12xlarge,
+    mlM6i_16xlarge,
+    mlM6i_24xlarge,
+    mlM6i_32xlarge,
+    mlM7iLarge,
+    mlM7iXlarge,
+    mlM7i_2xlarge,
+    mlM7i_4xlarge,
+    mlM7i_8xlarge,
+    mlM7i_12xlarge,
+    mlM7i_16xlarge,
+    mlM7i_24xlarge,
+    mlM7i_48xlarge,
+    mlC6iLarge,
+    mlC6iXlarge,
+    mlC6i_2xlarge,
+    mlC6i_4xlarge,
+    mlC6i_8xlarge,
+    mlC6i_12xlarge,
+    mlC6i_16xlarge,
+    mlC6i_24xlarge,
+    mlC6i_32xlarge,
+    mlC7iLarge,
+    mlC7iXlarge,
+    mlC7i_2xlarge,
+    mlC7i_4xlarge,
+    mlC7i_8xlarge,
+    mlC7i_12xlarge,
+    mlC7i_16xlarge,
+    mlC7i_24xlarge,
+    mlC7i_48xlarge,
+    mlR6iLarge,
+    mlR6iXlarge,
+    mlR6i_2xlarge,
+    mlR6i_4xlarge,
+    mlR6i_8xlarge,
+    mlR6i_12xlarge,
+    mlR6i_16xlarge,
+    mlR6i_24xlarge,
+    mlR6i_32xlarge,
+    mlR7iLarge,
+    mlR7iXlarge,
+    mlR7i_2xlarge,
+    mlR7i_4xlarge,
+    mlR7i_8xlarge,
+    mlR7i_12xlarge,
+    mlR7i_16xlarge,
+    mlR7i_24xlarge,
+    mlR7i_48xlarge,
+    mlM6idLarge,
+    mlM6idXlarge,
+    mlM6id_2xlarge,
+    mlM6id_4xlarge,
+    mlM6id_8xlarge,
+    mlM6id_12xlarge,
+    mlM6id_16xlarge,
+    mlM6id_24xlarge,
+    mlM6id_32xlarge,
+    mlC6idLarge,
+    mlC6idXlarge,
+    mlC6id_2xlarge,
+    mlC6id_4xlarge,
+    mlC6id_8xlarge,
+    mlC6id_12xlarge,
+    mlC6id_16xlarge,
+    mlC6id_24xlarge,
+    mlC6id_32xlarge,
+    mlR6idLarge,
+    mlR6idXlarge,
+    mlR6id_2xlarge,
+    mlR6id_4xlarge,
+    mlR6id_8xlarge,
+    mlR6id_12xlarge,
+    mlR6id_16xlarge,
+    mlR6id_24xlarge,
+    mlR6id_32xlarge,
+    mlG6Xlarge,
+    mlG6_2xlarge,
+    mlG6_4xlarge,
+    mlG6_8xlarge,
+    mlG6_12xlarge,
+    mlG6_16xlarge,
+    mlG6_24xlarge,
+    mlG6_48xlarge
+  ];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For a hyperparameter of the integer type, specifies the range that a
@@ -49556,48 +51405,76 @@ class IntegerParameterRangeSpecification {
   }
 }
 
-enum IsTrackingServerActive {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class IsTrackingServerActive {
+  static const active = IsTrackingServerActive._('Active');
+  static const inactive = IsTrackingServerActive._('Inactive');
 
   final String value;
 
-  const IsTrackingServerActive(this.value);
+  const IsTrackingServerActive._(this.value);
+
+  static const values = [active, inactive];
 
   static IsTrackingServerActive fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IsTrackingServerActive'));
+          orElse: () => IsTrackingServerActive._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IsTrackingServerActive && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobType {
-  training('TRAINING'),
-  inference('INFERENCE'),
-  notebookKernel('NOTEBOOK_KERNEL'),
-  ;
+class JobType {
+  static const training = JobType._('TRAINING');
+  static const inference = JobType._('INFERENCE');
+  static const notebookKernel = JobType._('NOTEBOOK_KERNEL');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [training, inference, notebookKernel];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JoinSource {
-  input('Input'),
-  none('None'),
-  ;
+class JoinSource {
+  static const input = JoinSource._('Input');
+  static const none = JoinSource._('None');
 
   final String value;
 
-  const JoinSource(this.value);
+  const JoinSource._(this.value);
 
-  static JoinSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JoinSource'));
+  static const values = [input, none];
+
+  static JoinSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JoinSource._(value));
+
+  @override
+  bool operator ==(other) => other is JoinSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the file system and kernels in a SageMaker image
@@ -50502,23 +52379,39 @@ class LabelingJobSnsDataSource {
   }
 }
 
-enum LabelingJobStatus {
-  initializing('Initializing'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class LabelingJobStatus {
+  static const initializing = LabelingJobStatus._('Initializing');
+  static const inProgress = LabelingJobStatus._('InProgress');
+  static const completed = LabelingJobStatus._('Completed');
+  static const failed = LabelingJobStatus._('Failed');
+  static const stopping = LabelingJobStatus._('Stopping');
+  static const stopped = LabelingJobStatus._('Stopped');
 
   final String value;
 
-  const LabelingJobStatus(this.value);
+  const LabelingJobStatus._(this.value);
+
+  static const values = [
+    initializing,
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped
+  ];
 
   static LabelingJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LabelingJobStatus'));
+          orElse: () => LabelingJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LabelingJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of conditions for stopping a labeling job. If any of the conditions
@@ -50629,8 +52522,8 @@ class LabelingJobSummary {
               const <String, dynamic>{}),
       labelingJobArn: (json['LabelingJobArn'] as String?) ?? '',
       labelingJobName: (json['LabelingJobName'] as String?) ?? '',
-      labelingJobStatus:
-          LabelingJobStatus.fromString((json['LabelingJobStatus'] as String)),
+      labelingJobStatus: LabelingJobStatus.fromString(
+          (json['LabelingJobStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       preHumanTaskLambdaArn: (json['PreHumanTaskLambdaArn'] as String?) ?? '',
@@ -50730,7 +52623,8 @@ class LastUpdateStatus {
 
   factory LastUpdateStatus.fromJson(Map<String, dynamic> json) {
     return LastUpdateStatus(
-      status: LastUpdateStatusValue.fromString((json['Status'] as String)),
+      status:
+          LastUpdateStatusValue.fromString((json['Status'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -50745,35 +52639,55 @@ class LastUpdateStatus {
   }
 }
 
-enum LastUpdateStatusValue {
-  successful('Successful'),
-  failed('Failed'),
-  inProgress('InProgress'),
-  ;
+class LastUpdateStatusValue {
+  static const successful = LastUpdateStatusValue._('Successful');
+  static const failed = LastUpdateStatusValue._('Failed');
+  static const inProgress = LastUpdateStatusValue._('InProgress');
 
   final String value;
 
-  const LastUpdateStatusValue(this.value);
+  const LastUpdateStatusValue._(this.value);
 
-  static LastUpdateStatusValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LastUpdateStatusValue'));
+  static const values = [successful, failed, inProgress];
+
+  static LastUpdateStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LastUpdateStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LastUpdateStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LifecycleManagement {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class LifecycleManagement {
+  static const enabled = LifecycleManagement._('ENABLED');
+  static const disabled = LifecycleManagement._('DISABLED');
 
   final String value;
 
-  const LifecycleManagement(this.value);
+  const LifecycleManagement._(this.value);
 
-  static LifecycleManagement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LifecycleManagement'));
+  static const values = [enabled, disabled];
+
+  static LifecycleManagement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleManagement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleManagement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists a summary of the properties of a lineage group. A lineage group
@@ -50830,20 +52744,29 @@ class LineageGroupSummary {
   }
 }
 
-enum LineageType {
-  trialComponent('TrialComponent'),
-  artifact('Artifact'),
-  context('Context'),
-  action('Action'),
-  ;
+class LineageType {
+  static const trialComponent = LineageType._('TrialComponent');
+  static const artifact = LineageType._('Artifact');
+  static const context = LineageType._('Context');
+  static const action = LineageType._('Action');
 
   final String value;
 
-  const LineageType(this.value);
+  const LineageType._(this.value);
 
-  static LineageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LineageType'));
+  static const values = [trialComponent, artifact, context, action];
+
+  static LineageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LineageType._(value));
+
+  @override
+  bool operator ==(other) => other is LineageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListActionsResponse {
@@ -51306,20 +53229,30 @@ class ListCompilationJobsResponse {
   }
 }
 
-enum ListCompilationJobsSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class ListCompilationJobsSortBy {
+  static const name = ListCompilationJobsSortBy._('Name');
+  static const creationTime = ListCompilationJobsSortBy._('CreationTime');
+  static const status = ListCompilationJobsSortBy._('Status');
 
   final String value;
 
-  const ListCompilationJobsSortBy(this.value);
+  const ListCompilationJobsSortBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static ListCompilationJobsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListCompilationJobsSortBy'));
+          orElse: () => ListCompilationJobsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListCompilationJobsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListContextsResponse {
@@ -51426,20 +53359,31 @@ class ListDeviceFleetsResponse {
   }
 }
 
-enum ListDeviceFleetsSortBy {
-  name('NAME'),
-  creationTime('CREATION_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  ;
+class ListDeviceFleetsSortBy {
+  static const name = ListDeviceFleetsSortBy._('NAME');
+  static const creationTime = ListDeviceFleetsSortBy._('CREATION_TIME');
+  static const lastModifiedTime =
+      ListDeviceFleetsSortBy._('LAST_MODIFIED_TIME');
 
   final String value;
 
-  const ListDeviceFleetsSortBy(this.value);
+  const ListDeviceFleetsSortBy._(this.value);
+
+  static const values = [name, creationTime, lastModifiedTime];
 
   static ListDeviceFleetsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListDeviceFleetsSortBy'));
+          orElse: () => ListDeviceFleetsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListDeviceFleetsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListDevicesResponse {
@@ -51542,21 +53486,33 @@ class ListEdgeDeploymentPlansResponse {
   }
 }
 
-enum ListEdgeDeploymentPlansSortBy {
-  name('NAME'),
-  deviceFleetName('DEVICE_FLEET_NAME'),
-  creationTime('CREATION_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  ;
+class ListEdgeDeploymentPlansSortBy {
+  static const name = ListEdgeDeploymentPlansSortBy._('NAME');
+  static const deviceFleetName =
+      ListEdgeDeploymentPlansSortBy._('DEVICE_FLEET_NAME');
+  static const creationTime = ListEdgeDeploymentPlansSortBy._('CREATION_TIME');
+  static const lastModifiedTime =
+      ListEdgeDeploymentPlansSortBy._('LAST_MODIFIED_TIME');
 
   final String value;
 
-  const ListEdgeDeploymentPlansSortBy(this.value);
+  const ListEdgeDeploymentPlansSortBy._(this.value);
+
+  static const values = [name, deviceFleetName, creationTime, lastModifiedTime];
 
   static ListEdgeDeploymentPlansSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListEdgeDeploymentPlansSortBy'));
+          orElse: () => ListEdgeDeploymentPlansSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListEdgeDeploymentPlansSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEdgePackagingJobsResponse {
@@ -51593,22 +53549,39 @@ class ListEdgePackagingJobsResponse {
   }
 }
 
-enum ListEdgePackagingJobsSortBy {
-  name('NAME'),
-  modelName('MODEL_NAME'),
-  creationTime('CREATION_TIME'),
-  lastModifiedTime('LAST_MODIFIED_TIME'),
-  status('STATUS'),
-  ;
+class ListEdgePackagingJobsSortBy {
+  static const name = ListEdgePackagingJobsSortBy._('NAME');
+  static const modelName = ListEdgePackagingJobsSortBy._('MODEL_NAME');
+  static const creationTime = ListEdgePackagingJobsSortBy._('CREATION_TIME');
+  static const lastModifiedTime =
+      ListEdgePackagingJobsSortBy._('LAST_MODIFIED_TIME');
+  static const status = ListEdgePackagingJobsSortBy._('STATUS');
 
   final String value;
 
-  const ListEdgePackagingJobsSortBy(this.value);
+  const ListEdgePackagingJobsSortBy._(this.value);
+
+  static const values = [
+    name,
+    modelName,
+    creationTime,
+    lastModifiedTime,
+    status
+  ];
 
   static ListEdgePackagingJobsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListEdgePackagingJobsSortBy'));
+          orElse: () => ListEdgePackagingJobsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListEdgePackagingJobsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEndpointConfigsOutput {
@@ -52154,20 +54127,31 @@ class ListInferenceRecommendationsJobsResponse {
   }
 }
 
-enum ListInferenceRecommendationsJobsSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class ListInferenceRecommendationsJobsSortBy {
+  static const name = ListInferenceRecommendationsJobsSortBy._('Name');
+  static const creationTime =
+      ListInferenceRecommendationsJobsSortBy._('CreationTime');
+  static const status = ListInferenceRecommendationsJobsSortBy._('Status');
 
   final String value;
 
-  const ListInferenceRecommendationsJobsSortBy(this.value);
+  const ListInferenceRecommendationsJobsSortBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static ListInferenceRecommendationsJobsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListInferenceRecommendationsJobsSortBy'));
+          orElse: () => ListInferenceRecommendationsJobsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListInferenceRecommendationsJobsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListLabelingJobsForWorkteamResponse {
@@ -52207,18 +54191,29 @@ class ListLabelingJobsForWorkteamResponse {
   }
 }
 
-enum ListLabelingJobsForWorkteamSortByOptions {
-  creationTime('CreationTime'),
-  ;
+class ListLabelingJobsForWorkteamSortByOptions {
+  static const creationTime =
+      ListLabelingJobsForWorkteamSortByOptions._('CreationTime');
 
   final String value;
 
-  const ListLabelingJobsForWorkteamSortByOptions(this.value);
+  const ListLabelingJobsForWorkteamSortByOptions._(this.value);
+
+  static const values = [creationTime];
 
   static ListLabelingJobsForWorkteamSortByOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListLabelingJobsForWorkteamSortByOptions'));
+          orElse: () => ListLabelingJobsForWorkteamSortByOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListLabelingJobsForWorkteamSortByOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListLabelingJobsResponse {
@@ -52928,20 +54923,30 @@ class ListOptimizationJobsResponse {
   }
 }
 
-enum ListOptimizationJobsSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class ListOptimizationJobsSortBy {
+  static const name = ListOptimizationJobsSortBy._('Name');
+  static const creationTime = ListOptimizationJobsSortBy._('CreationTime');
+  static const status = ListOptimizationJobsSortBy._('Status');
 
   final String value;
 
-  const ListOptimizationJobsSortBy(this.value);
+  const ListOptimizationJobsSortBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static ListOptimizationJobsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListOptimizationJobsSortBy'));
+          orElse: () => ListOptimizationJobsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListOptimizationJobsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListPipelineExecutionStepsResponse {
@@ -53607,19 +55612,29 @@ class ListWorkforcesResponse {
   }
 }
 
-enum ListWorkforcesSortByOptions {
-  name('Name'),
-  createDate('CreateDate'),
-  ;
+class ListWorkforcesSortByOptions {
+  static const name = ListWorkforcesSortByOptions._('Name');
+  static const createDate = ListWorkforcesSortByOptions._('CreateDate');
 
   final String value;
 
-  const ListWorkforcesSortByOptions(this.value);
+  const ListWorkforcesSortByOptions._(this.value);
+
+  static const values = [name, createDate];
 
   static ListWorkforcesSortByOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListWorkforcesSortByOptions'));
+          orElse: () => ListWorkforcesSortByOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListWorkforcesSortByOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListWorkteamsResponse {
@@ -53655,34 +55670,54 @@ class ListWorkteamsResponse {
   }
 }
 
-enum ListWorkteamsSortByOptions {
-  name('Name'),
-  createDate('CreateDate'),
-  ;
+class ListWorkteamsSortByOptions {
+  static const name = ListWorkteamsSortByOptions._('Name');
+  static const createDate = ListWorkteamsSortByOptions._('CreateDate');
 
   final String value;
 
-  const ListWorkteamsSortByOptions(this.value);
+  const ListWorkteamsSortByOptions._(this.value);
+
+  static const values = [name, createDate];
 
   static ListWorkteamsSortByOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListWorkteamsSortByOptions'));
+          orElse: () => ListWorkteamsSortByOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListWorkteamsSortByOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ManagedInstanceScalingStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ManagedInstanceScalingStatus {
+  static const enabled = ManagedInstanceScalingStatus._('ENABLED');
+  static const disabled = ManagedInstanceScalingStatus._('DISABLED');
 
   final String value;
 
-  const ManagedInstanceScalingStatus(this.value);
+  const ManagedInstanceScalingStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ManagedInstanceScalingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ManagedInstanceScalingStatus'));
+          orElse: () => ManagedInstanceScalingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedInstanceScalingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an Amazon Cognito or your own OIDC IdP user group that is part of a
@@ -53903,20 +55938,29 @@ class MetricDefinition {
   }
 }
 
-enum MetricSetSource {
-  train('Train'),
-  validation('Validation'),
-  test('Test'),
-  ;
+class MetricSetSource {
+  static const train = MetricSetSource._('Train');
+  static const validation = MetricSetSource._('Validation');
+  static const test = MetricSetSource._('Test');
 
   final String value;
 
-  const MetricSetSource(this.value);
+  const MetricSetSource._(this.value);
+
+  static const values = [train, validation, test];
 
   static MetricSetSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricSetSource'));
+          orElse: () => MetricSetSource._(value));
+
+  @override
+  bool operator ==(other) => other is MetricSetSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing information about a metric.
@@ -53992,30 +56036,54 @@ class MetricsSource {
   }
 }
 
-enum MlTools {
-  dataWrangler('DataWrangler'),
-  featureStore('FeatureStore'),
-  emrClusters('EmrClusters'),
-  autoMl('AutoMl'),
-  experiments('Experiments'),
-  training('Training'),
-  modelEvaluation('ModelEvaluation'),
-  pipelines('Pipelines'),
-  models('Models'),
-  jumpStart('JumpStart'),
-  inferenceRecommender('InferenceRecommender'),
-  endpoints('Endpoints'),
-  projects('Projects'),
-  inferenceOptimization('InferenceOptimization'),
-  ;
+class MlTools {
+  static const dataWrangler = MlTools._('DataWrangler');
+  static const featureStore = MlTools._('FeatureStore');
+  static const emrClusters = MlTools._('EmrClusters');
+  static const autoMl = MlTools._('AutoMl');
+  static const experiments = MlTools._('Experiments');
+  static const training = MlTools._('Training');
+  static const modelEvaluation = MlTools._('ModelEvaluation');
+  static const pipelines = MlTools._('Pipelines');
+  static const models = MlTools._('Models');
+  static const jumpStart = MlTools._('JumpStart');
+  static const inferenceRecommender = MlTools._('InferenceRecommender');
+  static const endpoints = MlTools._('Endpoints');
+  static const projects = MlTools._('Projects');
+  static const inferenceOptimization = MlTools._('InferenceOptimization');
 
   final String value;
 
-  const MlTools(this.value);
+  const MlTools._(this.value);
 
-  static MlTools fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum MlTools'));
+  static const values = [
+    dataWrangler,
+    featureStore,
+    emrClusters,
+    autoMl,
+    experiments,
+    training,
+    modelEvaluation,
+    pipelines,
+    models,
+    jumpStart,
+    inferenceRecommender,
+    endpoints,
+    projects,
+    inferenceOptimization
+  ];
+
+  static MlTools fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MlTools._(value));
+
+  @override
+  bool operator ==(other) => other is MlTools && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of a model as returned by the <a
@@ -54180,20 +56248,31 @@ class ModelAccessConfig {
   }
 }
 
-enum ModelApprovalStatus {
-  approved('Approved'),
-  rejected('Rejected'),
-  pendingManualApproval('PendingManualApproval'),
-  ;
+class ModelApprovalStatus {
+  static const approved = ModelApprovalStatus._('Approved');
+  static const rejected = ModelApprovalStatus._('Rejected');
+  static const pendingManualApproval =
+      ModelApprovalStatus._('PendingManualApproval');
 
   final String value;
 
-  const ModelApprovalStatus(this.value);
+  const ModelApprovalStatus._(this.value);
 
-  static ModelApprovalStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelApprovalStatus'));
+  static const values = [approved, rejected, pendingManualApproval];
+
+  static ModelApprovalStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelApprovalStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelApprovalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the location that is configured for storing model
@@ -54345,19 +56424,28 @@ class ModelBiasJobInput {
   }
 }
 
-enum ModelCacheSetting {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ModelCacheSetting {
+  static const enabled = ModelCacheSetting._('Enabled');
+  static const disabled = ModelCacheSetting._('Disabled');
 
   final String value;
 
-  const ModelCacheSetting(this.value);
+  const ModelCacheSetting._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ModelCacheSetting fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelCacheSetting'));
+          orElse: () => ModelCacheSetting._(value));
+
+  @override
+  bool operator ==(other) => other is ModelCacheSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon SageMaker Model Card.
@@ -54533,51 +56621,81 @@ class ModelCardExportArtifacts {
 }
 
 /// Attribute by which to sort returned export jobs.
-enum ModelCardExportJobSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class ModelCardExportJobSortBy {
+  static const name = ModelCardExportJobSortBy._('Name');
+  static const creationTime = ModelCardExportJobSortBy._('CreationTime');
+  static const status = ModelCardExportJobSortBy._('Status');
 
   final String value;
 
-  const ModelCardExportJobSortBy(this.value);
+  const ModelCardExportJobSortBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static ModelCardExportJobSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCardExportJobSortBy'));
+          orElse: () => ModelCardExportJobSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardExportJobSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelCardExportJobSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class ModelCardExportJobSortOrder {
+  static const ascending = ModelCardExportJobSortOrder._('Ascending');
+  static const descending = ModelCardExportJobSortOrder._('Descending');
 
   final String value;
 
-  const ModelCardExportJobSortOrder(this.value);
+  const ModelCardExportJobSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static ModelCardExportJobSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCardExportJobSortOrder'));
+          orElse: () => ModelCardExportJobSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardExportJobSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelCardExportJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class ModelCardExportJobStatus {
+  static const inProgress = ModelCardExportJobStatus._('InProgress');
+  static const completed = ModelCardExportJobStatus._('Completed');
+  static const failed = ModelCardExportJobStatus._('Failed');
 
   final String value;
 
-  const ModelCardExportJobStatus(this.value);
+  const ModelCardExportJobStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static ModelCardExportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCardExportJobStatus'));
+          orElse: () => ModelCardExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the Amazon SageMaker Model Card export job.
@@ -54621,7 +56739,8 @@ class ModelCardExportJobSummary {
       modelCardExportJobName: (json['ModelCardExportJobName'] as String?) ?? '',
       modelCardName: (json['ModelCardName'] as String?) ?? '',
       modelCardVersion: (json['ModelCardVersion'] as int?) ?? 0,
-      status: ModelCardExportJobStatus.fromString((json['Status'] as String)),
+      status: ModelCardExportJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
     );
   }
 
@@ -54668,23 +56787,42 @@ class ModelCardExportOutputConfig {
   }
 }
 
-enum ModelCardProcessingStatus {
-  deleteInProgress('DeleteInProgress'),
-  deletePending('DeletePending'),
-  contentDeleted('ContentDeleted'),
-  exportJobsDeleted('ExportJobsDeleted'),
-  deleteCompleted('DeleteCompleted'),
-  deleteFailed('DeleteFailed'),
-  ;
+class ModelCardProcessingStatus {
+  static const deleteInProgress =
+      ModelCardProcessingStatus._('DeleteInProgress');
+  static const deletePending = ModelCardProcessingStatus._('DeletePending');
+  static const contentDeleted = ModelCardProcessingStatus._('ContentDeleted');
+  static const exportJobsDeleted =
+      ModelCardProcessingStatus._('ExportJobsDeleted');
+  static const deleteCompleted = ModelCardProcessingStatus._('DeleteCompleted');
+  static const deleteFailed = ModelCardProcessingStatus._('DeleteFailed');
 
   final String value;
 
-  const ModelCardProcessingStatus(this.value);
+  const ModelCardProcessingStatus._(this.value);
+
+  static const values = [
+    deleteInProgress,
+    deletePending,
+    contentDeleted,
+    exportJobsDeleted,
+    deleteCompleted,
+    deleteFailed
+  ];
 
   static ModelCardProcessingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCardProcessingStatus'));
+          orElse: () => ModelCardProcessingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardProcessingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configure the security settings to protect model card data.
@@ -54712,51 +56850,79 @@ class ModelCardSecurityConfig {
   }
 }
 
-enum ModelCardSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class ModelCardSortBy {
+  static const name = ModelCardSortBy._('Name');
+  static const creationTime = ModelCardSortBy._('CreationTime');
 
   final String value;
 
-  const ModelCardSortBy(this.value);
+  const ModelCardSortBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static ModelCardSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelCardSortBy'));
+          orElse: () => ModelCardSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ModelCardSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelCardSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class ModelCardSortOrder {
+  static const ascending = ModelCardSortOrder._('Ascending');
+  static const descending = ModelCardSortOrder._('Descending');
 
   final String value;
 
-  const ModelCardSortOrder(this.value);
+  const ModelCardSortOrder._(this.value);
 
-  static ModelCardSortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelCardSortOrder'));
+  static const values = [ascending, descending];
+
+  static ModelCardSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelCardSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelCardStatus {
-  draft('Draft'),
-  pendingReview('PendingReview'),
-  approved('Approved'),
-  archived('Archived'),
-  ;
+class ModelCardStatus {
+  static const draft = ModelCardStatus._('Draft');
+  static const pendingReview = ModelCardStatus._('PendingReview');
+  static const approved = ModelCardStatus._('Approved');
+  static const archived = ModelCardStatus._('Archived');
 
   final String value;
 
-  const ModelCardStatus(this.value);
+  const ModelCardStatus._(this.value);
+
+  static const values = [draft, pendingReview, approved, archived];
 
   static ModelCardStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelCardStatus'));
+          orElse: () => ModelCardStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelCardStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the model card.
@@ -54807,8 +56973,8 @@ class ModelCardSummary {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       modelCardArn: (json['ModelCardArn'] as String?) ?? '',
       modelCardName: (json['ModelCardName'] as String?) ?? '',
-      modelCardStatus:
-          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
+      modelCardStatus: ModelCardStatus.fromString(
+          (json['ModelCardStatus'] as String?) ?? ''),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     );
   }
@@ -54830,18 +56996,28 @@ class ModelCardSummary {
   }
 }
 
-enum ModelCardVersionSortBy {
-  version('Version'),
-  ;
+class ModelCardVersionSortBy {
+  static const version = ModelCardVersionSortBy._('Version');
 
   final String value;
 
-  const ModelCardVersionSortBy(this.value);
+  const ModelCardVersionSortBy._(this.value);
+
+  static const values = [version];
 
   static ModelCardVersionSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelCardVersionSortBy'));
+          orElse: () => ModelCardVersionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCardVersionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a specific version of the model card.
@@ -54896,8 +57072,8 @@ class ModelCardVersionSummary {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       modelCardArn: (json['ModelCardArn'] as String?) ?? '',
       modelCardName: (json['ModelCardName'] as String?) ?? '',
-      modelCardStatus:
-          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
+      modelCardStatus: ModelCardStatus.fromString(
+          (json['ModelCardStatus'] as String?) ?? ''),
       modelCardVersion: (json['ModelCardVersion'] as int?) ?? 0,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     );
@@ -54992,19 +57168,29 @@ class ModelCompilationConfig {
   }
 }
 
-enum ModelCompressionType {
-  none('None'),
-  gzip('Gzip'),
-  ;
+class ModelCompressionType {
+  static const none = ModelCompressionType._('None');
+  static const gzip = ModelCompressionType._('Gzip');
 
   final String value;
 
-  const ModelCompressionType(this.value);
+  const ModelCompressionType._(this.value);
 
-  static ModelCompressionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelCompressionType'));
+  static const values = [none, gzip];
+
+  static ModelCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the model configuration. Includes the specification name and
@@ -55084,7 +57270,7 @@ class ModelDashboardEndpoint {
       endpointArn: (json['EndpointArn'] as String?) ?? '',
       endpointName: (json['EndpointName'] as String?) ?? '',
       endpointStatus:
-          EndpointStatus.fromString((json['EndpointStatus'] as String)),
+          EndpointStatus.fromString((json['EndpointStatus'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
     );
@@ -55720,7 +57906,7 @@ class ModelInfrastructureConfig {
   factory ModelInfrastructureConfig.fromJson(Map<String, dynamic> json) {
     return ModelInfrastructureConfig(
       infrastructureType: ModelInfrastructureType.fromString(
-          (json['InfrastructureType'] as String)),
+          (json['InfrastructureType'] as String?) ?? ''),
       realTimeInferenceConfig: RealTimeInferenceConfig.fromJson(
           (json['RealTimeInferenceConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -55737,18 +57923,29 @@ class ModelInfrastructureConfig {
   }
 }
 
-enum ModelInfrastructureType {
-  realTimeInference('RealTimeInference'),
-  ;
+class ModelInfrastructureType {
+  static const realTimeInference =
+      ModelInfrastructureType._('RealTimeInference');
 
   final String value;
 
-  const ModelInfrastructureType(this.value);
+  const ModelInfrastructureType._(this.value);
+
+  static const values = [realTimeInference];
 
   static ModelInfrastructureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelInfrastructureType'));
+          orElse: () => ModelInfrastructureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelInfrastructureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input object for the model.
@@ -55831,21 +58028,31 @@ class ModelMetadataFilter {
   }
 }
 
-enum ModelMetadataFilterType {
-  domain('Domain'),
-  framework('Framework'),
-  task('Task'),
-  frameworkVersion('FrameworkVersion'),
-  ;
+class ModelMetadataFilterType {
+  static const domain = ModelMetadataFilterType._('Domain');
+  static const framework = ModelMetadataFilterType._('Framework');
+  static const task = ModelMetadataFilterType._('Task');
+  static const frameworkVersion = ModelMetadataFilterType._('FrameworkVersion');
 
   final String value;
 
-  const ModelMetadataFilterType(this.value);
+  const ModelMetadataFilterType._(this.value);
+
+  static const values = [domain, framework, task, frameworkVersion];
 
   static ModelMetadataFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelMetadataFilterType'));
+          orElse: () => ModelMetadataFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelMetadataFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// One or more filters that searches for the specified resource or resources in
@@ -56539,38 +58746,65 @@ class ModelPackageGroup {
   }
 }
 
-enum ModelPackageGroupSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class ModelPackageGroupSortBy {
+  static const name = ModelPackageGroupSortBy._('Name');
+  static const creationTime = ModelPackageGroupSortBy._('CreationTime');
 
   final String value;
 
-  const ModelPackageGroupSortBy(this.value);
+  const ModelPackageGroupSortBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static ModelPackageGroupSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelPackageGroupSortBy'));
+          orElse: () => ModelPackageGroupSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelPackageGroupSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelPackageGroupStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  deleting('Deleting'),
-  deleteFailed('DeleteFailed'),
-  ;
+class ModelPackageGroupStatus {
+  static const pending = ModelPackageGroupStatus._('Pending');
+  static const inProgress = ModelPackageGroupStatus._('InProgress');
+  static const completed = ModelPackageGroupStatus._('Completed');
+  static const failed = ModelPackageGroupStatus._('Failed');
+  static const deleting = ModelPackageGroupStatus._('Deleting');
+  static const deleteFailed = ModelPackageGroupStatus._('DeleteFailed');
 
   final String value;
 
-  const ModelPackageGroupStatus(this.value);
+  const ModelPackageGroupStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    completed,
+    failed,
+    deleting,
+    deleteFailed
+  ];
 
   static ModelPackageGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModelPackageGroupStatus'));
+          orElse: () => ModelPackageGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelPackageGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a model group.
@@ -56604,7 +58838,7 @@ class ModelPackageGroupSummary {
       modelPackageGroupArn: (json['ModelPackageGroupArn'] as String?) ?? '',
       modelPackageGroupName: (json['ModelPackageGroupName'] as String?) ?? '',
       modelPackageGroupStatus: ModelPackageGroupStatus.fromString(
-          (json['ModelPackageGroupStatus'] as String)),
+          (json['ModelPackageGroupStatus'] as String?) ?? ''),
       modelPackageGroupDescription:
           json['ModelPackageGroupDescription'] as String?,
     );
@@ -56718,37 +58952,57 @@ class ModelPackageSecurityConfig {
   }
 }
 
-enum ModelPackageSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class ModelPackageSortBy {
+  static const name = ModelPackageSortBy._('Name');
+  static const creationTime = ModelPackageSortBy._('CreationTime');
 
   final String value;
 
-  const ModelPackageSortBy(this.value);
+  const ModelPackageSortBy._(this.value);
 
-  static ModelPackageSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelPackageSortBy'));
+  static const values = [name, creationTime];
+
+  static ModelPackageSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelPackageSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelPackageSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ModelPackageStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class ModelPackageStatus {
+  static const pending = ModelPackageStatus._('Pending');
+  static const inProgress = ModelPackageStatus._('InProgress');
+  static const completed = ModelPackageStatus._('Completed');
+  static const failed = ModelPackageStatus._('Failed');
+  static const deleting = ModelPackageStatus._('Deleting');
 
   final String value;
 
-  const ModelPackageStatus(this.value);
+  const ModelPackageStatus._(this.value);
 
-  static ModelPackageStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelPackageStatus'));
+  static const values = [pending, inProgress, completed, failed, deleting];
+
+  static ModelPackageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelPackageStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelPackageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the validation and image scan statuses of the model package.
@@ -56810,7 +59064,8 @@ class ModelPackageStatusItem {
   factory ModelPackageStatusItem.fromJson(Map<String, dynamic> json) {
     return ModelPackageStatusItem(
       name: (json['Name'] as String?) ?? '',
-      status: DetailedModelPackageStatus.fromString((json['Status'] as String)),
+      status: DetailedModelPackageStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -56882,8 +59137,8 @@ class ModelPackageSummary {
     return ModelPackageSummary(
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       modelPackageArn: (json['ModelPackageArn'] as String?) ?? '',
-      modelPackageStatus:
-          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
+      modelPackageStatus: ModelPackageStatus.fromString(
+          (json['ModelPackageStatus'] as String?) ?? ''),
       modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
           ?.let(ModelApprovalStatus.fromString),
       modelPackageDescription: json['ModelPackageDescription'] as String?,
@@ -56919,20 +59174,29 @@ class ModelPackageSummary {
   }
 }
 
-enum ModelPackageType {
-  versioned('Versioned'),
-  unversioned('Unversioned'),
-  both('Both'),
-  ;
+class ModelPackageType {
+  static const versioned = ModelPackageType._('Versioned');
+  static const unversioned = ModelPackageType._('Unversioned');
+  static const both = ModelPackageType._('Both');
 
   final String value;
 
-  const ModelPackageType(this.value);
+  const ModelPackageType._(this.value);
+
+  static const values = [versioned, unversioned, both];
 
   static ModelPackageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelPackageType'));
+          orElse: () => ModelPackageType._(value));
+
+  @override
+  bool operator ==(other) => other is ModelPackageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains data, such as the inputs and targeted instance types that are used
@@ -57280,19 +59544,27 @@ class ModelRegisterSettings {
   }
 }
 
-enum ModelSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class ModelSortKey {
+  static const name = ModelSortKey._('Name');
+  static const creationTime = ModelSortKey._('CreationTime');
 
   final String value;
 
-  const ModelSortKey(this.value);
+  const ModelSortKey._(this.value);
 
-  static ModelSortKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ModelSortKey'));
+  static const values = [name, creationTime];
+
+  static ModelSortKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelSortKey._(value));
+
+  @override
+  bool operator ==(other) => other is ModelSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for Model steps.
@@ -57355,20 +59627,30 @@ class ModelSummary {
   }
 }
 
-enum ModelVariantAction {
-  retain('Retain'),
-  remove('Remove'),
-  promote('Promote'),
-  ;
+class ModelVariantAction {
+  static const retain = ModelVariantAction._('Retain');
+  static const remove = ModelVariantAction._('Remove');
+  static const promote = ModelVariantAction._('Promote');
 
   final String value;
 
-  const ModelVariantAction(this.value);
+  const ModelVariantAction._(this.value);
 
-  static ModelVariantAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelVariantAction'));
+  static const values = [retain, remove, promote];
+
+  static ModelVariantAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVariantAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVariantAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the deployment options of a model.
@@ -57451,7 +59733,7 @@ class ModelVariantConfigSummary {
           (json['InfrastructureConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       modelName: (json['ModelName'] as String?) ?? '',
-      status: ModelVariantStatus.fromString((json['Status'] as String)),
+      status: ModelVariantStatus.fromString((json['Status'] as String?) ?? ''),
       variantName: (json['VariantName'] as String?) ?? '',
     );
   }
@@ -57470,22 +59752,32 @@ class ModelVariantConfigSummary {
   }
 }
 
-enum ModelVariantStatus {
-  creating('Creating'),
-  updating('Updating'),
-  inService('InService'),
-  deleting('Deleting'),
-  deleted('Deleted'),
-  ;
+class ModelVariantStatus {
+  static const creating = ModelVariantStatus._('Creating');
+  static const updating = ModelVariantStatus._('Updating');
+  static const inService = ModelVariantStatus._('InService');
+  static const deleting = ModelVariantStatus._('Deleting');
+  static const deleted = ModelVariantStatus._('Deleted');
 
   final String value;
 
-  const ModelVariantStatus(this.value);
+  const ModelVariantStatus._(this.value);
 
-  static ModelVariantStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModelVariantStatus'));
+  static const values = [creating, updating, inService, deleting, deleted];
+
+  static ModelVariantStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVariantStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVariantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of alert actions taken in response to an alert going into
@@ -57517,19 +59809,29 @@ class MonitoringAlertActions {
   }
 }
 
-enum MonitoringAlertHistorySortKey {
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class MonitoringAlertHistorySortKey {
+  static const creationTime = MonitoringAlertHistorySortKey._('CreationTime');
+  static const status = MonitoringAlertHistorySortKey._('Status');
 
   final String value;
 
-  const MonitoringAlertHistorySortKey(this.value);
+  const MonitoringAlertHistorySortKey._(this.value);
+
+  static const values = [creationTime, status];
 
   static MonitoringAlertHistorySortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MonitoringAlertHistorySortKey'));
+          orElse: () => MonitoringAlertHistorySortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringAlertHistorySortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information of an alert's history.
@@ -57557,8 +59859,8 @@ class MonitoringAlertHistorySummary {
 
   factory MonitoringAlertHistorySummary.fromJson(Map<String, dynamic> json) {
     return MonitoringAlertHistorySummary(
-      alertStatus:
-          MonitoringAlertStatus.fromString((json['AlertStatus'] as String)),
+      alertStatus: MonitoringAlertStatus.fromString(
+          (json['AlertStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       monitoringAlertName: (json['MonitoringAlertName'] as String?) ?? '',
       monitoringScheduleName: (json['MonitoringScheduleName'] as String?) ?? '',
@@ -57579,19 +59881,29 @@ class MonitoringAlertHistorySummary {
   }
 }
 
-enum MonitoringAlertStatus {
-  inAlert('InAlert'),
-  ok('OK'),
-  ;
+class MonitoringAlertStatus {
+  static const inAlert = MonitoringAlertStatus._('InAlert');
+  static const ok = MonitoringAlertStatus._('OK');
 
   final String value;
 
-  const MonitoringAlertStatus(this.value);
+  const MonitoringAlertStatus._(this.value);
 
-  static MonitoringAlertStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MonitoringAlertStatus'));
+  static const values = [inAlert, ok];
+
+  static MonitoringAlertStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MonitoringAlertStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringAlertStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information about a monitor alert.
@@ -57635,8 +59947,8 @@ class MonitoringAlertSummary {
       actions: MonitoringAlertActions.fromJson(
           (json['Actions'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      alertStatus:
-          MonitoringAlertStatus.fromString((json['AlertStatus'] as String)),
+      alertStatus: MonitoringAlertStatus.fromString(
+          (json['AlertStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       datapointsToAlert: (json['DatapointsToAlert'] as int?) ?? 0,
       evaluationPeriod: (json['EvaluationPeriod'] as int?) ?? 0,
@@ -57810,8 +60122,8 @@ class MonitoringClusterConfig {
   factory MonitoringClusterConfig.fromJson(Map<String, dynamic> json) {
     return MonitoringClusterConfig(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
-      instanceType:
-          ProcessingInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: ProcessingInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
       volumeSizeInGB: (json['VolumeSizeInGB'] as int?) ?? 0,
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
@@ -57923,20 +60235,30 @@ class MonitoringDatasetFormat {
   }
 }
 
-enum MonitoringExecutionSortKey {
-  creationTime('CreationTime'),
-  scheduledTime('ScheduledTime'),
-  status('Status'),
-  ;
+class MonitoringExecutionSortKey {
+  static const creationTime = MonitoringExecutionSortKey._('CreationTime');
+  static const scheduledTime = MonitoringExecutionSortKey._('ScheduledTime');
+  static const status = MonitoringExecutionSortKey._('Status');
 
   final String value;
 
-  const MonitoringExecutionSortKey(this.value);
+  const MonitoringExecutionSortKey._(this.value);
+
+  static const values = [creationTime, scheduledTime, status];
 
   static MonitoringExecutionSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MonitoringExecutionSortKey'));
+          orElse: () => MonitoringExecutionSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringExecutionSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of information about the last monitoring job to run.
@@ -57990,7 +60312,7 @@ class MonitoringExecutionSummary {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       monitoringExecutionStatus: ExecutionStatus.fromString(
-          (json['MonitoringExecutionStatus'] as String)),
+          (json['MonitoringExecutionStatus'] as String?) ?? ''),
       monitoringScheduleName: (json['MonitoringScheduleName'] as String?) ?? '',
       scheduledTime: nonNullableTimeStampFromJson(json['ScheduledTime'] ?? 0),
       endpointName: json['EndpointName'] as String?,
@@ -58193,19 +60515,29 @@ class MonitoringJobDefinition {
   }
 }
 
-enum MonitoringJobDefinitionSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class MonitoringJobDefinitionSortKey {
+  static const name = MonitoringJobDefinitionSortKey._('Name');
+  static const creationTime = MonitoringJobDefinitionSortKey._('CreationTime');
 
   final String value;
 
-  const MonitoringJobDefinitionSortKey(this.value);
+  const MonitoringJobDefinitionSortKey._(this.value);
+
+  static const values = [name, creationTime];
 
   static MonitoringJobDefinitionSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MonitoringJobDefinitionSortKey'));
+          orElse: () => MonitoringJobDefinitionSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringJobDefinitionSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a monitoring job.
@@ -58397,20 +60729,36 @@ class MonitoringParquetDatasetFormat {
   }
 }
 
-enum MonitoringProblemType {
-  binaryClassification('BinaryClassification'),
-  multiclassClassification('MulticlassClassification'),
-  regression('Regression'),
-  ;
+class MonitoringProblemType {
+  static const binaryClassification =
+      MonitoringProblemType._('BinaryClassification');
+  static const multiclassClassification =
+      MonitoringProblemType._('MulticlassClassification');
+  static const regression = MonitoringProblemType._('Regression');
 
   final String value;
 
-  const MonitoringProblemType(this.value);
+  const MonitoringProblemType._(this.value);
 
-  static MonitoringProblemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MonitoringProblemType'));
+  static const values = [
+    binaryClassification,
+    multiclassClassification,
+    regression
+  ];
+
+  static MonitoringProblemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MonitoringProblemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringProblemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifies the resources to deploy for a monitoring job.
@@ -58666,20 +61014,30 @@ class MonitoringScheduleConfig {
   }
 }
 
-enum MonitoringScheduleSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class MonitoringScheduleSortKey {
+  static const name = MonitoringScheduleSortKey._('Name');
+  static const creationTime = MonitoringScheduleSortKey._('CreationTime');
+  static const status = MonitoringScheduleSortKey._('Status');
 
   final String value;
 
-  const MonitoringScheduleSortKey(this.value);
+  const MonitoringScheduleSortKey._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static MonitoringScheduleSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MonitoringScheduleSortKey'));
+          orElse: () => MonitoringScheduleSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MonitoringScheduleSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarizes the monitoring schedule.
@@ -58727,7 +61085,7 @@ class MonitoringScheduleSummary {
       monitoringScheduleArn: (json['MonitoringScheduleArn'] as String?) ?? '',
       monitoringScheduleName: (json['MonitoringScheduleName'] as String?) ?? '',
       monitoringScheduleStatus: ScheduleStatus.fromString(
-          (json['MonitoringScheduleStatus'] as String)),
+          (json['MonitoringScheduleStatus'] as String?) ?? ''),
       endpointName: json['EndpointName'] as String?,
       monitoringJobDefinitionName:
           json['MonitoringJobDefinitionName'] as String?,
@@ -58812,21 +61170,35 @@ class MonitoringStoppingCondition {
   }
 }
 
-enum MonitoringType {
-  dataQuality('DataQuality'),
-  modelQuality('ModelQuality'),
-  modelBias('ModelBias'),
-  modelExplainability('ModelExplainability'),
-  ;
+class MonitoringType {
+  static const dataQuality = MonitoringType._('DataQuality');
+  static const modelQuality = MonitoringType._('ModelQuality');
+  static const modelBias = MonitoringType._('ModelBias');
+  static const modelExplainability = MonitoringType._('ModelExplainability');
 
   final String value;
 
-  const MonitoringType(this.value);
+  const MonitoringType._(this.value);
+
+  static const values = [
+    dataQuality,
+    modelQuality,
+    modelBias,
+    modelExplainability
+  ];
 
   static MonitoringType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MonitoringType'));
+          orElse: () => MonitoringType._(value));
+
+  @override
+  bool operator ==(other) => other is MonitoringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies additional configuration for hosting multi-model endpoints.
@@ -59003,54 +61375,99 @@ class NetworkConfig {
   }
 }
 
-enum NotebookInstanceAcceleratorType {
-  mlEia1Medium('ml.eia1.medium'),
-  mlEia1Large('ml.eia1.large'),
-  mlEia1Xlarge('ml.eia1.xlarge'),
-  mlEia2Medium('ml.eia2.medium'),
-  mlEia2Large('ml.eia2.large'),
-  mlEia2Xlarge('ml.eia2.xlarge'),
-  ;
+class NotebookInstanceAcceleratorType {
+  static const mlEia1Medium =
+      NotebookInstanceAcceleratorType._('ml.eia1.medium');
+  static const mlEia1Large = NotebookInstanceAcceleratorType._('ml.eia1.large');
+  static const mlEia1Xlarge =
+      NotebookInstanceAcceleratorType._('ml.eia1.xlarge');
+  static const mlEia2Medium =
+      NotebookInstanceAcceleratorType._('ml.eia2.medium');
+  static const mlEia2Large = NotebookInstanceAcceleratorType._('ml.eia2.large');
+  static const mlEia2Xlarge =
+      NotebookInstanceAcceleratorType._('ml.eia2.xlarge');
 
   final String value;
 
-  const NotebookInstanceAcceleratorType(this.value);
+  const NotebookInstanceAcceleratorType._(this.value);
+
+  static const values = [
+    mlEia1Medium,
+    mlEia1Large,
+    mlEia1Xlarge,
+    mlEia2Medium,
+    mlEia2Large,
+    mlEia2Xlarge
+  ];
 
   static NotebookInstanceAcceleratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceAcceleratorType'));
+          orElse: () => NotebookInstanceAcceleratorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceAcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotebookInstanceLifecycleConfigSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  ;
+class NotebookInstanceLifecycleConfigSortKey {
+  static const name = NotebookInstanceLifecycleConfigSortKey._('Name');
+  static const creationTime =
+      NotebookInstanceLifecycleConfigSortKey._('CreationTime');
+  static const lastModifiedTime =
+      NotebookInstanceLifecycleConfigSortKey._('LastModifiedTime');
 
   final String value;
 
-  const NotebookInstanceLifecycleConfigSortKey(this.value);
+  const NotebookInstanceLifecycleConfigSortKey._(this.value);
+
+  static const values = [name, creationTime, lastModifiedTime];
 
   static NotebookInstanceLifecycleConfigSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceLifecycleConfigSortKey'));
+          orElse: () => NotebookInstanceLifecycleConfigSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceLifecycleConfigSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotebookInstanceLifecycleConfigSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class NotebookInstanceLifecycleConfigSortOrder {
+  static const ascending =
+      NotebookInstanceLifecycleConfigSortOrder._('Ascending');
+  static const descending =
+      NotebookInstanceLifecycleConfigSortOrder._('Descending');
 
   final String value;
 
-  const NotebookInstanceLifecycleConfigSortOrder(this.value);
+  const NotebookInstanceLifecycleConfigSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static NotebookInstanceLifecycleConfigSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceLifecycleConfigSortOrder'));
+          orElse: () => NotebookInstanceLifecycleConfigSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceLifecycleConfigSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a summary of a notebook instance lifecycle configuration.
@@ -59146,55 +61563,93 @@ class NotebookInstanceLifecycleHook {
   }
 }
 
-enum NotebookInstanceSortKey {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class NotebookInstanceSortKey {
+  static const name = NotebookInstanceSortKey._('Name');
+  static const creationTime = NotebookInstanceSortKey._('CreationTime');
+  static const status = NotebookInstanceSortKey._('Status');
 
   final String value;
 
-  const NotebookInstanceSortKey(this.value);
+  const NotebookInstanceSortKey._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static NotebookInstanceSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceSortKey'));
+          orElse: () => NotebookInstanceSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotebookInstanceSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class NotebookInstanceSortOrder {
+  static const ascending = NotebookInstanceSortOrder._('Ascending');
+  static const descending = NotebookInstanceSortOrder._('Descending');
 
   final String value;
 
-  const NotebookInstanceSortOrder(this.value);
+  const NotebookInstanceSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static NotebookInstanceSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceSortOrder'));
+          orElse: () => NotebookInstanceSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotebookInstanceStatus {
-  pending('Pending'),
-  inService('InService'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  failed('Failed'),
-  deleting('Deleting'),
-  updating('Updating'),
-  ;
+class NotebookInstanceStatus {
+  static const pending = NotebookInstanceStatus._('Pending');
+  static const inService = NotebookInstanceStatus._('InService');
+  static const stopping = NotebookInstanceStatus._('Stopping');
+  static const stopped = NotebookInstanceStatus._('Stopped');
+  static const failed = NotebookInstanceStatus._('Failed');
+  static const deleting = NotebookInstanceStatus._('Deleting');
+  static const updating = NotebookInstanceStatus._('Updating');
 
   final String value;
 
-  const NotebookInstanceStatus(this.value);
+  const NotebookInstanceStatus._(this.value);
+
+  static const values = [
+    pending,
+    inService,
+    stopping,
+    stopped,
+    failed,
+    deleting,
+    updating
+  ];
 
   static NotebookInstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotebookInstanceStatus'));
+          orElse: () => NotebookInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides summary information for an SageMaker notebook instance.
@@ -59319,19 +61774,29 @@ class NotebookInstanceSummary {
   }
 }
 
-enum NotebookOutputOption {
-  allowed('Allowed'),
-  disabled('Disabled'),
-  ;
+class NotebookOutputOption {
+  static const allowed = NotebookOutputOption._('Allowed');
+  static const disabled = NotebookOutputOption._('Disabled');
 
   final String value;
 
-  const NotebookOutputOption(this.value);
+  const NotebookOutputOption._(this.value);
 
-  static NotebookOutputOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NotebookOutputOption'));
+  static const values = [allowed, disabled];
+
+  static NotebookOutputOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotebookOutputOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotebookOutputOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures Amazon SNS notifications of available or expiring work items for
@@ -59359,20 +61824,29 @@ class NotificationConfiguration {
   }
 }
 
-enum ObjectiveStatus {
-  succeeded('Succeeded'),
-  pending('Pending'),
-  failed('Failed'),
-  ;
+class ObjectiveStatus {
+  static const succeeded = ObjectiveStatus._('Succeeded');
+  static const pending = ObjectiveStatus._('Pending');
+  static const failed = ObjectiveStatus._('Failed');
 
   final String value;
 
-  const ObjectiveStatus(this.value);
+  const ObjectiveStatus._(this.value);
+
+  static const values = [succeeded, pending, failed];
 
   static ObjectiveStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectiveStatus'));
+          orElse: () => ObjectiveStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectiveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the number of training jobs that this hyperparameter tuning job
@@ -59502,7 +61976,8 @@ class OfflineStoreStatus {
 
   factory OfflineStoreStatus.fromJson(Map<String, dynamic> json) {
     return OfflineStoreStatus(
-      status: OfflineStoreStatusValue.fromString((json['Status'] as String)),
+      status:
+          OfflineStoreStatusValue.fromString((json['Status'] as String?) ?? ''),
       blockedReason: json['BlockedReason'] as String?,
     );
   }
@@ -59517,20 +61992,30 @@ class OfflineStoreStatus {
   }
 }
 
-enum OfflineStoreStatusValue {
-  active('Active'),
-  blocked('Blocked'),
-  disabled('Disabled'),
-  ;
+class OfflineStoreStatusValue {
+  static const active = OfflineStoreStatusValue._('Active');
+  static const blocked = OfflineStoreStatusValue._('Blocked');
+  static const disabled = OfflineStoreStatusValue._('Disabled');
 
   final String value;
 
-  const OfflineStoreStatusValue(this.value);
+  const OfflineStoreStatusValue._(this.value);
+
+  static const values = [active, blocked, disabled];
 
   static OfflineStoreStatusValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OfflineStoreStatusValue'));
+          orElse: () => OfflineStoreStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfflineStoreStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this parameter to configure your OIDC Identity Provider (IdP).
@@ -59899,26 +62384,46 @@ class OnlineStoreSecurityConfig {
   }
 }
 
-enum Operator {
-  equals('Equals'),
-  notEquals('NotEquals'),
-  greaterThan('GreaterThan'),
-  greaterThanOrEqualTo('GreaterThanOrEqualTo'),
-  lessThan('LessThan'),
-  lessThanOrEqualTo('LessThanOrEqualTo'),
-  contains('Contains'),
-  exists('Exists'),
-  notExists('NotExists'),
-  $in('In'),
-  ;
+class Operator {
+  static const equals = Operator._('Equals');
+  static const notEquals = Operator._('NotEquals');
+  static const greaterThan = Operator._('GreaterThan');
+  static const greaterThanOrEqualTo = Operator._('GreaterThanOrEqualTo');
+  static const lessThan = Operator._('LessThan');
+  static const lessThanOrEqualTo = Operator._('LessThanOrEqualTo');
+  static const contains = Operator._('Contains');
+  static const exists = Operator._('Exists');
+  static const notExists = Operator._('NotExists');
+  static const $in = Operator._('In');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [
+    equals,
+    notEquals,
+    greaterThan,
+    greaterThanOrEqualTo,
+    lessThan,
+    lessThanOrEqualTo,
+    contains,
+    exists,
+    notExists,
+    $in
+  ];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings for an optimization technique that you apply with a model
@@ -59962,43 +62467,106 @@ class OptimizationConfig {
   }
 }
 
-enum OptimizationJobDeploymentInstanceType {
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlG6Xlarge('ml.g6.xlarge'),
-  mlG6_2xlarge('ml.g6.2xlarge'),
-  mlG6_4xlarge('ml.g6.4xlarge'),
-  mlG6_8xlarge('ml.g6.8xlarge'),
-  mlG6_12xlarge('ml.g6.12xlarge'),
-  mlG6_16xlarge('ml.g6.16xlarge'),
-  mlG6_24xlarge('ml.g6.24xlarge'),
-  mlG6_48xlarge('ml.g6.48xlarge'),
-  mlInf2Xlarge('ml.inf2.xlarge'),
-  mlInf2_8xlarge('ml.inf2.8xlarge'),
-  mlInf2_24xlarge('ml.inf2.24xlarge'),
-  mlInf2_48xlarge('ml.inf2.48xlarge'),
-  mlTrn1_2xlarge('ml.trn1.2xlarge'),
-  mlTrn1_32xlarge('ml.trn1.32xlarge'),
-  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
-  ;
+class OptimizationJobDeploymentInstanceType {
+  static const mlP4d_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.p4d.24xlarge');
+  static const mlP4de_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.p4de.24xlarge');
+  static const mlP5_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.p5.48xlarge');
+  static const mlG5Xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.8xlarge');
+  static const mlG5_12xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.12xlarge');
+  static const mlG5_16xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.16xlarge');
+  static const mlG5_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g5.48xlarge');
+  static const mlG6Xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.xlarge');
+  static const mlG6_2xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.2xlarge');
+  static const mlG6_4xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.4xlarge');
+  static const mlG6_8xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.8xlarge');
+  static const mlG6_12xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.12xlarge');
+  static const mlG6_16xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.16xlarge');
+  static const mlG6_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.24xlarge');
+  static const mlG6_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g6.48xlarge');
+  static const mlInf2Xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.inf2.xlarge');
+  static const mlInf2_8xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.inf2.8xlarge');
+  static const mlInf2_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.inf2.24xlarge');
+  static const mlInf2_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.inf2.48xlarge');
+  static const mlTrn1_2xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.trn1.2xlarge');
+  static const mlTrn1_32xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.trn1.32xlarge');
+  static const mlTrn1n_32xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.trn1n.32xlarge');
 
   final String value;
 
-  const OptimizationJobDeploymentInstanceType(this.value);
+  const OptimizationJobDeploymentInstanceType._(this.value);
+
+  static const values = [
+    mlP4d_24xlarge,
+    mlP4de_24xlarge,
+    mlP5_48xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_12xlarge,
+    mlG5_16xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlG6Xlarge,
+    mlG6_2xlarge,
+    mlG6_4xlarge,
+    mlG6_8xlarge,
+    mlG6_12xlarge,
+    mlG6_16xlarge,
+    mlG6_24xlarge,
+    mlG6_48xlarge,
+    mlInf2Xlarge,
+    mlInf2_8xlarge,
+    mlInf2_24xlarge,
+    mlInf2_48xlarge,
+    mlTrn1_2xlarge,
+    mlTrn1_32xlarge,
+    mlTrn1n_32xlarge
+  ];
 
   static OptimizationJobDeploymentInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OptimizationJobDeploymentInstanceType'));
+          orElse: () => OptimizationJobDeploymentInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OptimizationJobDeploymentInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The location of the source model to optimize with an optimization job.
@@ -60099,23 +62667,40 @@ class OptimizationJobOutputConfig {
   }
 }
 
-enum OptimizationJobStatus {
-  inprogress('INPROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class OptimizationJobStatus {
+  static const inprogress = OptimizationJobStatus._('INPROGRESS');
+  static const completed = OptimizationJobStatus._('COMPLETED');
+  static const failed = OptimizationJobStatus._('FAILED');
+  static const starting = OptimizationJobStatus._('STARTING');
+  static const stopping = OptimizationJobStatus._('STOPPING');
+  static const stopped = OptimizationJobStatus._('STOPPED');
 
   final String value;
 
-  const OptimizationJobStatus(this.value);
+  const OptimizationJobStatus._(this.value);
 
-  static OptimizationJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OptimizationJobStatus'));
+  static const values = [
+    inprogress,
+    completed,
+    failed,
+    starting,
+    stopping,
+    stopped
+  ];
+
+  static OptimizationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OptimizationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OptimizationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarizes an optimization job by providing some of its key properties.
@@ -60164,11 +62749,11 @@ class OptimizationJobSummary {
     return OptimizationJobSummary(
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       deploymentInstanceType: OptimizationJobDeploymentInstanceType.fromString(
-          (json['DeploymentInstanceType'] as String)),
+          (json['DeploymentInstanceType'] as String?) ?? ''),
       optimizationJobArn: (json['OptimizationJobArn'] as String?) ?? '',
       optimizationJobName: (json['OptimizationJobName'] as String?) ?? '',
       optimizationJobStatus: OptimizationJobStatus.fromString(
-          (json['OptimizationJobStatus'] as String)),
+          (json['OptimizationJobStatus'] as String?) ?? ''),
       optimizationTypes: ((json['OptimizationTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -60304,33 +62889,52 @@ class OptimizationVpcConfig {
   }
 }
 
-enum OrderKey {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class OrderKey {
+  static const ascending = OrderKey._('Ascending');
+  static const descending = OrderKey._('Descending');
 
   final String value;
 
-  const OrderKey(this.value);
+  const OrderKey._(this.value);
 
-  static OrderKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderKey'));
+  static const values = [ascending, descending];
+
+  static OrderKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderKey._(value));
+
+  @override
+  bool operator ==(other) => other is OrderKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OutputCompressionType {
-  gzip('GZIP'),
-  none('NONE'),
-  ;
+class OutputCompressionType {
+  static const gzip = OutputCompressionType._('GZIP');
+  static const none = OutputCompressionType._('NONE');
 
   final String value;
 
-  const OutputCompressionType(this.value);
+  const OutputCompressionType._(this.value);
 
-  static OutputCompressionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OutputCompressionType'));
+  static const values = [gzip, none];
+
+  static OutputCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutputCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the output location for the compiled model and
@@ -60978,21 +63582,30 @@ class ParameterRanges {
   }
 }
 
-enum ParameterType {
-  integer('Integer'),
-  continuous('Continuous'),
-  categorical('Categorical'),
-  freeText('FreeText'),
-  ;
+class ParameterType {
+  static const integer = ParameterType._('Integer');
+  static const continuous = ParameterType._('Continuous');
+  static const categorical = ParameterType._('Categorical');
+  static const freeText = ParameterType._('FreeText');
 
   final String value;
 
-  const ParameterType(this.value);
+  const ParameterType._(this.value);
+
+  static const values = [integer, continuous, categorical, freeText];
 
   static ParameterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParameterType'));
+          orElse: () => ParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is ParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The trial that a trial component is associated with and the experiment the
@@ -61600,22 +64213,32 @@ class PipelineExecution {
   }
 }
 
-enum PipelineExecutionStatus {
-  executing('Executing'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  failed('Failed'),
-  succeeded('Succeeded'),
-  ;
+class PipelineExecutionStatus {
+  static const executing = PipelineExecutionStatus._('Executing');
+  static const stopping = PipelineExecutionStatus._('Stopping');
+  static const stopped = PipelineExecutionStatus._('Stopped');
+  static const failed = PipelineExecutionStatus._('Failed');
+  static const succeeded = PipelineExecutionStatus._('Succeeded');
 
   final String value;
 
-  const PipelineExecutionStatus(this.value);
+  const PipelineExecutionStatus._(this.value);
+
+  static const values = [executing, stopping, stopped, failed, succeeded];
 
   static PipelineExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PipelineExecutionStatus'));
+          orElse: () => PipelineExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipelineExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An execution of a step in a pipeline.
@@ -62065,19 +64688,28 @@ class PipelineExperimentConfig {
   }
 }
 
-enum PipelineStatus {
-  active('Active'),
-  deleting('Deleting'),
-  ;
+class PipelineStatus {
+  static const active = PipelineStatus._('Active');
+  static const deleting = PipelineStatus._('Deleting');
 
   final String value;
 
-  const PipelineStatus(this.value);
+  const PipelineStatus._(this.value);
+
+  static const values = [active, deleting];
 
   static PipelineStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PipelineStatus'));
+          orElse: () => PipelineStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a pipeline.
@@ -62182,19 +64814,33 @@ class PredefinedMetricSpecification {
   }
 }
 
-enum ProblemType {
-  binaryClassification('BinaryClassification'),
-  multiclassClassification('MulticlassClassification'),
-  regression('Regression'),
-  ;
+class ProblemType {
+  static const binaryClassification = ProblemType._('BinaryClassification');
+  static const multiclassClassification =
+      ProblemType._('MulticlassClassification');
+  static const regression = ProblemType._('Regression');
 
   final String value;
 
-  const ProblemType(this.value);
+  const ProblemType._(this.value);
 
-  static ProblemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProblemType'));
+  static const values = [
+    binaryClassification,
+    multiclassClassification,
+    regression
+  ];
+
+  static ProblemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProblemType._(value));
+
+  @override
+  bool operator ==(other) => other is ProblemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for the cluster used to run a processing job.
@@ -62252,8 +64898,8 @@ class ProcessingClusterConfig {
   factory ProcessingClusterConfig.fromJson(Map<String, dynamic> json) {
     return ProcessingClusterConfig(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
-      instanceType:
-          ProcessingInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: ProcessingInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
       volumeSizeInGB: (json['VolumeSizeInGB'] as int?) ?? 0,
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
@@ -62351,77 +64997,148 @@ class ProcessingInput {
   }
 }
 
-enum ProcessingInstanceType {
-  mlT3Medium('ml.t3.medium'),
-  mlT3Large('ml.t3.large'),
-  mlT3Xlarge('ml.t3.xlarge'),
-  mlT3_2xlarge('ml.t3.2xlarge'),
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlR5Large('ml.r5.large'),
-  mlR5Xlarge('ml.r5.xlarge'),
-  mlR5_2xlarge('ml.r5.2xlarge'),
-  mlR5_4xlarge('ml.r5.4xlarge'),
-  mlR5_8xlarge('ml.r5.8xlarge'),
-  mlR5_12xlarge('ml.r5.12xlarge'),
-  mlR5_16xlarge('ml.r5.16xlarge'),
-  mlR5_24xlarge('ml.r5.24xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlR5dLarge('ml.r5d.large'),
-  mlR5dXlarge('ml.r5d.xlarge'),
-  mlR5d_2xlarge('ml.r5d.2xlarge'),
-  mlR5d_4xlarge('ml.r5d.4xlarge'),
-  mlR5d_8xlarge('ml.r5d.8xlarge'),
-  mlR5d_12xlarge('ml.r5d.12xlarge'),
-  mlR5d_16xlarge('ml.r5d.16xlarge'),
-  mlR5d_24xlarge('ml.r5d.24xlarge'),
-  ;
+class ProcessingInstanceType {
+  static const mlT3Medium = ProcessingInstanceType._('ml.t3.medium');
+  static const mlT3Large = ProcessingInstanceType._('ml.t3.large');
+  static const mlT3Xlarge = ProcessingInstanceType._('ml.t3.xlarge');
+  static const mlT3_2xlarge = ProcessingInstanceType._('ml.t3.2xlarge');
+  static const mlM4Xlarge = ProcessingInstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = ProcessingInstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = ProcessingInstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge = ProcessingInstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge = ProcessingInstanceType._('ml.m4.16xlarge');
+  static const mlC4Xlarge = ProcessingInstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = ProcessingInstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = ProcessingInstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = ProcessingInstanceType._('ml.c4.8xlarge');
+  static const mlP2Xlarge = ProcessingInstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = ProcessingInstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge = ProcessingInstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = ProcessingInstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = ProcessingInstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = ProcessingInstanceType._('ml.p3.16xlarge');
+  static const mlC5Xlarge = ProcessingInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = ProcessingInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = ProcessingInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = ProcessingInstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge = ProcessingInstanceType._('ml.c5.18xlarge');
+  static const mlM5Large = ProcessingInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = ProcessingInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = ProcessingInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = ProcessingInstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge = ProcessingInstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge = ProcessingInstanceType._('ml.m5.24xlarge');
+  static const mlR5Large = ProcessingInstanceType._('ml.r5.large');
+  static const mlR5Xlarge = ProcessingInstanceType._('ml.r5.xlarge');
+  static const mlR5_2xlarge = ProcessingInstanceType._('ml.r5.2xlarge');
+  static const mlR5_4xlarge = ProcessingInstanceType._('ml.r5.4xlarge');
+  static const mlR5_8xlarge = ProcessingInstanceType._('ml.r5.8xlarge');
+  static const mlR5_12xlarge = ProcessingInstanceType._('ml.r5.12xlarge');
+  static const mlR5_16xlarge = ProcessingInstanceType._('ml.r5.16xlarge');
+  static const mlR5_24xlarge = ProcessingInstanceType._('ml.r5.24xlarge');
+  static const mlG4dnXlarge = ProcessingInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = ProcessingInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = ProcessingInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = ProcessingInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = ProcessingInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = ProcessingInstanceType._('ml.g4dn.16xlarge');
+  static const mlG5Xlarge = ProcessingInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = ProcessingInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = ProcessingInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = ProcessingInstanceType._('ml.g5.8xlarge');
+  static const mlG5_16xlarge = ProcessingInstanceType._('ml.g5.16xlarge');
+  static const mlG5_12xlarge = ProcessingInstanceType._('ml.g5.12xlarge');
+  static const mlG5_24xlarge = ProcessingInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = ProcessingInstanceType._('ml.g5.48xlarge');
+  static const mlR5dLarge = ProcessingInstanceType._('ml.r5d.large');
+  static const mlR5dXlarge = ProcessingInstanceType._('ml.r5d.xlarge');
+  static const mlR5d_2xlarge = ProcessingInstanceType._('ml.r5d.2xlarge');
+  static const mlR5d_4xlarge = ProcessingInstanceType._('ml.r5d.4xlarge');
+  static const mlR5d_8xlarge = ProcessingInstanceType._('ml.r5d.8xlarge');
+  static const mlR5d_12xlarge = ProcessingInstanceType._('ml.r5d.12xlarge');
+  static const mlR5d_16xlarge = ProcessingInstanceType._('ml.r5d.16xlarge');
+  static const mlR5d_24xlarge = ProcessingInstanceType._('ml.r5d.24xlarge');
 
   final String value;
 
-  const ProcessingInstanceType(this.value);
+  const ProcessingInstanceType._(this.value);
+
+  static const values = [
+    mlT3Medium,
+    mlT3Large,
+    mlT3Xlarge,
+    mlT3_2xlarge,
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlR5Large,
+    mlR5Xlarge,
+    mlR5_2xlarge,
+    mlR5_4xlarge,
+    mlR5_8xlarge,
+    mlR5_12xlarge,
+    mlR5_16xlarge,
+    mlR5_24xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_16xlarge,
+    mlG5_12xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlR5dLarge,
+    mlR5dXlarge,
+    mlR5d_2xlarge,
+    mlR5d_4xlarge,
+    mlR5d_8xlarge,
+    mlR5d_12xlarge,
+    mlR5d_16xlarge,
+    mlR5d_24xlarge
+  ];
 
   static ProcessingInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProcessingInstanceType'));
+          orElse: () => ProcessingInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Amazon SageMaker processing job that is used to analyze data and evaluate
@@ -62627,22 +65344,32 @@ class ProcessingJob {
   }
 }
 
-enum ProcessingJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class ProcessingJobStatus {
+  static const inProgress = ProcessingJobStatus._('InProgress');
+  static const completed = ProcessingJobStatus._('Completed');
+  static const failed = ProcessingJobStatus._('Failed');
+  static const stopping = ProcessingJobStatus._('Stopping');
+  static const stopped = ProcessingJobStatus._('Stopped');
 
   final String value;
 
-  const ProcessingJobStatus(this.value);
+  const ProcessingJobStatus._(this.value);
 
-  static ProcessingJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProcessingJobStatus'));
+  static const values = [inProgress, completed, failed, stopping, stopped];
+
+  static ProcessingJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for a processing job step.
@@ -62713,7 +65440,7 @@ class ProcessingJobSummary {
       processingJobArn: (json['ProcessingJobArn'] as String?) ?? '',
       processingJobName: (json['ProcessingJobName'] as String?) ?? '',
       processingJobStatus: ProcessingJobStatus.fromString(
-          (json['ProcessingJobStatus'] as String)),
+          (json['ProcessingJobStatus'] as String?) ?? ''),
       exitMessage: json['ExitMessage'] as String?,
       failureReason: json['FailureReason'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -62867,49 +65594,81 @@ class ProcessingResources {
   }
 }
 
-enum ProcessingS3CompressionType {
-  none('None'),
-  gzip('Gzip'),
-  ;
+class ProcessingS3CompressionType {
+  static const none = ProcessingS3CompressionType._('None');
+  static const gzip = ProcessingS3CompressionType._('Gzip');
 
   final String value;
 
-  const ProcessingS3CompressionType(this.value);
+  const ProcessingS3CompressionType._(this.value);
+
+  static const values = [none, gzip];
 
   static ProcessingS3CompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProcessingS3CompressionType'));
+          orElse: () => ProcessingS3CompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingS3CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProcessingS3DataDistributionType {
-  fullyReplicated('FullyReplicated'),
-  shardedByS3Key('ShardedByS3Key'),
-  ;
+class ProcessingS3DataDistributionType {
+  static const fullyReplicated =
+      ProcessingS3DataDistributionType._('FullyReplicated');
+  static const shardedByS3Key =
+      ProcessingS3DataDistributionType._('ShardedByS3Key');
 
   final String value;
 
-  const ProcessingS3DataDistributionType(this.value);
+  const ProcessingS3DataDistributionType._(this.value);
+
+  static const values = [fullyReplicated, shardedByS3Key];
 
   static ProcessingS3DataDistributionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProcessingS3DataDistributionType'));
+          orElse: () => ProcessingS3DataDistributionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingS3DataDistributionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProcessingS3DataType {
-  manifestFile('ManifestFile'),
-  s3Prefix('S3Prefix'),
-  ;
+class ProcessingS3DataType {
+  static const manifestFile = ProcessingS3DataType._('ManifestFile');
+  static const s3Prefix = ProcessingS3DataType._('S3Prefix');
 
   final String value;
 
-  const ProcessingS3DataType(this.value);
+  const ProcessingS3DataType._(this.value);
 
-  static ProcessingS3DataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProcessingS3DataType'));
+  static const values = [manifestFile, s3Prefix];
+
+  static ProcessingS3DataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingS3DataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingS3DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for downloading input data from Amazon S3 into the processing
@@ -62967,8 +65726,8 @@ class ProcessingS3Input {
 
   factory ProcessingS3Input.fromJson(Map<String, dynamic> json) {
     return ProcessingS3Input(
-      s3DataType:
-          ProcessingS3DataType.fromString((json['S3DataType'] as String)),
+      s3DataType: ProcessingS3DataType.fromString(
+          (json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       localPath: json['LocalPath'] as String?,
       s3CompressionType: (json['S3CompressionType'] as String?)
@@ -63000,19 +65759,29 @@ class ProcessingS3Input {
   }
 }
 
-enum ProcessingS3InputMode {
-  pipe('Pipe'),
-  file('File'),
-  ;
+class ProcessingS3InputMode {
+  static const pipe = ProcessingS3InputMode._('Pipe');
+  static const file = ProcessingS3InputMode._('File');
 
   final String value;
 
-  const ProcessingS3InputMode(this.value);
+  const ProcessingS3InputMode._(this.value);
 
-  static ProcessingS3InputMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProcessingS3InputMode'));
+  static const values = [pipe, file];
+
+  static ProcessingS3InputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingS3InputMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingS3InputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for uploading output data to Amazon S3 from the processing
@@ -63040,8 +65809,8 @@ class ProcessingS3Output {
 
   factory ProcessingS3Output.fromJson(Map<String, dynamic> json) {
     return ProcessingS3Output(
-      s3UploadMode:
-          ProcessingS3UploadMode.fromString((json['S3UploadMode'] as String)),
+      s3UploadMode: ProcessingS3UploadMode.fromString(
+          (json['S3UploadMode'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       localPath: json['LocalPath'] as String?,
     );
@@ -63059,19 +65828,29 @@ class ProcessingS3Output {
   }
 }
 
-enum ProcessingS3UploadMode {
-  continuous('Continuous'),
-  endOfJob('EndOfJob'),
-  ;
+class ProcessingS3UploadMode {
+  static const continuous = ProcessingS3UploadMode._('Continuous');
+  static const endOfJob = ProcessingS3UploadMode._('EndOfJob');
 
   final String value;
 
-  const ProcessingS3UploadMode(this.value);
+  const ProcessingS3UploadMode._(this.value);
+
+  static const values = [continuous, endOfJob];
 
   static ProcessingS3UploadMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProcessingS3UploadMode'));
+          orElse: () => ProcessingS3UploadMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessingS3UploadMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures conditions under which the processing job should be stopped, such
@@ -63099,18 +65878,27 @@ class ProcessingStoppingCondition {
   }
 }
 
-enum Processor {
-  cpu('CPU'),
-  gpu('GPU'),
-  ;
+class Processor {
+  static const cpu = Processor._('CPU');
+  static const gpu = Processor._('GPU');
 
   final String value;
 
-  const Processor(this.value);
+  const Processor._(this.value);
 
-  static Processor fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Processor'));
+  static const values = [cpu, gpu];
+
+  static Processor fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Processor._(value));
+
+  @override
+  bool operator ==(other) => other is Processor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifies a model that you want to host and the resources chosen to deploy
@@ -63316,23 +66104,46 @@ class ProductionVariant {
   }
 }
 
-enum ProductionVariantAcceleratorType {
-  mlEia1Medium('ml.eia1.medium'),
-  mlEia1Large('ml.eia1.large'),
-  mlEia1Xlarge('ml.eia1.xlarge'),
-  mlEia2Medium('ml.eia2.medium'),
-  mlEia2Large('ml.eia2.large'),
-  mlEia2Xlarge('ml.eia2.xlarge'),
-  ;
+class ProductionVariantAcceleratorType {
+  static const mlEia1Medium =
+      ProductionVariantAcceleratorType._('ml.eia1.medium');
+  static const mlEia1Large =
+      ProductionVariantAcceleratorType._('ml.eia1.large');
+  static const mlEia1Xlarge =
+      ProductionVariantAcceleratorType._('ml.eia1.xlarge');
+  static const mlEia2Medium =
+      ProductionVariantAcceleratorType._('ml.eia2.medium');
+  static const mlEia2Large =
+      ProductionVariantAcceleratorType._('ml.eia2.large');
+  static const mlEia2Xlarge =
+      ProductionVariantAcceleratorType._('ml.eia2.xlarge');
 
   final String value;
 
-  const ProductionVariantAcceleratorType(this.value);
+  const ProductionVariantAcceleratorType._(this.value);
+
+  static const values = [
+    mlEia1Medium,
+    mlEia1Large,
+    mlEia1Xlarge,
+    mlEia2Medium,
+    mlEia2Large,
+    mlEia2Xlarge
+  ];
 
   static ProductionVariantAcceleratorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProductionVariantAcceleratorType'));
+          orElse: () => ProductionVariantAcceleratorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProductionVariantAcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies configuration for a core dump from the model container when the
@@ -63411,216 +66222,539 @@ class ProductionVariantCoreDumpConfig {
   }
 }
 
-enum ProductionVariantInferenceAmiVersion {
-  al2AmiSagemakerInferenceGpu_2('al2-ami-sagemaker-inference-gpu-2'),
-  ;
+class ProductionVariantInferenceAmiVersion {
+  static const al2AmiSagemakerInferenceGpu_2 =
+      ProductionVariantInferenceAmiVersion._(
+          'al2-ami-sagemaker-inference-gpu-2');
 
   final String value;
 
-  const ProductionVariantInferenceAmiVersion(this.value);
+  const ProductionVariantInferenceAmiVersion._(this.value);
+
+  static const values = [al2AmiSagemakerInferenceGpu_2];
 
   static ProductionVariantInferenceAmiVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProductionVariantInferenceAmiVersion'));
+          orElse: () => ProductionVariantInferenceAmiVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProductionVariantInferenceAmiVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProductionVariantInstanceType {
-  mlT2Medium('ml.t2.medium'),
-  mlT2Large('ml.t2.large'),
-  mlT2Xlarge('ml.t2.xlarge'),
-  mlT2_2xlarge('ml.t2.2xlarge'),
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlM5dLarge('ml.m5d.large'),
-  mlM5dXlarge('ml.m5d.xlarge'),
-  mlM5d_2xlarge('ml.m5d.2xlarge'),
-  mlM5d_4xlarge('ml.m5d.4xlarge'),
-  mlM5d_12xlarge('ml.m5d.12xlarge'),
-  mlM5d_24xlarge('ml.m5d.24xlarge'),
-  mlC4Large('ml.c4.large'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlC5Large('ml.c5.large'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5dLarge('ml.c5d.large'),
-  mlC5dXlarge('ml.c5d.xlarge'),
-  mlC5d_2xlarge('ml.c5d.2xlarge'),
-  mlC5d_4xlarge('ml.c5d.4xlarge'),
-  mlC5d_9xlarge('ml.c5d.9xlarge'),
-  mlC5d_18xlarge('ml.c5d.18xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlR5Large('ml.r5.large'),
-  mlR5Xlarge('ml.r5.xlarge'),
-  mlR5_2xlarge('ml.r5.2xlarge'),
-  mlR5_4xlarge('ml.r5.4xlarge'),
-  mlR5_12xlarge('ml.r5.12xlarge'),
-  mlR5_24xlarge('ml.r5.24xlarge'),
-  mlR5dLarge('ml.r5d.large'),
-  mlR5dXlarge('ml.r5d.xlarge'),
-  mlR5d_2xlarge('ml.r5d.2xlarge'),
-  mlR5d_4xlarge('ml.r5d.4xlarge'),
-  mlR5d_12xlarge('ml.r5d.12xlarge'),
-  mlR5d_24xlarge('ml.r5d.24xlarge'),
-  mlInf1Xlarge('ml.inf1.xlarge'),
-  mlInf1_2xlarge('ml.inf1.2xlarge'),
-  mlInf1_6xlarge('ml.inf1.6xlarge'),
-  mlInf1_24xlarge('ml.inf1.24xlarge'),
-  mlDl1_24xlarge('ml.dl1.24xlarge'),
-  mlC6iLarge('ml.c6i.large'),
-  mlC6iXlarge('ml.c6i.xlarge'),
-  mlC6i_2xlarge('ml.c6i.2xlarge'),
-  mlC6i_4xlarge('ml.c6i.4xlarge'),
-  mlC6i_8xlarge('ml.c6i.8xlarge'),
-  mlC6i_12xlarge('ml.c6i.12xlarge'),
-  mlC6i_16xlarge('ml.c6i.16xlarge'),
-  mlC6i_24xlarge('ml.c6i.24xlarge'),
-  mlC6i_32xlarge('ml.c6i.32xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlG6Xlarge('ml.g6.xlarge'),
-  mlG6_2xlarge('ml.g6.2xlarge'),
-  mlG6_4xlarge('ml.g6.4xlarge'),
-  mlG6_8xlarge('ml.g6.8xlarge'),
-  mlG6_12xlarge('ml.g6.12xlarge'),
-  mlG6_16xlarge('ml.g6.16xlarge'),
-  mlG6_24xlarge('ml.g6.24xlarge'),
-  mlG6_48xlarge('ml.g6.48xlarge'),
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlC7gLarge('ml.c7g.large'),
-  mlC7gXlarge('ml.c7g.xlarge'),
-  mlC7g_2xlarge('ml.c7g.2xlarge'),
-  mlC7g_4xlarge('ml.c7g.4xlarge'),
-  mlC7g_8xlarge('ml.c7g.8xlarge'),
-  mlC7g_12xlarge('ml.c7g.12xlarge'),
-  mlC7g_16xlarge('ml.c7g.16xlarge'),
-  mlM6gLarge('ml.m6g.large'),
-  mlM6gXlarge('ml.m6g.xlarge'),
-  mlM6g_2xlarge('ml.m6g.2xlarge'),
-  mlM6g_4xlarge('ml.m6g.4xlarge'),
-  mlM6g_8xlarge('ml.m6g.8xlarge'),
-  mlM6g_12xlarge('ml.m6g.12xlarge'),
-  mlM6g_16xlarge('ml.m6g.16xlarge'),
-  mlM6gdLarge('ml.m6gd.large'),
-  mlM6gdXlarge('ml.m6gd.xlarge'),
-  mlM6gd_2xlarge('ml.m6gd.2xlarge'),
-  mlM6gd_4xlarge('ml.m6gd.4xlarge'),
-  mlM6gd_8xlarge('ml.m6gd.8xlarge'),
-  mlM6gd_12xlarge('ml.m6gd.12xlarge'),
-  mlM6gd_16xlarge('ml.m6gd.16xlarge'),
-  mlC6gLarge('ml.c6g.large'),
-  mlC6gXlarge('ml.c6g.xlarge'),
-  mlC6g_2xlarge('ml.c6g.2xlarge'),
-  mlC6g_4xlarge('ml.c6g.4xlarge'),
-  mlC6g_8xlarge('ml.c6g.8xlarge'),
-  mlC6g_12xlarge('ml.c6g.12xlarge'),
-  mlC6g_16xlarge('ml.c6g.16xlarge'),
-  mlC6gdLarge('ml.c6gd.large'),
-  mlC6gdXlarge('ml.c6gd.xlarge'),
-  mlC6gd_2xlarge('ml.c6gd.2xlarge'),
-  mlC6gd_4xlarge('ml.c6gd.4xlarge'),
-  mlC6gd_8xlarge('ml.c6gd.8xlarge'),
-  mlC6gd_12xlarge('ml.c6gd.12xlarge'),
-  mlC6gd_16xlarge('ml.c6gd.16xlarge'),
-  mlC6gnLarge('ml.c6gn.large'),
-  mlC6gnXlarge('ml.c6gn.xlarge'),
-  mlC6gn_2xlarge('ml.c6gn.2xlarge'),
-  mlC6gn_4xlarge('ml.c6gn.4xlarge'),
-  mlC6gn_8xlarge('ml.c6gn.8xlarge'),
-  mlC6gn_12xlarge('ml.c6gn.12xlarge'),
-  mlC6gn_16xlarge('ml.c6gn.16xlarge'),
-  mlR6gLarge('ml.r6g.large'),
-  mlR6gXlarge('ml.r6g.xlarge'),
-  mlR6g_2xlarge('ml.r6g.2xlarge'),
-  mlR6g_4xlarge('ml.r6g.4xlarge'),
-  mlR6g_8xlarge('ml.r6g.8xlarge'),
-  mlR6g_12xlarge('ml.r6g.12xlarge'),
-  mlR6g_16xlarge('ml.r6g.16xlarge'),
-  mlR6gdLarge('ml.r6gd.large'),
-  mlR6gdXlarge('ml.r6gd.xlarge'),
-  mlR6gd_2xlarge('ml.r6gd.2xlarge'),
-  mlR6gd_4xlarge('ml.r6gd.4xlarge'),
-  mlR6gd_8xlarge('ml.r6gd.8xlarge'),
-  mlR6gd_12xlarge('ml.r6gd.12xlarge'),
-  mlR6gd_16xlarge('ml.r6gd.16xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlTrn1_2xlarge('ml.trn1.2xlarge'),
-  mlTrn1_32xlarge('ml.trn1.32xlarge'),
-  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
-  mlInf2Xlarge('ml.inf2.xlarge'),
-  mlInf2_8xlarge('ml.inf2.8xlarge'),
-  mlInf2_24xlarge('ml.inf2.24xlarge'),
-  mlInf2_48xlarge('ml.inf2.48xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlM7iLarge('ml.m7i.large'),
-  mlM7iXlarge('ml.m7i.xlarge'),
-  mlM7i_2xlarge('ml.m7i.2xlarge'),
-  mlM7i_4xlarge('ml.m7i.4xlarge'),
-  mlM7i_8xlarge('ml.m7i.8xlarge'),
-  mlM7i_12xlarge('ml.m7i.12xlarge'),
-  mlM7i_16xlarge('ml.m7i.16xlarge'),
-  mlM7i_24xlarge('ml.m7i.24xlarge'),
-  mlM7i_48xlarge('ml.m7i.48xlarge'),
-  mlC7iLarge('ml.c7i.large'),
-  mlC7iXlarge('ml.c7i.xlarge'),
-  mlC7i_2xlarge('ml.c7i.2xlarge'),
-  mlC7i_4xlarge('ml.c7i.4xlarge'),
-  mlC7i_8xlarge('ml.c7i.8xlarge'),
-  mlC7i_12xlarge('ml.c7i.12xlarge'),
-  mlC7i_16xlarge('ml.c7i.16xlarge'),
-  mlC7i_24xlarge('ml.c7i.24xlarge'),
-  mlC7i_48xlarge('ml.c7i.48xlarge'),
-  mlR7iLarge('ml.r7i.large'),
-  mlR7iXlarge('ml.r7i.xlarge'),
-  mlR7i_2xlarge('ml.r7i.2xlarge'),
-  mlR7i_4xlarge('ml.r7i.4xlarge'),
-  mlR7i_8xlarge('ml.r7i.8xlarge'),
-  mlR7i_12xlarge('ml.r7i.12xlarge'),
-  mlR7i_16xlarge('ml.r7i.16xlarge'),
-  mlR7i_24xlarge('ml.r7i.24xlarge'),
-  mlR7i_48xlarge('ml.r7i.48xlarge'),
-  ;
+class ProductionVariantInstanceType {
+  static const mlT2Medium = ProductionVariantInstanceType._('ml.t2.medium');
+  static const mlT2Large = ProductionVariantInstanceType._('ml.t2.large');
+  static const mlT2Xlarge = ProductionVariantInstanceType._('ml.t2.xlarge');
+  static const mlT2_2xlarge = ProductionVariantInstanceType._('ml.t2.2xlarge');
+  static const mlM4Xlarge = ProductionVariantInstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = ProductionVariantInstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = ProductionVariantInstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge =
+      ProductionVariantInstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge =
+      ProductionVariantInstanceType._('ml.m4.16xlarge');
+  static const mlM5Large = ProductionVariantInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = ProductionVariantInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = ProductionVariantInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = ProductionVariantInstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge =
+      ProductionVariantInstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge =
+      ProductionVariantInstanceType._('ml.m5.24xlarge');
+  static const mlM5dLarge = ProductionVariantInstanceType._('ml.m5d.large');
+  static const mlM5dXlarge = ProductionVariantInstanceType._('ml.m5d.xlarge');
+  static const mlM5d_2xlarge =
+      ProductionVariantInstanceType._('ml.m5d.2xlarge');
+  static const mlM5d_4xlarge =
+      ProductionVariantInstanceType._('ml.m5d.4xlarge');
+  static const mlM5d_12xlarge =
+      ProductionVariantInstanceType._('ml.m5d.12xlarge');
+  static const mlM5d_24xlarge =
+      ProductionVariantInstanceType._('ml.m5d.24xlarge');
+  static const mlC4Large = ProductionVariantInstanceType._('ml.c4.large');
+  static const mlC4Xlarge = ProductionVariantInstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = ProductionVariantInstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = ProductionVariantInstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = ProductionVariantInstanceType._('ml.c4.8xlarge');
+  static const mlP2Xlarge = ProductionVariantInstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = ProductionVariantInstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge =
+      ProductionVariantInstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = ProductionVariantInstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = ProductionVariantInstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge =
+      ProductionVariantInstanceType._('ml.p3.16xlarge');
+  static const mlC5Large = ProductionVariantInstanceType._('ml.c5.large');
+  static const mlC5Xlarge = ProductionVariantInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = ProductionVariantInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = ProductionVariantInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = ProductionVariantInstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge =
+      ProductionVariantInstanceType._('ml.c5.18xlarge');
+  static const mlC5dLarge = ProductionVariantInstanceType._('ml.c5d.large');
+  static const mlC5dXlarge = ProductionVariantInstanceType._('ml.c5d.xlarge');
+  static const mlC5d_2xlarge =
+      ProductionVariantInstanceType._('ml.c5d.2xlarge');
+  static const mlC5d_4xlarge =
+      ProductionVariantInstanceType._('ml.c5d.4xlarge');
+  static const mlC5d_9xlarge =
+      ProductionVariantInstanceType._('ml.c5d.9xlarge');
+  static const mlC5d_18xlarge =
+      ProductionVariantInstanceType._('ml.c5d.18xlarge');
+  static const mlG4dnXlarge = ProductionVariantInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge =
+      ProductionVariantInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge =
+      ProductionVariantInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge =
+      ProductionVariantInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge =
+      ProductionVariantInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge =
+      ProductionVariantInstanceType._('ml.g4dn.16xlarge');
+  static const mlR5Large = ProductionVariantInstanceType._('ml.r5.large');
+  static const mlR5Xlarge = ProductionVariantInstanceType._('ml.r5.xlarge');
+  static const mlR5_2xlarge = ProductionVariantInstanceType._('ml.r5.2xlarge');
+  static const mlR5_4xlarge = ProductionVariantInstanceType._('ml.r5.4xlarge');
+  static const mlR5_12xlarge =
+      ProductionVariantInstanceType._('ml.r5.12xlarge');
+  static const mlR5_24xlarge =
+      ProductionVariantInstanceType._('ml.r5.24xlarge');
+  static const mlR5dLarge = ProductionVariantInstanceType._('ml.r5d.large');
+  static const mlR5dXlarge = ProductionVariantInstanceType._('ml.r5d.xlarge');
+  static const mlR5d_2xlarge =
+      ProductionVariantInstanceType._('ml.r5d.2xlarge');
+  static const mlR5d_4xlarge =
+      ProductionVariantInstanceType._('ml.r5d.4xlarge');
+  static const mlR5d_12xlarge =
+      ProductionVariantInstanceType._('ml.r5d.12xlarge');
+  static const mlR5d_24xlarge =
+      ProductionVariantInstanceType._('ml.r5d.24xlarge');
+  static const mlInf1Xlarge = ProductionVariantInstanceType._('ml.inf1.xlarge');
+  static const mlInf1_2xlarge =
+      ProductionVariantInstanceType._('ml.inf1.2xlarge');
+  static const mlInf1_6xlarge =
+      ProductionVariantInstanceType._('ml.inf1.6xlarge');
+  static const mlInf1_24xlarge =
+      ProductionVariantInstanceType._('ml.inf1.24xlarge');
+  static const mlDl1_24xlarge =
+      ProductionVariantInstanceType._('ml.dl1.24xlarge');
+  static const mlC6iLarge = ProductionVariantInstanceType._('ml.c6i.large');
+  static const mlC6iXlarge = ProductionVariantInstanceType._('ml.c6i.xlarge');
+  static const mlC6i_2xlarge =
+      ProductionVariantInstanceType._('ml.c6i.2xlarge');
+  static const mlC6i_4xlarge =
+      ProductionVariantInstanceType._('ml.c6i.4xlarge');
+  static const mlC6i_8xlarge =
+      ProductionVariantInstanceType._('ml.c6i.8xlarge');
+  static const mlC6i_12xlarge =
+      ProductionVariantInstanceType._('ml.c6i.12xlarge');
+  static const mlC6i_16xlarge =
+      ProductionVariantInstanceType._('ml.c6i.16xlarge');
+  static const mlC6i_24xlarge =
+      ProductionVariantInstanceType._('ml.c6i.24xlarge');
+  static const mlC6i_32xlarge =
+      ProductionVariantInstanceType._('ml.c6i.32xlarge');
+  static const mlG5Xlarge = ProductionVariantInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = ProductionVariantInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = ProductionVariantInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = ProductionVariantInstanceType._('ml.g5.8xlarge');
+  static const mlG5_12xlarge =
+      ProductionVariantInstanceType._('ml.g5.12xlarge');
+  static const mlG5_16xlarge =
+      ProductionVariantInstanceType._('ml.g5.16xlarge');
+  static const mlG5_24xlarge =
+      ProductionVariantInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge =
+      ProductionVariantInstanceType._('ml.g5.48xlarge');
+  static const mlG6Xlarge = ProductionVariantInstanceType._('ml.g6.xlarge');
+  static const mlG6_2xlarge = ProductionVariantInstanceType._('ml.g6.2xlarge');
+  static const mlG6_4xlarge = ProductionVariantInstanceType._('ml.g6.4xlarge');
+  static const mlG6_8xlarge = ProductionVariantInstanceType._('ml.g6.8xlarge');
+  static const mlG6_12xlarge =
+      ProductionVariantInstanceType._('ml.g6.12xlarge');
+  static const mlG6_16xlarge =
+      ProductionVariantInstanceType._('ml.g6.16xlarge');
+  static const mlG6_24xlarge =
+      ProductionVariantInstanceType._('ml.g6.24xlarge');
+  static const mlG6_48xlarge =
+      ProductionVariantInstanceType._('ml.g6.48xlarge');
+  static const mlP4d_24xlarge =
+      ProductionVariantInstanceType._('ml.p4d.24xlarge');
+  static const mlC7gLarge = ProductionVariantInstanceType._('ml.c7g.large');
+  static const mlC7gXlarge = ProductionVariantInstanceType._('ml.c7g.xlarge');
+  static const mlC7g_2xlarge =
+      ProductionVariantInstanceType._('ml.c7g.2xlarge');
+  static const mlC7g_4xlarge =
+      ProductionVariantInstanceType._('ml.c7g.4xlarge');
+  static const mlC7g_8xlarge =
+      ProductionVariantInstanceType._('ml.c7g.8xlarge');
+  static const mlC7g_12xlarge =
+      ProductionVariantInstanceType._('ml.c7g.12xlarge');
+  static const mlC7g_16xlarge =
+      ProductionVariantInstanceType._('ml.c7g.16xlarge');
+  static const mlM6gLarge = ProductionVariantInstanceType._('ml.m6g.large');
+  static const mlM6gXlarge = ProductionVariantInstanceType._('ml.m6g.xlarge');
+  static const mlM6g_2xlarge =
+      ProductionVariantInstanceType._('ml.m6g.2xlarge');
+  static const mlM6g_4xlarge =
+      ProductionVariantInstanceType._('ml.m6g.4xlarge');
+  static const mlM6g_8xlarge =
+      ProductionVariantInstanceType._('ml.m6g.8xlarge');
+  static const mlM6g_12xlarge =
+      ProductionVariantInstanceType._('ml.m6g.12xlarge');
+  static const mlM6g_16xlarge =
+      ProductionVariantInstanceType._('ml.m6g.16xlarge');
+  static const mlM6gdLarge = ProductionVariantInstanceType._('ml.m6gd.large');
+  static const mlM6gdXlarge = ProductionVariantInstanceType._('ml.m6gd.xlarge');
+  static const mlM6gd_2xlarge =
+      ProductionVariantInstanceType._('ml.m6gd.2xlarge');
+  static const mlM6gd_4xlarge =
+      ProductionVariantInstanceType._('ml.m6gd.4xlarge');
+  static const mlM6gd_8xlarge =
+      ProductionVariantInstanceType._('ml.m6gd.8xlarge');
+  static const mlM6gd_12xlarge =
+      ProductionVariantInstanceType._('ml.m6gd.12xlarge');
+  static const mlM6gd_16xlarge =
+      ProductionVariantInstanceType._('ml.m6gd.16xlarge');
+  static const mlC6gLarge = ProductionVariantInstanceType._('ml.c6g.large');
+  static const mlC6gXlarge = ProductionVariantInstanceType._('ml.c6g.xlarge');
+  static const mlC6g_2xlarge =
+      ProductionVariantInstanceType._('ml.c6g.2xlarge');
+  static const mlC6g_4xlarge =
+      ProductionVariantInstanceType._('ml.c6g.4xlarge');
+  static const mlC6g_8xlarge =
+      ProductionVariantInstanceType._('ml.c6g.8xlarge');
+  static const mlC6g_12xlarge =
+      ProductionVariantInstanceType._('ml.c6g.12xlarge');
+  static const mlC6g_16xlarge =
+      ProductionVariantInstanceType._('ml.c6g.16xlarge');
+  static const mlC6gdLarge = ProductionVariantInstanceType._('ml.c6gd.large');
+  static const mlC6gdXlarge = ProductionVariantInstanceType._('ml.c6gd.xlarge');
+  static const mlC6gd_2xlarge =
+      ProductionVariantInstanceType._('ml.c6gd.2xlarge');
+  static const mlC6gd_4xlarge =
+      ProductionVariantInstanceType._('ml.c6gd.4xlarge');
+  static const mlC6gd_8xlarge =
+      ProductionVariantInstanceType._('ml.c6gd.8xlarge');
+  static const mlC6gd_12xlarge =
+      ProductionVariantInstanceType._('ml.c6gd.12xlarge');
+  static const mlC6gd_16xlarge =
+      ProductionVariantInstanceType._('ml.c6gd.16xlarge');
+  static const mlC6gnLarge = ProductionVariantInstanceType._('ml.c6gn.large');
+  static const mlC6gnXlarge = ProductionVariantInstanceType._('ml.c6gn.xlarge');
+  static const mlC6gn_2xlarge =
+      ProductionVariantInstanceType._('ml.c6gn.2xlarge');
+  static const mlC6gn_4xlarge =
+      ProductionVariantInstanceType._('ml.c6gn.4xlarge');
+  static const mlC6gn_8xlarge =
+      ProductionVariantInstanceType._('ml.c6gn.8xlarge');
+  static const mlC6gn_12xlarge =
+      ProductionVariantInstanceType._('ml.c6gn.12xlarge');
+  static const mlC6gn_16xlarge =
+      ProductionVariantInstanceType._('ml.c6gn.16xlarge');
+  static const mlR6gLarge = ProductionVariantInstanceType._('ml.r6g.large');
+  static const mlR6gXlarge = ProductionVariantInstanceType._('ml.r6g.xlarge');
+  static const mlR6g_2xlarge =
+      ProductionVariantInstanceType._('ml.r6g.2xlarge');
+  static const mlR6g_4xlarge =
+      ProductionVariantInstanceType._('ml.r6g.4xlarge');
+  static const mlR6g_8xlarge =
+      ProductionVariantInstanceType._('ml.r6g.8xlarge');
+  static const mlR6g_12xlarge =
+      ProductionVariantInstanceType._('ml.r6g.12xlarge');
+  static const mlR6g_16xlarge =
+      ProductionVariantInstanceType._('ml.r6g.16xlarge');
+  static const mlR6gdLarge = ProductionVariantInstanceType._('ml.r6gd.large');
+  static const mlR6gdXlarge = ProductionVariantInstanceType._('ml.r6gd.xlarge');
+  static const mlR6gd_2xlarge =
+      ProductionVariantInstanceType._('ml.r6gd.2xlarge');
+  static const mlR6gd_4xlarge =
+      ProductionVariantInstanceType._('ml.r6gd.4xlarge');
+  static const mlR6gd_8xlarge =
+      ProductionVariantInstanceType._('ml.r6gd.8xlarge');
+  static const mlR6gd_12xlarge =
+      ProductionVariantInstanceType._('ml.r6gd.12xlarge');
+  static const mlR6gd_16xlarge =
+      ProductionVariantInstanceType._('ml.r6gd.16xlarge');
+  static const mlP4de_24xlarge =
+      ProductionVariantInstanceType._('ml.p4de.24xlarge');
+  static const mlTrn1_2xlarge =
+      ProductionVariantInstanceType._('ml.trn1.2xlarge');
+  static const mlTrn1_32xlarge =
+      ProductionVariantInstanceType._('ml.trn1.32xlarge');
+  static const mlTrn1n_32xlarge =
+      ProductionVariantInstanceType._('ml.trn1n.32xlarge');
+  static const mlInf2Xlarge = ProductionVariantInstanceType._('ml.inf2.xlarge');
+  static const mlInf2_8xlarge =
+      ProductionVariantInstanceType._('ml.inf2.8xlarge');
+  static const mlInf2_24xlarge =
+      ProductionVariantInstanceType._('ml.inf2.24xlarge');
+  static const mlInf2_48xlarge =
+      ProductionVariantInstanceType._('ml.inf2.48xlarge');
+  static const mlP5_48xlarge =
+      ProductionVariantInstanceType._('ml.p5.48xlarge');
+  static const mlM7iLarge = ProductionVariantInstanceType._('ml.m7i.large');
+  static const mlM7iXlarge = ProductionVariantInstanceType._('ml.m7i.xlarge');
+  static const mlM7i_2xlarge =
+      ProductionVariantInstanceType._('ml.m7i.2xlarge');
+  static const mlM7i_4xlarge =
+      ProductionVariantInstanceType._('ml.m7i.4xlarge');
+  static const mlM7i_8xlarge =
+      ProductionVariantInstanceType._('ml.m7i.8xlarge');
+  static const mlM7i_12xlarge =
+      ProductionVariantInstanceType._('ml.m7i.12xlarge');
+  static const mlM7i_16xlarge =
+      ProductionVariantInstanceType._('ml.m7i.16xlarge');
+  static const mlM7i_24xlarge =
+      ProductionVariantInstanceType._('ml.m7i.24xlarge');
+  static const mlM7i_48xlarge =
+      ProductionVariantInstanceType._('ml.m7i.48xlarge');
+  static const mlC7iLarge = ProductionVariantInstanceType._('ml.c7i.large');
+  static const mlC7iXlarge = ProductionVariantInstanceType._('ml.c7i.xlarge');
+  static const mlC7i_2xlarge =
+      ProductionVariantInstanceType._('ml.c7i.2xlarge');
+  static const mlC7i_4xlarge =
+      ProductionVariantInstanceType._('ml.c7i.4xlarge');
+  static const mlC7i_8xlarge =
+      ProductionVariantInstanceType._('ml.c7i.8xlarge');
+  static const mlC7i_12xlarge =
+      ProductionVariantInstanceType._('ml.c7i.12xlarge');
+  static const mlC7i_16xlarge =
+      ProductionVariantInstanceType._('ml.c7i.16xlarge');
+  static const mlC7i_24xlarge =
+      ProductionVariantInstanceType._('ml.c7i.24xlarge');
+  static const mlC7i_48xlarge =
+      ProductionVariantInstanceType._('ml.c7i.48xlarge');
+  static const mlR7iLarge = ProductionVariantInstanceType._('ml.r7i.large');
+  static const mlR7iXlarge = ProductionVariantInstanceType._('ml.r7i.xlarge');
+  static const mlR7i_2xlarge =
+      ProductionVariantInstanceType._('ml.r7i.2xlarge');
+  static const mlR7i_4xlarge =
+      ProductionVariantInstanceType._('ml.r7i.4xlarge');
+  static const mlR7i_8xlarge =
+      ProductionVariantInstanceType._('ml.r7i.8xlarge');
+  static const mlR7i_12xlarge =
+      ProductionVariantInstanceType._('ml.r7i.12xlarge');
+  static const mlR7i_16xlarge =
+      ProductionVariantInstanceType._('ml.r7i.16xlarge');
+  static const mlR7i_24xlarge =
+      ProductionVariantInstanceType._('ml.r7i.24xlarge');
+  static const mlR7i_48xlarge =
+      ProductionVariantInstanceType._('ml.r7i.48xlarge');
 
   final String value;
 
-  const ProductionVariantInstanceType(this.value);
+  const ProductionVariantInstanceType._(this.value);
+
+  static const values = [
+    mlT2Medium,
+    mlT2Large,
+    mlT2Xlarge,
+    mlT2_2xlarge,
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlM5dLarge,
+    mlM5dXlarge,
+    mlM5d_2xlarge,
+    mlM5d_4xlarge,
+    mlM5d_12xlarge,
+    mlM5d_24xlarge,
+    mlC4Large,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlC5Large,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlC5dLarge,
+    mlC5dXlarge,
+    mlC5d_2xlarge,
+    mlC5d_4xlarge,
+    mlC5d_9xlarge,
+    mlC5d_18xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlR5Large,
+    mlR5Xlarge,
+    mlR5_2xlarge,
+    mlR5_4xlarge,
+    mlR5_12xlarge,
+    mlR5_24xlarge,
+    mlR5dLarge,
+    mlR5dXlarge,
+    mlR5d_2xlarge,
+    mlR5d_4xlarge,
+    mlR5d_12xlarge,
+    mlR5d_24xlarge,
+    mlInf1Xlarge,
+    mlInf1_2xlarge,
+    mlInf1_6xlarge,
+    mlInf1_24xlarge,
+    mlDl1_24xlarge,
+    mlC6iLarge,
+    mlC6iXlarge,
+    mlC6i_2xlarge,
+    mlC6i_4xlarge,
+    mlC6i_8xlarge,
+    mlC6i_12xlarge,
+    mlC6i_16xlarge,
+    mlC6i_24xlarge,
+    mlC6i_32xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_12xlarge,
+    mlG5_16xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlG6Xlarge,
+    mlG6_2xlarge,
+    mlG6_4xlarge,
+    mlG6_8xlarge,
+    mlG6_12xlarge,
+    mlG6_16xlarge,
+    mlG6_24xlarge,
+    mlG6_48xlarge,
+    mlP4d_24xlarge,
+    mlC7gLarge,
+    mlC7gXlarge,
+    mlC7g_2xlarge,
+    mlC7g_4xlarge,
+    mlC7g_8xlarge,
+    mlC7g_12xlarge,
+    mlC7g_16xlarge,
+    mlM6gLarge,
+    mlM6gXlarge,
+    mlM6g_2xlarge,
+    mlM6g_4xlarge,
+    mlM6g_8xlarge,
+    mlM6g_12xlarge,
+    mlM6g_16xlarge,
+    mlM6gdLarge,
+    mlM6gdXlarge,
+    mlM6gd_2xlarge,
+    mlM6gd_4xlarge,
+    mlM6gd_8xlarge,
+    mlM6gd_12xlarge,
+    mlM6gd_16xlarge,
+    mlC6gLarge,
+    mlC6gXlarge,
+    mlC6g_2xlarge,
+    mlC6g_4xlarge,
+    mlC6g_8xlarge,
+    mlC6g_12xlarge,
+    mlC6g_16xlarge,
+    mlC6gdLarge,
+    mlC6gdXlarge,
+    mlC6gd_2xlarge,
+    mlC6gd_4xlarge,
+    mlC6gd_8xlarge,
+    mlC6gd_12xlarge,
+    mlC6gd_16xlarge,
+    mlC6gnLarge,
+    mlC6gnXlarge,
+    mlC6gn_2xlarge,
+    mlC6gn_4xlarge,
+    mlC6gn_8xlarge,
+    mlC6gn_12xlarge,
+    mlC6gn_16xlarge,
+    mlR6gLarge,
+    mlR6gXlarge,
+    mlR6g_2xlarge,
+    mlR6g_4xlarge,
+    mlR6g_8xlarge,
+    mlR6g_12xlarge,
+    mlR6g_16xlarge,
+    mlR6gdLarge,
+    mlR6gdXlarge,
+    mlR6gd_2xlarge,
+    mlR6gd_4xlarge,
+    mlR6gd_8xlarge,
+    mlR6gd_12xlarge,
+    mlR6gd_16xlarge,
+    mlP4de_24xlarge,
+    mlTrn1_2xlarge,
+    mlTrn1_32xlarge,
+    mlTrn1n_32xlarge,
+    mlInf2Xlarge,
+    mlInf2_8xlarge,
+    mlInf2_24xlarge,
+    mlInf2_48xlarge,
+    mlP5_48xlarge,
+    mlM7iLarge,
+    mlM7iXlarge,
+    mlM7i_2xlarge,
+    mlM7i_4xlarge,
+    mlM7i_8xlarge,
+    mlM7i_12xlarge,
+    mlM7i_16xlarge,
+    mlM7i_24xlarge,
+    mlM7i_48xlarge,
+    mlC7iLarge,
+    mlC7iXlarge,
+    mlC7i_2xlarge,
+    mlC7i_4xlarge,
+    mlC7i_8xlarge,
+    mlC7i_12xlarge,
+    mlC7i_16xlarge,
+    mlC7i_24xlarge,
+    mlC7i_48xlarge,
+    mlR7iLarge,
+    mlR7iXlarge,
+    mlR7i_2xlarge,
+    mlR7i_4xlarge,
+    mlR7i_8xlarge,
+    mlR7i_12xlarge,
+    mlR7i_16xlarge,
+    mlR7i_24xlarge,
+    mlR7i_48xlarge
+  ];
 
   static ProductionVariantInstanceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProductionVariantInstanceType'));
+          orElse: () => ProductionVariantInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProductionVariantInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that control the range in the number of instances that the endpoint
@@ -63688,8 +66822,8 @@ class ProductionVariantRoutingConfig {
 
   factory ProductionVariantRoutingConfig.fromJson(Map<String, dynamic> json) {
     return ProductionVariantRoutingConfig(
-      routingStrategy:
-          RoutingStrategy.fromString((json['RoutingStrategy'] as String)),
+      routingStrategy: RoutingStrategy.fromString(
+          (json['RoutingStrategy'] as String?) ?? ''),
     );
   }
 
@@ -63818,7 +66952,7 @@ class ProductionVariantStatus {
 
   factory ProductionVariantStatus.fromJson(Map<String, dynamic> json) {
     return ProductionVariantStatus(
-      status: VariantStatus.fromString((json['Status'] as String)),
+      status: VariantStatus.fromString((json['Status'] as String?) ?? ''),
       startTime: timeStampFromJson(json['StartTime']),
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -64203,19 +67337,28 @@ class ProfilerRuleEvaluationStatus {
   }
 }
 
-enum ProfilingStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class ProfilingStatus {
+  static const enabled = ProfilingStatus._('Enabled');
+  static const disabled = ProfilingStatus._('Disabled');
 
   final String value;
 
-  const ProfilingStatus(this.value);
+  const ProfilingStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ProfilingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProfilingStatus'));
+          orElse: () => ProfilingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProfilingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of a project as returned by the Search API.
@@ -64342,57 +67485,95 @@ class Project {
   }
 }
 
-enum ProjectSortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class ProjectSortBy {
+  static const name = ProjectSortBy._('Name');
+  static const creationTime = ProjectSortBy._('CreationTime');
 
   final String value;
 
-  const ProjectSortBy(this.value);
+  const ProjectSortBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static ProjectSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectSortBy'));
+          orElse: () => ProjectSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProjectSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class ProjectSortOrder {
+  static const ascending = ProjectSortOrder._('Ascending');
+  static const descending = ProjectSortOrder._('Descending');
 
   final String value;
 
-  const ProjectSortOrder(this.value);
+  const ProjectSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static ProjectSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectSortOrder'));
+          orElse: () => ProjectSortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProjectStatus {
-  pending('Pending'),
-  createInProgress('CreateInProgress'),
-  createCompleted('CreateCompleted'),
-  createFailed('CreateFailed'),
-  deleteInProgress('DeleteInProgress'),
-  deleteFailed('DeleteFailed'),
-  deleteCompleted('DeleteCompleted'),
-  updateInProgress('UpdateInProgress'),
-  updateCompleted('UpdateCompleted'),
-  updateFailed('UpdateFailed'),
-  ;
+class ProjectStatus {
+  static const pending = ProjectStatus._('Pending');
+  static const createInProgress = ProjectStatus._('CreateInProgress');
+  static const createCompleted = ProjectStatus._('CreateCompleted');
+  static const createFailed = ProjectStatus._('CreateFailed');
+  static const deleteInProgress = ProjectStatus._('DeleteInProgress');
+  static const deleteFailed = ProjectStatus._('DeleteFailed');
+  static const deleteCompleted = ProjectStatus._('DeleteCompleted');
+  static const updateInProgress = ProjectStatus._('UpdateInProgress');
+  static const updateCompleted = ProjectStatus._('UpdateCompleted');
+  static const updateFailed = ProjectStatus._('UpdateFailed');
 
   final String value;
 
-  const ProjectStatus(this.value);
+  const ProjectStatus._(this.value);
+
+  static const values = [
+    pending,
+    createInProgress,
+    createCompleted,
+    createFailed,
+    deleteInProgress,
+    deleteFailed,
+    deleteCompleted,
+    updateInProgress,
+    updateCompleted,
+    updateFailed
+  ];
 
   static ProjectStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectStatus'));
+          orElse: () => ProjectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a project.
@@ -64431,7 +67612,7 @@ class ProjectSummary {
       projectId: (json['ProjectId'] as String?) ?? '',
       projectName: (json['ProjectName'] as String?) ?? '',
       projectStatus:
-          ProjectStatus.fromString((json['ProjectStatus'] as String)),
+          ProjectStatus.fromString((json['ProjectStatus'] as String?) ?? ''),
       projectDescription: json['ProjectDescription'] as String?,
     );
   }
@@ -65148,19 +68329,29 @@ class RSessionAppSettings {
   }
 }
 
-enum RStudioServerProAccessStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class RStudioServerProAccessStatus {
+  static const enabled = RStudioServerProAccessStatus._('ENABLED');
+  static const disabled = RStudioServerProAccessStatus._('DISABLED');
 
   final String value;
 
-  const RStudioServerProAccessStatus(this.value);
+  const RStudioServerProAccessStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static RStudioServerProAccessStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RStudioServerProAccessStatus'));
+          orElse: () => RStudioServerProAccessStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RStudioServerProAccessStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of settings that configure user interaction with the
@@ -65285,19 +68476,29 @@ class RStudioServerProDomainSettingsForUpdate {
   }
 }
 
-enum RStudioServerProUserGroup {
-  rStudioAdmin('R_STUDIO_ADMIN'),
-  rStudioUser('R_STUDIO_USER'),
-  ;
+class RStudioServerProUserGroup {
+  static const rStudioAdmin = RStudioServerProUserGroup._('R_STUDIO_ADMIN');
+  static const rStudioUser = RStudioServerProUserGroup._('R_STUDIO_USER');
 
   final String value;
 
-  const RStudioServerProUserGroup(this.value);
+  const RStudioServerProUserGroup._(this.value);
+
+  static const values = [rStudioAdmin, rStudioUser];
 
   static RStudioServerProUserGroup fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RStudioServerProUserGroup'));
+          orElse: () => RStudioServerProUserGroup._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RStudioServerProUserGroup && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The infrastructure configuration for deploying the model to a real-time
@@ -65317,7 +68518,8 @@ class RealTimeInferenceConfig {
   factory RealTimeInferenceConfig.fromJson(Map<String, dynamic> json) {
     return RealTimeInferenceConfig(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
-      instanceType: InstanceType.fromString((json['InstanceType'] as String)),
+      instanceType:
+          InstanceType.fromString((json['InstanceType'] as String?) ?? ''),
     );
   }
 
@@ -65352,7 +68554,7 @@ class RealTimeInferenceRecommendation {
   factory RealTimeInferenceRecommendation.fromJson(Map<String, dynamic> json) {
     return RealTimeInferenceRecommendation(
       instanceType: ProductionVariantInstanceType.fromString(
-          (json['InstanceType'] as String)),
+          (json['InstanceType'] as String?) ?? ''),
       recommendationId: (json['RecommendationId'] as String?) ?? '',
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -65866,25 +69068,44 @@ class RecommendationJobResourceLimit {
   }
 }
 
-enum RecommendationJobStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class RecommendationJobStatus {
+  static const pending = RecommendationJobStatus._('PENDING');
+  static const inProgress = RecommendationJobStatus._('IN_PROGRESS');
+  static const completed = RecommendationJobStatus._('COMPLETED');
+  static const failed = RecommendationJobStatus._('FAILED');
+  static const stopping = RecommendationJobStatus._('STOPPING');
+  static const stopped = RecommendationJobStatus._('STOPPED');
+  static const deleting = RecommendationJobStatus._('DELETING');
+  static const deleted = RecommendationJobStatus._('DELETED');
 
   final String value;
 
-  const RecommendationJobStatus(this.value);
+  const RecommendationJobStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    completed,
+    failed,
+    stopping,
+    stopped,
+    deleting,
+    deleted
+  ];
 
   static RecommendationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationJobStatus'));
+          orElse: () => RecommendationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies conditions for stopping a job. When a job reaches a stopping
@@ -65937,34 +69158,55 @@ class RecommendationJobStoppingConditions {
   }
 }
 
-enum RecommendationJobSupportedEndpointType {
-  realTime('RealTime'),
-  serverless('Serverless'),
-  ;
+class RecommendationJobSupportedEndpointType {
+  static const realTime = RecommendationJobSupportedEndpointType._('RealTime');
+  static const serverless =
+      RecommendationJobSupportedEndpointType._('Serverless');
 
   final String value;
 
-  const RecommendationJobSupportedEndpointType(this.value);
+  const RecommendationJobSupportedEndpointType._(this.value);
+
+  static const values = [realTime, serverless];
 
   static RecommendationJobSupportedEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationJobSupportedEndpointType'));
+          orElse: () => RecommendationJobSupportedEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationJobSupportedEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationJobType {
-  $default('Default'),
-  advanced('Advanced'),
-  ;
+class RecommendationJobType {
+  static const $default = RecommendationJobType._('Default');
+  static const advanced = RecommendationJobType._('Advanced');
 
   final String value;
 
-  const RecommendationJobType(this.value);
+  const RecommendationJobType._(this.value);
 
-  static RecommendationJobType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationJobType'));
+  static const values = [$default, advanced];
+
+  static RecommendationJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationJobType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Inference Recommender provisions SageMaker endpoints with access to VPC in
@@ -66082,50 +69324,79 @@ class RecommendationMetrics {
   }
 }
 
-enum RecommendationStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  notApplicable('NOT_APPLICABLE'),
-  ;
+class RecommendationStatus {
+  static const inProgress = RecommendationStatus._('IN_PROGRESS');
+  static const completed = RecommendationStatus._('COMPLETED');
+  static const failed = RecommendationStatus._('FAILED');
+  static const notApplicable = RecommendationStatus._('NOT_APPLICABLE');
 
   final String value;
 
-  const RecommendationStatus(this.value);
+  const RecommendationStatus._(this.value);
 
-  static RecommendationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationStatus'));
+  static const values = [inProgress, completed, failed, notApplicable];
+
+  static RecommendationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationStepType {
-  benchmark('BENCHMARK'),
-  ;
+class RecommendationStepType {
+  static const benchmark = RecommendationStepType._('BENCHMARK');
 
   final String value;
 
-  const RecommendationStepType(this.value);
+  const RecommendationStepType._(this.value);
+
+  static const values = [benchmark];
 
   static RecommendationStepType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationStepType'));
+          orElse: () => RecommendationStepType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationStepType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecordWrapper {
-  none('None'),
-  recordIO('RecordIO'),
-  ;
+class RecordWrapper {
+  static const none = RecordWrapper._('None');
+  static const recordIO = RecordWrapper._('RecordIO');
 
   final String value;
 
-  const RecordWrapper(this.value);
+  const RecordWrapper._(this.value);
+
+  static const values = [none, recordIO];
 
   static RecordWrapper fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordWrapper'));
+          orElse: () => RecordWrapper._(value));
+
+  @override
+  bool operator ==(other) => other is RecordWrapper && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for Redshift Dataset Definition input.
@@ -66166,8 +69437,8 @@ class RedshiftDatasetDefinition {
       clusterRoleArn: (json['ClusterRoleArn'] as String?) ?? '',
       database: (json['Database'] as String?) ?? '',
       dbUser: (json['DbUser'] as String?) ?? '',
-      outputFormat:
-          RedshiftResultFormat.fromString((json['OutputFormat'] as String)),
+      outputFormat: RedshiftResultFormat.fromString(
+          (json['OutputFormat'] as String?) ?? ''),
       outputS3Uri: (json['OutputS3Uri'] as String?) ?? '',
       queryString: (json['QueryString'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -66202,38 +69473,58 @@ class RedshiftDatasetDefinition {
 }
 
 /// The compression used for Redshift query results.
-enum RedshiftResultCompressionType {
-  none('None'),
-  gzip('GZIP'),
-  bzip2('BZIP2'),
-  zstd('ZSTD'),
-  snappy('SNAPPY'),
-  ;
+class RedshiftResultCompressionType {
+  static const none = RedshiftResultCompressionType._('None');
+  static const gzip = RedshiftResultCompressionType._('GZIP');
+  static const bzip2 = RedshiftResultCompressionType._('BZIP2');
+  static const zstd = RedshiftResultCompressionType._('ZSTD');
+  static const snappy = RedshiftResultCompressionType._('SNAPPY');
 
   final String value;
 
-  const RedshiftResultCompressionType(this.value);
+  const RedshiftResultCompressionType._(this.value);
+
+  static const values = [none, gzip, bzip2, zstd, snappy];
 
   static RedshiftResultCompressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RedshiftResultCompressionType'));
+          orElse: () => RedshiftResultCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedshiftResultCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data storage format for Redshift query results.
-enum RedshiftResultFormat {
-  parquet('PARQUET'),
-  csv('CSV'),
-  ;
+class RedshiftResultFormat {
+  static const parquet = RedshiftResultFormat._('PARQUET');
+  static const csv = RedshiftResultFormat._('CSV');
 
   final String value;
 
-  const RedshiftResultFormat(this.value);
+  const RedshiftResultFormat._(this.value);
 
-  static RedshiftResultFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RedshiftResultFormat'));
+  static const values = [parquet, csv];
+
+  static RedshiftResultFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedshiftResultFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedshiftResultFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for a register model job step.
@@ -66396,19 +69687,29 @@ class RenderingError {
   }
 }
 
-enum RepositoryAccessMode {
-  platform('Platform'),
-  vpc('Vpc'),
-  ;
+class RepositoryAccessMode {
+  static const platform = RepositoryAccessMode._('Platform');
+  static const vpc = RepositoryAccessMode._('Vpc');
 
   final String value;
 
-  const RepositoryAccessMode(this.value);
+  const RepositoryAccessMode._(this.value);
 
-  static RepositoryAccessMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RepositoryAccessMode'));
+  static const values = [platform, vpc];
+
+  static RepositoryAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositoryAccessMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies an authentication configuration for the private docker registry
@@ -66537,33 +69838,53 @@ class ResourceCatalog {
   }
 }
 
-enum ResourceCatalogSortBy {
-  creationTime('CreationTime'),
-  ;
+class ResourceCatalogSortBy {
+  static const creationTime = ResourceCatalogSortBy._('CreationTime');
 
   final String value;
 
-  const ResourceCatalogSortBy(this.value);
+  const ResourceCatalogSortBy._(this.value);
 
-  static ResourceCatalogSortBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceCatalogSortBy'));
+  static const values = [creationTime];
+
+  static ResourceCatalogSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceCatalogSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCatalogSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceCatalogSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class ResourceCatalogSortOrder {
+  static const ascending = ResourceCatalogSortOrder._('Ascending');
+  static const descending = ResourceCatalogSortOrder._('Descending');
 
   final String value;
 
-  const ResourceCatalogSortOrder(this.value);
+  const ResourceCatalogSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static ResourceCatalogSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceCatalogSortOrder'));
+          orElse: () => ResourceCatalogSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCatalogSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the resources, including machine learning (ML) compute instances
@@ -66844,34 +70165,62 @@ class ResourceSpec {
   }
 }
 
-enum ResourceType {
-  trainingJob('TrainingJob'),
-  experiment('Experiment'),
-  experimentTrial('ExperimentTrial'),
-  experimentTrialComponent('ExperimentTrialComponent'),
-  endpoint('Endpoint'),
-  model('Model'),
-  modelPackage('ModelPackage'),
-  modelPackageGroup('ModelPackageGroup'),
-  pipeline('Pipeline'),
-  pipelineExecution('PipelineExecution'),
-  featureGroup('FeatureGroup'),
-  featureMetadata('FeatureMetadata'),
-  image('Image'),
-  imageVersion('ImageVersion'),
-  project('Project'),
-  hyperParameterTuningJob('HyperParameterTuningJob'),
-  modelCard('ModelCard'),
-  ;
+class ResourceType {
+  static const trainingJob = ResourceType._('TrainingJob');
+  static const experiment = ResourceType._('Experiment');
+  static const experimentTrial = ResourceType._('ExperimentTrial');
+  static const experimentTrialComponent =
+      ResourceType._('ExperimentTrialComponent');
+  static const endpoint = ResourceType._('Endpoint');
+  static const model = ResourceType._('Model');
+  static const modelPackage = ResourceType._('ModelPackage');
+  static const modelPackageGroup = ResourceType._('ModelPackageGroup');
+  static const pipeline = ResourceType._('Pipeline');
+  static const pipelineExecution = ResourceType._('PipelineExecution');
+  static const featureGroup = ResourceType._('FeatureGroup');
+  static const featureMetadata = ResourceType._('FeatureMetadata');
+  static const image = ResourceType._('Image');
+  static const imageVersion = ResourceType._('ImageVersion');
+  static const project = ResourceType._('Project');
+  static const hyperParameterTuningJob =
+      ResourceType._('HyperParameterTuningJob');
+  static const modelCard = ResourceType._('ModelCard');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    trainingJob,
+    experiment,
+    experimentTrial,
+    experimentTrialComponent,
+    endpoint,
+    model,
+    modelPackage,
+    modelPackageGroup,
+    pipeline,
+    pipelineExecution,
+    featureGroup,
+    featureMetadata,
+    image,
+    imageVersion,
+    project,
+    hyperParameterTuningJob,
+    modelCard
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The retention policy for data stored on an Amazon Elastic File System
@@ -66897,19 +70246,28 @@ class RetentionPolicy {
   }
 }
 
-enum RetentionType {
-  retain('Retain'),
-  delete('Delete'),
-  ;
+class RetentionType {
+  static const retain = RetentionType._('Retain');
+  static const delete = RetentionType._('Delete');
 
   final String value;
 
-  const RetentionType(this.value);
+  const RetentionType._(this.value);
+
+  static const values = [retain, delete];
 
   static RetentionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetentionType'));
+          orElse: () => RetentionType._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RetryPipelineExecutionResponse {
@@ -67025,67 +70383,113 @@ class RollingUpdatePolicy {
   }
 }
 
-enum RootAccess {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class RootAccess {
+  static const enabled = RootAccess._('Enabled');
+  static const disabled = RootAccess._('Disabled');
 
   final String value;
 
-  const RootAccess(this.value);
+  const RootAccess._(this.value);
 
-  static RootAccess fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RootAccess'));
+  static const values = [enabled, disabled];
+
+  static RootAccess fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RootAccess._(value));
+
+  @override
+  bool operator ==(other) => other is RootAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RoutingStrategy {
-  leastOutstandingRequests('LEAST_OUTSTANDING_REQUESTS'),
-  random('RANDOM'),
-  ;
+class RoutingStrategy {
+  static const leastOutstandingRequests =
+      RoutingStrategy._('LEAST_OUTSTANDING_REQUESTS');
+  static const random = RoutingStrategy._('RANDOM');
 
   final String value;
 
-  const RoutingStrategy(this.value);
+  const RoutingStrategy._(this.value);
+
+  static const values = [leastOutstandingRequests, random];
 
   static RoutingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RoutingStrategy'));
+          orElse: () => RoutingStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is RoutingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleEvaluationStatus {
-  inProgress('InProgress'),
-  noIssuesFound('NoIssuesFound'),
-  issuesFound('IssuesFound'),
-  error('Error'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class RuleEvaluationStatus {
+  static const inProgress = RuleEvaluationStatus._('InProgress');
+  static const noIssuesFound = RuleEvaluationStatus._('NoIssuesFound');
+  static const issuesFound = RuleEvaluationStatus._('IssuesFound');
+  static const error = RuleEvaluationStatus._('Error');
+  static const stopping = RuleEvaluationStatus._('Stopping');
+  static const stopped = RuleEvaluationStatus._('Stopped');
 
   final String value;
 
-  const RuleEvaluationStatus(this.value);
+  const RuleEvaluationStatus._(this.value);
 
-  static RuleEvaluationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleEvaluationStatus'));
+  static const values = [
+    inProgress,
+    noIssuesFound,
+    issuesFound,
+    error,
+    stopping,
+    stopped
+  ];
+
+  static RuleEvaluationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleEvaluationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleEvaluationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum S3DataDistribution {
-  fullyReplicated('FullyReplicated'),
-  shardedByS3Key('ShardedByS3Key'),
-  ;
+class S3DataDistribution {
+  static const fullyReplicated = S3DataDistribution._('FullyReplicated');
+  static const shardedByS3Key = S3DataDistribution._('ShardedByS3Key');
 
   final String value;
 
-  const S3DataDistribution(this.value);
+  const S3DataDistribution._(this.value);
 
-  static S3DataDistribution fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum S3DataDistribution'));
+  static const values = [fullyReplicated, shardedByS3Key];
+
+  static S3DataDistribution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3DataDistribution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3DataDistribution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the S3 data source.
@@ -67201,7 +70605,7 @@ class S3DataSource {
 
   factory S3DataSource.fromJson(Map<String, dynamic> json) {
     return S3DataSource(
-      s3DataType: S3DataType.fromString((json['S3DataType'] as String)),
+      s3DataType: S3DataType.fromString((json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       attributeNames: (json['AttributeNames'] as List?)
           ?.nonNulls
@@ -67233,19 +70637,28 @@ class S3DataSource {
   }
 }
 
-enum S3DataType {
-  manifestFile('ManifestFile'),
-  s3Prefix('S3Prefix'),
-  augmentedManifestFile('AugmentedManifestFile'),
-  ;
+class S3DataType {
+  static const manifestFile = S3DataType._('ManifestFile');
+  static const s3Prefix = S3DataType._('S3Prefix');
+  static const augmentedManifestFile = S3DataType._('AugmentedManifestFile');
 
   final String value;
 
-  const S3DataType(this.value);
+  const S3DataType._(this.value);
 
-  static S3DataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum S3DataType'));
+  static const values = [manifestFile, s3Prefix, augmentedManifestFile];
+
+  static S3DataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3DataType._(value));
+
+  @override
+  bool operator ==(other) => other is S3DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the S3 location of ML model data to deploy.
@@ -67361,9 +70774,10 @@ class S3ModelDataSource {
 
   factory S3ModelDataSource.fromJson(Map<String, dynamic> json) {
     return S3ModelDataSource(
-      compressionType:
-          ModelCompressionType.fromString((json['CompressionType'] as String)),
-      s3DataType: S3ModelDataType.fromString((json['S3DataType'] as String)),
+      compressionType: ModelCompressionType.fromString(
+          (json['CompressionType'] as String?) ?? ''),
+      s3DataType:
+          S3ModelDataType.fromString((json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
       hubAccessConfig: json['HubAccessConfig'] != null
           ? InferenceHubAccessConfig.fromJson(
@@ -67392,19 +70806,28 @@ class S3ModelDataSource {
   }
 }
 
-enum S3ModelDataType {
-  s3Prefix('S3Prefix'),
-  s3Object('S3Object'),
-  ;
+class S3ModelDataType {
+  static const s3Prefix = S3ModelDataType._('S3Prefix');
+  static const s3Object = S3ModelDataType._('S3Object');
 
   final String value;
 
-  const S3ModelDataType(this.value);
+  const S3ModelDataType._(this.value);
+
+  static const values = [s3Prefix, s3Object];
 
   static S3ModelDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3ModelDataType'));
+          orElse: () => S3ModelDataType._(value));
+
+  @override
+  bool operator ==(other) => other is S3ModelDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This object defines the access restrictions to Amazon S3 resources that are
@@ -67495,19 +70918,29 @@ class S3StorageConfig {
   }
 }
 
-enum SagemakerServicecatalogStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class SagemakerServicecatalogStatus {
+  static const enabled = SagemakerServicecatalogStatus._('Enabled');
+  static const disabled = SagemakerServicecatalogStatus._('Disabled');
 
   final String value;
 
-  const SagemakerServicecatalogStatus(this.value);
+  const SagemakerServicecatalogStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SagemakerServicecatalogStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SagemakerServicecatalogStatus'));
+          orElse: () => SagemakerServicecatalogStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SagemakerServicecatalogStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing a recommended scaling policy.
@@ -67727,21 +71160,30 @@ class ScheduleConfig {
   }
 }
 
-enum ScheduleStatus {
-  pending('Pending'),
-  failed('Failed'),
-  scheduled('Scheduled'),
-  stopped('Stopped'),
-  ;
+class ScheduleStatus {
+  static const pending = ScheduleStatus._('Pending');
+  static const failed = ScheduleStatus._('Failed');
+  static const scheduled = ScheduleStatus._('Scheduled');
+  static const stopped = ScheduleStatus._('Stopped');
 
   final String value;
 
-  const ScheduleStatus(this.value);
+  const ScheduleStatus._(this.value);
+
+  static const values = [pending, failed, scheduled, stopped];
 
   static ScheduleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScheduleStatus'));
+          orElse: () => ScheduleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A multi-expression that searches for the specified resource or resources in
@@ -67991,49 +71433,87 @@ class SearchResponse {
   }
 }
 
-enum SearchSortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SearchSortOrder {
+  static const ascending = SearchSortOrder._('Ascending');
+  static const descending = SearchSortOrder._('Descending');
 
   final String value;
 
-  const SearchSortOrder(this.value);
+  const SearchSortOrder._(this.value);
+
+  static const values = [ascending, descending];
 
   static SearchSortOrder fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SearchSortOrder'));
+          orElse: () => SearchSortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SearchSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SecondaryStatus {
-  starting('Starting'),
-  launchingMLInstances('LaunchingMLInstances'),
-  preparingTrainingStack('PreparingTrainingStack'),
-  downloading('Downloading'),
-  downloadingTrainingImage('DownloadingTrainingImage'),
-  training('Training'),
-  uploading('Uploading'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  maxRuntimeExceeded('MaxRuntimeExceeded'),
-  completed('Completed'),
-  failed('Failed'),
-  interrupted('Interrupted'),
-  maxWaitTimeExceeded('MaxWaitTimeExceeded'),
-  updating('Updating'),
-  restarting('Restarting'),
-  pending('Pending'),
-  ;
+class SecondaryStatus {
+  static const starting = SecondaryStatus._('Starting');
+  static const launchingMLInstances = SecondaryStatus._('LaunchingMLInstances');
+  static const preparingTrainingStack =
+      SecondaryStatus._('PreparingTrainingStack');
+  static const downloading = SecondaryStatus._('Downloading');
+  static const downloadingTrainingImage =
+      SecondaryStatus._('DownloadingTrainingImage');
+  static const training = SecondaryStatus._('Training');
+  static const uploading = SecondaryStatus._('Uploading');
+  static const stopping = SecondaryStatus._('Stopping');
+  static const stopped = SecondaryStatus._('Stopped');
+  static const maxRuntimeExceeded = SecondaryStatus._('MaxRuntimeExceeded');
+  static const completed = SecondaryStatus._('Completed');
+  static const failed = SecondaryStatus._('Failed');
+  static const interrupted = SecondaryStatus._('Interrupted');
+  static const maxWaitTimeExceeded = SecondaryStatus._('MaxWaitTimeExceeded');
+  static const updating = SecondaryStatus._('Updating');
+  static const restarting = SecondaryStatus._('Restarting');
+  static const pending = SecondaryStatus._('Pending');
 
   final String value;
 
-  const SecondaryStatus(this.value);
+  const SecondaryStatus._(this.value);
+
+  static const values = [
+    starting,
+    launchingMLInstances,
+    preparingTrainingStack,
+    downloading,
+    downloadingTrainingImage,
+    training,
+    uploading,
+    stopping,
+    stopped,
+    maxRuntimeExceeded,
+    completed,
+    failed,
+    interrupted,
+    maxWaitTimeExceeded,
+    updating,
+    restarting,
+    pending
+  ];
 
   static SecondaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SecondaryStatus'));
+          orElse: () => SecondaryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SecondaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An array element of <code>SecondaryStatusTransitions</code> for <a
@@ -68178,7 +71658,7 @@ class SecondaryStatusTransition {
   factory SecondaryStatusTransition.fromJson(Map<String, dynamic> json) {
     return SecondaryStatusTransition(
       startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      status: SecondaryStatus.fromString((json['Status'] as String)),
+      status: SecondaryStatus.fromString((json['Status'] as String?) ?? ''),
       endTime: timeStampFromJson(json['EndTime']),
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -68627,18 +72107,27 @@ class SharingSettings {
   }
 }
 
-enum SharingType {
-  private('Private'),
-  shared('Shared'),
-  ;
+class SharingType {
+  static const private = SharingType._('Private');
+  static const shared = SharingType._('Shared');
 
   final String value;
 
-  const SharingType(this.value);
+  const SharingType._(this.value);
 
-  static SharingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SharingType'));
+  static const values = [private, shared];
+
+  static SharingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SharingType._(value));
+
+  @override
+  bool operator ==(other) => other is SharingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration for a shuffle option for input data in a channel. If you use
@@ -68679,232 +72168,380 @@ class ShuffleConfig {
   }
 }
 
-enum SkipModelValidation {
-  all('All'),
-  none('None'),
-  ;
+class SkipModelValidation {
+  static const all = SkipModelValidation._('All');
+  static const none = SkipModelValidation._('None');
 
   final String value;
 
-  const SkipModelValidation(this.value);
+  const SkipModelValidation._(this.value);
 
-  static SkipModelValidation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SkipModelValidation'));
+  static const values = [all, none];
+
+  static SkipModelValidation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SkipModelValidation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SkipModelValidation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortActionsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class SortActionsBy {
+  static const name = SortActionsBy._('Name');
+  static const creationTime = SortActionsBy._('CreationTime');
 
   final String value;
 
-  const SortActionsBy(this.value);
+  const SortActionsBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static SortActionsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortActionsBy'));
+          orElse: () => SortActionsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortActionsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortArtifactsBy {
-  creationTime('CreationTime'),
-  ;
+class SortArtifactsBy {
+  static const creationTime = SortArtifactsBy._('CreationTime');
 
   final String value;
 
-  const SortArtifactsBy(this.value);
+  const SortArtifactsBy._(this.value);
+
+  static const values = [creationTime];
 
   static SortArtifactsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortArtifactsBy'));
+          orElse: () => SortArtifactsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortArtifactsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortAssociationsBy {
-  sourceArn('SourceArn'),
-  destinationArn('DestinationArn'),
-  sourceType('SourceType'),
-  destinationType('DestinationType'),
-  creationTime('CreationTime'),
-  ;
+class SortAssociationsBy {
+  static const sourceArn = SortAssociationsBy._('SourceArn');
+  static const destinationArn = SortAssociationsBy._('DestinationArn');
+  static const sourceType = SortAssociationsBy._('SourceType');
+  static const destinationType = SortAssociationsBy._('DestinationType');
+  static const creationTime = SortAssociationsBy._('CreationTime');
 
   final String value;
 
-  const SortAssociationsBy(this.value);
+  const SortAssociationsBy._(this.value);
 
-  static SortAssociationsBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SortAssociationsBy'));
+  static const values = [
+    sourceArn,
+    destinationArn,
+    sourceType,
+    destinationType,
+    creationTime
+  ];
+
+  static SortAssociationsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SortAssociationsBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortAssociationsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class SortBy {
+  static const name = SortBy._('Name');
+  static const creationTime = SortBy._('CreationTime');
+  static const status = SortBy._('Status');
 
   final String value;
 
-  const SortBy(this.value);
+  const SortBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static SortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum SortBy'));
+      values.firstWhere((e) => e.value == value, orElse: () => SortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortContextsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class SortContextsBy {
+  static const name = SortContextsBy._('Name');
+  static const creationTime = SortContextsBy._('CreationTime');
 
   final String value;
 
-  const SortContextsBy(this.value);
+  const SortContextsBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static SortContextsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortContextsBy'));
+          orElse: () => SortContextsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortContextsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortExperimentsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class SortExperimentsBy {
+  static const name = SortExperimentsBy._('Name');
+  static const creationTime = SortExperimentsBy._('CreationTime');
 
   final String value;
 
-  const SortExperimentsBy(this.value);
+  const SortExperimentsBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static SortExperimentsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortExperimentsBy'));
+          orElse: () => SortExperimentsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortExperimentsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortInferenceExperimentsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class SortInferenceExperimentsBy {
+  static const name = SortInferenceExperimentsBy._('Name');
+  static const creationTime = SortInferenceExperimentsBy._('CreationTime');
+  static const status = SortInferenceExperimentsBy._('Status');
 
   final String value;
 
-  const SortInferenceExperimentsBy(this.value);
+  const SortInferenceExperimentsBy._(this.value);
+
+  static const values = [name, creationTime, status];
 
   static SortInferenceExperimentsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SortInferenceExperimentsBy'));
+          orElse: () => SortInferenceExperimentsBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortInferenceExperimentsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortLineageGroupsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class SortLineageGroupsBy {
+  static const name = SortLineageGroupsBy._('Name');
+  static const creationTime = SortLineageGroupsBy._('CreationTime');
 
   final String value;
 
-  const SortLineageGroupsBy(this.value);
+  const SortLineageGroupsBy._(this.value);
 
-  static SortLineageGroupsBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SortLineageGroupsBy'));
+  static const values = [name, creationTime];
+
+  static SortLineageGroupsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SortLineageGroupsBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortLineageGroupsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('Ascending'),
-  descending('Descending'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('Ascending');
+  static const descending = SortOrder._('Descending');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortPipelineExecutionsBy {
-  creationTime('CreationTime'),
-  pipelineExecutionArn('PipelineExecutionArn'),
-  ;
+class SortPipelineExecutionsBy {
+  static const creationTime = SortPipelineExecutionsBy._('CreationTime');
+  static const pipelineExecutionArn =
+      SortPipelineExecutionsBy._('PipelineExecutionArn');
 
   final String value;
 
-  const SortPipelineExecutionsBy(this.value);
+  const SortPipelineExecutionsBy._(this.value);
+
+  static const values = [creationTime, pipelineExecutionArn];
 
   static SortPipelineExecutionsBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SortPipelineExecutionsBy'));
+          orElse: () => SortPipelineExecutionsBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortPipelineExecutionsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortPipelinesBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
+class SortPipelinesBy {
+  static const name = SortPipelinesBy._('Name');
+  static const creationTime = SortPipelinesBy._('CreationTime');
 
   final String value;
 
-  const SortPipelinesBy(this.value);
+  const SortPipelinesBy._(this.value);
+
+  static const values = [name, creationTime];
 
   static SortPipelinesBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortPipelinesBy'));
+          orElse: () => SortPipelinesBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortPipelinesBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortTrackingServerBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  ;
+class SortTrackingServerBy {
+  static const name = SortTrackingServerBy._('Name');
+  static const creationTime = SortTrackingServerBy._('CreationTime');
+  static const status = SortTrackingServerBy._('Status');
 
   final String value;
 
-  const SortTrackingServerBy(this.value);
+  const SortTrackingServerBy._(this.value);
 
-  static SortTrackingServerBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SortTrackingServerBy'));
-}
+  static const values = [name, creationTime, status];
 
-enum SortTrialComponentsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
-
-  final String value;
-
-  const SortTrialComponentsBy(this.value);
-
-  static SortTrialComponentsBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SortTrialComponentsBy'));
-}
-
-enum SortTrialsBy {
-  name('Name'),
-  creationTime('CreationTime'),
-  ;
-
-  final String value;
-
-  const SortTrialsBy(this.value);
-
-  static SortTrialsBy fromString(String value) =>
+  static SortTrackingServerBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortTrialsBy'));
+          orElse: () => SortTrackingServerBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortTrackingServerBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortTrialComponentsBy {
+  static const name = SortTrialComponentsBy._('Name');
+  static const creationTime = SortTrialComponentsBy._('CreationTime');
+
+  final String value;
+
+  const SortTrialComponentsBy._(this.value);
+
+  static const values = [name, creationTime];
+
+  static SortTrialComponentsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SortTrialComponentsBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SortTrialComponentsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortTrialsBy {
+  static const name = SortTrialsBy._('Name');
+  static const creationTime = SortTrialsBy._('CreationTime');
+
+  final String value;
+
+  const SortTrialsBy._(this.value);
+
+  static const values = [name, creationTime];
+
+  static SortTrialsBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortTrialsBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortTrialsBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies an algorithm that was used to create the model package. The
@@ -69383,7 +73020,8 @@ class SpaceSharingSettings {
 
   factory SpaceSharingSettings.fromJson(Map<String, dynamic> json) {
     return SpaceSharingSettings(
-      sharingType: SharingType.fromString((json['SharingType'] as String)),
+      sharingType:
+          SharingType.fromString((json['SharingType'] as String?) ?? ''),
     );
   }
 
@@ -69419,38 +73057,63 @@ class SpaceSharingSettingsSummary {
   }
 }
 
-enum SpaceSortKey {
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  ;
+class SpaceSortKey {
+  static const creationTime = SpaceSortKey._('CreationTime');
+  static const lastModifiedTime = SpaceSortKey._('LastModifiedTime');
 
   final String value;
 
-  const SpaceSortKey(this.value);
+  const SpaceSortKey._(this.value);
 
-  static SpaceSortKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpaceSortKey'));
+  static const values = [creationTime, lastModifiedTime];
+
+  static SpaceSortKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpaceSortKey._(value));
+
+  @override
+  bool operator ==(other) => other is SpaceSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SpaceStatus {
-  deleting('Deleting'),
-  failed('Failed'),
-  inService('InService'),
-  pending('Pending'),
-  updating('Updating'),
-  updateFailed('Update_Failed'),
-  deleteFailed('Delete_Failed'),
-  ;
+class SpaceStatus {
+  static const deleting = SpaceStatus._('Deleting');
+  static const failed = SpaceStatus._('Failed');
+  static const inService = SpaceStatus._('InService');
+  static const pending = SpaceStatus._('Pending');
+  static const updating = SpaceStatus._('Updating');
+  static const updateFailed = SpaceStatus._('Update_Failed');
+  static const deleteFailed = SpaceStatus._('Delete_Failed');
 
   final String value;
 
-  const SpaceStatus(this.value);
+  const SpaceStatus._(this.value);
 
-  static SpaceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SpaceStatus'));
+  static const values = [
+    deleting,
+    failed,
+    inService,
+    pending,
+    updating,
+    updateFailed,
+    deleteFailed
+  ];
+
+  static SpaceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpaceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SpaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The storage settings for a space.
@@ -69479,40 +73142,67 @@ class SpaceStorageSettings {
   }
 }
 
-enum SplitType {
-  none('None'),
-  line('Line'),
-  recordIO('RecordIO'),
-  tFRecord('TFRecord'),
-  ;
+class SplitType {
+  static const none = SplitType._('None');
+  static const line = SplitType._('Line');
+  static const recordIO = SplitType._('RecordIO');
+  static const tFRecord = SplitType._('TFRecord');
 
   final String value;
 
-  const SplitType(this.value);
+  const SplitType._(this.value);
 
-  static SplitType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SplitType'));
+  static const values = [none, line, recordIO, tFRecord];
+
+  static SplitType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SplitType._(value));
+
+  @override
+  bool operator ==(other) => other is SplitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StageStatus {
-  creating('CREATING'),
-  readytodeploy('READYTODEPLOY'),
-  starting('STARTING'),
-  inprogress('INPROGRESS'),
-  deployed('DEPLOYED'),
-  failed('FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class StageStatus {
+  static const creating = StageStatus._('CREATING');
+  static const readytodeploy = StageStatus._('READYTODEPLOY');
+  static const starting = StageStatus._('STARTING');
+  static const inprogress = StageStatus._('INPROGRESS');
+  static const deployed = StageStatus._('DEPLOYED');
+  static const failed = StageStatus._('FAILED');
+  static const stopping = StageStatus._('STOPPING');
+  static const stopped = StageStatus._('STOPPED');
 
   final String value;
 
-  const StageStatus(this.value);
+  const StageStatus._(this.value);
 
-  static StageStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StageStatus'));
+  static const values = [
+    creating,
+    readytodeploy,
+    starting,
+    inprogress,
+    deployed,
+    failed,
+    stopping,
+    stopped
+  ];
+
+  static StageStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StageStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the stairs traffic pattern for an Inference Recommender load test.
@@ -69624,39 +73314,64 @@ class StartPipelineExecutionResponse {
   }
 }
 
-enum Statistic {
-  average('Average'),
-  minimum('Minimum'),
-  maximum('Maximum'),
-  sampleCount('SampleCount'),
-  sum('Sum'),
-  ;
+class Statistic {
+  static const average = Statistic._('Average');
+  static const minimum = Statistic._('Minimum');
+  static const maximum = Statistic._('Maximum');
+  static const sampleCount = Statistic._('SampleCount');
+  static const sum = Statistic._('Sum');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [average, minimum, maximum, sampleCount, sum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StepStatus {
-  starting('Starting'),
-  executing('Executing'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  failed('Failed'),
-  succeeded('Succeeded'),
-  ;
+class StepStatus {
+  static const starting = StepStatus._('Starting');
+  static const executing = StepStatus._('Executing');
+  static const stopping = StepStatus._('Stopping');
+  static const stopped = StepStatus._('Stopped');
+  static const failed = StepStatus._('Failed');
+  static const succeeded = StepStatus._('Succeeded');
 
   final String value;
 
-  const StepStatus(this.value);
+  const StepStatus._(this.value);
 
-  static StepStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StepStatus'));
+  static const values = [
+    starting,
+    executing,
+    stopping,
+    stopped,
+    failed,
+    succeeded
+  ];
+
+  static StepStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StepStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopInferenceExperimentResponse {
@@ -69809,35 +73524,54 @@ class StoppingCondition {
   }
 }
 
-enum StorageType {
-  standard('Standard'),
-  inMemory('InMemory'),
-  ;
+class StorageType {
+  static const standard = StorageType._('Standard');
+  static const inMemory = StorageType._('InMemory');
 
   final String value;
 
-  const StorageType(this.value);
+  const StorageType._(this.value);
 
-  static StorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageType'));
+  static const values = [standard, inMemory];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StudioLifecycleConfigAppType {
-  jupyterServer('JupyterServer'),
-  kernelGateway('KernelGateway'),
-  codeEditor('CodeEditor'),
-  jupyterLab('JupyterLab'),
-  ;
+class StudioLifecycleConfigAppType {
+  static const jupyterServer = StudioLifecycleConfigAppType._('JupyterServer');
+  static const kernelGateway = StudioLifecycleConfigAppType._('KernelGateway');
+  static const codeEditor = StudioLifecycleConfigAppType._('CodeEditor');
+  static const jupyterLab = StudioLifecycleConfigAppType._('JupyterLab');
 
   final String value;
 
-  const StudioLifecycleConfigAppType(this.value);
+  const StudioLifecycleConfigAppType._(this.value);
+
+  static const values = [jupyterServer, kernelGateway, codeEditor, jupyterLab];
 
   static StudioLifecycleConfigAppType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioLifecycleConfigAppType'));
+          orElse: () => StudioLifecycleConfigAppType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioLifecycleConfigAppType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the Amazon SageMaker Studio Lifecycle Configuration.
@@ -69899,35 +73633,55 @@ class StudioLifecycleConfigDetails {
   }
 }
 
-enum StudioLifecycleConfigSortKey {
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  name('Name'),
-  ;
+class StudioLifecycleConfigSortKey {
+  static const creationTime = StudioLifecycleConfigSortKey._('CreationTime');
+  static const lastModifiedTime =
+      StudioLifecycleConfigSortKey._('LastModifiedTime');
+  static const name = StudioLifecycleConfigSortKey._('Name');
 
   final String value;
 
-  const StudioLifecycleConfigSortKey(this.value);
+  const StudioLifecycleConfigSortKey._(this.value);
+
+  static const values = [creationTime, lastModifiedTime, name];
 
   static StudioLifecycleConfigSortKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StudioLifecycleConfigSortKey'));
+          orElse: () => StudioLifecycleConfigSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StudioLifecycleConfigSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StudioWebPortal {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class StudioWebPortal {
+  static const enabled = StudioWebPortal._('ENABLED');
+  static const disabled = StudioWebPortal._('DISABLED');
 
   final String value;
 
-  const StudioWebPortal(this.value);
+  const StudioWebPortal._(this.value);
+
+  static const values = [enabled, disabled];
 
   static StudioWebPortal fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StudioWebPortal'));
+          orElse: () => StudioWebPortal._(value));
+
+  @override
+  bool operator ==(other) => other is StudioWebPortal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Studio settings. If these settings are applied on a user level, they take
@@ -70045,19 +73799,28 @@ class SuggestionQuery {
   }
 }
 
-enum TableFormat {
-  $default('Default'),
-  glue('Glue'),
-  iceberg('Iceberg'),
-  ;
+class TableFormat {
+  static const $default = TableFormat._('Default');
+  static const glue = TableFormat._('Glue');
+  static const iceberg = TableFormat._('Iceberg');
 
   final String value;
 
-  const TableFormat(this.value);
+  const TableFormat._(this.value);
 
-  static TableFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TableFormat'));
+  static const values = [$default, glue, iceberg];
+
+  static TableFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TableFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collection of settings used by an AutoML job V2 for the tabular problem
@@ -70299,54 +74062,100 @@ class Tag {
   }
 }
 
-enum TargetDevice {
-  lambda('lambda'),
-  mlM4('ml_m4'),
-  mlM5('ml_m5'),
-  mlM6g('ml_m6g'),
-  mlC4('ml_c4'),
-  mlC5('ml_c5'),
-  mlC6g('ml_c6g'),
-  mlP2('ml_p2'),
-  mlP3('ml_p3'),
-  mlG4dn('ml_g4dn'),
-  mlInf1('ml_inf1'),
-  mlInf2('ml_inf2'),
-  mlTrn1('ml_trn1'),
-  mlEia2('ml_eia2'),
-  jetsonTx1('jetson_tx1'),
-  jetsonTx2('jetson_tx2'),
-  jetsonNano('jetson_nano'),
-  jetsonXavier('jetson_xavier'),
-  rasp3b('rasp3b'),
-  rasp4b('rasp4b'),
-  imx8qm('imx8qm'),
-  deeplens('deeplens'),
-  rk3399('rk3399'),
-  rk3288('rk3288'),
-  aisage('aisage'),
-  sbeC('sbe_c'),
-  qcs605('qcs605'),
-  qcs603('qcs603'),
-  sitaraAm57x('sitara_am57x'),
-  ambaCv2('amba_cv2'),
-  ambaCv22('amba_cv22'),
-  ambaCv25('amba_cv25'),
-  x86Win32('x86_win32'),
-  x86Win64('x86_win64'),
-  coreml('coreml'),
-  jacintoTda4vm('jacinto_tda4vm'),
-  imx8mplus('imx8mplus'),
-  ;
+class TargetDevice {
+  static const lambda = TargetDevice._('lambda');
+  static const mlM4 = TargetDevice._('ml_m4');
+  static const mlM5 = TargetDevice._('ml_m5');
+  static const mlM6g = TargetDevice._('ml_m6g');
+  static const mlC4 = TargetDevice._('ml_c4');
+  static const mlC5 = TargetDevice._('ml_c5');
+  static const mlC6g = TargetDevice._('ml_c6g');
+  static const mlP2 = TargetDevice._('ml_p2');
+  static const mlP3 = TargetDevice._('ml_p3');
+  static const mlG4dn = TargetDevice._('ml_g4dn');
+  static const mlInf1 = TargetDevice._('ml_inf1');
+  static const mlInf2 = TargetDevice._('ml_inf2');
+  static const mlTrn1 = TargetDevice._('ml_trn1');
+  static const mlEia2 = TargetDevice._('ml_eia2');
+  static const jetsonTx1 = TargetDevice._('jetson_tx1');
+  static const jetsonTx2 = TargetDevice._('jetson_tx2');
+  static const jetsonNano = TargetDevice._('jetson_nano');
+  static const jetsonXavier = TargetDevice._('jetson_xavier');
+  static const rasp3b = TargetDevice._('rasp3b');
+  static const rasp4b = TargetDevice._('rasp4b');
+  static const imx8qm = TargetDevice._('imx8qm');
+  static const deeplens = TargetDevice._('deeplens');
+  static const rk3399 = TargetDevice._('rk3399');
+  static const rk3288 = TargetDevice._('rk3288');
+  static const aisage = TargetDevice._('aisage');
+  static const sbeC = TargetDevice._('sbe_c');
+  static const qcs605 = TargetDevice._('qcs605');
+  static const qcs603 = TargetDevice._('qcs603');
+  static const sitaraAm57x = TargetDevice._('sitara_am57x');
+  static const ambaCv2 = TargetDevice._('amba_cv2');
+  static const ambaCv22 = TargetDevice._('amba_cv22');
+  static const ambaCv25 = TargetDevice._('amba_cv25');
+  static const x86Win32 = TargetDevice._('x86_win32');
+  static const x86Win64 = TargetDevice._('x86_win64');
+  static const coreml = TargetDevice._('coreml');
+  static const jacintoTda4vm = TargetDevice._('jacinto_tda4vm');
+  static const imx8mplus = TargetDevice._('imx8mplus');
 
   final String value;
 
-  const TargetDevice(this.value);
+  const TargetDevice._(this.value);
 
-  static TargetDevice fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetDevice'));
+  static const values = [
+    lambda,
+    mlM4,
+    mlM5,
+    mlM6g,
+    mlC4,
+    mlC5,
+    mlC6g,
+    mlP2,
+    mlP3,
+    mlG4dn,
+    mlInf1,
+    mlInf2,
+    mlTrn1,
+    mlEia2,
+    jetsonTx1,
+    jetsonTx2,
+    jetsonNano,
+    jetsonXavier,
+    rasp3b,
+    rasp4b,
+    imx8qm,
+    deeplens,
+    rk3399,
+    rk3288,
+    aisage,
+    sbeC,
+    qcs605,
+    qcs603,
+    sitaraAm57x,
+    ambaCv2,
+    ambaCv22,
+    ambaCv25,
+    x86Win32,
+    x86Win64,
+    coreml,
+    jacintoTda4vm,
+    imx8mplus
+  ];
+
+  static TargetDevice fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetDevice._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDevice && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a target platform that you want your model to run
@@ -70414,8 +74223,8 @@ class TargetPlatform {
 
   factory TargetPlatform.fromJson(Map<String, dynamic> json) {
     return TargetPlatform(
-      arch: TargetPlatformArch.fromString((json['Arch'] as String)),
-      os: TargetPlatformOs.fromString((json['Os'] as String)),
+      arch: TargetPlatformArch.fromString((json['Arch'] as String?) ?? ''),
+      os: TargetPlatformOs.fromString((json['Os'] as String?) ?? ''),
       accelerator: (json['Accelerator'] as String?)
           ?.let(TargetPlatformAccelerator.fromString),
     );
@@ -70433,54 +74242,83 @@ class TargetPlatform {
   }
 }
 
-enum TargetPlatformAccelerator {
-  intelGraphics('INTEL_GRAPHICS'),
-  mali('MALI'),
-  nvidia('NVIDIA'),
-  nna('NNA'),
-  ;
+class TargetPlatformAccelerator {
+  static const intelGraphics = TargetPlatformAccelerator._('INTEL_GRAPHICS');
+  static const mali = TargetPlatformAccelerator._('MALI');
+  static const nvidia = TargetPlatformAccelerator._('NVIDIA');
+  static const nna = TargetPlatformAccelerator._('NNA');
 
   final String value;
 
-  const TargetPlatformAccelerator(this.value);
+  const TargetPlatformAccelerator._(this.value);
+
+  static const values = [intelGraphics, mali, nvidia, nna];
 
   static TargetPlatformAccelerator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetPlatformAccelerator'));
+          orElse: () => TargetPlatformAccelerator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetPlatformAccelerator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetPlatformArch {
-  x86_64('X86_64'),
-  x86('X86'),
-  arm64('ARM64'),
-  armEabi('ARM_EABI'),
-  armEabihf('ARM_EABIHF'),
-  ;
+class TargetPlatformArch {
+  static const x86_64 = TargetPlatformArch._('X86_64');
+  static const x86 = TargetPlatformArch._('X86');
+  static const arm64 = TargetPlatformArch._('ARM64');
+  static const armEabi = TargetPlatformArch._('ARM_EABI');
+  static const armEabihf = TargetPlatformArch._('ARM_EABIHF');
 
   final String value;
 
-  const TargetPlatformArch(this.value);
+  const TargetPlatformArch._(this.value);
 
-  static TargetPlatformArch fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetPlatformArch'));
+  static const values = [x86_64, x86, arm64, armEabi, armEabihf];
+
+  static TargetPlatformArch fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetPlatformArch._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetPlatformArch && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetPlatformOs {
-  android('ANDROID'),
-  linux('LINUX'),
-  ;
+class TargetPlatformOs {
+  static const android = TargetPlatformOs._('ANDROID');
+  static const linux = TargetPlatformOs._('LINUX');
 
   final String value;
 
-  const TargetPlatformOs(this.value);
+  const TargetPlatformOs._(this.value);
+
+  static const values = [android, linux];
 
   static TargetPlatformOs fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetPlatformOs'));
+          orElse: () => TargetPlatformOs._(value));
+
+  @override
+  bool operator ==(other) => other is TargetPlatformOs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A target tracking scaling policy. Includes support for predefined or
@@ -70847,7 +74685,7 @@ class ThroughputConfigDescription {
   factory ThroughputConfigDescription.fromJson(Map<String, dynamic> json) {
     return ThroughputConfigDescription(
       throughputMode:
-          ThroughputMode.fromString((json['ThroughputMode'] as String)),
+          ThroughputMode.fromString((json['ThroughputMode'] as String?) ?? ''),
       provisionedReadCapacityUnits:
           json['ProvisionedReadCapacityUnits'] as int?,
       provisionedWriteCapacityUnits:
@@ -70909,19 +74747,28 @@ class ThroughputConfigUpdate {
   }
 }
 
-enum ThroughputMode {
-  onDemand('OnDemand'),
-  provisioned('Provisioned'),
-  ;
+class ThroughputMode {
+  static const onDemand = ThroughputMode._('OnDemand');
+  static const provisioned = ThroughputMode._('Provisioned');
 
   final String value;
 
-  const ThroughputMode(this.value);
+  const ThroughputMode._(this.value);
+
+  static const values = [onDemand, provisioned];
 
   static ThroughputMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThroughputMode'));
+          orElse: () => ThroughputMode._(value));
+
+  @override
+  bool operator ==(other) => other is ThroughputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collection of components that defines the time-series.
@@ -71255,50 +75102,90 @@ class TimeSeriesTransformations {
   }
 }
 
-enum TrackingServerSize {
-  small('Small'),
-  medium('Medium'),
-  large('Large'),
-  ;
+class TrackingServerSize {
+  static const small = TrackingServerSize._('Small');
+  static const medium = TrackingServerSize._('Medium');
+  static const large = TrackingServerSize._('Large');
 
   final String value;
 
-  const TrackingServerSize(this.value);
+  const TrackingServerSize._(this.value);
 
-  static TrackingServerSize fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TrackingServerSize'));
+  static const values = [small, medium, large];
+
+  static TrackingServerSize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrackingServerSize._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrackingServerSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrackingServerStatus {
-  creating('Creating'),
-  created('Created'),
-  createFailed('CreateFailed'),
-  updating('Updating'),
-  updated('Updated'),
-  updateFailed('UpdateFailed'),
-  deleting('Deleting'),
-  deleteFailed('DeleteFailed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  stopFailed('StopFailed'),
-  starting('Starting'),
-  started('Started'),
-  startFailed('StartFailed'),
-  maintenanceInProgress('MaintenanceInProgress'),
-  maintenanceComplete('MaintenanceComplete'),
-  maintenanceFailed('MaintenanceFailed'),
-  ;
+class TrackingServerStatus {
+  static const creating = TrackingServerStatus._('Creating');
+  static const created = TrackingServerStatus._('Created');
+  static const createFailed = TrackingServerStatus._('CreateFailed');
+  static const updating = TrackingServerStatus._('Updating');
+  static const updated = TrackingServerStatus._('Updated');
+  static const updateFailed = TrackingServerStatus._('UpdateFailed');
+  static const deleting = TrackingServerStatus._('Deleting');
+  static const deleteFailed = TrackingServerStatus._('DeleteFailed');
+  static const stopping = TrackingServerStatus._('Stopping');
+  static const stopped = TrackingServerStatus._('Stopped');
+  static const stopFailed = TrackingServerStatus._('StopFailed');
+  static const starting = TrackingServerStatus._('Starting');
+  static const started = TrackingServerStatus._('Started');
+  static const startFailed = TrackingServerStatus._('StartFailed');
+  static const maintenanceInProgress =
+      TrackingServerStatus._('MaintenanceInProgress');
+  static const maintenanceComplete =
+      TrackingServerStatus._('MaintenanceComplete');
+  static const maintenanceFailed = TrackingServerStatus._('MaintenanceFailed');
 
   final String value;
 
-  const TrackingServerStatus(this.value);
+  const TrackingServerStatus._(this.value);
 
-  static TrackingServerStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TrackingServerStatus'));
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    updating,
+    updated,
+    updateFailed,
+    deleting,
+    deleteFailed,
+    stopping,
+    stopped,
+    stopFailed,
+    starting,
+    started,
+    startFailed,
+    maintenanceInProgress,
+    maintenanceComplete,
+    maintenanceFailed
+  ];
+
+  static TrackingServerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrackingServerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrackingServerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the tracking server to list.
@@ -71459,7 +75346,8 @@ class TrafficRoutingConfig {
 
   factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
     return TrafficRoutingConfig(
-      type: TrafficRoutingConfigType.fromString((json['Type'] as String)),
+      type:
+          TrafficRoutingConfigType.fromString((json['Type'] as String?) ?? ''),
       waitIntervalInSeconds: (json['WaitIntervalInSeconds'] as int?) ?? 0,
       canarySize: json['CanarySize'] != null
           ? CapacitySize.fromJson(json['CanarySize'] as Map<String, dynamic>)
@@ -71485,34 +75373,53 @@ class TrafficRoutingConfig {
   }
 }
 
-enum TrafficRoutingConfigType {
-  allAtOnce('ALL_AT_ONCE'),
-  canary('CANARY'),
-  linear('LINEAR'),
-  ;
+class TrafficRoutingConfigType {
+  static const allAtOnce = TrafficRoutingConfigType._('ALL_AT_ONCE');
+  static const canary = TrafficRoutingConfigType._('CANARY');
+  static const linear = TrafficRoutingConfigType._('LINEAR');
 
   final String value;
 
-  const TrafficRoutingConfigType(this.value);
+  const TrafficRoutingConfigType._(this.value);
+
+  static const values = [allAtOnce, canary, linear];
 
   static TrafficRoutingConfigType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficRoutingConfigType'));
+          orElse: () => TrafficRoutingConfigType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficRoutingConfigType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrafficType {
-  phases('PHASES'),
-  stairs('STAIRS'),
-  ;
+class TrafficType {
+  static const phases = TrafficType._('PHASES');
+  static const stairs = TrafficType._('STAIRS');
 
   final String value;
 
-  const TrafficType(this.value);
+  const TrafficType._(this.value);
 
-  static TrafficType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TrafficType'));
+  static const values = [phases, stairs];
+
+  static TrafficType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrafficType._(value));
+
+  @override
+  bool operator ==(other) => other is TrafficType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration to use an image from a private Docker registry for a
@@ -71535,7 +75442,7 @@ class TrainingImageConfig {
   factory TrainingImageConfig.fromJson(Map<String, dynamic> json) {
     return TrainingImageConfig(
       trainingRepositoryAccessMode: TrainingRepositoryAccessMode.fromString(
-          (json['TrainingRepositoryAccessMode'] as String)),
+          (json['TrainingRepositoryAccessMode'] as String?) ?? ''),
       trainingRepositoryAuthConfig: json['TrainingRepositoryAuthConfig'] != null
           ? TrainingRepositoryAuthConfig.fromJson(
               json['TrainingRepositoryAuthConfig'] as Map<String, dynamic>)
@@ -71591,122 +75498,231 @@ class TrainingImageConfig {
 /// <code>FastFile</code> mode works best when the data is read sequentially.
 /// Augmented manifest files aren't supported. The startup time is lower when
 /// there are fewer files in the S3 bucket provided.
-enum TrainingInputMode {
-  pipe('Pipe'),
-  file('File'),
-  fastFile('FastFile'),
-  ;
+class TrainingInputMode {
+  static const pipe = TrainingInputMode._('Pipe');
+  static const file = TrainingInputMode._('File');
+  static const fastFile = TrainingInputMode._('FastFile');
 
   final String value;
 
-  const TrainingInputMode(this.value);
+  const TrainingInputMode._(this.value);
+
+  static const values = [pipe, file, fastFile];
 
   static TrainingInputMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrainingInputMode'));
+          orElse: () => TrainingInputMode._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingInputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrainingInstanceType {
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
-  mlP4d_24xlarge('ml.p4d.24xlarge'),
-  mlP4de_24xlarge('ml.p4de.24xlarge'),
-  mlP5_48xlarge('ml.p5.48xlarge'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlC5nXlarge('ml.c5n.xlarge'),
-  mlC5n_2xlarge('ml.c5n.2xlarge'),
-  mlC5n_4xlarge('ml.c5n.4xlarge'),
-  mlC5n_9xlarge('ml.c5n.9xlarge'),
-  mlC5n_18xlarge('ml.c5n.18xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  mlTrn1_2xlarge('ml.trn1.2xlarge'),
-  mlTrn1_32xlarge('ml.trn1.32xlarge'),
-  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
-  mlM6iLarge('ml.m6i.large'),
-  mlM6iXlarge('ml.m6i.xlarge'),
-  mlM6i_2xlarge('ml.m6i.2xlarge'),
-  mlM6i_4xlarge('ml.m6i.4xlarge'),
-  mlM6i_8xlarge('ml.m6i.8xlarge'),
-  mlM6i_12xlarge('ml.m6i.12xlarge'),
-  mlM6i_16xlarge('ml.m6i.16xlarge'),
-  mlM6i_24xlarge('ml.m6i.24xlarge'),
-  mlM6i_32xlarge('ml.m6i.32xlarge'),
-  mlC6iXlarge('ml.c6i.xlarge'),
-  mlC6i_2xlarge('ml.c6i.2xlarge'),
-  mlC6i_8xlarge('ml.c6i.8xlarge'),
-  mlC6i_4xlarge('ml.c6i.4xlarge'),
-  mlC6i_12xlarge('ml.c6i.12xlarge'),
-  mlC6i_16xlarge('ml.c6i.16xlarge'),
-  mlC6i_24xlarge('ml.c6i.24xlarge'),
-  mlC6i_32xlarge('ml.c6i.32xlarge'),
-  mlR5dLarge('ml.r5d.large'),
-  mlR5dXlarge('ml.r5d.xlarge'),
-  mlR5d_2xlarge('ml.r5d.2xlarge'),
-  mlR5d_4xlarge('ml.r5d.4xlarge'),
-  mlR5d_8xlarge('ml.r5d.8xlarge'),
-  mlR5d_12xlarge('ml.r5d.12xlarge'),
-  mlR5d_16xlarge('ml.r5d.16xlarge'),
-  mlR5d_24xlarge('ml.r5d.24xlarge'),
-  mlT3Medium('ml.t3.medium'),
-  mlT3Large('ml.t3.large'),
-  mlT3Xlarge('ml.t3.xlarge'),
-  mlT3_2xlarge('ml.t3.2xlarge'),
-  mlR5Large('ml.r5.large'),
-  mlR5Xlarge('ml.r5.xlarge'),
-  mlR5_2xlarge('ml.r5.2xlarge'),
-  mlR5_4xlarge('ml.r5.4xlarge'),
-  mlR5_8xlarge('ml.r5.8xlarge'),
-  mlR5_12xlarge('ml.r5.12xlarge'),
-  mlR5_16xlarge('ml.r5.16xlarge'),
-  mlR5_24xlarge('ml.r5.24xlarge'),
-  ;
+class TrainingInstanceType {
+  static const mlM4Xlarge = TrainingInstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = TrainingInstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = TrainingInstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge = TrainingInstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge = TrainingInstanceType._('ml.m4.16xlarge');
+  static const mlG4dnXlarge = TrainingInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = TrainingInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = TrainingInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = TrainingInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = TrainingInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = TrainingInstanceType._('ml.g4dn.16xlarge');
+  static const mlM5Large = TrainingInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = TrainingInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = TrainingInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = TrainingInstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge = TrainingInstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge = TrainingInstanceType._('ml.m5.24xlarge');
+  static const mlC4Xlarge = TrainingInstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = TrainingInstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = TrainingInstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = TrainingInstanceType._('ml.c4.8xlarge');
+  static const mlP2Xlarge = TrainingInstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = TrainingInstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge = TrainingInstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = TrainingInstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = TrainingInstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = TrainingInstanceType._('ml.p3.16xlarge');
+  static const mlP3dn_24xlarge = TrainingInstanceType._('ml.p3dn.24xlarge');
+  static const mlP4d_24xlarge = TrainingInstanceType._('ml.p4d.24xlarge');
+  static const mlP4de_24xlarge = TrainingInstanceType._('ml.p4de.24xlarge');
+  static const mlP5_48xlarge = TrainingInstanceType._('ml.p5.48xlarge');
+  static const mlC5Xlarge = TrainingInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = TrainingInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = TrainingInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = TrainingInstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge = TrainingInstanceType._('ml.c5.18xlarge');
+  static const mlC5nXlarge = TrainingInstanceType._('ml.c5n.xlarge');
+  static const mlC5n_2xlarge = TrainingInstanceType._('ml.c5n.2xlarge');
+  static const mlC5n_4xlarge = TrainingInstanceType._('ml.c5n.4xlarge');
+  static const mlC5n_9xlarge = TrainingInstanceType._('ml.c5n.9xlarge');
+  static const mlC5n_18xlarge = TrainingInstanceType._('ml.c5n.18xlarge');
+  static const mlG5Xlarge = TrainingInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = TrainingInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = TrainingInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = TrainingInstanceType._('ml.g5.8xlarge');
+  static const mlG5_16xlarge = TrainingInstanceType._('ml.g5.16xlarge');
+  static const mlG5_12xlarge = TrainingInstanceType._('ml.g5.12xlarge');
+  static const mlG5_24xlarge = TrainingInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = TrainingInstanceType._('ml.g5.48xlarge');
+  static const mlTrn1_2xlarge = TrainingInstanceType._('ml.trn1.2xlarge');
+  static const mlTrn1_32xlarge = TrainingInstanceType._('ml.trn1.32xlarge');
+  static const mlTrn1n_32xlarge = TrainingInstanceType._('ml.trn1n.32xlarge');
+  static const mlM6iLarge = TrainingInstanceType._('ml.m6i.large');
+  static const mlM6iXlarge = TrainingInstanceType._('ml.m6i.xlarge');
+  static const mlM6i_2xlarge = TrainingInstanceType._('ml.m6i.2xlarge');
+  static const mlM6i_4xlarge = TrainingInstanceType._('ml.m6i.4xlarge');
+  static const mlM6i_8xlarge = TrainingInstanceType._('ml.m6i.8xlarge');
+  static const mlM6i_12xlarge = TrainingInstanceType._('ml.m6i.12xlarge');
+  static const mlM6i_16xlarge = TrainingInstanceType._('ml.m6i.16xlarge');
+  static const mlM6i_24xlarge = TrainingInstanceType._('ml.m6i.24xlarge');
+  static const mlM6i_32xlarge = TrainingInstanceType._('ml.m6i.32xlarge');
+  static const mlC6iXlarge = TrainingInstanceType._('ml.c6i.xlarge');
+  static const mlC6i_2xlarge = TrainingInstanceType._('ml.c6i.2xlarge');
+  static const mlC6i_8xlarge = TrainingInstanceType._('ml.c6i.8xlarge');
+  static const mlC6i_4xlarge = TrainingInstanceType._('ml.c6i.4xlarge');
+  static const mlC6i_12xlarge = TrainingInstanceType._('ml.c6i.12xlarge');
+  static const mlC6i_16xlarge = TrainingInstanceType._('ml.c6i.16xlarge');
+  static const mlC6i_24xlarge = TrainingInstanceType._('ml.c6i.24xlarge');
+  static const mlC6i_32xlarge = TrainingInstanceType._('ml.c6i.32xlarge');
+  static const mlR5dLarge = TrainingInstanceType._('ml.r5d.large');
+  static const mlR5dXlarge = TrainingInstanceType._('ml.r5d.xlarge');
+  static const mlR5d_2xlarge = TrainingInstanceType._('ml.r5d.2xlarge');
+  static const mlR5d_4xlarge = TrainingInstanceType._('ml.r5d.4xlarge');
+  static const mlR5d_8xlarge = TrainingInstanceType._('ml.r5d.8xlarge');
+  static const mlR5d_12xlarge = TrainingInstanceType._('ml.r5d.12xlarge');
+  static const mlR5d_16xlarge = TrainingInstanceType._('ml.r5d.16xlarge');
+  static const mlR5d_24xlarge = TrainingInstanceType._('ml.r5d.24xlarge');
+  static const mlT3Medium = TrainingInstanceType._('ml.t3.medium');
+  static const mlT3Large = TrainingInstanceType._('ml.t3.large');
+  static const mlT3Xlarge = TrainingInstanceType._('ml.t3.xlarge');
+  static const mlT3_2xlarge = TrainingInstanceType._('ml.t3.2xlarge');
+  static const mlR5Large = TrainingInstanceType._('ml.r5.large');
+  static const mlR5Xlarge = TrainingInstanceType._('ml.r5.xlarge');
+  static const mlR5_2xlarge = TrainingInstanceType._('ml.r5.2xlarge');
+  static const mlR5_4xlarge = TrainingInstanceType._('ml.r5.4xlarge');
+  static const mlR5_8xlarge = TrainingInstanceType._('ml.r5.8xlarge');
+  static const mlR5_12xlarge = TrainingInstanceType._('ml.r5.12xlarge');
+  static const mlR5_16xlarge = TrainingInstanceType._('ml.r5.16xlarge');
+  static const mlR5_24xlarge = TrainingInstanceType._('ml.r5.24xlarge');
 
   final String value;
 
-  const TrainingInstanceType(this.value);
+  const TrainingInstanceType._(this.value);
 
-  static TrainingInstanceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TrainingInstanceType'));
+  static const values = [
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlP3dn_24xlarge,
+    mlP4d_24xlarge,
+    mlP4de_24xlarge,
+    mlP5_48xlarge,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlC5nXlarge,
+    mlC5n_2xlarge,
+    mlC5n_4xlarge,
+    mlC5n_9xlarge,
+    mlC5n_18xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_16xlarge,
+    mlG5_12xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge,
+    mlTrn1_2xlarge,
+    mlTrn1_32xlarge,
+    mlTrn1n_32xlarge,
+    mlM6iLarge,
+    mlM6iXlarge,
+    mlM6i_2xlarge,
+    mlM6i_4xlarge,
+    mlM6i_8xlarge,
+    mlM6i_12xlarge,
+    mlM6i_16xlarge,
+    mlM6i_24xlarge,
+    mlM6i_32xlarge,
+    mlC6iXlarge,
+    mlC6i_2xlarge,
+    mlC6i_8xlarge,
+    mlC6i_4xlarge,
+    mlC6i_12xlarge,
+    mlC6i_16xlarge,
+    mlC6i_24xlarge,
+    mlC6i_32xlarge,
+    mlR5dLarge,
+    mlR5dXlarge,
+    mlR5d_2xlarge,
+    mlR5d_4xlarge,
+    mlR5d_8xlarge,
+    mlR5d_12xlarge,
+    mlR5d_16xlarge,
+    mlR5d_24xlarge,
+    mlT3Medium,
+    mlT3Large,
+    mlT3Xlarge,
+    mlT3_2xlarge,
+    mlR5Large,
+    mlR5Xlarge,
+    mlR5_2xlarge,
+    mlR5_4xlarge,
+    mlR5_8xlarge,
+    mlR5_12xlarge,
+    mlR5_16xlarge,
+    mlR5_24xlarge
+  ];
+
+  static TrainingInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrainingInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a training job.
@@ -72249,8 +76265,8 @@ class TrainingJobDefinition {
       stoppingCondition: StoppingCondition.fromJson(
           (json['StoppingCondition'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      trainingInputMode:
-          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
+      trainingInputMode: TrainingInputMode.fromString(
+          (json['TrainingInputMode'] as String?) ?? ''),
       hyperParameters: (json['HyperParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -72274,54 +76290,84 @@ class TrainingJobDefinition {
   }
 }
 
-enum TrainingJobEarlyStoppingType {
-  off('Off'),
-  auto('Auto'),
-  ;
+class TrainingJobEarlyStoppingType {
+  static const off = TrainingJobEarlyStoppingType._('Off');
+  static const auto = TrainingJobEarlyStoppingType._('Auto');
 
   final String value;
 
-  const TrainingJobEarlyStoppingType(this.value);
+  const TrainingJobEarlyStoppingType._(this.value);
+
+  static const values = [off, auto];
 
   static TrainingJobEarlyStoppingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrainingJobEarlyStoppingType'));
+          orElse: () => TrainingJobEarlyStoppingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingJobEarlyStoppingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrainingJobSortByOptions {
-  name('Name'),
-  creationTime('CreationTime'),
-  status('Status'),
-  finalObjectiveMetricValue('FinalObjectiveMetricValue'),
-  ;
+class TrainingJobSortByOptions {
+  static const name = TrainingJobSortByOptions._('Name');
+  static const creationTime = TrainingJobSortByOptions._('CreationTime');
+  static const status = TrainingJobSortByOptions._('Status');
+  static const finalObjectiveMetricValue =
+      TrainingJobSortByOptions._('FinalObjectiveMetricValue');
 
   final String value;
 
-  const TrainingJobSortByOptions(this.value);
+  const TrainingJobSortByOptions._(this.value);
+
+  static const values = [name, creationTime, status, finalObjectiveMetricValue];
 
   static TrainingJobSortByOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrainingJobSortByOptions'));
+          orElse: () => TrainingJobSortByOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingJobSortByOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrainingJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class TrainingJobStatus {
+  static const inProgress = TrainingJobStatus._('InProgress');
+  static const completed = TrainingJobStatus._('Completed');
+  static const failed = TrainingJobStatus._('Failed');
+  static const stopping = TrainingJobStatus._('Stopping');
+  static const stopped = TrainingJobStatus._('Stopped');
 
   final String value;
 
-  const TrainingJobStatus(this.value);
+  const TrainingJobStatus._(this.value);
+
+  static const values = [inProgress, completed, failed, stopping, stopped];
 
   static TrainingJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrainingJobStatus'));
+          orElse: () => TrainingJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The numbers of training jobs launched by a hyperparameter tuning job,
@@ -72446,8 +76492,8 @@ class TrainingJobSummary {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       trainingJobArn: (json['TrainingJobArn'] as String?) ?? '',
       trainingJobName: (json['TrainingJobName'] as String?) ?? '',
-      trainingJobStatus:
-          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
+      trainingJobStatus: TrainingJobStatus.fromString(
+          (json['TrainingJobStatus'] as String?) ?? ''),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       warmPoolStatus: json['WarmPoolStatus'] != null
@@ -72479,19 +76525,29 @@ class TrainingJobSummary {
   }
 }
 
-enum TrainingRepositoryAccessMode {
-  platform('Platform'),
-  vpc('Vpc'),
-  ;
+class TrainingRepositoryAccessMode {
+  static const platform = TrainingRepositoryAccessMode._('Platform');
+  static const vpc = TrainingRepositoryAccessMode._('Vpc');
 
   final String value;
 
-  const TrainingRepositoryAccessMode(this.value);
+  const TrainingRepositoryAccessMode._(this.value);
+
+  static const values = [platform, vpc];
 
   static TrainingRepositoryAccessMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrainingRepositoryAccessMode'));
+          orElse: () => TrainingRepositoryAccessMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrainingRepositoryAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object containing authentication information for a private Docker
@@ -72757,111 +76813,216 @@ class TransformInput {
   }
 }
 
-enum TransformInstanceType {
-  mlM4Xlarge('ml.m4.xlarge'),
-  mlM4_2xlarge('ml.m4.2xlarge'),
-  mlM4_4xlarge('ml.m4.4xlarge'),
-  mlM4_10xlarge('ml.m4.10xlarge'),
-  mlM4_16xlarge('ml.m4.16xlarge'),
-  mlC4Xlarge('ml.c4.xlarge'),
-  mlC4_2xlarge('ml.c4.2xlarge'),
-  mlC4_4xlarge('ml.c4.4xlarge'),
-  mlC4_8xlarge('ml.c4.8xlarge'),
-  mlP2Xlarge('ml.p2.xlarge'),
-  mlP2_8xlarge('ml.p2.8xlarge'),
-  mlP2_16xlarge('ml.p2.16xlarge'),
-  mlP3_2xlarge('ml.p3.2xlarge'),
-  mlP3_8xlarge('ml.p3.8xlarge'),
-  mlP3_16xlarge('ml.p3.16xlarge'),
-  mlC5Xlarge('ml.c5.xlarge'),
-  mlC5_2xlarge('ml.c5.2xlarge'),
-  mlC5_4xlarge('ml.c5.4xlarge'),
-  mlC5_9xlarge('ml.c5.9xlarge'),
-  mlC5_18xlarge('ml.c5.18xlarge'),
-  mlM5Large('ml.m5.large'),
-  mlM5Xlarge('ml.m5.xlarge'),
-  mlM5_2xlarge('ml.m5.2xlarge'),
-  mlM5_4xlarge('ml.m5.4xlarge'),
-  mlM5_12xlarge('ml.m5.12xlarge'),
-  mlM5_24xlarge('ml.m5.24xlarge'),
-  mlM6iLarge('ml.m6i.large'),
-  mlM6iXlarge('ml.m6i.xlarge'),
-  mlM6i_2xlarge('ml.m6i.2xlarge'),
-  mlM6i_4xlarge('ml.m6i.4xlarge'),
-  mlM6i_8xlarge('ml.m6i.8xlarge'),
-  mlM6i_12xlarge('ml.m6i.12xlarge'),
-  mlM6i_16xlarge('ml.m6i.16xlarge'),
-  mlM6i_24xlarge('ml.m6i.24xlarge'),
-  mlM6i_32xlarge('ml.m6i.32xlarge'),
-  mlC6iLarge('ml.c6i.large'),
-  mlC6iXlarge('ml.c6i.xlarge'),
-  mlC6i_2xlarge('ml.c6i.2xlarge'),
-  mlC6i_4xlarge('ml.c6i.4xlarge'),
-  mlC6i_8xlarge('ml.c6i.8xlarge'),
-  mlC6i_12xlarge('ml.c6i.12xlarge'),
-  mlC6i_16xlarge('ml.c6i.16xlarge'),
-  mlC6i_24xlarge('ml.c6i.24xlarge'),
-  mlC6i_32xlarge('ml.c6i.32xlarge'),
-  mlR6iLarge('ml.r6i.large'),
-  mlR6iXlarge('ml.r6i.xlarge'),
-  mlR6i_2xlarge('ml.r6i.2xlarge'),
-  mlR6i_4xlarge('ml.r6i.4xlarge'),
-  mlR6i_8xlarge('ml.r6i.8xlarge'),
-  mlR6i_12xlarge('ml.r6i.12xlarge'),
-  mlR6i_16xlarge('ml.r6i.16xlarge'),
-  mlR6i_24xlarge('ml.r6i.24xlarge'),
-  mlR6i_32xlarge('ml.r6i.32xlarge'),
-  mlM7iLarge('ml.m7i.large'),
-  mlM7iXlarge('ml.m7i.xlarge'),
-  mlM7i_2xlarge('ml.m7i.2xlarge'),
-  mlM7i_4xlarge('ml.m7i.4xlarge'),
-  mlM7i_8xlarge('ml.m7i.8xlarge'),
-  mlM7i_12xlarge('ml.m7i.12xlarge'),
-  mlM7i_16xlarge('ml.m7i.16xlarge'),
-  mlM7i_24xlarge('ml.m7i.24xlarge'),
-  mlM7i_48xlarge('ml.m7i.48xlarge'),
-  mlC7iLarge('ml.c7i.large'),
-  mlC7iXlarge('ml.c7i.xlarge'),
-  mlC7i_2xlarge('ml.c7i.2xlarge'),
-  mlC7i_4xlarge('ml.c7i.4xlarge'),
-  mlC7i_8xlarge('ml.c7i.8xlarge'),
-  mlC7i_12xlarge('ml.c7i.12xlarge'),
-  mlC7i_16xlarge('ml.c7i.16xlarge'),
-  mlC7i_24xlarge('ml.c7i.24xlarge'),
-  mlC7i_48xlarge('ml.c7i.48xlarge'),
-  mlR7iLarge('ml.r7i.large'),
-  mlR7iXlarge('ml.r7i.xlarge'),
-  mlR7i_2xlarge('ml.r7i.2xlarge'),
-  mlR7i_4xlarge('ml.r7i.4xlarge'),
-  mlR7i_8xlarge('ml.r7i.8xlarge'),
-  mlR7i_12xlarge('ml.r7i.12xlarge'),
-  mlR7i_16xlarge('ml.r7i.16xlarge'),
-  mlR7i_24xlarge('ml.r7i.24xlarge'),
-  mlR7i_48xlarge('ml.r7i.48xlarge'),
-  mlG4dnXlarge('ml.g4dn.xlarge'),
-  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
-  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
-  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
-  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
-  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
-  mlG5Xlarge('ml.g5.xlarge'),
-  mlG5_2xlarge('ml.g5.2xlarge'),
-  mlG5_4xlarge('ml.g5.4xlarge'),
-  mlG5_8xlarge('ml.g5.8xlarge'),
-  mlG5_12xlarge('ml.g5.12xlarge'),
-  mlG5_16xlarge('ml.g5.16xlarge'),
-  mlG5_24xlarge('ml.g5.24xlarge'),
-  mlG5_48xlarge('ml.g5.48xlarge'),
-  ;
+class TransformInstanceType {
+  static const mlM4Xlarge = TransformInstanceType._('ml.m4.xlarge');
+  static const mlM4_2xlarge = TransformInstanceType._('ml.m4.2xlarge');
+  static const mlM4_4xlarge = TransformInstanceType._('ml.m4.4xlarge');
+  static const mlM4_10xlarge = TransformInstanceType._('ml.m4.10xlarge');
+  static const mlM4_16xlarge = TransformInstanceType._('ml.m4.16xlarge');
+  static const mlC4Xlarge = TransformInstanceType._('ml.c4.xlarge');
+  static const mlC4_2xlarge = TransformInstanceType._('ml.c4.2xlarge');
+  static const mlC4_4xlarge = TransformInstanceType._('ml.c4.4xlarge');
+  static const mlC4_8xlarge = TransformInstanceType._('ml.c4.8xlarge');
+  static const mlP2Xlarge = TransformInstanceType._('ml.p2.xlarge');
+  static const mlP2_8xlarge = TransformInstanceType._('ml.p2.8xlarge');
+  static const mlP2_16xlarge = TransformInstanceType._('ml.p2.16xlarge');
+  static const mlP3_2xlarge = TransformInstanceType._('ml.p3.2xlarge');
+  static const mlP3_8xlarge = TransformInstanceType._('ml.p3.8xlarge');
+  static const mlP3_16xlarge = TransformInstanceType._('ml.p3.16xlarge');
+  static const mlC5Xlarge = TransformInstanceType._('ml.c5.xlarge');
+  static const mlC5_2xlarge = TransformInstanceType._('ml.c5.2xlarge');
+  static const mlC5_4xlarge = TransformInstanceType._('ml.c5.4xlarge');
+  static const mlC5_9xlarge = TransformInstanceType._('ml.c5.9xlarge');
+  static const mlC5_18xlarge = TransformInstanceType._('ml.c5.18xlarge');
+  static const mlM5Large = TransformInstanceType._('ml.m5.large');
+  static const mlM5Xlarge = TransformInstanceType._('ml.m5.xlarge');
+  static const mlM5_2xlarge = TransformInstanceType._('ml.m5.2xlarge');
+  static const mlM5_4xlarge = TransformInstanceType._('ml.m5.4xlarge');
+  static const mlM5_12xlarge = TransformInstanceType._('ml.m5.12xlarge');
+  static const mlM5_24xlarge = TransformInstanceType._('ml.m5.24xlarge');
+  static const mlM6iLarge = TransformInstanceType._('ml.m6i.large');
+  static const mlM6iXlarge = TransformInstanceType._('ml.m6i.xlarge');
+  static const mlM6i_2xlarge = TransformInstanceType._('ml.m6i.2xlarge');
+  static const mlM6i_4xlarge = TransformInstanceType._('ml.m6i.4xlarge');
+  static const mlM6i_8xlarge = TransformInstanceType._('ml.m6i.8xlarge');
+  static const mlM6i_12xlarge = TransformInstanceType._('ml.m6i.12xlarge');
+  static const mlM6i_16xlarge = TransformInstanceType._('ml.m6i.16xlarge');
+  static const mlM6i_24xlarge = TransformInstanceType._('ml.m6i.24xlarge');
+  static const mlM6i_32xlarge = TransformInstanceType._('ml.m6i.32xlarge');
+  static const mlC6iLarge = TransformInstanceType._('ml.c6i.large');
+  static const mlC6iXlarge = TransformInstanceType._('ml.c6i.xlarge');
+  static const mlC6i_2xlarge = TransformInstanceType._('ml.c6i.2xlarge');
+  static const mlC6i_4xlarge = TransformInstanceType._('ml.c6i.4xlarge');
+  static const mlC6i_8xlarge = TransformInstanceType._('ml.c6i.8xlarge');
+  static const mlC6i_12xlarge = TransformInstanceType._('ml.c6i.12xlarge');
+  static const mlC6i_16xlarge = TransformInstanceType._('ml.c6i.16xlarge');
+  static const mlC6i_24xlarge = TransformInstanceType._('ml.c6i.24xlarge');
+  static const mlC6i_32xlarge = TransformInstanceType._('ml.c6i.32xlarge');
+  static const mlR6iLarge = TransformInstanceType._('ml.r6i.large');
+  static const mlR6iXlarge = TransformInstanceType._('ml.r6i.xlarge');
+  static const mlR6i_2xlarge = TransformInstanceType._('ml.r6i.2xlarge');
+  static const mlR6i_4xlarge = TransformInstanceType._('ml.r6i.4xlarge');
+  static const mlR6i_8xlarge = TransformInstanceType._('ml.r6i.8xlarge');
+  static const mlR6i_12xlarge = TransformInstanceType._('ml.r6i.12xlarge');
+  static const mlR6i_16xlarge = TransformInstanceType._('ml.r6i.16xlarge');
+  static const mlR6i_24xlarge = TransformInstanceType._('ml.r6i.24xlarge');
+  static const mlR6i_32xlarge = TransformInstanceType._('ml.r6i.32xlarge');
+  static const mlM7iLarge = TransformInstanceType._('ml.m7i.large');
+  static const mlM7iXlarge = TransformInstanceType._('ml.m7i.xlarge');
+  static const mlM7i_2xlarge = TransformInstanceType._('ml.m7i.2xlarge');
+  static const mlM7i_4xlarge = TransformInstanceType._('ml.m7i.4xlarge');
+  static const mlM7i_8xlarge = TransformInstanceType._('ml.m7i.8xlarge');
+  static const mlM7i_12xlarge = TransformInstanceType._('ml.m7i.12xlarge');
+  static const mlM7i_16xlarge = TransformInstanceType._('ml.m7i.16xlarge');
+  static const mlM7i_24xlarge = TransformInstanceType._('ml.m7i.24xlarge');
+  static const mlM7i_48xlarge = TransformInstanceType._('ml.m7i.48xlarge');
+  static const mlC7iLarge = TransformInstanceType._('ml.c7i.large');
+  static const mlC7iXlarge = TransformInstanceType._('ml.c7i.xlarge');
+  static const mlC7i_2xlarge = TransformInstanceType._('ml.c7i.2xlarge');
+  static const mlC7i_4xlarge = TransformInstanceType._('ml.c7i.4xlarge');
+  static const mlC7i_8xlarge = TransformInstanceType._('ml.c7i.8xlarge');
+  static const mlC7i_12xlarge = TransformInstanceType._('ml.c7i.12xlarge');
+  static const mlC7i_16xlarge = TransformInstanceType._('ml.c7i.16xlarge');
+  static const mlC7i_24xlarge = TransformInstanceType._('ml.c7i.24xlarge');
+  static const mlC7i_48xlarge = TransformInstanceType._('ml.c7i.48xlarge');
+  static const mlR7iLarge = TransformInstanceType._('ml.r7i.large');
+  static const mlR7iXlarge = TransformInstanceType._('ml.r7i.xlarge');
+  static const mlR7i_2xlarge = TransformInstanceType._('ml.r7i.2xlarge');
+  static const mlR7i_4xlarge = TransformInstanceType._('ml.r7i.4xlarge');
+  static const mlR7i_8xlarge = TransformInstanceType._('ml.r7i.8xlarge');
+  static const mlR7i_12xlarge = TransformInstanceType._('ml.r7i.12xlarge');
+  static const mlR7i_16xlarge = TransformInstanceType._('ml.r7i.16xlarge');
+  static const mlR7i_24xlarge = TransformInstanceType._('ml.r7i.24xlarge');
+  static const mlR7i_48xlarge = TransformInstanceType._('ml.r7i.48xlarge');
+  static const mlG4dnXlarge = TransformInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = TransformInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = TransformInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = TransformInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = TransformInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = TransformInstanceType._('ml.g4dn.16xlarge');
+  static const mlG5Xlarge = TransformInstanceType._('ml.g5.xlarge');
+  static const mlG5_2xlarge = TransformInstanceType._('ml.g5.2xlarge');
+  static const mlG5_4xlarge = TransformInstanceType._('ml.g5.4xlarge');
+  static const mlG5_8xlarge = TransformInstanceType._('ml.g5.8xlarge');
+  static const mlG5_12xlarge = TransformInstanceType._('ml.g5.12xlarge');
+  static const mlG5_16xlarge = TransformInstanceType._('ml.g5.16xlarge');
+  static const mlG5_24xlarge = TransformInstanceType._('ml.g5.24xlarge');
+  static const mlG5_48xlarge = TransformInstanceType._('ml.g5.48xlarge');
 
   final String value;
 
-  const TransformInstanceType(this.value);
+  const TransformInstanceType._(this.value);
 
-  static TransformInstanceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransformInstanceType'));
+  static const values = [
+    mlM4Xlarge,
+    mlM4_2xlarge,
+    mlM4_4xlarge,
+    mlM4_10xlarge,
+    mlM4_16xlarge,
+    mlC4Xlarge,
+    mlC4_2xlarge,
+    mlC4_4xlarge,
+    mlC4_8xlarge,
+    mlP2Xlarge,
+    mlP2_8xlarge,
+    mlP2_16xlarge,
+    mlP3_2xlarge,
+    mlP3_8xlarge,
+    mlP3_16xlarge,
+    mlC5Xlarge,
+    mlC5_2xlarge,
+    mlC5_4xlarge,
+    mlC5_9xlarge,
+    mlC5_18xlarge,
+    mlM5Large,
+    mlM5Xlarge,
+    mlM5_2xlarge,
+    mlM5_4xlarge,
+    mlM5_12xlarge,
+    mlM5_24xlarge,
+    mlM6iLarge,
+    mlM6iXlarge,
+    mlM6i_2xlarge,
+    mlM6i_4xlarge,
+    mlM6i_8xlarge,
+    mlM6i_12xlarge,
+    mlM6i_16xlarge,
+    mlM6i_24xlarge,
+    mlM6i_32xlarge,
+    mlC6iLarge,
+    mlC6iXlarge,
+    mlC6i_2xlarge,
+    mlC6i_4xlarge,
+    mlC6i_8xlarge,
+    mlC6i_12xlarge,
+    mlC6i_16xlarge,
+    mlC6i_24xlarge,
+    mlC6i_32xlarge,
+    mlR6iLarge,
+    mlR6iXlarge,
+    mlR6i_2xlarge,
+    mlR6i_4xlarge,
+    mlR6i_8xlarge,
+    mlR6i_12xlarge,
+    mlR6i_16xlarge,
+    mlR6i_24xlarge,
+    mlR6i_32xlarge,
+    mlM7iLarge,
+    mlM7iXlarge,
+    mlM7i_2xlarge,
+    mlM7i_4xlarge,
+    mlM7i_8xlarge,
+    mlM7i_12xlarge,
+    mlM7i_16xlarge,
+    mlM7i_24xlarge,
+    mlM7i_48xlarge,
+    mlC7iLarge,
+    mlC7iXlarge,
+    mlC7i_2xlarge,
+    mlC7i_4xlarge,
+    mlC7i_8xlarge,
+    mlC7i_12xlarge,
+    mlC7i_16xlarge,
+    mlC7i_24xlarge,
+    mlC7i_48xlarge,
+    mlR7iLarge,
+    mlR7iXlarge,
+    mlR7i_2xlarge,
+    mlR7i_4xlarge,
+    mlR7i_8xlarge,
+    mlR7i_12xlarge,
+    mlR7i_16xlarge,
+    mlR7i_24xlarge,
+    mlR7i_48xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlG5Xlarge,
+    mlG5_2xlarge,
+    mlG5_4xlarge,
+    mlG5_8xlarge,
+    mlG5_12xlarge,
+    mlG5_16xlarge,
+    mlG5_24xlarge,
+    mlG5_48xlarge
+  ];
+
+  static TransformInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransformInstanceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformInstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A batch transform job. For information about SageMaker batch transform, see
@@ -73184,22 +77345,32 @@ class TransformJobDefinition {
   }
 }
 
-enum TransformJobStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class TransformJobStatus {
+  static const inProgress = TransformJobStatus._('InProgress');
+  static const completed = TransformJobStatus._('Completed');
+  static const failed = TransformJobStatus._('Failed');
+  static const stopping = TransformJobStatus._('Stopping');
+  static const stopped = TransformJobStatus._('Stopped');
 
   final String value;
 
-  const TransformJobStatus(this.value);
+  const TransformJobStatus._(this.value);
 
-  static TransformJobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TransformJobStatus'));
+  static const values = [inProgress, completed, failed, stopping, stopped];
+
+  static TransformJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransformJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata for a transform job step.
@@ -73271,8 +77442,8 @@ class TransformJobSummary {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       transformJobArn: (json['TransformJobArn'] as String?) ?? '',
       transformJobName: (json['TransformJobName'] as String?) ?? '',
-      transformJobStatus:
-          TransformJobStatus.fromString((json['TransformJobStatus'] as String)),
+      transformJobStatus: TransformJobStatus.fromString(
+          (json['TransformJobStatus'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       transformEndTime: timeStampFromJson(json['TransformEndTime']),
@@ -73459,8 +77630,8 @@ class TransformResources {
   factory TransformResources.fromJson(Map<String, dynamic> json) {
     return TransformResources(
       instanceCount: (json['InstanceCount'] as int?) ?? 0,
-      instanceType:
-          TransformInstanceType.fromString((json['InstanceType'] as String)),
+      instanceType: TransformInstanceType.fromString(
+          (json['InstanceType'] as String?) ?? ''),
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
   }
@@ -73544,7 +77715,7 @@ class TransformS3DataSource {
 
   factory TransformS3DataSource.fromJson(Map<String, dynamic> json) {
     return TransformS3DataSource(
-      s3DataType: S3DataType.fromString((json['S3DataType'] as String)),
+      s3DataType: S3DataType.fromString((json['S3DataType'] as String?) ?? ''),
       s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
@@ -74037,22 +78208,32 @@ class TrialComponentParameterValue {
   }
 }
 
-enum TrialComponentPrimaryStatus {
-  inProgress('InProgress'),
-  completed('Completed'),
-  failed('Failed'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  ;
+class TrialComponentPrimaryStatus {
+  static const inProgress = TrialComponentPrimaryStatus._('InProgress');
+  static const completed = TrialComponentPrimaryStatus._('Completed');
+  static const failed = TrialComponentPrimaryStatus._('Failed');
+  static const stopping = TrialComponentPrimaryStatus._('Stopping');
+  static const stopped = TrialComponentPrimaryStatus._('Stopped');
 
   final String value;
 
-  const TrialComponentPrimaryStatus(this.value);
+  const TrialComponentPrimaryStatus._(this.value);
+
+  static const values = [inProgress, completed, failed, stopping, stopped];
 
   static TrialComponentPrimaryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrialComponentPrimaryStatus'));
+          orElse: () => TrialComponentPrimaryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrialComponentPrimaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A short summary of a trial component.
@@ -74472,22 +78653,31 @@ class TtlDuration {
   }
 }
 
-enum TtlDurationUnit {
-  seconds('Seconds'),
-  minutes('Minutes'),
-  hours('Hours'),
-  days('Days'),
-  weeks('Weeks'),
-  ;
+class TtlDurationUnit {
+  static const seconds = TtlDurationUnit._('Seconds');
+  static const minutes = TtlDurationUnit._('Minutes');
+  static const hours = TtlDurationUnit._('Hours');
+  static const days = TtlDurationUnit._('Days');
+  static const weeks = TtlDurationUnit._('Weeks');
 
   final String value;
 
-  const TtlDurationUnit(this.value);
+  const TtlDurationUnit._(this.value);
+
+  static const values = [seconds, minutes, hours, days, weeks];
 
   static TtlDurationUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TtlDurationUnit'));
+          orElse: () => TtlDurationUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TtlDurationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The job completion criteria.
@@ -75627,39 +79817,66 @@ class UserProfileDetails {
   }
 }
 
-enum UserProfileSortKey {
-  creationTime('CreationTime'),
-  lastModifiedTime('LastModifiedTime'),
-  ;
+class UserProfileSortKey {
+  static const creationTime = UserProfileSortKey._('CreationTime');
+  static const lastModifiedTime = UserProfileSortKey._('LastModifiedTime');
 
   final String value;
 
-  const UserProfileSortKey(this.value);
+  const UserProfileSortKey._(this.value);
 
-  static UserProfileSortKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UserProfileSortKey'));
+  static const values = [creationTime, lastModifiedTime];
+
+  static UserProfileSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserProfileSortKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserProfileSortKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserProfileStatus {
-  deleting('Deleting'),
-  failed('Failed'),
-  inService('InService'),
-  pending('Pending'),
-  updating('Updating'),
-  updateFailed('Update_Failed'),
-  deleteFailed('Delete_Failed'),
-  ;
+class UserProfileStatus {
+  static const deleting = UserProfileStatus._('Deleting');
+  static const failed = UserProfileStatus._('Failed');
+  static const inService = UserProfileStatus._('InService');
+  static const pending = UserProfileStatus._('Pending');
+  static const updating = UserProfileStatus._('Updating');
+  static const updateFailed = UserProfileStatus._('Update_Failed');
+  static const deleteFailed = UserProfileStatus._('Delete_Failed');
 
   final String value;
 
-  const UserProfileStatus(this.value);
+  const UserProfileStatus._(this.value);
+
+  static const values = [
+    deleting,
+    failed,
+    inService,
+    pending,
+    updating,
+    updateFailed,
+    deleteFailed
+  ];
 
   static UserProfileStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserProfileStatus'));
+          orElse: () => UserProfileStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UserProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of settings that apply to users in a domain. These settings are
@@ -75945,38 +80162,68 @@ class VariantProperty {
   }
 }
 
-enum VariantPropertyType {
-  desiredInstanceCount('DesiredInstanceCount'),
-  desiredWeight('DesiredWeight'),
-  dataCaptureConfig('DataCaptureConfig'),
-  ;
+class VariantPropertyType {
+  static const desiredInstanceCount =
+      VariantPropertyType._('DesiredInstanceCount');
+  static const desiredWeight = VariantPropertyType._('DesiredWeight');
+  static const dataCaptureConfig = VariantPropertyType._('DataCaptureConfig');
 
   final String value;
 
-  const VariantPropertyType(this.value);
+  const VariantPropertyType._(this.value);
 
-  static VariantPropertyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VariantPropertyType'));
+  static const values = [
+    desiredInstanceCount,
+    desiredWeight,
+    dataCaptureConfig
+  ];
+
+  static VariantPropertyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VariantPropertyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VariantPropertyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VariantStatus {
-  creating('Creating'),
-  updating('Updating'),
-  deleting('Deleting'),
-  activatingTraffic('ActivatingTraffic'),
-  baking('Baking'),
-  ;
+class VariantStatus {
+  static const creating = VariantStatus._('Creating');
+  static const updating = VariantStatus._('Updating');
+  static const deleting = VariantStatus._('Deleting');
+  static const activatingTraffic = VariantStatus._('ActivatingTraffic');
+  static const baking = VariantStatus._('Baking');
 
   final String value;
 
-  const VariantStatus(this.value);
+  const VariantStatus._(this.value);
+
+  static const values = [
+    creating,
+    updating,
+    deleting,
+    activatingTraffic,
+    baking
+  ];
 
   static VariantStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VariantStatus'));
+          orElse: () => VariantStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VariantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for your vector collection type.
@@ -76002,21 +80249,30 @@ class VectorConfig {
   }
 }
 
-enum VendorGuidance {
-  notProvided('NOT_PROVIDED'),
-  stable('STABLE'),
-  toBeArchived('TO_BE_ARCHIVED'),
-  archived('ARCHIVED'),
-  ;
+class VendorGuidance {
+  static const notProvided = VendorGuidance._('NOT_PROVIDED');
+  static const stable = VendorGuidance._('STABLE');
+  static const toBeArchived = VendorGuidance._('TO_BE_ARCHIVED');
+  static const archived = VendorGuidance._('ARCHIVED');
 
   final String value;
 
-  const VendorGuidance(this.value);
+  const VendorGuidance._(this.value);
+
+  static const values = [notProvided, stable, toBeArchived, archived];
 
   static VendorGuidance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VendorGuidance'));
+          orElse: () => VendorGuidance._(value));
+
+  @override
+  bool operator ==(other) => other is VendorGuidance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A lineage entity connected to the starting entity(ies).
@@ -76134,21 +80390,31 @@ class VpcConfig {
   }
 }
 
-enum WarmPoolResourceStatus {
-  available('Available'),
-  terminated('Terminated'),
-  reused('Reused'),
-  inUse('InUse'),
-  ;
+class WarmPoolResourceStatus {
+  static const available = WarmPoolResourceStatus._('Available');
+  static const terminated = WarmPoolResourceStatus._('Terminated');
+  static const reused = WarmPoolResourceStatus._('Reused');
+  static const inUse = WarmPoolResourceStatus._('InUse');
 
   final String value;
 
-  const WarmPoolResourceStatus(this.value);
+  const WarmPoolResourceStatus._(this.value);
+
+  static const values = [available, terminated, reused, inUse];
 
   static WarmPoolResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WarmPoolResourceStatus'));
+          orElse: () => WarmPoolResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WarmPoolResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status and billing information about the warm pool.
@@ -76197,7 +80463,8 @@ class WarmPoolStatus {
 
   factory WarmPoolStatus.fromJson(Map<String, dynamic> json) {
     return WarmPoolStatus(
-      status: WarmPoolResourceStatus.fromString((json['Status'] as String)),
+      status:
+          WarmPoolResourceStatus.fromString((json['Status'] as String?) ?? ''),
       resourceRetainedBillableTimeInSeconds:
           json['ResourceRetainedBillableTimeInSeconds'] as int?,
       reusedByJob: json['ReusedByJob'] as String?,
@@ -76369,22 +80636,31 @@ class Workforce {
   }
 }
 
-enum WorkforceStatus {
-  initializing('Initializing'),
-  updating('Updating'),
-  deleting('Deleting'),
-  failed('Failed'),
-  active('Active'),
-  ;
+class WorkforceStatus {
+  static const initializing = WorkforceStatus._('Initializing');
+  static const updating = WorkforceStatus._('Updating');
+  static const deleting = WorkforceStatus._('Deleting');
+  static const failed = WorkforceStatus._('Failed');
+  static const active = WorkforceStatus._('Active');
 
   final String value;
 
-  const WorkforceStatus(this.value);
+  const WorkforceStatus._(this.value);
+
+  static const values = [initializing, updating, deleting, failed, active];
 
   static WorkforceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkforceStatus'));
+          orElse: () => WorkforceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkforceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The VPC object you use to create or update a workforce.

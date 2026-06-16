@@ -1119,19 +1119,29 @@ class AmplifyBackend {
   }
 }
 
-enum AuthResources {
-  userPoolOnly('USER_POOL_ONLY'),
-  identityPoolAndUserPool('IDENTITY_POOL_AND_USER_POOL'),
-  ;
+class AuthResources {
+  static const userPoolOnly = AuthResources._('USER_POOL_ONLY');
+  static const identityPoolAndUserPool =
+      AuthResources._('IDENTITY_POOL_AND_USER_POOL');
 
   final String value;
 
-  const AuthResources(this.value);
+  const AuthResources._(this.value);
+
+  static const values = [userPoolOnly, identityPoolAndUserPool];
 
   static AuthResources fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthResources'));
+          orElse: () => AuthResources._(value));
+
+  @override
+  bool operator ==(other) => other is AuthResources && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authentication settings for accessing provisioned data models in your
@@ -1675,7 +1685,7 @@ class CreateBackendAuthForgotPasswordConfig {
       Map<String, dynamic> json) {
     return CreateBackendAuthForgotPasswordConfig(
       deliveryMethod:
-          DeliveryMethod.fromString((json['deliveryMethod'] as String)),
+          DeliveryMethod.fromString((json['deliveryMethod'] as String?) ?? ''),
       emailSettings: json['emailSettings'] != null
           ? EmailSettings.fromJson(
               json['emailSettings'] as Map<String, dynamic>)
@@ -1749,7 +1759,7 @@ class CreateBackendAuthMFAConfig {
 
   factory CreateBackendAuthMFAConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthMFAConfig(
-      mFAMode: MFAMode.fromString((json['MFAMode'] as String)),
+      mFAMode: MFAMode.fromString((json['MFAMode'] as String?) ?? ''),
       settings: json['settings'] != null
           ? Settings.fromJson(json['settings'] as Map<String, dynamic>)
           : null,
@@ -1800,7 +1810,7 @@ class CreateBackendAuthOAuthConfig {
   factory CreateBackendAuthOAuthConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthOAuthConfig(
       oAuthGrantType:
-          OAuthGrantType.fromString((json['oAuthGrantType'] as String)),
+          OAuthGrantType.fromString((json['oAuthGrantType'] as String?) ?? ''),
       oAuthScopes: ((json['oAuthScopes'] as List?) ?? const [])
           .nonNulls
           .map((e) => OAuthScopesElement.fromString((e as String)))
@@ -1907,8 +1917,8 @@ class CreateBackendAuthResourceConfig {
   factory CreateBackendAuthResourceConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthResourceConfig(
       authResources:
-          AuthResources.fromString((json['authResources'] as String)),
-      service: Service.fromString((json['service'] as String)),
+          AuthResources.fromString((json['authResources'] as String?) ?? ''),
+      service: Service.fromString((json['service'] as String?) ?? ''),
       userPoolConfigs: CreateBackendAuthUserPoolConfig.fromJson(
           (json['userPoolConfigs'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2044,7 +2054,8 @@ class CreateBackendAuthUserPoolConfig {
           .nonNulls
           .map((e) => RequiredSignUpAttributesElement.fromString((e as String)))
           .toList(),
-      signInMethod: SignInMethod.fromString((json['signInMethod'] as String)),
+      signInMethod:
+          SignInMethod.fromString((json['signInMethod'] as String?) ?? ''),
       userPoolName: (json['userPoolName'] as String?) ?? '',
       forgotPassword: json['forgotPassword'] != null
           ? CreateBackendAuthForgotPasswordConfig.fromJson(
@@ -2115,7 +2126,7 @@ class CreateBackendAuthVerificationMessageConfig {
       Map<String, dynamic> json) {
     return CreateBackendAuthVerificationMessageConfig(
       deliveryMethod:
-          DeliveryMethod.fromString((json['deliveryMethod'] as String)),
+          DeliveryMethod.fromString((json['deliveryMethod'] as String?) ?? ''),
       emailSettings: json['emailSettings'] != null
           ? EmailSettings.fromJson(
               json['emailSettings'] as Map<String, dynamic>)
@@ -2597,19 +2608,28 @@ class DeleteTokenResponse {
 }
 
 /// The type of verification message to send.
-enum DeliveryMethod {
-  email('EMAIL'),
-  sms('SMS'),
-  ;
+class DeliveryMethod {
+  static const email = DeliveryMethod._('EMAIL');
+  static const sms = DeliveryMethod._('SMS');
 
   final String value;
 
-  const DeliveryMethod(this.value);
+  const DeliveryMethod._(this.value);
+
+  static const values = [email, sms];
 
   static DeliveryMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeliveryMethod'));
+          orElse: () => DeliveryMethod._(value));
+
+  @override
+  bool operator ==(other) => other is DeliveryMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the email sent when an app user forgets their
@@ -3014,7 +3034,8 @@ class GetBackendStorageResourceConfig {
   factory GetBackendStorageResourceConfig.fromJson(Map<String, dynamic> json) {
     return GetBackendStorageResourceConfig(
       imported: (json['imported'] as bool?) ?? false,
-      serviceName: ServiceName.fromString((json['serviceName'] as String)),
+      serviceName:
+          ServiceName.fromString((json['serviceName'] as String?) ?? ''),
       bucketName: json['bucketName'] as String?,
       permissions: json['permissions'] != null
           ? BackendStoragePermissions.fromJson(
@@ -3341,50 +3362,77 @@ class LoginAuthConfigReqObj {
   }
 }
 
-enum MFAMode {
-  on('ON'),
-  off('OFF'),
-  optional('OPTIONAL'),
-  ;
+class MFAMode {
+  static const on = MFAMode._('ON');
+  static const off = MFAMode._('OFF');
+  static const optional = MFAMode._('OPTIONAL');
 
   final String value;
 
-  const MFAMode(this.value);
+  const MFAMode._(this.value);
 
-  static MFAMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum MFAMode'));
+  static const values = [on, off, optional];
+
+  static MFAMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MFAMode._(value));
+
+  @override
+  bool operator ==(other) => other is MFAMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Mode {
-  apiKey('API_KEY'),
-  awsIam('AWS_IAM'),
-  amazonCognitoUserPools('AMAZON_COGNITO_USER_POOLS'),
-  openidConnect('OPENID_CONNECT'),
-  ;
+class Mode {
+  static const apiKey = Mode._('API_KEY');
+  static const awsIam = Mode._('AWS_IAM');
+  static const amazonCognitoUserPools = Mode._('AMAZON_COGNITO_USER_POOLS');
+  static const openidConnect = Mode._('OPENID_CONNECT');
 
   final String value;
 
-  const Mode(this.value);
+  const Mode._(this.value);
+
+  static const values = [apiKey, awsIam, amazonCognitoUserPools, openidConnect];
 
   static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Mode'));
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OAuthGrantType {
-  code('CODE'),
-  implicit('IMPLICIT'),
-  ;
+class OAuthGrantType {
+  static const code = OAuthGrantType._('CODE');
+  static const implicit = OAuthGrantType._('IMPLICIT');
 
   final String value;
 
-  const OAuthGrantType(this.value);
+  const OAuthGrantType._(this.value);
+
+  static const values = [code, implicit];
 
   static OAuthGrantType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OAuthGrantType'));
+          orElse: () => OAuthGrantType._(value));
+
+  @override
+  bool operator ==(other) => other is OAuthGrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RemoveAllBackendsResponse {
@@ -3459,21 +3507,32 @@ class RemoveBackendConfigResponse {
   }
 }
 
-enum ResolutionStrategy {
-  optimisticConcurrency('OPTIMISTIC_CONCURRENCY'),
-  lambda('LAMBDA'),
-  automerge('AUTOMERGE'),
-  none('NONE'),
-  ;
+class ResolutionStrategy {
+  static const optimisticConcurrency =
+      ResolutionStrategy._('OPTIMISTIC_CONCURRENCY');
+  static const lambda = ResolutionStrategy._('LAMBDA');
+  static const automerge = ResolutionStrategy._('AUTOMERGE');
+  static const none = ResolutionStrategy._('NONE');
 
   final String value;
 
-  const ResolutionStrategy(this.value);
+  const ResolutionStrategy._(this.value);
 
-  static ResolutionStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResolutionStrategy'));
+  static const values = [optimisticConcurrency, lambda, automerge, none];
+
+  static ResolutionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResolutionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolutionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the resource configuration for the data model in your Amplify
@@ -3516,30 +3575,48 @@ class S3BucketInfo {
   }
 }
 
-enum Service {
-  cognito('COGNITO'),
-  ;
+class Service {
+  static const cognito = Service._('COGNITO');
 
   final String value;
 
-  const Service(this.value);
+  const Service._(this.value);
 
-  static Service fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Service'));
+  static const values = [cognito];
+
+  static Service fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Service._(value));
+
+  @override
+  bool operator ==(other) => other is Service && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceName {
-  s3('S3'),
-  ;
+class ServiceName {
+  static const s3 = ServiceName._('S3');
 
   final String value;
 
-  const ServiceName(this.value);
+  const ServiceName._(this.value);
 
-  static ServiceName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceName'));
+  static const values = [s3];
+
+  static ServiceName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The settings of your MFA configuration for the backend of your Amplify
@@ -3576,21 +3653,29 @@ class Settings {
   }
 }
 
-enum SignInMethod {
-  email('EMAIL'),
-  emailAndPhoneNumber('EMAIL_AND_PHONE_NUMBER'),
-  phoneNumber('PHONE_NUMBER'),
-  username('USERNAME'),
-  ;
+class SignInMethod {
+  static const email = SignInMethod._('EMAIL');
+  static const emailAndPhoneNumber = SignInMethod._('EMAIL_AND_PHONE_NUMBER');
+  static const phoneNumber = SignInMethod._('PHONE_NUMBER');
+  static const username = SignInMethod._('USERNAME');
 
   final String value;
 
-  const SignInMethod(this.value);
+  const SignInMethod._(this.value);
 
-  static SignInMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SignInMethod'));
+  static const values = [email, emailAndPhoneNumber, phoneNumber, username];
+
+  static SignInMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SignInMethod._(value));
+
+  @override
+  bool operator ==(other) => other is SignInMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// SMS settings for authentication.
@@ -3666,18 +3751,27 @@ class SocialProviderSettings {
   }
 }
 
-enum Status {
-  latest('LATEST'),
-  stale('STALE'),
-  ;
+class Status {
+  static const latest = Status._('LATEST');
+  static const stale = Status._('STALE');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [latest, stale];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateBackendAPIResponse {
@@ -4262,116 +4356,208 @@ class UpdateBackendStorageResponse {
   }
 }
 
-enum AdditionalConstraintsElement {
-  requireDigit('REQUIRE_DIGIT'),
-  requireLowercase('REQUIRE_LOWERCASE'),
-  requireSymbol('REQUIRE_SYMBOL'),
-  requireUppercase('REQUIRE_UPPERCASE'),
-  ;
+class AdditionalConstraintsElement {
+  static const requireDigit = AdditionalConstraintsElement._('REQUIRE_DIGIT');
+  static const requireLowercase =
+      AdditionalConstraintsElement._('REQUIRE_LOWERCASE');
+  static const requireSymbol = AdditionalConstraintsElement._('REQUIRE_SYMBOL');
+  static const requireUppercase =
+      AdditionalConstraintsElement._('REQUIRE_UPPERCASE');
 
   final String value;
 
-  const AdditionalConstraintsElement(this.value);
+  const AdditionalConstraintsElement._(this.value);
+
+  static const values = [
+    requireDigit,
+    requireLowercase,
+    requireSymbol,
+    requireUppercase
+  ];
 
   static AdditionalConstraintsElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdditionalConstraintsElement'));
+          orElse: () => AdditionalConstraintsElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalConstraintsElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthenticatedElement {
-  read('READ'),
-  createAndUpdate('CREATE_AND_UPDATE'),
-  delete('DELETE'),
-  ;
+class AuthenticatedElement {
+  static const read = AuthenticatedElement._('READ');
+  static const createAndUpdate = AuthenticatedElement._('CREATE_AND_UPDATE');
+  static const delete = AuthenticatedElement._('DELETE');
 
   final String value;
 
-  const AuthenticatedElement(this.value);
+  const AuthenticatedElement._(this.value);
 
-  static AuthenticatedElement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticatedElement'));
+  static const values = [read, createAndUpdate, delete];
+
+  static AuthenticatedElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticatedElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticatedElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MfaTypesElement {
-  sms('SMS'),
-  totp('TOTP'),
-  ;
+class MfaTypesElement {
+  static const sms = MfaTypesElement._('SMS');
+  static const totp = MfaTypesElement._('TOTP');
 
   final String value;
 
-  const MfaTypesElement(this.value);
+  const MfaTypesElement._(this.value);
+
+  static const values = [sms, totp];
 
   static MfaTypesElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MfaTypesElement'));
+          orElse: () => MfaTypesElement._(value));
+
+  @override
+  bool operator ==(other) => other is MfaTypesElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OAuthScopesElement {
-  phone('PHONE'),
-  email('EMAIL'),
-  openid('OPENID'),
-  profile('PROFILE'),
-  awsCognitoSigninUserAdmin('AWS_COGNITO_SIGNIN_USER_ADMIN'),
-  ;
+class OAuthScopesElement {
+  static const phone = OAuthScopesElement._('PHONE');
+  static const email = OAuthScopesElement._('EMAIL');
+  static const openid = OAuthScopesElement._('OPENID');
+  static const profile = OAuthScopesElement._('PROFILE');
+  static const awsCognitoSigninUserAdmin =
+      OAuthScopesElement._('AWS_COGNITO_SIGNIN_USER_ADMIN');
 
   final String value;
 
-  const OAuthScopesElement(this.value);
+  const OAuthScopesElement._(this.value);
 
-  static OAuthScopesElement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OAuthScopesElement'));
+  static const values = [
+    phone,
+    email,
+    openid,
+    profile,
+    awsCognitoSigninUserAdmin
+  ];
+
+  static OAuthScopesElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OAuthScopesElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OAuthScopesElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RequiredSignUpAttributesElement {
-  address('ADDRESS'),
-  birthdate('BIRTHDATE'),
-  email('EMAIL'),
-  familyName('FAMILY_NAME'),
-  gender('GENDER'),
-  givenName('GIVEN_NAME'),
-  locale('LOCALE'),
-  middleName('MIDDLE_NAME'),
-  name('NAME'),
-  nickname('NICKNAME'),
-  phoneNumber('PHONE_NUMBER'),
-  picture('PICTURE'),
-  preferredUsername('PREFERRED_USERNAME'),
-  profile('PROFILE'),
-  updatedAt('UPDATED_AT'),
-  website('WEBSITE'),
-  zoneInfo('ZONE_INFO'),
-  ;
+class RequiredSignUpAttributesElement {
+  static const address = RequiredSignUpAttributesElement._('ADDRESS');
+  static const birthdate = RequiredSignUpAttributesElement._('BIRTHDATE');
+  static const email = RequiredSignUpAttributesElement._('EMAIL');
+  static const familyName = RequiredSignUpAttributesElement._('FAMILY_NAME');
+  static const gender = RequiredSignUpAttributesElement._('GENDER');
+  static const givenName = RequiredSignUpAttributesElement._('GIVEN_NAME');
+  static const locale = RequiredSignUpAttributesElement._('LOCALE');
+  static const middleName = RequiredSignUpAttributesElement._('MIDDLE_NAME');
+  static const name = RequiredSignUpAttributesElement._('NAME');
+  static const nickname = RequiredSignUpAttributesElement._('NICKNAME');
+  static const phoneNumber = RequiredSignUpAttributesElement._('PHONE_NUMBER');
+  static const picture = RequiredSignUpAttributesElement._('PICTURE');
+  static const preferredUsername =
+      RequiredSignUpAttributesElement._('PREFERRED_USERNAME');
+  static const profile = RequiredSignUpAttributesElement._('PROFILE');
+  static const updatedAt = RequiredSignUpAttributesElement._('UPDATED_AT');
+  static const website = RequiredSignUpAttributesElement._('WEBSITE');
+  static const zoneInfo = RequiredSignUpAttributesElement._('ZONE_INFO');
 
   final String value;
 
-  const RequiredSignUpAttributesElement(this.value);
+  const RequiredSignUpAttributesElement._(this.value);
+
+  static const values = [
+    address,
+    birthdate,
+    email,
+    familyName,
+    gender,
+    givenName,
+    locale,
+    middleName,
+    name,
+    nickname,
+    phoneNumber,
+    picture,
+    preferredUsername,
+    profile,
+    updatedAt,
+    website,
+    zoneInfo
+  ];
 
   static RequiredSignUpAttributesElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RequiredSignUpAttributesElement'));
+          orElse: () => RequiredSignUpAttributesElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequiredSignUpAttributesElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UnAuthenticatedElement {
-  read('READ'),
-  createAndUpdate('CREATE_AND_UPDATE'),
-  delete('DELETE'),
-  ;
+class UnAuthenticatedElement {
+  static const read = UnAuthenticatedElement._('READ');
+  static const createAndUpdate = UnAuthenticatedElement._('CREATE_AND_UPDATE');
+  static const delete = UnAuthenticatedElement._('DELETE');
 
   final String value;
 
-  const UnAuthenticatedElement(this.value);
+  const UnAuthenticatedElement._(this.value);
+
+  static const values = [read, createAndUpdate, delete];
 
   static UnAuthenticatedElement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UnAuthenticatedElement'));
+          orElse: () => UnAuthenticatedElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnAuthenticatedElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

@@ -3569,41 +3569,77 @@ class MessageAttributeValue {
   }
 }
 
-enum MessageSystemAttributeName {
-  all('All'),
-  senderId('SenderId'),
-  sentTimestamp('SentTimestamp'),
-  approximateReceiveCount('ApproximateReceiveCount'),
-  approximateFirstReceiveTimestamp('ApproximateFirstReceiveTimestamp'),
-  sequenceNumber('SequenceNumber'),
-  messageDeduplicationId('MessageDeduplicationId'),
-  messageGroupId('MessageGroupId'),
-  awsTraceHeader('AWSTraceHeader'),
-  deadLetterQueueSourceArn('DeadLetterQueueSourceArn'),
-  ;
+class MessageSystemAttributeName {
+  static const all = MessageSystemAttributeName._('All');
+  static const senderId = MessageSystemAttributeName._('SenderId');
+  static const sentTimestamp = MessageSystemAttributeName._('SentTimestamp');
+  static const approximateReceiveCount =
+      MessageSystemAttributeName._('ApproximateReceiveCount');
+  static const approximateFirstReceiveTimestamp =
+      MessageSystemAttributeName._('ApproximateFirstReceiveTimestamp');
+  static const sequenceNumber = MessageSystemAttributeName._('SequenceNumber');
+  static const messageDeduplicationId =
+      MessageSystemAttributeName._('MessageDeduplicationId');
+  static const messageGroupId = MessageSystemAttributeName._('MessageGroupId');
+  static const awsTraceHeader = MessageSystemAttributeName._('AWSTraceHeader');
+  static const deadLetterQueueSourceArn =
+      MessageSystemAttributeName._('DeadLetterQueueSourceArn');
 
   final String value;
 
-  const MessageSystemAttributeName(this.value);
+  const MessageSystemAttributeName._(this.value);
+
+  static const values = [
+    all,
+    senderId,
+    sentTimestamp,
+    approximateReceiveCount,
+    approximateFirstReceiveTimestamp,
+    sequenceNumber,
+    messageDeduplicationId,
+    messageGroupId,
+    awsTraceHeader,
+    deadLetterQueueSourceArn
+  ];
 
   static MessageSystemAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MessageSystemAttributeName'));
+          orElse: () => MessageSystemAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageSystemAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MessageSystemAttributeNameForSends {
-  awsTraceHeader('AWSTraceHeader'),
-  ;
+class MessageSystemAttributeNameForSends {
+  static const awsTraceHeader =
+      MessageSystemAttributeNameForSends._('AWSTraceHeader');
 
   final String value;
 
-  const MessageSystemAttributeNameForSends(this.value);
+  const MessageSystemAttributeNameForSends._(this.value);
+
+  static const values = [awsTraceHeader];
 
   static MessageSystemAttributeNameForSends fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MessageSystemAttributeNameForSends'));
+          orElse: () => MessageSystemAttributeNameForSends._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageSystemAttributeNameForSends && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The user-specified message system attribute value. For string data types,
@@ -3664,40 +3700,82 @@ class MessageSystemAttributeValue {
   }
 }
 
-enum QueueAttributeName {
-  all('All'),
-  policy('Policy'),
-  visibilityTimeout('VisibilityTimeout'),
-  maximumMessageSize('MaximumMessageSize'),
-  messageRetentionPeriod('MessageRetentionPeriod'),
-  approximateNumberOfMessages('ApproximateNumberOfMessages'),
-  approximateNumberOfMessagesNotVisible(
-      'ApproximateNumberOfMessagesNotVisible'),
-  createdTimestamp('CreatedTimestamp'),
-  lastModifiedTimestamp('LastModifiedTimestamp'),
-  queueArn('QueueArn'),
-  approximateNumberOfMessagesDelayed('ApproximateNumberOfMessagesDelayed'),
-  delaySeconds('DelaySeconds'),
-  receiveMessageWaitTimeSeconds('ReceiveMessageWaitTimeSeconds'),
-  redrivePolicy('RedrivePolicy'),
-  fifoQueue('FifoQueue'),
-  contentBasedDeduplication('ContentBasedDeduplication'),
-  kmsMasterKeyId('KmsMasterKeyId'),
-  kmsDataKeyReusePeriodSeconds('KmsDataKeyReusePeriodSeconds'),
-  deduplicationScope('DeduplicationScope'),
-  fifoThroughputLimit('FifoThroughputLimit'),
-  redriveAllowPolicy('RedriveAllowPolicy'),
-  sqsManagedSseEnabled('SqsManagedSseEnabled'),
-  ;
+class QueueAttributeName {
+  static const all = QueueAttributeName._('All');
+  static const policy = QueueAttributeName._('Policy');
+  static const visibilityTimeout = QueueAttributeName._('VisibilityTimeout');
+  static const maximumMessageSize = QueueAttributeName._('MaximumMessageSize');
+  static const messageRetentionPeriod =
+      QueueAttributeName._('MessageRetentionPeriod');
+  static const approximateNumberOfMessages =
+      QueueAttributeName._('ApproximateNumberOfMessages');
+  static const approximateNumberOfMessagesNotVisible =
+      QueueAttributeName._('ApproximateNumberOfMessagesNotVisible');
+  static const createdTimestamp = QueueAttributeName._('CreatedTimestamp');
+  static const lastModifiedTimestamp =
+      QueueAttributeName._('LastModifiedTimestamp');
+  static const queueArn = QueueAttributeName._('QueueArn');
+  static const approximateNumberOfMessagesDelayed =
+      QueueAttributeName._('ApproximateNumberOfMessagesDelayed');
+  static const delaySeconds = QueueAttributeName._('DelaySeconds');
+  static const receiveMessageWaitTimeSeconds =
+      QueueAttributeName._('ReceiveMessageWaitTimeSeconds');
+  static const redrivePolicy = QueueAttributeName._('RedrivePolicy');
+  static const fifoQueue = QueueAttributeName._('FifoQueue');
+  static const contentBasedDeduplication =
+      QueueAttributeName._('ContentBasedDeduplication');
+  static const kmsMasterKeyId = QueueAttributeName._('KmsMasterKeyId');
+  static const kmsDataKeyReusePeriodSeconds =
+      QueueAttributeName._('KmsDataKeyReusePeriodSeconds');
+  static const deduplicationScope = QueueAttributeName._('DeduplicationScope');
+  static const fifoThroughputLimit =
+      QueueAttributeName._('FifoThroughputLimit');
+  static const redriveAllowPolicy = QueueAttributeName._('RedriveAllowPolicy');
+  static const sqsManagedSseEnabled =
+      QueueAttributeName._('SqsManagedSseEnabled');
 
   final String value;
 
-  const QueueAttributeName(this.value);
+  const QueueAttributeName._(this.value);
 
-  static QueueAttributeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueueAttributeName'));
+  static const values = [
+    all,
+    policy,
+    visibilityTimeout,
+    maximumMessageSize,
+    messageRetentionPeriod,
+    approximateNumberOfMessages,
+    approximateNumberOfMessagesNotVisible,
+    createdTimestamp,
+    lastModifiedTimestamp,
+    queueArn,
+    approximateNumberOfMessagesDelayed,
+    delaySeconds,
+    receiveMessageWaitTimeSeconds,
+    redrivePolicy,
+    fifoQueue,
+    contentBasedDeduplication,
+    kmsMasterKeyId,
+    kmsDataKeyReusePeriodSeconds,
+    deduplicationScope,
+    fifoThroughputLimit,
+    redriveAllowPolicy,
+    sqsManagedSseEnabled
+  ];
+
+  static QueueAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueueAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueueAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of received messages.

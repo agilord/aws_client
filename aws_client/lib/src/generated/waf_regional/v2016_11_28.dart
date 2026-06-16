@@ -6652,10 +6652,10 @@ class ByteMatchTuple {
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       positionalConstraint: PositionalConstraint.fromString(
-          (json['PositionalConstraint'] as String)),
+          (json['PositionalConstraint'] as String?) ?? ''),
       targetString: _s.decodeUint8List((json['TargetString'] as String?) ?? ''),
-      textTransformation:
-          TextTransformation.fromString((json['TextTransformation'] as String)),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
@@ -6673,54 +6673,81 @@ class ByteMatchTuple {
   }
 }
 
-enum ChangeAction {
-  insert('INSERT'),
-  delete('DELETE'),
-  ;
+class ChangeAction {
+  static const insert = ChangeAction._('INSERT');
+  static const delete = ChangeAction._('DELETE');
 
   final String value;
 
-  const ChangeAction(this.value);
+  const ChangeAction._(this.value);
 
-  static ChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeAction'));
+  static const values = [insert, delete];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChangeTokenStatus {
-  provisioned('PROVISIONED'),
-  pending('PENDING'),
-  insync('INSYNC'),
-  ;
+class ChangeTokenStatus {
+  static const provisioned = ChangeTokenStatus._('PROVISIONED');
+  static const pending = ChangeTokenStatus._('PENDING');
+  static const insync = ChangeTokenStatus._('INSYNC');
 
   final String value;
 
-  const ChangeTokenStatus(this.value);
+  const ChangeTokenStatus._(this.value);
+
+  static const values = [provisioned, pending, insync];
 
   static ChangeTokenStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeTokenStatus'));
+          orElse: () => ChangeTokenStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeTokenStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComparisonOperator {
-  eq('EQ'),
-  ne('NE'),
-  le('LE'),
-  lt('LT'),
-  ge('GE'),
-  gt('GT'),
-  ;
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [eq, ne, le, lt, ge, gt];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateByteMatchSetResponse {
@@ -7626,7 +7653,7 @@ class FieldToMatch {
 
   factory FieldToMatch.fromJson(Map<String, dynamic> json) {
     return FieldToMatch(
-      type: MatchFieldType.fromString((json['Type'] as String)),
+      type: MatchFieldType.fromString((json['Type'] as String?) ?? ''),
       data: json['Data'] as String?,
     );
   }
@@ -7669,8 +7696,9 @@ class GeoMatchConstraint {
 
   factory GeoMatchConstraint.fromJson(Map<String, dynamic> json) {
     return GeoMatchConstraint(
-      type: GeoMatchConstraintType.fromString((json['Type'] as String)),
-      value: GeoMatchConstraintValue.fromString((json['Value'] as String)),
+      type: GeoMatchConstraintType.fromString((json['Type'] as String?) ?? ''),
+      value:
+          GeoMatchConstraintValue.fromString((json['Value'] as String?) ?? ''),
     );
   }
 
@@ -7684,280 +7712,550 @@ class GeoMatchConstraint {
   }
 }
 
-enum GeoMatchConstraintType {
-  country('Country'),
-  ;
+class GeoMatchConstraintType {
+  static const country = GeoMatchConstraintType._('Country');
 
   final String value;
 
-  const GeoMatchConstraintType(this.value);
+  const GeoMatchConstraintType._(this.value);
+
+  static const values = [country];
 
   static GeoMatchConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GeoMatchConstraintType'));
+          orElse: () => GeoMatchConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoMatchConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GeoMatchConstraintValue {
-  af('AF'),
-  ax('AX'),
-  al('AL'),
-  dz('DZ'),
-  as('AS'),
-  ad('AD'),
-  ao('AO'),
-  ai('AI'),
-  aq('AQ'),
-  ag('AG'),
-  ar('AR'),
-  am('AM'),
-  aw('AW'),
-  au('AU'),
-  at('AT'),
-  az('AZ'),
-  bs('BS'),
-  bh('BH'),
-  bd('BD'),
-  bb('BB'),
-  by('BY'),
-  be('BE'),
-  bz('BZ'),
-  bj('BJ'),
-  bm('BM'),
-  bt('BT'),
-  bo('BO'),
-  bq('BQ'),
-  ba('BA'),
-  bw('BW'),
-  bv('BV'),
-  br('BR'),
-  io('IO'),
-  bn('BN'),
-  bg('BG'),
-  bf('BF'),
-  bi('BI'),
-  kh('KH'),
-  cm('CM'),
-  ca('CA'),
-  cv('CV'),
-  ky('KY'),
-  cf('CF'),
-  td('TD'),
-  cl('CL'),
-  cn('CN'),
-  cx('CX'),
-  cc('CC'),
-  co('CO'),
-  km('KM'),
-  cg('CG'),
-  cd('CD'),
-  ck('CK'),
-  cr('CR'),
-  ci('CI'),
-  hr('HR'),
-  cu('CU'),
-  cw('CW'),
-  cy('CY'),
-  cz('CZ'),
-  dk('DK'),
-  dj('DJ'),
-  dm('DM'),
-  $do('DO'),
-  ec('EC'),
-  eg('EG'),
-  sv('SV'),
-  gq('GQ'),
-  er('ER'),
-  ee('EE'),
-  et('ET'),
-  fk('FK'),
-  fo('FO'),
-  fj('FJ'),
-  fi('FI'),
-  fr('FR'),
-  gf('GF'),
-  pf('PF'),
-  tf('TF'),
-  ga('GA'),
-  gm('GM'),
-  ge('GE'),
-  de('DE'),
-  gh('GH'),
-  gi('GI'),
-  gr('GR'),
-  gl('GL'),
-  gd('GD'),
-  gp('GP'),
-  gu('GU'),
-  gt('GT'),
-  gg('GG'),
-  gn('GN'),
-  gw('GW'),
-  gy('GY'),
-  ht('HT'),
-  hm('HM'),
-  va('VA'),
-  hn('HN'),
-  hk('HK'),
-  hu('HU'),
-  $is('IS'),
-  $in('IN'),
-  id('ID'),
-  ir('IR'),
-  iq('IQ'),
-  ie('IE'),
-  im('IM'),
-  il('IL'),
-  it('IT'),
-  jm('JM'),
-  jp('JP'),
-  je('JE'),
-  jo('JO'),
-  kz('KZ'),
-  ke('KE'),
-  ki('KI'),
-  kp('KP'),
-  kr('KR'),
-  kw('KW'),
-  kg('KG'),
-  la('LA'),
-  lv('LV'),
-  lb('LB'),
-  ls('LS'),
-  lr('LR'),
-  ly('LY'),
-  li('LI'),
-  lt('LT'),
-  lu('LU'),
-  mo('MO'),
-  mk('MK'),
-  mg('MG'),
-  mw('MW'),
-  my('MY'),
-  mv('MV'),
-  ml('ML'),
-  mt('MT'),
-  mh('MH'),
-  mq('MQ'),
-  mr('MR'),
-  mu('MU'),
-  yt('YT'),
-  mx('MX'),
-  fm('FM'),
-  md('MD'),
-  mc('MC'),
-  mn('MN'),
-  me('ME'),
-  ms('MS'),
-  ma('MA'),
-  mz('MZ'),
-  mm('MM'),
-  na('NA'),
-  nr('NR'),
-  np('NP'),
-  nl('NL'),
-  nc('NC'),
-  nz('NZ'),
-  ni('NI'),
-  ne('NE'),
-  ng('NG'),
-  nu('NU'),
-  nf('NF'),
-  mp('MP'),
-  no('NO'),
-  om('OM'),
-  pk('PK'),
-  pw('PW'),
-  ps('PS'),
-  pa('PA'),
-  pg('PG'),
-  py('PY'),
-  pe('PE'),
-  ph('PH'),
-  pn('PN'),
-  pl('PL'),
-  pt('PT'),
-  pr('PR'),
-  qa('QA'),
-  re('RE'),
-  ro('RO'),
-  ru('RU'),
-  rw('RW'),
-  bl('BL'),
-  sh('SH'),
-  kn('KN'),
-  lc('LC'),
-  mf('MF'),
-  pm('PM'),
-  vc('VC'),
-  ws('WS'),
-  sm('SM'),
-  st('ST'),
-  sa('SA'),
-  sn('SN'),
-  rs('RS'),
-  sc('SC'),
-  sl('SL'),
-  sg('SG'),
-  sx('SX'),
-  sk('SK'),
-  si('SI'),
-  sb('SB'),
-  so('SO'),
-  za('ZA'),
-  gs('GS'),
-  ss('SS'),
-  es('ES'),
-  lk('LK'),
-  sd('SD'),
-  sr('SR'),
-  sj('SJ'),
-  sz('SZ'),
-  se('SE'),
-  ch('CH'),
-  sy('SY'),
-  tw('TW'),
-  tj('TJ'),
-  tz('TZ'),
-  th('TH'),
-  tl('TL'),
-  tg('TG'),
-  tk('TK'),
-  to('TO'),
-  tt('TT'),
-  tn('TN'),
-  tr('TR'),
-  tm('TM'),
-  tc('TC'),
-  tv('TV'),
-  ug('UG'),
-  ua('UA'),
-  ae('AE'),
-  gb('GB'),
-  us('US'),
-  um('UM'),
-  uy('UY'),
-  uz('UZ'),
-  vu('VU'),
-  ve('VE'),
-  vn('VN'),
-  vg('VG'),
-  vi('VI'),
-  wf('WF'),
-  eh('EH'),
-  ye('YE'),
-  zm('ZM'),
-  zw('ZW'),
-  ;
+class GeoMatchConstraintValue {
+  static const af = GeoMatchConstraintValue._('AF');
+  static const ax = GeoMatchConstraintValue._('AX');
+  static const al = GeoMatchConstraintValue._('AL');
+  static const dz = GeoMatchConstraintValue._('DZ');
+  static const as = GeoMatchConstraintValue._('AS');
+  static const ad = GeoMatchConstraintValue._('AD');
+  static const ao = GeoMatchConstraintValue._('AO');
+  static const ai = GeoMatchConstraintValue._('AI');
+  static const aq = GeoMatchConstraintValue._('AQ');
+  static const ag = GeoMatchConstraintValue._('AG');
+  static const ar = GeoMatchConstraintValue._('AR');
+  static const am = GeoMatchConstraintValue._('AM');
+  static const aw = GeoMatchConstraintValue._('AW');
+  static const au = GeoMatchConstraintValue._('AU');
+  static const at = GeoMatchConstraintValue._('AT');
+  static const az = GeoMatchConstraintValue._('AZ');
+  static const bs = GeoMatchConstraintValue._('BS');
+  static const bh = GeoMatchConstraintValue._('BH');
+  static const bd = GeoMatchConstraintValue._('BD');
+  static const bb = GeoMatchConstraintValue._('BB');
+  static const by = GeoMatchConstraintValue._('BY');
+  static const be = GeoMatchConstraintValue._('BE');
+  static const bz = GeoMatchConstraintValue._('BZ');
+  static const bj = GeoMatchConstraintValue._('BJ');
+  static const bm = GeoMatchConstraintValue._('BM');
+  static const bt = GeoMatchConstraintValue._('BT');
+  static const bo = GeoMatchConstraintValue._('BO');
+  static const bq = GeoMatchConstraintValue._('BQ');
+  static const ba = GeoMatchConstraintValue._('BA');
+  static const bw = GeoMatchConstraintValue._('BW');
+  static const bv = GeoMatchConstraintValue._('BV');
+  static const br = GeoMatchConstraintValue._('BR');
+  static const io = GeoMatchConstraintValue._('IO');
+  static const bn = GeoMatchConstraintValue._('BN');
+  static const bg = GeoMatchConstraintValue._('BG');
+  static const bf = GeoMatchConstraintValue._('BF');
+  static const bi = GeoMatchConstraintValue._('BI');
+  static const kh = GeoMatchConstraintValue._('KH');
+  static const cm = GeoMatchConstraintValue._('CM');
+  static const ca = GeoMatchConstraintValue._('CA');
+  static const cv = GeoMatchConstraintValue._('CV');
+  static const ky = GeoMatchConstraintValue._('KY');
+  static const cf = GeoMatchConstraintValue._('CF');
+  static const td = GeoMatchConstraintValue._('TD');
+  static const cl = GeoMatchConstraintValue._('CL');
+  static const cn = GeoMatchConstraintValue._('CN');
+  static const cx = GeoMatchConstraintValue._('CX');
+  static const cc = GeoMatchConstraintValue._('CC');
+  static const co = GeoMatchConstraintValue._('CO');
+  static const km = GeoMatchConstraintValue._('KM');
+  static const cg = GeoMatchConstraintValue._('CG');
+  static const cd = GeoMatchConstraintValue._('CD');
+  static const ck = GeoMatchConstraintValue._('CK');
+  static const cr = GeoMatchConstraintValue._('CR');
+  static const ci = GeoMatchConstraintValue._('CI');
+  static const hr = GeoMatchConstraintValue._('HR');
+  static const cu = GeoMatchConstraintValue._('CU');
+  static const cw = GeoMatchConstraintValue._('CW');
+  static const cy = GeoMatchConstraintValue._('CY');
+  static const cz = GeoMatchConstraintValue._('CZ');
+  static const dk = GeoMatchConstraintValue._('DK');
+  static const dj = GeoMatchConstraintValue._('DJ');
+  static const dm = GeoMatchConstraintValue._('DM');
+  static const $do = GeoMatchConstraintValue._('DO');
+  static const ec = GeoMatchConstraintValue._('EC');
+  static const eg = GeoMatchConstraintValue._('EG');
+  static const sv = GeoMatchConstraintValue._('SV');
+  static const gq = GeoMatchConstraintValue._('GQ');
+  static const er = GeoMatchConstraintValue._('ER');
+  static const ee = GeoMatchConstraintValue._('EE');
+  static const et = GeoMatchConstraintValue._('ET');
+  static const fk = GeoMatchConstraintValue._('FK');
+  static const fo = GeoMatchConstraintValue._('FO');
+  static const fj = GeoMatchConstraintValue._('FJ');
+  static const fi = GeoMatchConstraintValue._('FI');
+  static const fr = GeoMatchConstraintValue._('FR');
+  static const gf = GeoMatchConstraintValue._('GF');
+  static const pf = GeoMatchConstraintValue._('PF');
+  static const tf = GeoMatchConstraintValue._('TF');
+  static const ga = GeoMatchConstraintValue._('GA');
+  static const gm = GeoMatchConstraintValue._('GM');
+  static const ge = GeoMatchConstraintValue._('GE');
+  static const de = GeoMatchConstraintValue._('DE');
+  static const gh = GeoMatchConstraintValue._('GH');
+  static const gi = GeoMatchConstraintValue._('GI');
+  static const gr = GeoMatchConstraintValue._('GR');
+  static const gl = GeoMatchConstraintValue._('GL');
+  static const gd = GeoMatchConstraintValue._('GD');
+  static const gp = GeoMatchConstraintValue._('GP');
+  static const gu = GeoMatchConstraintValue._('GU');
+  static const gt = GeoMatchConstraintValue._('GT');
+  static const gg = GeoMatchConstraintValue._('GG');
+  static const gn = GeoMatchConstraintValue._('GN');
+  static const gw = GeoMatchConstraintValue._('GW');
+  static const gy = GeoMatchConstraintValue._('GY');
+  static const ht = GeoMatchConstraintValue._('HT');
+  static const hm = GeoMatchConstraintValue._('HM');
+  static const va = GeoMatchConstraintValue._('VA');
+  static const hn = GeoMatchConstraintValue._('HN');
+  static const hk = GeoMatchConstraintValue._('HK');
+  static const hu = GeoMatchConstraintValue._('HU');
+  static const $is = GeoMatchConstraintValue._('IS');
+  static const $in = GeoMatchConstraintValue._('IN');
+  static const id = GeoMatchConstraintValue._('ID');
+  static const ir = GeoMatchConstraintValue._('IR');
+  static const iq = GeoMatchConstraintValue._('IQ');
+  static const ie = GeoMatchConstraintValue._('IE');
+  static const im = GeoMatchConstraintValue._('IM');
+  static const il = GeoMatchConstraintValue._('IL');
+  static const it = GeoMatchConstraintValue._('IT');
+  static const jm = GeoMatchConstraintValue._('JM');
+  static const jp = GeoMatchConstraintValue._('JP');
+  static const je = GeoMatchConstraintValue._('JE');
+  static const jo = GeoMatchConstraintValue._('JO');
+  static const kz = GeoMatchConstraintValue._('KZ');
+  static const ke = GeoMatchConstraintValue._('KE');
+  static const ki = GeoMatchConstraintValue._('KI');
+  static const kp = GeoMatchConstraintValue._('KP');
+  static const kr = GeoMatchConstraintValue._('KR');
+  static const kw = GeoMatchConstraintValue._('KW');
+  static const kg = GeoMatchConstraintValue._('KG');
+  static const la = GeoMatchConstraintValue._('LA');
+  static const lv = GeoMatchConstraintValue._('LV');
+  static const lb = GeoMatchConstraintValue._('LB');
+  static const ls = GeoMatchConstraintValue._('LS');
+  static const lr = GeoMatchConstraintValue._('LR');
+  static const ly = GeoMatchConstraintValue._('LY');
+  static const li = GeoMatchConstraintValue._('LI');
+  static const lt = GeoMatchConstraintValue._('LT');
+  static const lu = GeoMatchConstraintValue._('LU');
+  static const mo = GeoMatchConstraintValue._('MO');
+  static const mk = GeoMatchConstraintValue._('MK');
+  static const mg = GeoMatchConstraintValue._('MG');
+  static const mw = GeoMatchConstraintValue._('MW');
+  static const my = GeoMatchConstraintValue._('MY');
+  static const mv = GeoMatchConstraintValue._('MV');
+  static const ml = GeoMatchConstraintValue._('ML');
+  static const mt = GeoMatchConstraintValue._('MT');
+  static const mh = GeoMatchConstraintValue._('MH');
+  static const mq = GeoMatchConstraintValue._('MQ');
+  static const mr = GeoMatchConstraintValue._('MR');
+  static const mu = GeoMatchConstraintValue._('MU');
+  static const yt = GeoMatchConstraintValue._('YT');
+  static const mx = GeoMatchConstraintValue._('MX');
+  static const fm = GeoMatchConstraintValue._('FM');
+  static const md = GeoMatchConstraintValue._('MD');
+  static const mc = GeoMatchConstraintValue._('MC');
+  static const mn = GeoMatchConstraintValue._('MN');
+  static const me = GeoMatchConstraintValue._('ME');
+  static const ms = GeoMatchConstraintValue._('MS');
+  static const ma = GeoMatchConstraintValue._('MA');
+  static const mz = GeoMatchConstraintValue._('MZ');
+  static const mm = GeoMatchConstraintValue._('MM');
+  static const na = GeoMatchConstraintValue._('NA');
+  static const nr = GeoMatchConstraintValue._('NR');
+  static const np = GeoMatchConstraintValue._('NP');
+  static const nl = GeoMatchConstraintValue._('NL');
+  static const nc = GeoMatchConstraintValue._('NC');
+  static const nz = GeoMatchConstraintValue._('NZ');
+  static const ni = GeoMatchConstraintValue._('NI');
+  static const ne = GeoMatchConstraintValue._('NE');
+  static const ng = GeoMatchConstraintValue._('NG');
+  static const nu = GeoMatchConstraintValue._('NU');
+  static const nf = GeoMatchConstraintValue._('NF');
+  static const mp = GeoMatchConstraintValue._('MP');
+  static const no = GeoMatchConstraintValue._('NO');
+  static const om = GeoMatchConstraintValue._('OM');
+  static const pk = GeoMatchConstraintValue._('PK');
+  static const pw = GeoMatchConstraintValue._('PW');
+  static const ps = GeoMatchConstraintValue._('PS');
+  static const pa = GeoMatchConstraintValue._('PA');
+  static const pg = GeoMatchConstraintValue._('PG');
+  static const py = GeoMatchConstraintValue._('PY');
+  static const pe = GeoMatchConstraintValue._('PE');
+  static const ph = GeoMatchConstraintValue._('PH');
+  static const pn = GeoMatchConstraintValue._('PN');
+  static const pl = GeoMatchConstraintValue._('PL');
+  static const pt = GeoMatchConstraintValue._('PT');
+  static const pr = GeoMatchConstraintValue._('PR');
+  static const qa = GeoMatchConstraintValue._('QA');
+  static const re = GeoMatchConstraintValue._('RE');
+  static const ro = GeoMatchConstraintValue._('RO');
+  static const ru = GeoMatchConstraintValue._('RU');
+  static const rw = GeoMatchConstraintValue._('RW');
+  static const bl = GeoMatchConstraintValue._('BL');
+  static const sh = GeoMatchConstraintValue._('SH');
+  static const kn = GeoMatchConstraintValue._('KN');
+  static const lc = GeoMatchConstraintValue._('LC');
+  static const mf = GeoMatchConstraintValue._('MF');
+  static const pm = GeoMatchConstraintValue._('PM');
+  static const vc = GeoMatchConstraintValue._('VC');
+  static const ws = GeoMatchConstraintValue._('WS');
+  static const sm = GeoMatchConstraintValue._('SM');
+  static const st = GeoMatchConstraintValue._('ST');
+  static const sa = GeoMatchConstraintValue._('SA');
+  static const sn = GeoMatchConstraintValue._('SN');
+  static const rs = GeoMatchConstraintValue._('RS');
+  static const sc = GeoMatchConstraintValue._('SC');
+  static const sl = GeoMatchConstraintValue._('SL');
+  static const sg = GeoMatchConstraintValue._('SG');
+  static const sx = GeoMatchConstraintValue._('SX');
+  static const sk = GeoMatchConstraintValue._('SK');
+  static const si = GeoMatchConstraintValue._('SI');
+  static const sb = GeoMatchConstraintValue._('SB');
+  static const so = GeoMatchConstraintValue._('SO');
+  static const za = GeoMatchConstraintValue._('ZA');
+  static const gs = GeoMatchConstraintValue._('GS');
+  static const ss = GeoMatchConstraintValue._('SS');
+  static const es = GeoMatchConstraintValue._('ES');
+  static const lk = GeoMatchConstraintValue._('LK');
+  static const sd = GeoMatchConstraintValue._('SD');
+  static const sr = GeoMatchConstraintValue._('SR');
+  static const sj = GeoMatchConstraintValue._('SJ');
+  static const sz = GeoMatchConstraintValue._('SZ');
+  static const se = GeoMatchConstraintValue._('SE');
+  static const ch = GeoMatchConstraintValue._('CH');
+  static const sy = GeoMatchConstraintValue._('SY');
+  static const tw = GeoMatchConstraintValue._('TW');
+  static const tj = GeoMatchConstraintValue._('TJ');
+  static const tz = GeoMatchConstraintValue._('TZ');
+  static const th = GeoMatchConstraintValue._('TH');
+  static const tl = GeoMatchConstraintValue._('TL');
+  static const tg = GeoMatchConstraintValue._('TG');
+  static const tk = GeoMatchConstraintValue._('TK');
+  static const to = GeoMatchConstraintValue._('TO');
+  static const tt = GeoMatchConstraintValue._('TT');
+  static const tn = GeoMatchConstraintValue._('TN');
+  static const tr = GeoMatchConstraintValue._('TR');
+  static const tm = GeoMatchConstraintValue._('TM');
+  static const tc = GeoMatchConstraintValue._('TC');
+  static const tv = GeoMatchConstraintValue._('TV');
+  static const ug = GeoMatchConstraintValue._('UG');
+  static const ua = GeoMatchConstraintValue._('UA');
+  static const ae = GeoMatchConstraintValue._('AE');
+  static const gb = GeoMatchConstraintValue._('GB');
+  static const us = GeoMatchConstraintValue._('US');
+  static const um = GeoMatchConstraintValue._('UM');
+  static const uy = GeoMatchConstraintValue._('UY');
+  static const uz = GeoMatchConstraintValue._('UZ');
+  static const vu = GeoMatchConstraintValue._('VU');
+  static const ve = GeoMatchConstraintValue._('VE');
+  static const vn = GeoMatchConstraintValue._('VN');
+  static const vg = GeoMatchConstraintValue._('VG');
+  static const vi = GeoMatchConstraintValue._('VI');
+  static const wf = GeoMatchConstraintValue._('WF');
+  static const eh = GeoMatchConstraintValue._('EH');
+  static const ye = GeoMatchConstraintValue._('YE');
+  static const zm = GeoMatchConstraintValue._('ZM');
+  static const zw = GeoMatchConstraintValue._('ZW');
 
   final String value;
 
-  const GeoMatchConstraintValue(this.value);
+  const GeoMatchConstraintValue._(this.value);
+
+  static const values = [
+    af,
+    ax,
+    al,
+    dz,
+    as,
+    ad,
+    ao,
+    ai,
+    aq,
+    ag,
+    ar,
+    am,
+    aw,
+    au,
+    at,
+    az,
+    bs,
+    bh,
+    bd,
+    bb,
+    by,
+    be,
+    bz,
+    bj,
+    bm,
+    bt,
+    bo,
+    bq,
+    ba,
+    bw,
+    bv,
+    br,
+    io,
+    bn,
+    bg,
+    bf,
+    bi,
+    kh,
+    cm,
+    ca,
+    cv,
+    ky,
+    cf,
+    td,
+    cl,
+    cn,
+    cx,
+    cc,
+    co,
+    km,
+    cg,
+    cd,
+    ck,
+    cr,
+    ci,
+    hr,
+    cu,
+    cw,
+    cy,
+    cz,
+    dk,
+    dj,
+    dm,
+    $do,
+    ec,
+    eg,
+    sv,
+    gq,
+    er,
+    ee,
+    et,
+    fk,
+    fo,
+    fj,
+    fi,
+    fr,
+    gf,
+    pf,
+    tf,
+    ga,
+    gm,
+    ge,
+    de,
+    gh,
+    gi,
+    gr,
+    gl,
+    gd,
+    gp,
+    gu,
+    gt,
+    gg,
+    gn,
+    gw,
+    gy,
+    ht,
+    hm,
+    va,
+    hn,
+    hk,
+    hu,
+    $is,
+    $in,
+    id,
+    ir,
+    iq,
+    ie,
+    im,
+    il,
+    it,
+    jm,
+    jp,
+    je,
+    jo,
+    kz,
+    ke,
+    ki,
+    kp,
+    kr,
+    kw,
+    kg,
+    la,
+    lv,
+    lb,
+    ls,
+    lr,
+    ly,
+    li,
+    lt,
+    lu,
+    mo,
+    mk,
+    mg,
+    mw,
+    my,
+    mv,
+    ml,
+    mt,
+    mh,
+    mq,
+    mr,
+    mu,
+    yt,
+    mx,
+    fm,
+    md,
+    mc,
+    mn,
+    me,
+    ms,
+    ma,
+    mz,
+    mm,
+    na,
+    nr,
+    np,
+    nl,
+    nc,
+    nz,
+    ni,
+    ne,
+    ng,
+    nu,
+    nf,
+    mp,
+    no,
+    om,
+    pk,
+    pw,
+    ps,
+    pa,
+    pg,
+    py,
+    pe,
+    ph,
+    pn,
+    pl,
+    pt,
+    pr,
+    qa,
+    re,
+    ro,
+    ru,
+    rw,
+    bl,
+    sh,
+    kn,
+    lc,
+    mf,
+    pm,
+    vc,
+    ws,
+    sm,
+    st,
+    sa,
+    sn,
+    rs,
+    sc,
+    sl,
+    sg,
+    sx,
+    sk,
+    si,
+    sb,
+    so,
+    za,
+    gs,
+    ss,
+    es,
+    lk,
+    sd,
+    sr,
+    sj,
+    sz,
+    se,
+    ch,
+    sy,
+    tw,
+    tj,
+    tz,
+    th,
+    tl,
+    tg,
+    tk,
+    to,
+    tt,
+    tn,
+    tr,
+    tm,
+    tc,
+    tv,
+    ug,
+    ua,
+    ae,
+    gb,
+    us,
+    um,
+    uy,
+    uz,
+    vu,
+    ve,
+    vn,
+    vg,
+    vi,
+    wf,
+    eh,
+    ye,
+    zm,
+    zw
+  ];
 
   static GeoMatchConstraintValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GeoMatchConstraintValue'));
+          orElse: () => GeoMatchConstraintValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoMatchConstraintValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -9011,7 +9309,7 @@ class IPSetDescriptor {
 
   factory IPSetDescriptor.fromJson(Map<String, dynamic> json) {
     return IPSetDescriptor(
-      type: IPSetDescriptorType.fromString((json['Type'] as String)),
+      type: IPSetDescriptorType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -9026,19 +9324,29 @@ class IPSetDescriptor {
   }
 }
 
-enum IPSetDescriptorType {
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  ;
+class IPSetDescriptorType {
+  static const ipv4 = IPSetDescriptorType._('IPV4');
+  static const ipv6 = IPSetDescriptorType._('IPV6');
 
   final String value;
 
-  const IPSetDescriptorType(this.value);
+  const IPSetDescriptorType._(this.value);
 
-  static IPSetDescriptorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IPSetDescriptorType'));
+  static const values = [ipv4, ipv6];
+
+  static IPSetDescriptorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IPSetDescriptorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IPSetDescriptorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -9804,42 +10112,69 @@ class LoggingConfiguration {
   }
 }
 
-enum MatchFieldType {
-  uri('URI'),
-  queryString('QUERY_STRING'),
-  header('HEADER'),
-  method('METHOD'),
-  body('BODY'),
-  singleQueryArg('SINGLE_QUERY_ARG'),
-  allQueryArgs('ALL_QUERY_ARGS'),
-  ;
+class MatchFieldType {
+  static const uri = MatchFieldType._('URI');
+  static const queryString = MatchFieldType._('QUERY_STRING');
+  static const header = MatchFieldType._('HEADER');
+  static const method = MatchFieldType._('METHOD');
+  static const body = MatchFieldType._('BODY');
+  static const singleQueryArg = MatchFieldType._('SINGLE_QUERY_ARG');
+  static const allQueryArgs = MatchFieldType._('ALL_QUERY_ARGS');
 
   final String value;
 
-  const MatchFieldType(this.value);
+  const MatchFieldType._(this.value);
+
+  static const values = [
+    uri,
+    queryString,
+    header,
+    method,
+    body,
+    singleQueryArg,
+    allQueryArgs
+  ];
 
   static MatchFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MatchFieldType'));
+          orElse: () => MatchFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is MatchFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PositionalConstraint {
-  exactly('EXACTLY'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  containsWord('CONTAINS_WORD'),
-  ;
+class PositionalConstraint {
+  static const exactly = PositionalConstraint._('EXACTLY');
+  static const startsWith = PositionalConstraint._('STARTS_WITH');
+  static const endsWith = PositionalConstraint._('ENDS_WITH');
+  static const contains = PositionalConstraint._('CONTAINS');
+  static const containsWord = PositionalConstraint._('CONTAINS_WORD');
 
   final String value;
 
-  const PositionalConstraint(this.value);
+  const PositionalConstraint._(this.value);
 
-  static PositionalConstraint fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PositionalConstraint'));
+  static const values = [exactly, startsWith, endsWith, contains, containsWord];
+
+  static PositionalConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PositionalConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionalConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -9896,7 +10231,7 @@ class Predicate {
     return Predicate(
       dataId: (json['DataId'] as String?) ?? '',
       negated: (json['Negated'] as bool?) ?? false,
-      type: PredicateType.fromString((json['Type'] as String)),
+      type: PredicateType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -9912,24 +10247,41 @@ class Predicate {
   }
 }
 
-enum PredicateType {
-  iPMatch('IPMatch'),
-  byteMatch('ByteMatch'),
-  sqlInjectionMatch('SqlInjectionMatch'),
-  geoMatch('GeoMatch'),
-  sizeConstraint('SizeConstraint'),
-  xssMatch('XssMatch'),
-  regexMatch('RegexMatch'),
-  ;
+class PredicateType {
+  static const iPMatch = PredicateType._('IPMatch');
+  static const byteMatch = PredicateType._('ByteMatch');
+  static const sqlInjectionMatch = PredicateType._('SqlInjectionMatch');
+  static const geoMatch = PredicateType._('GeoMatch');
+  static const sizeConstraint = PredicateType._('SizeConstraint');
+  static const xssMatch = PredicateType._('XssMatch');
+  static const regexMatch = PredicateType._('RegexMatch');
 
   final String value;
 
-  const PredicateType(this.value);
+  const PredicateType._(this.value);
+
+  static const values = [
+    iPMatch,
+    byteMatch,
+    sqlInjectionMatch,
+    geoMatch,
+    sizeConstraint,
+    xssMatch,
+    regexMatch
+  ];
 
   static PredicateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PredicateType'));
+          orElse: () => PredicateType._(value));
+
+  @override
+  bool operator ==(other) => other is PredicateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutLoggingConfigurationResponse {
@@ -10058,7 +10410,7 @@ class RateBasedRule {
           .nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rateKey: RateKey.fromString((json['RateKey'] as String)),
+      rateKey: RateKey.fromString((json['RateKey'] as String?) ?? ''),
       rateLimit: (json['RateLimit'] as int?) ?? 0,
       ruleId: (json['RuleId'] as String?) ?? '',
       metricName: json['MetricName'] as String?,
@@ -10084,17 +10436,26 @@ class RateBasedRule {
   }
 }
 
-enum RateKey {
-  ip('IP'),
-  ;
+class RateKey {
+  static const ip = RateKey._('IP');
 
   final String value;
 
-  const RateKey(this.value);
+  const RateKey._(this.value);
 
-  static RateKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum RateKey'));
+  static const values = [ip];
+
+  static RateKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RateKey._(value));
+
+  @override
+  bool operator ==(other) => other is RateKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -10436,8 +10797,8 @@ class RegexMatchTuple {
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
-      textTransformation:
-          TextTransformation.fromString((json['TextTransformation'] as String)),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
@@ -10605,19 +10966,28 @@ class RegexPatternSetUpdate {
   }
 }
 
-enum ResourceType {
-  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
-  apiGateway('API_GATEWAY'),
-  ;
+class ResourceType {
+  static const applicationLoadBalancer =
+      ResourceType._('APPLICATION_LOAD_BALANCER');
+  static const apiGateway = ResourceType._('API_GATEWAY');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [applicationLoadBalancer, apiGateway];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -11229,14 +11599,14 @@ class SizeConstraint {
 
   factory SizeConstraint.fromJson(Map<String, dynamic> json) {
     return SizeConstraint(
-      comparisonOperator:
-          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['ComparisonOperator'] as String?) ?? ''),
       fieldToMatch: FieldToMatch.fromJson(
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       size: (json['Size'] as int?) ?? 0,
-      textTransformation:
-          TextTransformation.fromString((json['TextTransformation'] as String)),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
@@ -11710,8 +12080,8 @@ class SqlInjectionMatchTuple {
       fieldToMatch: FieldToMatch.fromJson(
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      textTransformation:
-          TextTransformation.fromString((json['TextTransformation'] as String)),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
@@ -11894,23 +12264,41 @@ class TagResourceResponse {
   }
 }
 
-enum TextTransformation {
-  none('NONE'),
-  compressWhiteSpace('COMPRESS_WHITE_SPACE'),
-  htmlEntityDecode('HTML_ENTITY_DECODE'),
-  lowercase('LOWERCASE'),
-  cmdLine('CMD_LINE'),
-  urlDecode('URL_DECODE'),
-  ;
+class TextTransformation {
+  static const none = TextTransformation._('NONE');
+  static const compressWhiteSpace =
+      TextTransformation._('COMPRESS_WHITE_SPACE');
+  static const htmlEntityDecode = TextTransformation._('HTML_ENTITY_DECODE');
+  static const lowercase = TextTransformation._('LOWERCASE');
+  static const cmdLine = TextTransformation._('CMD_LINE');
+  static const urlDecode = TextTransformation._('URL_DECODE');
 
   final String value;
 
-  const TextTransformation(this.value);
+  const TextTransformation._(this.value);
 
-  static TextTransformation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TextTransformation'));
+  static const values = [
+    none,
+    compressWhiteSpace,
+    htmlEntityDecode,
+    lowercase,
+    cmdLine,
+    urlDecode
+  ];
+
+  static TextTransformation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TextTransformation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TextTransformation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -12337,7 +12725,7 @@ class WafAction {
 
   factory WafAction.fromJson(Map<String, dynamic> json) {
     return WafAction(
-      type: WafActionType.fromString((json['Type'] as String)),
+      type: WafActionType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -12349,20 +12737,29 @@ class WafAction {
   }
 }
 
-enum WafActionType {
-  block('BLOCK'),
-  allow('ALLOW'),
-  count('COUNT'),
-  ;
+class WafActionType {
+  static const block = WafActionType._('BLOCK');
+  static const allow = WafActionType._('ALLOW');
+  static const count = WafActionType._('COUNT');
 
   final String value;
 
-  const WafActionType(this.value);
+  const WafActionType._(this.value);
+
+  static const values = [block, allow, count];
 
   static WafActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WafActionType'));
+          orElse: () => WafActionType._(value));
+
+  @override
+  bool operator ==(other) => other is WafActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -12390,7 +12787,7 @@ class WafOverrideAction {
 
   factory WafOverrideAction.fromJson(Map<String, dynamic> json) {
     return WafOverrideAction(
-      type: WafOverrideActionType.fromString((json['Type'] as String)),
+      type: WafOverrideActionType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -12402,34 +12799,53 @@ class WafOverrideAction {
   }
 }
 
-enum WafOverrideActionType {
-  none('NONE'),
-  count('COUNT'),
-  ;
+class WafOverrideActionType {
+  static const none = WafOverrideActionType._('NONE');
+  static const count = WafOverrideActionType._('COUNT');
 
   final String value;
 
-  const WafOverrideActionType(this.value);
+  const WafOverrideActionType._(this.value);
 
-  static WafOverrideActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WafOverrideActionType'));
+  static const values = [none, count];
+
+  static WafOverrideActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WafOverrideActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WafOverrideActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WafRuleType {
-  regular('REGULAR'),
-  rateBased('RATE_BASED'),
-  group('GROUP'),
-  ;
+class WafRuleType {
+  static const regular = WafRuleType._('REGULAR');
+  static const rateBased = WafRuleType._('RATE_BASED');
+  static const group = WafRuleType._('GROUP');
 
   final String value;
 
-  const WafRuleType(this.value);
+  const WafRuleType._(this.value);
 
-  static WafRuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum WafRuleType'));
+  static const values = [regular, rateBased, group];
+
+  static WafRuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WafRuleType._(value));
+
+  @override
+  bool operator ==(other) => other is WafRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -12907,8 +13323,8 @@ class XssMatchTuple {
       fieldToMatch: FieldToMatch.fromJson(
           (json['FieldToMatch'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      textTransformation:
-          TextTransformation.fromString((json['TextTransformation'] as String)),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 

@@ -926,32 +926,60 @@ class GetResourceRequestStatusOutput {
   }
 }
 
-enum HandlerErrorCode {
-  notUpdatable('NotUpdatable'),
-  invalidRequest('InvalidRequest'),
-  accessDenied('AccessDenied'),
-  invalidCredentials('InvalidCredentials'),
-  alreadyExists('AlreadyExists'),
-  notFound('NotFound'),
-  resourceConflict('ResourceConflict'),
-  throttling('Throttling'),
-  serviceLimitExceeded('ServiceLimitExceeded'),
-  notStabilized('NotStabilized'),
-  generalServiceException('GeneralServiceException'),
-  serviceInternalError('ServiceInternalError'),
-  serviceTimeout('ServiceTimeout'),
-  networkFailure('NetworkFailure'),
-  internalFailure('InternalFailure'),
-  ;
+class HandlerErrorCode {
+  static const notUpdatable = HandlerErrorCode._('NotUpdatable');
+  static const invalidRequest = HandlerErrorCode._('InvalidRequest');
+  static const accessDenied = HandlerErrorCode._('AccessDenied');
+  static const invalidCredentials = HandlerErrorCode._('InvalidCredentials');
+  static const alreadyExists = HandlerErrorCode._('AlreadyExists');
+  static const notFound = HandlerErrorCode._('NotFound');
+  static const resourceConflict = HandlerErrorCode._('ResourceConflict');
+  static const throttling = HandlerErrorCode._('Throttling');
+  static const serviceLimitExceeded =
+      HandlerErrorCode._('ServiceLimitExceeded');
+  static const notStabilized = HandlerErrorCode._('NotStabilized');
+  static const generalServiceException =
+      HandlerErrorCode._('GeneralServiceException');
+  static const serviceInternalError =
+      HandlerErrorCode._('ServiceInternalError');
+  static const serviceTimeout = HandlerErrorCode._('ServiceTimeout');
+  static const networkFailure = HandlerErrorCode._('NetworkFailure');
+  static const internalFailure = HandlerErrorCode._('InternalFailure');
 
   final String value;
 
-  const HandlerErrorCode(this.value);
+  const HandlerErrorCode._(this.value);
+
+  static const values = [
+    notUpdatable,
+    invalidRequest,
+    accessDenied,
+    invalidCredentials,
+    alreadyExists,
+    notFound,
+    resourceConflict,
+    throttling,
+    serviceLimitExceeded,
+    notStabilized,
+    generalServiceException,
+    serviceInternalError,
+    serviceTimeout,
+    networkFailure,
+    internalFailure
+  ];
 
   static HandlerErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HandlerErrorCode'));
+          orElse: () => HandlerErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is HandlerErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListResourceRequestsOutput {
@@ -1037,38 +1065,63 @@ class ListResourcesOutput {
   }
 }
 
-enum Operation {
-  create('CREATE'),
-  delete('DELETE'),
-  update('UPDATE'),
-  ;
+class Operation {
+  static const create = Operation._('CREATE');
+  static const delete = Operation._('DELETE');
+  static const update = Operation._('UPDATE');
 
   final String value;
 
-  const Operation(this.value);
+  const Operation._(this.value);
 
-  static Operation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operation'));
+  static const values = [create, delete, update];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  cancelInProgress('CANCEL_IN_PROGRESS'),
-  cancelComplete('CANCEL_COMPLETE'),
-  ;
+class OperationStatus {
+  static const pending = OperationStatus._('PENDING');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const success = OperationStatus._('SUCCESS');
+  static const failed = OperationStatus._('FAILED');
+  static const cancelInProgress = OperationStatus._('CANCEL_IN_PROGRESS');
+  static const cancelComplete = OperationStatus._('CANCEL_COMPLETE');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    success,
+    failed,
+    cancelInProgress,
+    cancelComplete
+  ];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the current status of a resource operation request. For more

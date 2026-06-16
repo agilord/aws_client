@@ -1307,19 +1307,30 @@ class ClipFragmentSelector {
   }
 }
 
-enum ClipFragmentSelectorType {
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  ;
+class ClipFragmentSelectorType {
+  static const producerTimestamp =
+      ClipFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = ClipFragmentSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const ClipFragmentSelectorType(this.value);
+  const ClipFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
 
   static ClipFragmentSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClipFragmentSelectorType'));
+          orElse: () => ClipFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClipFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range of timestamps for which to return fragments.
@@ -1364,49 +1375,78 @@ class ClipTimestampRange {
   }
 }
 
-enum ContainerFormat {
-  fragmentedMp4('FRAGMENTED_MP4'),
-  mpegTs('MPEG_TS'),
-  ;
+class ContainerFormat {
+  static const fragmentedMp4 = ContainerFormat._('FRAGMENTED_MP4');
+  static const mpegTs = ContainerFormat._('MPEG_TS');
 
   final String value;
 
-  const ContainerFormat(this.value);
+  const ContainerFormat._(this.value);
+
+  static const values = [fragmentedMp4, mpegTs];
 
   static ContainerFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerFormat'));
+          orElse: () => ContainerFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DASHDisplayFragmentNumber {
-  always('ALWAYS'),
-  never('NEVER'),
-  ;
+class DASHDisplayFragmentNumber {
+  static const always = DASHDisplayFragmentNumber._('ALWAYS');
+  static const never = DASHDisplayFragmentNumber._('NEVER');
 
   final String value;
 
-  const DASHDisplayFragmentNumber(this.value);
+  const DASHDisplayFragmentNumber._(this.value);
+
+  static const values = [always, never];
 
   static DASHDisplayFragmentNumber fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DASHDisplayFragmentNumber'));
+          orElse: () => DASHDisplayFragmentNumber._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHDisplayFragmentNumber && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DASHDisplayFragmentTimestamp {
-  always('ALWAYS'),
-  never('NEVER'),
-  ;
+class DASHDisplayFragmentTimestamp {
+  static const always = DASHDisplayFragmentTimestamp._('ALWAYS');
+  static const never = DASHDisplayFragmentTimestamp._('NEVER');
 
   final String value;
 
-  const DASHDisplayFragmentTimestamp(this.value);
+  const DASHDisplayFragmentTimestamp._(this.value);
+
+  static const values = [always, never];
 
   static DASHDisplayFragmentTimestamp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DASHDisplayFragmentTimestamp'));
+          orElse: () => DASHDisplayFragmentTimestamp._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHDisplayFragmentTimestamp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
@@ -1468,35 +1508,55 @@ class DASHFragmentSelector {
   }
 }
 
-enum DASHFragmentSelectorType {
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  ;
+class DASHFragmentSelectorType {
+  static const producerTimestamp =
+      DASHFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = DASHFragmentSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const DASHFragmentSelectorType(this.value);
+  const DASHFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
 
   static DASHFragmentSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DASHFragmentSelectorType'));
+          orElse: () => DASHFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DASHPlaybackMode {
-  live('LIVE'),
-  liveReplay('LIVE_REPLAY'),
-  onDemand('ON_DEMAND'),
-  ;
+class DASHPlaybackMode {
+  static const live = DASHPlaybackMode._('LIVE');
+  static const liveReplay = DASHPlaybackMode._('LIVE_REPLAY');
+  static const onDemand = DASHPlaybackMode._('ON_DEMAND');
 
   final String value;
 
-  const DASHPlaybackMode(this.value);
+  const DASHPlaybackMode._(this.value);
+
+  static const values = [live, liveReplay, onDemand];
 
   static DASHPlaybackMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DASHPlaybackMode'));
+          orElse: () => DASHPlaybackMode._(value));
+
+  @override
+  bool operator ==(other) => other is DASHPlaybackMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The start and end of the timestamp range for the requested media.
@@ -1559,32 +1619,50 @@ class DASHTimestampRange {
   }
 }
 
-enum Format {
-  jpeg('JPEG'),
-  png('PNG'),
-  ;
+class Format {
+  static const jpeg = Format._('JPEG');
+  static const png = Format._('PNG');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [jpeg, png];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FormatConfigKey {
-  jPEGQuality('JPEGQuality'),
-  ;
+class FormatConfigKey {
+  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
 
   final String value;
 
-  const FormatConfigKey(this.value);
+  const FormatConfigKey._(this.value);
+
+  static const values = [jPEGQuality];
 
   static FormatConfigKey fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormatConfigKey'));
+          orElse: () => FormatConfigKey._(value));
+
+  @override
+  bool operator ==(other) => other is FormatConfigKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a segment of video or other time-delimited data.
@@ -1691,19 +1769,29 @@ class FragmentSelector {
   }
 }
 
-enum FragmentSelectorType {
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  ;
+class FragmentSelectorType {
+  static const producerTimestamp = FragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = FragmentSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const FragmentSelectorType(this.value);
+  const FragmentSelectorType._(this.value);
 
-  static FragmentSelectorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FragmentSelectorType'));
+  static const values = [producerTimestamp, serverTimestamp];
+
+  static FragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetClipOutput {
@@ -1869,35 +1957,55 @@ class GetMediaForFragmentListOutput {
   }
 }
 
-enum HLSDiscontinuityMode {
-  always('ALWAYS'),
-  never('NEVER'),
-  onDiscontinuity('ON_DISCONTINUITY'),
-  ;
+class HLSDiscontinuityMode {
+  static const always = HLSDiscontinuityMode._('ALWAYS');
+  static const never = HLSDiscontinuityMode._('NEVER');
+  static const onDiscontinuity = HLSDiscontinuityMode._('ON_DISCONTINUITY');
 
   final String value;
 
-  const HLSDiscontinuityMode(this.value);
+  const HLSDiscontinuityMode._(this.value);
 
-  static HLSDiscontinuityMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HLSDiscontinuityMode'));
+  static const values = [always, never, onDiscontinuity];
+
+  static HLSDiscontinuityMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HLSDiscontinuityMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSDiscontinuityMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HLSDisplayFragmentTimestamp {
-  always('ALWAYS'),
-  never('NEVER'),
-  ;
+class HLSDisplayFragmentTimestamp {
+  static const always = HLSDisplayFragmentTimestamp._('ALWAYS');
+  static const never = HLSDisplayFragmentTimestamp._('NEVER');
 
   final String value;
 
-  const HLSDisplayFragmentTimestamp(this.value);
+  const HLSDisplayFragmentTimestamp._(this.value);
+
+  static const values = [always, never];
 
   static HLSDisplayFragmentTimestamp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HLSDisplayFragmentTimestamp'));
+          orElse: () => HLSDisplayFragmentTimestamp._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSDisplayFragmentTimestamp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
@@ -1958,35 +2066,55 @@ class HLSFragmentSelector {
   }
 }
 
-enum HLSFragmentSelectorType {
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  ;
+class HLSFragmentSelectorType {
+  static const producerTimestamp =
+      HLSFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = HLSFragmentSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const HLSFragmentSelectorType(this.value);
+  const HLSFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
 
   static HLSFragmentSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HLSFragmentSelectorType'));
+          orElse: () => HLSFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HLSPlaybackMode {
-  live('LIVE'),
-  liveReplay('LIVE_REPLAY'),
-  onDemand('ON_DEMAND'),
-  ;
+class HLSPlaybackMode {
+  static const live = HLSPlaybackMode._('LIVE');
+  static const liveReplay = HLSPlaybackMode._('LIVE_REPLAY');
+  static const onDemand = HLSPlaybackMode._('ON_DEMAND');
 
   final String value;
 
-  const HLSPlaybackMode(this.value);
+  const HLSPlaybackMode._(this.value);
+
+  static const values = [live, liveReplay, onDemand];
 
   static HLSPlaybackMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HLSPlaybackMode'));
+          orElse: () => HLSPlaybackMode._(value));
+
+  @override
+  bool operator ==(other) => other is HLSPlaybackMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The start and end of the timestamp range for the requested media.
@@ -2097,33 +2225,51 @@ class Image {
   }
 }
 
-enum ImageError {
-  noMedia('NO_MEDIA'),
-  mediaError('MEDIA_ERROR'),
-  ;
+class ImageError {
+  static const noMedia = ImageError._('NO_MEDIA');
+  static const mediaError = ImageError._('MEDIA_ERROR');
 
   final String value;
 
-  const ImageError(this.value);
+  const ImageError._(this.value);
 
-  static ImageError fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageError'));
+  static const values = [noMedia, mediaError];
+
+  static ImageError fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageError._(value));
+
+  @override
+  bool operator ==(other) => other is ImageError && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImageSelectorType {
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  ;
+class ImageSelectorType {
+  static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const ImageSelectorType(this.value);
+  const ImageSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
 
   static ImageSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageSelectorType'));
+          orElse: () => ImageSelectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListFragmentsOutput {

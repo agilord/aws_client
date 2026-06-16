@@ -871,20 +871,30 @@ class Ivschat {
   }
 }
 
-enum ChatTokenCapability {
-  sendMessage('SEND_MESSAGE'),
-  disconnectUser('DISCONNECT_USER'),
-  deleteMessage('DELETE_MESSAGE'),
-  ;
+class ChatTokenCapability {
+  static const sendMessage = ChatTokenCapability._('SEND_MESSAGE');
+  static const disconnectUser = ChatTokenCapability._('DISCONNECT_USER');
+  static const deleteMessage = ChatTokenCapability._('DELETE_MESSAGE');
 
   final String value;
 
-  const ChatTokenCapability(this.value);
+  const ChatTokenCapability._(this.value);
 
-  static ChatTokenCapability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChatTokenCapability'));
+  static const values = [sendMessage, disconnectUser, deleteMessage];
+
+  static ChatTokenCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChatTokenCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChatTokenCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a CloudWatch Logs location where chat logs will be stored.
@@ -1040,18 +1050,28 @@ class CreateLoggingConfigurationResponse {
   }
 }
 
-enum CreateLoggingConfigurationState {
-  active('ACTIVE'),
-  ;
+class CreateLoggingConfigurationState {
+  static const active = CreateLoggingConfigurationState._('ACTIVE');
 
   final String value;
 
-  const CreateLoggingConfigurationState(this.value);
+  const CreateLoggingConfigurationState._(this.value);
+
+  static const values = [active];
 
   static CreateLoggingConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CreateLoggingConfigurationState'));
+          orElse: () => CreateLoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateLoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateRoomResponse {
@@ -1243,19 +1263,28 @@ class DisconnectUserResponse {
   }
 }
 
-enum FallbackResult {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class FallbackResult {
+  static const allow = FallbackResult._('ALLOW');
+  static const deny = FallbackResult._('DENY');
 
   final String value;
 
-  const FallbackResult(this.value);
+  const FallbackResult._(this.value);
+
+  static const values = [allow, deny];
 
   static FallbackResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FallbackResult'));
+          orElse: () => FallbackResult._(value));
+
+  @override
+  bool operator ==(other) => other is FallbackResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a Kinesis Firehose location where chat logs will be stored.
@@ -1571,24 +1600,42 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LoggingConfigurationState {
-  creating('CREATING'),
-  createFailed('CREATE_FAILED'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  updating('UPDATING'),
-  updateFailed('UPDATE_FAILED'),
-  active('ACTIVE'),
-  ;
+class LoggingConfigurationState {
+  static const creating = LoggingConfigurationState._('CREATING');
+  static const createFailed = LoggingConfigurationState._('CREATE_FAILED');
+  static const deleting = LoggingConfigurationState._('DELETING');
+  static const deleteFailed = LoggingConfigurationState._('DELETE_FAILED');
+  static const updating = LoggingConfigurationState._('UPDATING');
+  static const updateFailed = LoggingConfigurationState._('UPDATE_FAILED');
+  static const active = LoggingConfigurationState._('ACTIVE');
 
   final String value;
 
-  const LoggingConfigurationState(this.value);
+  const LoggingConfigurationState._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    deleting,
+    deleteFailed,
+    updating,
+    updateFailed,
+    active
+  ];
 
   static LoggingConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LoggingConfigurationState'));
+          orElse: () => LoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a logging configuration.
@@ -1965,18 +2012,28 @@ class UpdateLoggingConfigurationResponse {
   }
 }
 
-enum UpdateLoggingConfigurationState {
-  active('ACTIVE'),
-  ;
+class UpdateLoggingConfigurationState {
+  static const active = UpdateLoggingConfigurationState._('ACTIVE');
 
   final String value;
 
-  const UpdateLoggingConfigurationState(this.value);
+  const UpdateLoggingConfigurationState._(this.value);
+
+  static const values = [active];
 
   static UpdateLoggingConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateLoggingConfigurationState'));
+          orElse: () => UpdateLoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateLoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateRoomResponse {

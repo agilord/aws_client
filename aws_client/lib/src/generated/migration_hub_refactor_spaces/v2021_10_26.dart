@@ -1117,19 +1117,29 @@ class MigrationHubRefactorSpaces {
   }
 }
 
-enum ApiGatewayEndpointType {
-  regional('REGIONAL'),
-  private('PRIVATE'),
-  ;
+class ApiGatewayEndpointType {
+  static const regional = ApiGatewayEndpointType._('REGIONAL');
+  static const private = ApiGatewayEndpointType._('PRIVATE');
 
   final String value;
 
-  const ApiGatewayEndpointType(this.value);
+  const ApiGatewayEndpointType._(this.value);
+
+  static const values = [regional, private];
 
   static ApiGatewayEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApiGatewayEndpointType'));
+          orElse: () => ApiGatewayEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApiGatewayEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A wrapper object holding the Amazon API Gateway proxy configuration.
@@ -1312,22 +1322,31 @@ class ApiGatewayProxySummary {
   }
 }
 
-enum ApplicationState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  ;
+class ApplicationState {
+  static const creating = ApplicationState._('CREATING');
+  static const active = ApplicationState._('ACTIVE');
+  static const deleting = ApplicationState._('DELETING');
+  static const failed = ApplicationState._('FAILED');
+  static const updating = ApplicationState._('UPDATING');
 
   final String value;
 
-  const ApplicationState(this.value);
+  const ApplicationState._(this.value);
+
+  static const values = [creating, active, deleting, failed, updating];
 
   static ApplicationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationState'));
+          orElse: () => ApplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of <code>ApplicationSummary</code> objects.
@@ -2175,21 +2194,30 @@ class DeleteServiceResponse {
   }
 }
 
-enum EnvironmentState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class EnvironmentState {
+  static const creating = EnvironmentState._('CREATING');
+  static const active = EnvironmentState._('ACTIVE');
+  static const deleting = EnvironmentState._('DELETING');
+  static const failed = EnvironmentState._('FAILED');
 
   final String value;
 
-  const EnvironmentState(this.value);
+  const EnvironmentState._(this.value);
+
+  static const values = [creating, active, deleting, failed];
 
   static EnvironmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentState'));
+          orElse: () => EnvironmentState._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary information for environments as a response to
@@ -2369,60 +2397,118 @@ class EnvironmentVpc {
   }
 }
 
-enum ErrorCode {
-  invalidResourceState('INVALID_RESOURCE_STATE'),
-  resourceLimitExceeded('RESOURCE_LIMIT_EXCEEDED'),
-  resourceCreationFailure('RESOURCE_CREATION_FAILURE'),
-  resourceUpdateFailure('RESOURCE_UPDATE_FAILURE'),
-  serviceEndpointHealthCheckFailure('SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE'),
-  resourceDeletionFailure('RESOURCE_DELETION_FAILURE'),
-  resourceRetrievalFailure('RESOURCE_RETRIEVAL_FAILURE'),
-  resourceInUse('RESOURCE_IN_USE'),
-  resourceNotFound('RESOURCE_NOT_FOUND'),
-  stateTransitionFailure('STATE_TRANSITION_FAILURE'),
-  requestLimitExceeded('REQUEST_LIMIT_EXCEEDED'),
-  notAuthorized('NOT_AUTHORIZED'),
-  ;
+class ErrorCode {
+  static const invalidResourceState = ErrorCode._('INVALID_RESOURCE_STATE');
+  static const resourceLimitExceeded = ErrorCode._('RESOURCE_LIMIT_EXCEEDED');
+  static const resourceCreationFailure =
+      ErrorCode._('RESOURCE_CREATION_FAILURE');
+  static const resourceUpdateFailure = ErrorCode._('RESOURCE_UPDATE_FAILURE');
+  static const serviceEndpointHealthCheckFailure =
+      ErrorCode._('SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE');
+  static const resourceDeletionFailure =
+      ErrorCode._('RESOURCE_DELETION_FAILURE');
+  static const resourceRetrievalFailure =
+      ErrorCode._('RESOURCE_RETRIEVAL_FAILURE');
+  static const resourceInUse = ErrorCode._('RESOURCE_IN_USE');
+  static const resourceNotFound = ErrorCode._('RESOURCE_NOT_FOUND');
+  static const stateTransitionFailure = ErrorCode._('STATE_TRANSITION_FAILURE');
+  static const requestLimitExceeded = ErrorCode._('REQUEST_LIMIT_EXCEEDED');
+  static const notAuthorized = ErrorCode._('NOT_AUTHORIZED');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [
+    invalidResourceState,
+    resourceLimitExceeded,
+    resourceCreationFailure,
+    resourceUpdateFailure,
+    serviceEndpointHealthCheckFailure,
+    resourceDeletionFailure,
+    resourceRetrievalFailure,
+    resourceInUse,
+    resourceNotFound,
+    stateTransitionFailure,
+    requestLimitExceeded,
+    notAuthorized
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ErrorResourceType {
-  environment('ENVIRONMENT'),
-  application('APPLICATION'),
-  route('ROUTE'),
-  service('SERVICE'),
-  transitGateway('TRANSIT_GATEWAY'),
-  transitGatewayAttachment('TRANSIT_GATEWAY_ATTACHMENT'),
-  apiGateway('API_GATEWAY'),
-  nlb('NLB'),
-  targetGroup('TARGET_GROUP'),
-  loadBalancerListener('LOAD_BALANCER_LISTENER'),
-  vpcLink('VPC_LINK'),
-  lambda('LAMBDA'),
-  vpc('VPC'),
-  subnet('SUBNET'),
-  routeTable('ROUTE_TABLE'),
-  securityGroup('SECURITY_GROUP'),
-  vpcEndpointServiceConfiguration('VPC_ENDPOINT_SERVICE_CONFIGURATION'),
-  resourceShare('RESOURCE_SHARE'),
-  iamRole('IAM_ROLE'),
-  ;
+class ErrorResourceType {
+  static const environment = ErrorResourceType._('ENVIRONMENT');
+  static const application = ErrorResourceType._('APPLICATION');
+  static const route = ErrorResourceType._('ROUTE');
+  static const service = ErrorResourceType._('SERVICE');
+  static const transitGateway = ErrorResourceType._('TRANSIT_GATEWAY');
+  static const transitGatewayAttachment =
+      ErrorResourceType._('TRANSIT_GATEWAY_ATTACHMENT');
+  static const apiGateway = ErrorResourceType._('API_GATEWAY');
+  static const nlb = ErrorResourceType._('NLB');
+  static const targetGroup = ErrorResourceType._('TARGET_GROUP');
+  static const loadBalancerListener =
+      ErrorResourceType._('LOAD_BALANCER_LISTENER');
+  static const vpcLink = ErrorResourceType._('VPC_LINK');
+  static const lambda = ErrorResourceType._('LAMBDA');
+  static const vpc = ErrorResourceType._('VPC');
+  static const subnet = ErrorResourceType._('SUBNET');
+  static const routeTable = ErrorResourceType._('ROUTE_TABLE');
+  static const securityGroup = ErrorResourceType._('SECURITY_GROUP');
+  static const vpcEndpointServiceConfiguration =
+      ErrorResourceType._('VPC_ENDPOINT_SERVICE_CONFIGURATION');
+  static const resourceShare = ErrorResourceType._('RESOURCE_SHARE');
+  static const iamRole = ErrorResourceType._('IAM_ROLE');
 
   final String value;
 
-  const ErrorResourceType(this.value);
+  const ErrorResourceType._(this.value);
+
+  static const values = [
+    environment,
+    application,
+    route,
+    service,
+    transitGateway,
+    transitGatewayAttachment,
+    apiGateway,
+    nlb,
+    targetGroup,
+    loadBalancerListener,
+    vpcLink,
+    lambda,
+    vpc,
+    subnet,
+    routeTable,
+    securityGroup,
+    vpcEndpointServiceConfiguration,
+    resourceShare,
+    iamRole
+  ];
 
   static ErrorResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ErrorResourceType'));
+          orElse: () => ErrorResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Error associated with a resource returned for a Get or List resource
@@ -3054,23 +3140,32 @@ class GetServiceResponse {
   }
 }
 
-enum HttpMethod {
-  delete('DELETE'),
-  get('GET'),
-  head('HEAD'),
-  options('OPTIONS'),
-  patch('PATCH'),
-  post('POST'),
-  put('PUT'),
-  ;
+class HttpMethod {
+  static const delete = HttpMethod._('DELETE');
+  static const get = HttpMethod._('GET');
+  static const head = HttpMethod._('HEAD');
+  static const options = HttpMethod._('OPTIONS');
+  static const patch = HttpMethod._('PATCH');
+  static const post = HttpMethod._('POST');
+  static const put = HttpMethod._('PUT');
 
   final String value;
 
-  const HttpMethod(this.value);
+  const HttpMethod._(this.value);
 
-  static HttpMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpMethod'));
+  static const values = [delete, get, head, options, patch, post, put];
+
+  static HttpMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpMethod._(value));
+
+  @override
+  bool operator ==(other) => other is HttpMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Lambda endpoint type.
@@ -3327,32 +3422,50 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum NetworkFabricType {
-  transitGateway('TRANSIT_GATEWAY'),
-  none('NONE'),
-  ;
+class NetworkFabricType {
+  static const transitGateway = NetworkFabricType._('TRANSIT_GATEWAY');
+  static const none = NetworkFabricType._('NONE');
 
   final String value;
 
-  const NetworkFabricType(this.value);
+  const NetworkFabricType._(this.value);
+
+  static const values = [transitGateway, none];
 
   static NetworkFabricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NetworkFabricType'));
+          orElse: () => NetworkFabricType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkFabricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProxyType {
-  apiGateway('API_GATEWAY'),
-  ;
+class ProxyType {
+  static const apiGateway = ProxyType._('API_GATEWAY');
 
   final String value;
 
-  const ProxyType(this.value);
+  const ProxyType._(this.value);
 
-  static ProxyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProxyType'));
+  static const values = [apiGateway];
+
+  static ProxyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProxyType._(value));
+
+  @override
+  bool operator ==(other) => other is ProxyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutResourcePolicyResponse {
@@ -3367,37 +3480,63 @@ class PutResourcePolicyResponse {
   }
 }
 
-enum RouteActivationState {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class RouteActivationState {
+  static const active = RouteActivationState._('ACTIVE');
+  static const inactive = RouteActivationState._('INACTIVE');
 
   final String value;
 
-  const RouteActivationState(this.value);
+  const RouteActivationState._(this.value);
 
-  static RouteActivationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RouteActivationState'));
+  static const values = [active, inactive];
+
+  static RouteActivationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteActivationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteActivationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RouteState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  updating('UPDATING'),
-  inactive('INACTIVE'),
-  ;
+class RouteState {
+  static const creating = RouteState._('CREATING');
+  static const active = RouteState._('ACTIVE');
+  static const deleting = RouteState._('DELETING');
+  static const failed = RouteState._('FAILED');
+  static const updating = RouteState._('UPDATING');
+  static const inactive = RouteState._('INACTIVE');
 
   final String value;
 
-  const RouteState(this.value);
+  const RouteState._(this.value);
 
-  static RouteState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteState'));
+  static const values = [
+    creating,
+    active,
+    deleting,
+    failed,
+    updating,
+    inactive
+  ];
+
+  static RouteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteState._(value));
+
+  @override
+  bool operator ==(other) => other is RouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary information for the routes as a response to
@@ -3560,50 +3699,77 @@ class RouteSummary {
   }
 }
 
-enum RouteType {
-  $default('DEFAULT'),
-  uriPath('URI_PATH'),
-  ;
+class RouteType {
+  static const $default = RouteType._('DEFAULT');
+  static const uriPath = RouteType._('URI_PATH');
 
   final String value;
 
-  const RouteType(this.value);
+  const RouteType._(this.value);
 
-  static RouteType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteType'));
+  static const values = [$default, uriPath];
+
+  static RouteType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServiceEndpointType {
-  lambda('LAMBDA'),
-  url('URL'),
-  ;
+class ServiceEndpointType {
+  static const lambda = ServiceEndpointType._('LAMBDA');
+  static const url = ServiceEndpointType._('URL');
 
   final String value;
 
-  const ServiceEndpointType(this.value);
+  const ServiceEndpointType._(this.value);
 
-  static ServiceEndpointType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ServiceEndpointType'));
-}
+  static const values = [lambda, url];
 
-enum ServiceState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
-
-  final String value;
-
-  const ServiceState(this.value);
-
-  static ServiceState fromString(String value) =>
+  static ServiceEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceState'));
+          orElse: () => ServiceEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceState {
+  static const creating = ServiceState._('CREATING');
+  static const active = ServiceState._('ACTIVE');
+  static const deleting = ServiceState._('DELETING');
+  static const failed = ServiceState._('FAILED');
+
+  final String value;
+
+  const ServiceState._(this.value);
+
+  static const values = [creating, active, deleting, failed];
+
+  static ServiceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceState._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary for the service as a response to <code>ListServices</code>.
@@ -3877,8 +4043,8 @@ class UriPathRouteInput {
 
   factory UriPathRouteInput.fromJson(Map<String, dynamic> json) {
     return UriPathRouteInput(
-      activationState:
-          RouteActivationState.fromString((json['ActivationState'] as String)),
+      activationState: RouteActivationState.fromString(
+          (json['ActivationState'] as String?) ?? ''),
       sourcePath: (json['SourcePath'] as String?) ?? '',
       appendSourcePath: json['AppendSourcePath'] as bool?,
       includeChildPaths: json['IncludeChildPaths'] as bool?,

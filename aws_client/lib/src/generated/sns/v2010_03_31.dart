@@ -3536,30 +3536,54 @@ class GetTopicAttributesResponse {
 }
 
 /// Supported language code for sending OTP message
-enum LanguageCodeString {
-  enUs('en-US'),
-  enGb('en-GB'),
-  es_419('es-419'),
-  esEs('es-ES'),
-  deDe('de-DE'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  itIt('it-IT'),
-  jaJp('ja-JP'),
-  ptBr('pt-BR'),
-  krKr('kr-KR'),
-  zhCn('zh-CN'),
-  zhTw('zh-TW'),
-  ;
+class LanguageCodeString {
+  static const enUs = LanguageCodeString._('en-US');
+  static const enGb = LanguageCodeString._('en-GB');
+  static const es_419 = LanguageCodeString._('es-419');
+  static const esEs = LanguageCodeString._('es-ES');
+  static const deDe = LanguageCodeString._('de-DE');
+  static const frCa = LanguageCodeString._('fr-CA');
+  static const frFr = LanguageCodeString._('fr-FR');
+  static const itIt = LanguageCodeString._('it-IT');
+  static const jaJp = LanguageCodeString._('ja-JP');
+  static const ptBr = LanguageCodeString._('pt-BR');
+  static const krKr = LanguageCodeString._('kr-KR');
+  static const zhCn = LanguageCodeString._('zh-CN');
+  static const zhTw = LanguageCodeString._('zh-TW');
 
   final String value;
 
-  const LanguageCodeString(this.value);
+  const LanguageCodeString._(this.value);
 
-  static LanguageCodeString fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LanguageCodeString'));
+  static const values = [
+    enUs,
+    enGb,
+    es_419,
+    esEs,
+    deDe,
+    frCa,
+    frFr,
+    itIt,
+    jaJp,
+    ptBr,
+    krKr,
+    zhCn,
+    zhTw
+  ];
+
+  static LanguageCodeString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LanguageCodeString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LanguageCodeString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Response for <code>ListEndpointsByPlatformApplication</code> action.
@@ -3912,20 +3936,29 @@ class MessageAttributeValue {
 }
 
 /// Enum listing out all supported number capabilities.
-enum NumberCapability {
-  sms('SMS'),
-  mms('MMS'),
-  voice('VOICE'),
-  ;
+class NumberCapability {
+  static const sms = NumberCapability._('SMS');
+  static const mms = NumberCapability._('MMS');
+  static const voice = NumberCapability._('VOICE');
 
   final String value;
 
-  const NumberCapability(this.value);
+  const NumberCapability._(this.value);
+
+  static const values = [sms, mms, voice];
 
   static NumberCapability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NumberCapability'));
+          orElse: () => NumberCapability._(value));
+
+  @override
+  bool operator ==(other) => other is NumberCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response for the OptInPhoneNumber action.
@@ -4346,19 +4379,28 @@ class PublishResponse {
 /// Enum listing out all supported route types. The following enum values are
 /// supported. 1. Transactional : Non-marketing traffic 2. Promotional :
 /// Marketing 3. Premium : Premium routes for OTP delivery to the carriers
-enum RouteType {
-  transactional('Transactional'),
-  promotional('Promotional'),
-  premium('Premium'),
-  ;
+class RouteType {
+  static const transactional = RouteType._('Transactional');
+  static const promotional = RouteType._('Promotional');
+  static const premium = RouteType._('Premium');
 
   final String value;
 
-  const RouteType(this.value);
+  const RouteType._(this.value);
 
-  static RouteType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RouteType'));
+  static const values = [transactional, promotional, premium];
+
+  static RouteType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A verified or pending destination phone number in the SMS sandbox.
@@ -4407,19 +4449,29 @@ class SMSSandboxPhoneNumber {
 /// statuses. The following enum values are supported. 1. PENDING : The
 /// destination phone number is pending verification. 2. VERIFIED : The
 /// destination phone number is verified.
-enum SMSSandboxPhoneNumberVerificationStatus {
-  pending('Pending'),
-  verified('Verified'),
-  ;
+class SMSSandboxPhoneNumberVerificationStatus {
+  static const pending = SMSSandboxPhoneNumberVerificationStatus._('Pending');
+  static const verified = SMSSandboxPhoneNumberVerificationStatus._('Verified');
 
   final String value;
 
-  const SMSSandboxPhoneNumberVerificationStatus(this.value);
+  const SMSSandboxPhoneNumberVerificationStatus._(this.value);
+
+  static const values = [pending, verified];
 
   static SMSSandboxPhoneNumberVerificationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SMSSandboxPhoneNumberVerificationStatus'));
+          orElse: () => SMSSandboxPhoneNumberVerificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SMSSandboxPhoneNumberVerificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response for the SetSMSAttributes action.

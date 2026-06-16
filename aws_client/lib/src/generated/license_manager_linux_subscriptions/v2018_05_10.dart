@@ -800,19 +800,29 @@ class Instance {
   }
 }
 
-enum LinuxSubscriptionsDiscovery {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class LinuxSubscriptionsDiscovery {
+  static const enabled = LinuxSubscriptionsDiscovery._('Enabled');
+  static const disabled = LinuxSubscriptionsDiscovery._('Disabled');
 
   final String value;
 
-  const LinuxSubscriptionsDiscovery(this.value);
+  const LinuxSubscriptionsDiscovery._(this.value);
+
+  static const values = [enabled, disabled];
 
   static LinuxSubscriptionsDiscovery fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LinuxSubscriptionsDiscovery'));
+          orElse: () => LinuxSubscriptionsDiscovery._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LinuxSubscriptionsDiscovery && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Lists the settings defined for discovering Linux subscriptions.
@@ -833,7 +843,7 @@ class LinuxSubscriptionsDiscoverySettings {
       Map<String, dynamic> json) {
     return LinuxSubscriptionsDiscoverySettings(
       organizationIntegration: OrganizationIntegration.fromString(
-          (json['OrganizationIntegration'] as String)),
+          (json['OrganizationIntegration'] as String?) ?? ''),
       sourceRegions: ((json['SourceRegions'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -986,34 +996,53 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum Operator {
-  equal('Equal'),
-  notEqual('NotEqual'),
-  contains('Contains'),
-  ;
+class Operator {
+  static const equal = Operator._('Equal');
+  static const notEqual = Operator._('NotEqual');
+  static const contains = Operator._('Contains');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [equal, notEqual, contains];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrganizationIntegration {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class OrganizationIntegration {
+  static const enabled = OrganizationIntegration._('Enabled');
+  static const disabled = OrganizationIntegration._('Disabled');
 
   final String value;
 
-  const OrganizationIntegration(this.value);
+  const OrganizationIntegration._(this.value);
+
+  static const values = [enabled, disabled];
 
   static OrganizationIntegration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OrganizationIntegration'));
+          orElse: () => OrganizationIntegration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationIntegration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterSubscriptionProviderResponse {
@@ -1145,20 +1174,29 @@ class RegisteredSubscriptionProvider {
   }
 }
 
-enum Status {
-  inProgress('InProgress'),
-  completed('Completed'),
-  successful('Successful'),
-  failed('Failed'),
-  ;
+class Status {
+  static const inProgress = Status._('InProgress');
+  static const completed = Status._('Completed');
+  static const successful = Status._('Successful');
+  static const failed = Status._('Failed');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [inProgress, completed, successful, failed];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object which details a discovered Linux subscription.
@@ -1202,34 +1240,54 @@ class Subscription {
   }
 }
 
-enum SubscriptionProviderSource {
-  redHat('RedHat'),
-  ;
+class SubscriptionProviderSource {
+  static const redHat = SubscriptionProviderSource._('RedHat');
 
   final String value;
 
-  const SubscriptionProviderSource(this.value);
+  const SubscriptionProviderSource._(this.value);
+
+  static const values = [redHat];
 
   static SubscriptionProviderSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionProviderSource'));
+          orElse: () => SubscriptionProviderSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProviderSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SubscriptionProviderStatus {
-  active('ACTIVE'),
-  invalid('INVALID'),
-  pending('PENDING'),
-  ;
+class SubscriptionProviderStatus {
+  static const active = SubscriptionProviderStatus._('ACTIVE');
+  static const invalid = SubscriptionProviderStatus._('INVALID');
+  static const pending = SubscriptionProviderStatus._('PENDING');
 
   final String value;
 
-  const SubscriptionProviderStatus(this.value);
+  const SubscriptionProviderStatus._(this.value);
+
+  static const values = [active, invalid, pending];
 
   static SubscriptionProviderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionProviderStatus'));
+          orElse: () => SubscriptionProviderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProviderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

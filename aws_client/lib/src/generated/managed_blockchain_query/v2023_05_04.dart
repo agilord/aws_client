@@ -629,8 +629,8 @@ class AssetContract {
           (json['contractIdentifier'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       deployerAddress: (json['deployerAddress'] as String?) ?? '',
-      tokenStandard:
-          QueryTokenStandard.fromString((json['tokenStandard'] as String)),
+      tokenStandard: QueryTokenStandard.fromString(
+          (json['tokenStandard'] as String?) ?? ''),
     );
   }
 
@@ -673,7 +673,7 @@ class BatchGetTokenBalanceErrorItem {
     return BatchGetTokenBalanceErrorItem(
       errorCode: (json['errorCode'] as String?) ?? '',
       errorMessage: (json['errorMessage'] as String?) ?? '',
-      errorType: ErrorType.fromString((json['errorType'] as String)),
+      errorType: ErrorType.fromString((json['errorType'] as String?) ?? ''),
       atBlockchainInstant: json['atBlockchainInstant'] != null
           ? BlockchainInstant.fromJson(
               json['atBlockchainInstant'] as Map<String, dynamic>)
@@ -853,19 +853,29 @@ class BlockchainInstant {
   }
 }
 
-enum ConfirmationStatus {
-  $final('FINAL'),
-  nonfinal('NONFINAL'),
-  ;
+class ConfirmationStatus {
+  static const $final = ConfirmationStatus._('FINAL');
+  static const nonfinal = ConfirmationStatus._('NONFINAL');
 
   final String value;
 
-  const ConfirmationStatus(this.value);
+  const ConfirmationStatus._(this.value);
 
-  static ConfirmationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfirmationStatus'));
+  static const values = [$final, nonfinal];
+
+  static ConfirmationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfirmationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfirmationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container for the <code>ConfirmationStatusFilter</code> that filters for
@@ -937,7 +947,7 @@ class ContractIdentifier {
   factory ContractIdentifier.fromJson(Map<String, dynamic> json) {
     return ContractIdentifier(
       contractAddress: (json['contractAddress'] as String?) ?? '',
-      network: QueryNetwork.fromString((json['network'] as String)),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
     );
   }
 
@@ -988,33 +998,52 @@ class ContractMetadata {
   }
 }
 
-enum ErrorType {
-  validationException('VALIDATION_EXCEPTION'),
-  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
-  ;
+class ErrorType {
+  static const validationException = ErrorType._('VALIDATION_EXCEPTION');
+  static const resourceNotFoundException =
+      ErrorType._('RESOURCE_NOT_FOUND_EXCEPTION');
 
   final String value;
 
-  const ErrorType(this.value);
+  const ErrorType._(this.value);
 
-  static ErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorType'));
+  static const values = [validationException, resourceNotFoundException];
+
+  static ErrorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorType._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatus {
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class ExecutionStatus {
+  static const failed = ExecutionStatus._('FAILED');
+  static const succeeded = ExecutionStatus._('SUCCEEDED');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [failed, succeeded];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAssetContractOutput {
@@ -1041,8 +1070,8 @@ class GetAssetContractOutput {
           (json['contractIdentifier'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       deployerAddress: (json['deployerAddress'] as String?) ?? '',
-      tokenStandard:
-          QueryTokenStandard.fromString((json['tokenStandard'] as String)),
+      tokenStandard: QueryTokenStandard.fromString(
+          (json['tokenStandard'] as String?) ?? ''),
       metadata: json['metadata'] != null
           ? ContractMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
           : null,
@@ -1235,18 +1264,29 @@ class ListFilteredTransactionEventsSort {
   }
 }
 
-enum ListFilteredTransactionEventsSortBy {
-  blockchainInstant('blockchainInstant'),
-  ;
+class ListFilteredTransactionEventsSortBy {
+  static const blockchainInstant =
+      ListFilteredTransactionEventsSortBy._('blockchainInstant');
 
   final String value;
 
-  const ListFilteredTransactionEventsSortBy(this.value);
+  const ListFilteredTransactionEventsSortBy._(this.value);
+
+  static const values = [blockchainInstant];
 
   static ListFilteredTransactionEventsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListFilteredTransactionEventsSortBy'));
+          orElse: () => ListFilteredTransactionEventsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListFilteredTransactionEventsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListTokenBalancesOutput {
@@ -1374,18 +1414,29 @@ class ListTransactionsSort {
   }
 }
 
-enum ListTransactionsSortBy {
-  transactionTimestamp('TRANSACTION_TIMESTAMP'),
-  ;
+class ListTransactionsSortBy {
+  static const transactionTimestamp =
+      ListTransactionsSortBy._('TRANSACTION_TIMESTAMP');
 
   final String value;
 
-  const ListTransactionsSortBy(this.value);
+  const ListTransactionsSortBy._(this.value);
+
+  static const values = [transactionTimestamp];
 
   static ListTransactionsSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListTransactionsSortBy'));
+          orElse: () => ListTransactionsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListTransactionsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container for the owner information to filter by.
@@ -1428,75 +1479,133 @@ class OwnerIdentifier {
   }
 }
 
-enum QueryNetwork {
-  ethereumMainnet('ETHEREUM_MAINNET'),
-  ethereumSepoliaTestnet('ETHEREUM_SEPOLIA_TESTNET'),
-  bitcoinMainnet('BITCOIN_MAINNET'),
-  bitcoinTestnet('BITCOIN_TESTNET'),
-  ;
+class QueryNetwork {
+  static const ethereumMainnet = QueryNetwork._('ETHEREUM_MAINNET');
+  static const ethereumSepoliaTestnet =
+      QueryNetwork._('ETHEREUM_SEPOLIA_TESTNET');
+  static const bitcoinMainnet = QueryNetwork._('BITCOIN_MAINNET');
+  static const bitcoinTestnet = QueryNetwork._('BITCOIN_TESTNET');
 
   final String value;
 
-  const QueryNetwork(this.value);
+  const QueryNetwork._(this.value);
 
-  static QueryNetwork fromString(String value) =>
+  static const values = [
+    ethereumMainnet,
+    ethereumSepoliaTestnet,
+    bitcoinMainnet,
+    bitcoinTestnet
+  ];
+
+  static QueryNetwork fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryNetwork._(value));
+
+  @override
+  bool operator ==(other) => other is QueryNetwork && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class QueryTokenStandard {
+  static const erc20 = QueryTokenStandard._('ERC20');
+  static const erc721 = QueryTokenStandard._('ERC721');
+  static const erc1155 = QueryTokenStandard._('ERC1155');
+
+  final String value;
+
+  const QueryTokenStandard._(this.value);
+
+  static const values = [erc20, erc721, erc1155];
+
+  static QueryTokenStandard fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueryNetwork'));
+          orElse: () => QueryTokenStandard._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryTokenStandard && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QueryTokenStandard {
-  erc20('ERC20'),
-  erc721('ERC721'),
-  erc1155('ERC1155'),
-  ;
+class QueryTransactionEventType {
+  static const erc20Transfer = QueryTransactionEventType._('ERC20_TRANSFER');
+  static const erc20Mint = QueryTransactionEventType._('ERC20_MINT');
+  static const erc20Burn = QueryTransactionEventType._('ERC20_BURN');
+  static const erc20Deposit = QueryTransactionEventType._('ERC20_DEPOSIT');
+  static const erc20Withdrawal =
+      QueryTransactionEventType._('ERC20_WITHDRAWAL');
+  static const erc721Transfer = QueryTransactionEventType._('ERC721_TRANSFER');
+  static const erc1155Transfer =
+      QueryTransactionEventType._('ERC1155_TRANSFER');
+  static const bitcoinVin = QueryTransactionEventType._('BITCOIN_VIN');
+  static const bitcoinVout = QueryTransactionEventType._('BITCOIN_VOUT');
+  static const internalEthTransfer =
+      QueryTransactionEventType._('INTERNAL_ETH_TRANSFER');
+  static const ethTransfer = QueryTransactionEventType._('ETH_TRANSFER');
 
   final String value;
 
-  const QueryTokenStandard(this.value);
+  const QueryTransactionEventType._(this.value);
 
-  static QueryTokenStandard fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueryTokenStandard'));
-}
-
-enum QueryTransactionEventType {
-  erc20Transfer('ERC20_TRANSFER'),
-  erc20Mint('ERC20_MINT'),
-  erc20Burn('ERC20_BURN'),
-  erc20Deposit('ERC20_DEPOSIT'),
-  erc20Withdrawal('ERC20_WITHDRAWAL'),
-  erc721Transfer('ERC721_TRANSFER'),
-  erc1155Transfer('ERC1155_TRANSFER'),
-  bitcoinVin('BITCOIN_VIN'),
-  bitcoinVout('BITCOIN_VOUT'),
-  internalEthTransfer('INTERNAL_ETH_TRANSFER'),
-  ethTransfer('ETH_TRANSFER'),
-  ;
-
-  final String value;
-
-  const QueryTransactionEventType(this.value);
+  static const values = [
+    erc20Transfer,
+    erc20Mint,
+    erc20Burn,
+    erc20Deposit,
+    erc20Withdrawal,
+    erc721Transfer,
+    erc1155Transfer,
+    bitcoinVin,
+    bitcoinVout,
+    internalEthTransfer,
+    ethTransfer
+  ];
 
   static QueryTransactionEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QueryTransactionEventType'));
+          orElse: () => QueryTransactionEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryTransactionEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This container is used to specify a time frame.
@@ -1652,7 +1761,7 @@ class TokenIdentifier {
 
   factory TokenIdentifier.fromJson(Map<String, dynamic> json) {
     return TokenIdentifier(
-      network: QueryNetwork.fromString((json['network'] as String)),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
       contractAddress: json['contractAddress'] as String?,
       tokenId: json['tokenId'] as String?,
     );
@@ -1774,7 +1883,7 @@ class Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
-      network: QueryNetwork.fromString((json['network'] as String)),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
       numberOfTransactions: (json['numberOfTransactions'] as int?) ?? 0,
       to: (json['to'] as String?) ?? '',
       transactionHash: (json['transactionHash'] as String?) ?? '',
@@ -1933,9 +2042,9 @@ class TransactionEvent {
 
   factory TransactionEvent.fromJson(Map<String, dynamic> json) {
     return TransactionEvent(
-      eventType:
-          QueryTransactionEventType.fromString((json['eventType'] as String)),
-      network: QueryNetwork.fromString((json['network'] as String)),
+      eventType: QueryTransactionEventType.fromString(
+          (json['eventType'] as String?) ?? ''),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
       transactionHash: (json['transactionHash'] as String?) ?? '',
       blockchainInstant: json['blockchainInstant'] != null
           ? BlockchainInstant.fromJson(
@@ -2026,7 +2135,7 @@ class TransactionOutputItem {
 
   factory TransactionOutputItem.fromJson(Map<String, dynamic> json) {
     return TransactionOutputItem(
-      network: QueryNetwork.fromString((json['network'] as String)),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
       transactionHash: (json['transactionHash'] as String?) ?? '',
       transactionTimestamp:
           nonNullableTimeStampFromJson(json['transactionTimestamp'] ?? 0),

@@ -1328,7 +1328,7 @@ class CodegenGenericDataField {
   factory CodegenGenericDataField.fromJson(Map<String, dynamic> json) {
     return CodegenGenericDataField(
       dataType: CodegenGenericDataFieldDataType.fromString(
-          (json['dataType'] as String)),
+          (json['dataType'] as String?) ?? ''),
       dataTypeValue: (json['dataTypeValue'] as String?) ?? '',
       isArray: (json['isArray'] as bool?) ?? false,
       readOnly: (json['readOnly'] as bool?) ?? false,
@@ -1358,34 +1358,62 @@ class CodegenGenericDataField {
   }
 }
 
-enum CodegenGenericDataFieldDataType {
-  id('ID'),
-  string('String'),
-  int('Int'),
-  float('Float'),
-  awsDate('AWSDate'),
-  awsTime('AWSTime'),
-  awsDateTime('AWSDateTime'),
-  awsTimestamp('AWSTimestamp'),
-  awsEmail('AWSEmail'),
-  awsurl('AWSURL'),
-  awsIPAddress('AWSIPAddress'),
-  boolean('Boolean'),
-  awsjson('AWSJSON'),
-  awsPhone('AWSPhone'),
-  $enum('Enum'),
-  model('Model'),
-  nonModel('NonModel'),
-  ;
+class CodegenGenericDataFieldDataType {
+  static const id = CodegenGenericDataFieldDataType._('ID');
+  static const string = CodegenGenericDataFieldDataType._('String');
+  static const $int = CodegenGenericDataFieldDataType._('Int');
+  static const float = CodegenGenericDataFieldDataType._('Float');
+  static const awsDate = CodegenGenericDataFieldDataType._('AWSDate');
+  static const awsTime = CodegenGenericDataFieldDataType._('AWSTime');
+  static const awsDateTime = CodegenGenericDataFieldDataType._('AWSDateTime');
+  static const awsTimestamp = CodegenGenericDataFieldDataType._('AWSTimestamp');
+  static const awsEmail = CodegenGenericDataFieldDataType._('AWSEmail');
+  static const awsurl = CodegenGenericDataFieldDataType._('AWSURL');
+  static const awsIPAddress = CodegenGenericDataFieldDataType._('AWSIPAddress');
+  static const boolean = CodegenGenericDataFieldDataType._('Boolean');
+  static const awsjson = CodegenGenericDataFieldDataType._('AWSJSON');
+  static const awsPhone = CodegenGenericDataFieldDataType._('AWSPhone');
+  static const $enum = CodegenGenericDataFieldDataType._('Enum');
+  static const model = CodegenGenericDataFieldDataType._('Model');
+  static const nonModel = CodegenGenericDataFieldDataType._('NonModel');
 
   final String value;
 
-  const CodegenGenericDataFieldDataType(this.value);
+  const CodegenGenericDataFieldDataType._(this.value);
+
+  static const values = [
+    id,
+    string,
+    $int,
+    float,
+    awsDate,
+    awsTime,
+    awsDateTime,
+    awsTimestamp,
+    awsEmail,
+    awsurl,
+    awsIPAddress,
+    boolean,
+    awsjson,
+    awsPhone,
+    $enum,
+    model,
+    nonModel
+  ];
 
   static CodegenGenericDataFieldDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CodegenGenericDataFieldDataType'));
+          orElse: () => CodegenGenericDataFieldDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodegenGenericDataFieldDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a model in a generic data schema.
@@ -1503,7 +1531,8 @@ class CodegenGenericDataRelationshipType {
       Map<String, dynamic> json) {
     return CodegenGenericDataRelationshipType(
       relatedModelName: (json['relatedModelName'] as String?) ?? '',
-      type: GenericDataRelationshipType.fromString((json['type'] as String)),
+      type: GenericDataRelationshipType.fromString(
+          (json['type'] as String?) ?? ''),
       associatedFields: (json['associatedFields'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1722,7 +1751,7 @@ class CodegenJobGenericDataSchema {
   factory CodegenJobGenericDataSchema.fromJson(Map<String, dynamic> json) {
     return CodegenJobGenericDataSchema(
       dataSourceType: CodegenJobGenericDataSourceType.fromString(
-          (json['dataSourceType'] as String)),
+          (json['dataSourceType'] as String?) ?? ''),
       enums: ((json['enums'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
           .map((k, e) => MapEntry(
@@ -1752,18 +1781,28 @@ class CodegenJobGenericDataSchema {
   }
 }
 
-enum CodegenJobGenericDataSourceType {
-  dataStore('DataStore'),
-  ;
+class CodegenJobGenericDataSourceType {
+  static const dataStore = CodegenJobGenericDataSourceType._('DataStore');
 
   final String value;
 
-  const CodegenJobGenericDataSourceType(this.value);
+  const CodegenJobGenericDataSourceType._(this.value);
+
+  static const values = [dataStore];
 
   static CodegenJobGenericDataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CodegenJobGenericDataSourceType'));
+          orElse: () => CodegenJobGenericDataSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodegenJobGenericDataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration information for rendering the UI component
@@ -1793,20 +1832,29 @@ class CodegenJobRenderConfig {
   }
 }
 
-enum CodegenJobStatus {
-  inProgress('in_progress'),
-  failed('failed'),
-  succeeded('succeeded'),
-  ;
+class CodegenJobStatus {
+  static const inProgress = CodegenJobStatus._('in_progress');
+  static const failed = CodegenJobStatus._('failed');
+  static const succeeded = CodegenJobStatus._('succeeded');
 
   final String value;
 
-  const CodegenJobStatus(this.value);
+  const CodegenJobStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
 
   static CodegenJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CodegenJobStatus'));
+          orElse: () => CodegenJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CodegenJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the basic information about the code generation job.
@@ -3419,7 +3467,7 @@ class FileUploaderFieldConfig {
           .map((e) => e as String)
           .toList(),
       accessLevel:
-          StorageAccessLevel.fromString((json['accessLevel'] as String)),
+          StorageAccessLevel.fromString((json['accessLevel'] as String?) ?? ''),
       isResumable: json['isResumable'] as bool?,
       maxFileCount: json['maxFileCount'] as int?,
       maxSize: json['maxSize'] as int?,
@@ -3445,18 +3493,27 @@ class FileUploaderFieldConfig {
   }
 }
 
-enum FixedPosition {
-  first('first'),
-  ;
+class FixedPosition {
+  static const first = FixedPosition._('first');
 
   final String value;
 
-  const FixedPosition(this.value);
+  const FixedPosition._(this.value);
+
+  static const values = [first];
 
   static FixedPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FixedPosition'));
+          orElse: () => FixedPosition._(value));
+
+  @override
+  bool operator ==(other) => other is FixedPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the configuration settings for a <code>Form</code> user interface
@@ -3532,7 +3589,7 @@ class Form {
           .map((k, e) =>
               MapEntry(k, FieldConfig.fromJson(e as Map<String, dynamic>))),
       formActionType:
-          FormActionType.fromString((json['formActionType'] as String)),
+          FormActionType.fromString((json['formActionType'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       schemaVersion: (json['schemaVersion'] as String?) ?? '',
@@ -3585,19 +3642,28 @@ class Form {
   }
 }
 
-enum FormActionType {
-  create('create'),
-  update('update'),
-  ;
+class FormActionType {
+  static const create = FormActionType._('create');
+  static const update = FormActionType._('update');
 
   final String value;
 
-  const FormActionType(this.value);
+  const FormActionType._(this.value);
+
+  static const values = [create, update];
 
   static FormActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormActionType'));
+          orElse: () => FormActionType._(value));
+
+  @override
+  bool operator ==(other) => other is FormActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes how to bind a component property to form data.
@@ -3670,20 +3736,30 @@ class FormButton {
   }
 }
 
-enum FormButtonsPosition {
-  top('top'),
-  bottom('bottom'),
-  topAndBottom('top_and_bottom'),
-  ;
+class FormButtonsPosition {
+  static const top = FormButtonsPosition._('top');
+  static const bottom = FormButtonsPosition._('bottom');
+  static const topAndBottom = FormButtonsPosition._('top_and_bottom');
 
   final String value;
 
-  const FormButtonsPosition(this.value);
+  const FormButtonsPosition._(this.value);
 
-  static FormButtonsPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FormButtonsPosition'));
+  static const values = [top, bottom, topAndBottom];
+
+  static FormButtonsPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormButtonsPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FormButtonsPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the call to action button configuration for the form.
@@ -3737,19 +3813,29 @@ class FormCTA {
   }
 }
 
-enum FormDataSourceType {
-  dataStore('DataStore'),
-  custom('Custom'),
-  ;
+class FormDataSourceType {
+  static const dataStore = FormDataSourceType._('DataStore');
+  static const custom = FormDataSourceType._('Custom');
 
   final String value;
 
-  const FormDataSourceType(this.value);
+  const FormDataSourceType._(this.value);
 
-  static FormDataSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FormDataSourceType'));
+  static const values = [dataStore, custom];
+
+  static FormDataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormDataSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FormDataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the data type configuration for the data source associated with a
@@ -3770,8 +3856,8 @@ class FormDataTypeConfig {
 
   factory FormDataTypeConfig.fromJson(Map<String, dynamic> json) {
     return FormDataTypeConfig(
-      dataSourceType:
-          FormDataSourceType.fromString((json['dataSourceType'] as String)),
+      dataSourceType: FormDataSourceType.fromString(
+          (json['dataSourceType'] as String?) ?? ''),
       dataTypeName: (json['dataTypeName'] as String?) ?? '',
     );
   }
@@ -4042,7 +4128,7 @@ class FormSummary {
               const <String, dynamic>{}),
       environmentName: (json['environmentName'] as String?) ?? '',
       formActionType:
-          FormActionType.fromString((json['formActionType'] as String)),
+          FormActionType.fromString((json['formActionType'] as String?) ?? ''),
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
     );
@@ -4066,20 +4152,30 @@ class FormSummary {
   }
 }
 
-enum GenericDataRelationshipType {
-  hasMany('HAS_MANY'),
-  hasOne('HAS_ONE'),
-  belongsTo('BELONGS_TO'),
-  ;
+class GenericDataRelationshipType {
+  static const hasMany = GenericDataRelationshipType._('HAS_MANY');
+  static const hasOne = GenericDataRelationshipType._('HAS_ONE');
+  static const belongsTo = GenericDataRelationshipType._('BELONGS_TO');
 
   final String value;
 
-  const GenericDataRelationshipType(this.value);
+  const GenericDataRelationshipType._(this.value);
+
+  static const values = [hasMany, hasOne, belongsTo];
 
   static GenericDataRelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GenericDataRelationshipType'));
+          orElse: () => GenericDataRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GenericDataRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCodegenJobResponse {
@@ -4226,63 +4322,99 @@ class GraphQLRenderConfig {
   }
 }
 
-enum JSModule {
-  es2020('es2020'),
-  esnext('esnext'),
-  ;
+class JSModule {
+  static const es2020 = JSModule._('es2020');
+  static const esnext = JSModule._('esnext');
 
   final String value;
 
-  const JSModule(this.value);
+  const JSModule._(this.value);
 
-  static JSModule fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JSModule'));
+  static const values = [es2020, esnext];
+
+  static JSModule fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSModule._(value));
+
+  @override
+  bool operator ==(other) => other is JSModule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JSScript {
-  jsx('jsx'),
-  tsx('tsx'),
-  js('js'),
-  ;
+class JSScript {
+  static const jsx = JSScript._('jsx');
+  static const tsx = JSScript._('tsx');
+  static const js = JSScript._('js');
 
   final String value;
 
-  const JSScript(this.value);
+  const JSScript._(this.value);
 
-  static JSScript fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JSScript'));
+  static const values = [jsx, tsx, js];
+
+  static JSScript fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSScript._(value));
+
+  @override
+  bool operator ==(other) => other is JSScript && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JSTarget {
-  es2015('es2015'),
-  es2020('es2020'),
-  ;
+class JSTarget {
+  static const es2015 = JSTarget._('es2015');
+  static const es2020 = JSTarget._('es2020');
 
   final String value;
 
-  const JSTarget(this.value);
+  const JSTarget._(this.value);
 
-  static JSTarget fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JSTarget'));
+  static const values = [es2015, es2020];
+
+  static JSTarget fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSTarget._(value));
+
+  @override
+  bool operator ==(other) => other is JSTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LabelDecorator {
-  required('required'),
-  optional('optional'),
-  none('none'),
-  ;
+class LabelDecorator {
+  static const required = LabelDecorator._('required');
+  static const optional = LabelDecorator._('optional');
+  static const none = LabelDecorator._('none');
 
   final String value;
 
-  const LabelDecorator(this.value);
+  const LabelDecorator._(this.value);
+
+  static const values = [required, optional, none];
 
   static LabelDecorator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LabelDecorator'));
+          orElse: () => LabelDecorator._(value));
+
+  @override
+  bool operator ==(other) => other is LabelDecorator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListCodegenJobsResponse {
@@ -4763,19 +4895,28 @@ class SectionalElement {
   }
 }
 
-enum SortDirection {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortDirection {
+  static const asc = SortDirection._('ASC');
+  static const desc = SortDirection._('DESC');
 
   final String value;
 
-  const SortDirection(this.value);
+  const SortDirection._(this.value);
+
+  static const values = [asc, desc];
 
   static SortDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortDirection'));
+          orElse: () => SortDirection._(value));
+
+  @override
+  bool operator ==(other) => other is SortDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes how to sort the data that you bind to a component.
@@ -4793,7 +4934,7 @@ class SortProperty {
 
   factory SortProperty.fromJson(Map<String, dynamic> json) {
     return SortProperty(
-      direction: SortDirection.fromString((json['direction'] as String)),
+      direction: SortDirection.fromString((json['direction'] as String?) ?? ''),
       field: (json['field'] as String?) ?? '',
     );
   }
@@ -4867,20 +5008,30 @@ class StartCodegenJobResponse {
   }
 }
 
-enum StorageAccessLevel {
-  public('public'),
-  protected('protected'),
-  private('private'),
-  ;
+class StorageAccessLevel {
+  static const public = StorageAccessLevel._('public');
+  static const protected = StorageAccessLevel._('protected');
+  static const private = StorageAccessLevel._('private');
 
   final String value;
 
-  const StorageAccessLevel(this.value);
+  const StorageAccessLevel._(this.value);
 
-  static StorageAccessLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StorageAccessLevel'));
+  static const values = [public, protected, private];
+
+  static StorageAccessLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageAccessLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageAccessLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -5091,18 +5242,27 @@ class ThemeValues {
   }
 }
 
-enum TokenProviders {
-  figma('figma'),
-  ;
+class TokenProviders {
+  static const figma = TokenProviders._('figma');
 
   final String value;
 
-  const TokenProviders(this.value);
+  const TokenProviders._(this.value);
+
+  static const values = [figma];
 
   static TokenProviders fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TokenProviders'));
+          orElse: () => TokenProviders._(value));
+
+  @override
+  bool operator ==(other) => other is TokenProviders && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

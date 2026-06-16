@@ -9796,36 +9796,66 @@ class AggFunction {
   }
 }
 
-enum AggType {
-  sum('SUM'),
-  min('MIN'),
-  max('MAX'),
-  count('COUNT'),
-  average('AVERAGE'),
-  distinctCount('DISTINCT_COUNT'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  $var('VAR'),
-  varp('VARP'),
-  percentile('PERCENTILE'),
-  median('MEDIAN'),
-  ptdSum('PTD_SUM'),
-  ptdMin('PTD_MIN'),
-  ptdMax('PTD_MAX'),
-  ptdCount('PTD_COUNT'),
-  ptdDistinctCount('PTD_DISTINCT_COUNT'),
-  ptdAverage('PTD_AVERAGE'),
-  column('COLUMN'),
-  custom('CUSTOM'),
-  ;
+class AggType {
+  static const sum = AggType._('SUM');
+  static const min = AggType._('MIN');
+  static const max = AggType._('MAX');
+  static const count = AggType._('COUNT');
+  static const average = AggType._('AVERAGE');
+  static const distinctCount = AggType._('DISTINCT_COUNT');
+  static const stdev = AggType._('STDEV');
+  static const stdevp = AggType._('STDEVP');
+  static const $var = AggType._('VAR');
+  static const varp = AggType._('VARP');
+  static const percentile = AggType._('PERCENTILE');
+  static const median = AggType._('MEDIAN');
+  static const ptdSum = AggType._('PTD_SUM');
+  static const ptdMin = AggType._('PTD_MIN');
+  static const ptdMax = AggType._('PTD_MAX');
+  static const ptdCount = AggType._('PTD_COUNT');
+  static const ptdDistinctCount = AggType._('PTD_DISTINCT_COUNT');
+  static const ptdAverage = AggType._('PTD_AVERAGE');
+  static const column = AggType._('COLUMN');
+  static const custom = AggType._('CUSTOM');
 
   final String value;
 
-  const AggType(this.value);
+  const AggType._(this.value);
 
-  static AggType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum AggType'));
+  static const values = [
+    sum,
+    min,
+    max,
+    count,
+    average,
+    distinctCount,
+    stdev,
+    stdevp,
+    $var,
+    varp,
+    percentile,
+    median,
+    ptdSum,
+    ptdMin,
+    ptdMax,
+    ptdCount,
+    ptdDistinctCount,
+    ptdAverage,
+    column,
+    custom
+  ];
+
+  static AggType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AggType._(value));
+
+  @override
+  bool operator ==(other) => other is AggType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An aggregation function aggregates values from a dimension or measure.
@@ -9979,7 +10009,7 @@ class AggregationSortConfiguration {
           (json['Column'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       sortDirection:
-          SortDirection.fromString((json['SortDirection'] as String)),
+          SortDirection.fromString((json['SortDirection'] as String?) ?? ''),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -10351,47 +10381,93 @@ class AnalysisError {
   }
 }
 
-enum AnalysisErrorType {
-  accessDenied('ACCESS_DENIED'),
-  sourceNotFound('SOURCE_NOT_FOUND'),
-  dataSetNotFound('DATA_SET_NOT_FOUND'),
-  internalFailure('INTERNAL_FAILURE'),
-  parameterValueIncompatible('PARAMETER_VALUE_INCOMPATIBLE'),
-  parameterTypeInvalid('PARAMETER_TYPE_INVALID'),
-  parameterNotFound('PARAMETER_NOT_FOUND'),
-  columnTypeMismatch('COLUMN_TYPE_MISMATCH'),
-  columnGeographicRoleMismatch('COLUMN_GEOGRAPHIC_ROLE_MISMATCH'),
-  columnReplacementMissing('COLUMN_REPLACEMENT_MISSING'),
-  ;
+class AnalysisErrorType {
+  static const accessDenied = AnalysisErrorType._('ACCESS_DENIED');
+  static const sourceNotFound = AnalysisErrorType._('SOURCE_NOT_FOUND');
+  static const dataSetNotFound = AnalysisErrorType._('DATA_SET_NOT_FOUND');
+  static const internalFailure = AnalysisErrorType._('INTERNAL_FAILURE');
+  static const parameterValueIncompatible =
+      AnalysisErrorType._('PARAMETER_VALUE_INCOMPATIBLE');
+  static const parameterTypeInvalid =
+      AnalysisErrorType._('PARAMETER_TYPE_INVALID');
+  static const parameterNotFound = AnalysisErrorType._('PARAMETER_NOT_FOUND');
+  static const columnTypeMismatch = AnalysisErrorType._('COLUMN_TYPE_MISMATCH');
+  static const columnGeographicRoleMismatch =
+      AnalysisErrorType._('COLUMN_GEOGRAPHIC_ROLE_MISMATCH');
+  static const columnReplacementMissing =
+      AnalysisErrorType._('COLUMN_REPLACEMENT_MISSING');
 
   final String value;
 
-  const AnalysisErrorType(this.value);
+  const AnalysisErrorType._(this.value);
+
+  static const values = [
+    accessDenied,
+    sourceNotFound,
+    dataSetNotFound,
+    internalFailure,
+    parameterValueIncompatible,
+    parameterTypeInvalid,
+    parameterNotFound,
+    columnTypeMismatch,
+    columnGeographicRoleMismatch,
+    columnReplacementMissing
+  ];
 
   static AnalysisErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisErrorType'));
+          orElse: () => AnalysisErrorType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnalysisFilterAttribute {
-  quicksightUser('QUICKSIGHT_USER'),
-  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
-  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
-  quicksightOwner('QUICKSIGHT_OWNER'),
-  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
-  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
-  analysisName('ANALYSIS_NAME'),
-  ;
+class AnalysisFilterAttribute {
+  static const quicksightUser = AnalysisFilterAttribute._('QUICKSIGHT_USER');
+  static const quicksightViewerOrOwner =
+      AnalysisFilterAttribute._('QUICKSIGHT_VIEWER_OR_OWNER');
+  static const directQuicksightViewerOrOwner =
+      AnalysisFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
+  static const quicksightOwner = AnalysisFilterAttribute._('QUICKSIGHT_OWNER');
+  static const directQuicksightOwner =
+      AnalysisFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
+  static const directQuicksightSoleOwner =
+      AnalysisFilterAttribute._('DIRECT_QUICKSIGHT_SOLE_OWNER');
+  static const analysisName = AnalysisFilterAttribute._('ANALYSIS_NAME');
 
   final String value;
 
-  const AnalysisFilterAttribute(this.value);
+  const AnalysisFilterAttribute._(this.value);
+
+  static const values = [
+    quicksightUser,
+    quicksightViewerOrOwner,
+    directQuicksightViewerOrOwner,
+    quicksightOwner,
+    directQuicksightOwner,
+    directQuicksightSoleOwner,
+    analysisName
+  ];
 
   static AnalysisFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnalysisFilterAttribute'));
+          orElse: () => AnalysisFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnalysisFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter that you apply when searching for one or more analyses.
@@ -10653,31 +10729,48 @@ class AnchorDateConfiguration {
   }
 }
 
-enum AnchorOption {
-  now('NOW'),
-  ;
+class AnchorOption {
+  static const now = AnchorOption._('NOW');
 
   final String value;
 
-  const AnchorOption(this.value);
+  const AnchorOption._(this.value);
 
-  static AnchorOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnchorOption'));
+  static const values = [now];
+
+  static AnchorOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnchorOption._(value));
+
+  @override
+  bool operator ==(other) => other is AnchorOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnchorType {
-  today('TODAY'),
-  ;
+class AnchorType {
+  static const today = AnchorType._('TODAY');
 
   final String value;
 
-  const AnchorType(this.value);
+  const AnchorType._(this.value);
 
-  static AnchorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AnchorType'));
+  static const values = [today];
+
+  static AnchorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnchorType._(value));
+
+  @override
+  bool operator ==(other) => other is AnchorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the dashboard that you want to embed.
@@ -10726,34 +10819,66 @@ class AnonymousUserDashboardEmbeddingConfiguration {
   }
 }
 
-enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature {
-  sharedView('SHARED_VIEW'),
-  ;
+class AnonymousUserDashboardEmbeddingConfigurationDisabledFeature {
+  static const sharedView =
+      AnonymousUserDashboardEmbeddingConfigurationDisabledFeature._(
+          'SHARED_VIEW');
 
   final String value;
 
-  const AnonymousUserDashboardEmbeddingConfigurationDisabledFeature(this.value);
+  const AnonymousUserDashboardEmbeddingConfigurationDisabledFeature._(
+      this.value);
+
+  static const values = [sharedView];
 
   static AnonymousUserDashboardEmbeddingConfigurationDisabledFeature fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature'));
+          orElse: () =>
+              AnonymousUserDashboardEmbeddingConfigurationDisabledFeature._(
+                  value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnonymousUserDashboardEmbeddingConfigurationDisabledFeature &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature {
-  sharedView('SHARED_VIEW'),
-  ;
+class AnonymousUserDashboardEmbeddingConfigurationEnabledFeature {
+  static const sharedView =
+      AnonymousUserDashboardEmbeddingConfigurationEnabledFeature._(
+          'SHARED_VIEW');
 
   final String value;
 
-  const AnonymousUserDashboardEmbeddingConfigurationEnabledFeature(this.value);
+  const AnonymousUserDashboardEmbeddingConfigurationEnabledFeature._(
+      this.value);
+
+  static const values = [sharedView];
 
   static AnonymousUserDashboardEmbeddingConfigurationEnabledFeature fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature'));
+          orElse: () =>
+              AnonymousUserDashboardEmbeddingConfigurationEnabledFeature._(
+                  value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnonymousUserDashboardEmbeddingConfigurationEnabledFeature &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The feature configuration for an embedded dashboard.
@@ -11037,37 +11162,55 @@ class ArcOptions {
   }
 }
 
-enum ArcThickness {
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  whole('WHOLE'),
-  ;
+class ArcThickness {
+  static const small = ArcThickness._('SMALL');
+  static const medium = ArcThickness._('MEDIUM');
+  static const large = ArcThickness._('LARGE');
+  static const whole = ArcThickness._('WHOLE');
 
   final String value;
 
-  const ArcThickness(this.value);
+  const ArcThickness._(this.value);
 
-  static ArcThickness fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArcThickness'));
+  static const values = [small, medium, large, whole];
+
+  static ArcThickness fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArcThickness._(value));
+
+  @override
+  bool operator ==(other) => other is ArcThickness && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArcThicknessOptions {
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  ;
+class ArcThicknessOptions {
+  static const small = ArcThicknessOptions._('SMALL');
+  static const medium = ArcThicknessOptions._('MEDIUM');
+  static const large = ArcThicknessOptions._('LARGE');
 
   final String value;
 
-  const ArcThicknessOptions(this.value);
+  const ArcThicknessOptions._(this.value);
 
-  static ArcThicknessOptions fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArcThicknessOptions'));
+  static const values = [small, medium, large];
+
+  static ArcThicknessOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArcThicknessOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArcThicknessOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An optional collection of CloudFormation property configurations that
@@ -11192,19 +11335,30 @@ class AssetBundleCloudFormationOverridePropertyConfiguration {
   }
 }
 
-enum AssetBundleExportFormat {
-  cloudformationJson('CLOUDFORMATION_JSON'),
-  quicksightJson('QUICKSIGHT_JSON'),
-  ;
+class AssetBundleExportFormat {
+  static const cloudformationJson =
+      AssetBundleExportFormat._('CLOUDFORMATION_JSON');
+  static const quicksightJson = AssetBundleExportFormat._('QUICKSIGHT_JSON');
 
   final String value;
 
-  const AssetBundleExportFormat(this.value);
+  const AssetBundleExportFormat._(this.value);
+
+  static const values = [cloudformationJson, quicksightJson];
 
   static AssetBundleExportFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportFormat'));
+          orElse: () => AssetBundleExportFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls how a specific <code>Analysis</code> resource is parameterized in
@@ -11245,19 +11399,31 @@ class AssetBundleExportJobAnalysisOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobAnalysisPropertyToOverride {
-  name('Name'),
-  ;
+class AssetBundleExportJobAnalysisPropertyToOverride {
+  static const name = AssetBundleExportJobAnalysisPropertyToOverride._('Name');
 
   final String value;
 
-  const AssetBundleExportJobAnalysisPropertyToOverride(this.value);
+  const AssetBundleExportJobAnalysisPropertyToOverride._(this.value);
+
+  static const values = [name];
 
   static AssetBundleExportJobAnalysisPropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobAnalysisPropertyToOverride'));
+          orElse: () =>
+              AssetBundleExportJobAnalysisPropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobAnalysisPropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls how a specific <code>Dashboard</code> resource is parameterized in
@@ -11299,19 +11465,31 @@ class AssetBundleExportJobDashboardOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobDashboardPropertyToOverride {
-  name('Name'),
-  ;
+class AssetBundleExportJobDashboardPropertyToOverride {
+  static const name = AssetBundleExportJobDashboardPropertyToOverride._('Name');
 
   final String value;
 
-  const AssetBundleExportJobDashboardPropertyToOverride(this.value);
+  const AssetBundleExportJobDashboardPropertyToOverride._(this.value);
+
+  static const values = [name];
 
   static AssetBundleExportJobDashboardPropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobDashboardPropertyToOverride'));
+          orElse: () =>
+              AssetBundleExportJobDashboardPropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobDashboardPropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls how a specific <code>DataSet</code> resource is parameterized in
@@ -11352,19 +11530,30 @@ class AssetBundleExportJobDataSetOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobDataSetPropertyToOverride {
-  name('Name'),
-  ;
+class AssetBundleExportJobDataSetPropertyToOverride {
+  static const name = AssetBundleExportJobDataSetPropertyToOverride._('Name');
 
   final String value;
 
-  const AssetBundleExportJobDataSetPropertyToOverride(this.value);
+  const AssetBundleExportJobDataSetPropertyToOverride._(this.value);
+
+  static const values = [name];
 
   static AssetBundleExportJobDataSetPropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobDataSetPropertyToOverride'));
+          orElse: () => AssetBundleExportJobDataSetPropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobDataSetPropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls how a specific <code>DataSource</code> resource is parameterized in
@@ -11406,36 +11595,86 @@ class AssetBundleExportJobDataSourceOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobDataSourcePropertyToOverride {
-  name('Name'),
-  disableSsl('DisableSsl'),
-  secretArn('SecretArn'),
-  username('Username'),
-  password('Password'),
-  domain('Domain'),
-  workGroup('WorkGroup'),
-  host('Host'),
-  port('Port'),
-  database('Database'),
-  dataSetName('DataSetName'),
-  catalog('Catalog'),
-  instanceId('InstanceId'),
-  clusterId('ClusterId'),
-  manifestFileLocation('ManifestFileLocation'),
-  warehouse('Warehouse'),
-  roleArn('RoleArn'),
-  productType('ProductType'),
-  ;
+class AssetBundleExportJobDataSourcePropertyToOverride {
+  static const name =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Name');
+  static const disableSsl =
+      AssetBundleExportJobDataSourcePropertyToOverride._('DisableSsl');
+  static const secretArn =
+      AssetBundleExportJobDataSourcePropertyToOverride._('SecretArn');
+  static const username =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Username');
+  static const password =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Password');
+  static const domain =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Domain');
+  static const workGroup =
+      AssetBundleExportJobDataSourcePropertyToOverride._('WorkGroup');
+  static const host =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Host');
+  static const port =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Port');
+  static const database =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Database');
+  static const dataSetName =
+      AssetBundleExportJobDataSourcePropertyToOverride._('DataSetName');
+  static const catalog =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Catalog');
+  static const instanceId =
+      AssetBundleExportJobDataSourcePropertyToOverride._('InstanceId');
+  static const clusterId =
+      AssetBundleExportJobDataSourcePropertyToOverride._('ClusterId');
+  static const manifestFileLocation =
+      AssetBundleExportJobDataSourcePropertyToOverride._(
+          'ManifestFileLocation');
+  static const warehouse =
+      AssetBundleExportJobDataSourcePropertyToOverride._('Warehouse');
+  static const roleArn =
+      AssetBundleExportJobDataSourcePropertyToOverride._('RoleArn');
+  static const productType =
+      AssetBundleExportJobDataSourcePropertyToOverride._('ProductType');
 
   final String value;
 
-  const AssetBundleExportJobDataSourcePropertyToOverride(this.value);
+  const AssetBundleExportJobDataSourcePropertyToOverride._(this.value);
+
+  static const values = [
+    name,
+    disableSsl,
+    secretArn,
+    username,
+    password,
+    domain,
+    workGroup,
+    host,
+    port,
+    database,
+    dataSetName,
+    catalog,
+    instanceId,
+    clusterId,
+    manifestFileLocation,
+    warehouse,
+    roleArn,
+    productType
+  ];
 
   static AssetBundleExportJobDataSourcePropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobDataSourcePropertyToOverride'));
+          orElse: () =>
+              AssetBundleExportJobDataSourcePropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobDataSourcePropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an error that occurred during an Asset Bundle export job.
@@ -11514,19 +11753,33 @@ class AssetBundleExportJobRefreshScheduleOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobRefreshSchedulePropertyToOverride {
-  startAfterDateTime('StartAfterDateTime'),
-  ;
+class AssetBundleExportJobRefreshSchedulePropertyToOverride {
+  static const startAfterDateTime =
+      AssetBundleExportJobRefreshSchedulePropertyToOverride._(
+          'StartAfterDateTime');
 
   final String value;
 
-  const AssetBundleExportJobRefreshSchedulePropertyToOverride(this.value);
+  const AssetBundleExportJobRefreshSchedulePropertyToOverride._(this.value);
+
+  static const values = [startAfterDateTime];
 
   static AssetBundleExportJobRefreshSchedulePropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobRefreshSchedulePropertyToOverride'));
+          orElse: () =>
+              AssetBundleExportJobRefreshSchedulePropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobRefreshSchedulePropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An optional structure that configures resource ID overrides for the export
@@ -11557,21 +11810,37 @@ class AssetBundleExportJobResourceIdOverrideConfiguration {
   }
 }
 
-enum AssetBundleExportJobStatus {
-  queuedForImmediateExecution('QUEUED_FOR_IMMEDIATE_EXECUTION'),
-  inProgress('IN_PROGRESS'),
-  successful('SUCCESSFUL'),
-  failed('FAILED'),
-  ;
+class AssetBundleExportJobStatus {
+  static const queuedForImmediateExecution =
+      AssetBundleExportJobStatus._('QUEUED_FOR_IMMEDIATE_EXECUTION');
+  static const inProgress = AssetBundleExportJobStatus._('IN_PROGRESS');
+  static const successful = AssetBundleExportJobStatus._('SUCCESSFUL');
+  static const failed = AssetBundleExportJobStatus._('FAILED');
 
   final String value;
 
-  const AssetBundleExportJobStatus(this.value);
+  const AssetBundleExportJobStatus._(this.value);
+
+  static const values = [
+    queuedForImmediateExecution,
+    inProgress,
+    successful,
+    failed
+  ];
 
   static AssetBundleExportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobStatus'));
+          orElse: () => AssetBundleExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the export job that includes details of the job's configuration
@@ -11692,18 +11961,29 @@ class AssetBundleExportJobThemeOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobThemePropertyToOverride {
-  name('Name'),
-  ;
+class AssetBundleExportJobThemePropertyToOverride {
+  static const name = AssetBundleExportJobThemePropertyToOverride._('Name');
 
   final String value;
 
-  const AssetBundleExportJobThemePropertyToOverride(this.value);
+  const AssetBundleExportJobThemePropertyToOverride._(this.value);
+
+  static const values = [name];
 
   static AssetBundleExportJobThemePropertyToOverride fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobThemePropertyToOverride'));
+          orElse: () => AssetBundleExportJobThemePropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobThemePropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Controls how a specific <code>VPCConnection</code> resource is parameterized
@@ -11745,21 +12025,36 @@ class AssetBundleExportJobVPCConnectionOverrideProperties {
   }
 }
 
-enum AssetBundleExportJobVPCConnectionPropertyToOverride {
-  name('Name'),
-  dnsResolvers('DnsResolvers'),
-  roleArn('RoleArn'),
-  ;
+class AssetBundleExportJobVPCConnectionPropertyToOverride {
+  static const name =
+      AssetBundleExportJobVPCConnectionPropertyToOverride._('Name');
+  static const dnsResolvers =
+      AssetBundleExportJobVPCConnectionPropertyToOverride._('DnsResolvers');
+  static const roleArn =
+      AssetBundleExportJobVPCConnectionPropertyToOverride._('RoleArn');
 
   final String value;
 
-  const AssetBundleExportJobVPCConnectionPropertyToOverride(this.value);
+  const AssetBundleExportJobVPCConnectionPropertyToOverride._(this.value);
+
+  static const values = [name, dnsResolvers, roleArn];
 
   static AssetBundleExportJobVPCConnectionPropertyToOverride fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleExportJobVPCConnectionPropertyToOverride'));
+          orElse: () =>
+              AssetBundleExportJobVPCConnectionPropertyToOverride._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleExportJobVPCConnectionPropertyToOverride &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The option to relax the validation that is required to export each asset.
@@ -11820,19 +12115,29 @@ class AssetBundleExportJobWarning {
   }
 }
 
-enum AssetBundleImportFailureAction {
-  doNothing('DO_NOTHING'),
-  rollback('ROLLBACK'),
-  ;
+class AssetBundleImportFailureAction {
+  static const doNothing = AssetBundleImportFailureAction._('DO_NOTHING');
+  static const rollback = AssetBundleImportFailureAction._('ROLLBACK');
 
   final String value;
 
-  const AssetBundleImportFailureAction(this.value);
+  const AssetBundleImportFailureAction._(this.value);
+
+  static const values = [doNothing, rollback];
 
   static AssetBundleImportFailureAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleImportFailureAction'));
+          orElse: () => AssetBundleImportFailureAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleImportFailureAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The override parameters for a single analysis that is being imported.
@@ -12819,24 +13124,46 @@ class AssetBundleImportJobResourceIdOverrideConfiguration {
   }
 }
 
-enum AssetBundleImportJobStatus {
-  queuedForImmediateExecution('QUEUED_FOR_IMMEDIATE_EXECUTION'),
-  inProgress('IN_PROGRESS'),
-  successful('SUCCESSFUL'),
-  failed('FAILED'),
-  failedRollbackInProgress('FAILED_ROLLBACK_IN_PROGRESS'),
-  failedRollbackCompleted('FAILED_ROLLBACK_COMPLETED'),
-  failedRollbackError('FAILED_ROLLBACK_ERROR'),
-  ;
+class AssetBundleImportJobStatus {
+  static const queuedForImmediateExecution =
+      AssetBundleImportJobStatus._('QUEUED_FOR_IMMEDIATE_EXECUTION');
+  static const inProgress = AssetBundleImportJobStatus._('IN_PROGRESS');
+  static const successful = AssetBundleImportJobStatus._('SUCCESSFUL');
+  static const failed = AssetBundleImportJobStatus._('FAILED');
+  static const failedRollbackInProgress =
+      AssetBundleImportJobStatus._('FAILED_ROLLBACK_IN_PROGRESS');
+  static const failedRollbackCompleted =
+      AssetBundleImportJobStatus._('FAILED_ROLLBACK_COMPLETED');
+  static const failedRollbackError =
+      AssetBundleImportJobStatus._('FAILED_ROLLBACK_ERROR');
 
   final String value;
 
-  const AssetBundleImportJobStatus(this.value);
+  const AssetBundleImportJobStatus._(this.value);
+
+  static const values = [
+    queuedForImmediateExecution,
+    inProgress,
+    successful,
+    failed,
+    failedRollbackInProgress,
+    failedRollbackCompleted,
+    failedRollbackError
+  ];
 
   static AssetBundleImportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssetBundleImportJobStatus'));
+          orElse: () => AssetBundleImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetBundleImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the import job that includes details of the requested job's
@@ -13312,20 +13639,29 @@ class AssetOptions {
   }
 }
 
-enum AssignmentStatus {
-  enabled('ENABLED'),
-  draft('DRAFT'),
-  disabled('DISABLED'),
-  ;
+class AssignmentStatus {
+  static const enabled = AssignmentStatus._('ENABLED');
+  static const draft = AssignmentStatus._('DRAFT');
+  static const disabled = AssignmentStatus._('DISABLED');
 
   final String value;
 
-  const AssignmentStatus(this.value);
+  const AssignmentStatus._(this.value);
+
+  static const values = [enabled, draft, disabled];
 
   static AssignmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignmentStatus'));
+          orElse: () => AssignmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssignmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Parameters for Amazon Athena.
@@ -13481,46 +13817,87 @@ class AuroraPostgreSqlParameters {
   }
 }
 
-enum AuthenticationMethodOption {
-  iamAndQuicksight('IAM_AND_QUICKSIGHT'),
-  iamOnly('IAM_ONLY'),
-  activeDirectory('ACTIVE_DIRECTORY'),
-  iamIdentityCenter('IAM_IDENTITY_CENTER'),
-  ;
+class AuthenticationMethodOption {
+  static const iamAndQuicksight =
+      AuthenticationMethodOption._('IAM_AND_QUICKSIGHT');
+  static const iamOnly = AuthenticationMethodOption._('IAM_ONLY');
+  static const activeDirectory =
+      AuthenticationMethodOption._('ACTIVE_DIRECTORY');
+  static const iamIdentityCenter =
+      AuthenticationMethodOption._('IAM_IDENTITY_CENTER');
 
   final String value;
 
-  const AuthenticationMethodOption(this.value);
+  const AuthenticationMethodOption._(this.value);
+
+  static const values = [
+    iamAndQuicksight,
+    iamOnly,
+    activeDirectory,
+    iamIdentityCenter
+  ];
 
   static AuthenticationMethodOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticationMethodOption'));
+          orElse: () => AuthenticationMethodOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationMethodOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthorSpecifiedAggregation {
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  min('MIN'),
-  max('MAX'),
-  median('MEDIAN'),
-  sum('SUM'),
-  average('AVERAGE'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  $var('VAR'),
-  varp('VARP'),
-  percentile('PERCENTILE'),
-  ;
+class AuthorSpecifiedAggregation {
+  static const count = AuthorSpecifiedAggregation._('COUNT');
+  static const distinctCount = AuthorSpecifiedAggregation._('DISTINCT_COUNT');
+  static const min = AuthorSpecifiedAggregation._('MIN');
+  static const max = AuthorSpecifiedAggregation._('MAX');
+  static const median = AuthorSpecifiedAggregation._('MEDIAN');
+  static const sum = AuthorSpecifiedAggregation._('SUM');
+  static const average = AuthorSpecifiedAggregation._('AVERAGE');
+  static const stdev = AuthorSpecifiedAggregation._('STDEV');
+  static const stdevp = AuthorSpecifiedAggregation._('STDEVP');
+  static const $var = AuthorSpecifiedAggregation._('VAR');
+  static const varp = AuthorSpecifiedAggregation._('VARP');
+  static const percentile = AuthorSpecifiedAggregation._('PERCENTILE');
 
   final String value;
 
-  const AuthorSpecifiedAggregation(this.value);
+  const AuthorSpecifiedAggregation._(this.value);
+
+  static const values = [
+    count,
+    distinctCount,
+    min,
+    max,
+    median,
+    sum,
+    average,
+    stdev,
+    stdevp,
+    $var,
+    varp,
+    percentile
+  ];
 
   static AuthorSpecifiedAggregation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthorSpecifiedAggregation'));
+          orElse: () => AuthorSpecifiedAggregation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthorSpecifiedAggregation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authorized targets that are associated with a service.
@@ -13580,18 +13957,27 @@ class AwsIotAnalyticsParameters {
   }
 }
 
-enum AxisBinding {
-  primaryYaxis('PRIMARY_YAXIS'),
-  secondaryYaxis('SECONDARY_YAXIS'),
-  ;
+class AxisBinding {
+  static const primaryYaxis = AxisBinding._('PRIMARY_YAXIS');
+  static const secondaryYaxis = AxisBinding._('SECONDARY_YAXIS');
 
   final String value;
 
-  const AxisBinding(this.value);
+  const AxisBinding._(this.value);
 
-  static AxisBinding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AxisBinding'));
+  static const values = [primaryYaxis, secondaryYaxis];
+
+  static AxisBinding fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AxisBinding._(value));
+
+  @override
+  bool operator ==(other) => other is AxisBinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data options for an axis.
@@ -14280,19 +14666,29 @@ class BarChartFieldWells {
   }
 }
 
-enum BarChartOrientation {
-  horizontal('HORIZONTAL'),
-  vertical('VERTICAL'),
-  ;
+class BarChartOrientation {
+  static const horizontal = BarChartOrientation._('HORIZONTAL');
+  static const vertical = BarChartOrientation._('VERTICAL');
 
   final String value;
 
-  const BarChartOrientation(this.value);
+  const BarChartOrientation._(this.value);
 
-  static BarChartOrientation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BarChartOrientation'));
+  static const values = [horizontal, vertical];
+
+  static BarChartOrientation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BarChartOrientation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BarChartOrientation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// sort-configuration-description
@@ -14478,37 +14874,55 @@ class BarChartVisual {
   }
 }
 
-enum BarsArrangement {
-  clustered('CLUSTERED'),
-  stacked('STACKED'),
-  stackedPercent('STACKED_PERCENT'),
-  ;
+class BarsArrangement {
+  static const clustered = BarsArrangement._('CLUSTERED');
+  static const stacked = BarsArrangement._('STACKED');
+  static const stackedPercent = BarsArrangement._('STACKED_PERCENT');
 
   final String value;
 
-  const BarsArrangement(this.value);
+  const BarsArrangement._(this.value);
+
+  static const values = [clustered, stacked, stackedPercent];
 
   static BarsArrangement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BarsArrangement'));
+          orElse: () => BarsArrangement._(value));
+
+  @override
+  bool operator ==(other) => other is BarsArrangement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BaseMapStyleType {
-  lightGray('LIGHT_GRAY'),
-  darkGray('DARK_GRAY'),
-  street('STREET'),
-  imagery('IMAGERY'),
-  ;
+class BaseMapStyleType {
+  static const lightGray = BaseMapStyleType._('LIGHT_GRAY');
+  static const darkGray = BaseMapStyleType._('DARK_GRAY');
+  static const street = BaseMapStyleType._('STREET');
+  static const imagery = BaseMapStyleType._('IMAGERY');
 
   final String value;
 
-  const BaseMapStyleType(this.value);
+  const BaseMapStyleType._(this.value);
+
+  static const values = [lightGray, darkGray, street, imagery];
 
   static BaseMapStyleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BaseMapStyleType'));
+          orElse: () => BaseMapStyleType._(value));
+
+  @override
+  bool operator ==(other) => other is BaseMapStyleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchCreateTopicReviewedAnswerResponse {
@@ -15285,19 +15699,28 @@ class BoxPlotFieldWells {
   }
 }
 
-enum BoxPlotFillStyle {
-  solid('SOLID'),
-  transparent('TRANSPARENT'),
-  ;
+class BoxPlotFillStyle {
+  static const solid = BoxPlotFillStyle._('SOLID');
+  static const transparent = BoxPlotFillStyle._('TRANSPARENT');
 
   final String value;
 
-  const BoxPlotFillStyle(this.value);
+  const BoxPlotFillStyle._(this.value);
+
+  static const values = [solid, transparent];
 
   static BoxPlotFillStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BoxPlotFillStyle'));
+          orElse: () => BoxPlotFillStyle._(value));
+
+  @override
+  bool operator ==(other) => other is BoxPlotFillStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options of a box plot visual.
@@ -15724,7 +16147,7 @@ class CastColumnTypeOperation {
     return CastColumnTypeOperation(
       columnName: (json['ColumnName'] as String?) ?? '',
       newColumnType:
-          ColumnDataType.fromString((json['NewColumnType'] as String)),
+          ColumnDataType.fromString((json['NewColumnType'] as String?) ?? ''),
       format: json['Format'] as String?,
       subType: (json['SubType'] as String?)?.let(ColumnDataSubType.fromString),
     );
@@ -15744,19 +16167,30 @@ class CastColumnTypeOperation {
   }
 }
 
-enum CategoricalAggregationFunction {
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  ;
+class CategoricalAggregationFunction {
+  static const count = CategoricalAggregationFunction._('COUNT');
+  static const distinctCount =
+      CategoricalAggregationFunction._('DISTINCT_COUNT');
 
   final String value;
 
-  const CategoricalAggregationFunction(this.value);
+  const CategoricalAggregationFunction._(this.value);
+
+  static const values = [count, distinctCount];
 
   static CategoricalAggregationFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CategoricalAggregationFunction'));
+          orElse: () => CategoricalAggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CategoricalAggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The dimension type field with categorical type columns..
@@ -16014,68 +16448,117 @@ class CategoryFilterConfiguration {
   }
 }
 
-enum CategoryFilterFunction {
-  exact('EXACT'),
-  contains('CONTAINS'),
-  ;
+class CategoryFilterFunction {
+  static const exact = CategoryFilterFunction._('EXACT');
+  static const contains = CategoryFilterFunction._('CONTAINS');
 
   final String value;
 
-  const CategoryFilterFunction(this.value);
+  const CategoryFilterFunction._(this.value);
+
+  static const values = [exact, contains];
 
   static CategoryFilterFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CategoryFilterFunction'));
+          orElse: () => CategoryFilterFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CategoryFilterFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CategoryFilterMatchOperator {
-  equals('EQUALS'),
-  doesNotEqual('DOES_NOT_EQUAL'),
-  contains('CONTAINS'),
-  doesNotContain('DOES_NOT_CONTAIN'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  ;
+class CategoryFilterMatchOperator {
+  static const equals = CategoryFilterMatchOperator._('EQUALS');
+  static const doesNotEqual = CategoryFilterMatchOperator._('DOES_NOT_EQUAL');
+  static const contains = CategoryFilterMatchOperator._('CONTAINS');
+  static const doesNotContain =
+      CategoryFilterMatchOperator._('DOES_NOT_CONTAIN');
+  static const startsWith = CategoryFilterMatchOperator._('STARTS_WITH');
+  static const endsWith = CategoryFilterMatchOperator._('ENDS_WITH');
 
   final String value;
 
-  const CategoryFilterMatchOperator(this.value);
+  const CategoryFilterMatchOperator._(this.value);
+
+  static const values = [
+    equals,
+    doesNotEqual,
+    contains,
+    doesNotContain,
+    startsWith,
+    endsWith
+  ];
 
   static CategoryFilterMatchOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CategoryFilterMatchOperator'));
+          orElse: () => CategoryFilterMatchOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CategoryFilterMatchOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CategoryFilterSelectAllOptions {
-  filterAllValues('FILTER_ALL_VALUES'),
-  ;
+class CategoryFilterSelectAllOptions {
+  static const filterAllValues =
+      CategoryFilterSelectAllOptions._('FILTER_ALL_VALUES');
 
   final String value;
 
-  const CategoryFilterSelectAllOptions(this.value);
+  const CategoryFilterSelectAllOptions._(this.value);
+
+  static const values = [filterAllValues];
 
   static CategoryFilterSelectAllOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CategoryFilterSelectAllOptions'));
+          orElse: () => CategoryFilterSelectAllOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CategoryFilterSelectAllOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CategoryFilterType {
-  customFilter('CUSTOM_FILTER'),
-  customFilterList('CUSTOM_FILTER_LIST'),
-  filterList('FILTER_LIST'),
-  ;
+class CategoryFilterType {
+  static const customFilter = CategoryFilterType._('CUSTOM_FILTER');
+  static const customFilterList = CategoryFilterType._('CUSTOM_FILTER_LIST');
+  static const filterList = CategoryFilterType._('FILTER_LIST');
 
   final String value;
 
-  const CategoryFilterType(this.value);
+  const CategoryFilterType._(this.value);
 
-  static CategoryFilterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CategoryFilterType'));
+  static const values = [customFilter, customFilterList, filterList];
+
+  static CategoryFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CategoryFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CategoryFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>CategoryInnerFilter</code> filters text values for the
@@ -16317,19 +16800,28 @@ class CollectiveConstantEntry {
   }
 }
 
-enum ColorFillType {
-  discrete('DISCRETE'),
-  gradient('GRADIENT'),
-  ;
+class ColorFillType {
+  static const discrete = ColorFillType._('DISCRETE');
+  static const gradient = ColorFillType._('GRADIENT');
 
   final String value;
 
-  const ColorFillType(this.value);
+  const ColorFillType._(this.value);
+
+  static const values = [discrete, gradient];
 
   static ColorFillType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColorFillType'));
+          orElse: () => ColorFillType._(value));
+
+  @override
+  bool operator ==(other) => other is ColorFillType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines the color scale that is applied to the visual.
@@ -16352,7 +16844,7 @@ class ColorScale {
   factory ColorScale.fromJson(Map<String, dynamic> json) {
     return ColorScale(
       colorFillType:
-          ColorFillType.fromString((json['ColorFillType'] as String)),
+          ColorFillType.fromString((json['ColorFillType'] as String?) ?? ''),
       colors: ((json['Colors'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataColor.fromJson(e as Map<String, dynamic>))
@@ -16455,51 +16947,78 @@ class ColumnConfiguration {
   }
 }
 
-enum ColumnDataRole {
-  dimension('DIMENSION'),
-  measure('MEASURE'),
-  ;
+class ColumnDataRole {
+  static const dimension = ColumnDataRole._('DIMENSION');
+  static const measure = ColumnDataRole._('MEASURE');
 
   final String value;
 
-  const ColumnDataRole(this.value);
+  const ColumnDataRole._(this.value);
+
+  static const values = [dimension, measure];
 
   static ColumnDataRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnDataRole'));
+          orElse: () => ColumnDataRole._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnDataRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ColumnDataSubType {
-  float('FLOAT'),
-  fixed('FIXED'),
-  ;
+class ColumnDataSubType {
+  static const float = ColumnDataSubType._('FLOAT');
+  static const fixed = ColumnDataSubType._('FIXED');
 
   final String value;
 
-  const ColumnDataSubType(this.value);
+  const ColumnDataSubType._(this.value);
+
+  static const values = [float, fixed];
 
   static ColumnDataSubType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnDataSubType'));
+          orElse: () => ColumnDataSubType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnDataSubType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ColumnDataType {
-  string('STRING'),
-  integer('INTEGER'),
-  decimal('DECIMAL'),
-  datetime('DATETIME'),
-  ;
+class ColumnDataType {
+  static const string = ColumnDataType._('STRING');
+  static const integer = ColumnDataType._('INTEGER');
+  static const decimal = ColumnDataType._('DECIMAL');
+  static const datetime = ColumnDataType._('DATETIME');
 
   final String value;
 
-  const ColumnDataType(this.value);
+  const ColumnDataType._(this.value);
+
+  static const values = [string, integer, decimal, datetime];
 
   static ColumnDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnDataType'));
+          orElse: () => ColumnDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata that contains a description for a column.
@@ -16736,34 +17255,53 @@ class ColumnLevelPermissionRule {
   }
 }
 
-enum ColumnOrderingType {
-  greaterIsBetter('GREATER_IS_BETTER'),
-  lesserIsBetter('LESSER_IS_BETTER'),
-  specified('SPECIFIED'),
-  ;
+class ColumnOrderingType {
+  static const greaterIsBetter = ColumnOrderingType._('GREATER_IS_BETTER');
+  static const lesserIsBetter = ColumnOrderingType._('LESSER_IS_BETTER');
+  static const specified = ColumnOrderingType._('SPECIFIED');
 
   final String value;
 
-  const ColumnOrderingType(this.value);
+  const ColumnOrderingType._(this.value);
 
-  static ColumnOrderingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ColumnOrderingType'));
+  static const values = [greaterIsBetter, lesserIsBetter, specified];
+
+  static ColumnOrderingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColumnOrderingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ColumnOrderingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ColumnRole {
-  dimension('DIMENSION'),
-  measure('MEASURE'),
-  ;
+class ColumnRole {
+  static const dimension = ColumnRole._('DIMENSION');
+  static const measure = ColumnRole._('MEASURE');
 
   final String value;
 
-  const ColumnRole(this.value);
+  const ColumnRole._(this.value);
 
-  static ColumnRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ColumnRole'));
+  static const values = [dimension, measure];
+
+  static ColumnRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ColumnRole._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The column schema.
@@ -16820,7 +17358,7 @@ class ColumnSort {
 
   factory ColumnSort.fromJson(Map<String, dynamic> json) {
     return ColumnSort(
-      direction: SortDirection.fromString((json['Direction'] as String)),
+      direction: SortDirection.fromString((json['Direction'] as String?) ?? ''),
       sortBy: ColumnIdentifier.fromJson(
           (json['SortBy'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -16882,19 +17420,28 @@ class ColumnTag {
   }
 }
 
-enum ColumnTagName {
-  columnGeographicRole('COLUMN_GEOGRAPHIC_ROLE'),
-  columnDescription('COLUMN_DESCRIPTION'),
-  ;
+class ColumnTagName {
+  static const columnGeographicRole = ColumnTagName._('COLUMN_GEOGRAPHIC_ROLE');
+  static const columnDescription = ColumnTagName._('COLUMN_DESCRIPTION');
 
   final String value;
 
-  const ColumnTagName(this.value);
+  const ColumnTagName._(this.value);
+
+  static const values = [columnGeographicRole, columnDescription];
 
   static ColumnTagName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ColumnTagName'));
+          orElse: () => ColumnTagName._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnTagName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The tooltip item for the columns that are not part of a field well.
@@ -17541,43 +18088,75 @@ class ComparisonFormatConfiguration {
   }
 }
 
-enum ComparisonMethod {
-  difference('DIFFERENCE'),
-  percentDifference('PERCENT_DIFFERENCE'),
-  percent('PERCENT'),
-  ;
+class ComparisonMethod {
+  static const difference = ComparisonMethod._('DIFFERENCE');
+  static const percentDifference = ComparisonMethod._('PERCENT_DIFFERENCE');
+  static const percent = ComparisonMethod._('PERCENT');
 
   final String value;
 
-  const ComparisonMethod(this.value);
+  const ComparisonMethod._(this.value);
+
+  static const values = [difference, percentDifference, percent];
 
   static ComparisonMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComparisonMethod'));
+          orElse: () => ComparisonMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ComparisonMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ComparisonMethodType {
-  diff('DIFF'),
-  percDiff('PERC_DIFF'),
-  diffAsPerc('DIFF_AS_PERC'),
-  popCurrentDiffAsPerc('POP_CURRENT_DIFF_AS_PERC'),
-  popCurrentDiff('POP_CURRENT_DIFF'),
-  popOvertimeDiffAsPerc('POP_OVERTIME_DIFF_AS_PERC'),
-  popOvertimeDiff('POP_OVERTIME_DIFF'),
-  percentOfTotal('PERCENT_OF_TOTAL'),
-  runningSum('RUNNING_SUM'),
-  movingAverage('MOVING_AVERAGE'),
-  ;
+class ComparisonMethodType {
+  static const diff = ComparisonMethodType._('DIFF');
+  static const percDiff = ComparisonMethodType._('PERC_DIFF');
+  static const diffAsPerc = ComparisonMethodType._('DIFF_AS_PERC');
+  static const popCurrentDiffAsPerc =
+      ComparisonMethodType._('POP_CURRENT_DIFF_AS_PERC');
+  static const popCurrentDiff = ComparisonMethodType._('POP_CURRENT_DIFF');
+  static const popOvertimeDiffAsPerc =
+      ComparisonMethodType._('POP_OVERTIME_DIFF_AS_PERC');
+  static const popOvertimeDiff = ComparisonMethodType._('POP_OVERTIME_DIFF');
+  static const percentOfTotal = ComparisonMethodType._('PERCENT_OF_TOTAL');
+  static const runningSum = ComparisonMethodType._('RUNNING_SUM');
+  static const movingAverage = ComparisonMethodType._('MOVING_AVERAGE');
 
   final String value;
 
-  const ComparisonMethodType(this.value);
+  const ComparisonMethodType._(this.value);
 
-  static ComparisonMethodType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonMethodType'));
+  static const values = [
+    diff,
+    percDiff,
+    diffAsPerc,
+    popCurrentDiffAsPerc,
+    popCurrentDiff,
+    popOvertimeDiffAsPerc,
+    popOvertimeDiff,
+    percentOfTotal,
+    runningSum,
+    movingAverage
+  ];
+
+  static ComparisonMethodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonMethodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonMethodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The computation union that is used in an insight visual.
@@ -17912,18 +18491,28 @@ class ConditionalFormattingIconDisplayConfiguration {
   }
 }
 
-enum ConditionalFormattingIconDisplayOption {
-  iconOnly('ICON_ONLY'),
-  ;
+class ConditionalFormattingIconDisplayOption {
+  static const iconOnly = ConditionalFormattingIconDisplayOption._('ICON_ONLY');
 
   final String value;
 
-  const ConditionalFormattingIconDisplayOption(this.value);
+  const ConditionalFormattingIconDisplayOption._(this.value);
+
+  static const values = [iconOnly];
 
   static ConditionalFormattingIconDisplayOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConditionalFormattingIconDisplayOption'));
+          orElse: () => ConditionalFormattingIconDisplayOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConditionalFormattingIconDisplayOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Formatting configuration for icon set.
@@ -17958,28 +18547,55 @@ class ConditionalFormattingIconSet {
   }
 }
 
-enum ConditionalFormattingIconSetType {
-  plusMinus('PLUS_MINUS'),
-  checkX('CHECK_X'),
-  threeColorArrow('THREE_COLOR_ARROW'),
-  threeGrayArrow('THREE_GRAY_ARROW'),
-  caretUpMinusDown('CARET_UP_MINUS_DOWN'),
-  threeShape('THREE_SHAPE'),
-  threeCircle('THREE_CIRCLE'),
-  flags('FLAGS'),
-  bars('BARS'),
-  fourColorArrow('FOUR_COLOR_ARROW'),
-  fourGrayArrow('FOUR_GRAY_ARROW'),
-  ;
+class ConditionalFormattingIconSetType {
+  static const plusMinus = ConditionalFormattingIconSetType._('PLUS_MINUS');
+  static const checkX = ConditionalFormattingIconSetType._('CHECK_X');
+  static const threeColorArrow =
+      ConditionalFormattingIconSetType._('THREE_COLOR_ARROW');
+  static const threeGrayArrow =
+      ConditionalFormattingIconSetType._('THREE_GRAY_ARROW');
+  static const caretUpMinusDown =
+      ConditionalFormattingIconSetType._('CARET_UP_MINUS_DOWN');
+  static const threeShape = ConditionalFormattingIconSetType._('THREE_SHAPE');
+  static const threeCircle = ConditionalFormattingIconSetType._('THREE_CIRCLE');
+  static const flags = ConditionalFormattingIconSetType._('FLAGS');
+  static const bars = ConditionalFormattingIconSetType._('BARS');
+  static const fourColorArrow =
+      ConditionalFormattingIconSetType._('FOUR_COLOR_ARROW');
+  static const fourGrayArrow =
+      ConditionalFormattingIconSetType._('FOUR_GRAY_ARROW');
 
   final String value;
 
-  const ConditionalFormattingIconSetType(this.value);
+  const ConditionalFormattingIconSetType._(this.value);
+
+  static const values = [
+    plusMinus,
+    checkX,
+    threeColorArrow,
+    threeGrayArrow,
+    caretUpMinusDown,
+    threeShape,
+    threeCircle,
+    flags,
+    bars,
+    fourColorArrow,
+    fourGrayArrow
+  ];
 
   static ConditionalFormattingIconSetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConditionalFormattingIconSetType'));
+          orElse: () => ConditionalFormattingIconSetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConditionalFormattingIconSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Formatting configuration for solid color.
@@ -18012,20 +18628,28 @@ class ConditionalFormattingSolidColor {
   }
 }
 
-enum ConstantType {
-  singular('SINGULAR'),
-  range('RANGE'),
-  collective('COLLECTIVE'),
-  ;
+class ConstantType {
+  static const singular = ConstantType._('SINGULAR');
+  static const range = ConstantType._('RANGE');
+  static const collective = ConstantType._('COLLECTIVE');
 
   final String value;
 
-  const ConstantType(this.value);
+  const ConstantType._(this.value);
 
-  static ConstantType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConstantType'));
+  static const values = [singular, range, collective];
+
+  static ConstantType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ConstantType._(value));
+
+  @override
+  bool operator ==(other) => other is ConstantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The context menu options for a visual's interactions.
@@ -18090,20 +18714,30 @@ class ContributionAnalysisDefault {
   }
 }
 
-enum ContributionAnalysisDirection {
-  increase('INCREASE'),
-  decrease('DECREASE'),
-  neutral('NEUTRAL'),
-  ;
+class ContributionAnalysisDirection {
+  static const increase = ContributionAnalysisDirection._('INCREASE');
+  static const decrease = ContributionAnalysisDirection._('DECREASE');
+  static const neutral = ContributionAnalysisDirection._('NEUTRAL');
 
   final String value;
 
-  const ContributionAnalysisDirection(this.value);
+  const ContributionAnalysisDirection._(this.value);
+
+  static const values = [increase, decrease, neutral];
 
   static ContributionAnalysisDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContributionAnalysisDirection'));
+          orElse: () => ContributionAnalysisDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContributionAnalysisDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for the <code>ContributionAnalysisFactor</code>.
@@ -18129,21 +18763,40 @@ class ContributionAnalysisFactor {
   }
 }
 
-enum ContributionAnalysisSortType {
-  absoluteDifference('ABSOLUTE_DIFFERENCE'),
-  contributionPercentage('CONTRIBUTION_PERCENTAGE'),
-  deviationFromExpected('DEVIATION_FROM_EXPECTED'),
-  percentageDifference('PERCENTAGE_DIFFERENCE'),
-  ;
+class ContributionAnalysisSortType {
+  static const absoluteDifference =
+      ContributionAnalysisSortType._('ABSOLUTE_DIFFERENCE');
+  static const contributionPercentage =
+      ContributionAnalysisSortType._('CONTRIBUTION_PERCENTAGE');
+  static const deviationFromExpected =
+      ContributionAnalysisSortType._('DEVIATION_FROM_EXPECTED');
+  static const percentageDifference =
+      ContributionAnalysisSortType._('PERCENTAGE_DIFFERENCE');
 
   final String value;
 
-  const ContributionAnalysisSortType(this.value);
+  const ContributionAnalysisSortType._(this.value);
+
+  static const values = [
+    absoluteDifference,
+    contributionPercentage,
+    deviationFromExpected,
+    percentageDifference
+  ];
 
   static ContributionAnalysisSortType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContributionAnalysisSortType'));
+          orElse: () => ContributionAnalysisSortType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContributionAnalysisSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for the <code>ContributionAnalysisTimeRanges</code>.
@@ -19400,19 +20053,28 @@ class CredentialPair {
   }
 }
 
-enum CrossDatasetTypes {
-  allDatasets('ALL_DATASETS'),
-  singleDataset('SINGLE_DATASET'),
-  ;
+class CrossDatasetTypes {
+  static const allDatasets = CrossDatasetTypes._('ALL_DATASETS');
+  static const singleDataset = CrossDatasetTypes._('SINGLE_DATASET');
 
   final String value;
 
-  const CrossDatasetTypes(this.value);
+  const CrossDatasetTypes._(this.value);
+
+  static const values = [allDatasets, singleDataset];
 
   static CrossDatasetTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CrossDatasetTypes'));
+          orElse: () => CrossDatasetTypes._(value));
+
+  @override
+  bool operator ==(other) => other is CrossDatasetTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine the currency display format configuration.
@@ -19631,8 +20293,8 @@ class CustomActionURLOperation {
 
   factory CustomActionURLOperation.fromJson(Map<String, dynamic> json) {
     return CustomActionURLOperation(
-      uRLTarget:
-          URLTargetConfiguration.fromString((json['URLTarget'] as String)),
+      uRLTarget: URLTargetConfiguration.fromString(
+          (json['URLTarget'] as String?) ?? ''),
       uRLTemplate: (json['URLTemplate'] as String?) ?? '',
     );
   }
@@ -19738,36 +20400,60 @@ class CustomContentConfiguration {
   }
 }
 
-enum CustomContentImageScalingConfiguration {
-  fitToHeight('FIT_TO_HEIGHT'),
-  fitToWidth('FIT_TO_WIDTH'),
-  doNotScale('DO_NOT_SCALE'),
-  scaleToVisual('SCALE_TO_VISUAL'),
-  ;
+class CustomContentImageScalingConfiguration {
+  static const fitToHeight =
+      CustomContentImageScalingConfiguration._('FIT_TO_HEIGHT');
+  static const fitToWidth =
+      CustomContentImageScalingConfiguration._('FIT_TO_WIDTH');
+  static const doNotScale =
+      CustomContentImageScalingConfiguration._('DO_NOT_SCALE');
+  static const scaleToVisual =
+      CustomContentImageScalingConfiguration._('SCALE_TO_VISUAL');
 
   final String value;
 
-  const CustomContentImageScalingConfiguration(this.value);
+  const CustomContentImageScalingConfiguration._(this.value);
+
+  static const values = [fitToHeight, fitToWidth, doNotScale, scaleToVisual];
 
   static CustomContentImageScalingConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomContentImageScalingConfiguration'));
+          orElse: () => CustomContentImageScalingConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomContentImageScalingConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CustomContentType {
-  image('IMAGE'),
-  otherEmbeddedContent('OTHER_EMBEDDED_CONTENT'),
-  ;
+class CustomContentType {
+  static const image = CustomContentType._('IMAGE');
+  static const otherEmbeddedContent =
+      CustomContentType._('OTHER_EMBEDDED_CONTENT');
 
   final String value;
 
-  const CustomContentType(this.value);
+  const CustomContentType._(this.value);
+
+  static const values = [image, otherEmbeddedContent];
 
   static CustomContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CustomContentType'));
+          orElse: () => CustomContentType._(value));
+
+  @override
+  bool operator ==(other) => other is CustomContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A visual that contains custom content.
@@ -19899,8 +20585,9 @@ class CustomFilterConfiguration {
   factory CustomFilterConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomFilterConfiguration(
       matchOperator: CategoryFilterMatchOperator.fromString(
-          (json['MatchOperator'] as String)),
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
+          (json['MatchOperator'] as String?) ?? ''),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
       categoryValue: json['CategoryValue'] as String?,
       parameterName: json['ParameterName'] as String?,
       selectAllOptions: (json['SelectAllOptions'] as String?)
@@ -19967,8 +20654,9 @@ class CustomFilterListConfiguration {
   factory CustomFilterListConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomFilterListConfiguration(
       matchOperator: CategoryFilterMatchOperator.fromString(
-          (json['MatchOperator'] as String)),
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
+          (json['MatchOperator'] as String?) ?? ''),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
       categoryValues: (json['CategoryValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -20234,19 +20922,28 @@ class Dashboard {
   }
 }
 
-enum DashboardBehavior {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DashboardBehavior {
+  static const enabled = DashboardBehavior._('ENABLED');
+  static const disabled = DashboardBehavior._('DISABLED');
 
   final String value;
 
-  const DashboardBehavior(this.value);
+  const DashboardBehavior._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DashboardBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashboardBehavior'));
+          orElse: () => DashboardBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is DashboardBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dashboard error.
@@ -20289,47 +20986,95 @@ class DashboardError {
   }
 }
 
-enum DashboardErrorType {
-  accessDenied('ACCESS_DENIED'),
-  sourceNotFound('SOURCE_NOT_FOUND'),
-  dataSetNotFound('DATA_SET_NOT_FOUND'),
-  internalFailure('INTERNAL_FAILURE'),
-  parameterValueIncompatible('PARAMETER_VALUE_INCOMPATIBLE'),
-  parameterTypeInvalid('PARAMETER_TYPE_INVALID'),
-  parameterNotFound('PARAMETER_NOT_FOUND'),
-  columnTypeMismatch('COLUMN_TYPE_MISMATCH'),
-  columnGeographicRoleMismatch('COLUMN_GEOGRAPHIC_ROLE_MISMATCH'),
-  columnReplacementMissing('COLUMN_REPLACEMENT_MISSING'),
-  ;
+class DashboardErrorType {
+  static const accessDenied = DashboardErrorType._('ACCESS_DENIED');
+  static const sourceNotFound = DashboardErrorType._('SOURCE_NOT_FOUND');
+  static const dataSetNotFound = DashboardErrorType._('DATA_SET_NOT_FOUND');
+  static const internalFailure = DashboardErrorType._('INTERNAL_FAILURE');
+  static const parameterValueIncompatible =
+      DashboardErrorType._('PARAMETER_VALUE_INCOMPATIBLE');
+  static const parameterTypeInvalid =
+      DashboardErrorType._('PARAMETER_TYPE_INVALID');
+  static const parameterNotFound = DashboardErrorType._('PARAMETER_NOT_FOUND');
+  static const columnTypeMismatch =
+      DashboardErrorType._('COLUMN_TYPE_MISMATCH');
+  static const columnGeographicRoleMismatch =
+      DashboardErrorType._('COLUMN_GEOGRAPHIC_ROLE_MISMATCH');
+  static const columnReplacementMissing =
+      DashboardErrorType._('COLUMN_REPLACEMENT_MISSING');
 
   final String value;
 
-  const DashboardErrorType(this.value);
+  const DashboardErrorType._(this.value);
 
-  static DashboardErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DashboardErrorType'));
+  static const values = [
+    accessDenied,
+    sourceNotFound,
+    dataSetNotFound,
+    internalFailure,
+    parameterValueIncompatible,
+    parameterTypeInvalid,
+    parameterNotFound,
+    columnTypeMismatch,
+    columnGeographicRoleMismatch,
+    columnReplacementMissing
+  ];
+
+  static DashboardErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DashboardErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashboardErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DashboardFilterAttribute {
-  quicksightUser('QUICKSIGHT_USER'),
-  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
-  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
-  quicksightOwner('QUICKSIGHT_OWNER'),
-  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
-  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
-  dashboardName('DASHBOARD_NAME'),
-  ;
+class DashboardFilterAttribute {
+  static const quicksightUser = DashboardFilterAttribute._('QUICKSIGHT_USER');
+  static const quicksightViewerOrOwner =
+      DashboardFilterAttribute._('QUICKSIGHT_VIEWER_OR_OWNER');
+  static const directQuicksightViewerOrOwner =
+      DashboardFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
+  static const quicksightOwner = DashboardFilterAttribute._('QUICKSIGHT_OWNER');
+  static const directQuicksightOwner =
+      DashboardFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
+  static const directQuicksightSoleOwner =
+      DashboardFilterAttribute._('DIRECT_QUICKSIGHT_SOLE_OWNER');
+  static const dashboardName = DashboardFilterAttribute._('DASHBOARD_NAME');
 
   final String value;
 
-  const DashboardFilterAttribute(this.value);
+  const DashboardFilterAttribute._(this.value);
+
+  static const values = [
+    quicksightUser,
+    quicksightViewerOrOwner,
+    directQuicksightViewerOrOwner,
+    quicksightOwner,
+    directQuicksightOwner,
+    directQuicksightSoleOwner,
+    dashboardName
+  ];
 
   static DashboardFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DashboardFilterAttribute'));
+          orElse: () => DashboardFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashboardFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dashboard publish options.
@@ -20665,19 +21410,28 @@ class DashboardSummary {
   }
 }
 
-enum DashboardUIState {
-  expanded('EXPANDED'),
-  collapsed('COLLAPSED'),
-  ;
+class DashboardUIState {
+  static const expanded = DashboardUIState._('EXPANDED');
+  static const collapsed = DashboardUIState._('COLLAPSED');
 
   final String value;
 
-  const DashboardUIState(this.value);
+  const DashboardUIState._(this.value);
+
+  static const values = [expanded, collapsed];
 
   static DashboardUIState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DashboardUIState'));
+          orElse: () => DashboardUIState._(value));
+
+  @override
+  bool operator ==(other) => other is DashboardUIState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dashboard version.
@@ -21200,7 +21954,8 @@ class DataFieldSeriesItem {
 
   factory DataFieldSeriesItem.fromJson(Map<String, dynamic> json) {
     return DataFieldSeriesItem(
-      axisBinding: AxisBinding.fromString((json['AxisBinding'] as String)),
+      axisBinding:
+          AxisBinding.fromString((json['AxisBinding'] as String?) ?? ''),
       fieldId: (json['FieldId'] as String?) ?? '',
       fieldValue: json['FieldValue'] as String?,
       settings: json['Settings'] != null
@@ -21224,20 +21979,29 @@ class DataFieldSeriesItem {
   }
 }
 
-enum DataLabelContent {
-  $value('VALUE'),
-  percent('PERCENT'),
-  valueAndPercent('VALUE_AND_PERCENT'),
-  ;
+class DataLabelContent {
+  static const $value = DataLabelContent._('VALUE');
+  static const percent = DataLabelContent._('PERCENT');
+  static const valueAndPercent = DataLabelContent._('VALUE_AND_PERCENT');
 
   final String value;
 
-  const DataLabelContent(this.value);
+  const DataLabelContent._(this.value);
+
+  static const values = [$value, percent, valueAndPercent];
 
   static DataLabelContent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataLabelContent'));
+          orElse: () => DataLabelContent._(value));
+
+  @override
+  bool operator ==(other) => other is DataLabelContent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine the presentation of the data labels.
@@ -21340,38 +22104,56 @@ class DataLabelOptions {
   }
 }
 
-enum DataLabelOverlap {
-  disableOverlap('DISABLE_OVERLAP'),
-  enableOverlap('ENABLE_OVERLAP'),
-  ;
+class DataLabelOverlap {
+  static const disableOverlap = DataLabelOverlap._('DISABLE_OVERLAP');
+  static const enableOverlap = DataLabelOverlap._('ENABLE_OVERLAP');
 
   final String value;
 
-  const DataLabelOverlap(this.value);
+  const DataLabelOverlap._(this.value);
+
+  static const values = [disableOverlap, enableOverlap];
 
   static DataLabelOverlap fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataLabelOverlap'));
+          orElse: () => DataLabelOverlap._(value));
+
+  @override
+  bool operator ==(other) => other is DataLabelOverlap && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataLabelPosition {
-  inside('INSIDE'),
-  outside('OUTSIDE'),
-  left('LEFT'),
-  top('TOP'),
-  bottom('BOTTOM'),
-  right('RIGHT'),
-  ;
+class DataLabelPosition {
+  static const inside = DataLabelPosition._('INSIDE');
+  static const outside = DataLabelPosition._('OUTSIDE');
+  static const left = DataLabelPosition._('LEFT');
+  static const top = DataLabelPosition._('TOP');
+  static const bottom = DataLabelPosition._('BOTTOM');
+  static const right = DataLabelPosition._('RIGHT');
 
   final String value;
 
-  const DataLabelPosition(this.value);
+  const DataLabelPosition._(this.value);
+
+  static const values = [inside, outside, left, top, bottom, right];
 
   static DataLabelPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataLabelPosition'));
+          orElse: () => DataLabelPosition._(value));
+
+  @override
+  bool operator ==(other) => other is DataLabelPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The option that determines the data label type.
@@ -21535,7 +22317,7 @@ class DataPathSort {
 
   factory DataPathSort.fromJson(Map<String, dynamic> json) {
     return DataPathSort(
-      direction: SortDirection.fromString((json['Direction'] as String)),
+      direction: SortDirection.fromString((json['Direction'] as String?) ?? ''),
       sortPaths: ((json['SortPaths'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataPathValue.fromJson(e as Map<String, dynamic>))
@@ -21942,23 +22724,44 @@ class DataSetConfiguration {
   }
 }
 
-enum DataSetFilterAttribute {
-  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
-  quicksightOwner('QUICKSIGHT_OWNER'),
-  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
-  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
-  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
-  datasetName('DATASET_NAME'),
-  ;
+class DataSetFilterAttribute {
+  static const quicksightViewerOrOwner =
+      DataSetFilterAttribute._('QUICKSIGHT_VIEWER_OR_OWNER');
+  static const quicksightOwner = DataSetFilterAttribute._('QUICKSIGHT_OWNER');
+  static const directQuicksightViewerOrOwner =
+      DataSetFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
+  static const directQuicksightOwner =
+      DataSetFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
+  static const directQuicksightSoleOwner =
+      DataSetFilterAttribute._('DIRECT_QUICKSIGHT_SOLE_OWNER');
+  static const datasetName = DataSetFilterAttribute._('DATASET_NAME');
 
   final String value;
 
-  const DataSetFilterAttribute(this.value);
+  const DataSetFilterAttribute._(this.value);
+
+  static const values = [
+    quicksightViewerOrOwner,
+    quicksightOwner,
+    directQuicksightViewerOrOwner,
+    directQuicksightOwner,
+    directQuicksightSoleOwner,
+    datasetName
+  ];
 
   static DataSetFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSetFilterAttribute'));
+          orElse: () => DataSetFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSetFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A data set.
@@ -21991,19 +22794,28 @@ class DataSetIdentifierDeclaration {
   }
 }
 
-enum DataSetImportMode {
-  spice('SPICE'),
-  directQuery('DIRECT_QUERY'),
-  ;
+class DataSetImportMode {
+  static const spice = DataSetImportMode._('SPICE');
+  static const directQuery = DataSetImportMode._('DIRECT_QUERY');
 
   final String value;
 
-  const DataSetImportMode(this.value);
+  const DataSetImportMode._(this.value);
+
+  static const values = [spice, directQuery];
 
   static DataSetImportMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSetImportMode'));
+          orElse: () => DataSetImportMode._(value));
+
+  @override
+  bool operator ==(other) => other is DataSetImportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Dataset reference.
@@ -22504,42 +23316,82 @@ class DataSourceErrorInfo {
   }
 }
 
-enum DataSourceErrorInfoType {
-  accessDenied('ACCESS_DENIED'),
-  copySourceNotFound('COPY_SOURCE_NOT_FOUND'),
-  timeout('TIMEOUT'),
-  engineVersionNotSupported('ENGINE_VERSION_NOT_SUPPORTED'),
-  unknownHost('UNKNOWN_HOST'),
-  genericSqlFailure('GENERIC_SQL_FAILURE'),
-  conflict('CONFLICT'),
-  unknown('UNKNOWN'),
-  ;
+class DataSourceErrorInfoType {
+  static const accessDenied = DataSourceErrorInfoType._('ACCESS_DENIED');
+  static const copySourceNotFound =
+      DataSourceErrorInfoType._('COPY_SOURCE_NOT_FOUND');
+  static const timeout = DataSourceErrorInfoType._('TIMEOUT');
+  static const engineVersionNotSupported =
+      DataSourceErrorInfoType._('ENGINE_VERSION_NOT_SUPPORTED');
+  static const unknownHost = DataSourceErrorInfoType._('UNKNOWN_HOST');
+  static const genericSqlFailure =
+      DataSourceErrorInfoType._('GENERIC_SQL_FAILURE');
+  static const conflict = DataSourceErrorInfoType._('CONFLICT');
+  static const unknown = DataSourceErrorInfoType._('UNKNOWN');
 
   final String value;
 
-  const DataSourceErrorInfoType(this.value);
+  const DataSourceErrorInfoType._(this.value);
+
+  static const values = [
+    accessDenied,
+    copySourceNotFound,
+    timeout,
+    engineVersionNotSupported,
+    unknownHost,
+    genericSqlFailure,
+    conflict,
+    unknown
+  ];
 
   static DataSourceErrorInfoType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceErrorInfoType'));
+          orElse: () => DataSourceErrorInfoType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceErrorInfoType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataSourceFilterAttribute {
-  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
-  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
-  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
-  datasourceName('DATASOURCE_NAME'),
-  ;
+class DataSourceFilterAttribute {
+  static const directQuicksightViewerOrOwner =
+      DataSourceFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
+  static const directQuicksightOwner =
+      DataSourceFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
+  static const directQuicksightSoleOwner =
+      DataSourceFilterAttribute._('DIRECT_QUICKSIGHT_SOLE_OWNER');
+  static const datasourceName = DataSourceFilterAttribute._('DATASOURCE_NAME');
 
   final String value;
 
-  const DataSourceFilterAttribute(this.value);
+  const DataSourceFilterAttribute._(this.value);
+
+  static const values = [
+    directQuicksightViewerOrOwner,
+    directQuicksightOwner,
+    directQuicksightSoleOwner,
+    datasourceName
+  ];
 
   static DataSourceFilterAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceFilterAttribute'));
+          orElse: () => DataSourceFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters that Amazon QuickSight uses to connect to your underlying
@@ -22968,46 +23820,85 @@ class DataSourceSummary {
   }
 }
 
-enum DataSourceType {
-  adobeAnalytics('ADOBE_ANALYTICS'),
-  amazonElasticsearch('AMAZON_ELASTICSEARCH'),
-  athena('ATHENA'),
-  aurora('AURORA'),
-  auroraPostgresql('AURORA_POSTGRESQL'),
-  awsIotAnalytics('AWS_IOT_ANALYTICS'),
-  github('GITHUB'),
-  jira('JIRA'),
-  mariadb('MARIADB'),
-  mysql('MYSQL'),
-  oracle('ORACLE'),
-  postgresql('POSTGRESQL'),
-  presto('PRESTO'),
-  redshift('REDSHIFT'),
-  s3('S3'),
-  salesforce('SALESFORCE'),
-  servicenow('SERVICENOW'),
-  snowflake('SNOWFLAKE'),
-  spark('SPARK'),
-  sqlserver('SQLSERVER'),
-  teradata('TERADATA'),
-  twitter('TWITTER'),
-  timestream('TIMESTREAM'),
-  amazonOpensearch('AMAZON_OPENSEARCH'),
-  exasol('EXASOL'),
-  databricks('DATABRICKS'),
-  starburst('STARBURST'),
-  trino('TRINO'),
-  bigquery('BIGQUERY'),
-  ;
+class DataSourceType {
+  static const adobeAnalytics = DataSourceType._('ADOBE_ANALYTICS');
+  static const amazonElasticsearch = DataSourceType._('AMAZON_ELASTICSEARCH');
+  static const athena = DataSourceType._('ATHENA');
+  static const aurora = DataSourceType._('AURORA');
+  static const auroraPostgresql = DataSourceType._('AURORA_POSTGRESQL');
+  static const awsIotAnalytics = DataSourceType._('AWS_IOT_ANALYTICS');
+  static const github = DataSourceType._('GITHUB');
+  static const jira = DataSourceType._('JIRA');
+  static const mariadb = DataSourceType._('MARIADB');
+  static const mysql = DataSourceType._('MYSQL');
+  static const oracle = DataSourceType._('ORACLE');
+  static const postgresql = DataSourceType._('POSTGRESQL');
+  static const presto = DataSourceType._('PRESTO');
+  static const redshift = DataSourceType._('REDSHIFT');
+  static const s3 = DataSourceType._('S3');
+  static const salesforce = DataSourceType._('SALESFORCE');
+  static const servicenow = DataSourceType._('SERVICENOW');
+  static const snowflake = DataSourceType._('SNOWFLAKE');
+  static const spark = DataSourceType._('SPARK');
+  static const sqlserver = DataSourceType._('SQLSERVER');
+  static const teradata = DataSourceType._('TERADATA');
+  static const twitter = DataSourceType._('TWITTER');
+  static const timestream = DataSourceType._('TIMESTREAM');
+  static const amazonOpensearch = DataSourceType._('AMAZON_OPENSEARCH');
+  static const exasol = DataSourceType._('EXASOL');
+  static const databricks = DataSourceType._('DATABRICKS');
+  static const starburst = DataSourceType._('STARBURST');
+  static const trino = DataSourceType._('TRINO');
+  static const bigquery = DataSourceType._('BIGQUERY');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [
+    adobeAnalytics,
+    amazonElasticsearch,
+    athena,
+    aurora,
+    auroraPostgresql,
+    awsIotAnalytics,
+    github,
+    jira,
+    mariadb,
+    mysql,
+    oracle,
+    postgresql,
+    presto,
+    redshift,
+    s3,
+    salesforce,
+    servicenow,
+    snowflake,
+    spark,
+    sqlserver,
+    teradata,
+    twitter,
+    timestream,
+    amazonOpensearch,
+    exasol,
+    databricks,
+    starburst,
+    trino,
+    bigquery
+  ];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters that are required to connect to a Databricks data source.
@@ -23197,36 +24088,56 @@ class DatasetParameter {
 
 /// The value type of the parameter. The value type is used to validate the
 /// parameter before it is evaluated.
-enum DatasetParameterValueType {
-  multiValued('MULTI_VALUED'),
-  singleValued('SINGLE_VALUED'),
-  ;
+class DatasetParameterValueType {
+  static const multiValued = DatasetParameterValueType._('MULTI_VALUED');
+  static const singleValued = DatasetParameterValueType._('SINGLE_VALUED');
 
   final String value;
 
-  const DatasetParameterValueType(this.value);
+  const DatasetParameterValueType._(this.value);
+
+  static const values = [multiValued, singleValued];
 
   static DatasetParameterValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatasetParameterValueType'));
+          orElse: () => DatasetParameterValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetParameterValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DateAggregationFunction {
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  min('MIN'),
-  max('MAX'),
-  ;
+class DateAggregationFunction {
+  static const count = DateAggregationFunction._('COUNT');
+  static const distinctCount = DateAggregationFunction._('DISTINCT_COUNT');
+  static const min = DateAggregationFunction._('MIN');
+  static const max = DateAggregationFunction._('MAX');
 
   final String value;
 
-  const DateAggregationFunction(this.value);
+  const DateAggregationFunction._(this.value);
+
+  static const values = [count, distinctCount, min, max];
 
   static DateAggregationFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DateAggregationFunction'));
+          orElse: () => DateAggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DateAggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine how a date axis is displayed.
@@ -23426,8 +24337,8 @@ class DateTimeDatasetParameter {
     return DateTimeDatasetParameter(
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      valueType:
-          DatasetParameterValueType.fromString((json['ValueType'] as String)),
+      valueType: DatasetParameterValueType.fromString(
+          (json['ValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? DateTimeDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -23815,43 +24726,76 @@ class DateTimeValueWhenUnsetConfiguration {
   }
 }
 
-enum DayOfTheWeek {
-  sunday('SUNDAY'),
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  ;
+class DayOfTheWeek {
+  static const sunday = DayOfTheWeek._('SUNDAY');
+  static const monday = DayOfTheWeek._('MONDAY');
+  static const tuesday = DayOfTheWeek._('TUESDAY');
+  static const wednesday = DayOfTheWeek._('WEDNESDAY');
+  static const thursday = DayOfTheWeek._('THURSDAY');
+  static const friday = DayOfTheWeek._('FRIDAY');
+  static const saturday = DayOfTheWeek._('SATURDAY');
 
   final String value;
 
-  const DayOfTheWeek(this.value);
+  const DayOfTheWeek._(this.value);
 
-  static DayOfTheWeek fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DayOfTheWeek'));
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
+
+  static DayOfTheWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfTheWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfTheWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DayOfWeek {
-  sunday('SUNDAY'),
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  ;
+class DayOfWeek {
+  static const sunday = DayOfWeek._('SUNDAY');
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A decimal parameter for a dataset.
@@ -23881,8 +24825,8 @@ class DecimalDatasetParameter {
     return DecimalDatasetParameter(
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      valueType:
-          DatasetParameterValueType.fromString((json['ValueType'] as String)),
+      valueType: DatasetParameterValueType.fromString(
+          (json['ValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? DecimalDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -24030,8 +24974,8 @@ class DecimalParameterDeclaration {
   factory DecimalParameterDeclaration.fromJson(Map<String, dynamic> json) {
     return DecimalParameterDeclaration(
       name: (json['Name'] as String?) ?? '',
-      parameterValueType:
-          ParameterValueType.fromString((json['ParameterValueType'] as String)),
+      parameterValueType: ParameterValueType.fromString(
+          (json['ParameterValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? DecimalDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -24132,28 +25076,50 @@ class DecimalValueWhenUnsetConfiguration {
   }
 }
 
-enum DefaultAggregation {
-  sum('SUM'),
-  max('MAX'),
-  min('MIN'),
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  average('AVERAGE'),
-  median('MEDIAN'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  $var('VAR'),
-  varp('VARP'),
-  ;
+class DefaultAggregation {
+  static const sum = DefaultAggregation._('SUM');
+  static const max = DefaultAggregation._('MAX');
+  static const min = DefaultAggregation._('MIN');
+  static const count = DefaultAggregation._('COUNT');
+  static const distinctCount = DefaultAggregation._('DISTINCT_COUNT');
+  static const average = DefaultAggregation._('AVERAGE');
+  static const median = DefaultAggregation._('MEDIAN');
+  static const stdev = DefaultAggregation._('STDEV');
+  static const stdevp = DefaultAggregation._('STDEVP');
+  static const $var = DefaultAggregation._('VAR');
+  static const varp = DefaultAggregation._('VARP');
 
   final String value;
 
-  const DefaultAggregation(this.value);
+  const DefaultAggregation._(this.value);
 
-  static DefaultAggregation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DefaultAggregation'));
+  static const values = [
+    sum,
+    max,
+    min,
+    count,
+    distinctCount,
+    average,
+    median,
+    stdev,
+    stdevp,
+    $var,
+    varp
+  ];
+
+  static DefaultAggregation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefaultAggregation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultAggregation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The default options that correspond to the filter control type of a
@@ -28551,23 +29517,32 @@ class DimensionField {
   }
 }
 
-enum DisplayFormat {
-  auto('AUTO'),
-  percent('PERCENT'),
-  currency('CURRENCY'),
-  number('NUMBER'),
-  date('DATE'),
-  string('STRING'),
-  ;
+class DisplayFormat {
+  static const auto = DisplayFormat._('AUTO');
+  static const percent = DisplayFormat._('PERCENT');
+  static const currency = DisplayFormat._('CURRENCY');
+  static const number = DisplayFormat._('NUMBER');
+  static const date = DisplayFormat._('DATE');
+  static const string = DisplayFormat._('STRING');
 
   final String value;
 
-  const DisplayFormat(this.value);
+  const DisplayFormat._(this.value);
+
+  static const values = [auto, percent, currency, number, date, string];
 
   static DisplayFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DisplayFormat'));
+          orElse: () => DisplayFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DisplayFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents additional options for display formatting.
@@ -28898,35 +29873,54 @@ class DynamicDefaultValue {
   }
 }
 
-enum Edition {
-  standard('STANDARD'),
-  enterprise('ENTERPRISE'),
-  enterpriseAndQ('ENTERPRISE_AND_Q'),
-  ;
+class Edition {
+  static const standard = Edition._('STANDARD');
+  static const enterprise = Edition._('ENTERPRISE');
+  static const enterpriseAndQ = Edition._('ENTERPRISE_AND_Q');
 
   final String value;
 
-  const Edition(this.value);
+  const Edition._(this.value);
 
-  static Edition fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Edition'));
+  static const values = [standard, enterprise, enterpriseAndQ];
+
+  static Edition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Edition._(value));
+
+  @override
+  bool operator ==(other) => other is Edition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EmbeddingIdentityType {
-  iam('IAM'),
-  quicksight('QUICKSIGHT'),
-  anonymous('ANONYMOUS'),
-  ;
+class EmbeddingIdentityType {
+  static const iam = EmbeddingIdentityType._('IAM');
+  static const quicksight = EmbeddingIdentityType._('QUICKSIGHT');
+  static const anonymous = EmbeddingIdentityType._('ANONYMOUS');
 
   final String value;
 
-  const EmbeddingIdentityType(this.value);
+  const EmbeddingIdentityType._(this.value);
 
-  static EmbeddingIdentityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EmbeddingIdentityType'));
+  static const values = [iam, quicksight, anonymous];
+
+  static EmbeddingIdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EmbeddingIdentityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmbeddingIdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An empty visual.
@@ -29091,7 +30085,8 @@ class ExcludePeriodConfiguration {
   factory ExcludePeriodConfiguration.fromJson(Map<String, dynamic> json) {
     return ExcludePeriodConfiguration(
       amount: (json['Amount'] as int?) ?? 0,
-      granularity: TimeGranularity.fromString((json['Granularity'] as String)),
+      granularity:
+          TimeGranularity.fromString((json['Granularity'] as String?) ?? ''),
       status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
     );
   }
@@ -29413,7 +30408,8 @@ class FieldSeriesItem {
 
   factory FieldSeriesItem.fromJson(Map<String, dynamic> json) {
     return FieldSeriesItem(
-      axisBinding: AxisBinding.fromString((json['AxisBinding'] as String)),
+      axisBinding:
+          AxisBinding.fromString((json['AxisBinding'] as String?) ?? ''),
       fieldId: (json['FieldId'] as String?) ?? '',
       settings: json['Settings'] != null
           ? LineChartSeriesSettings.fromJson(
@@ -29458,7 +30454,7 @@ class FieldSort {
 
   factory FieldSort.fromJson(Map<String, dynamic> json) {
     return FieldSort(
-      direction: SortDirection.fromString((json['Direction'] as String)),
+      direction: SortDirection.fromString((json['Direction'] as String?) ?? ''),
       fieldId: (json['FieldId'] as String?) ?? '',
     );
   }
@@ -29552,22 +30548,31 @@ class FieldTooltipItem {
   }
 }
 
-enum FileFormat {
-  csv('CSV'),
-  tsv('TSV'),
-  clf('CLF'),
-  elf('ELF'),
-  xlsx('XLSX'),
-  json('JSON'),
-  ;
+class FileFormat {
+  static const csv = FileFormat._('CSV');
+  static const tsv = FileFormat._('TSV');
+  static const clf = FileFormat._('CLF');
+  static const elf = FileFormat._('ELF');
+  static const xlsx = FileFormat._('XLSX');
+  static const json = FileFormat._('JSON');
 
   final String value;
 
-  const FileFormat(this.value);
+  const FileFormat._(this.value);
 
-  static FileFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileFormat'));
+  static const values = [csv, tsv, clf, elf, xlsx, json];
+
+  static FileFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is FileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The aggregated field well of the filled map.
@@ -30080,19 +31085,33 @@ class FilterAggMetrics {
   }
 }
 
-enum FilterClass {
-  enforcedValueFilter('ENFORCED_VALUE_FILTER'),
-  conditionalValueFilter('CONDITIONAL_VALUE_FILTER'),
-  namedValueFilter('NAMED_VALUE_FILTER'),
-  ;
+class FilterClass {
+  static const enforcedValueFilter = FilterClass._('ENFORCED_VALUE_FILTER');
+  static const conditionalValueFilter =
+      FilterClass._('CONDITIONAL_VALUE_FILTER');
+  static const namedValueFilter = FilterClass._('NAMED_VALUE_FILTER');
 
   final String value;
 
-  const FilterClass(this.value);
+  const FilterClass._(this.value);
 
-  static FilterClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterClass'));
+  static const values = [
+    enforcedValueFilter,
+    conditionalValueFilter,
+    namedValueFilter
+  ];
+
+  static FilterClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterClass._(value));
+
+  @override
+  bool operator ==(other) => other is FilterClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The control of a filter that is used to interact with a dashboard or an
@@ -30447,7 +31466,7 @@ class FilterGroup {
   factory FilterGroup.fromJson(Map<String, dynamic> json) {
     return FilterGroup(
       crossDataset:
-          CrossDatasetTypes.fromString((json['CrossDataset'] as String)),
+          CrossDatasetTypes.fromString((json['CrossDataset'] as String?) ?? ''),
       filterGroupId: (json['FilterGroupId'] as String?) ?? '',
       filters: ((json['Filters'] as List?) ?? const [])
           .nonNulls
@@ -30519,7 +31538,7 @@ class FilterListConfiguration {
   factory FilterListConfiguration.fromJson(Map<String, dynamic> json) {
     return FilterListConfiguration(
       matchOperator: CategoryFilterMatchOperator.fromString(
-          (json['MatchOperator'] as String)),
+          (json['MatchOperator'] as String?) ?? ''),
       categoryValues: (json['CategoryValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -30635,20 +31654,29 @@ class FilterListControl {
   }
 }
 
-enum FilterNullOption {
-  allValues('ALL_VALUES'),
-  nullsOnly('NULLS_ONLY'),
-  nonNullsOnly('NON_NULLS_ONLY'),
-  ;
+class FilterNullOption {
+  static const allValues = FilterNullOption._('ALL_VALUES');
+  static const nullsOnly = FilterNullOption._('NULLS_ONLY');
+  static const nonNullsOnly = FilterNullOption._('NON_NULLS_ONLY');
 
   final String value;
 
-  const FilterNullOption(this.value);
+  const FilterNullOption._(this.value);
+
+  static const values = [allValues, nullsOnly, nonNullsOnly];
 
   static FilterNullOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterNullOption'));
+          orElse: () => FilterNullOption._(value));
+
+  @override
+  bool operator ==(other) => other is FilterNullOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A transform operation that filters rows based on a condition.
@@ -30771,19 +31799,28 @@ class FilterOperationTargetVisualsConfiguration {
   }
 }
 
-enum FilterOperator {
-  stringEquals('StringEquals'),
-  stringLike('StringLike'),
-  ;
+class FilterOperator {
+  static const stringEquals = FilterOperator._('StringEquals');
+  static const stringLike = FilterOperator._('StringLike');
 
   final String value;
 
-  const FilterOperator(this.value);
+  const FilterOperator._(this.value);
+
+  static const values = [stringEquals, stringLike];
 
   static FilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperator'));
+          orElse: () => FilterOperator._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A control from a date filter that is used to specify the relative date.
@@ -31087,19 +32124,28 @@ class FilterTextFieldControl {
   }
 }
 
-enum FilterVisualScope {
-  allVisuals('ALL_VISUALS'),
-  selectedVisuals('SELECTED_VISUALS'),
-  ;
+class FilterVisualScope {
+  static const allVisuals = FilterVisualScope._('ALL_VISUALS');
+  static const selectedVisuals = FilterVisualScope._('SELECTED_VISUALS');
 
   final String value;
 
-  const FilterVisualScope(this.value);
+  const FilterVisualScope._(this.value);
+
+  static const values = [allVisuals, selectedVisuals];
 
   static FilterVisualScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterVisualScope'));
+          orElse: () => FilterVisualScope._(value));
+
+  @override
+  bool operator ==(other) => other is FilterVisualScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A folder in Amazon QuickSight.
@@ -31179,24 +32225,46 @@ class Folder {
   }
 }
 
-enum FolderFilterAttribute {
-  parentFolderArn('PARENT_FOLDER_ARN'),
-  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
-  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
-  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
-  quicksightOwner('QUICKSIGHT_OWNER'),
-  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
-  folderName('FOLDER_NAME'),
-  ;
+class FolderFilterAttribute {
+  static const parentFolderArn = FolderFilterAttribute._('PARENT_FOLDER_ARN');
+  static const directQuicksightOwner =
+      FolderFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
+  static const directQuicksightSoleOwner =
+      FolderFilterAttribute._('DIRECT_QUICKSIGHT_SOLE_OWNER');
+  static const directQuicksightViewerOrOwner =
+      FolderFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
+  static const quicksightOwner = FolderFilterAttribute._('QUICKSIGHT_OWNER');
+  static const quicksightViewerOrOwner =
+      FolderFilterAttribute._('QUICKSIGHT_VIEWER_OR_OWNER');
+  static const folderName = FolderFilterAttribute._('FOLDER_NAME');
 
   final String value;
 
-  const FolderFilterAttribute(this.value);
+  const FolderFilterAttribute._(this.value);
 
-  static FolderFilterAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FolderFilterAttribute'));
+  static const values = [
+    parentFolderArn,
+    directQuicksightOwner,
+    directQuicksightSoleOwner,
+    directQuicksightViewerOrOwner,
+    quicksightOwner,
+    quicksightViewerOrOwner,
+    folderName
+  ];
+
+  static FolderFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FolderFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FolderFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An asset in a Amazon QuickSight folder, such as a dashboard, analysis, or
@@ -31388,18 +32456,27 @@ class FolderSummary {
   }
 }
 
-enum FolderType {
-  shared('SHARED'),
-  restricted('RESTRICTED'),
-  ;
+class FolderType {
+  static const shared = FolderType._('SHARED');
+  static const restricted = FolderType._('RESTRICTED');
 
   final String value;
 
-  const FolderType(this.value);
+  const FolderType._(this.value);
 
-  static FolderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FolderType'));
+  static const values = [shared, restricted];
+
+  static FolderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FolderType._(value));
+
+  @override
+  bool operator ==(other) => other is FolderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines the font settings.
@@ -31481,19 +32558,28 @@ class FontConfiguration {
   }
 }
 
-enum FontDecoration {
-  underline('UNDERLINE'),
-  none('NONE'),
-  ;
+class FontDecoration {
+  static const underline = FontDecoration._('UNDERLINE');
+  static const none = FontDecoration._('NONE');
 
   final String value;
 
-  const FontDecoration(this.value);
+  const FontDecoration._(this.value);
+
+  static const values = [underline, none];
 
   static FontDecoration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FontDecoration'));
+          orElse: () => FontDecoration._(value));
+
+  @override
+  bool operator ==(other) => other is FontDecoration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The option that determines the text display size.
@@ -31519,18 +32605,27 @@ class FontSize {
   }
 }
 
-enum FontStyle {
-  normal('NORMAL'),
-  italic('ITALIC'),
-  ;
+class FontStyle {
+  static const normal = FontStyle._('NORMAL');
+  static const italic = FontStyle._('ITALIC');
 
   final String value;
 
-  const FontStyle(this.value);
+  const FontStyle._(this.value);
 
-  static FontStyle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FontStyle'));
+  static const values = [normal, italic];
+
+  static FontStyle fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FontStyle._(value));
+
+  @override
+  bool operator ==(other) => other is FontStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The option that determines the text display weight, or boldness.
@@ -31556,19 +32651,28 @@ class FontWeight {
   }
 }
 
-enum FontWeightName {
-  normal('NORMAL'),
-  bold('BOLD'),
-  ;
+class FontWeightName {
+  static const normal = FontWeightName._('NORMAL');
+  static const bold = FontWeightName._('BOLD');
 
   final String value;
 
-  const FontWeightName(this.value);
+  const FontWeightName._(this.value);
+
+  static const values = [normal, bold];
 
   static FontWeightName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FontWeightName'));
+          orElse: () => FontWeightName._(value));
+
+  @override
+  bool operator ==(other) => other is FontWeightName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The forecast computation configuration.
@@ -31680,19 +32784,29 @@ class ForecastComputation {
   }
 }
 
-enum ForecastComputationSeasonality {
-  automatic('AUTOMATIC'),
-  custom('CUSTOM'),
-  ;
+class ForecastComputationSeasonality {
+  static const automatic = ForecastComputationSeasonality._('AUTOMATIC');
+  static const custom = ForecastComputationSeasonality._('CUSTOM');
 
   final String value;
 
-  const ForecastComputationSeasonality(this.value);
+  const ForecastComputationSeasonality._(this.value);
+
+  static const values = [automatic, custom];
 
   static ForecastComputationSeasonality fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ForecastComputationSeasonality'));
+          orElse: () => ForecastComputationSeasonality._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ForecastComputationSeasonality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The forecast configuration that is used in a line chart's display
@@ -31939,7 +33053,7 @@ class FreeFormLayoutElement {
     return FreeFormLayoutElement(
       elementId: (json['ElementId'] as String?) ?? '',
       elementType:
-          LayoutElementType.fromString((json['ElementType'] as String)),
+          LayoutElementType.fromString((json['ElementType'] as String?) ?? ''),
       height: (json['Height'] as String?) ?? '',
       width: (json['Width'] as String?) ?? '',
       xAxisLocation: (json['XAxisLocation'] as String?) ?? '',
@@ -32362,22 +33476,43 @@ class FunnelChartFieldWells {
   }
 }
 
-enum FunnelChartMeasureDataLabelStyle {
-  valueOnly('VALUE_ONLY'),
-  percentageByFirstStage('PERCENTAGE_BY_FIRST_STAGE'),
-  percentageByPreviousStage('PERCENTAGE_BY_PREVIOUS_STAGE'),
-  valueAndPercentageByFirstStage('VALUE_AND_PERCENTAGE_BY_FIRST_STAGE'),
-  valueAndPercentageByPreviousStage('VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE'),
-  ;
+class FunnelChartMeasureDataLabelStyle {
+  static const valueOnly = FunnelChartMeasureDataLabelStyle._('VALUE_ONLY');
+  static const percentageByFirstStage =
+      FunnelChartMeasureDataLabelStyle._('PERCENTAGE_BY_FIRST_STAGE');
+  static const percentageByPreviousStage =
+      FunnelChartMeasureDataLabelStyle._('PERCENTAGE_BY_PREVIOUS_STAGE');
+  static const valueAndPercentageByFirstStage =
+      FunnelChartMeasureDataLabelStyle._('VALUE_AND_PERCENTAGE_BY_FIRST_STAGE');
+  static const valueAndPercentageByPreviousStage =
+      FunnelChartMeasureDataLabelStyle._(
+          'VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE');
 
   final String value;
 
-  const FunnelChartMeasureDataLabelStyle(this.value);
+  const FunnelChartMeasureDataLabelStyle._(this.value);
+
+  static const values = [
+    valueOnly,
+    percentageByFirstStage,
+    percentageByPreviousStage,
+    valueAndPercentageByFirstStage,
+    valueAndPercentageByPreviousStage
+  ];
 
   static FunnelChartMeasureDataLabelStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FunnelChartMeasureDataLabelStyle'));
+          orElse: () => FunnelChartMeasureDataLabelStyle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FunnelChartMeasureDataLabelStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sort configuration of a <code>FunnelChartVisual</code>.
@@ -33052,38 +34187,66 @@ class GeoSpatialColumnGroup {
   }
 }
 
-enum GeoSpatialCountryCode {
-  us('US'),
-  ;
+class GeoSpatialCountryCode {
+  static const us = GeoSpatialCountryCode._('US');
 
   final String value;
 
-  const GeoSpatialCountryCode(this.value);
+  const GeoSpatialCountryCode._(this.value);
 
-  static GeoSpatialCountryCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GeoSpatialCountryCode'));
+  static const values = [us];
+
+  static GeoSpatialCountryCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeoSpatialCountryCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoSpatialCountryCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GeoSpatialDataRole {
-  country('COUNTRY'),
-  state('STATE'),
-  county('COUNTY'),
-  city('CITY'),
-  postcode('POSTCODE'),
-  longitude('LONGITUDE'),
-  latitude('LATITUDE'),
-  ;
+class GeoSpatialDataRole {
+  static const country = GeoSpatialDataRole._('COUNTRY');
+  static const state = GeoSpatialDataRole._('STATE');
+  static const county = GeoSpatialDataRole._('COUNTY');
+  static const city = GeoSpatialDataRole._('CITY');
+  static const postcode = GeoSpatialDataRole._('POSTCODE');
+  static const longitude = GeoSpatialDataRole._('LONGITUDE');
+  static const latitude = GeoSpatialDataRole._('LATITUDE');
 
   final String value;
 
-  const GeoSpatialDataRole(this.value);
+  const GeoSpatialDataRole._(this.value);
 
-  static GeoSpatialDataRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GeoSpatialDataRole'));
+  static const values = [
+    country,
+    state,
+    county,
+    city,
+    postcode,
+    longitude,
+    latitude
+  ];
+
+  static GeoSpatialDataRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeoSpatialDataRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoSpatialDataRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The bound options (north, south, west, east) of the geospatial window
@@ -33531,20 +34694,30 @@ class GeospatialPointStyleOptions {
   }
 }
 
-enum GeospatialSelectedPointStyle {
-  point('POINT'),
-  cluster('CLUSTER'),
-  heatmap('HEATMAP'),
-  ;
+class GeospatialSelectedPointStyle {
+  static const point = GeospatialSelectedPointStyle._('POINT');
+  static const cluster = GeospatialSelectedPointStyle._('CLUSTER');
+  static const heatmap = GeospatialSelectedPointStyle._('HEATMAP');
 
   final String value;
 
-  const GeospatialSelectedPointStyle(this.value);
+  const GeospatialSelectedPointStyle._(this.value);
+
+  static const values = [point, cluster, heatmap];
 
   static GeospatialSelectedPointStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GeospatialSelectedPointStyle'));
+          orElse: () => GeospatialSelectedPointStyle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeospatialSelectedPointStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The window options of the geospatial map visual.
@@ -33856,7 +35029,7 @@ class GridLayoutElement {
       columnSpan: (json['ColumnSpan'] as int?) ?? 0,
       elementId: (json['ElementId'] as String?) ?? '',
       elementType:
-          LayoutElementType.fromString((json['ElementType'] as String)),
+          LayoutElementType.fromString((json['ElementType'] as String?) ?? ''),
       rowSpan: (json['RowSpan'] as int?) ?? 0,
       columnIndex: json['ColumnIndex'] as int?,
       rowIndex: json['RowIndex'] as int?,
@@ -33910,7 +35083,8 @@ class GridLayoutScreenCanvasSizeOptions {
   factory GridLayoutScreenCanvasSizeOptions.fromJson(
       Map<String, dynamic> json) {
     return GridLayoutScreenCanvasSizeOptions(
-      resizeOption: ResizeOption.fromString((json['ResizeOption'] as String)),
+      resizeOption:
+          ResizeOption.fromString((json['ResizeOption'] as String?) ?? ''),
       optimizedViewPortWidth: json['OptimizedViewPortWidth'] as String?,
     );
   }
@@ -33971,32 +35145,52 @@ class Group {
   }
 }
 
-enum GroupFilterAttribute {
-  groupName('GROUP_NAME'),
-  ;
+class GroupFilterAttribute {
+  static const groupName = GroupFilterAttribute._('GROUP_NAME');
 
   final String value;
 
-  const GroupFilterAttribute(this.value);
+  const GroupFilterAttribute._(this.value);
 
-  static GroupFilterAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GroupFilterAttribute'));
+  static const values = [groupName];
+
+  static GroupFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GroupFilterOperator {
-  startsWith('StartsWith'),
-  ;
+class GroupFilterOperator {
+  static const startsWith = GroupFilterOperator._('StartsWith');
 
   final String value;
 
-  const GroupFilterOperator(this.value);
+  const GroupFilterOperator._(this.value);
 
-  static GroupFilterOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GroupFilterOperator'));
+  static const values = [startsWith];
+
+  static GroupFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A member of an Amazon QuickSight group. Currently, group members must be
@@ -34585,19 +35779,28 @@ class HistogramBinOptions {
   }
 }
 
-enum HistogramBinType {
-  binCount('BIN_COUNT'),
-  binWidth('BIN_WIDTH'),
-  ;
+class HistogramBinType {
+  static const binCount = HistogramBinType._('BIN_COUNT');
+  static const binWidth = HistogramBinType._('BIN_WIDTH');
 
   final String value;
 
-  const HistogramBinType(this.value);
+  const HistogramBinType._(this.value);
+
+  static const values = [binCount, binWidth];
 
   static HistogramBinType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HistogramBinType'));
+          orElse: () => HistogramBinType._(value));
+
+  @override
+  bool operator ==(other) => other is HistogramBinType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a <code>HistogramVisual</code>.
@@ -34804,21 +36007,31 @@ class HistogramVisual {
   }
 }
 
-enum HorizontalTextAlignment {
-  left('LEFT'),
-  center('CENTER'),
-  right('RIGHT'),
-  auto('AUTO'),
-  ;
+class HorizontalTextAlignment {
+  static const left = HorizontalTextAlignment._('LEFT');
+  static const center = HorizontalTextAlignment._('CENTER');
+  static const right = HorizontalTextAlignment._('RIGHT');
+  static const auto = HorizontalTextAlignment._('AUTO');
 
   final String value;
 
-  const HorizontalTextAlignment(this.value);
+  const HorizontalTextAlignment._(this.value);
+
+  static const values = [left, center, right, auto];
 
   static HorizontalTextAlignment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HorizontalTextAlignment'));
+          orElse: () => HorizontalTextAlignment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HorizontalTextAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Identity and Access Management (IAM) policy assignment.
@@ -34912,42 +36125,78 @@ class IAMPolicyAssignmentSummary {
   }
 }
 
-enum Icon {
-  caretUp('CARET_UP'),
-  caretDown('CARET_DOWN'),
-  plus('PLUS'),
-  minus('MINUS'),
-  arrowUp('ARROW_UP'),
-  arrowDown('ARROW_DOWN'),
-  arrowLeft('ARROW_LEFT'),
-  arrowUpLeft('ARROW_UP_LEFT'),
-  arrowDownLeft('ARROW_DOWN_LEFT'),
-  arrowRight('ARROW_RIGHT'),
-  arrowUpRight('ARROW_UP_RIGHT'),
-  arrowDownRight('ARROW_DOWN_RIGHT'),
-  faceUp('FACE_UP'),
-  faceDown('FACE_DOWN'),
-  faceFlat('FACE_FLAT'),
-  oneBar('ONE_BAR'),
-  twoBar('TWO_BAR'),
-  threeBar('THREE_BAR'),
-  circle('CIRCLE'),
-  triangle('TRIANGLE'),
-  square('SQUARE'),
-  flag('FLAG'),
-  thumbsUp('THUMBS_UP'),
-  thumbsDown('THUMBS_DOWN'),
-  checkmark('CHECKMARK'),
-  x('X'),
-  ;
+class Icon {
+  static const caretUp = Icon._('CARET_UP');
+  static const caretDown = Icon._('CARET_DOWN');
+  static const plus = Icon._('PLUS');
+  static const minus = Icon._('MINUS');
+  static const arrowUp = Icon._('ARROW_UP');
+  static const arrowDown = Icon._('ARROW_DOWN');
+  static const arrowLeft = Icon._('ARROW_LEFT');
+  static const arrowUpLeft = Icon._('ARROW_UP_LEFT');
+  static const arrowDownLeft = Icon._('ARROW_DOWN_LEFT');
+  static const arrowRight = Icon._('ARROW_RIGHT');
+  static const arrowUpRight = Icon._('ARROW_UP_RIGHT');
+  static const arrowDownRight = Icon._('ARROW_DOWN_RIGHT');
+  static const faceUp = Icon._('FACE_UP');
+  static const faceDown = Icon._('FACE_DOWN');
+  static const faceFlat = Icon._('FACE_FLAT');
+  static const oneBar = Icon._('ONE_BAR');
+  static const twoBar = Icon._('TWO_BAR');
+  static const threeBar = Icon._('THREE_BAR');
+  static const circle = Icon._('CIRCLE');
+  static const triangle = Icon._('TRIANGLE');
+  static const square = Icon._('SQUARE');
+  static const flag = Icon._('FLAG');
+  static const thumbsUp = Icon._('THUMBS_UP');
+  static const thumbsDown = Icon._('THUMBS_DOWN');
+  static const checkmark = Icon._('CHECKMARK');
+  static const x = Icon._('X');
 
   final String value;
 
-  const Icon(this.value);
+  const Icon._(this.value);
+
+  static const values = [
+    caretUp,
+    caretDown,
+    plus,
+    minus,
+    arrowUp,
+    arrowDown,
+    arrowLeft,
+    arrowUpLeft,
+    arrowDownLeft,
+    arrowRight,
+    arrowUpRight,
+    arrowDownRight,
+    faceUp,
+    faceDown,
+    faceFlat,
+    oneBar,
+    twoBar,
+    threeBar,
+    circle,
+    triangle,
+    square,
+    flag,
+    thumbsUp,
+    thumbsDown,
+    checkmark,
+    x
+  ];
 
   static Icon fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Icon'));
+      values.firstWhere((e) => e.value == value, orElse: () => Icon._(value));
+
+  @override
+  bool operator ==(other) => other is Icon && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for the identifier.
@@ -34998,34 +36247,51 @@ class IdentityCenterConfiguration {
   }
 }
 
-enum IdentityStore {
-  quicksight('QUICKSIGHT'),
-  ;
+class IdentityStore {
+  static const quicksight = IdentityStore._('QUICKSIGHT');
 
   final String value;
 
-  const IdentityStore(this.value);
+  const IdentityStore._(this.value);
+
+  static const values = [quicksight];
 
   static IdentityStore fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityStore'));
+          orElse: () => IdentityStore._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityStore && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IdentityType {
-  iam('IAM'),
-  quicksight('QUICKSIGHT'),
-  iamIdentityCenter('IAM_IDENTITY_CENTER'),
-  ;
+class IdentityType {
+  static const iam = IdentityType._('IAM');
+  static const quicksight = IdentityType._('QUICKSIGHT');
+  static const iamIdentityCenter = IdentityType._('IAM_IDENTITY_CENTER');
 
   final String value;
 
-  const IdentityType(this.value);
+  const IdentityType._(this.value);
 
-  static IdentityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityType'));
+  static const values = [iam, quicksight, iamIdentityCenter];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The incremental refresh configuration for a dataset.
@@ -35102,8 +36368,8 @@ class Ingestion {
     return Ingestion(
       arn: (json['Arn'] as String?) ?? '',
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
-      ingestionStatus:
-          IngestionStatus.fromString((json['IngestionStatus'] as String)),
+      ingestionStatus: IngestionStatus.fromString(
+          (json['IngestionStatus'] as String?) ?? ''),
       errorInfo: json['ErrorInfo'] != null
           ? ErrorInfo.fromJson(json['ErrorInfo'] as Map<String, dynamic>)
           : null,
@@ -35153,132 +36419,268 @@ class Ingestion {
   }
 }
 
-enum IngestionErrorType {
-  failureToAssumeRole('FAILURE_TO_ASSUME_ROLE'),
-  ingestionSuperseded('INGESTION_SUPERSEDED'),
-  ingestionCanceled('INGESTION_CANCELED'),
-  dataSetDeleted('DATA_SET_DELETED'),
-  dataSetNotSpice('DATA_SET_NOT_SPICE'),
-  s3UploadedFileDeleted('S3_UPLOADED_FILE_DELETED'),
-  s3ManifestError('S3_MANIFEST_ERROR'),
-  dataToleranceException('DATA_TOLERANCE_EXCEPTION'),
-  spiceTableNotFound('SPICE_TABLE_NOT_FOUND'),
-  dataSetSizeLimitExceeded('DATA_SET_SIZE_LIMIT_EXCEEDED'),
-  rowSizeLimitExceeded('ROW_SIZE_LIMIT_EXCEEDED'),
-  accountCapacityLimitExceeded('ACCOUNT_CAPACITY_LIMIT_EXCEEDED'),
-  customerError('CUSTOMER_ERROR'),
-  dataSourceNotFound('DATA_SOURCE_NOT_FOUND'),
-  iamRoleNotAvailable('IAM_ROLE_NOT_AVAILABLE'),
-  connectionFailure('CONNECTION_FAILURE'),
-  sqlTableNotFound('SQL_TABLE_NOT_FOUND'),
-  permissionDenied('PERMISSION_DENIED'),
-  sslCertificateValidationFailure('SSL_CERTIFICATE_VALIDATION_FAILURE'),
-  oauthTokenFailure('OAUTH_TOKEN_FAILURE'),
-  sourceApiLimitExceededFailure('SOURCE_API_LIMIT_EXCEEDED_FAILURE'),
-  passwordAuthenticationFailure('PASSWORD_AUTHENTICATION_FAILURE'),
-  sqlSchemaMismatchError('SQL_SCHEMA_MISMATCH_ERROR'),
-  invalidDateFormat('INVALID_DATE_FORMAT'),
-  invalidDataprepSyntax('INVALID_DATAPREP_SYNTAX'),
-  sourceResourceLimitExceeded('SOURCE_RESOURCE_LIMIT_EXCEEDED'),
-  sqlInvalidParameterValue('SQL_INVALID_PARAMETER_VALUE'),
-  queryTimeout('QUERY_TIMEOUT'),
-  sqlNumericOverflow('SQL_NUMERIC_OVERFLOW'),
-  unresolvableHost('UNRESOLVABLE_HOST'),
-  unroutableHost('UNROUTABLE_HOST'),
-  sqlException('SQL_EXCEPTION'),
-  s3FileInaccessible('S3_FILE_INACCESSIBLE'),
-  iotFileNotFound('IOT_FILE_NOT_FOUND'),
-  iotDataSetFileEmpty('IOT_DATA_SET_FILE_EMPTY'),
-  invalidDataSourceConfig('INVALID_DATA_SOURCE_CONFIG'),
-  dataSourceAuthFailed('DATA_SOURCE_AUTH_FAILED'),
-  dataSourceConnectionFailed('DATA_SOURCE_CONNECTION_FAILED'),
-  failureToProcessJsonFile('FAILURE_TO_PROCESS_JSON_FILE'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  refreshSuppressedByEdit('REFRESH_SUPPRESSED_BY_EDIT'),
-  permissionNotFound('PERMISSION_NOT_FOUND'),
-  elasticsearchCursorNotEnabled('ELASTICSEARCH_CURSOR_NOT_ENABLED'),
-  cursorNotEnabled('CURSOR_NOT_ENABLED'),
-  duplicateColumnNamesFound('DUPLICATE_COLUMN_NAMES_FOUND'),
-  ;
+class IngestionErrorType {
+  static const failureToAssumeRole =
+      IngestionErrorType._('FAILURE_TO_ASSUME_ROLE');
+  static const ingestionSuperseded =
+      IngestionErrorType._('INGESTION_SUPERSEDED');
+  static const ingestionCanceled = IngestionErrorType._('INGESTION_CANCELED');
+  static const dataSetDeleted = IngestionErrorType._('DATA_SET_DELETED');
+  static const dataSetNotSpice = IngestionErrorType._('DATA_SET_NOT_SPICE');
+  static const s3UploadedFileDeleted =
+      IngestionErrorType._('S3_UPLOADED_FILE_DELETED');
+  static const s3ManifestError = IngestionErrorType._('S3_MANIFEST_ERROR');
+  static const dataToleranceException =
+      IngestionErrorType._('DATA_TOLERANCE_EXCEPTION');
+  static const spiceTableNotFound =
+      IngestionErrorType._('SPICE_TABLE_NOT_FOUND');
+  static const dataSetSizeLimitExceeded =
+      IngestionErrorType._('DATA_SET_SIZE_LIMIT_EXCEEDED');
+  static const rowSizeLimitExceeded =
+      IngestionErrorType._('ROW_SIZE_LIMIT_EXCEEDED');
+  static const accountCapacityLimitExceeded =
+      IngestionErrorType._('ACCOUNT_CAPACITY_LIMIT_EXCEEDED');
+  static const customerError = IngestionErrorType._('CUSTOMER_ERROR');
+  static const dataSourceNotFound =
+      IngestionErrorType._('DATA_SOURCE_NOT_FOUND');
+  static const iamRoleNotAvailable =
+      IngestionErrorType._('IAM_ROLE_NOT_AVAILABLE');
+  static const connectionFailure = IngestionErrorType._('CONNECTION_FAILURE');
+  static const sqlTableNotFound = IngestionErrorType._('SQL_TABLE_NOT_FOUND');
+  static const permissionDenied = IngestionErrorType._('PERMISSION_DENIED');
+  static const sslCertificateValidationFailure =
+      IngestionErrorType._('SSL_CERTIFICATE_VALIDATION_FAILURE');
+  static const oauthTokenFailure = IngestionErrorType._('OAUTH_TOKEN_FAILURE');
+  static const sourceApiLimitExceededFailure =
+      IngestionErrorType._('SOURCE_API_LIMIT_EXCEEDED_FAILURE');
+  static const passwordAuthenticationFailure =
+      IngestionErrorType._('PASSWORD_AUTHENTICATION_FAILURE');
+  static const sqlSchemaMismatchError =
+      IngestionErrorType._('SQL_SCHEMA_MISMATCH_ERROR');
+  static const invalidDateFormat = IngestionErrorType._('INVALID_DATE_FORMAT');
+  static const invalidDataprepSyntax =
+      IngestionErrorType._('INVALID_DATAPREP_SYNTAX');
+  static const sourceResourceLimitExceeded =
+      IngestionErrorType._('SOURCE_RESOURCE_LIMIT_EXCEEDED');
+  static const sqlInvalidParameterValue =
+      IngestionErrorType._('SQL_INVALID_PARAMETER_VALUE');
+  static const queryTimeout = IngestionErrorType._('QUERY_TIMEOUT');
+  static const sqlNumericOverflow =
+      IngestionErrorType._('SQL_NUMERIC_OVERFLOW');
+  static const unresolvableHost = IngestionErrorType._('UNRESOLVABLE_HOST');
+  static const unroutableHost = IngestionErrorType._('UNROUTABLE_HOST');
+  static const sqlException = IngestionErrorType._('SQL_EXCEPTION');
+  static const s3FileInaccessible =
+      IngestionErrorType._('S3_FILE_INACCESSIBLE');
+  static const iotFileNotFound = IngestionErrorType._('IOT_FILE_NOT_FOUND');
+  static const iotDataSetFileEmpty =
+      IngestionErrorType._('IOT_DATA_SET_FILE_EMPTY');
+  static const invalidDataSourceConfig =
+      IngestionErrorType._('INVALID_DATA_SOURCE_CONFIG');
+  static const dataSourceAuthFailed =
+      IngestionErrorType._('DATA_SOURCE_AUTH_FAILED');
+  static const dataSourceConnectionFailed =
+      IngestionErrorType._('DATA_SOURCE_CONNECTION_FAILED');
+  static const failureToProcessJsonFile =
+      IngestionErrorType._('FAILURE_TO_PROCESS_JSON_FILE');
+  static const internalServiceError =
+      IngestionErrorType._('INTERNAL_SERVICE_ERROR');
+  static const refreshSuppressedByEdit =
+      IngestionErrorType._('REFRESH_SUPPRESSED_BY_EDIT');
+  static const permissionNotFound =
+      IngestionErrorType._('PERMISSION_NOT_FOUND');
+  static const elasticsearchCursorNotEnabled =
+      IngestionErrorType._('ELASTICSEARCH_CURSOR_NOT_ENABLED');
+  static const cursorNotEnabled = IngestionErrorType._('CURSOR_NOT_ENABLED');
+  static const duplicateColumnNamesFound =
+      IngestionErrorType._('DUPLICATE_COLUMN_NAMES_FOUND');
 
   final String value;
 
-  const IngestionErrorType(this.value);
+  const IngestionErrorType._(this.value);
 
-  static IngestionErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngestionErrorType'));
+  static const values = [
+    failureToAssumeRole,
+    ingestionSuperseded,
+    ingestionCanceled,
+    dataSetDeleted,
+    dataSetNotSpice,
+    s3UploadedFileDeleted,
+    s3ManifestError,
+    dataToleranceException,
+    spiceTableNotFound,
+    dataSetSizeLimitExceeded,
+    rowSizeLimitExceeded,
+    accountCapacityLimitExceeded,
+    customerError,
+    dataSourceNotFound,
+    iamRoleNotAvailable,
+    connectionFailure,
+    sqlTableNotFound,
+    permissionDenied,
+    sslCertificateValidationFailure,
+    oauthTokenFailure,
+    sourceApiLimitExceededFailure,
+    passwordAuthenticationFailure,
+    sqlSchemaMismatchError,
+    invalidDateFormat,
+    invalidDataprepSyntax,
+    sourceResourceLimitExceeded,
+    sqlInvalidParameterValue,
+    queryTimeout,
+    sqlNumericOverflow,
+    unresolvableHost,
+    unroutableHost,
+    sqlException,
+    s3FileInaccessible,
+    iotFileNotFound,
+    iotDataSetFileEmpty,
+    invalidDataSourceConfig,
+    dataSourceAuthFailed,
+    dataSourceConnectionFailed,
+    failureToProcessJsonFile,
+    internalServiceError,
+    refreshSuppressedByEdit,
+    permissionNotFound,
+    elasticsearchCursorNotEnabled,
+    cursorNotEnabled,
+    duplicateColumnNamesFound
+  ];
+
+  static IngestionErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngestionRequestSource {
-  manual('MANUAL'),
-  scheduled('SCHEDULED'),
-  ;
+class IngestionRequestSource {
+  static const manual = IngestionRequestSource._('MANUAL');
+  static const scheduled = IngestionRequestSource._('SCHEDULED');
 
   final String value;
 
-  const IngestionRequestSource(this.value);
+  const IngestionRequestSource._(this.value);
+
+  static const values = [manual, scheduled];
 
   static IngestionRequestSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngestionRequestSource'));
+          orElse: () => IngestionRequestSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionRequestSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This defines the type of ingestion request. This is returned as part of
 /// create ingestion response.
-enum IngestionRequestType {
-  initialIngestion('INITIAL_INGESTION'),
-  edit('EDIT'),
-  incrementalRefresh('INCREMENTAL_REFRESH'),
-  fullRefresh('FULL_REFRESH'),
-  ;
+class IngestionRequestType {
+  static const initialIngestion = IngestionRequestType._('INITIAL_INGESTION');
+  static const edit = IngestionRequestType._('EDIT');
+  static const incrementalRefresh =
+      IngestionRequestType._('INCREMENTAL_REFRESH');
+  static const fullRefresh = IngestionRequestType._('FULL_REFRESH');
 
   final String value;
 
-  const IngestionRequestType(this.value);
+  const IngestionRequestType._(this.value);
 
-  static IngestionRequestType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngestionRequestType'));
+  static const values = [
+    initialIngestion,
+    edit,
+    incrementalRefresh,
+    fullRefresh
+  ];
+
+  static IngestionRequestType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionRequestType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionRequestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngestionStatus {
-  initialized('INITIALIZED'),
-  queued('QUEUED'),
-  running('RUNNING'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class IngestionStatus {
+  static const initialized = IngestionStatus._('INITIALIZED');
+  static const queued = IngestionStatus._('QUEUED');
+  static const running = IngestionStatus._('RUNNING');
+  static const failed = IngestionStatus._('FAILED');
+  static const completed = IngestionStatus._('COMPLETED');
+  static const cancelled = IngestionStatus._('CANCELLED');
 
   final String value;
 
-  const IngestionStatus(this.value);
+  const IngestionStatus._(this.value);
+
+  static const values = [
+    initialized,
+    queued,
+    running,
+    failed,
+    completed,
+    cancelled
+  ];
 
   static IngestionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionStatus'));
+          orElse: () => IngestionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This defines the type of ingestion user wants to trigger. This is part of
 /// create ingestion request.
-enum IngestionType {
-  incrementalRefresh('INCREMENTAL_REFRESH'),
-  fullRefresh('FULL_REFRESH'),
-  ;
+class IngestionType {
+  static const incrementalRefresh = IngestionType._('INCREMENTAL_REFRESH');
+  static const fullRefresh = IngestionType._('FULL_REFRESH');
 
   final String value;
 
-  const IngestionType(this.value);
+  const IngestionType._(this.value);
+
+  static const values = [incrementalRefresh, fullRefresh];
 
   static IngestionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionType'));
+          orElse: () => IngestionType._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>InnerFilter</code> defines the subset of data to be used with the
@@ -35331,7 +36733,7 @@ class InputColumn {
   factory InputColumn.fromJson(Map<String, dynamic> json) {
     return InputColumn(
       name: (json['Name'] as String?) ?? '',
-      type: InputColumnDataType.fromString((json['Type'] as String)),
+      type: InputColumnDataType.fromString((json['Type'] as String?) ?? ''),
       subType: (json['SubType'] as String?)?.let(ColumnDataSubType.fromString),
     );
   }
@@ -35348,24 +36750,42 @@ class InputColumn {
   }
 }
 
-enum InputColumnDataType {
-  string('STRING'),
-  integer('INTEGER'),
-  decimal('DECIMAL'),
-  datetime('DATETIME'),
-  bit('BIT'),
-  boolean('BOOLEAN'),
-  json('JSON'),
-  ;
+class InputColumnDataType {
+  static const string = InputColumnDataType._('STRING');
+  static const integer = InputColumnDataType._('INTEGER');
+  static const decimal = InputColumnDataType._('DECIMAL');
+  static const datetime = InputColumnDataType._('DATETIME');
+  static const bit = InputColumnDataType._('BIT');
+  static const boolean = InputColumnDataType._('BOOLEAN');
+  static const json = InputColumnDataType._('JSON');
 
   final String value;
 
-  const InputColumnDataType(this.value);
+  const InputColumnDataType._(this.value);
 
-  static InputColumnDataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputColumnDataType'));
+  static const values = [
+    string,
+    integer,
+    decimal,
+    datetime,
+    bit,
+    boolean,
+    json
+  ];
+
+  static InputColumnDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputColumnDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputColumnDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of an insight visual.
@@ -35518,8 +36938,8 @@ class IntegerDatasetParameter {
     return IntegerDatasetParameter(
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      valueType:
-          DatasetParameterValueType.fromString((json['ValueType'] as String)),
+      valueType: DatasetParameterValueType.fromString(
+          (json['ValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? IntegerDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -35666,8 +37086,8 @@ class IntegerParameterDeclaration {
   factory IntegerParameterDeclaration.fromJson(Map<String, dynamic> json) {
     return IntegerParameterDeclaration(
       name: (json['Name'] as String?) ?? '',
-      parameterValueType:
-          ParameterValueType.fromString((json['ParameterValueType'] as String)),
+      parameterValueType: ParameterValueType.fromString(
+          (json['ParameterValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? IntegerDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -35877,7 +37297,7 @@ class JoinInstruction {
       leftOperand: (json['LeftOperand'] as String?) ?? '',
       onClause: (json['OnClause'] as String?) ?? '',
       rightOperand: (json['RightOperand'] as String?) ?? '',
-      type: JoinType.fromString((json['Type'] as String)),
+      type: JoinType.fromString((json['Type'] as String?) ?? ''),
       leftJoinKeyProperties: json['LeftJoinKeyProperties'] != null
           ? JoinKeyProperties.fromJson(
               json['LeftJoinKeyProperties'] as Map<String, dynamic>)
@@ -35934,20 +37354,29 @@ class JoinKeyProperties {
   }
 }
 
-enum JoinType {
-  inner('INNER'),
-  outer('OUTER'),
-  left('LEFT'),
-  right('RIGHT'),
-  ;
+class JoinType {
+  static const inner = JoinType._('INNER');
+  static const outer = JoinType._('OUTER');
+  static const left = JoinType._('LEFT');
+  static const right = JoinType._('RIGHT');
 
   final String value;
 
-  const JoinType(this.value);
+  const JoinType._(this.value);
 
-  static JoinType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JoinType'));
+  static const values = [inner, outer, left, right];
+
+  static JoinType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JoinType._(value));
+
+  @override
+  bool operator ==(other) => other is JoinType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The conditional formatting for the actual value of a KPI visual.
@@ -36438,7 +37867,7 @@ class KPISparklineOptions {
 
   factory KPISparklineOptions.fromJson(Map<String, dynamic> json) {
     return KPISparklineOptions(
-      type: KPISparklineType.fromString((json['Type'] as String)),
+      type: KPISparklineType.fromString((json['Type'] as String?) ?? ''),
       color: json['Color'] as String?,
       tooltipVisibility:
           (json['TooltipVisibility'] as String?)?.let(Visibility.fromString),
@@ -36461,19 +37890,28 @@ class KPISparklineOptions {
   }
 }
 
-enum KPISparklineType {
-  line('LINE'),
-  area('AREA'),
-  ;
+class KPISparklineType {
+  static const line = KPISparklineType._('LINE');
+  static const area = KPISparklineType._('AREA');
 
   final String value;
 
-  const KPISparklineType(this.value);
+  const KPISparklineType._(this.value);
+
+  static const values = [line, area];
 
   static KPISparklineType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KPISparklineType'));
+          orElse: () => KPISparklineType._(value));
+
+  @override
+  bool operator ==(other) => other is KPISparklineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key performance indicator (KPI).
@@ -36603,7 +38041,8 @@ class KPIVisualStandardLayout {
 
   factory KPIVisualStandardLayout.fromJson(Map<String, dynamic> json) {
     return KPIVisualStandardLayout(
-      type: KPIVisualStandardLayoutType.fromString((json['Type'] as String)),
+      type: KPIVisualStandardLayoutType.fromString(
+          (json['Type'] as String?) ?? ''),
     );
   }
 
@@ -36615,19 +38054,29 @@ class KPIVisualStandardLayout {
   }
 }
 
-enum KPIVisualStandardLayoutType {
-  classic('CLASSIC'),
-  vertical('VERTICAL'),
-  ;
+class KPIVisualStandardLayoutType {
+  static const classic = KPIVisualStandardLayoutType._('CLASSIC');
+  static const vertical = KPIVisualStandardLayoutType._('VERTICAL');
 
   final String value;
 
-  const KPIVisualStandardLayoutType(this.value);
+  const KPIVisualStandardLayoutType._(this.value);
+
+  static const values = [classic, vertical];
 
   static KPIVisualStandardLayoutType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum KPIVisualStandardLayoutType'));
+          orElse: () => KPIVisualStandardLayoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KPIVisualStandardLayoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The share label options for the labels.
@@ -36758,21 +38207,30 @@ class LayoutConfiguration {
   }
 }
 
-enum LayoutElementType {
-  visual('VISUAL'),
-  filterControl('FILTER_CONTROL'),
-  parameterControl('PARAMETER_CONTROL'),
-  textBox('TEXT_BOX'),
-  ;
+class LayoutElementType {
+  static const visual = LayoutElementType._('VISUAL');
+  static const filterControl = LayoutElementType._('FILTER_CONTROL');
+  static const parameterControl = LayoutElementType._('PARAMETER_CONTROL');
+  static const textBox = LayoutElementType._('TEXT_BOX');
 
   final String value;
 
-  const LayoutElementType(this.value);
+  const LayoutElementType._(this.value);
+
+  static const values = [visual, filterControl, parameterControl, textBox];
 
   static LayoutElementType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LayoutElementType'));
+          orElse: () => LayoutElementType._(value));
+
+  @override
+  bool operator ==(other) => other is LayoutElementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options for the legend setup of a visual.
@@ -36845,21 +38303,30 @@ class LegendOptions {
   }
 }
 
-enum LegendPosition {
-  auto('AUTO'),
-  right('RIGHT'),
-  bottom('BOTTOM'),
-  top('TOP'),
-  ;
+class LegendPosition {
+  static const auto = LegendPosition._('AUTO');
+  static const right = LegendPosition._('RIGHT');
+  static const bottom = LegendPosition._('BOTTOM');
+  static const top = LegendPosition._('TOP');
 
   final String value;
 
-  const LegendPosition(this.value);
+  const LegendPosition._(this.value);
+
+  static const values = [auto, right, bottom, top];
 
   static LegendPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LegendPosition'));
+          orElse: () => LegendPosition._(value));
+
+  @override
+  bool operator ==(other) => other is LegendPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The field well configuration of a line chart.
@@ -37226,20 +38693,30 @@ class LineChartFieldWells {
   }
 }
 
-enum LineChartLineStyle {
-  solid('SOLID'),
-  dotted('DOTTED'),
-  dashed('DASHED'),
-  ;
+class LineChartLineStyle {
+  static const solid = LineChartLineStyle._('SOLID');
+  static const dotted = LineChartLineStyle._('DOTTED');
+  static const dashed = LineChartLineStyle._('DASHED');
 
   final String value;
 
-  const LineChartLineStyle(this.value);
+  const LineChartLineStyle._(this.value);
 
-  static LineChartLineStyle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LineChartLineStyle'));
+  static const values = [solid, dotted, dashed];
+
+  static LineChartLineStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LineChartLineStyle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LineChartLineStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Line styles options for a line series in <code>LineChartVisual</code>.
@@ -37315,22 +38792,32 @@ class LineChartLineStyleSettings {
   }
 }
 
-enum LineChartMarkerShape {
-  circle('CIRCLE'),
-  triangle('TRIANGLE'),
-  square('SQUARE'),
-  diamond('DIAMOND'),
-  roundedSquare('ROUNDED_SQUARE'),
-  ;
+class LineChartMarkerShape {
+  static const circle = LineChartMarkerShape._('CIRCLE');
+  static const triangle = LineChartMarkerShape._('TRIANGLE');
+  static const square = LineChartMarkerShape._('SQUARE');
+  static const diamond = LineChartMarkerShape._('DIAMOND');
+  static const roundedSquare = LineChartMarkerShape._('ROUNDED_SQUARE');
 
   final String value;
 
-  const LineChartMarkerShape(this.value);
+  const LineChartMarkerShape._(this.value);
 
-  static LineChartMarkerShape fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LineChartMarkerShape'));
+  static const values = [circle, triangle, square, diamond, roundedSquare];
+
+  static LineChartMarkerShape fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LineChartMarkerShape._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LineChartMarkerShape && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Marker styles options for a line series in <code>LineChartVisual</code>.
@@ -37510,20 +38997,29 @@ class LineChartSortConfiguration {
   }
 }
 
-enum LineChartType {
-  line('LINE'),
-  area('AREA'),
-  stackedArea('STACKED_AREA'),
-  ;
+class LineChartType {
+  static const line = LineChartType._('LINE');
+  static const area = LineChartType._('AREA');
+  static const stackedArea = LineChartType._('STACKED_AREA');
 
   final String value;
 
-  const LineChartType(this.value);
+  const LineChartType._(this.value);
+
+  static const values = [line, area, stackedArea];
 
   static LineChartType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LineChartType'));
+          orElse: () => LineChartType._(value));
+
+  @override
+  bool operator ==(other) => other is LineChartType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A line chart.
@@ -37605,20 +39101,29 @@ class LineChartVisual {
   }
 }
 
-enum LineInterpolation {
-  linear('LINEAR'),
-  smooth('SMOOTH'),
-  stepped('STEPPED'),
-  ;
+class LineInterpolation {
+  static const linear = LineInterpolation._('LINEAR');
+  static const smooth = LineInterpolation._('SMOOTH');
+  static const stepped = LineInterpolation._('STEPPED');
 
   final String value;
 
-  const LineInterpolation(this.value);
+  const LineInterpolation._(this.value);
+
+  static const values = [linear, smooth, stepped];
 
   static LineInterpolation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LineInterpolation'));
+          orElse: () => LineInterpolation._(value));
+
+  @override
+  bool operator ==(other) => other is LineInterpolation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The series axis configuration of a line chart.
@@ -39422,7 +40927,8 @@ class LookbackWindow {
     return LookbackWindow(
       columnName: (json['ColumnName'] as String?) ?? '',
       size: (json['Size'] as int?) ?? 0,
-      sizeUnit: LookbackWindowSizeUnit.fromString((json['SizeUnit'] as String)),
+      sizeUnit: LookbackWindowSizeUnit.fromString(
+          (json['SizeUnit'] as String?) ?? ''),
     );
   }
 
@@ -39438,20 +40944,30 @@ class LookbackWindow {
   }
 }
 
-enum LookbackWindowSizeUnit {
-  hour('HOUR'),
-  day('DAY'),
-  week('WEEK'),
-  ;
+class LookbackWindowSizeUnit {
+  static const hour = LookbackWindowSizeUnit._('HOUR');
+  static const day = LookbackWindowSizeUnit._('DAY');
+  static const week = LookbackWindowSizeUnit._('WEEK');
 
   final String value;
 
-  const LookbackWindowSizeUnit(this.value);
+  const LookbackWindowSizeUnit._(this.value);
+
+  static const values = [hour, day, week];
 
   static LookbackWindowSizeUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LookbackWindowSizeUnit'));
+          orElse: () => LookbackWindowSizeUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LookbackWindowSizeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Amazon S3 manifest file location.
@@ -39484,18 +41000,27 @@ class ManifestFileLocation {
   }
 }
 
-enum MapZoomMode {
-  auto('AUTO'),
-  manual('MANUAL'),
-  ;
+class MapZoomMode {
+  static const auto = MapZoomMode._('AUTO');
+  static const manual = MapZoomMode._('MANUAL');
 
   final String value;
 
-  const MapZoomMode(this.value);
+  const MapZoomMode._(this.value);
 
-  static MapZoomMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MapZoomMode'));
+  static const values = [auto, manual];
+
+  static MapZoomMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MapZoomMode._(value));
+
+  @override
+  bool operator ==(other) => other is MapZoomMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A dataset parameter that is mapped to an analysis parameter.
@@ -39648,7 +41173,8 @@ class MaximumMinimumComputation {
   factory MaximumMinimumComputation.fromJson(Map<String, dynamic> json) {
     return MaximumMinimumComputation(
       computationId: (json['ComputationId'] as String?) ?? '',
-      type: MaximumMinimumComputationType.fromString((json['Type'] as String)),
+      type: MaximumMinimumComputationType.fromString(
+          (json['Type'] as String?) ?? ''),
       name: json['Name'] as String?,
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
@@ -39675,19 +41201,29 @@ class MaximumMinimumComputation {
   }
 }
 
-enum MaximumMinimumComputationType {
-  maximum('MAXIMUM'),
-  minimum('MINIMUM'),
-  ;
+class MaximumMinimumComputationType {
+  static const maximum = MaximumMinimumComputationType._('MAXIMUM');
+  static const minimum = MaximumMinimumComputationType._('MINIMUM');
 
   final String value;
 
-  const MaximumMinimumComputationType(this.value);
+  const MaximumMinimumComputationType._(this.value);
+
+  static const values = [maximum, minimum];
 
   static MaximumMinimumComputationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MaximumMinimumComputationType'));
+          orElse: () => MaximumMinimumComputationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaximumMinimumComputationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The measure (metric) type field.
@@ -39780,21 +41316,30 @@ class MemberIdArnPair {
   }
 }
 
-enum MemberType {
-  dashboard('DASHBOARD'),
-  analysis('ANALYSIS'),
-  dataset('DATASET'),
-  datasource('DATASOURCE'),
-  topic('TOPIC'),
-  ;
+class MemberType {
+  static const dashboard = MemberType._('DASHBOARD');
+  static const analysis = MemberType._('ANALYSIS');
+  static const dataset = MemberType._('DATASET');
+  static const datasource = MemberType._('DATASOURCE');
+  static const topic = MemberType._('TOPIC');
 
   final String value;
 
-  const MemberType(this.value);
+  const MemberType._(this.value);
 
-  static MemberType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MemberType'));
+  static const values = [dashboard, analysis, dataset, datasource, topic];
+
+  static MemberType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MemberType._(value));
+
+  @override
+  bool operator ==(other) => other is MemberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metric comparison computation configuration.
@@ -39917,20 +41462,30 @@ class MissingDataConfiguration {
   }
 }
 
-enum MissingDataTreatmentOption {
-  interpolate('INTERPOLATE'),
-  showAsZero('SHOW_AS_ZERO'),
-  showAsBlank('SHOW_AS_BLANK'),
-  ;
+class MissingDataTreatmentOption {
+  static const interpolate = MissingDataTreatmentOption._('INTERPOLATE');
+  static const showAsZero = MissingDataTreatmentOption._('SHOW_AS_ZERO');
+  static const showAsBlank = MissingDataTreatmentOption._('SHOW_AS_BLANK');
 
   final String value;
 
-  const MissingDataTreatmentOption(this.value);
+  const MissingDataTreatmentOption._(this.value);
+
+  static const values = [interpolate, showAsZero, showAsBlank];
 
   static MissingDataTreatmentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MissingDataTreatmentOption'));
+          orElse: () => MissingDataTreatmentOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MissingDataTreatmentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for MySQL.
@@ -39970,30 +41525,54 @@ class MySqlParameters {
   }
 }
 
-enum NamedEntityAggType {
-  sum('SUM'),
-  min('MIN'),
-  max('MAX'),
-  count('COUNT'),
-  average('AVERAGE'),
-  distinctCount('DISTINCT_COUNT'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  $var('VAR'),
-  varp('VARP'),
-  percentile('PERCENTILE'),
-  median('MEDIAN'),
-  custom('CUSTOM'),
-  ;
+class NamedEntityAggType {
+  static const sum = NamedEntityAggType._('SUM');
+  static const min = NamedEntityAggType._('MIN');
+  static const max = NamedEntityAggType._('MAX');
+  static const count = NamedEntityAggType._('COUNT');
+  static const average = NamedEntityAggType._('AVERAGE');
+  static const distinctCount = NamedEntityAggType._('DISTINCT_COUNT');
+  static const stdev = NamedEntityAggType._('STDEV');
+  static const stdevp = NamedEntityAggType._('STDEVP');
+  static const $var = NamedEntityAggType._('VAR');
+  static const varp = NamedEntityAggType._('VARP');
+  static const percentile = NamedEntityAggType._('PERCENTILE');
+  static const median = NamedEntityAggType._('MEDIAN');
+  static const custom = NamedEntityAggType._('CUSTOM');
 
   final String value;
 
-  const NamedEntityAggType(this.value);
+  const NamedEntityAggType._(this.value);
 
-  static NamedEntityAggType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NamedEntityAggType'));
+  static const values = [
+    sum,
+    min,
+    max,
+    count,
+    average,
+    distinctCount,
+    stdev,
+    stdevp,
+    $var,
+    varp,
+    percentile,
+    median,
+    custom
+  ];
+
+  static NamedEntityAggType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamedEntityAggType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamedEntityAggType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a named entity.
@@ -40115,47 +41694,86 @@ class NamedEntityRef {
   }
 }
 
-enum NamedFilterAggType {
-  noAggregation('NO_AGGREGATION'),
-  sum('SUM'),
-  average('AVERAGE'),
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  max('MAX'),
-  median('MEDIAN'),
-  min('MIN'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  $var('VAR'),
-  varp('VARP'),
-  ;
+class NamedFilterAggType {
+  static const noAggregation = NamedFilterAggType._('NO_AGGREGATION');
+  static const sum = NamedFilterAggType._('SUM');
+  static const average = NamedFilterAggType._('AVERAGE');
+  static const count = NamedFilterAggType._('COUNT');
+  static const distinctCount = NamedFilterAggType._('DISTINCT_COUNT');
+  static const max = NamedFilterAggType._('MAX');
+  static const median = NamedFilterAggType._('MEDIAN');
+  static const min = NamedFilterAggType._('MIN');
+  static const stdev = NamedFilterAggType._('STDEV');
+  static const stdevp = NamedFilterAggType._('STDEVP');
+  static const $var = NamedFilterAggType._('VAR');
+  static const varp = NamedFilterAggType._('VARP');
 
   final String value;
 
-  const NamedFilterAggType(this.value);
+  const NamedFilterAggType._(this.value);
 
-  static NamedFilterAggType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NamedFilterAggType'));
+  static const values = [
+    noAggregation,
+    sum,
+    average,
+    count,
+    distinctCount,
+    max,
+    median,
+    min,
+    stdev,
+    stdevp,
+    $var,
+    varp
+  ];
+
+  static NamedFilterAggType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamedFilterAggType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamedFilterAggType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NamedFilterType {
-  categoryFilter('CATEGORY_FILTER'),
-  numericEqualityFilter('NUMERIC_EQUALITY_FILTER'),
-  numericRangeFilter('NUMERIC_RANGE_FILTER'),
-  dateRangeFilter('DATE_RANGE_FILTER'),
-  relativeDateFilter('RELATIVE_DATE_FILTER'),
-  ;
+class NamedFilterType {
+  static const categoryFilter = NamedFilterType._('CATEGORY_FILTER');
+  static const numericEqualityFilter =
+      NamedFilterType._('NUMERIC_EQUALITY_FILTER');
+  static const numericRangeFilter = NamedFilterType._('NUMERIC_RANGE_FILTER');
+  static const dateRangeFilter = NamedFilterType._('DATE_RANGE_FILTER');
+  static const relativeDateFilter = NamedFilterType._('RELATIVE_DATE_FILTER');
 
   final String value;
 
-  const NamedFilterType(this.value);
+  const NamedFilterType._(this.value);
+
+  static const values = [
+    categoryFilter,
+    numericEqualityFilter,
+    numericRangeFilter,
+    dateRangeFilter,
+    relativeDateFilter
+  ];
 
   static NamedFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NamedFilterType'));
+          orElse: () => NamedFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is NamedFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Errors that occur during namespace creation.
@@ -40188,19 +41806,30 @@ class NamespaceError {
   }
 }
 
-enum NamespaceErrorType {
-  permissionDenied('PERMISSION_DENIED'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  ;
+class NamespaceErrorType {
+  static const permissionDenied = NamespaceErrorType._('PERMISSION_DENIED');
+  static const internalServiceError =
+      NamespaceErrorType._('INTERNAL_SERVICE_ERROR');
 
   final String value;
 
-  const NamespaceErrorType(this.value);
+  const NamespaceErrorType._(this.value);
 
-  static NamespaceErrorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NamespaceErrorType'));
+  static const values = [permissionDenied, internalServiceError];
+
+  static NamespaceErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The error type.
@@ -40266,22 +41895,37 @@ class NamespaceInfoV2 {
   }
 }
 
-enum NamespaceStatus {
-  created('CREATED'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  retryableFailure('RETRYABLE_FAILURE'),
-  nonRetryableFailure('NON_RETRYABLE_FAILURE'),
-  ;
+class NamespaceStatus {
+  static const created = NamespaceStatus._('CREATED');
+  static const creating = NamespaceStatus._('CREATING');
+  static const deleting = NamespaceStatus._('DELETING');
+  static const retryableFailure = NamespaceStatus._('RETRYABLE_FAILURE');
+  static const nonRetryableFailure = NamespaceStatus._('NON_RETRYABLE_FAILURE');
 
   final String value;
 
-  const NamespaceStatus(this.value);
+  const NamespaceStatus._(this.value);
+
+  static const values = [
+    created,
+    creating,
+    deleting,
+    retryableFailure,
+    nonRetryableFailure
+  ];
 
   static NamespaceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NamespaceStatus'));
+          orElse: () => NamespaceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NamespaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a negative format.
@@ -40325,8 +41969,8 @@ class NegativeValueConfiguration {
 
   factory NegativeValueConfiguration.fromJson(Map<String, dynamic> json) {
     return NegativeValueConfiguration(
-      displayMode:
-          NegativeValueDisplayMode.fromString((json['DisplayMode'] as String)),
+      displayMode: NegativeValueDisplayMode.fromString(
+          (json['DisplayMode'] as String?) ?? ''),
     );
   }
 
@@ -40338,19 +41982,29 @@ class NegativeValueConfiguration {
   }
 }
 
-enum NegativeValueDisplayMode {
-  positive('POSITIVE'),
-  negative('NEGATIVE'),
-  ;
+class NegativeValueDisplayMode {
+  static const positive = NegativeValueDisplayMode._('POSITIVE');
+  static const negative = NegativeValueDisplayMode._('NEGATIVE');
 
   final String value;
 
-  const NegativeValueDisplayMode(this.value);
+  const NegativeValueDisplayMode._(this.value);
+
+  static const values = [positive, negative];
 
   static NegativeValueDisplayMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NegativeValueDisplayMode'));
+          orElse: () => NegativeValueDisplayMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NegativeValueDisplayMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>NestedFilter</code> filters data with a subset of data that is
@@ -40457,27 +42111,50 @@ class NetworkInterface {
   }
 }
 
-enum NetworkInterfaceStatus {
-  creating('CREATING'),
-  available('AVAILABLE'),
-  creationFailed('CREATION_FAILED'),
-  updating('UPDATING'),
-  updateFailed('UPDATE_FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deletionFailed('DELETION_FAILED'),
-  deletionScheduled('DELETION_SCHEDULED'),
-  attachmentFailedRollbackFailed('ATTACHMENT_FAILED_ROLLBACK_FAILED'),
-  ;
+class NetworkInterfaceStatus {
+  static const creating = NetworkInterfaceStatus._('CREATING');
+  static const available = NetworkInterfaceStatus._('AVAILABLE');
+  static const creationFailed = NetworkInterfaceStatus._('CREATION_FAILED');
+  static const updating = NetworkInterfaceStatus._('UPDATING');
+  static const updateFailed = NetworkInterfaceStatus._('UPDATE_FAILED');
+  static const deleting = NetworkInterfaceStatus._('DELETING');
+  static const deleted = NetworkInterfaceStatus._('DELETED');
+  static const deletionFailed = NetworkInterfaceStatus._('DELETION_FAILED');
+  static const deletionScheduled =
+      NetworkInterfaceStatus._('DELETION_SCHEDULED');
+  static const attachmentFailedRollbackFailed =
+      NetworkInterfaceStatus._('ATTACHMENT_FAILED_ROLLBACK_FAILED');
 
   final String value;
 
-  const NetworkInterfaceStatus(this.value);
+  const NetworkInterfaceStatus._(this.value);
+
+  static const values = [
+    creating,
+    available,
+    creationFailed,
+    updating,
+    updateFailed,
+    deleting,
+    deleted,
+    deletionFailed,
+    deletionScheduled,
+    attachmentFailedRollbackFailed
+  ];
 
   static NetworkInterfaceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkInterfaceStatus'));
+          orElse: () => NetworkInterfaceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration that overrides the existing default values for a dataset
@@ -40541,20 +42218,29 @@ class NewDefaultValues {
   }
 }
 
-enum NullFilterOption {
-  allValues('ALL_VALUES'),
-  nonNullsOnly('NON_NULLS_ONLY'),
-  nullsOnly('NULLS_ONLY'),
-  ;
+class NullFilterOption {
+  static const allValues = NullFilterOption._('ALL_VALUES');
+  static const nonNullsOnly = NullFilterOption._('NON_NULLS_ONLY');
+  static const nullsOnly = NullFilterOption._('NULLS_ONLY');
 
   final String value;
 
-  const NullFilterOption(this.value);
+  const NullFilterOption._(this.value);
+
+  static const values = [allValues, nonNullsOnly, nullsOnly];
 
   static NullFilterOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NullFilterOption'));
+          orElse: () => NullFilterOption._(value));
+
+  @override
+  bool operator ==(other) => other is NullFilterOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine the null value format configuration.
@@ -40689,22 +42375,31 @@ class NumberFormatConfiguration {
   }
 }
 
-enum NumberScale {
-  none('NONE'),
-  auto('AUTO'),
-  thousands('THOUSANDS'),
-  millions('MILLIONS'),
-  billions('BILLIONS'),
-  trillions('TRILLIONS'),
-  ;
+class NumberScale {
+  static const none = NumberScale._('NONE');
+  static const auto = NumberScale._('AUTO');
+  static const thousands = NumberScale._('THOUSANDS');
+  static const millions = NumberScale._('MILLIONS');
+  static const billions = NumberScale._('BILLIONS');
+  static const trillions = NumberScale._('TRILLIONS');
 
   final String value;
 
-  const NumberScale(this.value);
+  const NumberScale._(this.value);
 
-  static NumberScale fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NumberScale'));
+  static const values = [none, auto, thousands, millions, billions, trillions];
+
+  static NumberScale fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NumberScale._(value));
+
+  @override
+  bool operator ==(other) => other is NumberScale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options for an axis with a numeric field.
@@ -40843,8 +42538,9 @@ class NumericEqualityFilter {
               const <String, dynamic>{}),
       filterId: (json['FilterId'] as String?) ?? '',
       matchOperator: NumericEqualityMatchOperator.fromString(
-          (json['MatchOperator'] as String)),
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
+          (json['MatchOperator'] as String?) ?? ''),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -40889,33 +42585,54 @@ class NumericEqualityFilter {
   }
 }
 
-enum NumericEqualityMatchOperator {
-  equals('EQUALS'),
-  doesNotEqual('DOES_NOT_EQUAL'),
-  ;
+class NumericEqualityMatchOperator {
+  static const equals = NumericEqualityMatchOperator._('EQUALS');
+  static const doesNotEqual = NumericEqualityMatchOperator._('DOES_NOT_EQUAL');
 
   final String value;
 
-  const NumericEqualityMatchOperator(this.value);
+  const NumericEqualityMatchOperator._(this.value);
+
+  static const values = [equals, doesNotEqual];
 
   static NumericEqualityMatchOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumericEqualityMatchOperator'));
+          orElse: () => NumericEqualityMatchOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumericEqualityMatchOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NumericFilterSelectAllOptions {
-  filterAllValues('FILTER_ALL_VALUES'),
-  ;
+class NumericFilterSelectAllOptions {
+  static const filterAllValues =
+      NumericFilterSelectAllOptions._('FILTER_ALL_VALUES');
 
   final String value;
 
-  const NumericFilterSelectAllOptions(this.value);
+  const NumericFilterSelectAllOptions._(this.value);
+
+  static const values = [filterAllValues];
 
   static NumericFilterSelectAllOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumericFilterSelectAllOptions'));
+          orElse: () => NumericFilterSelectAllOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumericFilterSelectAllOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine the numeric format configuration.
@@ -41057,7 +42774,8 @@ class NumericRangeFilter {
           (json['Column'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       filterId: (json['FilterId'] as String?) ?? '',
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -41176,20 +42894,30 @@ class NumericSeparatorConfiguration {
   }
 }
 
-enum NumericSeparatorSymbol {
-  comma('COMMA'),
-  dot('DOT'),
-  space('SPACE'),
-  ;
+class NumericSeparatorSymbol {
+  static const comma = NumericSeparatorSymbol._('COMMA');
+  static const dot = NumericSeparatorSymbol._('DOT');
+  static const space = NumericSeparatorSymbol._('SPACE');
 
   final String value;
 
-  const NumericSeparatorSymbol(this.value);
+  const NumericSeparatorSymbol._(this.value);
+
+  static const values = [comma, dot, space];
 
   static NumericSeparatorSymbol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumericSeparatorSymbol'));
+          orElse: () => NumericSeparatorSymbol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumericSeparatorSymbol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Aggregation for numerical values.
@@ -41408,19 +43136,28 @@ class OracleParameters {
   }
 }
 
-enum OtherCategories {
-  include('INCLUDE'),
-  exclude('EXCLUDE'),
-  ;
+class OtherCategories {
+  static const include = OtherCategories._('INCLUDE');
+  static const exclude = OtherCategories._('EXCLUDE');
 
   final String value;
 
-  const OtherCategories(this.value);
+  const OtherCategories._(this.value);
+
+  static const values = [include, exclude];
 
   static OtherCategories fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OtherCategories'));
+          orElse: () => OtherCategories._(value));
+
+  @override
+  bool operator ==(other) => other is OtherCategories && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Output column.
@@ -41539,20 +43276,29 @@ class PaginationConfiguration {
   }
 }
 
-enum PanelBorderStyle {
-  solid('SOLID'),
-  dashed('DASHED'),
-  dotted('DOTTED'),
-  ;
+class PanelBorderStyle {
+  static const solid = PanelBorderStyle._('SOLID');
+  static const dashed = PanelBorderStyle._('DASHED');
+  static const dotted = PanelBorderStyle._('DOTTED');
 
   final String value;
 
-  const PanelBorderStyle(this.value);
+  const PanelBorderStyle._(this.value);
+
+  static const values = [solid, dashed, dotted];
 
   static PanelBorderStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PanelBorderStyle'));
+          orElse: () => PanelBorderStyle._(value));
+
+  @override
+  bool operator ==(other) => other is PanelBorderStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of options that configure how each panel displays in a small
@@ -41684,42 +43430,72 @@ class PanelTitleOptions {
   }
 }
 
-enum PaperOrientation {
-  portrait('PORTRAIT'),
-  landscape('LANDSCAPE'),
-  ;
+class PaperOrientation {
+  static const portrait = PaperOrientation._('PORTRAIT');
+  static const landscape = PaperOrientation._('LANDSCAPE');
 
   final String value;
 
-  const PaperOrientation(this.value);
+  const PaperOrientation._(this.value);
+
+  static const values = [portrait, landscape];
 
   static PaperOrientation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PaperOrientation'));
+          orElse: () => PaperOrientation._(value));
+
+  @override
+  bool operator ==(other) => other is PaperOrientation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PaperSize {
-  usLetter('US_LETTER'),
-  usLegal('US_LEGAL'),
-  usTabloidLedger('US_TABLOID_LEDGER'),
-  a0('A0'),
-  a1('A1'),
-  a2('A2'),
-  a3('A3'),
-  a4('A4'),
-  a5('A5'),
-  jisB4('JIS_B4'),
-  jisB5('JIS_B5'),
-  ;
+class PaperSize {
+  static const usLetter = PaperSize._('US_LETTER');
+  static const usLegal = PaperSize._('US_LEGAL');
+  static const usTabloidLedger = PaperSize._('US_TABLOID_LEDGER');
+  static const a0 = PaperSize._('A0');
+  static const a1 = PaperSize._('A1');
+  static const a2 = PaperSize._('A2');
+  static const a3 = PaperSize._('A3');
+  static const a4 = PaperSize._('A4');
+  static const a5 = PaperSize._('A5');
+  static const jisB4 = PaperSize._('JIS_B4');
+  static const jisB5 = PaperSize._('JIS_B5');
 
   final String value;
 
-  const PaperSize(this.value);
+  const PaperSize._(this.value);
 
-  static PaperSize fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PaperSize'));
+  static const values = [
+    usLetter,
+    usLegal,
+    usTabloidLedger,
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    jisB4,
+    jisB5
+  ];
+
+  static PaperSize fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PaperSize._(value));
+
+  @override
+  bool operator ==(other) => other is PaperSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The control of a parameter that users can interact with in a dashboard or an
@@ -42279,19 +44055,29 @@ class ParameterTextFieldControl {
   }
 }
 
-enum ParameterValueType {
-  multiValued('MULTI_VALUED'),
-  singleValued('SINGLE_VALUED'),
-  ;
+class ParameterValueType {
+  static const multiValued = ParameterValueType._('MULTI_VALUED');
+  static const singleValued = ParameterValueType._('SINGLE_VALUED');
 
   final String value;
 
-  const ParameterValueType(this.value);
+  const ParameterValueType._(this.value);
 
-  static ParameterValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParameterValueType'));
+  static const values = [multiValued, singleValued];
+
+  static ParameterValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParameterValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParameterValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of Amazon QuickSight parameters and the list's override values.
@@ -43230,20 +45016,32 @@ class PivotTableConditionalFormattingScope {
   }
 }
 
-enum PivotTableConditionalFormattingScopeRole {
-  field('FIELD'),
-  fieldTotal('FIELD_TOTAL'),
-  grandTotal('GRAND_TOTAL'),
-  ;
+class PivotTableConditionalFormattingScopeRole {
+  static const field = PivotTableConditionalFormattingScopeRole._('FIELD');
+  static const fieldTotal =
+      PivotTableConditionalFormattingScopeRole._('FIELD_TOTAL');
+  static const grandTotal =
+      PivotTableConditionalFormattingScopeRole._('GRAND_TOTAL');
 
   final String value;
 
-  const PivotTableConditionalFormattingScopeRole(this.value);
+  const PivotTableConditionalFormattingScopeRole._(this.value);
+
+  static const values = [field, fieldTotal, grandTotal];
 
   static PivotTableConditionalFormattingScopeRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PivotTableConditionalFormattingScopeRole'));
+          orElse: () => PivotTableConditionalFormattingScopeRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableConditionalFormattingScopeRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for a <code>PivotTableVisual</code>.
@@ -43366,36 +45164,65 @@ class PivotTableDataPathOption {
   }
 }
 
-enum PivotTableDataPathType {
-  hierarchyRowsLayoutColumn('HIERARCHY_ROWS_LAYOUT_COLUMN'),
-  multipleRowMetricsColumn('MULTIPLE_ROW_METRICS_COLUMN'),
-  emptyColumnHeader('EMPTY_COLUMN_HEADER'),
-  countMetricColumn('COUNT_METRIC_COLUMN'),
-  ;
+class PivotTableDataPathType {
+  static const hierarchyRowsLayoutColumn =
+      PivotTableDataPathType._('HIERARCHY_ROWS_LAYOUT_COLUMN');
+  static const multipleRowMetricsColumn =
+      PivotTableDataPathType._('MULTIPLE_ROW_METRICS_COLUMN');
+  static const emptyColumnHeader =
+      PivotTableDataPathType._('EMPTY_COLUMN_HEADER');
+  static const countMetricColumn =
+      PivotTableDataPathType._('COUNT_METRIC_COLUMN');
 
   final String value;
 
-  const PivotTableDataPathType(this.value);
+  const PivotTableDataPathType._(this.value);
+
+  static const values = [
+    hierarchyRowsLayoutColumn,
+    multipleRowMetricsColumn,
+    emptyColumnHeader,
+    countMetricColumn
+  ];
 
   static PivotTableDataPathType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PivotTableDataPathType'));
+          orElse: () => PivotTableDataPathType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableDataPathType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PivotTableFieldCollapseState {
-  collapsed('COLLAPSED'),
-  expanded('EXPANDED'),
-  ;
+class PivotTableFieldCollapseState {
+  static const collapsed = PivotTableFieldCollapseState._('COLLAPSED');
+  static const expanded = PivotTableFieldCollapseState._('EXPANDED');
 
   final String value;
 
-  const PivotTableFieldCollapseState(this.value);
+  const PivotTableFieldCollapseState._(this.value);
+
+  static const values = [collapsed, expanded];
 
   static PivotTableFieldCollapseState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PivotTableFieldCollapseState'));
+          orElse: () => PivotTableFieldCollapseState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableFieldCollapseState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The collapse state options for the pivot table field options.
@@ -43618,19 +45445,29 @@ class PivotTableFieldWells {
   }
 }
 
-enum PivotTableMetricPlacement {
-  row('ROW'),
-  column('COLUMN'),
-  ;
+class PivotTableMetricPlacement {
+  static const row = PivotTableMetricPlacement._('ROW');
+  static const column = PivotTableMetricPlacement._('COLUMN');
 
   final String value;
 
-  const PivotTableMetricPlacement(this.value);
+  const PivotTableMetricPlacement._(this.value);
+
+  static const values = [row, column];
 
   static PivotTableMetricPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PivotTableMetricPlacement'));
+          orElse: () => PivotTableMetricPlacement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableMetricPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The table options for a pivot table visual.
@@ -43856,19 +45693,29 @@ class PivotTableRowsLabelOptions {
   }
 }
 
-enum PivotTableRowsLayout {
-  tabular('TABULAR'),
-  hierarchy('HIERARCHY'),
-  ;
+class PivotTableRowsLayout {
+  static const tabular = PivotTableRowsLayout._('TABULAR');
+  static const hierarchy = PivotTableRowsLayout._('HIERARCHY');
 
   final String value;
 
-  const PivotTableRowsLayout(this.value);
+  const PivotTableRowsLayout._(this.value);
 
-  static PivotTableRowsLayout fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PivotTableRowsLayout'));
+  static const values = [tabular, hierarchy];
+
+  static PivotTableRowsLayout fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PivotTableRowsLayout._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableRowsLayout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sort by field for the field sort options.
@@ -43941,20 +45788,30 @@ class PivotTableSortConfiguration {
   }
 }
 
-enum PivotTableSubtotalLevel {
-  all('ALL'),
-  custom('CUSTOM'),
-  last('LAST'),
-  ;
+class PivotTableSubtotalLevel {
+  static const all = PivotTableSubtotalLevel._('ALL');
+  static const custom = PivotTableSubtotalLevel._('CUSTOM');
+  static const last = PivotTableSubtotalLevel._('LAST');
 
   final String value;
 
-  const PivotTableSubtotalLevel(this.value);
+  const PivotTableSubtotalLevel._(this.value);
+
+  static const values = [all, custom, last];
 
   static PivotTableSubtotalLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PivotTableSubtotalLevel'));
+          orElse: () => PivotTableSubtotalLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PivotTableSubtotalLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The total options for a pivot table visual.
@@ -44305,20 +46162,30 @@ class PrestoParameters {
   }
 }
 
-enum PrimaryValueDisplayType {
-  hidden('HIDDEN'),
-  comparison('COMPARISON'),
-  actual('ACTUAL'),
-  ;
+class PrimaryValueDisplayType {
+  static const hidden = PrimaryValueDisplayType._('HIDDEN');
+  static const comparison = PrimaryValueDisplayType._('COMPARISON');
+  static const actual = PrimaryValueDisplayType._('ACTUAL');
 
   final String value;
 
-  const PrimaryValueDisplayType(this.value);
+  const PrimaryValueDisplayType._(this.value);
+
+  static const values = [hidden, comparison, actual];
 
   static PrimaryValueDisplayType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PrimaryValueDisplayType'));
+          orElse: () => PrimaryValueDisplayType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrimaryValueDisplayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that determine the presentation of the progress bar of a KPI
@@ -44372,50 +46239,75 @@ class ProjectOperation {
   }
 }
 
-enum PropertyRole {
-  primary('PRIMARY'),
-  id('ID'),
-  ;
+class PropertyRole {
+  static const primary = PropertyRole._('PRIMARY');
+  static const id = PropertyRole._('ID');
 
   final String value;
 
-  const PropertyRole(this.value);
+  const PropertyRole._(this.value);
 
-  static PropertyRole fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropertyRole'));
+  static const values = [primary, id];
+
+  static PropertyRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PropertyRole._(value));
+
+  @override
+  bool operator ==(other) => other is PropertyRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PropertyUsage {
-  inherit('INHERIT'),
-  dimension('DIMENSION'),
-  measure('MEASURE'),
-  ;
+class PropertyUsage {
+  static const inherit = PropertyUsage._('INHERIT');
+  static const dimension = PropertyUsage._('DIMENSION');
+  static const measure = PropertyUsage._('MEASURE');
 
   final String value;
 
-  const PropertyUsage(this.value);
+  const PropertyUsage._(this.value);
+
+  static const values = [inherit, dimension, measure];
 
   static PropertyUsage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropertyUsage'));
+          orElse: () => PropertyUsage._(value));
+
+  @override
+  bool operator ==(other) => other is PropertyUsage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PurchaseMode {
-  manual('MANUAL'),
-  autoPurchase('AUTO_PURCHASE'),
-  ;
+class PurchaseMode {
+  static const manual = PurchaseMode._('MANUAL');
+  static const autoPurchase = PurchaseMode._('AUTO_PURCHASE');
 
   final String value;
 
-  const PurchaseMode(this.value);
+  const PurchaseMode._(this.value);
 
-  static PurchaseMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PurchaseMode'));
+  static const values = [manual, autoPurchase];
+
+  static PurchaseMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PurchaseMode._(value));
+
+  @override
+  bool operator ==(other) => other is PurchaseMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutDataSetRefreshPropertiesResponse {
@@ -44447,19 +46339,29 @@ class PutDataSetRefreshPropertiesResponse {
   }
 }
 
-enum QueryExecutionMode {
-  auto('AUTO'),
-  manual('MANUAL'),
-  ;
+class QueryExecutionMode {
+  static const auto = QueryExecutionMode._('AUTO');
+  static const manual = QueryExecutionMode._('MANUAL');
 
   final String value;
 
-  const QueryExecutionMode(this.value);
+  const QueryExecutionMode._(this.value);
 
-  static QueryExecutionMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QueryExecutionMode'));
+  static const values = [auto, manual];
+
+  static QueryExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryExecutionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes the query execution options.
@@ -44587,20 +46489,30 @@ class RadarChartAreaStyleSettings {
   }
 }
 
-enum RadarChartAxesRangeScale {
-  auto('AUTO'),
-  independent('INDEPENDENT'),
-  shared('SHARED'),
-  ;
+class RadarChartAxesRangeScale {
+  static const auto = RadarChartAxesRangeScale._('AUTO');
+  static const independent = RadarChartAxesRangeScale._('INDEPENDENT');
+  static const shared = RadarChartAxesRangeScale._('SHARED');
 
   final String value;
 
-  const RadarChartAxesRangeScale(this.value);
+  const RadarChartAxesRangeScale._(this.value);
+
+  static const values = [auto, independent, shared];
 
   static RadarChartAxesRangeScale fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RadarChartAxesRangeScale'));
+          orElse: () => RadarChartAxesRangeScale._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RadarChartAxesRangeScale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of a <code>RadarChartVisual</code>.
@@ -44822,19 +46734,28 @@ class RadarChartSeriesSettings {
   }
 }
 
-enum RadarChartShape {
-  circle('CIRCLE'),
-  polygon('POLYGON'),
-  ;
+class RadarChartShape {
+  static const circle = RadarChartShape._('CIRCLE');
+  static const polygon = RadarChartShape._('POLYGON');
 
   final String value;
 
-  const RadarChartShape(this.value);
+  const RadarChartShape._(this.value);
+
+  static const values = [circle, polygon];
 
   static RadarChartShape fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RadarChartShape'));
+          orElse: () => RadarChartShape._(value));
+
+  @override
+  bool operator ==(other) => other is RadarChartShape && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sort configuration of a <code>RadarChartVisual</code>.
@@ -45496,66 +47417,106 @@ class ReferenceLineLabelConfiguration {
   }
 }
 
-enum ReferenceLineLabelHorizontalPosition {
-  left('LEFT'),
-  center('CENTER'),
-  right('RIGHT'),
-  ;
+class ReferenceLineLabelHorizontalPosition {
+  static const left = ReferenceLineLabelHorizontalPosition._('LEFT');
+  static const center = ReferenceLineLabelHorizontalPosition._('CENTER');
+  static const right = ReferenceLineLabelHorizontalPosition._('RIGHT');
 
   final String value;
 
-  const ReferenceLineLabelHorizontalPosition(this.value);
+  const ReferenceLineLabelHorizontalPosition._(this.value);
+
+  static const values = [left, center, right];
 
   static ReferenceLineLabelHorizontalPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceLineLabelHorizontalPosition'));
+          orElse: () => ReferenceLineLabelHorizontalPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceLineLabelHorizontalPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferenceLineLabelVerticalPosition {
-  above('ABOVE'),
-  below('BELOW'),
-  ;
+class ReferenceLineLabelVerticalPosition {
+  static const above = ReferenceLineLabelVerticalPosition._('ABOVE');
+  static const below = ReferenceLineLabelVerticalPosition._('BELOW');
 
   final String value;
 
-  const ReferenceLineLabelVerticalPosition(this.value);
+  const ReferenceLineLabelVerticalPosition._(this.value);
+
+  static const values = [above, below];
 
   static ReferenceLineLabelVerticalPosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceLineLabelVerticalPosition'));
+          orElse: () => ReferenceLineLabelVerticalPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceLineLabelVerticalPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferenceLinePatternType {
-  solid('SOLID'),
-  dashed('DASHED'),
-  dotted('DOTTED'),
-  ;
+class ReferenceLinePatternType {
+  static const solid = ReferenceLinePatternType._('SOLID');
+  static const dashed = ReferenceLinePatternType._('DASHED');
+  static const dotted = ReferenceLinePatternType._('DOTTED');
 
   final String value;
 
-  const ReferenceLinePatternType(this.value);
+  const ReferenceLinePatternType._(this.value);
+
+  static const values = [solid, dashed, dotted];
 
   static ReferenceLinePatternType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceLinePatternType'));
+          orElse: () => ReferenceLinePatternType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceLinePatternType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferenceLineSeriesType {
-  bar('BAR'),
-  line('LINE'),
-  ;
+class ReferenceLineSeriesType {
+  static const bar = ReferenceLineSeriesType._('BAR');
+  static const line = ReferenceLineSeriesType._('LINE');
 
   final String value;
 
-  const ReferenceLineSeriesType(this.value);
+  const ReferenceLineSeriesType._(this.value);
+
+  static const values = [bar, line];
 
   static ReferenceLineSeriesType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceLineSeriesType'));
+          orElse: () => ReferenceLineSeriesType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceLineSeriesType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The static data configuration of the reference line data configuration.
@@ -45671,19 +47632,31 @@ class ReferenceLineValueLabelConfiguration {
   }
 }
 
-enum ReferenceLineValueLabelRelativePosition {
-  beforeCustomLabel('BEFORE_CUSTOM_LABEL'),
-  afterCustomLabel('AFTER_CUSTOM_LABEL'),
-  ;
+class ReferenceLineValueLabelRelativePosition {
+  static const beforeCustomLabel =
+      ReferenceLineValueLabelRelativePosition._('BEFORE_CUSTOM_LABEL');
+  static const afterCustomLabel =
+      ReferenceLineValueLabelRelativePosition._('AFTER_CUSTOM_LABEL');
 
   final String value;
 
-  const ReferenceLineValueLabelRelativePosition(this.value);
+  const ReferenceLineValueLabelRelativePosition._(this.value);
+
+  static const values = [beforeCustomLabel, afterCustomLabel];
 
   static ReferenceLineValueLabelRelativePosition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReferenceLineValueLabelRelativePosition'));
+          orElse: () => ReferenceLineValueLabelRelativePosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferenceLineValueLabelRelativePosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The refresh configuration of a dataset.
@@ -45765,7 +47738,7 @@ class RefreshFrequency {
 
   factory RefreshFrequency.fromJson(Map<String, dynamic> json) {
     return RefreshFrequency(
-      interval: RefreshInterval.fromString((json['Interval'] as String)),
+      interval: RefreshInterval.fromString((json['Interval'] as String?) ?? ''),
       refreshOnDay: json['RefreshOnDay'] != null
           ? ScheduleRefreshOnEntity.fromJson(
               json['RefreshOnDay'] as Map<String, dynamic>)
@@ -45789,23 +47762,32 @@ class RefreshFrequency {
   }
 }
 
-enum RefreshInterval {
-  minute15('MINUTE15'),
-  minute30('MINUTE30'),
-  hourly('HOURLY'),
-  daily('DAILY'),
-  weekly('WEEKLY'),
-  monthly('MONTHLY'),
-  ;
+class RefreshInterval {
+  static const minute15 = RefreshInterval._('MINUTE15');
+  static const minute30 = RefreshInterval._('MINUTE30');
+  static const hourly = RefreshInterval._('HOURLY');
+  static const daily = RefreshInterval._('DAILY');
+  static const weekly = RefreshInterval._('WEEKLY');
+  static const monthly = RefreshInterval._('MONTHLY');
 
   final String value;
 
-  const RefreshInterval(this.value);
+  const RefreshInterval._(this.value);
+
+  static const values = [minute15, minute30, hourly, daily, weekly, monthly];
 
   static RefreshInterval fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RefreshInterval'));
+          orElse: () => RefreshInterval._(value));
+
+  @override
+  bool operator ==(other) => other is RefreshInterval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The refresh schedule of a dataset.
@@ -45849,7 +47831,8 @@ class RefreshSchedule {
 
   factory RefreshSchedule.fromJson(Map<String, dynamic> json) {
     return RefreshSchedule(
-      refreshType: IngestionType.fromString((json['RefreshType'] as String)),
+      refreshType:
+          IngestionType.fromString((json['RefreshType'] as String?) ?? ''),
       scheduleFrequency: RefreshFrequency.fromJson(
           (json['ScheduleFrequency'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -46371,22 +48354,31 @@ class RelativeDateTimeControlDisplayOptions {
   }
 }
 
-enum RelativeDateType {
-  previous('PREVIOUS'),
-  $this('THIS'),
-  last('LAST'),
-  now('NOW'),
-  next('NEXT'),
-  ;
+class RelativeDateType {
+  static const previous = RelativeDateType._('PREVIOUS');
+  static const $this = RelativeDateType._('THIS');
+  static const last = RelativeDateType._('LAST');
+  static const now = RelativeDateType._('NOW');
+  static const next = RelativeDateType._('NEXT');
 
   final String value;
 
-  const RelativeDateType(this.value);
+  const RelativeDateType._(this.value);
+
+  static const values = [previous, $this, last, now, next];
 
   static RelativeDateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelativeDateType'));
+          orElse: () => RelativeDateType._(value));
+
+  @override
+  bool operator ==(other) => other is RelativeDateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>RelativeDatesFilter</code> filters relative dates values.
@@ -46481,11 +48473,12 @@ class RelativeDatesFilter {
           (json['Column'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       filterId: (json['FilterId'] as String?) ?? '',
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
-      relativeDateType:
-          RelativeDateType.fromString((json['RelativeDateType'] as String)),
-      timeGranularity:
-          TimeGranularity.fromString((json['TimeGranularity'] as String)),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
+      relativeDateType: RelativeDateType.fromString(
+          (json['RelativeDateType'] as String?) ?? ''),
+      timeGranularity: TimeGranularity.fromString(
+          (json['TimeGranularity'] as String?) ?? ''),
       defaultFilterControlConfiguration:
           json['DefaultFilterControlConfiguration'] != null
               ? DefaultFilterControlConfiguration.fromJson(
@@ -46535,22 +48528,31 @@ class RelativeDatesFilter {
   }
 }
 
-enum RelativeFontSize {
-  extraSmall('EXTRA_SMALL'),
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  extraLarge('EXTRA_LARGE'),
-  ;
+class RelativeFontSize {
+  static const extraSmall = RelativeFontSize._('EXTRA_SMALL');
+  static const small = RelativeFontSize._('SMALL');
+  static const medium = RelativeFontSize._('MEDIUM');
+  static const large = RelativeFontSize._('LARGE');
+  static const extraLarge = RelativeFontSize._('EXTRA_LARGE');
 
   final String value;
 
-  const RelativeFontSize(this.value);
+  const RelativeFontSize._(this.value);
+
+  static const values = [extraSmall, small, medium, large, extraLarge];
 
   static RelativeFontSize fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelativeFontSize'));
+          orElse: () => RelativeFontSize._(value));
+
+  @override
+  bool operator ==(other) => other is RelativeFontSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A transform operation that renames a column.
@@ -46583,19 +48585,27 @@ class RenameColumnOperation {
   }
 }
 
-enum ResizeOption {
-  fixed('FIXED'),
-  responsive('RESPONSIVE'),
-  ;
+class ResizeOption {
+  static const fixed = ResizeOption._('FIXED');
+  static const responsive = ResizeOption._('RESPONSIVE');
 
   final String value;
 
-  const ResizeOption(this.value);
+  const ResizeOption._(this.value);
 
-  static ResizeOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResizeOption'));
+  static const values = [fixed, responsive];
+
+  static ResizeOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResizeOption._(value));
+
+  @override
+  bool operator ==(other) => other is ResizeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Permission for the resource.
@@ -46648,24 +48658,41 @@ class ResourcePermission {
   }
 }
 
-enum ResourceStatus {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  creationSuccessful('CREATION_SUCCESSFUL'),
-  creationFailed('CREATION_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateFailed('UPDATE_FAILED'),
-  deleted('DELETED'),
-  ;
+class ResourceStatus {
+  static const creationInProgress = ResourceStatus._('CREATION_IN_PROGRESS');
+  static const creationSuccessful = ResourceStatus._('CREATION_SUCCESSFUL');
+  static const creationFailed = ResourceStatus._('CREATION_FAILED');
+  static const updateInProgress = ResourceStatus._('UPDATE_IN_PROGRESS');
+  static const updateSuccessful = ResourceStatus._('UPDATE_SUCCESSFUL');
+  static const updateFailed = ResourceStatus._('UPDATE_FAILED');
+  static const deleted = ResourceStatus._('DELETED');
 
   final String value;
 
-  const ResourceStatus(this.value);
+  const ResourceStatus._(this.value);
+
+  static const values = [
+    creationInProgress,
+    creationSuccessful,
+    creationFailed,
+    updateInProgress,
+    updateSuccessful,
+    updateFailed,
+    deleted
+  ];
 
   static ResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStatus'));
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RestoreAnalysisResponse {
@@ -46710,42 +48737,73 @@ class RestoreAnalysisResponse {
   }
 }
 
-enum ReviewedAnswerErrorCode {
-  internalError('INTERNAL_ERROR'),
-  missingAnswer('MISSING_ANSWER'),
-  datasetDoesNotExist('DATASET_DOES_NOT_EXIST'),
-  invalidDatasetArn('INVALID_DATASET_ARN'),
-  duplicatedAnswer('DUPLICATED_ANSWER'),
-  invalidData('INVALID_DATA'),
-  missingRequiredFields('MISSING_REQUIRED_FIELDS'),
-  ;
+class ReviewedAnswerErrorCode {
+  static const internalError = ReviewedAnswerErrorCode._('INTERNAL_ERROR');
+  static const missingAnswer = ReviewedAnswerErrorCode._('MISSING_ANSWER');
+  static const datasetDoesNotExist =
+      ReviewedAnswerErrorCode._('DATASET_DOES_NOT_EXIST');
+  static const invalidDatasetArn =
+      ReviewedAnswerErrorCode._('INVALID_DATASET_ARN');
+  static const duplicatedAnswer =
+      ReviewedAnswerErrorCode._('DUPLICATED_ANSWER');
+  static const invalidData = ReviewedAnswerErrorCode._('INVALID_DATA');
+  static const missingRequiredFields =
+      ReviewedAnswerErrorCode._('MISSING_REQUIRED_FIELDS');
 
   final String value;
 
-  const ReviewedAnswerErrorCode(this.value);
+  const ReviewedAnswerErrorCode._(this.value);
+
+  static const values = [
+    internalError,
+    missingAnswer,
+    datasetDoesNotExist,
+    invalidDatasetArn,
+    duplicatedAnswer,
+    invalidData,
+    missingRequiredFields
+  ];
 
   static ReviewedAnswerErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReviewedAnswerErrorCode'));
+          orElse: () => ReviewedAnswerErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewedAnswerErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Role {
-  admin('ADMIN'),
-  author('AUTHOR'),
-  reader('READER'),
-  adminPro('ADMIN_PRO'),
-  authorPro('AUTHOR_PRO'),
-  readerPro('READER_PRO'),
-  ;
+class Role {
+  static const admin = Role._('ADMIN');
+  static const author = Role._('AUTHOR');
+  static const reader = Role._('READER');
+  static const adminPro = Role._('ADMIN_PRO');
+  static const authorPro = Role._('AUTHOR_PRO');
+  static const readerPro = Role._('READER_PRO');
 
   final String value;
 
-  const Role(this.value);
+  const Role._(this.value);
+
+  static const values = [admin, author, reader, adminPro, authorPro, readerPro];
 
   static Role fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Role'));
+      values.firstWhere((e) => e.value == value, orElse: () => Role._(value));
+
+  @override
+  bool operator ==(other) => other is Role && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The rolling date configuration of a date time filter.
@@ -46905,7 +48963,7 @@ class RowLevelPermissionDataSet {
     return RowLevelPermissionDataSet(
       arn: (json['Arn'] as String?) ?? '',
       permissionPolicy: RowLevelPermissionPolicy.fromString(
-          (json['PermissionPolicy'] as String)),
+          (json['PermissionPolicy'] as String?) ?? ''),
       formatVersion: (json['FormatVersion'] as String?)
           ?.let(RowLevelPermissionFormatVersion.fromString),
       namespace: json['Namespace'] as String?,
@@ -46929,34 +48987,54 @@ class RowLevelPermissionDataSet {
   }
 }
 
-enum RowLevelPermissionFormatVersion {
-  version_1('VERSION_1'),
-  version_2('VERSION_2'),
-  ;
+class RowLevelPermissionFormatVersion {
+  static const version_1 = RowLevelPermissionFormatVersion._('VERSION_1');
+  static const version_2 = RowLevelPermissionFormatVersion._('VERSION_2');
 
   final String value;
 
-  const RowLevelPermissionFormatVersion(this.value);
+  const RowLevelPermissionFormatVersion._(this.value);
+
+  static const values = [version_1, version_2];
 
   static RowLevelPermissionFormatVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RowLevelPermissionFormatVersion'));
+          orElse: () => RowLevelPermissionFormatVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RowLevelPermissionFormatVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RowLevelPermissionPolicy {
-  grantAccess('GRANT_ACCESS'),
-  denyAccess('DENY_ACCESS'),
-  ;
+class RowLevelPermissionPolicy {
+  static const grantAccess = RowLevelPermissionPolicy._('GRANT_ACCESS');
+  static const denyAccess = RowLevelPermissionPolicy._('DENY_ACCESS');
 
   final String value;
 
-  const RowLevelPermissionPolicy(this.value);
+  const RowLevelPermissionPolicy._(this.value);
+
+  static const values = [grantAccess, denyAccess];
 
   static RowLevelPermissionPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RowLevelPermissionPolicy'));
+          orElse: () => RowLevelPermissionPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RowLevelPermissionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of tags on a dataset to set row-level security.
@@ -48495,19 +50573,29 @@ class SectionPageBreakConfiguration {
   }
 }
 
-enum SectionPageBreakStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class SectionPageBreakStatus {
+  static const enabled = SectionPageBreakStatus._('ENABLED');
+  static const disabled = SectionPageBreakStatus._('DISABLED');
 
   final String value;
 
-  const SectionPageBreakStatus(this.value);
+  const SectionPageBreakStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SectionPageBreakStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SectionPageBreakStatus'));
+          orElse: () => SectionPageBreakStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SectionPageBreakStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that style a section.
@@ -48548,32 +50636,52 @@ class SectionStyle {
   }
 }
 
-enum SelectAllValueOptions {
-  allValues('ALL_VALUES'),
-  ;
+class SelectAllValueOptions {
+  static const allValues = SelectAllValueOptions._('ALL_VALUES');
 
   final String value;
 
-  const SelectAllValueOptions(this.value);
+  const SelectAllValueOptions._(this.value);
 
-  static SelectAllValueOptions fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SelectAllValueOptions'));
+  static const values = [allValues];
+
+  static SelectAllValueOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SelectAllValueOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SelectAllValueOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SelectedFieldOptions {
-  allFields('ALL_FIELDS'),
-  ;
+class SelectedFieldOptions {
+  static const allFields = SelectedFieldOptions._('ALL_FIELDS');
 
   final String value;
 
-  const SelectedFieldOptions(this.value);
+  const SelectedFieldOptions._(this.value);
 
-  static SelectedFieldOptions fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SelectedFieldOptions'));
+  static const values = [allFields];
+
+  static SelectedFieldOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SelectedFieldOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SelectedFieldOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for applying a filter to specific sheets or visuals. You
@@ -48613,19 +50721,29 @@ class SelectedSheetsFilterScopeConfiguration {
   }
 }
 
-enum SelectedTooltipType {
-  basic('BASIC'),
-  detailed('DETAILED'),
-  ;
+class SelectedTooltipType {
+  static const basic = SelectedTooltipType._('BASIC');
+  static const detailed = SelectedTooltipType._('DETAILED');
 
   final String value;
 
-  const SelectedTooltipType(this.value);
+  const SelectedTooltipType._(this.value);
 
-  static SelectedTooltipType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SelectedTooltipType'));
+  static const values = [basic, detailed];
+
+  static SelectedTooltipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SelectedTooltipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SelectedTooltipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a semantic entity type.
@@ -48803,17 +50921,26 @@ class ServiceNowParameters {
   }
 }
 
-enum ServiceType {
-  redshift('REDSHIFT'),
-  ;
+class ServiceType {
+  static const redshift = ServiceType._('REDSHIFT');
 
   final String value;
 
-  const ServiceType(this.value);
+  const ServiceType._(this.value);
 
-  static ServiceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceType'));
+  static const values = [redshift];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The key-value pair used for the row-level security tags feature.
@@ -48914,19 +51041,27 @@ class SharedViewConfigurations {
   }
 }
 
-enum SharingModel {
-  account('ACCOUNT'),
-  namespace('NAMESPACE'),
-  ;
+class SharingModel {
+  static const account = SharingModel._('ACCOUNT');
+  static const namespace = SharingModel._('NAMESPACE');
 
   final String value;
 
-  const SharingModel(this.value);
+  const SharingModel._(this.value);
 
-  static SharingModel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SharingModel'));
+  static const values = [account, namespace];
+
+  static SharingModel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SharingModel._(value));
+
+  @override
+  bool operator ==(other) => other is SharingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <i>sheet</i>, which is an object that contains a set of visuals that are
@@ -48965,34 +51100,53 @@ class Sheet {
   }
 }
 
-enum SheetContentType {
-  paginated('PAGINATED'),
-  interactive('INTERACTIVE'),
-  ;
+class SheetContentType {
+  static const paginated = SheetContentType._('PAGINATED');
+  static const interactive = SheetContentType._('INTERACTIVE');
 
   final String value;
 
-  const SheetContentType(this.value);
+  const SheetContentType._(this.value);
+
+  static const values = [paginated, interactive];
 
   static SheetContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SheetContentType'));
+          orElse: () => SheetContentType._(value));
+
+  @override
+  bool operator ==(other) => other is SheetContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SheetControlDateTimePickerType {
-  singleValued('SINGLE_VALUED'),
-  dateRange('DATE_RANGE'),
-  ;
+class SheetControlDateTimePickerType {
+  static const singleValued = SheetControlDateTimePickerType._('SINGLE_VALUED');
+  static const dateRange = SheetControlDateTimePickerType._('DATE_RANGE');
 
   final String value;
 
-  const SheetControlDateTimePickerType(this.value);
+  const SheetControlDateTimePickerType._(this.value);
+
+  static const values = [singleValued, dateRange];
 
   static SheetControlDateTimePickerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SheetControlDateTimePickerType'));
+          orElse: () => SheetControlDateTimePickerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SheetControlDateTimePickerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A control to display info icons for filters and parameters.
@@ -49079,34 +51233,54 @@ class SheetControlLayoutConfiguration {
   }
 }
 
-enum SheetControlListType {
-  multiSelect('MULTI_SELECT'),
-  singleSelect('SINGLE_SELECT'),
-  ;
+class SheetControlListType {
+  static const multiSelect = SheetControlListType._('MULTI_SELECT');
+  static const singleSelect = SheetControlListType._('SINGLE_SELECT');
 
   final String value;
 
-  const SheetControlListType(this.value);
+  const SheetControlListType._(this.value);
 
-  static SheetControlListType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SheetControlListType'));
+  static const values = [multiSelect, singleSelect];
+
+  static SheetControlListType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SheetControlListType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SheetControlListType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SheetControlSliderType {
-  singlePoint('SINGLE_POINT'),
-  range('RANGE'),
-  ;
+class SheetControlSliderType {
+  static const singlePoint = SheetControlSliderType._('SINGLE_POINT');
+  static const range = SheetControlSliderType._('RANGE');
 
   final String value;
 
-  const SheetControlSliderType(this.value);
+  const SheetControlSliderType._(this.value);
+
+  static const values = [singlePoint, range];
 
   static SheetControlSliderType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SheetControlSliderType'));
+          orElse: () => SheetControlSliderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SheetControlSliderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Sheet controls option.
@@ -49459,7 +51633,7 @@ class SheetVisualScopingConfiguration {
 
   factory SheetVisualScopingConfiguration.fromJson(Map<String, dynamic> json) {
     return SheetVisualScopingConfiguration(
-      scope: FilterVisualScope.fromString((json['Scope'] as String)),
+      scope: FilterVisualScope.fromString((json['Scope'] as String?) ?? ''),
       sheetId: (json['SheetId'] as String?) ?? '',
       visualIds: (json['VisualIds'] as List?)
           ?.nonNulls
@@ -49561,18 +51735,29 @@ class SignupResponse {
   }
 }
 
-enum SimpleAttributeAggregationFunction {
-  uniqueValue('UNIQUE_VALUE'),
-  ;
+class SimpleAttributeAggregationFunction {
+  static const uniqueValue =
+      SimpleAttributeAggregationFunction._('UNIQUE_VALUE');
 
   final String value;
 
-  const SimpleAttributeAggregationFunction(this.value);
+  const SimpleAttributeAggregationFunction._(this.value);
+
+  static const values = [uniqueValue];
 
   static SimpleAttributeAggregationFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimpleAttributeAggregationFunction'));
+          orElse: () => SimpleAttributeAggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimpleAttributeAggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The simple cluster marker of the cluster marker.
@@ -49598,47 +51783,80 @@ class SimpleClusterMarker {
   }
 }
 
-enum SimpleNumericalAggregationFunction {
-  sum('SUM'),
-  average('AVERAGE'),
-  min('MIN'),
-  max('MAX'),
-  count('COUNT'),
-  distinctCount('DISTINCT_COUNT'),
-  $var('VAR'),
-  varp('VARP'),
-  stdev('STDEV'),
-  stdevp('STDEVP'),
-  median('MEDIAN'),
-  ;
+class SimpleNumericalAggregationFunction {
+  static const sum = SimpleNumericalAggregationFunction._('SUM');
+  static const average = SimpleNumericalAggregationFunction._('AVERAGE');
+  static const min = SimpleNumericalAggregationFunction._('MIN');
+  static const max = SimpleNumericalAggregationFunction._('MAX');
+  static const count = SimpleNumericalAggregationFunction._('COUNT');
+  static const distinctCount =
+      SimpleNumericalAggregationFunction._('DISTINCT_COUNT');
+  static const $var = SimpleNumericalAggregationFunction._('VAR');
+  static const varp = SimpleNumericalAggregationFunction._('VARP');
+  static const stdev = SimpleNumericalAggregationFunction._('STDEV');
+  static const stdevp = SimpleNumericalAggregationFunction._('STDEVP');
+  static const median = SimpleNumericalAggregationFunction._('MEDIAN');
 
   final String value;
 
-  const SimpleNumericalAggregationFunction(this.value);
+  const SimpleNumericalAggregationFunction._(this.value);
+
+  static const values = [
+    sum,
+    average,
+    min,
+    max,
+    count,
+    distinctCount,
+    $var,
+    varp,
+    stdev,
+    stdevp,
+    median
+  ];
 
   static SimpleNumericalAggregationFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimpleNumericalAggregationFunction'));
+          orElse: () => SimpleNumericalAggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimpleNumericalAggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SimpleTotalAggregationFunction {
-  $default('DEFAULT'),
-  sum('SUM'),
-  average('AVERAGE'),
-  min('MIN'),
-  max('MAX'),
-  none('NONE'),
-  ;
+class SimpleTotalAggregationFunction {
+  static const $default = SimpleTotalAggregationFunction._('DEFAULT');
+  static const sum = SimpleTotalAggregationFunction._('SUM');
+  static const average = SimpleTotalAggregationFunction._('AVERAGE');
+  static const min = SimpleTotalAggregationFunction._('MIN');
+  static const max = SimpleTotalAggregationFunction._('MAX');
+  static const none = SimpleTotalAggregationFunction._('NONE');
 
   final String value;
 
-  const SimpleTotalAggregationFunction(this.value);
+  const SimpleTotalAggregationFunction._(this.value);
+
+  static const values = [$default, sum, average, min, max, none];
 
   static SimpleTotalAggregationFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SimpleTotalAggregationFunction'));
+          orElse: () => SimpleTotalAggregationFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SimpleTotalAggregationFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The settings of a chart's single axis configuration.
@@ -49666,18 +51884,27 @@ class SingleAxisOptions {
   }
 }
 
-enum SingleYAxisOption {
-  primaryYAxis('PRIMARY_Y_AXIS'),
-  ;
+class SingleYAxisOption {
+  static const primaryYAxis = SingleYAxisOption._('PRIMARY_Y_AXIS');
 
   final String value;
 
-  const SingleYAxisOption(this.value);
+  const SingleYAxisOption._(this.value);
+
+  static const values = [primaryYAxis];
 
   static SingleYAxisOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SingleYAxisOption'));
+          orElse: () => SingleYAxisOption._(value));
+
+  @override
+  bool operator ==(other) => other is SingleYAxisOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The display options of a control.
@@ -49746,19 +51973,29 @@ class Slot {
   }
 }
 
-enum SmallMultiplesAxisPlacement {
-  outside('OUTSIDE'),
-  inside('INSIDE'),
-  ;
+class SmallMultiplesAxisPlacement {
+  static const outside = SmallMultiplesAxisPlacement._('OUTSIDE');
+  static const inside = SmallMultiplesAxisPlacement._('INSIDE');
 
   final String value;
 
-  const SmallMultiplesAxisPlacement(this.value);
+  const SmallMultiplesAxisPlacement._(this.value);
+
+  static const values = [outside, inside];
 
   static SmallMultiplesAxisPlacement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SmallMultiplesAxisPlacement'));
+          orElse: () => SmallMultiplesAxisPlacement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SmallMultiplesAxisPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures the properties of a chart's axes that are used by small multiples
@@ -49797,19 +52034,29 @@ class SmallMultiplesAxisProperties {
   }
 }
 
-enum SmallMultiplesAxisScale {
-  shared('SHARED'),
-  independent('INDEPENDENT'),
-  ;
+class SmallMultiplesAxisScale {
+  static const shared = SmallMultiplesAxisScale._('SHARED');
+  static const independent = SmallMultiplesAxisScale._('INDEPENDENT');
 
   final String value;
 
-  const SmallMultiplesAxisScale(this.value);
+  const SmallMultiplesAxisScale._(this.value);
+
+  static const values = [shared, independent];
 
   static SmallMultiplesAxisScale fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SmallMultiplesAxisScale'));
+          orElse: () => SmallMultiplesAxisScale._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SmallMultiplesAxisScale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options that determine the layout and display options of a chart's small
@@ -50036,8 +52283,8 @@ class SnapshotFile {
 
   factory SnapshotFile.fromJson(Map<String, dynamic> json) {
     return SnapshotFile(
-      formatType:
-          SnapshotFileFormatType.fromString((json['FormatType'] as String)),
+      formatType: SnapshotFileFormatType.fromString(
+          (json['FormatType'] as String?) ?? ''),
       sheetSelections: ((json['SheetSelections'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
@@ -50056,20 +52303,30 @@ class SnapshotFile {
   }
 }
 
-enum SnapshotFileFormatType {
-  csv('CSV'),
-  pdf('PDF'),
-  excel('EXCEL'),
-  ;
+class SnapshotFileFormatType {
+  static const csv = SnapshotFileFormatType._('CSV');
+  static const pdf = SnapshotFileFormatType._('PDF');
+  static const excel = SnapshotFileFormatType._('EXCEL');
 
   final String value;
 
-  const SnapshotFileFormatType(this.value);
+  const SnapshotFileFormatType._(this.value);
+
+  static const values = [csv, pdf, excel];
 
   static SnapshotFileFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SnapshotFileFormatType'));
+          orElse: () => SnapshotFileFormatType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotFileFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains the information on the snapshot files.
@@ -50141,7 +52398,7 @@ class SnapshotFileSheetSelection {
   factory SnapshotFileSheetSelection.fromJson(Map<String, dynamic> json) {
     return SnapshotFileSheetSelection(
       selectionScope: SnapshotFileSheetSelectionScope.fromString(
-          (json['SelectionScope'] as String)),
+          (json['SelectionScope'] as String?) ?? ''),
       sheetId: (json['SheetId'] as String?) ?? '',
       visualIds: (json['VisualIds'] as List?)
           ?.nonNulls
@@ -50162,19 +52419,30 @@ class SnapshotFileSheetSelection {
   }
 }
 
-enum SnapshotFileSheetSelectionScope {
-  allVisuals('ALL_VISUALS'),
-  selectedVisuals('SELECTED_VISUALS'),
-  ;
+class SnapshotFileSheetSelectionScope {
+  static const allVisuals = SnapshotFileSheetSelectionScope._('ALL_VISUALS');
+  static const selectedVisuals =
+      SnapshotFileSheetSelectionScope._('SELECTED_VISUALS');
 
   final String value;
 
-  const SnapshotFileSheetSelectionScope(this.value);
+  const SnapshotFileSheetSelectionScope._(this.value);
+
+  static const values = [allVisuals, selectedVisuals];
 
   static SnapshotFileSheetSelectionScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SnapshotFileSheetSelectionScope'));
+          orElse: () => SnapshotFileSheetSelectionScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotFileSheetSelectionScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information on the error that caused the snapshot
@@ -50355,21 +52623,30 @@ class SnapshotJobS3Result {
   }
 }
 
-enum SnapshotJobStatus {
-  queued('QUEUED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class SnapshotJobStatus {
+  static const queued = SnapshotJobStatus._('QUEUED');
+  static const running = SnapshotJobStatus._('RUNNING');
+  static const completed = SnapshotJobStatus._('COMPLETED');
+  static const failed = SnapshotJobStatus._('FAILED');
 
   final String value;
 
-  const SnapshotJobStatus(this.value);
+  const SnapshotJobStatus._(this.value);
+
+  static const values = [queued, running, completed, failed];
 
   static SnapshotJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotJobStatus'));
+          orElse: () => SnapshotJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes the Amazon S3 settings to use to save the
@@ -50486,19 +52763,28 @@ class SnowflakeParameters {
   }
 }
 
-enum SortDirection {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortDirection {
+  static const asc = SortDirection._('ASC');
+  static const desc = SortDirection._('DESC');
 
   final String value;
 
-  const SortDirection(this.value);
+  const SortDirection._(this.value);
+
+  static const values = [asc, desc];
 
   static SortDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortDirection'));
+          orElse: () => SortDirection._(value));
+
+  @override
+  bool operator ==(other) => other is SortDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of spacing (often a margin or padding).
@@ -50575,20 +52861,28 @@ class SparkParameters {
   }
 }
 
-enum SpecialValue {
-  empty('EMPTY'),
-  $null('NULL'),
-  other('OTHER'),
-  ;
+class SpecialValue {
+  static const empty = SpecialValue._('EMPTY');
+  static const $null = SpecialValue._('NULL');
+  static const other = SpecialValue._('OTHER');
 
   final String value;
 
-  const SpecialValue(this.value);
+  const SpecialValue._(this.value);
 
-  static SpecialValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SpecialValue'));
+  static const values = [empty, $null, other];
+
+  static SpecialValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpecialValue._(value));
+
+  @override
+  bool operator ==(other) => other is SpecialValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The parameters for SQL Server.
@@ -50697,19 +52991,29 @@ class StarburstParameters {
   }
 }
 
-enum StarburstProductType {
-  galaxy('GALAXY'),
-  enterprise('ENTERPRISE'),
-  ;
+class StarburstProductType {
+  static const galaxy = StarburstProductType._('GALAXY');
+  static const enterprise = StarburstProductType._('ENTERPRISE');
 
   final String value;
 
-  const StarburstProductType(this.value);
+  const StarburstProductType._(this.value);
 
-  static StarburstProductType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StarburstProductType'));
+  static const values = [galaxy, enterprise];
+
+  static StarburstProductType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StarburstProductType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StarburstProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAssetBundleExportJobResponse {
@@ -50864,18 +53168,27 @@ class StatePersistenceConfigurations {
   }
 }
 
-enum Status {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class Status {
+  static const enabled = Status._('ENABLED');
+  static const disabled = Status._('DISABLED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [enabled, disabled];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A string parameter for a dataset.
@@ -50905,8 +53218,8 @@ class StringDatasetParameter {
     return StringDatasetParameter(
       id: (json['Id'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      valueType:
-          DatasetParameterValueType.fromString((json['ValueType'] as String)),
+      valueType: DatasetParameterValueType.fromString(
+          (json['ValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? StringDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -51092,8 +53405,8 @@ class StringParameterDeclaration {
   factory StringParameterDeclaration.fromJson(Map<String, dynamic> json) {
     return StringParameterDeclaration(
       name: (json['Name'] as String?) ?? '',
-      parameterValueType:
-          ParameterValueType.fromString((json['ParameterValueType'] as String)),
+      parameterValueType: ParameterValueType.fromString(
+          (json['ParameterValueType'] as String?) ?? ''),
       defaultValues: json['DefaultValues'] != null
           ? StringDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -51171,20 +53484,29 @@ class StringValueWhenUnsetConfiguration {
   }
 }
 
-enum StyledCellType {
-  total('TOTAL'),
-  metricHeader('METRIC_HEADER'),
-  $value('VALUE'),
-  ;
+class StyledCellType {
+  static const total = StyledCellType._('TOTAL');
+  static const metricHeader = StyledCellType._('METRIC_HEADER');
+  static const $value = StyledCellType._('VALUE');
 
   final String value;
 
-  const StyledCellType(this.value);
+  const StyledCellType._(this.value);
+
+  static const values = [total, metricHeader, $value];
 
   static StyledCellType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StyledCellType'));
+          orElse: () => StyledCellType._(value));
+
+  @override
+  bool operator ==(other) => other is StyledCellType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The subtotal options.
@@ -51408,19 +53730,28 @@ class TableBorderOptions {
   }
 }
 
-enum TableBorderStyle {
-  none('NONE'),
-  solid('SOLID'),
-  ;
+class TableBorderStyle {
+  static const none = TableBorderStyle._('NONE');
+  static const solid = TableBorderStyle._('SOLID');
 
   final String value;
 
-  const TableBorderStyle(this.value);
+  const TableBorderStyle._(this.value);
+
+  static const values = [none, solid];
 
   static TableBorderStyle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TableBorderStyle'));
+          orElse: () => TableBorderStyle._(value));
+
+  @override
+  bool operator ==(other) => other is TableBorderStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cell conditional formatting option for a table.
@@ -51456,20 +53787,33 @@ class TableCellConditionalFormatting {
   }
 }
 
-enum TableCellImageScalingConfiguration {
-  fitToCellHeight('FIT_TO_CELL_HEIGHT'),
-  fitToCellWidth('FIT_TO_CELL_WIDTH'),
-  doNotScale('DO_NOT_SCALE'),
-  ;
+class TableCellImageScalingConfiguration {
+  static const fitToCellHeight =
+      TableCellImageScalingConfiguration._('FIT_TO_CELL_HEIGHT');
+  static const fitToCellWidth =
+      TableCellImageScalingConfiguration._('FIT_TO_CELL_WIDTH');
+  static const doNotScale =
+      TableCellImageScalingConfiguration._('DO_NOT_SCALE');
 
   final String value;
 
-  const TableCellImageScalingConfiguration(this.value);
+  const TableCellImageScalingConfiguration._(this.value);
+
+  static const values = [fitToCellHeight, fitToCellWidth, doNotScale];
 
   static TableCellImageScalingConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TableCellImageScalingConfiguration'));
+          orElse: () => TableCellImageScalingConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableCellImageScalingConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The sizing options for the table image configuration.
@@ -51804,18 +54148,28 @@ class TableFieldCustomTextContent {
   }
 }
 
-enum TableFieldIconSetType {
-  link('LINK'),
-  ;
+class TableFieldIconSetType {
+  static const link = TableFieldIconSetType._('LINK');
 
   final String value;
 
-  const TableFieldIconSetType(this.value);
+  const TableFieldIconSetType._(this.value);
 
-  static TableFieldIconSetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TableFieldIconSetType'));
+  static const values = [link];
+
+  static TableFieldIconSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TableFieldIconSetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableFieldIconSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The image configuration of a table field URL.
@@ -51863,7 +54217,8 @@ class TableFieldLinkConfiguration {
       content: TableFieldLinkContentConfiguration.fromJson(
           (json['Content'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      target: URLTargetConfiguration.fromString((json['Target'] as String)),
+      target:
+          URLTargetConfiguration.fromString((json['Target'] as String?) ?? ''),
     );
   }
 
@@ -52172,19 +54527,28 @@ class TableOptions {
   }
 }
 
-enum TableOrientation {
-  vertical('VERTICAL'),
-  horizontal('HORIZONTAL'),
-  ;
+class TableOrientation {
+  static const vertical = TableOrientation._('VERTICAL');
+  static const horizontal = TableOrientation._('HORIZONTAL');
 
   final String value;
 
-  const TableOrientation(this.value);
+  const TableOrientation._(this.value);
+
+  static const values = [vertical, horizontal];
 
   static TableOrientation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TableOrientation'));
+          orElse: () => TableOrientation._(value));
+
+  @override
+  bool operator ==(other) => other is TableOrientation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The paginated report options for a table visual.
@@ -52407,7 +54771,7 @@ class TableStyleTarget {
 
   factory TableStyleTarget.fromJson(Map<String, dynamic> json) {
     return TableStyleTarget(
-      cellType: StyledCellType.fromString((json['CellType'] as String)),
+      cellType: StyledCellType.fromString((json['CellType'] as String?) ?? ''),
     );
   }
 
@@ -52419,35 +54783,55 @@ class TableStyleTarget {
   }
 }
 
-enum TableTotalsPlacement {
-  start('START'),
-  end('END'),
-  auto('AUTO'),
-  ;
+class TableTotalsPlacement {
+  static const start = TableTotalsPlacement._('START');
+  static const end = TableTotalsPlacement._('END');
+  static const auto = TableTotalsPlacement._('AUTO');
 
   final String value;
 
-  const TableTotalsPlacement(this.value);
+  const TableTotalsPlacement._(this.value);
 
-  static TableTotalsPlacement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TableTotalsPlacement'));
+  static const values = [start, end, auto];
+
+  static TableTotalsPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TableTotalsPlacement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableTotalsPlacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TableTotalsScrollStatus {
-  pinned('PINNED'),
-  scrolled('SCROLLED'),
-  ;
+class TableTotalsScrollStatus {
+  static const pinned = TableTotalsScrollStatus._('PINNED');
+  static const scrolled = TableTotalsScrollStatus._('SCROLLED');
 
   final String value;
 
-  const TableTotalsScrollStatus(this.value);
+  const TableTotalsScrollStatus._(this.value);
+
+  static const values = [pinned, scrolled];
 
   static TableTotalsScrollStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TableTotalsScrollStatus'));
+          orElse: () => TableTotalsScrollStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TableTotalsScrollStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unaggregated field well for the table.
@@ -52652,18 +55036,28 @@ class TagResourceResponse {
   }
 }
 
-enum TargetVisualOptions {
-  allVisuals('ALL_VISUALS'),
-  ;
+class TargetVisualOptions {
+  static const allVisuals = TargetVisualOptions._('ALL_VISUALS');
 
   final String value;
 
-  const TargetVisualOptions(this.value);
+  const TargetVisualOptions._(this.value);
 
-  static TargetVisualOptions fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetVisualOptions'));
+  static const values = [allVisuals];
+
+  static TargetVisualOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetVisualOptions._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetVisualOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A template object. A <i>template</i> is an entity in Amazon QuickSight that
@@ -52816,21 +55210,35 @@ class TemplateError {
   }
 }
 
-enum TemplateErrorType {
-  sourceNotFound('SOURCE_NOT_FOUND'),
-  dataSetNotFound('DATA_SET_NOT_FOUND'),
-  internalFailure('INTERNAL_FAILURE'),
-  accessDenied('ACCESS_DENIED'),
-  ;
+class TemplateErrorType {
+  static const sourceNotFound = TemplateErrorType._('SOURCE_NOT_FOUND');
+  static const dataSetNotFound = TemplateErrorType._('DATA_SET_NOT_FOUND');
+  static const internalFailure = TemplateErrorType._('INTERNAL_FAILURE');
+  static const accessDenied = TemplateErrorType._('ACCESS_DENIED');
 
   final String value;
 
-  const TemplateErrorType(this.value);
+  const TemplateErrorType._(this.value);
+
+  static const values = [
+    sourceNotFound,
+    dataSetNotFound,
+    internalFailure,
+    accessDenied
+  ];
 
   static TemplateErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateErrorType'));
+          orElse: () => TemplateErrorType._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The source analysis of the template.
@@ -53443,33 +55851,51 @@ class TextFieldControlDisplayOptions {
   }
 }
 
-enum TextQualifier {
-  doubleQuote('DOUBLE_QUOTE'),
-  singleQuote('SINGLE_QUOTE'),
-  ;
+class TextQualifier {
+  static const doubleQuote = TextQualifier._('DOUBLE_QUOTE');
+  static const singleQuote = TextQualifier._('SINGLE_QUOTE');
 
   final String value;
 
-  const TextQualifier(this.value);
+  const TextQualifier._(this.value);
+
+  static const values = [doubleQuote, singleQuote];
 
   static TextQualifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TextQualifier'));
+          orElse: () => TextQualifier._(value));
+
+  @override
+  bool operator ==(other) => other is TextQualifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TextWrap {
-  none('NONE'),
-  wrap('WRAP'),
-  ;
+class TextWrap {
+  static const none = TextWrap._('NONE');
+  static const wrap = TextWrap._('WRAP');
 
   final String value;
 
-  const TextWrap(this.value);
+  const TextWrap._(this.value);
 
-  static TextWrap fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TextWrap'));
+  static const values = [none, wrap];
+
+  static TextWrap fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextWrap._(value));
+
+  @override
+  bool operator ==(other) => other is TextWrap && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a theme.
@@ -53660,18 +56086,27 @@ class ThemeError {
   }
 }
 
-enum ThemeErrorType {
-  internalFailure('INTERNAL_FAILURE'),
-  ;
+class ThemeErrorType {
+  static const internalFailure = ThemeErrorType._('INTERNAL_FAILURE');
 
   final String value;
 
-  const ThemeErrorType(this.value);
+  const ThemeErrorType._(this.value);
+
+  static const values = [internalFailure];
 
   static ThemeErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThemeErrorType'));
+          orElse: () => ThemeErrorType._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The theme summary.
@@ -53735,19 +56170,28 @@ class ThemeSummary {
   }
 }
 
-enum ThemeType {
-  quicksight('QUICKSIGHT'),
-  custom('CUSTOM'),
-  all('ALL'),
-  ;
+class ThemeType {
+  static const quicksight = ThemeType._('QUICKSIGHT');
+  static const custom = ThemeType._('CUSTOM');
+  static const all = ThemeType._('ALL');
 
   final String value;
 
-  const ThemeType(this.value);
+  const ThemeType._(this.value);
 
-  static ThemeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ThemeType'));
+  static const values = [quicksight, custom, all];
+
+  static ThemeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ThemeType._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A version of a theme.
@@ -54129,26 +56573,45 @@ class TimeEqualityFilter {
   }
 }
 
-enum TimeGranularity {
-  year('YEAR'),
-  quarter('QUARTER'),
-  month('MONTH'),
-  week('WEEK'),
-  day('DAY'),
-  hour('HOUR'),
-  minute('MINUTE'),
-  second('SECOND'),
-  millisecond('MILLISECOND'),
-  ;
+class TimeGranularity {
+  static const year = TimeGranularity._('YEAR');
+  static const quarter = TimeGranularity._('QUARTER');
+  static const month = TimeGranularity._('MONTH');
+  static const week = TimeGranularity._('WEEK');
+  static const day = TimeGranularity._('DAY');
+  static const hour = TimeGranularity._('HOUR');
+  static const minute = TimeGranularity._('MINUTE');
+  static const second = TimeGranularity._('SECOND');
+  static const millisecond = TimeGranularity._('MILLISECOND');
 
   final String value;
 
-  const TimeGranularity(this.value);
+  const TimeGranularity._(this.value);
+
+  static const values = [
+    year,
+    quarter,
+    month,
+    week,
+    day,
+    hour,
+    minute,
+    second,
+    millisecond
+  ];
 
   static TimeGranularity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeGranularity'));
+          orElse: () => TimeGranularity._(value));
+
+  @override
+  bool operator ==(other) => other is TimeGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The time range drill down filter.
@@ -54180,8 +56643,8 @@ class TimeRangeDrillDownFilter {
               const <String, dynamic>{}),
       rangeMaximum: nonNullableTimeStampFromJson(json['RangeMaximum'] ?? 0),
       rangeMinimum: nonNullableTimeStampFromJson(json['RangeMinimum'] ?? 0),
-      timeGranularity:
-          TimeGranularity.fromString((json['TimeGranularity'] as String)),
+      timeGranularity: TimeGranularity.fromString(
+          (json['TimeGranularity'] as String?) ?? ''),
     );
   }
 
@@ -54269,7 +56732,8 @@ class TimeRangeFilter {
           (json['Column'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       filterId: (json['FilterId'] as String?) ?? '',
-      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
+      nullOption:
+          FilterNullOption.fromString((json['NullOption'] as String?) ?? ''),
       defaultFilterControlConfiguration:
           json['DefaultFilterControlConfiguration'] != null
               ? DefaultFilterControlConfiguration.fromJson(
@@ -54460,50 +56924,78 @@ class TooltipOptions {
   }
 }
 
-enum TooltipTarget {
-  both('BOTH'),
-  bar('BAR'),
-  line('LINE'),
-  ;
+class TooltipTarget {
+  static const both = TooltipTarget._('BOTH');
+  static const bar = TooltipTarget._('BAR');
+  static const line = TooltipTarget._('LINE');
 
   final String value;
 
-  const TooltipTarget(this.value);
+  const TooltipTarget._(this.value);
+
+  static const values = [both, bar, line];
 
   static TooltipTarget fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TooltipTarget'));
+          orElse: () => TooltipTarget._(value));
+
+  @override
+  bool operator ==(other) => other is TooltipTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TooltipTitleType {
-  none('NONE'),
-  primaryValue('PRIMARY_VALUE'),
-  ;
+class TooltipTitleType {
+  static const none = TooltipTitleType._('NONE');
+  static const primaryValue = TooltipTitleType._('PRIMARY_VALUE');
 
   final String value;
 
-  const TooltipTitleType(this.value);
+  const TooltipTitleType._(this.value);
+
+  static const values = [none, primaryValue];
 
   static TooltipTitleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TooltipTitleType'));
+          orElse: () => TooltipTitleType._(value));
+
+  @override
+  bool operator ==(other) => other is TooltipTitleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TopBottomComputationType {
-  top('TOP'),
-  bottom('BOTTOM'),
-  ;
+class TopBottomComputationType {
+  static const top = TopBottomComputationType._('TOP');
+  static const bottom = TopBottomComputationType._('BOTTOM');
 
   final String value;
 
-  const TopBottomComputationType(this.value);
+  const TopBottomComputationType._(this.value);
+
+  static const values = [top, bottom];
 
   static TopBottomComputationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TopBottomComputationType'));
+          orElse: () => TopBottomComputationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopBottomComputationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>TopBottomFilter</code> filters values that are at the top or the
@@ -54640,7 +57132,8 @@ class TopBottomMoversComputation {
   factory TopBottomMoversComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomMoversComputation(
       computationId: (json['ComputationId'] as String?) ?? '',
-      type: TopBottomComputationType.fromString((json['Type'] as String)),
+      type:
+          TopBottomComputationType.fromString((json['Type'] as String?) ?? ''),
       category: json['Category'] != null
           ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
           : null,
@@ -54720,7 +57213,8 @@ class TopBottomRankedComputation {
   factory TopBottomRankedComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomRankedComputation(
       computationId: (json['ComputationId'] as String?) ?? '',
-      type: TopBottomComputationType.fromString((json['Type'] as String)),
+      type:
+          TopBottomComputationType.fromString((json['Type'] as String?) ?? ''),
       category: json['Category'] != null
           ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
           : null,
@@ -54750,19 +57244,29 @@ class TopBottomRankedComputation {
   }
 }
 
-enum TopBottomSortOrder {
-  percentDifference('PERCENT_DIFFERENCE'),
-  absoluteDifference('ABSOLUTE_DIFFERENCE'),
-  ;
+class TopBottomSortOrder {
+  static const percentDifference = TopBottomSortOrder._('PERCENT_DIFFERENCE');
+  static const absoluteDifference = TopBottomSortOrder._('ABSOLUTE_DIFFERENCE');
 
   final String value;
 
-  const TopBottomSortOrder(this.value);
+  const TopBottomSortOrder._(this.value);
 
-  static TopBottomSortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TopBottomSortOrder'));
+  static const values = [percentDifference, absoluteDifference];
+
+  static TopBottomSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopBottomSortOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopBottomSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a calculated field.
@@ -55652,27 +58156,48 @@ class TopicIRContributionAnalysis {
   }
 }
 
-enum TopicIRFilterFunction {
-  contains('CONTAINS'),
-  exact('EXACT'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  containsString('CONTAINS_STRING'),
-  previous('PREVIOUS'),
-  $this('THIS'),
-  last('LAST'),
-  next('NEXT'),
-  now('NOW'),
-  ;
+class TopicIRFilterFunction {
+  static const contains = TopicIRFilterFunction._('CONTAINS');
+  static const exact = TopicIRFilterFunction._('EXACT');
+  static const startsWith = TopicIRFilterFunction._('STARTS_WITH');
+  static const endsWith = TopicIRFilterFunction._('ENDS_WITH');
+  static const containsString = TopicIRFilterFunction._('CONTAINS_STRING');
+  static const previous = TopicIRFilterFunction._('PREVIOUS');
+  static const $this = TopicIRFilterFunction._('THIS');
+  static const last = TopicIRFilterFunction._('LAST');
+  static const next = TopicIRFilterFunction._('NEXT');
+  static const now = TopicIRFilterFunction._('NOW');
 
   final String value;
 
-  const TopicIRFilterFunction(this.value);
+  const TopicIRFilterFunction._(this.value);
 
-  static TopicIRFilterFunction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TopicIRFilterFunction'));
+  static const values = [
+    contains,
+    exact,
+    startsWith,
+    endsWith,
+    containsString,
+    previous,
+    $this,
+    last,
+    next,
+    now
+  ];
+
+  static TopicIRFilterFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicIRFilterFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicIRFilterFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for a <code>TopicIRFilterOption</code>.
@@ -55851,26 +58376,46 @@ class TopicIRFilterOption {
   }
 }
 
-enum TopicIRFilterType {
-  categoryFilter('CATEGORY_FILTER'),
-  numericEqualityFilter('NUMERIC_EQUALITY_FILTER'),
-  numericRangeFilter('NUMERIC_RANGE_FILTER'),
-  dateRangeFilter('DATE_RANGE_FILTER'),
-  relativeDateFilter('RELATIVE_DATE_FILTER'),
-  topBottomFilter('TOP_BOTTOM_FILTER'),
-  equals('EQUALS'),
-  rankLimitFilter('RANK_LIMIT_FILTER'),
-  acceptAllFilter('ACCEPT_ALL_FILTER'),
-  ;
+class TopicIRFilterType {
+  static const categoryFilter = TopicIRFilterType._('CATEGORY_FILTER');
+  static const numericEqualityFilter =
+      TopicIRFilterType._('NUMERIC_EQUALITY_FILTER');
+  static const numericRangeFilter = TopicIRFilterType._('NUMERIC_RANGE_FILTER');
+  static const dateRangeFilter = TopicIRFilterType._('DATE_RANGE_FILTER');
+  static const relativeDateFilter = TopicIRFilterType._('RELATIVE_DATE_FILTER');
+  static const topBottomFilter = TopicIRFilterType._('TOP_BOTTOM_FILTER');
+  static const equals = TopicIRFilterType._('EQUALS');
+  static const rankLimitFilter = TopicIRFilterType._('RANK_LIMIT_FILTER');
+  static const acceptAllFilter = TopicIRFilterType._('ACCEPT_ALL_FILTER');
 
   final String value;
 
-  const TopicIRFilterType(this.value);
+  const TopicIRFilterType._(this.value);
+
+  static const values = [
+    categoryFilter,
+    numericEqualityFilter,
+    numericRangeFilter,
+    dateRangeFilter,
+    relativeDateFilter,
+    topBottomFilter,
+    equals,
+    rankLimitFilter,
+    acceptAllFilter
+  ];
 
   static TopicIRFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TopicIRFilterType'));
+          orElse: () => TopicIRFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is TopicIRFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for a <code>TopicIRGroupBy</code>.
@@ -56192,19 +58737,29 @@ class TopicNumericRangeFilter {
   }
 }
 
-enum TopicNumericSeparatorSymbol {
-  comma('COMMA'),
-  dot('DOT'),
-  ;
+class TopicNumericSeparatorSymbol {
+  static const comma = TopicNumericSeparatorSymbol._('COMMA');
+  static const dot = TopicNumericSeparatorSymbol._('DOT');
 
   final String value;
 
-  const TopicNumericSeparatorSymbol(this.value);
+  const TopicNumericSeparatorSymbol._(this.value);
+
+  static const values = [comma, dot];
 
   static TopicNumericSeparatorSymbol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TopicNumericSeparatorSymbol'));
+          orElse: () => TopicNumericSeparatorSymbol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicNumericSeparatorSymbol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A constant value that is used in a range filter to specify the endpoints of
@@ -56394,22 +58949,32 @@ class TopicRefreshScheduleSummary {
   }
 }
 
-enum TopicRefreshStatus {
-  initialized('INITIALIZED'),
-  running('RUNNING'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class TopicRefreshStatus {
+  static const initialized = TopicRefreshStatus._('INITIALIZED');
+  static const running = TopicRefreshStatus._('RUNNING');
+  static const failed = TopicRefreshStatus._('FAILED');
+  static const completed = TopicRefreshStatus._('COMPLETED');
+  static const cancelled = TopicRefreshStatus._('CANCELLED');
 
   final String value;
 
-  const TopicRefreshStatus(this.value);
+  const TopicRefreshStatus._(this.value);
 
-  static TopicRefreshStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TopicRefreshStatus'));
+  static const values = [initialized, running, failed, completed, cancelled];
+
+  static TopicRefreshStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicRefreshStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicRefreshStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a relative date filter.
@@ -56459,22 +59024,32 @@ class TopicRelativeDateFilter {
   }
 }
 
-enum TopicRelativeDateFilterFunction {
-  previous('PREVIOUS'),
-  $this('THIS'),
-  last('LAST'),
-  next('NEXT'),
-  now('NOW'),
-  ;
+class TopicRelativeDateFilterFunction {
+  static const previous = TopicRelativeDateFilterFunction._('PREVIOUS');
+  static const $this = TopicRelativeDateFilterFunction._('THIS');
+  static const last = TopicRelativeDateFilterFunction._('LAST');
+  static const next = TopicRelativeDateFilterFunction._('NEXT');
+  static const now = TopicRelativeDateFilterFunction._('NOW');
 
   final String value;
 
-  const TopicRelativeDateFilterFunction(this.value);
+  const TopicRelativeDateFilterFunction._(this.value);
+
+  static const values = [previous, $this, last, next, now];
 
   static TopicRelativeDateFilterFunction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TopicRelativeDateFilterFunction'));
+          orElse: () => TopicRelativeDateFilterFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicRelativeDateFilterFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The deinition for a <code>TopicReviewedAnswer</code>.
@@ -56548,21 +59123,30 @@ class TopicReviewedAnswer {
   }
 }
 
-enum TopicScheduleType {
-  hourly('HOURLY'),
-  daily('DAILY'),
-  weekly('WEEKLY'),
-  monthly('MONTHLY'),
-  ;
+class TopicScheduleType {
+  static const hourly = TopicScheduleType._('HOURLY');
+  static const daily = TopicScheduleType._('DAILY');
+  static const weekly = TopicScheduleType._('WEEKLY');
+  static const monthly = TopicScheduleType._('MONTHLY');
 
   final String value;
 
-  const TopicScheduleType(this.value);
+  const TopicScheduleType._(this.value);
+
+  static const values = [hourly, daily, weekly, monthly];
 
   static TopicScheduleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TopicScheduleType'));
+          orElse: () => TopicScheduleType._(value));
+
+  @override
+  bool operator ==(other) => other is TopicScheduleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that represents a singular filter constant, used in filters to
@@ -56631,19 +59215,29 @@ class TopicSortClause {
   }
 }
 
-enum TopicSortDirection {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class TopicSortDirection {
+  static const ascending = TopicSortDirection._('ASCENDING');
+  static const descending = TopicSortDirection._('DESCENDING');
 
   final String value;
 
-  const TopicSortDirection(this.value);
+  const TopicSortDirection._(this.value);
 
-  static TopicSortDirection fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TopicSortDirection'));
+  static const values = [ascending, descending];
+
+  static TopicSortDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicSortDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicSortDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A topic summary.
@@ -56726,40 +59320,61 @@ class TopicTemplate {
   }
 }
 
-enum TopicTimeGranularity {
-  second('SECOND'),
-  minute('MINUTE'),
-  hour('HOUR'),
-  day('DAY'),
-  week('WEEK'),
-  month('MONTH'),
-  quarter('QUARTER'),
-  year('YEAR'),
-  ;
+class TopicTimeGranularity {
+  static const second = TopicTimeGranularity._('SECOND');
+  static const minute = TopicTimeGranularity._('MINUTE');
+  static const hour = TopicTimeGranularity._('HOUR');
+  static const day = TopicTimeGranularity._('DAY');
+  static const week = TopicTimeGranularity._('WEEK');
+  static const month = TopicTimeGranularity._('MONTH');
+  static const quarter = TopicTimeGranularity._('QUARTER');
+  static const year = TopicTimeGranularity._('YEAR');
 
   final String value;
 
-  const TopicTimeGranularity(this.value);
+  const TopicTimeGranularity._(this.value);
 
-  static TopicTimeGranularity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TopicTimeGranularity'));
+  static const values = [second, minute, hour, day, week, month, quarter, year];
+
+  static TopicTimeGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicTimeGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicTimeGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TopicUserExperienceVersion {
-  legacy('LEGACY'),
-  newReaderExperience('NEW_READER_EXPERIENCE'),
-  ;
+class TopicUserExperienceVersion {
+  static const legacy = TopicUserExperienceVersion._('LEGACY');
+  static const newReaderExperience =
+      TopicUserExperienceVersion._('NEW_READER_EXPERIENCE');
 
   final String value;
 
-  const TopicUserExperienceVersion(this.value);
+  const TopicUserExperienceVersion._(this.value);
+
+  static const values = [legacy, newReaderExperience];
 
   static TopicUserExperienceVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TopicUserExperienceVersion'));
+          orElse: () => TopicUserExperienceVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicUserExperienceVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The definition for a <code>TopicVisual</code>.
@@ -57661,20 +60276,30 @@ class UIColorPalette {
   }
 }
 
-enum URLTargetConfiguration {
-  newTab('NEW_TAB'),
-  newWindow('NEW_WINDOW'),
-  sameTab('SAME_TAB'),
-  ;
+class URLTargetConfiguration {
+  static const newTab = URLTargetConfiguration._('NEW_TAB');
+  static const newWindow = URLTargetConfiguration._('NEW_WINDOW');
+  static const sameTab = URLTargetConfiguration._('SAME_TAB');
 
   final String value;
 
-  const URLTargetConfiguration(this.value);
+  const URLTargetConfiguration._(this.value);
+
+  static const values = [newTab, newWindow, sameTab];
 
   static URLTargetConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum URLTargetConfiguration'));
+          orElse: () => URLTargetConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is URLTargetConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unaggregated field for a table.
@@ -57720,19 +60345,29 @@ class UnaggregatedField {
   }
 }
 
-enum UndefinedSpecifiedValueType {
-  least('LEAST'),
-  most('MOST'),
-  ;
+class UndefinedSpecifiedValueType {
+  static const least = UndefinedSpecifiedValueType._('LEAST');
+  static const most = UndefinedSpecifiedValueType._('MOST');
 
   final String value;
 
-  const UndefinedSpecifiedValueType(this.value);
+  const UndefinedSpecifiedValueType._(this.value);
+
+  static const values = [least, most];
 
   static UndefinedSpecifiedValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UndefinedSpecifiedValueType'));
+          orElse: () => UndefinedSpecifiedValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UndefinedSpecifiedValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The unique values computation configuration.
@@ -59653,24 +62288,42 @@ class User {
   }
 }
 
-enum UserRole {
-  admin('ADMIN'),
-  author('AUTHOR'),
-  reader('READER'),
-  restrictedAuthor('RESTRICTED_AUTHOR'),
-  restrictedReader('RESTRICTED_READER'),
-  adminPro('ADMIN_PRO'),
-  authorPro('AUTHOR_PRO'),
-  readerPro('READER_PRO'),
-  ;
+class UserRole {
+  static const admin = UserRole._('ADMIN');
+  static const author = UserRole._('AUTHOR');
+  static const reader = UserRole._('READER');
+  static const restrictedAuthor = UserRole._('RESTRICTED_AUTHOR');
+  static const restrictedReader = UserRole._('RESTRICTED_READER');
+  static const adminPro = UserRole._('ADMIN_PRO');
+  static const authorPro = UserRole._('AUTHOR_PRO');
+  static const readerPro = UserRole._('READER_PRO');
 
   final String value;
 
-  const UserRole(this.value);
+  const UserRole._(this.value);
 
-  static UserRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserRole'));
+  static const values = [
+    admin,
+    author,
+    reader,
+    restrictedAuthor,
+    restrictedReader,
+    adminPro,
+    authorPro,
+    readerPro
+  ];
+
+  static UserRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserRole._(value));
+
+  @override
+  bool operator ==(other) => other is UserRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure of a VPC connection.
@@ -59788,42 +62441,80 @@ class VPCConnection {
   }
 }
 
-enum VPCConnectionAvailabilityStatus {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  partiallyAvailable('PARTIALLY_AVAILABLE'),
-  ;
+class VPCConnectionAvailabilityStatus {
+  static const available = VPCConnectionAvailabilityStatus._('AVAILABLE');
+  static const unavailable = VPCConnectionAvailabilityStatus._('UNAVAILABLE');
+  static const partiallyAvailable =
+      VPCConnectionAvailabilityStatus._('PARTIALLY_AVAILABLE');
 
   final String value;
 
-  const VPCConnectionAvailabilityStatus(this.value);
+  const VPCConnectionAvailabilityStatus._(this.value);
+
+  static const values = [available, unavailable, partiallyAvailable];
 
   static VPCConnectionAvailabilityStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VPCConnectionAvailabilityStatus'));
+          orElse: () => VPCConnectionAvailabilityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VPCConnectionAvailabilityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VPCConnectionResourceStatus {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  creationSuccessful('CREATION_SUCCESSFUL'),
-  creationFailed('CREATION_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateSuccessful('UPDATE_SUCCESSFUL'),
-  updateFailed('UPDATE_FAILED'),
-  deletionInProgress('DELETION_IN_PROGRESS'),
-  deletionFailed('DELETION_FAILED'),
-  deleted('DELETED'),
-  ;
+class VPCConnectionResourceStatus {
+  static const creationInProgress =
+      VPCConnectionResourceStatus._('CREATION_IN_PROGRESS');
+  static const creationSuccessful =
+      VPCConnectionResourceStatus._('CREATION_SUCCESSFUL');
+  static const creationFailed =
+      VPCConnectionResourceStatus._('CREATION_FAILED');
+  static const updateInProgress =
+      VPCConnectionResourceStatus._('UPDATE_IN_PROGRESS');
+  static const updateSuccessful =
+      VPCConnectionResourceStatus._('UPDATE_SUCCESSFUL');
+  static const updateFailed = VPCConnectionResourceStatus._('UPDATE_FAILED');
+  static const deletionInProgress =
+      VPCConnectionResourceStatus._('DELETION_IN_PROGRESS');
+  static const deletionFailed =
+      VPCConnectionResourceStatus._('DELETION_FAILED');
+  static const deleted = VPCConnectionResourceStatus._('DELETED');
 
   final String value;
 
-  const VPCConnectionResourceStatus(this.value);
+  const VPCConnectionResourceStatus._(this.value);
+
+  static const values = [
+    creationInProgress,
+    creationSuccessful,
+    creationFailed,
+    updateInProgress,
+    updateSuccessful,
+    updateFailed,
+    deletionInProgress,
+    deletionFailed,
+    deleted
+  ];
 
   static VPCConnectionResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VPCConnectionResourceStatus'));
+          orElse: () => VPCConnectionResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VPCConnectionResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary metadata that describes a VPC connection.
@@ -59964,65 +62655,104 @@ class ValidationStrategy {
   }
 }
 
-enum ValidationStrategyMode {
-  strict('STRICT'),
-  lenient('LENIENT'),
-  ;
+class ValidationStrategyMode {
+  static const strict = ValidationStrategyMode._('STRICT');
+  static const lenient = ValidationStrategyMode._('LENIENT');
 
   final String value;
 
-  const ValidationStrategyMode(this.value);
+  const ValidationStrategyMode._(this.value);
+
+  static const values = [strict, lenient];
 
   static ValidationStrategyMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ValidationStrategyMode'));
+          orElse: () => ValidationStrategyMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidationStrategyMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ValueWhenUnsetOption {
-  recommendedValue('RECOMMENDED_VALUE'),
-  $null('NULL'),
-  ;
+class ValueWhenUnsetOption {
+  static const recommendedValue = ValueWhenUnsetOption._('RECOMMENDED_VALUE');
+  static const $null = ValueWhenUnsetOption._('NULL');
 
   final String value;
 
-  const ValueWhenUnsetOption(this.value);
+  const ValueWhenUnsetOption._(this.value);
 
-  static ValueWhenUnsetOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ValueWhenUnsetOption'));
+  static const values = [recommendedValue, $null];
+
+  static ValueWhenUnsetOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValueWhenUnsetOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValueWhenUnsetOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VerticalTextAlignment {
-  top('TOP'),
-  middle('MIDDLE'),
-  bottom('BOTTOM'),
-  auto('AUTO'),
-  ;
+class VerticalTextAlignment {
+  static const top = VerticalTextAlignment._('TOP');
+  static const middle = VerticalTextAlignment._('MIDDLE');
+  static const bottom = VerticalTextAlignment._('BOTTOM');
+  static const auto = VerticalTextAlignment._('AUTO');
 
   final String value;
 
-  const VerticalTextAlignment(this.value);
+  const VerticalTextAlignment._(this.value);
 
-  static VerticalTextAlignment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerticalTextAlignment'));
+  static const values = [top, middle, bottom, auto];
+
+  static VerticalTextAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerticalTextAlignment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerticalTextAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Visibility {
-  hidden('HIDDEN'),
-  visible('VISIBLE'),
-  ;
+class Visibility {
+  static const hidden = Visibility._('HIDDEN');
+  static const visible = Visibility._('VISIBLE');
 
   final String value;
 
-  const Visibility(this.value);
+  const Visibility._(this.value);
 
-  static Visibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Visibility'));
+  static const values = [hidden, visible];
+
+  static Visibility fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Visibility._(value));
+
+  @override
+  bool operator ==(other) => other is Visibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range options for the data zoom scroll bar.
@@ -60463,8 +63193,8 @@ class VisualCustomAction {
           .toList(),
       customActionId: (json['CustomActionId'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      trigger:
-          VisualCustomActionTrigger.fromString((json['Trigger'] as String)),
+      trigger: VisualCustomActionTrigger.fromString(
+          (json['Trigger'] as String?) ?? ''),
       status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
     );
   }
@@ -60548,19 +63278,29 @@ class VisualCustomActionOperation {
   }
 }
 
-enum VisualCustomActionTrigger {
-  dataPointClick('DATA_POINT_CLICK'),
-  dataPointMenu('DATA_POINT_MENU'),
-  ;
+class VisualCustomActionTrigger {
+  static const dataPointClick = VisualCustomActionTrigger._('DATA_POINT_CLICK');
+  static const dataPointMenu = VisualCustomActionTrigger._('DATA_POINT_MENU');
 
   final String value;
 
-  const VisualCustomActionTrigger(this.value);
+  const VisualCustomActionTrigger._(this.value);
+
+  static const values = [dataPointClick, dataPointMenu];
 
   static VisualCustomActionTrigger fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VisualCustomActionTrigger'));
+          orElse: () => VisualCustomActionTrigger._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VisualCustomActionTrigger && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The general visual interactions setup for visual publish options
@@ -60680,21 +63420,36 @@ class VisualPalette {
   }
 }
 
-enum VisualRole {
-  primary('PRIMARY'),
-  complimentary('COMPLIMENTARY'),
-  multiIntent('MULTI_INTENT'),
-  fallback('FALLBACK'),
-  fragment('FRAGMENT'),
-  ;
+class VisualRole {
+  static const primary = VisualRole._('PRIMARY');
+  static const complimentary = VisualRole._('COMPLIMENTARY');
+  static const multiIntent = VisualRole._('MULTI_INTENT');
+  static const fallback = VisualRole._('FALLBACK');
+  static const fragment = VisualRole._('FRAGMENT');
 
   final String value;
 
-  const VisualRole(this.value);
+  const VisualRole._(this.value);
 
-  static VisualRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VisualRole'));
+  static const values = [
+    primary,
+    complimentary,
+    multiIntent,
+    fallback,
+    fragment
+  ];
+
+  static VisualRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VisualRole._(value));
+
+  @override
+  bool operator ==(other) => other is VisualRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The subtitle label options for a visual.
@@ -61273,19 +64028,27 @@ class WhatIfRangeScenario {
   }
 }
 
-enum WidgetStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class WidgetStatus {
+  static const enabled = WidgetStatus._('ENABLED');
+  static const disabled = WidgetStatus._('DISABLED');
 
   final String value;
 
-  const WidgetStatus(this.value);
+  const WidgetStatus._(this.value);
 
-  static WidgetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WidgetStatus'));
+  static const values = [enabled, disabled];
+
+  static WidgetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WidgetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WidgetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The aggregated field wells of a word cloud.
@@ -61394,19 +64157,29 @@ class WordCloudChartConfiguration {
   }
 }
 
-enum WordCloudCloudLayout {
-  fluid('FLUID'),
-  normal('NORMAL'),
-  ;
+class WordCloudCloudLayout {
+  static const fluid = WordCloudCloudLayout._('FLUID');
+  static const normal = WordCloudCloudLayout._('NORMAL');
 
   final String value;
 
-  const WordCloudCloudLayout(this.value);
+  const WordCloudCloudLayout._(this.value);
 
-  static WordCloudCloudLayout fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WordCloudCloudLayout'));
+  static const values = [fluid, normal];
+
+  static WordCloudCloudLayout fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WordCloudCloudLayout._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WordCloudCloudLayout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The field wells of a word cloud visual.
@@ -61622,66 +64395,107 @@ class WordCloudVisual {
   }
 }
 
-enum WordCloudWordCasing {
-  lowerCase('LOWER_CASE'),
-  existingCase('EXISTING_CASE'),
-  ;
+class WordCloudWordCasing {
+  static const lowerCase = WordCloudWordCasing._('LOWER_CASE');
+  static const existingCase = WordCloudWordCasing._('EXISTING_CASE');
 
   final String value;
 
-  const WordCloudWordCasing(this.value);
+  const WordCloudWordCasing._(this.value);
 
-  static WordCloudWordCasing fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WordCloudWordCasing'));
+  static const values = [lowerCase, existingCase];
+
+  static WordCloudWordCasing fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WordCloudWordCasing._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WordCloudWordCasing && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WordCloudWordOrientation {
-  horizontal('HORIZONTAL'),
-  horizontalAndVertical('HORIZONTAL_AND_VERTICAL'),
-  ;
+class WordCloudWordOrientation {
+  static const horizontal = WordCloudWordOrientation._('HORIZONTAL');
+  static const horizontalAndVertical =
+      WordCloudWordOrientation._('HORIZONTAL_AND_VERTICAL');
 
   final String value;
 
-  const WordCloudWordOrientation(this.value);
+  const WordCloudWordOrientation._(this.value);
+
+  static const values = [horizontal, horizontalAndVertical];
 
   static WordCloudWordOrientation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WordCloudWordOrientation'));
+          orElse: () => WordCloudWordOrientation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WordCloudWordOrientation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WordCloudWordPadding {
-  none('NONE'),
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  ;
+class WordCloudWordPadding {
+  static const none = WordCloudWordPadding._('NONE');
+  static const small = WordCloudWordPadding._('SMALL');
+  static const medium = WordCloudWordPadding._('MEDIUM');
+  static const large = WordCloudWordPadding._('LARGE');
 
   final String value;
 
-  const WordCloudWordPadding(this.value);
+  const WordCloudWordPadding._(this.value);
 
-  static WordCloudWordPadding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WordCloudWordPadding'));
+  static const values = [none, small, medium, large];
+
+  static WordCloudWordPadding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WordCloudWordPadding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WordCloudWordPadding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WordCloudWordScaling {
-  emphasize('EMPHASIZE'),
-  normal('NORMAL'),
-  ;
+class WordCloudWordScaling {
+  static const emphasize = WordCloudWordScaling._('EMPHASIZE');
+  static const normal = WordCloudWordScaling._('NORMAL');
 
   final String value;
 
-  const WordCloudWordScaling(this.value);
+  const WordCloudWordScaling._(this.value);
 
-  static WordCloudWordScaling fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WordCloudWordScaling'));
+  static const values = [emphasize, normal];
+
+  static WordCloudWordScaling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WordCloudWordScaling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WordCloudWordScaling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The options that are available for a single Y axis in a chart.
@@ -61698,7 +64512,7 @@ class YAxisOptions {
 
   factory YAxisOptions.fromJson(Map<String, dynamic> json) {
     return YAxisOptions(
-      yAxis: SingleYAxisOption.fromString((json['YAxis'] as String)),
+      yAxis: SingleYAxisOption.fromString((json['YAxis'] as String?) ?? ''),
     );
   }
 

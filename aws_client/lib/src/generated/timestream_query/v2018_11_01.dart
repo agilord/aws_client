@@ -1099,8 +1099,8 @@ class DimensionMapping {
 
   factory DimensionMapping.fromJson(Map<String, dynamic> json) {
     return DimensionMapping(
-      dimensionValueType:
-          DimensionValueType.fromString((json['DimensionValueType'] as String)),
+      dimensionValueType: DimensionValueType.fromString(
+          (json['DimensionValueType'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -1115,18 +1115,28 @@ class DimensionMapping {
   }
 }
 
-enum DimensionValueType {
-  varchar('VARCHAR'),
-  ;
+class DimensionValueType {
+  static const varchar = DimensionValueType._('VARCHAR');
 
   final String value;
 
-  const DimensionValueType(this.value);
+  const DimensionValueType._(this.value);
 
-  static DimensionValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DimensionValueType'));
+  static const values = [varchar];
+
+  static DimensionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an available endpoint against which to make API calls against, as
@@ -1340,22 +1350,31 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MeasureValueType {
-  bigint('BIGINT'),
-  boolean('BOOLEAN'),
-  double('DOUBLE'),
-  varchar('VARCHAR'),
-  multi('MULTI'),
-  ;
+class MeasureValueType {
+  static const bigint = MeasureValueType._('BIGINT');
+  static const boolean = MeasureValueType._('BOOLEAN');
+  static const $double = MeasureValueType._('DOUBLE');
+  static const varchar = MeasureValueType._('VARCHAR');
+  static const multi = MeasureValueType._('MULTI');
 
   final String value;
 
-  const MeasureValueType(this.value);
+  const MeasureValueType._(this.value);
+
+  static const values = [bigint, boolean, $double, varchar, multi];
 
   static MeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MeasureValueType'));
+          orElse: () => MeasureValueType._(value));
+
+  @override
+  bool operator ==(other) => other is MeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// MixedMeasureMappings are mappings that can be used to ingest data into a
@@ -1391,8 +1410,8 @@ class MixedMeasureMapping {
 
   factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
     return MixedMeasureMapping(
-      measureValueType:
-          MeasureValueType.fromString((json['MeasureValueType'] as String)),
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
@@ -1443,7 +1462,7 @@ class MultiMeasureAttributeMapping {
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
       measureValueType: ScalarMeasureValueType.fromString(
-          (json['MeasureValueType'] as String)),
+          (json['MeasureValueType'] as String?) ?? ''),
       sourceColumn: (json['SourceColumn'] as String?) ?? '',
       targetMultiMeasureAttributeName:
           json['TargetMultiMeasureAttributeName'] as String?,
@@ -1604,19 +1623,28 @@ class PrepareQueryResponse {
   }
 }
 
-enum QueryPricingModel {
-  bytesScanned('BYTES_SCANNED'),
-  computeUnits('COMPUTE_UNITS'),
-  ;
+class QueryPricingModel {
+  static const bytesScanned = QueryPricingModel._('BYTES_SCANNED');
+  static const computeUnits = QueryPricingModel._('COMPUTE_UNITS');
 
   final String value;
 
-  const QueryPricingModel(this.value);
+  const QueryPricingModel._(this.value);
+
+  static const values = [bytesScanned, computeUnits];
 
   static QueryPricingModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueryPricingModel'));
+          orElse: () => QueryPricingModel._(value));
+
+  @override
+  bool operator ==(other) => other is QueryPricingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class QueryResponse {
@@ -1791,19 +1819,29 @@ class S3Configuration {
   }
 }
 
-enum S3EncryptionOption {
-  sseS3('SSE_S3'),
-  sseKms('SSE_KMS'),
-  ;
+class S3EncryptionOption {
+  static const sseS3 = S3EncryptionOption._('SSE_S3');
+  static const sseKms = S3EncryptionOption._('SSE_KMS');
 
   final String value;
 
-  const S3EncryptionOption(this.value);
+  const S3EncryptionOption._(this.value);
 
-  static S3EncryptionOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum S3EncryptionOption'));
+  static const values = [sseS3, sseKms];
+
+  static S3EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// S3 report location for the scheduled query run.
@@ -1836,45 +1874,76 @@ class S3ReportLocation {
   }
 }
 
-enum ScalarMeasureValueType {
-  bigint('BIGINT'),
-  boolean('BOOLEAN'),
-  double('DOUBLE'),
-  varchar('VARCHAR'),
-  timestamp('TIMESTAMP'),
-  ;
+class ScalarMeasureValueType {
+  static const bigint = ScalarMeasureValueType._('BIGINT');
+  static const boolean = ScalarMeasureValueType._('BOOLEAN');
+  static const $double = ScalarMeasureValueType._('DOUBLE');
+  static const varchar = ScalarMeasureValueType._('VARCHAR');
+  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
 
   final String value;
 
-  const ScalarMeasureValueType(this.value);
+  const ScalarMeasureValueType._(this.value);
+
+  static const values = [bigint, boolean, $double, varchar, timestamp];
 
   static ScalarMeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScalarMeasureValueType'));
+          orElse: () => ScalarMeasureValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarMeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalarType {
-  varchar('VARCHAR'),
-  boolean('BOOLEAN'),
-  bigint('BIGINT'),
-  double('DOUBLE'),
-  timestamp('TIMESTAMP'),
-  date('DATE'),
-  time('TIME'),
-  intervalDayToSecond('INTERVAL_DAY_TO_SECOND'),
-  intervalYearToMonth('INTERVAL_YEAR_TO_MONTH'),
-  unknown('UNKNOWN'),
-  integer('INTEGER'),
-  ;
+class ScalarType {
+  static const varchar = ScalarType._('VARCHAR');
+  static const boolean = ScalarType._('BOOLEAN');
+  static const bigint = ScalarType._('BIGINT');
+  static const $double = ScalarType._('DOUBLE');
+  static const timestamp = ScalarType._('TIMESTAMP');
+  static const date = ScalarType._('DATE');
+  static const time = ScalarType._('TIME');
+  static const intervalDayToSecond = ScalarType._('INTERVAL_DAY_TO_SECOND');
+  static const intervalYearToMonth = ScalarType._('INTERVAL_YEAR_TO_MONTH');
+  static const unknown = ScalarType._('UNKNOWN');
+  static const integer = ScalarType._('INTEGER');
 
   final String value;
 
-  const ScalarType(this.value);
+  const ScalarType._(this.value);
 
-  static ScalarType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScalarType'));
+  static const values = [
+    varchar,
+    boolean,
+    bigint,
+    $double,
+    timestamp,
+    date,
+    time,
+    intervalDayToSecond,
+    intervalYearToMonth,
+    unknown,
+    integer
+  ];
+
+  static ScalarType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalarType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalarType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration of the schedule of the query.
@@ -1946,7 +2015,7 @@ class ScheduledQuery {
     return ScheduledQuery(
       arn: (json['Arn'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      state: ScheduledQueryState.fromString((json['State'] as String)),
+      state: ScheduledQueryState.fromString((json['State'] as String?) ?? ''),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
           ? ErrorReportConfiguration.fromJson(
@@ -2067,7 +2136,7 @@ class ScheduledQueryDescription {
       scheduleConfiguration: ScheduleConfiguration.fromJson(
           (json['ScheduleConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      state: ScheduledQueryState.fromString((json['State'] as String)),
+      state: ScheduledQueryState.fromString((json['State'] as String?) ?? ''),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
           ? ErrorReportConfiguration.fromJson(
@@ -2136,21 +2205,40 @@ class ScheduledQueryDescription {
   }
 }
 
-enum ScheduledQueryRunStatus {
-  autoTriggerSuccess('AUTO_TRIGGER_SUCCESS'),
-  autoTriggerFailure('AUTO_TRIGGER_FAILURE'),
-  manualTriggerSuccess('MANUAL_TRIGGER_SUCCESS'),
-  manualTriggerFailure('MANUAL_TRIGGER_FAILURE'),
-  ;
+class ScheduledQueryRunStatus {
+  static const autoTriggerSuccess =
+      ScheduledQueryRunStatus._('AUTO_TRIGGER_SUCCESS');
+  static const autoTriggerFailure =
+      ScheduledQueryRunStatus._('AUTO_TRIGGER_FAILURE');
+  static const manualTriggerSuccess =
+      ScheduledQueryRunStatus._('MANUAL_TRIGGER_SUCCESS');
+  static const manualTriggerFailure =
+      ScheduledQueryRunStatus._('MANUAL_TRIGGER_FAILURE');
 
   final String value;
 
-  const ScheduledQueryRunStatus(this.value);
+  const ScheduledQueryRunStatus._(this.value);
+
+  static const values = [
+    autoTriggerSuccess,
+    autoTriggerFailure,
+    manualTriggerSuccess,
+    manualTriggerFailure
+  ];
 
   static ScheduledQueryRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScheduledQueryRunStatus'));
+          orElse: () => ScheduledQueryRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledQueryRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Run summary for the scheduled query
@@ -2223,19 +2311,29 @@ class ScheduledQueryRunSummary {
   }
 }
 
-enum ScheduledQueryState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ScheduledQueryState {
+  static const enabled = ScheduledQueryState._('ENABLED');
+  static const disabled = ScheduledQueryState._('DISABLED');
 
   final String value;
 
-  const ScheduledQueryState(this.value);
+  const ScheduledQueryState._(this.value);
 
-  static ScheduledQueryState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScheduledQueryState'));
+  static const values = [enabled, disabled];
+
+  static ScheduledQueryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledQueryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledQueryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the column that is returned by the query.

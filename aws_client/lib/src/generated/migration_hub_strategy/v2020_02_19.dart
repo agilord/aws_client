@@ -832,21 +832,34 @@ class AnalysisStatusUnion {
   }
 }
 
-enum AnalysisType {
-  sourceCodeAnalysis('SOURCE_CODE_ANALYSIS'),
-  databaseAnalysis('DATABASE_ANALYSIS'),
-  runtimeAnalysis('RUNTIME_ANALYSIS'),
-  binaryAnalysis('BINARY_ANALYSIS'),
-  ;
+class AnalysisType {
+  static const sourceCodeAnalysis = AnalysisType._('SOURCE_CODE_ANALYSIS');
+  static const databaseAnalysis = AnalysisType._('DATABASE_ANALYSIS');
+  static const runtimeAnalysis = AnalysisType._('RUNTIME_ANALYSIS');
+  static const binaryAnalysis = AnalysisType._('BINARY_ANALYSIS');
 
   final String value;
 
-  const AnalysisType(this.value);
+  const AnalysisType._(this.value);
 
-  static AnalysisType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisType'));
+  static const values = [
+    sourceCodeAnalysis,
+    databaseAnalysis,
+    runtimeAnalysis,
+    binaryAnalysis
+  ];
+
+  static AnalysisType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnalysisType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about an analyzable server.
@@ -989,20 +1002,30 @@ class AntipatternReportResult {
   }
 }
 
-enum AntipatternReportStatus {
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  ;
+class AntipatternReportStatus {
+  static const failed = AntipatternReportStatus._('FAILED');
+  static const inProgress = AntipatternReportStatus._('IN_PROGRESS');
+  static const success = AntipatternReportStatus._('SUCCESS');
 
   final String value;
 
-  const AntipatternReportStatus(this.value);
+  const AntipatternReportStatus._(this.value);
+
+  static const values = [failed, inProgress, success];
 
   static AntipatternReportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AntipatternReportStatus'));
+          orElse: () => AntipatternReportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AntipatternReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the summary of anti-patterns and their severity.
@@ -1035,38 +1058,70 @@ class AntipatternSeveritySummary {
   }
 }
 
-enum AppType {
-  dotNetFramework('DotNetFramework'),
-  java('Java'),
-  sQLServer('SQLServer'),
-  iis('IIS'),
-  oracle('Oracle'),
-  other('Other'),
-  tomcat('Tomcat'),
-  jBoss('JBoss'),
-  spring('Spring'),
-  mongoDb('Mongo DB'),
-  db2('DB2'),
-  mariaDb('Maria DB'),
-  mySQL('MySQL'),
-  sybase('Sybase'),
-  postgreSQLServer('PostgreSQLServer'),
-  cassandra('Cassandra'),
-  ibmWebSphere('IBM WebSphere'),
-  oracleWebLogic('Oracle WebLogic'),
-  visualBasic('Visual Basic'),
-  unknown('Unknown'),
-  dotnetCore('DotnetCore'),
-  dotnet('Dotnet'),
-  ;
+class AppType {
+  static const dotNetFramework = AppType._('DotNetFramework');
+  static const java = AppType._('Java');
+  static const sQLServer = AppType._('SQLServer');
+  static const iis = AppType._('IIS');
+  static const oracle = AppType._('Oracle');
+  static const other = AppType._('Other');
+  static const tomcat = AppType._('Tomcat');
+  static const jBoss = AppType._('JBoss');
+  static const spring = AppType._('Spring');
+  static const mongoDb = AppType._('Mongo DB');
+  static const db2 = AppType._('DB2');
+  static const mariaDb = AppType._('Maria DB');
+  static const mySQL = AppType._('MySQL');
+  static const sybase = AppType._('Sybase');
+  static const postgreSQLServer = AppType._('PostgreSQLServer');
+  static const cassandra = AppType._('Cassandra');
+  static const ibmWebSphere = AppType._('IBM WebSphere');
+  static const oracleWebLogic = AppType._('Oracle WebLogic');
+  static const visualBasic = AppType._('Visual Basic');
+  static const unknown = AppType._('Unknown');
+  static const dotnetCore = AppType._('DotnetCore');
+  static const dotnet = AppType._('Dotnet');
 
   final String value;
 
-  const AppType(this.value);
+  const AppType._(this.value);
 
-  static AppType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum AppType'));
+  static const values = [
+    dotNetFramework,
+    java,
+    sQLServer,
+    iis,
+    oracle,
+    other,
+    tomcat,
+    jBoss,
+    spring,
+    mongoDb,
+    db2,
+    mariaDb,
+    mySQL,
+    sybase,
+    postgreSQLServer,
+    cassandra,
+    ibmWebSphere,
+    oracleWebLogic,
+    visualBasic,
+    unknown,
+    dotnetCore,
+    dotnet
+  ];
+
+  static AppType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppType._(value));
+
+  @override
+  bool operator ==(other) => other is AppType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Error in the analysis of the application unit.
@@ -1094,43 +1149,79 @@ class AppUnitError {
   }
 }
 
-enum AppUnitErrorCategory {
-  credentialError('CREDENTIAL_ERROR'),
-  connectivityError('CONNECTIVITY_ERROR'),
-  permissionError('PERMISSION_ERROR'),
-  unsupportedError('UNSUPPORTED_ERROR'),
-  otherError('OTHER_ERROR'),
-  ;
+class AppUnitErrorCategory {
+  static const credentialError = AppUnitErrorCategory._('CREDENTIAL_ERROR');
+  static const connectivityError = AppUnitErrorCategory._('CONNECTIVITY_ERROR');
+  static const permissionError = AppUnitErrorCategory._('PERMISSION_ERROR');
+  static const unsupportedError = AppUnitErrorCategory._('UNSUPPORTED_ERROR');
+  static const otherError = AppUnitErrorCategory._('OTHER_ERROR');
 
   final String value;
 
-  const AppUnitErrorCategory(this.value);
+  const AppUnitErrorCategory._(this.value);
 
-  static AppUnitErrorCategory fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppUnitErrorCategory'));
+  static const values = [
+    credentialError,
+    connectivityError,
+    permissionError,
+    unsupportedError,
+    otherError
+  ];
+
+  static AppUnitErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppUnitErrorCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppUnitErrorCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationComponentCriteria {
-  notDefined('NOT_DEFINED'),
-  appName('APP_NAME'),
-  serverId('SERVER_ID'),
-  appType('APP_TYPE'),
-  strategy('STRATEGY'),
-  destination('DESTINATION'),
-  analysisStatus('ANALYSIS_STATUS'),
-  errorCategory('ERROR_CATEGORY'),
-  ;
+class ApplicationComponentCriteria {
+  static const notDefined = ApplicationComponentCriteria._('NOT_DEFINED');
+  static const appName = ApplicationComponentCriteria._('APP_NAME');
+  static const serverId = ApplicationComponentCriteria._('SERVER_ID');
+  static const appType = ApplicationComponentCriteria._('APP_TYPE');
+  static const strategy = ApplicationComponentCriteria._('STRATEGY');
+  static const destination = ApplicationComponentCriteria._('DESTINATION');
+  static const analysisStatus =
+      ApplicationComponentCriteria._('ANALYSIS_STATUS');
+  static const errorCategory = ApplicationComponentCriteria._('ERROR_CATEGORY');
 
   final String value;
 
-  const ApplicationComponentCriteria(this.value);
+  const ApplicationComponentCriteria._(this.value);
+
+  static const values = [
+    notDefined,
+    appName,
+    serverId,
+    appType,
+    strategy,
+    destination,
+    analysisStatus,
+    errorCategory
+  ];
 
   static ApplicationComponentCriteria fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationComponentCriteria'));
+          orElse: () => ApplicationComponentCriteria._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationComponentCriteria && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains detailed information about an application component.
@@ -1457,20 +1548,29 @@ class ApplicationComponentSummary {
   }
 }
 
-enum ApplicationMode {
-  all('ALL'),
-  known('KNOWN'),
-  unknown('UNKNOWN'),
-  ;
+class ApplicationMode {
+  static const all = ApplicationMode._('ALL');
+  static const known = ApplicationMode._('KNOWN');
+  static const unknown = ApplicationMode._('UNKNOWN');
 
   final String value;
 
-  const ApplicationMode(this.value);
+  const ApplicationMode._(this.value);
+
+  static const values = [all, known, unknown];
 
   static ApplicationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationMode'));
+          orElse: () => ApplicationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Application preferences that you specify.
@@ -1500,38 +1600,63 @@ class ApplicationPreferences {
   }
 }
 
-enum AssessmentDataSourceType {
-  strategyRecommendationsApplicationDataCollector(
-      'StrategyRecommendationsApplicationDataCollector'),
-  manualImport('ManualImport'),
-  applicationDiscoveryService('ApplicationDiscoveryService'),
-  ;
+class AssessmentDataSourceType {
+  static const strategyRecommendationsApplicationDataCollector =
+      AssessmentDataSourceType._(
+          'StrategyRecommendationsApplicationDataCollector');
+  static const manualImport = AssessmentDataSourceType._('ManualImport');
+  static const applicationDiscoveryService =
+      AssessmentDataSourceType._('ApplicationDiscoveryService');
 
   final String value;
 
-  const AssessmentDataSourceType(this.value);
+  const AssessmentDataSourceType._(this.value);
+
+  static const values = [
+    strategyRecommendationsApplicationDataCollector,
+    manualImport,
+    applicationDiscoveryService
+  ];
 
   static AssessmentDataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssessmentDataSourceType'));
+          orElse: () => AssessmentDataSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentDataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssessmentStatus {
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  stopped('STOPPED'),
-  ;
+class AssessmentStatus {
+  static const inProgress = AssessmentStatus._('IN_PROGRESS');
+  static const complete = AssessmentStatus._('COMPLETE');
+  static const failed = AssessmentStatus._('FAILED');
+  static const stopped = AssessmentStatus._('STOPPED');
 
   final String value;
 
-  const AssessmentStatus(this.value);
+  const AssessmentStatus._(this.value);
+
+  static const values = [inProgress, complete, failed, stopped];
 
   static AssessmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssessmentStatus'));
+          orElse: () => AssessmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssessmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the summary of the assessment results.
@@ -1695,7 +1820,7 @@ class AssessmentTarget {
 
   factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
     return AssessmentTarget(
-      condition: Condition.fromString((json['condition'] as String)),
+      condition: Condition.fromString((json['condition'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       values: ((json['values'] as List?) ?? const [])
           .nonNulls
@@ -1747,19 +1872,28 @@ class AssociatedApplication {
   }
 }
 
-enum AuthType {
-  ntlm('NTLM'),
-  ssh('SSH'),
-  cert('CERT'),
-  ;
+class AuthType {
+  static const ntlm = AuthType._('NTLM');
+  static const ssh = AuthType._('SSH');
+  static const cert = AuthType._('CERT');
 
   final String value;
 
-  const AuthType(this.value);
+  const AuthType._(this.value);
 
-  static AuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthType'));
+  static const values = [ntlm, ssh, cert];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object containing the choice of application destination that you specify.
@@ -1788,35 +1922,56 @@ class AwsManagedResources {
   }
 }
 
-enum AwsManagedTargetDestination {
-  noneSpecified('None specified'),
-  awsElasticBeanStalk('AWS Elastic BeanStalk'),
-  awsFargate('AWS Fargate'),
-  ;
+class AwsManagedTargetDestination {
+  static const noneSpecified = AwsManagedTargetDestination._('None specified');
+  static const awsElasticBeanStalk =
+      AwsManagedTargetDestination._('AWS Elastic BeanStalk');
+  static const awsFargate = AwsManagedTargetDestination._('AWS Fargate');
 
   final String value;
 
-  const AwsManagedTargetDestination(this.value);
+  const AwsManagedTargetDestination._(this.value);
+
+  static const values = [noneSpecified, awsElasticBeanStalk, awsFargate];
 
   static AwsManagedTargetDestination fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AwsManagedTargetDestination'));
+          orElse: () => AwsManagedTargetDestination._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AwsManagedTargetDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BinaryAnalyzerName {
-  dllAnalyzer('DLL_ANALYZER'),
-  bytecodeAnalyzer('BYTECODE_ANALYZER'),
-  ;
+class BinaryAnalyzerName {
+  static const dllAnalyzer = BinaryAnalyzerName._('DLL_ANALYZER');
+  static const bytecodeAnalyzer = BinaryAnalyzerName._('BYTECODE_ANALYZER');
 
   final String value;
 
-  const BinaryAnalyzerName(this.value);
+  const BinaryAnalyzerName._(this.value);
 
-  static BinaryAnalyzerName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BinaryAnalyzerName'));
+  static const values = [dllAnalyzer, bytecodeAnalyzer];
+
+  static BinaryAnalyzerName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BinaryAnalyzerName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BinaryAnalyzerName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Business goals that you specify.
@@ -1954,35 +2109,53 @@ class Collector {
   }
 }
 
-enum CollectorHealth {
-  collectorHealthy('COLLECTOR_HEALTHY'),
-  collectorUnhealthy('COLLECTOR_UNHEALTHY'),
-  ;
+class CollectorHealth {
+  static const collectorHealthy = CollectorHealth._('COLLECTOR_HEALTHY');
+  static const collectorUnhealthy = CollectorHealth._('COLLECTOR_UNHEALTHY');
 
   final String value;
 
-  const CollectorHealth(this.value);
+  const CollectorHealth._(this.value);
+
+  static const values = [collectorHealthy, collectorUnhealthy];
 
   static CollectorHealth fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CollectorHealth'));
+          orElse: () => CollectorHealth._(value));
+
+  @override
+  bool operator ==(other) => other is CollectorHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Condition {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  contains('CONTAINS'),
-  notContains('NOT_CONTAINS'),
-  ;
+class Condition {
+  static const equals = Condition._('EQUALS');
+  static const notEquals = Condition._('NOT_EQUALS');
+  static const contains = Condition._('CONTAINS');
+  static const notContains = Condition._('NOT_CONTAINS');
 
   final String value;
 
-  const Condition(this.value);
+  const Condition._(this.value);
 
-  static Condition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Condition'));
+  static const values = [equals, notEquals, contains, notContains];
+
+  static Condition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Condition._(value));
+
+  @override
+  bool operator ==(other) => other is Condition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the collector configuration.
@@ -2135,22 +2308,37 @@ class DataCollectionDetails {
   }
 }
 
-enum DataSourceType {
-  applicationDiscoveryService('ApplicationDiscoveryService'),
-  mpa('MPA'),
-  import('Import'),
-  strategyRecommendationsApplicationDataCollector(
-      'StrategyRecommendationsApplicationDataCollector'),
-  ;
+class DataSourceType {
+  static const applicationDiscoveryService =
+      DataSourceType._('ApplicationDiscoveryService');
+  static const mpa = DataSourceType._('MPA');
+  static const import = DataSourceType._('Import');
+  static const strategyRecommendationsApplicationDataCollector =
+      DataSourceType._('StrategyRecommendationsApplicationDataCollector');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [
+    applicationDiscoveryService,
+    mpa,
+    import,
+    strategyRecommendationsApplicationDataCollector
+  ];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information used for assessing databases.
@@ -2177,20 +2365,30 @@ class DatabaseConfigDetail {
   }
 }
 
-enum DatabaseManagementPreference {
-  awsManaged('AWS-managed'),
-  selfManage('Self-manage'),
-  noPreference('No preference'),
-  ;
+class DatabaseManagementPreference {
+  static const awsManaged = DatabaseManagementPreference._('AWS-managed');
+  static const selfManage = DatabaseManagementPreference._('Self-manage');
+  static const noPreference = DatabaseManagementPreference._('No preference');
 
   final String value;
 
-  const DatabaseManagementPreference(this.value);
+  const DatabaseManagementPreference._(this.value);
+
+  static const values = [awsManaged, selfManage, noPreference];
 
   static DatabaseManagementPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatabaseManagementPreference'));
+          orElse: () => DatabaseManagementPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseManagementPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Preferences for migrating a database to AWS.
@@ -2742,18 +2940,27 @@ class Group {
   }
 }
 
-enum GroupName {
-  externalId('ExternalId'),
-  externalSourceType('ExternalSourceType'),
-  ;
+class GroupName {
+  static const externalId = GroupName._('ExternalId');
+  static const externalSourceType = GroupName._('ExternalSourceType');
 
   final String value;
 
-  const GroupName(this.value);
+  const GroupName._(this.value);
 
-  static GroupName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GroupName'));
+  static const values = [externalId, externalSourceType];
+
+  static GroupName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupName._(value));
+
+  @override
+  bool operator ==(other) => other is GroupName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object containing details about heterogeneous database preferences.
@@ -2784,27 +2991,53 @@ class Heterogeneous {
   }
 }
 
-enum HeterogeneousTargetDatabaseEngine {
-  noneSpecified('None specified'),
-  amazonAurora('Amazon Aurora'),
-  awsPostgreSQL('AWS PostgreSQL'),
-  mySQL('MySQL'),
-  microsoftSqlServer('Microsoft SQL Server'),
-  oracleDatabase('Oracle Database'),
-  mariaDB('MariaDB'),
-  sap('SAP'),
-  db2Luw('Db2 LUW'),
-  mongoDB('MongoDB'),
-  ;
+class HeterogeneousTargetDatabaseEngine {
+  static const noneSpecified =
+      HeterogeneousTargetDatabaseEngine._('None specified');
+  static const amazonAurora =
+      HeterogeneousTargetDatabaseEngine._('Amazon Aurora');
+  static const awsPostgreSQL =
+      HeterogeneousTargetDatabaseEngine._('AWS PostgreSQL');
+  static const mySQL = HeterogeneousTargetDatabaseEngine._('MySQL');
+  static const microsoftSqlServer =
+      HeterogeneousTargetDatabaseEngine._('Microsoft SQL Server');
+  static const oracleDatabase =
+      HeterogeneousTargetDatabaseEngine._('Oracle Database');
+  static const mariaDB = HeterogeneousTargetDatabaseEngine._('MariaDB');
+  static const sap = HeterogeneousTargetDatabaseEngine._('SAP');
+  static const db2Luw = HeterogeneousTargetDatabaseEngine._('Db2 LUW');
+  static const mongoDB = HeterogeneousTargetDatabaseEngine._('MongoDB');
 
   final String value;
 
-  const HeterogeneousTargetDatabaseEngine(this.value);
+  const HeterogeneousTargetDatabaseEngine._(this.value);
+
+  static const values = [
+    noneSpecified,
+    amazonAurora,
+    awsPostgreSQL,
+    mySQL,
+    microsoftSqlServer,
+    oracleDatabase,
+    mariaDB,
+    sap,
+    db2Luw,
+    mongoDB
+  ];
 
   static HeterogeneousTargetDatabaseEngine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HeterogeneousTargetDatabaseEngine'));
+          orElse: () => HeterogeneousTargetDatabaseEngine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HeterogeneousTargetDatabaseEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object containing details about homogeneous database preferences.
@@ -2835,18 +3068,29 @@ class Homogeneous {
   }
 }
 
-enum HomogeneousTargetDatabaseEngine {
-  noneSpecified('None specified'),
-  ;
+class HomogeneousTargetDatabaseEngine {
+  static const noneSpecified =
+      HomogeneousTargetDatabaseEngine._('None specified');
 
   final String value;
 
-  const HomogeneousTargetDatabaseEngine(this.value);
+  const HomogeneousTargetDatabaseEngine._(this.value);
+
+  static const values = [noneSpecified];
 
   static HomogeneousTargetDatabaseEngine fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HomogeneousTargetDatabaseEngine'));
+          orElse: () => HomogeneousTargetDatabaseEngine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HomogeneousTargetDatabaseEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// IP address based configurations.
@@ -2987,40 +3231,71 @@ class ImportFileTaskInformation {
   }
 }
 
-enum ImportFileTaskStatus {
-  importInProgress('ImportInProgress'),
-  importFailed('ImportFailed'),
-  importPartialSuccess('ImportPartialSuccess'),
-  importSuccess('ImportSuccess'),
-  deleteInProgress('DeleteInProgress'),
-  deleteFailed('DeleteFailed'),
-  deletePartialSuccess('DeletePartialSuccess'),
-  deleteSuccess('DeleteSuccess'),
-  ;
+class ImportFileTaskStatus {
+  static const importInProgress = ImportFileTaskStatus._('ImportInProgress');
+  static const importFailed = ImportFileTaskStatus._('ImportFailed');
+  static const importPartialSuccess =
+      ImportFileTaskStatus._('ImportPartialSuccess');
+  static const importSuccess = ImportFileTaskStatus._('ImportSuccess');
+  static const deleteInProgress = ImportFileTaskStatus._('DeleteInProgress');
+  static const deleteFailed = ImportFileTaskStatus._('DeleteFailed');
+  static const deletePartialSuccess =
+      ImportFileTaskStatus._('DeletePartialSuccess');
+  static const deleteSuccess = ImportFileTaskStatus._('DeleteSuccess');
 
   final String value;
 
-  const ImportFileTaskStatus(this.value);
+  const ImportFileTaskStatus._(this.value);
 
-  static ImportFileTaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImportFileTaskStatus'));
+  static const values = [
+    importInProgress,
+    importFailed,
+    importPartialSuccess,
+    importSuccess,
+    deleteInProgress,
+    deleteFailed,
+    deletePartialSuccess,
+    deleteSuccess
+  ];
+
+  static ImportFileTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportFileTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportFileTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InclusionStatus {
-  excludeFromAssessment('excludeFromAssessment'),
-  includeInAssessment('includeInAssessment'),
-  ;
+class InclusionStatus {
+  static const excludeFromAssessment =
+      InclusionStatus._('excludeFromAssessment');
+  static const includeInAssessment = InclusionStatus._('includeInAssessment');
 
   final String value;
 
-  const InclusionStatus(this.value);
+  const InclusionStatus._(this.value);
+
+  static const values = [excludeFromAssessment, includeInAssessment];
 
   static InclusionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InclusionStatus'));
+          orElse: () => InclusionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InclusionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents output for ListAnalyzableServers operation.
@@ -3346,23 +3621,46 @@ class NoManagementPreference {
   }
 }
 
-enum NoPreferenceTargetDestination {
-  noneSpecified('None specified'),
-  awsElasticBeanStalk('AWS Elastic BeanStalk'),
-  awsFargate('AWS Fargate'),
-  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
-  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
-  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
-  ;
+class NoPreferenceTargetDestination {
+  static const noneSpecified =
+      NoPreferenceTargetDestination._('None specified');
+  static const awsElasticBeanStalk =
+      NoPreferenceTargetDestination._('AWS Elastic BeanStalk');
+  static const awsFargate = NoPreferenceTargetDestination._('AWS Fargate');
+  static const amazonElasticCloudComputeEc2 =
+      NoPreferenceTargetDestination._('Amazon Elastic Cloud Compute (EC2)');
+  static const amazonElasticContainerServiceEcs =
+      NoPreferenceTargetDestination._('Amazon Elastic Container Service (ECS)');
+  static const amazonElasticKubernetesServiceEks =
+      NoPreferenceTargetDestination._(
+          'Amazon Elastic Kubernetes Service (EKS)');
 
   final String value;
 
-  const NoPreferenceTargetDestination(this.value);
+  const NoPreferenceTargetDestination._(this.value);
+
+  static const values = [
+    noneSpecified,
+    awsElasticBeanStalk,
+    awsFargate,
+    amazonElasticCloudComputeEc2,
+    amazonElasticContainerServiceEcs,
+    amazonElasticKubernetesServiceEks
+  ];
 
   static NoPreferenceTargetDestination fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NoPreferenceTargetDestination'));
+          orElse: () => NoPreferenceTargetDestination._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NoPreferenceTargetDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the operating system.
@@ -3395,33 +3693,50 @@ class OSInfo {
   }
 }
 
-enum OSType {
-  linux('LINUX'),
-  windows('WINDOWS'),
-  ;
+class OSType {
+  static const linux = OSType._('LINUX');
+  static const windows = OSType._('WINDOWS');
 
   final String value;
 
-  const OSType(this.value);
+  const OSType._(this.value);
+
+  static const values = [linux, windows];
 
   static OSType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OSType'));
+      values.firstWhere((e) => e.value == value, orElse: () => OSType._(value));
+
+  @override
+  bool operator ==(other) => other is OSType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OutputFormat {
-  excel('Excel'),
-  json('Json'),
-  ;
+class OutputFormat {
+  static const excel = OutputFormat._('Excel');
+  static const json = OutputFormat._('Json');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [excel, json];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed information of the pipeline.
@@ -3457,18 +3772,26 @@ class PipelineInfo {
   }
 }
 
-enum PipelineType {
-  azureDevops('AZURE_DEVOPS'),
-  ;
+class PipelineType {
+  static const azureDevops = PipelineType._('AZURE_DEVOPS');
 
   final String value;
 
-  const PipelineType(this.value);
+  const PipelineType._(this.value);
 
-  static PipelineType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PipelineType'));
+  static const values = [azureDevops];
+
+  static PipelineType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PipelineType._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Rank of business goals based on priority.
@@ -3570,20 +3893,30 @@ class RecommendationReportDetails {
   }
 }
 
-enum RecommendationReportStatus {
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  success('SUCCESS'),
-  ;
+class RecommendationReportStatus {
+  static const failed = RecommendationReportStatus._('FAILED');
+  static const inProgress = RecommendationReportStatus._('IN_PROGRESS');
+  static const success = RecommendationReportStatus._('SUCCESS');
 
   final String value;
 
-  const RecommendationReportStatus(this.value);
+  const RecommendationReportStatus._(this.value);
+
+  static const values = [failed, inProgress, success];
 
   static RecommendationReportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationReportStatus'));
+          orElse: () => RecommendationReportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a recommendation set.
@@ -3657,20 +3990,29 @@ class RemoteSourceCodeAnalysisServerInfo {
   }
 }
 
-enum ResourceSubType {
-  database('Database'),
-  process('Process'),
-  databaseProcess('DatabaseProcess'),
-  ;
+class ResourceSubType {
+  static const database = ResourceSubType._('Database');
+  static const process = ResourceSubType._('Process');
+  static const databaseProcess = ResourceSubType._('DatabaseProcess');
 
   final String value;
 
-  const ResourceSubType(this.value);
+  const ResourceSubType._(this.value);
+
+  static const values = [database, process, databaseProcess];
 
   static ResourceSubType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceSubType'));
+          orElse: () => ResourceSubType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceSubType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The error in server analysis.
@@ -3727,59 +4069,116 @@ class Result {
   }
 }
 
-enum RunTimeAnalyzerName {
-  a2cAnalyzer('A2C_ANALYZER'),
-  rehostAnalyzer('REHOST_ANALYZER'),
-  empPaAnalyzer('EMP_PA_ANALYZER'),
-  databaseAnalyzer('DATABASE_ANALYZER'),
-  sctAnalyzer('SCT_ANALYZER'),
-  ;
+class RunTimeAnalyzerName {
+  static const a2cAnalyzer = RunTimeAnalyzerName._('A2C_ANALYZER');
+  static const rehostAnalyzer = RunTimeAnalyzerName._('REHOST_ANALYZER');
+  static const empPaAnalyzer = RunTimeAnalyzerName._('EMP_PA_ANALYZER');
+  static const databaseAnalyzer = RunTimeAnalyzerName._('DATABASE_ANALYZER');
+  static const sctAnalyzer = RunTimeAnalyzerName._('SCT_ANALYZER');
 
   final String value;
 
-  const RunTimeAnalyzerName(this.value);
+  const RunTimeAnalyzerName._(this.value);
 
-  static RunTimeAnalyzerName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RunTimeAnalyzerName'));
+  static const values = [
+    a2cAnalyzer,
+    rehostAnalyzer,
+    empPaAnalyzer,
+    databaseAnalyzer,
+    sctAnalyzer
+  ];
+
+  static RunTimeAnalyzerName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RunTimeAnalyzerName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RunTimeAnalyzerName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RunTimeAssessmentStatus {
-  dataCollectionTaskToBeScheduled('dataCollectionTaskToBeScheduled'),
-  dataCollectionTaskScheduled('dataCollectionTaskScheduled'),
-  dataCollectionTaskStarted('dataCollectionTaskStarted'),
-  dataCollectionTaskStopped('dataCollectionTaskStopped'),
-  dataCollectionTaskSuccess('dataCollectionTaskSuccess'),
-  dataCollectionTaskFailed('dataCollectionTaskFailed'),
-  dataCollectionTaskPartialSuccess('dataCollectionTaskPartialSuccess'),
-  ;
+class RunTimeAssessmentStatus {
+  static const dataCollectionTaskToBeScheduled =
+      RunTimeAssessmentStatus._('dataCollectionTaskToBeScheduled');
+  static const dataCollectionTaskScheduled =
+      RunTimeAssessmentStatus._('dataCollectionTaskScheduled');
+  static const dataCollectionTaskStarted =
+      RunTimeAssessmentStatus._('dataCollectionTaskStarted');
+  static const dataCollectionTaskStopped =
+      RunTimeAssessmentStatus._('dataCollectionTaskStopped');
+  static const dataCollectionTaskSuccess =
+      RunTimeAssessmentStatus._('dataCollectionTaskSuccess');
+  static const dataCollectionTaskFailed =
+      RunTimeAssessmentStatus._('dataCollectionTaskFailed');
+  static const dataCollectionTaskPartialSuccess =
+      RunTimeAssessmentStatus._('dataCollectionTaskPartialSuccess');
 
   final String value;
 
-  const RunTimeAssessmentStatus(this.value);
+  const RunTimeAssessmentStatus._(this.value);
+
+  static const values = [
+    dataCollectionTaskToBeScheduled,
+    dataCollectionTaskScheduled,
+    dataCollectionTaskStarted,
+    dataCollectionTaskStopped,
+    dataCollectionTaskSuccess,
+    dataCollectionTaskFailed,
+    dataCollectionTaskPartialSuccess
+  ];
 
   static RunTimeAssessmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RunTimeAssessmentStatus'));
+          orElse: () => RunTimeAssessmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RunTimeAssessmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuntimeAnalysisStatus {
-  analysisToBeScheduled('ANALYSIS_TO_BE_SCHEDULED'),
-  analysisStarted('ANALYSIS_STARTED'),
-  analysisSuccess('ANALYSIS_SUCCESS'),
-  analysisFailed('ANALYSIS_FAILED'),
-  ;
+class RuntimeAnalysisStatus {
+  static const analysisToBeScheduled =
+      RuntimeAnalysisStatus._('ANALYSIS_TO_BE_SCHEDULED');
+  static const analysisStarted = RuntimeAnalysisStatus._('ANALYSIS_STARTED');
+  static const analysisSuccess = RuntimeAnalysisStatus._('ANALYSIS_SUCCESS');
+  static const analysisFailed = RuntimeAnalysisStatus._('ANALYSIS_FAILED');
 
   final String value;
 
-  const RuntimeAnalysisStatus(this.value);
+  const RuntimeAnalysisStatus._(this.value);
 
-  static RuntimeAnalysisStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuntimeAnalysisStatus'));
+  static const values = [
+    analysisToBeScheduled,
+    analysisStarted,
+    analysisSuccess,
+    analysisFailed
+  ];
+
+  static RuntimeAnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuntimeAnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuntimeAnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the S3 bucket name and the Amazon S3 key name.
@@ -3838,41 +4237,76 @@ class SelfManageResources {
   }
 }
 
-enum SelfManageTargetDestination {
-  noneSpecified('None specified'),
-  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
-  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
-  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
-  ;
+class SelfManageTargetDestination {
+  static const noneSpecified = SelfManageTargetDestination._('None specified');
+  static const amazonElasticCloudComputeEc2 =
+      SelfManageTargetDestination._('Amazon Elastic Cloud Compute (EC2)');
+  static const amazonElasticContainerServiceEcs =
+      SelfManageTargetDestination._('Amazon Elastic Container Service (ECS)');
+  static const amazonElasticKubernetesServiceEks =
+      SelfManageTargetDestination._('Amazon Elastic Kubernetes Service (EKS)');
 
   final String value;
 
-  const SelfManageTargetDestination(this.value);
+  const SelfManageTargetDestination._(this.value);
+
+  static const values = [
+    noneSpecified,
+    amazonElasticCloudComputeEc2,
+    amazonElasticContainerServiceEcs,
+    amazonElasticKubernetesServiceEks
+  ];
 
   static SelfManageTargetDestination fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SelfManageTargetDestination'));
+          orElse: () => SelfManageTargetDestination._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SelfManageTargetDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServerCriteria {
-  notDefined('NOT_DEFINED'),
-  osName('OS_NAME'),
-  strategy('STRATEGY'),
-  destination('DESTINATION'),
-  serverId('SERVER_ID'),
-  analysisStatus('ANALYSIS_STATUS'),
-  errorCategory('ERROR_CATEGORY'),
-  ;
+class ServerCriteria {
+  static const notDefined = ServerCriteria._('NOT_DEFINED');
+  static const osName = ServerCriteria._('OS_NAME');
+  static const strategy = ServerCriteria._('STRATEGY');
+  static const destination = ServerCriteria._('DESTINATION');
+  static const serverId = ServerCriteria._('SERVER_ID');
+  static const analysisStatus = ServerCriteria._('ANALYSIS_STATUS');
+  static const errorCategory = ServerCriteria._('ERROR_CATEGORY');
 
   final String value;
 
-  const ServerCriteria(this.value);
+  const ServerCriteria._(this.value);
+
+  static const values = [
+    notDefined,
+    osName,
+    strategy,
+    destination,
+    serverId,
+    analysisStatus,
+    errorCategory
+  ];
 
   static ServerCriteria fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServerCriteria'));
+          orElse: () => ServerCriteria._(value));
+
+  @override
+  bool operator ==(other) => other is ServerCriteria && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed information about a server.
@@ -4046,40 +4480,71 @@ class ServerError {
   }
 }
 
-enum ServerErrorCategory {
-  connectivityError('CONNECTIVITY_ERROR'),
-  credentialError('CREDENTIAL_ERROR'),
-  permissionError('PERMISSION_ERROR'),
-  architectureError('ARCHITECTURE_ERROR'),
-  otherError('OTHER_ERROR'),
-  ;
+class ServerErrorCategory {
+  static const connectivityError = ServerErrorCategory._('CONNECTIVITY_ERROR');
+  static const credentialError = ServerErrorCategory._('CREDENTIAL_ERROR');
+  static const permissionError = ServerErrorCategory._('PERMISSION_ERROR');
+  static const architectureError = ServerErrorCategory._('ARCHITECTURE_ERROR');
+  static const otherError = ServerErrorCategory._('OTHER_ERROR');
 
   final String value;
 
-  const ServerErrorCategory(this.value);
+  const ServerErrorCategory._(this.value);
 
-  static ServerErrorCategory fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ServerErrorCategory'));
+  static const values = [
+    connectivityError,
+    credentialError,
+    permissionError,
+    architectureError,
+    otherError
+  ];
+
+  static ServerErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServerErrorCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerErrorCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ServerOsType {
-  windowsServer('WindowsServer'),
-  amazonLinux('AmazonLinux'),
-  endOfSupportWindowsServer('EndOfSupportWindowsServer'),
-  redhat('Redhat'),
-  other('Other'),
-  ;
+class ServerOsType {
+  static const windowsServer = ServerOsType._('WindowsServer');
+  static const amazonLinux = ServerOsType._('AmazonLinux');
+  static const endOfSupportWindowsServer =
+      ServerOsType._('EndOfSupportWindowsServer');
+  static const redhat = ServerOsType._('Redhat');
+  static const other = ServerOsType._('Other');
 
   final String value;
 
-  const ServerOsType(this.value);
+  const ServerOsType._(this.value);
 
-  static ServerOsType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServerOsType'));
+  static const values = [
+    windowsServer,
+    amazonLinux,
+    endOfSupportWindowsServer,
+    redhat,
+    other
+  ];
+
+  static ServerOsType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServerOsType._(value));
+
+  @override
+  bool operator ==(other) => other is ServerOsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status summary of the server analysis.
@@ -4198,33 +4663,51 @@ class ServerSummary {
   }
 }
 
-enum Severity {
-  high('HIGH'),
-  medium('MEDIUM'),
-  low('LOW'),
-  ;
+class Severity {
+  static const high = Severity._('HIGH');
+  static const medium = Severity._('MEDIUM');
+  static const low = Severity._('LOW');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [high, medium, low];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object containing source code information that is linked to an application
@@ -4263,21 +4746,36 @@ class SourceCode {
   }
 }
 
-enum SourceCodeAnalyzerName {
-  csharpAnalyzer('CSHARP_ANALYZER'),
-  javaAnalyzer('JAVA_ANALYZER'),
-  bytecodeAnalyzer('BYTECODE_ANALYZER'),
-  portingAssistant('PORTING_ASSISTANT'),
-  ;
+class SourceCodeAnalyzerName {
+  static const csharpAnalyzer = SourceCodeAnalyzerName._('CSHARP_ANALYZER');
+  static const javaAnalyzer = SourceCodeAnalyzerName._('JAVA_ANALYZER');
+  static const bytecodeAnalyzer = SourceCodeAnalyzerName._('BYTECODE_ANALYZER');
+  static const portingAssistant = SourceCodeAnalyzerName._('PORTING_ASSISTANT');
 
   final String value;
 
-  const SourceCodeAnalyzerName(this.value);
+  const SourceCodeAnalyzerName._(this.value);
+
+  static const values = [
+    csharpAnalyzer,
+    javaAnalyzer,
+    bytecodeAnalyzer,
+    portingAssistant
+  ];
 
   static SourceCodeAnalyzerName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SourceCodeAnalyzerName'));
+          orElse: () => SourceCodeAnalyzerName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceCodeAnalyzerName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object containing source code information that is linked to an application
@@ -4325,24 +4823,46 @@ class SourceCodeRepository {
   }
 }
 
-enum SrcCodeOrDbAnalysisStatus {
-  analysisToBeScheduled('ANALYSIS_TO_BE_SCHEDULED'),
-  analysisStarted('ANALYSIS_STARTED'),
-  analysisSuccess('ANALYSIS_SUCCESS'),
-  analysisFailed('ANALYSIS_FAILED'),
-  analysisPartialSuccess('ANALYSIS_PARTIAL_SUCCESS'),
-  unconfigured('UNCONFIGURED'),
-  configured('CONFIGURED'),
-  ;
+class SrcCodeOrDbAnalysisStatus {
+  static const analysisToBeScheduled =
+      SrcCodeOrDbAnalysisStatus._('ANALYSIS_TO_BE_SCHEDULED');
+  static const analysisStarted =
+      SrcCodeOrDbAnalysisStatus._('ANALYSIS_STARTED');
+  static const analysisSuccess =
+      SrcCodeOrDbAnalysisStatus._('ANALYSIS_SUCCESS');
+  static const analysisFailed = SrcCodeOrDbAnalysisStatus._('ANALYSIS_FAILED');
+  static const analysisPartialSuccess =
+      SrcCodeOrDbAnalysisStatus._('ANALYSIS_PARTIAL_SUCCESS');
+  static const unconfigured = SrcCodeOrDbAnalysisStatus._('UNCONFIGURED');
+  static const configured = SrcCodeOrDbAnalysisStatus._('CONFIGURED');
 
   final String value;
 
-  const SrcCodeOrDbAnalysisStatus(this.value);
+  const SrcCodeOrDbAnalysisStatus._(this.value);
+
+  static const values = [
+    analysisToBeScheduled,
+    analysisStarted,
+    analysisSuccess,
+    analysisFailed,
+    analysisPartialSuccess,
+    unconfigured,
+    configured
+  ];
 
   static SrcCodeOrDbAnalysisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SrcCodeOrDbAnalysisStatus'));
+          orElse: () => SrcCodeOrDbAnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SrcCodeOrDbAnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAssessmentResponse {
@@ -4424,23 +4944,40 @@ class StopAssessmentResponse {
   }
 }
 
-enum Strategy {
-  rehost('Rehost'),
-  retirement('Retirement'),
-  refactor('Refactor'),
-  replatform('Replatform'),
-  retain('Retain'),
-  relocate('Relocate'),
-  repurchase('Repurchase'),
-  ;
+class Strategy {
+  static const rehost = Strategy._('Rehost');
+  static const retirement = Strategy._('Retirement');
+  static const refactor = Strategy._('Refactor');
+  static const replatform = Strategy._('Replatform');
+  static const retain = Strategy._('Retain');
+  static const relocate = Strategy._('Relocate');
+  static const repurchase = Strategy._('Repurchase');
 
   final String value;
 
-  const Strategy(this.value);
+  const Strategy._(this.value);
 
-  static Strategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Strategy'));
+  static const values = [
+    rehost,
+    retirement,
+    refactor,
+    replatform,
+    retain,
+    relocate,
+    repurchase
+  ];
+
+  static Strategy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Strategy._(value));
+
+  @override
+  bool operator ==(other) => other is Strategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about all the available strategy options for migrating and
@@ -4482,21 +5019,31 @@ class StrategyOption {
   }
 }
 
-enum StrategyRecommendation {
-  recommended('recommended'),
-  viableOption('viableOption'),
-  notRecommended('notRecommended'),
-  potential('potential'),
-  ;
+class StrategyRecommendation {
+  static const recommended = StrategyRecommendation._('recommended');
+  static const viableOption = StrategyRecommendation._('viableOption');
+  static const notRecommended = StrategyRecommendation._('notRecommended');
+  static const potential = StrategyRecommendation._('potential');
 
   final String value;
 
-  const StrategyRecommendation(this.value);
+  const StrategyRecommendation._(this.value);
+
+  static const values = [recommended, viableOption, notRecommended, potential];
 
   static StrategyRecommendation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StrategyRecommendation'));
+          orElse: () => StrategyRecommendation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StrategyRecommendation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object containing the summary of the strategy recommendations.
@@ -4578,56 +5125,108 @@ class SystemInfo {
   }
 }
 
-enum TargetDatabaseEngine {
-  noneSpecified('None specified'),
-  amazonAurora('Amazon Aurora'),
-  awsPostgreSQL('AWS PostgreSQL'),
-  mySQL('MySQL'),
-  microsoftSqlServer('Microsoft SQL Server'),
-  oracleDatabase('Oracle Database'),
-  mariaDB('MariaDB'),
-  sap('SAP'),
-  db2Luw('Db2 LUW'),
-  mongoDB('MongoDB'),
-  ;
+class TargetDatabaseEngine {
+  static const noneSpecified = TargetDatabaseEngine._('None specified');
+  static const amazonAurora = TargetDatabaseEngine._('Amazon Aurora');
+  static const awsPostgreSQL = TargetDatabaseEngine._('AWS PostgreSQL');
+  static const mySQL = TargetDatabaseEngine._('MySQL');
+  static const microsoftSqlServer =
+      TargetDatabaseEngine._('Microsoft SQL Server');
+  static const oracleDatabase = TargetDatabaseEngine._('Oracle Database');
+  static const mariaDB = TargetDatabaseEngine._('MariaDB');
+  static const sap = TargetDatabaseEngine._('SAP');
+  static const db2Luw = TargetDatabaseEngine._('Db2 LUW');
+  static const mongoDB = TargetDatabaseEngine._('MongoDB');
 
   final String value;
 
-  const TargetDatabaseEngine(this.value);
+  const TargetDatabaseEngine._(this.value);
 
-  static TargetDatabaseEngine fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetDatabaseEngine'));
+  static const values = [
+    noneSpecified,
+    amazonAurora,
+    awsPostgreSQL,
+    mySQL,
+    microsoftSqlServer,
+    oracleDatabase,
+    mariaDB,
+    sap,
+    db2Luw,
+    mongoDB
+  ];
+
+  static TargetDatabaseEngine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetDatabaseEngine._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetDatabaseEngine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetDestination {
-  noneSpecified('None specified'),
-  awsElasticBeanStalk('AWS Elastic BeanStalk'),
-  awsFargate('AWS Fargate'),
-  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
-  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
-  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
-  auroraMySQL('Aurora MySQL'),
-  auroraPostgreSQL('Aurora PostgreSQL'),
-  amazonRelationalDatabaseServiceOnMySQL(
-      'Amazon Relational Database Service on MySQL'),
-  amazonRelationalDatabaseServiceOnPostgreSQL(
-      'Amazon Relational Database Service on PostgreSQL'),
-  amazonDocumentDB('Amazon DocumentDB'),
-  amazonDynamoDB('Amazon DynamoDB'),
-  amazonRelationalDatabaseService('Amazon Relational Database Service'),
-  babelfishForAuroraPostgreSQL('Babelfish for Aurora PostgreSQL'),
-  ;
+class TargetDestination {
+  static const noneSpecified = TargetDestination._('None specified');
+  static const awsElasticBeanStalk =
+      TargetDestination._('AWS Elastic BeanStalk');
+  static const awsFargate = TargetDestination._('AWS Fargate');
+  static const amazonElasticCloudComputeEc2 =
+      TargetDestination._('Amazon Elastic Cloud Compute (EC2)');
+  static const amazonElasticContainerServiceEcs =
+      TargetDestination._('Amazon Elastic Container Service (ECS)');
+  static const amazonElasticKubernetesServiceEks =
+      TargetDestination._('Amazon Elastic Kubernetes Service (EKS)');
+  static const auroraMySQL = TargetDestination._('Aurora MySQL');
+  static const auroraPostgreSQL = TargetDestination._('Aurora PostgreSQL');
+  static const amazonRelationalDatabaseServiceOnMySQL =
+      TargetDestination._('Amazon Relational Database Service on MySQL');
+  static const amazonRelationalDatabaseServiceOnPostgreSQL =
+      TargetDestination._('Amazon Relational Database Service on PostgreSQL');
+  static const amazonDocumentDB = TargetDestination._('Amazon DocumentDB');
+  static const amazonDynamoDB = TargetDestination._('Amazon DynamoDB');
+  static const amazonRelationalDatabaseService =
+      TargetDestination._('Amazon Relational Database Service');
+  static const babelfishForAuroraPostgreSQL =
+      TargetDestination._('Babelfish for Aurora PostgreSQL');
 
   final String value;
 
-  const TargetDestination(this.value);
+  const TargetDestination._(this.value);
+
+  static const values = [
+    noneSpecified,
+    awsElasticBeanStalk,
+    awsFargate,
+    amazonElasticCloudComputeEc2,
+    amazonElasticContainerServiceEcs,
+    amazonElasticKubernetesServiceEks,
+    auroraMySQL,
+    auroraPostgreSQL,
+    amazonRelationalDatabaseServiceOnMySQL,
+    amazonRelationalDatabaseServiceOnPostgreSQL,
+    amazonDocumentDB,
+    amazonDynamoDB,
+    amazonRelationalDatabaseService,
+    babelfishForAuroraPostgreSQL
+  ];
 
   static TargetDestination fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetDestination'));
+          orElse: () => TargetDestination._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information of the transformation tool that can be used to migrate and
@@ -4671,28 +5270,57 @@ class TransformationTool {
   }
 }
 
-enum TransformationToolName {
-  app2Container('App2Container'),
-  portingAssistantForNet('Porting Assistant For .NET'),
-  endOfSupportMigration('End of Support Migration'),
-  windowsWebApplicationMigrationAssistant(
-      'Windows Web Application Migration Assistant'),
-  applicationMigrationService('Application Migration Service'),
-  strategyRecommendationSupport('Strategy Recommendation Support'),
-  inPlaceOperatingSystemUpgrade('In Place Operating System Upgrade'),
-  schemaConversionTool('Schema Conversion Tool'),
-  databaseMigrationService('Database Migration Service'),
-  nativeSqlServerBackupRestore('Native SQL Server Backup/Restore'),
-  ;
+class TransformationToolName {
+  static const app2Container = TransformationToolName._('App2Container');
+  static const portingAssistantForNet =
+      TransformationToolName._('Porting Assistant For .NET');
+  static const endOfSupportMigration =
+      TransformationToolName._('End of Support Migration');
+  static const windowsWebApplicationMigrationAssistant =
+      TransformationToolName._('Windows Web Application Migration Assistant');
+  static const applicationMigrationService =
+      TransformationToolName._('Application Migration Service');
+  static const strategyRecommendationSupport =
+      TransformationToolName._('Strategy Recommendation Support');
+  static const inPlaceOperatingSystemUpgrade =
+      TransformationToolName._('In Place Operating System Upgrade');
+  static const schemaConversionTool =
+      TransformationToolName._('Schema Conversion Tool');
+  static const databaseMigrationService =
+      TransformationToolName._('Database Migration Service');
+  static const nativeSqlServerBackupRestore =
+      TransformationToolName._('Native SQL Server Backup/Restore');
 
   final String value;
 
-  const TransformationToolName(this.value);
+  const TransformationToolName._(this.value);
+
+  static const values = [
+    app2Container,
+    portingAssistantForNet,
+    endOfSupportMigration,
+    windowsWebApplicationMigrationAssistant,
+    applicationMigrationService,
+    strategyRecommendationSupport,
+    inPlaceOperatingSystemUpgrade,
+    schemaConversionTool,
+    databaseMigrationService,
+    nativeSqlServerBackupRestore
+  ];
 
   static TransformationToolName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TransformationToolName'));
+          orElse: () => TransformationToolName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransformationToolName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateApplicationComponentConfigResponse {
@@ -4752,20 +5380,29 @@ class VcenterBasedRemoteInfo {
   }
 }
 
-enum VersionControl {
-  github('GITHUB'),
-  githubEnterprise('GITHUB_ENTERPRISE'),
-  azureDevopsGit('AZURE_DEVOPS_GIT'),
-  ;
+class VersionControl {
+  static const github = VersionControl._('GITHUB');
+  static const githubEnterprise = VersionControl._('GITHUB_ENTERPRISE');
+  static const azureDevopsGit = VersionControl._('AZURE_DEVOPS_GIT');
 
   final String value;
 
-  const VersionControl(this.value);
+  const VersionControl._(this.value);
+
+  static const values = [github, githubEnterprise, azureDevopsGit];
 
   static VersionControl fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VersionControl'));
+          orElse: () => VersionControl._(value));
+
+  @override
+  bool operator ==(other) => other is VersionControl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the version control configuration.
@@ -4804,20 +5441,30 @@ class VersionControlInfo {
   }
 }
 
-enum VersionControlType {
-  github('GITHUB'),
-  githubEnterprise('GITHUB_ENTERPRISE'),
-  azureDevopsGit('AZURE_DEVOPS_GIT'),
-  ;
+class VersionControlType {
+  static const github = VersionControlType._('GITHUB');
+  static const githubEnterprise = VersionControlType._('GITHUB_ENTERPRISE');
+  static const azureDevopsGit = VersionControlType._('AZURE_DEVOPS_GIT');
 
   final String value;
 
-  const VersionControlType(this.value);
+  const VersionControlType._(this.value);
 
-  static VersionControlType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VersionControlType'));
+  static const values = [github, githubEnterprise, azureDevopsGit];
+
+  static VersionControlType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VersionControlType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VersionControlType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -2670,19 +2670,29 @@ class AssociateUserSettingsResponse {
   }
 }
 
-enum AuthenticationType {
-  standard('Standard'),
-  iamIdentityCenter('IAM_Identity_Center'),
-  ;
+class AuthenticationType {
+  static const standard = AuthenticationType._('Standard');
+  static const iamIdentityCenter = AuthenticationType._('IAM_Identity_Center');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [standard, iamIdentityCenter];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The browser settings resource that can be associated with a web portal. Once
@@ -2770,17 +2780,26 @@ class BrowserSettingsSummary {
   }
 }
 
-enum BrowserType {
-  chrome('Chrome'),
-  ;
+class BrowserType {
+  static const chrome = BrowserType._('Chrome');
 
   final String value;
 
-  const BrowserType(this.value);
+  const BrowserType._(this.value);
 
-  static BrowserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BrowserType'));
+  static const values = [chrome];
+
+  static BrowserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BrowserType._(value));
+
+  @override
+  bool operator ==(other) => other is BrowserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The certificate.
@@ -3330,18 +3349,27 @@ class DisassociateUserSettingsResponse {
   }
 }
 
-enum EnabledType {
-  disabled('Disabled'),
-  enabled('Enabled'),
-  ;
+class EnabledType {
+  static const disabled = EnabledType._('Disabled');
+  static const enabled = EnabledType._('Enabled');
 
   final String value;
 
-  const EnabledType(this.value);
+  const EnabledType._(this.value);
 
-  static EnabledType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EnabledType'));
+  static const values = [disabled, enabled];
+
+  static EnabledType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EnabledType._(value));
+
+  @override
+  bool operator ==(other) => other is EnabledType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetBrowserSettingsResponse {
@@ -3808,39 +3836,64 @@ class IdentityProviderSummary {
   }
 }
 
-enum IdentityProviderType {
-  saml('SAML'),
-  facebook('Facebook'),
-  google('Google'),
-  loginWithAmazon('LoginWithAmazon'),
-  signInWithApple('SignInWithApple'),
-  oidc('OIDC'),
-  ;
+class IdentityProviderType {
+  static const saml = IdentityProviderType._('SAML');
+  static const facebook = IdentityProviderType._('Facebook');
+  static const google = IdentityProviderType._('Google');
+  static const loginWithAmazon = IdentityProviderType._('LoginWithAmazon');
+  static const signInWithApple = IdentityProviderType._('SignInWithApple');
+  static const oidc = IdentityProviderType._('OIDC');
 
   final String value;
 
-  const IdentityProviderType(this.value);
+  const IdentityProviderType._(this.value);
 
-  static IdentityProviderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IdentityProviderType'));
+  static const values = [
+    saml,
+    facebook,
+    google,
+    loginWithAmazon,
+    signInWithApple,
+    oidc
+  ];
+
+  static IdentityProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdentityProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdentityProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceType {
-  standardRegular('standard.regular'),
-  standardLarge('standard.large'),
-  standardXlarge('standard.xlarge'),
-  ;
+class InstanceType {
+  static const standardRegular = InstanceType._('standard.regular');
+  static const standardLarge = InstanceType._('standard.large');
+  static const standardXlarge = InstanceType._('standard.xlarge');
 
   final String value;
 
-  const InstanceType(this.value);
+  const InstanceType._(this.value);
 
-  static InstanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceType'));
+  static const values = [standardRegular, standardLarge, standardXlarge];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The IP access settings resource that can be associated with a web portal.
@@ -4613,20 +4666,28 @@ class Portal {
   }
 }
 
-enum PortalStatus {
-  incomplete('Incomplete'),
-  pending('Pending'),
-  active('Active'),
-  ;
+class PortalStatus {
+  static const incomplete = PortalStatus._('Incomplete');
+  static const pending = PortalStatus._('Pending');
+  static const active = PortalStatus._('Active');
 
   final String value;
 
-  const PortalStatus(this.value);
+  const PortalStatus._(this.value);
 
-  static PortalStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PortalStatus'));
+  static const values = [incomplete, pending, active];
+
+  static PortalStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortalStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PortalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the portal.
@@ -4781,18 +4842,26 @@ class PortalSummary {
   }
 }
 
-enum RendererType {
-  appStream('AppStream'),
-  ;
+class RendererType {
+  static const appStream = RendererType._('AppStream');
 
   final String value;
 
-  const RendererType(this.value);
+  const RendererType._(this.value);
 
-  static RendererType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RendererType'));
+  static const values = [appStream];
+
+  static RendererType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RendererType._(value));
+
+  @override
+  bool operator ==(other) => other is RendererType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The tag.

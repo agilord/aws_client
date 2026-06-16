@@ -726,18 +726,27 @@ class WorkSpacesThinClient {
   }
 }
 
-enum ApplyTimeOf {
-  utc('UTC'),
-  device('DEVICE'),
-  ;
+class ApplyTimeOf {
+  static const utc = ApplyTimeOf._('UTC');
+  static const device = ApplyTimeOf._('DEVICE');
 
   final String value;
 
-  const ApplyTimeOf(this.value);
+  const ApplyTimeOf._(this.value);
 
-  static ApplyTimeOf fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ApplyTimeOf'));
+  static const values = [utc, device];
+
+  static ApplyTimeOf fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApplyTimeOf._(value));
+
+  @override
+  bool operator ==(other) => other is ApplyTimeOf && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateEnvironmentResponse {
@@ -765,23 +774,40 @@ class CreateEnvironmentResponse {
   }
 }
 
-enum DayOfWeek {
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  sunday('SUNDAY'),
-  ;
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDeviceResponse {
@@ -820,19 +846,28 @@ class DeregisterDeviceResponse {
   }
 }
 
-enum DesktopType {
-  workspaces('workspaces'),
-  appstream('appstream'),
-  workspacesWeb('workspaces-web'),
-  ;
+class DesktopType {
+  static const workspaces = DesktopType._('workspaces');
+  static const appstream = DesktopType._('appstream');
+  static const workspacesWeb = DesktopType._('workspaces-web');
 
   final String value;
 
-  const DesktopType(this.value);
+  const DesktopType._(this.value);
 
-  static DesktopType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DesktopType'));
+  static const values = [workspaces, appstream, workspacesWeb];
+
+  static DesktopType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DesktopType._(value));
+
+  @override
+  bool operator ==(other) => other is DesktopType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a thin client device.
@@ -1017,37 +1052,56 @@ class Device {
   }
 }
 
-enum DeviceSoftwareSetComplianceStatus {
-  none('NONE'),
-  compliant('COMPLIANT'),
-  notCompliant('NOT_COMPLIANT'),
-  ;
+class DeviceSoftwareSetComplianceStatus {
+  static const none = DeviceSoftwareSetComplianceStatus._('NONE');
+  static const compliant = DeviceSoftwareSetComplianceStatus._('COMPLIANT');
+  static const notCompliant =
+      DeviceSoftwareSetComplianceStatus._('NOT_COMPLIANT');
 
   final String value;
 
-  const DeviceSoftwareSetComplianceStatus(this.value);
+  const DeviceSoftwareSetComplianceStatus._(this.value);
+
+  static const values = [none, compliant, notCompliant];
 
   static DeviceSoftwareSetComplianceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceSoftwareSetComplianceStatus'));
+          orElse: () => DeviceSoftwareSetComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceSoftwareSetComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeviceStatus {
-  registered('REGISTERED'),
-  deregistering('DEREGISTERING'),
-  deregistered('DEREGISTERED'),
-  archived('ARCHIVED'),
-  ;
+class DeviceStatus {
+  static const registered = DeviceStatus._('REGISTERED');
+  static const deregistering = DeviceStatus._('DEREGISTERING');
+  static const deregistered = DeviceStatus._('DEREGISTERED');
+  static const archived = DeviceStatus._('ARCHIVED');
 
   final String value;
 
-  const DeviceStatus(this.value);
+  const DeviceStatus._(this.value);
 
-  static DeviceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceStatus'));
+  static const values = [registered, deregistering, deregistered, archived];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a thin client device.
@@ -1358,20 +1412,33 @@ class Environment {
   }
 }
 
-enum EnvironmentSoftwareSetComplianceStatus {
-  noRegisteredDevices('NO_REGISTERED_DEVICES'),
-  compliant('COMPLIANT'),
-  notCompliant('NOT_COMPLIANT'),
-  ;
+class EnvironmentSoftwareSetComplianceStatus {
+  static const noRegisteredDevices =
+      EnvironmentSoftwareSetComplianceStatus._('NO_REGISTERED_DEVICES');
+  static const compliant =
+      EnvironmentSoftwareSetComplianceStatus._('COMPLIANT');
+  static const notCompliant =
+      EnvironmentSoftwareSetComplianceStatus._('NOT_COMPLIANT');
 
   final String value;
 
-  const EnvironmentSoftwareSetComplianceStatus(this.value);
+  const EnvironmentSoftwareSetComplianceStatus._(this.value);
+
+  static const values = [noRegisteredDevices, compliant, notCompliant];
 
   static EnvironmentSoftwareSetComplianceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentSoftwareSetComplianceStatus'));
+          orElse: () => EnvironmentSoftwareSetComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentSoftwareSetComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an environment.
@@ -1781,19 +1848,29 @@ class MaintenanceWindow {
   }
 }
 
-enum MaintenanceWindowType {
-  system('SYSTEM'),
-  custom('CUSTOM'),
-  ;
+class MaintenanceWindowType {
+  static const system = MaintenanceWindowType._('SYSTEM');
+  static const custom = MaintenanceWindowType._('CUSTOM');
 
   final String value;
 
-  const MaintenanceWindowType(this.value);
+  const MaintenanceWindowType._(this.value);
 
-  static MaintenanceWindowType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MaintenanceWindowType'));
+  static const values = [system, custom];
+
+  static MaintenanceWindowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MaintenanceWindowType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaintenanceWindowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes software.
@@ -1964,65 +2041,107 @@ class SoftwareSetSummary {
   }
 }
 
-enum SoftwareSetUpdateMode {
-  useLatest('USE_LATEST'),
-  useDesired('USE_DESIRED'),
-  ;
+class SoftwareSetUpdateMode {
+  static const useLatest = SoftwareSetUpdateMode._('USE_LATEST');
+  static const useDesired = SoftwareSetUpdateMode._('USE_DESIRED');
 
   final String value;
 
-  const SoftwareSetUpdateMode(this.value);
+  const SoftwareSetUpdateMode._(this.value);
 
-  static SoftwareSetUpdateMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SoftwareSetUpdateMode'));
+  static const values = [useLatest, useDesired];
+
+  static SoftwareSetUpdateMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareSetUpdateMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SoftwareSetUpdateSchedule {
-  useMaintenanceWindow('USE_MAINTENANCE_WINDOW'),
-  applyImmediately('APPLY_IMMEDIATELY'),
-  ;
+class SoftwareSetUpdateSchedule {
+  static const useMaintenanceWindow =
+      SoftwareSetUpdateSchedule._('USE_MAINTENANCE_WINDOW');
+  static const applyImmediately =
+      SoftwareSetUpdateSchedule._('APPLY_IMMEDIATELY');
 
   final String value;
 
-  const SoftwareSetUpdateSchedule(this.value);
+  const SoftwareSetUpdateSchedule._(this.value);
+
+  static const values = [useMaintenanceWindow, applyImmediately];
 
   static SoftwareSetUpdateSchedule fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SoftwareSetUpdateSchedule'));
+          orElse: () => SoftwareSetUpdateSchedule._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateSchedule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SoftwareSetUpdateStatus {
-  available('AVAILABLE'),
-  inProgress('IN_PROGRESS'),
-  upToDate('UP_TO_DATE'),
-  ;
+class SoftwareSetUpdateStatus {
+  static const available = SoftwareSetUpdateStatus._('AVAILABLE');
+  static const inProgress = SoftwareSetUpdateStatus._('IN_PROGRESS');
+  static const upToDate = SoftwareSetUpdateStatus._('UP_TO_DATE');
 
   final String value;
 
-  const SoftwareSetUpdateStatus(this.value);
+  const SoftwareSetUpdateStatus._(this.value);
+
+  static const values = [available, inProgress, upToDate];
 
   static SoftwareSetUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SoftwareSetUpdateStatus'));
+          orElse: () => SoftwareSetUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SoftwareSetValidationStatus {
-  validated('VALIDATED'),
-  notValidated('NOT_VALIDATED'),
-  ;
+class SoftwareSetValidationStatus {
+  static const validated = SoftwareSetValidationStatus._('VALIDATED');
+  static const notValidated = SoftwareSetValidationStatus._('NOT_VALIDATED');
 
   final String value;
 
-  const SoftwareSetValidationStatus(this.value);
+  const SoftwareSetValidationStatus._(this.value);
+
+  static const values = [validated, notValidated];
 
   static SoftwareSetValidationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SoftwareSetValidationStatus'));
+          orElse: () => SoftwareSetValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -2037,19 +2156,29 @@ class TagResourceResponse {
   }
 }
 
-enum TargetDeviceStatus {
-  deregistered('DEREGISTERED'),
-  archived('ARCHIVED'),
-  ;
+class TargetDeviceStatus {
+  static const deregistered = TargetDeviceStatus._('DEREGISTERED');
+  static const archived = TargetDeviceStatus._('ARCHIVED');
 
   final String value;
 
-  const TargetDeviceStatus(this.value);
+  const TargetDeviceStatus._(this.value);
 
-  static TargetDeviceStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetDeviceStatus'));
+  static const values = [deregistered, archived];
+
+  static TargetDeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetDeviceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetDeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

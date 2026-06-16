@@ -84,19 +84,27 @@ class InspectorScan {
   }
 }
 
-enum OutputFormat {
-  cycloneDx_1_5('CYCLONE_DX_1_5'),
-  inspector('INSPECTOR'),
-  ;
+class OutputFormat {
+  static const cycloneDx_1_5 = OutputFormat._('CYCLONE_DX_1_5');
+  static const inspector = OutputFormat._('INSPECTOR');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [cycloneDx_1_5, inspector];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Sbom {

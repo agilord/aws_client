@@ -1290,9 +1290,10 @@ class AppAuthorization {
       app: (json['app'] as String?) ?? '',
       appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
       appBundleArn: (json['appBundleArn'] as String?) ?? '',
-      authType: AuthType.fromString((json['authType'] as String)),
+      authType: AuthType.fromString((json['authType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      status: AppAuthorizationStatus.fromString((json['status'] as String)),
+      status:
+          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
       tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
@@ -1327,21 +1328,38 @@ class AppAuthorization {
   }
 }
 
-enum AppAuthorizationStatus {
-  pendingConnect('PendingConnect'),
-  connected('Connected'),
-  connectionValidationFailed('ConnectionValidationFailed'),
-  tokenAutoRotationFailed('TokenAutoRotationFailed'),
-  ;
+class AppAuthorizationStatus {
+  static const pendingConnect = AppAuthorizationStatus._('PendingConnect');
+  static const connected = AppAuthorizationStatus._('Connected');
+  static const connectionValidationFailed =
+      AppAuthorizationStatus._('ConnectionValidationFailed');
+  static const tokenAutoRotationFailed =
+      AppAuthorizationStatus._('TokenAutoRotationFailed');
 
   final String value;
 
-  const AppAuthorizationStatus(this.value);
+  const AppAuthorizationStatus._(this.value);
+
+  static const values = [
+    pendingConnect,
+    connected,
+    connectionValidationFailed,
+    tokenAutoRotationFailed
+  ];
 
   static AppAuthorizationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppAuthorizationStatus'));
+          orElse: () => AppAuthorizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppAuthorizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of an app authorization.
@@ -1403,7 +1421,8 @@ class AppAuthorizationSummary {
       app: (json['app'] as String?) ?? '',
       appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
       appBundleArn: (json['appBundleArn'] as String?) ?? '',
-      status: AppAuthorizationStatus.fromString((json['status'] as String)),
+      status:
+          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
       tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
@@ -1523,8 +1542,8 @@ class AuditLogProcessingConfiguration {
 
   factory AuditLogProcessingConfiguration.fromJson(Map<String, dynamic> json) {
     return AuditLogProcessingConfiguration(
-      format: Format.fromString((json['format'] as String)),
-      schema: Schema.fromString((json['schema'] as String)),
+      format: Format.fromString((json['format'] as String?) ?? ''),
+      schema: Schema.fromString((json['schema'] as String?) ?? ''),
     );
   }
 
@@ -1564,18 +1583,27 @@ class AuthRequest {
   }
 }
 
-enum AuthType {
-  oauth2('oauth2'),
-  apiKey('apiKey'),
-  ;
+class AuthType {
+  static const oauth2 = AuthType._('oauth2');
+  static const apiKey = AuthType._('apiKey');
 
   final String value;
 
-  const AuthType(this.value);
+  const AuthType._(this.value);
 
-  static AuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthType'));
+  static const values = [oauth2, apiKey];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchGetUserAccessTasksResponse {
@@ -1880,18 +1908,27 @@ class FirehoseStream {
   }
 }
 
-enum Format {
-  json('json'),
-  parquet('parquet'),
-  ;
+class Format {
+  static const json = Format._('json');
+  static const parquet = Format._('parquet');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [json, parquet];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAppAuthorizationResponse {
@@ -2034,8 +2071,8 @@ class Ingestion {
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ingestionType:
-          IngestionType.fromString((json['ingestionType'] as String)),
-      state: IngestionState.fromString((json['state'] as String)),
+          IngestionType.fromString((json['ingestionType'] as String?) ?? ''),
+      state: IngestionState.fromString((json['state'] as String?) ?? ''),
       tenantId: (json['tenantId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
     );
@@ -2157,19 +2194,29 @@ class IngestionDestination {
   }
 }
 
-enum IngestionDestinationStatus {
-  active('Active'),
-  failed('Failed'),
-  ;
+class IngestionDestinationStatus {
+  static const active = IngestionDestinationStatus._('Active');
+  static const failed = IngestionDestinationStatus._('Failed');
 
   final String value;
 
-  const IngestionDestinationStatus(this.value);
+  const IngestionDestinationStatus._(this.value);
+
+  static const values = [active, failed];
 
   static IngestionDestinationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngestionDestinationStatus'));
+          orElse: () => IngestionDestinationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionDestinationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of an ingestion destination.
@@ -2195,19 +2242,28 @@ class IngestionDestinationSummary {
   }
 }
 
-enum IngestionState {
-  enabled('enabled'),
-  disabled('disabled'),
-  ;
+class IngestionState {
+  static const enabled = IngestionState._('enabled');
+  static const disabled = IngestionState._('disabled');
 
   final String value;
 
-  const IngestionState(this.value);
+  const IngestionState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static IngestionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionState'));
+          orElse: () => IngestionState._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of an ingestion.
@@ -2235,7 +2291,7 @@ class IngestionSummary {
     return IngestionSummary(
       app: (json['app'] as String?) ?? '',
       arn: (json['arn'] as String?) ?? '',
-      state: IngestionState.fromString((json['state'] as String)),
+      state: IngestionState.fromString((json['state'] as String?) ?? ''),
       tenantId: (json['tenantId'] as String?) ?? '',
     );
   }
@@ -2254,18 +2310,27 @@ class IngestionSummary {
   }
 }
 
-enum IngestionType {
-  auditLog('auditLog'),
-  ;
+class IngestionType {
+  static const auditLog = IngestionType._('auditLog');
 
   final String value;
 
-  const IngestionType(this.value);
+  const IngestionType._(this.value);
+
+  static const values = [auditLog];
 
   static IngestionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngestionType'));
+          orElse: () => IngestionType._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAppAuthorizationsResponse {
@@ -2471,18 +2536,27 @@ class Oauth2Credential {
   }
 }
 
-enum Persona {
-  admin('admin'),
-  endUser('endUser'),
-  ;
+class Persona {
+  static const admin = Persona._('admin');
+  static const endUser = Persona._('endUser');
 
   final String value;
 
-  const Persona(this.value);
+  const Persona._(this.value);
 
-  static Persona fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Persona'));
+  static const values = [admin, endUser];
+
+  static Persona fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Persona._(value));
+
+  @override
+  bool operator ==(other) => other is Persona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about how ingested data is processed.
@@ -2511,21 +2585,29 @@ class ProcessingConfiguration {
   }
 }
 
-enum ResultStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  expired('EXPIRED'),
-  ;
+class ResultStatus {
+  static const inProgress = ResultStatus._('IN_PROGRESS');
+  static const completed = ResultStatus._('COMPLETED');
+  static const failed = ResultStatus._('FAILED');
+  static const expired = ResultStatus._('EXPIRED');
 
   final String value;
 
-  const ResultStatus(this.value);
+  const ResultStatus._(this.value);
 
-  static ResultStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResultStatus'));
+  static const values = [inProgress, completed, failed, expired];
+
+  static ResultStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResultStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResultStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an Amazon S3 bucket.
@@ -2558,18 +2640,27 @@ class S3Bucket {
   }
 }
 
-enum Schema {
-  ocsf('ocsf'),
-  raw('raw'),
-  ;
+class Schema {
+  static const ocsf = Schema._('ocsf');
+  static const raw = Schema._('raw');
 
   final String value;
 
-  const Schema(this.value);
+  const Schema._(this.value);
+
+  static const values = [ocsf, raw];
 
   static Schema fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Schema'));
+      values.firstWhere((e) => e.value == value, orElse: () => Schema._(value));
+
+  @override
+  bool operator ==(other) => other is Schema && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartIngestionResponse {

@@ -2124,17 +2124,26 @@ class AddTagsOutput {
 /// <code>RandomForest</code> - Random forest of decision trees.
 /// </li>
 /// </ul>
-enum Algorithm {
-  sgd('sgd'),
-  ;
+class Algorithm {
+  static const sgd = Algorithm._('sgd');
 
   final String value;
 
-  const Algorithm(this.value);
+  const Algorithm._(this.value);
 
-  static Algorithm fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Algorithm'));
+  static const values = [sgd];
+
+  static Algorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Algorithm._(value));
+
+  @override
+  bool operator ==(other) => other is Algorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation.
@@ -2331,25 +2340,44 @@ class BatchPrediction {
 /// Amazon Simple Storage Service (Amazon S3) bucket or directory.
 /// </li>
 /// </ul>
-enum BatchPredictionFilterVariable {
-  createdAt('CreatedAt'),
-  lastUpdatedAt('LastUpdatedAt'),
-  status('Status'),
-  name('Name'),
-  iAMUser('IAMUser'),
-  mLModelId('MLModelId'),
-  dataSourceId('DataSourceId'),
-  dataURI('DataURI'),
-  ;
+class BatchPredictionFilterVariable {
+  static const createdAt = BatchPredictionFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = BatchPredictionFilterVariable._('LastUpdatedAt');
+  static const status = BatchPredictionFilterVariable._('Status');
+  static const name = BatchPredictionFilterVariable._('Name');
+  static const iAMUser = BatchPredictionFilterVariable._('IAMUser');
+  static const mLModelId = BatchPredictionFilterVariable._('MLModelId');
+  static const dataSourceId = BatchPredictionFilterVariable._('DataSourceId');
+  static const dataURI = BatchPredictionFilterVariable._('DataURI');
 
   final String value;
 
-  const BatchPredictionFilterVariable(this.value);
+  const BatchPredictionFilterVariable._(this.value);
+
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    iAMUser,
+    mLModelId,
+    dataSourceId,
+    dataURI
+  ];
 
   static BatchPredictionFilterVariable fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchPredictionFilterVariable'));
+          orElse: () => BatchPredictionFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchPredictionFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>CreateBatchPrediction</code> operation, and
@@ -2778,23 +2806,40 @@ class DataSource {
 /// </ul>
 /// <b>Note:</b> The variable names should match the variable names in the
 /// <code>DataSource</code>.
-enum DataSourceFilterVariable {
-  createdAt('CreatedAt'),
-  lastUpdatedAt('LastUpdatedAt'),
-  status('Status'),
-  name('Name'),
-  dataLocationS3('DataLocationS3'),
-  iAMUser('IAMUser'),
-  ;
+class DataSourceFilterVariable {
+  static const createdAt = DataSourceFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = DataSourceFilterVariable._('LastUpdatedAt');
+  static const status = DataSourceFilterVariable._('Status');
+  static const name = DataSourceFilterVariable._('Name');
+  static const dataLocationS3 = DataSourceFilterVariable._('DataLocationS3');
+  static const iAMUser = DataSourceFilterVariable._('IAMUser');
 
   final String value;
 
-  const DataSourceFilterVariable(this.value);
+  const DataSourceFilterVariable._(this.value);
+
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    dataLocationS3,
+    iAMUser
+  ];
 
   static DataSourceFilterVariable fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceFilterVariable'));
+          orElse: () => DataSourceFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>DeleteBatchPrediction</code> operation.
@@ -3175,19 +3220,28 @@ class DescribeTagsOutput {
 /// <code>MLModel</code>.
 /// </li>
 /// </ul>
-enum DetailsAttributes {
-  predictiveModelType('PredictiveModelType'),
-  algorithm('Algorithm'),
-  ;
+class DetailsAttributes {
+  static const predictiveModelType = DetailsAttributes._('PredictiveModelType');
+  static const algorithm = DetailsAttributes._('Algorithm');
 
   final String value;
 
-  const DetailsAttributes(this.value);
+  const DetailsAttributes._(this.value);
+
+  static const values = [predictiveModelType, algorithm];
 
   static DetailsAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DetailsAttributes'));
+          orElse: () => DetailsAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is DetailsAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object status with the following possible values:
@@ -3209,22 +3263,30 @@ enum DetailsAttributes {
 /// <code>DELETED</code>
 /// </li>
 /// </ul>
-enum EntityStatus {
-  pending('PENDING'),
-  inprogress('INPROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  deleted('DELETED'),
-  ;
+class EntityStatus {
+  static const pending = EntityStatus._('PENDING');
+  static const inprogress = EntityStatus._('INPROGRESS');
+  static const failed = EntityStatus._('FAILED');
+  static const completed = EntityStatus._('COMPLETED');
+  static const deleted = EntityStatus._('DELETED');
 
   final String value;
 
-  const EntityStatus(this.value);
+  const EntityStatus._(this.value);
 
-  static EntityStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntityStatus'));
+  static const values = [pending, inprogress, failed, completed, deleted];
+
+  static EntityStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EntityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of <code>GetEvaluation</code> operation.
@@ -3429,25 +3491,44 @@ class Evaluation {
 /// Service (Amazon S3) bucket or directory.
 /// </li>
 /// </ul>
-enum EvaluationFilterVariable {
-  createdAt('CreatedAt'),
-  lastUpdatedAt('LastUpdatedAt'),
-  status('Status'),
-  name('Name'),
-  iAMUser('IAMUser'),
-  mLModelId('MLModelId'),
-  dataSourceId('DataSourceId'),
-  dataURI('DataURI'),
-  ;
+class EvaluationFilterVariable {
+  static const createdAt = EvaluationFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = EvaluationFilterVariable._('LastUpdatedAt');
+  static const status = EvaluationFilterVariable._('Status');
+  static const name = EvaluationFilterVariable._('Name');
+  static const iAMUser = EvaluationFilterVariable._('IAMUser');
+  static const mLModelId = EvaluationFilterVariable._('MLModelId');
+  static const dataSourceId = EvaluationFilterVariable._('DataSourceId');
+  static const dataURI = EvaluationFilterVariable._('DataURI');
 
   final String value;
 
-  const EvaluationFilterVariable(this.value);
+  const EvaluationFilterVariable._(this.value);
+
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    iAMUser,
+    mLModelId,
+    dataSourceId,
+    dataURI
+  ];
 
   static EvaluationFilterVariable fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFilterVariable'));
+          orElse: () => EvaluationFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
@@ -4576,42 +4657,74 @@ class MLModel {
   }
 }
 
-enum MLModelFilterVariable {
-  createdAt('CreatedAt'),
-  lastUpdatedAt('LastUpdatedAt'),
-  status('Status'),
-  name('Name'),
-  iAMUser('IAMUser'),
-  trainingDataSourceId('TrainingDataSourceId'),
-  realtimeEndpointStatus('RealtimeEndpointStatus'),
-  mLModelType('MLModelType'),
-  algorithm('Algorithm'),
-  trainingDataURI('TrainingDataURI'),
-  ;
+class MLModelFilterVariable {
+  static const createdAt = MLModelFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = MLModelFilterVariable._('LastUpdatedAt');
+  static const status = MLModelFilterVariable._('Status');
+  static const name = MLModelFilterVariable._('Name');
+  static const iAMUser = MLModelFilterVariable._('IAMUser');
+  static const trainingDataSourceId =
+      MLModelFilterVariable._('TrainingDataSourceId');
+  static const realtimeEndpointStatus =
+      MLModelFilterVariable._('RealtimeEndpointStatus');
+  static const mLModelType = MLModelFilterVariable._('MLModelType');
+  static const algorithm = MLModelFilterVariable._('Algorithm');
+  static const trainingDataURI = MLModelFilterVariable._('TrainingDataURI');
 
   final String value;
 
-  const MLModelFilterVariable(this.value);
+  const MLModelFilterVariable._(this.value);
 
-  static MLModelFilterVariable fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MLModelFilterVariable'));
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    iAMUser,
+    trainingDataSourceId,
+    realtimeEndpointStatus,
+    mLModelType,
+    algorithm,
+    trainingDataURI
+  ];
+
+  static MLModelFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MLModelFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MLModelFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MLModelType {
-  regression('REGRESSION'),
-  binary('BINARY'),
-  multiclass('MULTICLASS'),
-  ;
+class MLModelType {
+  static const regression = MLModelType._('REGRESSION');
+  static const binary = MLModelType._('BINARY');
+  static const multiclass = MLModelType._('MULTICLASS');
 
   final String value;
 
-  const MLModelType(this.value);
+  const MLModelType._(this.value);
 
-  static MLModelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MLModelType'));
+  static const values = [regression, binary, multiclass];
+
+  static MLModelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MLModelType._(value));
+
+  @override
+  bool operator ==(other) => other is MLModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Measurements of how well the <code>MLModel</code> performed on known
@@ -5153,21 +5266,31 @@ class RealtimeEndpointInfo {
   }
 }
 
-enum RealtimeEndpointStatus {
-  none('NONE'),
-  ready('READY'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  ;
+class RealtimeEndpointStatus {
+  static const none = RealtimeEndpointStatus._('NONE');
+  static const ready = RealtimeEndpointStatus._('READY');
+  static const updating = RealtimeEndpointStatus._('UPDATING');
+  static const failed = RealtimeEndpointStatus._('FAILED');
 
   final String value;
 
-  const RealtimeEndpointStatus(this.value);
+  const RealtimeEndpointStatus._(this.value);
+
+  static const values = [none, ready, updating, failed];
 
   static RealtimeEndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealtimeEndpointStatus'));
+          orElse: () => RealtimeEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealtimeEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the data specification of an Amazon Redshift
@@ -5622,18 +5745,27 @@ class S3DataSpec {
 /// <code>dsc</code> - Present the information in descending order (from Z-A).
 /// </li>
 /// </ul>
-enum SortOrder {
-  asc('asc'),
-  dsc('dsc'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('asc');
+  static const dsc = SortOrder._('dsc');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, dsc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A custom key-value pair associated with an ML object, such as an ML model.
@@ -5669,21 +5801,31 @@ class Tag {
   }
 }
 
-enum TaggableResourceType {
-  batchPrediction('BatchPrediction'),
-  dataSource('DataSource'),
-  evaluation('Evaluation'),
-  mLModel('MLModel'),
-  ;
+class TaggableResourceType {
+  static const batchPrediction = TaggableResourceType._('BatchPrediction');
+  static const dataSource = TaggableResourceType._('DataSource');
+  static const evaluation = TaggableResourceType._('Evaluation');
+  static const mLModel = TaggableResourceType._('MLModel');
 
   final String value;
 
-  const TaggableResourceType(this.value);
+  const TaggableResourceType._(this.value);
 
-  static TaggableResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaggableResourceType'));
+  static const values = [batchPrediction, dataSource, evaluation, mLModel];
+
+  static TaggableResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaggableResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaggableResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of an <code>UpdateBatchPrediction</code> operation.

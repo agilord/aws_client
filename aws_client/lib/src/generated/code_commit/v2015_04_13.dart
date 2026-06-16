@@ -5228,19 +5228,28 @@ class ApprovalRuleTemplate {
   }
 }
 
-enum ApprovalState {
-  approve('APPROVE'),
-  revoke('REVOKE'),
-  ;
+class ApprovalState {
+  static const approve = ApprovalState._('APPROVE');
+  static const revoke = ApprovalState._('REVOKE');
 
   final String value;
 
-  const ApprovalState(this.value);
+  const ApprovalState._(this.value);
+
+  static const values = [approve, revoke];
 
   static ApprovalState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApprovalState'));
+          orElse: () => ApprovalState._(value));
+
+  @override
+  bool operator ==(other) => other is ApprovalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about a change in the approval state for a pull request.
@@ -5672,24 +5681,47 @@ class BatchGetRepositoriesError {
   }
 }
 
-enum BatchGetRepositoriesErrorCodeEnum {
-  encryptionIntegrityChecksFailedException(
-      'EncryptionIntegrityChecksFailedException'),
-  encryptionKeyAccessDeniedException('EncryptionKeyAccessDeniedException'),
-  encryptionKeyDisabledException('EncryptionKeyDisabledException'),
-  encryptionKeyNotFoundException('EncryptionKeyNotFoundException'),
-  encryptionKeyUnavailableException('EncryptionKeyUnavailableException'),
-  repositoryDoesNotExistException('RepositoryDoesNotExistException'),
-  ;
+class BatchGetRepositoriesErrorCodeEnum {
+  static const encryptionIntegrityChecksFailedException =
+      BatchGetRepositoriesErrorCodeEnum._(
+          'EncryptionIntegrityChecksFailedException');
+  static const encryptionKeyAccessDeniedException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyAccessDeniedException');
+  static const encryptionKeyDisabledException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyDisabledException');
+  static const encryptionKeyNotFoundException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyNotFoundException');
+  static const encryptionKeyUnavailableException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyUnavailableException');
+  static const repositoryDoesNotExistException =
+      BatchGetRepositoriesErrorCodeEnum._('RepositoryDoesNotExistException');
 
   final String value;
 
-  const BatchGetRepositoriesErrorCodeEnum(this.value);
+  const BatchGetRepositoriesErrorCodeEnum._(this.value);
+
+  static const values = [
+    encryptionIntegrityChecksFailedException,
+    encryptionKeyAccessDeniedException,
+    encryptionKeyDisabledException,
+    encryptionKeyNotFoundException,
+    encryptionKeyUnavailableException,
+    repositoryDoesNotExistException
+  ];
 
   static BatchGetRepositoriesErrorCodeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchGetRepositoriesErrorCodeEnum'));
+          orElse: () => BatchGetRepositoriesErrorCodeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetRepositoriesErrorCodeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a batch get repositories operation.
@@ -5823,20 +5855,29 @@ class BranchInfo {
   }
 }
 
-enum ChangeTypeEnum {
-  a('A'),
-  m('M'),
-  d('D'),
-  ;
+class ChangeTypeEnum {
+  static const a = ChangeTypeEnum._('A');
+  static const m = ChangeTypeEnum._('M');
+  static const d = ChangeTypeEnum._('D');
 
   final String value;
 
-  const ChangeTypeEnum(this.value);
+  const ChangeTypeEnum._(this.value);
+
+  static const values = [a, m, d];
 
   static ChangeTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeTypeEnum'));
+          orElse: () => ChangeTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about a specific comment.
@@ -6217,19 +6258,29 @@ class Conflict {
   }
 }
 
-enum ConflictDetailLevelTypeEnum {
-  fileLevel('FILE_LEVEL'),
-  lineLevel('LINE_LEVEL'),
-  ;
+class ConflictDetailLevelTypeEnum {
+  static const fileLevel = ConflictDetailLevelTypeEnum._('FILE_LEVEL');
+  static const lineLevel = ConflictDetailLevelTypeEnum._('LINE_LEVEL');
 
   final String value;
 
-  const ConflictDetailLevelTypeEnum(this.value);
+  const ConflictDetailLevelTypeEnum._(this.value);
+
+  static const values = [fileLevel, lineLevel];
 
   static ConflictDetailLevelTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConflictDetailLevelTypeEnum'));
+          orElse: () => ConflictDetailLevelTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictDetailLevelTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the metadata for a conflict in a merge operation.
@@ -6367,21 +6418,33 @@ class ConflictResolution {
   }
 }
 
-enum ConflictResolutionStrategyTypeEnum {
-  none('NONE'),
-  acceptSource('ACCEPT_SOURCE'),
-  acceptDestination('ACCEPT_DESTINATION'),
-  automerge('AUTOMERGE'),
-  ;
+class ConflictResolutionStrategyTypeEnum {
+  static const none = ConflictResolutionStrategyTypeEnum._('NONE');
+  static const acceptSource =
+      ConflictResolutionStrategyTypeEnum._('ACCEPT_SOURCE');
+  static const acceptDestination =
+      ConflictResolutionStrategyTypeEnum._('ACCEPT_DESTINATION');
+  static const automerge = ConflictResolutionStrategyTypeEnum._('AUTOMERGE');
 
   final String value;
 
-  const ConflictResolutionStrategyTypeEnum(this.value);
+  const ConflictResolutionStrategyTypeEnum._(this.value);
+
+  static const values = [none, acceptSource, acceptDestination, automerge];
 
   static ConflictResolutionStrategyTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConflictResolutionStrategyTypeEnum'));
+          orElse: () => ConflictResolutionStrategyTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictResolutionStrategyTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApprovalRuleTemplateOutput {
@@ -7070,20 +7133,29 @@ class FileMetadata {
   }
 }
 
-enum FileModeTypeEnum {
-  executable('EXECUTABLE'),
-  normal('NORMAL'),
-  symlink('SYMLINK'),
-  ;
+class FileModeTypeEnum {
+  static const executable = FileModeTypeEnum._('EXECUTABLE');
+  static const normal = FileModeTypeEnum._('NORMAL');
+  static const symlink = FileModeTypeEnum._('SYMLINK');
 
   final String value;
 
-  const FileModeTypeEnum(this.value);
+  const FileModeTypeEnum._(this.value);
+
+  static const values = [executable, normal, symlink];
 
   static FileModeTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileModeTypeEnum'));
+          orElse: () => FileModeTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FileModeTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about file modes in a merge or pull request.
@@ -7553,7 +7625,8 @@ class GetFileOutput {
       blobId: (json['blobId'] as String?) ?? '',
       commitId: (json['commitId'] as String?) ?? '',
       fileContent: _s.decodeUint8List((json['fileContent'] as String?) ?? ''),
-      fileMode: FileModeTypeEnum.fromString((json['fileMode'] as String)),
+      fileMode:
+          FileModeTypeEnum.fromString((json['fileMode'] as String?) ?? ''),
       filePath: (json['filePath'] as String?) ?? '',
       fileSize: (json['fileSize'] as int?) ?? 0,
     );
@@ -8574,20 +8647,30 @@ class MergeOperations {
   }
 }
 
-enum MergeOptionTypeEnum {
-  fastForwardMerge('FAST_FORWARD_MERGE'),
-  squashMerge('SQUASH_MERGE'),
-  threeWayMerge('THREE_WAY_MERGE'),
-  ;
+class MergeOptionTypeEnum {
+  static const fastForwardMerge = MergeOptionTypeEnum._('FAST_FORWARD_MERGE');
+  static const squashMerge = MergeOptionTypeEnum._('SQUASH_MERGE');
+  static const threeWayMerge = MergeOptionTypeEnum._('THREE_WAY_MERGE');
 
   final String value;
 
-  const MergeOptionTypeEnum(this.value);
+  const MergeOptionTypeEnum._(this.value);
 
-  static MergeOptionTypeEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MergeOptionTypeEnum'));
+  static const values = [fastForwardMerge, squashMerge, threeWayMerge];
+
+  static MergeOptionTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MergeOptionTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MergeOptionTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MergePullRequestByFastForwardOutput {
@@ -8661,21 +8744,30 @@ class MergePullRequestByThreeWayOutput {
   }
 }
 
-enum ObjectTypeEnum {
-  file('FILE'),
-  directory('DIRECTORY'),
-  gitLink('GIT_LINK'),
-  symbolicLink('SYMBOLIC_LINK'),
-  ;
+class ObjectTypeEnum {
+  static const file = ObjectTypeEnum._('FILE');
+  static const directory = ObjectTypeEnum._('DIRECTORY');
+  static const gitLink = ObjectTypeEnum._('GIT_LINK');
+  static const symbolicLink = ObjectTypeEnum._('SYMBOLIC_LINK');
 
   final String value;
 
-  const ObjectTypeEnum(this.value);
+  const ObjectTypeEnum._(this.value);
+
+  static const values = [file, directory, gitLink, symbolicLink];
 
   static ObjectTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ObjectTypeEnum'));
+          orElse: () => ObjectTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the type of an object in a merge operation.
@@ -8716,18 +8808,27 @@ class ObjectTypes {
   }
 }
 
-enum OrderEnum {
-  ascending('ascending'),
-  descending('descending'),
-  ;
+class OrderEnum {
+  static const ascending = OrderEnum._('ascending');
+  static const descending = OrderEnum._('descending');
 
   final String value;
 
-  const OrderEnum(this.value);
+  const OrderEnum._(this.value);
 
-  static OrderEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderEnum'));
+  static const values = [ascending, descending];
+
+  static OrderEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderEnum._(value));
+
+  @override
+  bool operator ==(other) => other is OrderEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about the template that created the approval rule for a
@@ -8763,19 +8864,28 @@ class OriginApprovalRuleTemplate {
   }
 }
 
-enum OverrideStatus {
-  override('OVERRIDE'),
-  revoke('REVOKE'),
-  ;
+class OverrideStatus {
+  static const $override = OverrideStatus._('OVERRIDE');
+  static const revoke = OverrideStatus._('REVOKE');
 
   final String value;
 
-  const OverrideStatus(this.value);
+  const OverrideStatus._(this.value);
+
+  static const values = [$override, revoke];
 
   static OverrideStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OverrideStatus'));
+          orElse: () => OverrideStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OverrideStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PostCommentForComparedCommitOutput {
@@ -9266,26 +9376,55 @@ class PullRequestEvent {
   }
 }
 
-enum PullRequestEventType {
-  pullRequestCreated('PULL_REQUEST_CREATED'),
-  pullRequestStatusChanged('PULL_REQUEST_STATUS_CHANGED'),
-  pullRequestSourceReferenceUpdated('PULL_REQUEST_SOURCE_REFERENCE_UPDATED'),
-  pullRequestMergeStateChanged('PULL_REQUEST_MERGE_STATE_CHANGED'),
-  pullRequestApprovalRuleCreated('PULL_REQUEST_APPROVAL_RULE_CREATED'),
-  pullRequestApprovalRuleUpdated('PULL_REQUEST_APPROVAL_RULE_UPDATED'),
-  pullRequestApprovalRuleDeleted('PULL_REQUEST_APPROVAL_RULE_DELETED'),
-  pullRequestApprovalRuleOverridden('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN'),
-  pullRequestApprovalStateChanged('PULL_REQUEST_APPROVAL_STATE_CHANGED'),
-  ;
+class PullRequestEventType {
+  static const pullRequestCreated =
+      PullRequestEventType._('PULL_REQUEST_CREATED');
+  static const pullRequestStatusChanged =
+      PullRequestEventType._('PULL_REQUEST_STATUS_CHANGED');
+  static const pullRequestSourceReferenceUpdated =
+      PullRequestEventType._('PULL_REQUEST_SOURCE_REFERENCE_UPDATED');
+  static const pullRequestMergeStateChanged =
+      PullRequestEventType._('PULL_REQUEST_MERGE_STATE_CHANGED');
+  static const pullRequestApprovalRuleCreated =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_CREATED');
+  static const pullRequestApprovalRuleUpdated =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_UPDATED');
+  static const pullRequestApprovalRuleDeleted =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_DELETED');
+  static const pullRequestApprovalRuleOverridden =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN');
+  static const pullRequestApprovalStateChanged =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_STATE_CHANGED');
 
   final String value;
 
-  const PullRequestEventType(this.value);
+  const PullRequestEventType._(this.value);
 
-  static PullRequestEventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PullRequestEventType'));
+  static const values = [
+    pullRequestCreated,
+    pullRequestStatusChanged,
+    pullRequestSourceReferenceUpdated,
+    pullRequestMergeStateChanged,
+    pullRequestApprovalRuleCreated,
+    pullRequestApprovalRuleUpdated,
+    pullRequestApprovalRuleDeleted,
+    pullRequestApprovalRuleOverridden,
+    pullRequestApprovalStateChanged
+  ];
+
+  static PullRequestEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PullRequestEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PullRequestEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about the change in the merge state for a pull request
@@ -9405,19 +9544,29 @@ class PullRequestStatusChangedEventMetadata {
   }
 }
 
-enum PullRequestStatusEnum {
-  open('OPEN'),
-  closed('CLOSED'),
-  ;
+class PullRequestStatusEnum {
+  static const open = PullRequestStatusEnum._('OPEN');
+  static const closed = PullRequestStatusEnum._('CLOSED');
 
   final String value;
 
-  const PullRequestStatusEnum(this.value);
+  const PullRequestStatusEnum._(this.value);
 
-  static PullRequestStatusEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PullRequestStatusEnum'));
+  static const values = [open, closed];
+
+  static PullRequestStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PullRequestStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PullRequestStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about a pull request target.
@@ -9684,19 +9833,29 @@ class ReactionValueFormats {
   }
 }
 
-enum RelativeFileVersionEnum {
-  before('BEFORE'),
-  after('AFTER'),
-  ;
+class RelativeFileVersionEnum {
+  static const before = RelativeFileVersionEnum._('BEFORE');
+  static const after = RelativeFileVersionEnum._('AFTER');
 
   final String value;
 
-  const RelativeFileVersionEnum(this.value);
+  const RelativeFileVersionEnum._(this.value);
+
+  static const values = [before, after];
 
   static RelativeFileVersionEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RelativeFileVersionEnum'));
+          orElse: () => RelativeFileVersionEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RelativeFileVersionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a replacement content entry in the conflict of a merge or
@@ -9736,21 +9895,31 @@ class ReplaceContentEntry {
   }
 }
 
-enum ReplacementTypeEnum {
-  keepBase('KEEP_BASE'),
-  keepSource('KEEP_SOURCE'),
-  keepDestination('KEEP_DESTINATION'),
-  useNewContent('USE_NEW_CONTENT'),
-  ;
+class ReplacementTypeEnum {
+  static const keepBase = ReplacementTypeEnum._('KEEP_BASE');
+  static const keepSource = ReplacementTypeEnum._('KEEP_SOURCE');
+  static const keepDestination = ReplacementTypeEnum._('KEEP_DESTINATION');
+  static const useNewContent = ReplacementTypeEnum._('USE_NEW_CONTENT');
 
   final String value;
 
-  const ReplacementTypeEnum(this.value);
+  const ReplacementTypeEnum._(this.value);
 
-  static ReplacementTypeEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplacementTypeEnum'));
+  static const values = [keepBase, keepSource, keepDestination, useNewContent];
+
+  static ReplacementTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplacementTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplacementTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a repository.
@@ -9954,21 +10123,39 @@ class RepositoryTrigger {
   }
 }
 
-enum RepositoryTriggerEventEnum {
-  all('all'),
-  updateReference('updateReference'),
-  createReference('createReference'),
-  deleteReference('deleteReference'),
-  ;
+class RepositoryTriggerEventEnum {
+  static const all = RepositoryTriggerEventEnum._('all');
+  static const updateReference =
+      RepositoryTriggerEventEnum._('updateReference');
+  static const createReference =
+      RepositoryTriggerEventEnum._('createReference');
+  static const deleteReference =
+      RepositoryTriggerEventEnum._('deleteReference');
 
   final String value;
 
-  const RepositoryTriggerEventEnum(this.value);
+  const RepositoryTriggerEventEnum._(this.value);
+
+  static const values = [
+    all,
+    updateReference,
+    createReference,
+    deleteReference
+  ];
 
   static RepositoryTriggerEventEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RepositoryTriggerEventEnum'));
+          orElse: () => RepositoryTriggerEventEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryTriggerEventEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A trigger failed to run.
@@ -10025,18 +10212,27 @@ class SetFileModeEntry {
   }
 }
 
-enum SortByEnum {
-  repositoryName('repositoryName'),
-  lastModifiedDate('lastModifiedDate'),
-  ;
+class SortByEnum {
+  static const repositoryName = SortByEnum._('repositoryName');
+  static const lastModifiedDate = SortByEnum._('lastModifiedDate');
 
   final String value;
 
-  const SortByEnum(this.value);
+  const SortByEnum._(this.value);
 
-  static SortByEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortByEnum'));
+  static const values = [repositoryName, lastModifiedDate];
+
+  static SortByEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortByEnum._(value));
+
+  @override
+  bool operator ==(other) => other is SortByEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a source file that is part of changes made in a commit.

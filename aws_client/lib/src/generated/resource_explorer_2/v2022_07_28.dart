@@ -1118,19 +1118,29 @@ class ResourceExplorer {
   }
 }
 
-enum AWSServiceAccessStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AWSServiceAccessStatus {
+  static const enabled = AWSServiceAccessStatus._('ENABLED');
+  static const disabled = AWSServiceAccessStatus._('DISABLED');
 
   final String value;
 
-  const AWSServiceAccessStatus(this.value);
+  const AWSServiceAccessStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AWSServiceAccessStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AWSServiceAccessStatus'));
+          orElse: () => AWSServiceAccessStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AWSServiceAccessStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateDefaultViewOutput {
@@ -1653,35 +1663,53 @@ class Index {
   }
 }
 
-enum IndexState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  updating('UPDATING'),
-  ;
+class IndexState {
+  static const creating = IndexState._('CREATING');
+  static const active = IndexState._('ACTIVE');
+  static const deleting = IndexState._('DELETING');
+  static const deleted = IndexState._('DELETED');
+  static const updating = IndexState._('UPDATING');
 
   final String value;
 
-  const IndexState(this.value);
+  const IndexState._(this.value);
 
-  static IndexState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IndexState'));
+  static const values = [creating, active, deleting, deleted, updating];
+
+  static IndexState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexState._(value));
+
+  @override
+  bool operator ==(other) => other is IndexState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IndexType {
-  local('LOCAL'),
-  aggregator('AGGREGATOR'),
-  ;
+class IndexType {
+  static const local = IndexType._('LOCAL');
+  static const aggregator = IndexType._('AGGREGATOR');
 
   final String value;
 
-  const IndexType(this.value);
+  const IndexType._(this.value);
 
-  static IndexType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IndexType'));
+  static const values = [local, aggregator];
+
+  static IndexType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexType._(value));
+
+  @override
+  bool operator ==(other) => other is IndexType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListIndexesForMembersOutput {
@@ -1937,7 +1965,7 @@ class OrgConfiguration {
   factory OrgConfiguration.fromJson(Map<String, dynamic> json) {
     return OrgConfiguration(
       awsServiceAccessStatus: AWSServiceAccessStatus.fromString(
-          (json['AWSServiceAccessStatus'] as String)),
+          (json['AWSServiceAccessStatus'] as String?) ?? ''),
       serviceLinkedRole: json['ServiceLinkedRole'] as String?,
     );
   }

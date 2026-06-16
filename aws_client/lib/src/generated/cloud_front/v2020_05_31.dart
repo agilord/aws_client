@@ -5997,21 +5997,31 @@ class CachePolicyConfig {
   }
 }
 
-enum CachePolicyCookieBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  allExcept('allExcept'),
-  all('all'),
-  ;
+class CachePolicyCookieBehavior {
+  static const none = CachePolicyCookieBehavior._('none');
+  static const whitelist = CachePolicyCookieBehavior._('whitelist');
+  static const allExcept = CachePolicyCookieBehavior._('allExcept');
+  static const all = CachePolicyCookieBehavior._('all');
 
   final String value;
 
-  const CachePolicyCookieBehavior(this.value);
+  const CachePolicyCookieBehavior._(this.value);
+
+  static const values = [none, whitelist, allExcept, all];
 
   static CachePolicyCookieBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CachePolicyCookieBehavior'));
+          orElse: () => CachePolicyCookieBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CachePolicyCookieBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any cookies in viewer requests (and if so,
@@ -6087,19 +6097,29 @@ class CachePolicyCookiesConfig {
   }
 }
 
-enum CachePolicyHeaderBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  ;
+class CachePolicyHeaderBehavior {
+  static const none = CachePolicyHeaderBehavior._('none');
+  static const whitelist = CachePolicyHeaderBehavior._('whitelist');
 
   final String value;
 
-  const CachePolicyHeaderBehavior(this.value);
+  const CachePolicyHeaderBehavior._(this.value);
+
+  static const values = [none, whitelist];
 
   static CachePolicyHeaderBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CachePolicyHeaderBehavior'));
+          orElse: () => CachePolicyHeaderBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CachePolicyHeaderBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any HTTP headers (and if so, which
@@ -6214,21 +6234,31 @@ class CachePolicyList {
   }
 }
 
-enum CachePolicyQueryStringBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  allExcept('allExcept'),
-  all('all'),
-  ;
+class CachePolicyQueryStringBehavior {
+  static const none = CachePolicyQueryStringBehavior._('none');
+  static const whitelist = CachePolicyQueryStringBehavior._('whitelist');
+  static const allExcept = CachePolicyQueryStringBehavior._('allExcept');
+  static const all = CachePolicyQueryStringBehavior._('all');
 
   final String value;
 
-  const CachePolicyQueryStringBehavior(this.value);
+  const CachePolicyQueryStringBehavior._(this.value);
+
+  static const values = [none, whitelist, allExcept, all];
 
   static CachePolicyQueryStringBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CachePolicyQueryStringBehavior'));
+          orElse: () => CachePolicyQueryStringBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CachePolicyQueryStringBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any URL query strings in viewer requests
@@ -6350,19 +6380,28 @@ class CachePolicySummary {
   }
 }
 
-enum CachePolicyType {
-  managed('managed'),
-  custom('custom'),
-  ;
+class CachePolicyType {
+  static const managed = CachePolicyType._('managed');
+  static const custom = CachePolicyType._('custom');
 
   final String value;
 
-  const CachePolicyType(this.value);
+  const CachePolicyType._(this.value);
+
+  static const values = [managed, custom];
 
   static CachePolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CachePolicyType'));
+          orElse: () => CachePolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is CachePolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that controls whether CloudFront caches the response to
@@ -6438,20 +6477,29 @@ class CachedMethods {
   }
 }
 
-enum CertificateSource {
-  cloudfront('cloudfront'),
-  iam('iam'),
-  acm('acm'),
-  ;
+class CertificateSource {
+  static const cloudfront = CertificateSource._('cloudfront');
+  static const iam = CertificateSource._('iam');
+  static const acm = CertificateSource._('acm');
 
   final String value;
 
-  const CertificateSource(this.value);
+  const CertificateSource._(this.value);
+
+  static const values = [cloudfront, iam, acm];
 
   static CertificateSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateSource'));
+          orElse: () => CertificateSource._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// CloudFront origin access identity.
@@ -7118,19 +7166,29 @@ class ContinuousDeploymentPolicySummary {
   }
 }
 
-enum ContinuousDeploymentPolicyType {
-  singleWeight('SingleWeight'),
-  singleHeader('SingleHeader'),
-  ;
+class ContinuousDeploymentPolicyType {
+  static const singleWeight = ContinuousDeploymentPolicyType._('SingleWeight');
+  static const singleHeader = ContinuousDeploymentPolicyType._('SingleHeader');
 
   final String value;
 
-  const ContinuousDeploymentPolicyType(this.value);
+  const ContinuousDeploymentPolicyType._(this.value);
+
+  static const values = [singleWeight, singleHeader];
 
   static ContinuousDeploymentPolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContinuousDeploymentPolicyType'));
+          orElse: () => ContinuousDeploymentPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContinuousDeploymentPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This configuration determines which HTTP requests are sent to the staging
@@ -10082,20 +10140,34 @@ class EndPoint {
   }
 }
 
-enum EventType {
-  viewerRequest('viewer-request'),
-  viewerResponse('viewer-response'),
-  originRequest('origin-request'),
-  originResponse('origin-response'),
-  ;
+class EventType {
+  static const viewerRequest = EventType._('viewer-request');
+  static const viewerResponse = EventType._('viewer-response');
+  static const originRequest = EventType._('origin-request');
+  static const originResponse = EventType._('origin-response');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    viewerRequest,
+    viewerResponse,
+    originRequest,
+    originResponse
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex data type that includes the profile configurations and other
@@ -10586,17 +10658,26 @@ class FieldPatterns {
   }
 }
 
-enum Format {
-  uRLEncoded('URLEncoded'),
-  ;
+class Format {
+  static const uRLEncoded = Format._('URLEncoded');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [uRLEncoded];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This field is deprecated. We recommend that you use a cache policy or an
@@ -10773,19 +10854,28 @@ class ForwardedValues {
   }
 }
 
-enum FrameOptionsList {
-  deny('DENY'),
-  sameorigin('SAMEORIGIN'),
-  ;
+class FrameOptionsList {
+  static const deny = FrameOptionsList._('DENY');
+  static const sameorigin = FrameOptionsList._('SAMEORIGIN');
 
   final String value;
 
-  const FrameOptionsList(this.value);
+  const FrameOptionsList._(this.value);
+
+  static const values = [deny, sameorigin];
 
   static FrameOptionsList fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FrameOptionsList'));
+          orElse: () => FrameOptionsList._(value));
+
+  @override
+  bool operator ==(other) => other is FrameOptionsList && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A CloudFront function that is associated with a cache behavior in a
@@ -11059,34 +11149,52 @@ class FunctionMetadata {
   }
 }
 
-enum FunctionRuntime {
-  cloudfrontJs_1_0('cloudfront-js-1.0'),
-  cloudfrontJs_2_0('cloudfront-js-2.0'),
-  ;
+class FunctionRuntime {
+  static const cloudfrontJs_1_0 = FunctionRuntime._('cloudfront-js-1.0');
+  static const cloudfrontJs_2_0 = FunctionRuntime._('cloudfront-js-2.0');
 
   final String value;
 
-  const FunctionRuntime(this.value);
+  const FunctionRuntime._(this.value);
+
+  static const values = [cloudfrontJs_1_0, cloudfrontJs_2_0];
 
   static FunctionRuntime fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FunctionRuntime'));
+          orElse: () => FunctionRuntime._(value));
+
+  @override
+  bool operator ==(other) => other is FunctionRuntime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FunctionStage {
-  development('DEVELOPMENT'),
-  live('LIVE'),
-  ;
+class FunctionStage {
+  static const development = FunctionStage._('DEVELOPMENT');
+  static const live = FunctionStage._('LIVE');
 
   final String value;
 
-  const FunctionStage(this.value);
+  const FunctionStage._(this.value);
+
+  static const values = [development, live];
 
   static FunctionStage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FunctionStage'));
+          orElse: () => FunctionStage._(value));
+
+  @override
+  bool operator ==(other) => other is FunctionStage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains configuration information and metadata about a CloudFront function.
@@ -11230,20 +11338,30 @@ class GeoRestriction {
   }
 }
 
-enum GeoRestrictionType {
-  blacklist('blacklist'),
-  whitelist('whitelist'),
-  none('none'),
-  ;
+class GeoRestrictionType {
+  static const blacklist = GeoRestrictionType._('blacklist');
+  static const whitelist = GeoRestrictionType._('whitelist');
+  static const none = GeoRestrictionType._('none');
 
   final String value;
 
-  const GeoRestrictionType(this.value);
+  const GeoRestrictionType._(this.value);
 
-  static GeoRestrictionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GeoRestrictionType'));
+  static const values = [blacklist, whitelist, none];
+
+  static GeoRestrictionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeoRestrictionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeoRestrictionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetCachePolicyConfigResult {
@@ -11966,36 +12084,54 @@ class Headers {
   }
 }
 
-enum HttpVersion {
-  http1_1('http1.1'),
-  http2('http2'),
-  http3('http3'),
-  http2and3('http2and3'),
-  ;
+class HttpVersion {
+  static const http1_1 = HttpVersion._('http1.1');
+  static const http2 = HttpVersion._('http2');
+  static const http3 = HttpVersion._('http3');
+  static const http2and3 = HttpVersion._('http2and3');
 
   final String value;
 
-  const HttpVersion(this.value);
+  const HttpVersion._(this.value);
 
-  static HttpVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpVersion'));
+  static const values = [http1_1, http2, http3, http2and3];
+
+  static HttpVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpVersion._(value));
+
+  @override
+  bool operator ==(other) => other is HttpVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ICPRecordalStatus {
-  approved('APPROVED'),
-  suspended('SUSPENDED'),
-  pending('PENDING'),
-  ;
+class ICPRecordalStatus {
+  static const approved = ICPRecordalStatus._('APPROVED');
+  static const suspended = ICPRecordalStatus._('SUSPENDED');
+  static const pending = ICPRecordalStatus._('PENDING');
 
   final String value;
 
-  const ICPRecordalStatus(this.value);
+  const ICPRecordalStatus._(this.value);
+
+  static const values = [approved, suspended, pending];
 
   static ICPRecordalStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ICPRecordalStatus'));
+          orElse: () => ICPRecordalStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ICPRecordalStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The import source for the key value store.
@@ -12038,18 +12174,27 @@ class ImportSource {
   }
 }
 
-enum ImportSourceType {
-  s3('S3'),
-  ;
+class ImportSourceType {
+  static const s3 = ImportSourceType._('S3');
 
   final String value;
 
-  const ImportSourceType(this.value);
+  const ImportSourceType._(this.value);
+
+  static const values = [s3];
 
   static ImportSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportSourceType'));
+          orElse: () => ImportSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ImportSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An invalidation.
@@ -12273,20 +12418,29 @@ class InvalidationSummary {
   }
 }
 
-enum ItemSelection {
-  none('none'),
-  whitelist('whitelist'),
-  all('all'),
-  ;
+class ItemSelection {
+  static const none = ItemSelection._('none');
+  static const whitelist = ItemSelection._('whitelist');
+  static const all = ItemSelection._('all');
 
   final String value;
 
-  const ItemSelection(this.value);
+  const ItemSelection._(this.value);
+
+  static const values = [none, whitelist, all];
 
   static ItemSelection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ItemSelection'));
+          orElse: () => ItemSelection._(value));
+
+  @override
+  bool operator ==(other) => other is ItemSelection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of identifiers for the public keys that CloudFront can use to verify
@@ -13479,43 +13633,70 @@ class LoggingConfig {
   }
 }
 
-enum Method {
-  get('GET'),
-  head('HEAD'),
-  post('POST'),
-  put('PUT'),
-  patch('PATCH'),
-  options('OPTIONS'),
-  delete('DELETE'),
-  ;
+class Method {
+  static const get = Method._('GET');
+  static const head = Method._('HEAD');
+  static const post = Method._('POST');
+  static const put = Method._('PUT');
+  static const patch = Method._('PATCH');
+  static const options = Method._('OPTIONS');
+  static const delete = Method._('DELETE');
 
   final String value;
 
-  const Method(this.value);
+  const Method._(this.value);
+
+  static const values = [get, head, post, put, patch, options, delete];
 
   static Method fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Method'));
+      values.firstWhere((e) => e.value == value, orElse: () => Method._(value));
+
+  @override
+  bool operator ==(other) => other is Method && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MinimumProtocolVersion {
-  sSLv3('SSLv3'),
-  tLSv1('TLSv1'),
-  tLSv1_2016('TLSv1_2016'),
-  tLSv1_1_2016('TLSv1.1_2016'),
-  tLSv1_2_2018('TLSv1.2_2018'),
-  tLSv1_2_2019('TLSv1.2_2019'),
-  tLSv1_2_2021('TLSv1.2_2021'),
-  ;
+class MinimumProtocolVersion {
+  static const sSLv3 = MinimumProtocolVersion._('SSLv3');
+  static const tLSv1 = MinimumProtocolVersion._('TLSv1');
+  static const tLSv1_2016 = MinimumProtocolVersion._('TLSv1_2016');
+  static const tLSv1_1_2016 = MinimumProtocolVersion._('TLSv1.1_2016');
+  static const tLSv1_2_2018 = MinimumProtocolVersion._('TLSv1.2_2018');
+  static const tLSv1_2_2019 = MinimumProtocolVersion._('TLSv1.2_2019');
+  static const tLSv1_2_2021 = MinimumProtocolVersion._('TLSv1.2_2021');
 
   final String value;
 
-  const MinimumProtocolVersion(this.value);
+  const MinimumProtocolVersion._(this.value);
+
+  static const values = [
+    sSLv3,
+    tLSv1,
+    tLSv1_2016,
+    tLSv1_1_2016,
+    tLSv1_2_2018,
+    tLSv1_2_2019,
+    tLSv1_2_2021
+  ];
 
   static MinimumProtocolVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MinimumProtocolVersion'));
+          orElse: () => MinimumProtocolVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumProtocolVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A monitoring subscription. This structure contains information about whether
@@ -13994,51 +14175,83 @@ class OriginAccessControlList {
   }
 }
 
-enum OriginAccessControlOriginTypes {
-  s3('s3'),
-  mediastore('mediastore'),
-  mediapackagev2('mediapackagev2'),
-  lambda('lambda'),
-  ;
+class OriginAccessControlOriginTypes {
+  static const s3 = OriginAccessControlOriginTypes._('s3');
+  static const mediastore = OriginAccessControlOriginTypes._('mediastore');
+  static const mediapackagev2 =
+      OriginAccessControlOriginTypes._('mediapackagev2');
+  static const lambda = OriginAccessControlOriginTypes._('lambda');
 
   final String value;
 
-  const OriginAccessControlOriginTypes(this.value);
+  const OriginAccessControlOriginTypes._(this.value);
+
+  static const values = [s3, mediastore, mediapackagev2, lambda];
 
   static OriginAccessControlOriginTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginAccessControlOriginTypes'));
+          orElse: () => OriginAccessControlOriginTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginAccessControlOriginTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OriginAccessControlSigningBehaviors {
-  never('never'),
-  always('always'),
-  noOverride('no-override'),
-  ;
+class OriginAccessControlSigningBehaviors {
+  static const never = OriginAccessControlSigningBehaviors._('never');
+  static const always = OriginAccessControlSigningBehaviors._('always');
+  static const noOverride =
+      OriginAccessControlSigningBehaviors._('no-override');
 
   final String value;
 
-  const OriginAccessControlSigningBehaviors(this.value);
+  const OriginAccessControlSigningBehaviors._(this.value);
+
+  static const values = [never, always, noOverride];
 
   static OriginAccessControlSigningBehaviors fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginAccessControlSigningBehaviors'));
+          orElse: () => OriginAccessControlSigningBehaviors._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginAccessControlSigningBehaviors && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OriginAccessControlSigningProtocols {
-  sigv4('sigv4'),
-  ;
+class OriginAccessControlSigningProtocols {
+  static const sigv4 = OriginAccessControlSigningProtocols._('sigv4');
 
   final String value;
 
-  const OriginAccessControlSigningProtocols(this.value);
+  const OriginAccessControlSigningProtocols._(this.value);
+
+  static const values = [sigv4];
 
   static OriginAccessControlSigningProtocols fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginAccessControlSigningProtocols'));
+          orElse: () => OriginAccessControlSigningProtocols._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginAccessControlSigningProtocols && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A CloudFront origin access control.
@@ -14417,20 +14630,30 @@ class OriginGroups {
   }
 }
 
-enum OriginProtocolPolicy {
-  httpOnly('http-only'),
-  matchViewer('match-viewer'),
-  httpsOnly('https-only'),
-  ;
+class OriginProtocolPolicy {
+  static const httpOnly = OriginProtocolPolicy._('http-only');
+  static const matchViewer = OriginProtocolPolicy._('match-viewer');
+  static const httpsOnly = OriginProtocolPolicy._('https-only');
 
   final String value;
 
-  const OriginProtocolPolicy(this.value);
+  const OriginProtocolPolicy._(this.value);
 
-  static OriginProtocolPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OriginProtocolPolicy'));
+  static const values = [httpOnly, matchViewer, httpsOnly];
+
+  static OriginProtocolPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OriginProtocolPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginProtocolPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An origin request policy.
@@ -14598,21 +14821,31 @@ class OriginRequestPolicyConfig {
   }
 }
 
-enum OriginRequestPolicyCookieBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  all('all'),
-  allExcept('allExcept'),
-  ;
+class OriginRequestPolicyCookieBehavior {
+  static const none = OriginRequestPolicyCookieBehavior._('none');
+  static const whitelist = OriginRequestPolicyCookieBehavior._('whitelist');
+  static const all = OriginRequestPolicyCookieBehavior._('all');
+  static const allExcept = OriginRequestPolicyCookieBehavior._('allExcept');
 
   final String value;
 
-  const OriginRequestPolicyCookieBehavior(this.value);
+  const OriginRequestPolicyCookieBehavior._(this.value);
+
+  static const values = [none, whitelist, all, allExcept];
 
   static OriginRequestPolicyCookieBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginRequestPolicyCookieBehavior'));
+          orElse: () => OriginRequestPolicyCookieBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginRequestPolicyCookieBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any cookies in viewer requests (and if so,
@@ -14686,22 +14919,39 @@ class OriginRequestPolicyCookiesConfig {
   }
 }
 
-enum OriginRequestPolicyHeaderBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  allViewer('allViewer'),
-  allViewerAndWhitelistCloudFront('allViewerAndWhitelistCloudFront'),
-  allExcept('allExcept'),
-  ;
+class OriginRequestPolicyHeaderBehavior {
+  static const none = OriginRequestPolicyHeaderBehavior._('none');
+  static const whitelist = OriginRequestPolicyHeaderBehavior._('whitelist');
+  static const allViewer = OriginRequestPolicyHeaderBehavior._('allViewer');
+  static const allViewerAndWhitelistCloudFront =
+      OriginRequestPolicyHeaderBehavior._('allViewerAndWhitelistCloudFront');
+  static const allExcept = OriginRequestPolicyHeaderBehavior._('allExcept');
 
   final String value;
 
-  const OriginRequestPolicyHeaderBehavior(this.value);
+  const OriginRequestPolicyHeaderBehavior._(this.value);
+
+  static const values = [
+    none,
+    whitelist,
+    allViewer,
+    allViewerAndWhitelistCloudFront,
+    allExcept
+  ];
 
   static OriginRequestPolicyHeaderBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginRequestPolicyHeaderBehavior'));
+          orElse: () => OriginRequestPolicyHeaderBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginRequestPolicyHeaderBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any HTTP headers (and if so, which
@@ -14830,21 +15080,33 @@ class OriginRequestPolicyList {
   }
 }
 
-enum OriginRequestPolicyQueryStringBehavior {
-  none('none'),
-  whitelist('whitelist'),
-  all('all'),
-  allExcept('allExcept'),
-  ;
+class OriginRequestPolicyQueryStringBehavior {
+  static const none = OriginRequestPolicyQueryStringBehavior._('none');
+  static const whitelist =
+      OriginRequestPolicyQueryStringBehavior._('whitelist');
+  static const all = OriginRequestPolicyQueryStringBehavior._('all');
+  static const allExcept =
+      OriginRequestPolicyQueryStringBehavior._('allExcept');
 
   final String value;
 
-  const OriginRequestPolicyQueryStringBehavior(this.value);
+  const OriginRequestPolicyQueryStringBehavior._(this.value);
+
+  static const values = [none, whitelist, all, allExcept];
 
   static OriginRequestPolicyQueryStringBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginRequestPolicyQueryStringBehavior'));
+          orElse: () => OriginRequestPolicyQueryStringBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginRequestPolicyQueryStringBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that determines whether any URL query strings in viewer requests
@@ -14965,19 +15227,29 @@ class OriginRequestPolicySummary {
   }
 }
 
-enum OriginRequestPolicyType {
-  managed('managed'),
-  custom('custom'),
-  ;
+class OriginRequestPolicyType {
+  static const managed = OriginRequestPolicyType._('managed');
+  static const custom = OriginRequestPolicyType._('custom');
 
   final String value;
 
-  const OriginRequestPolicyType(this.value);
+  const OriginRequestPolicyType._(this.value);
+
+  static const values = [managed, custom];
 
   static OriginRequestPolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OriginRequestPolicyType'));
+          orElse: () => OriginRequestPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginRequestPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// CloudFront Origin Shield.
@@ -15381,19 +15653,28 @@ class Paths {
   }
 }
 
-enum PriceClass {
-  priceClass_100('PriceClass_100'),
-  priceClass_200('PriceClass_200'),
-  priceClassAll('PriceClass_All'),
-  ;
+class PriceClass {
+  static const priceClass_100 = PriceClass._('PriceClass_100');
+  static const priceClass_200 = PriceClass._('PriceClass_200');
+  static const priceClassAll = PriceClass._('PriceClass_All');
 
   final String value;
 
-  const PriceClass(this.value);
+  const PriceClass._(this.value);
 
-  static PriceClass fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PriceClass'));
+  static const values = [priceClass_100, priceClass_200, priceClassAll];
+
+  static PriceClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PriceClass._(value));
+
+  @override
+  bool operator ==(other) => other is PriceClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A public key that you can use with <a
@@ -16072,40 +16353,72 @@ class RealtimeMetricsSubscriptionConfig {
   }
 }
 
-enum RealtimeMetricsSubscriptionStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class RealtimeMetricsSubscriptionStatus {
+  static const enabled = RealtimeMetricsSubscriptionStatus._('Enabled');
+  static const disabled = RealtimeMetricsSubscriptionStatus._('Disabled');
 
   final String value;
 
-  const RealtimeMetricsSubscriptionStatus(this.value);
+  const RealtimeMetricsSubscriptionStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static RealtimeMetricsSubscriptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealtimeMetricsSubscriptionStatus'));
+          orElse: () => RealtimeMetricsSubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealtimeMetricsSubscriptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReferrerPolicyList {
-  noReferrer('no-referrer'),
-  noReferrerWhenDowngrade('no-referrer-when-downgrade'),
-  origin('origin'),
-  originWhenCrossOrigin('origin-when-cross-origin'),
-  sameOrigin('same-origin'),
-  strictOrigin('strict-origin'),
-  strictOriginWhenCrossOrigin('strict-origin-when-cross-origin'),
-  unsafeUrl('unsafe-url'),
-  ;
+class ReferrerPolicyList {
+  static const noReferrer = ReferrerPolicyList._('no-referrer');
+  static const noReferrerWhenDowngrade =
+      ReferrerPolicyList._('no-referrer-when-downgrade');
+  static const origin = ReferrerPolicyList._('origin');
+  static const originWhenCrossOrigin =
+      ReferrerPolicyList._('origin-when-cross-origin');
+  static const sameOrigin = ReferrerPolicyList._('same-origin');
+  static const strictOrigin = ReferrerPolicyList._('strict-origin');
+  static const strictOriginWhenCrossOrigin =
+      ReferrerPolicyList._('strict-origin-when-cross-origin');
+  static const unsafeUrl = ReferrerPolicyList._('unsafe-url');
 
   final String value;
 
-  const ReferrerPolicyList(this.value);
+  const ReferrerPolicyList._(this.value);
 
-  static ReferrerPolicyList fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReferrerPolicyList'));
+  static const values = [
+    noReferrer,
+    noReferrerWhenDowngrade,
+    origin,
+    originWhenCrossOrigin,
+    sameOrigin,
+    strictOrigin,
+    strictOriginWhenCrossOrigin,
+    unsafeUrl
+  ];
+
+  static ReferrerPolicyList fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReferrerPolicyList._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReferrerPolicyList && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A response headers policy.
@@ -16303,26 +16616,46 @@ class ResponseHeadersPolicyAccessControlAllowMethods {
   }
 }
 
-enum ResponseHeadersPolicyAccessControlAllowMethodsValues {
-  get('GET'),
-  post('POST'),
-  options('OPTIONS'),
-  put('PUT'),
-  delete('DELETE'),
-  patch('PATCH'),
-  head('HEAD'),
-  all('ALL'),
-  ;
+class ResponseHeadersPolicyAccessControlAllowMethodsValues {
+  static const get =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('GET');
+  static const post =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('POST');
+  static const options =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('OPTIONS');
+  static const put =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('PUT');
+  static const delete =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('DELETE');
+  static const patch =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('PATCH');
+  static const head =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('HEAD');
+  static const all =
+      ResponseHeadersPolicyAccessControlAllowMethodsValues._('ALL');
 
   final String value;
 
-  const ResponseHeadersPolicyAccessControlAllowMethodsValues(this.value);
+  const ResponseHeadersPolicyAccessControlAllowMethodsValues._(this.value);
+
+  static const values = [get, post, options, put, delete, patch, head, all];
 
   static ResponseHeadersPolicyAccessControlAllowMethodsValues fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResponseHeadersPolicyAccessControlAllowMethodsValues'));
+          orElse: () =>
+              ResponseHeadersPolicyAccessControlAllowMethodsValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponseHeadersPolicyAccessControlAllowMethodsValues &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of origins (domain names) that CloudFront can use as the value for
@@ -17545,19 +17878,29 @@ class ResponseHeadersPolicySummary {
   }
 }
 
-enum ResponseHeadersPolicyType {
-  managed('managed'),
-  custom('custom'),
-  ;
+class ResponseHeadersPolicyType {
+  static const managed = ResponseHeadersPolicyType._('managed');
+  static const custom = ResponseHeadersPolicyType._('custom');
 
   final String value;
 
-  const ResponseHeadersPolicyType(this.value);
+  const ResponseHeadersPolicyType._(this.value);
+
+  static const values = [managed, custom];
 
   static ResponseHeadersPolicyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResponseHeadersPolicyType'));
+          orElse: () => ResponseHeadersPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponseHeadersPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines whether CloudFront includes the <code>X-XSS-Protection</code>
@@ -17834,20 +18177,29 @@ class S3OriginConfig {
   }
 }
 
-enum SSLSupportMethod {
-  sniOnly('sni-only'),
-  vip('vip'),
-  staticIp('static-ip'),
-  ;
+class SSLSupportMethod {
+  static const sniOnly = SSLSupportMethod._('sni-only');
+  static const vip = SSLSupportMethod._('vip');
+  static const staticIp = SSLSupportMethod._('static-ip');
 
   final String value;
 
-  const SSLSupportMethod(this.value);
+  const SSLSupportMethod._(this.value);
+
+  static const values = [sniOnly, vip, staticIp];
 
   static SSLSupportMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SSLSupportMethod'));
+          orElse: () => SSLSupportMethod._(value));
+
+  @override
+  bool operator ==(other) => other is SSLSupportMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Session stickiness provides the ability to define multiple requests from a
@@ -17943,20 +18295,29 @@ class Signer {
   }
 }
 
-enum SslProtocol {
-  sSLv3('SSLv3'),
-  tLSv1('TLSv1'),
-  tLSv1_1('TLSv1.1'),
-  tLSv1_2('TLSv1.2'),
-  ;
+class SslProtocol {
+  static const sSLv3 = SslProtocol._('SSLv3');
+  static const tLSv1 = SslProtocol._('TLSv1');
+  static const tLSv1_1 = SslProtocol._('TLSv1.1');
+  static const tLSv1_2 = SslProtocol._('TLSv1.2');
 
   final String value;
 
-  const SslProtocol(this.value);
+  const SslProtocol._(this.value);
 
-  static SslProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SslProtocol'));
+  static const values = [sSLv3, tLSv1, tLSv1_1, tLSv1_2];
+
+  static SslProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SslProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is SslProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The CloudFront domain name of the staging distribution.
@@ -19854,20 +20215,30 @@ class ViewerCertificate {
   }
 }
 
-enum ViewerProtocolPolicy {
-  allowAll('allow-all'),
-  httpsOnly('https-only'),
-  redirectToHttps('redirect-to-https'),
-  ;
+class ViewerProtocolPolicy {
+  static const allowAll = ViewerProtocolPolicy._('allow-all');
+  static const httpsOnly = ViewerProtocolPolicy._('https-only');
+  static const redirectToHttps = ViewerProtocolPolicy._('redirect-to-https');
 
   final String value;
 
-  const ViewerProtocolPolicy(this.value);
+  const ViewerProtocolPolicy._(this.value);
 
-  static ViewerProtocolPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ViewerProtocolPolicy'));
+  static const values = [allowAll, httpsOnly, redirectToHttps];
+
+  static ViewerProtocolPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ViewerProtocolPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ViewerProtocolPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDenied extends _s.GenericAwsException {

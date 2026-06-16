@@ -499,18 +499,27 @@ class Item {
   }
 }
 
-enum ItemType {
-  object('OBJECT'),
-  folder('FOLDER'),
-  ;
+class ItemType {
+  static const object = ItemType._('OBJECT');
+  static const folder = ItemType._('FOLDER');
 
   final String value;
 
-  const ItemType(this.value);
+  const ItemType._(this.value);
 
-  static ItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ItemType'));
+  static const values = [object, folder];
+
+  static ItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListItemsResponse {
@@ -587,33 +596,51 @@ class PutObjectResponse {
   }
 }
 
-enum StorageClass {
-  temporal('TEMPORAL'),
-  ;
+class StorageClass {
+  static const temporal = StorageClass._('TEMPORAL');
 
   final String value;
 
-  const StorageClass(this.value);
+  const StorageClass._(this.value);
 
-  static StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StorageClass'));
+  static const values = [temporal];
+
+  static StorageClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UploadAvailability {
-  standard('STANDARD'),
-  streaming('STREAMING'),
-  ;
+class UploadAvailability {
+  static const standard = UploadAvailability._('STANDARD');
+  static const streaming = UploadAvailability._('STREAMING');
 
   final String value;
 
-  const UploadAvailability(this.value);
+  const UploadAvailability._(this.value);
 
-  static UploadAvailability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UploadAvailability'));
+  static const values = [standard, streaming];
+
+  static UploadAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UploadAvailability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UploadAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ContainerNotFoundException extends _s.GenericAwsException {

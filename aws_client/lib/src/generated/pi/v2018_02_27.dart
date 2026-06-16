@@ -1071,18 +1071,27 @@ class PI {
   }
 }
 
-enum AcceptLanguage {
-  enUs('EN_US'),
-  ;
+class AcceptLanguage {
+  static const enUs = AcceptLanguage._('EN_US');
 
   final String value;
 
-  const AcceptLanguage(this.value);
+  const AcceptLanguage._(this.value);
+
+  static const values = [enUs];
 
   static AcceptLanguage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceptLanguage'));
+          orElse: () => AcceptLanguage._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Retrieves the summary of the performance analysis report created for a time
@@ -1233,34 +1242,52 @@ class AnalysisReportSummary {
   }
 }
 
-enum AnalysisStatus {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class AnalysisStatus {
+  static const running = AnalysisStatus._('RUNNING');
+  static const succeeded = AnalysisStatus._('SUCCEEDED');
+  static const failed = AnalysisStatus._('FAILED');
 
   final String value;
 
-  const AnalysisStatus(this.value);
+  const AnalysisStatus._(this.value);
+
+  static const values = [running, succeeded, failed];
 
   static AnalysisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalysisStatus'));
+          orElse: () => AnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContextType {
-  causal('CAUSAL'),
-  contextual('CONTEXTUAL'),
-  ;
+class ContextType {
+  static const causal = ContextType._('CAUSAL');
+  static const contextual = ContextType._('CONTEXTUAL');
 
   final String value;
 
-  const ContextType(this.value);
+  const ContextType._(this.value);
 
-  static ContextType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContextType'));
+  static const values = [causal, contextual];
+
+  static ContextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContextType._(value));
+
+  @override
+  bool operator ==(other) => other is ContextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreatePerformanceAnalysisReportResponse {
@@ -1432,20 +1459,28 @@ class DescribeDimensionKeysResponse {
   }
 }
 
-enum DetailStatus {
-  available('AVAILABLE'),
-  processing('PROCESSING'),
-  unavailable('UNAVAILABLE'),
-  ;
+class DetailStatus {
+  static const available = DetailStatus._('AVAILABLE');
+  static const processing = DetailStatus._('PROCESSING');
+  static const unavailable = DetailStatus._('UNAVAILABLE');
 
   final String value;
 
-  const DetailStatus(this.value);
+  const DetailStatus._(this.value);
 
-  static DetailStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DetailStatus'));
+  static const values = [available, processing, unavailable];
+
+  static DetailStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DetailStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DetailStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information about a dimension.
@@ -1961,39 +1996,71 @@ class FeatureMetadata {
   }
 }
 
-enum FeatureStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  unsupported('UNSUPPORTED'),
-  enabledPendingReboot('ENABLED_PENDING_REBOOT'),
-  disabledPendingReboot('DISABLED_PENDING_REBOOT'),
-  unknown('UNKNOWN'),
-  ;
+class FeatureStatus {
+  static const enabled = FeatureStatus._('ENABLED');
+  static const disabled = FeatureStatus._('DISABLED');
+  static const unsupported = FeatureStatus._('UNSUPPORTED');
+  static const enabledPendingReboot = FeatureStatus._('ENABLED_PENDING_REBOOT');
+  static const disabledPendingReboot =
+      FeatureStatus._('DISABLED_PENDING_REBOOT');
+  static const unknown = FeatureStatus._('UNKNOWN');
 
   final String value;
 
-  const FeatureStatus(this.value);
+  const FeatureStatus._(this.value);
+
+  static const values = [
+    enabled,
+    disabled,
+    unsupported,
+    enabledPendingReboot,
+    disabledPendingReboot,
+    unknown
+  ];
 
   static FeatureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeatureStatus'));
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FineGrainedAction {
-  describeDimensionKeys('DescribeDimensionKeys'),
-  getDimensionKeyDetails('GetDimensionKeyDetails'),
-  getResourceMetrics('GetResourceMetrics'),
-  ;
+class FineGrainedAction {
+  static const describeDimensionKeys =
+      FineGrainedAction._('DescribeDimensionKeys');
+  static const getDimensionKeyDetails =
+      FineGrainedAction._('GetDimensionKeyDetails');
+  static const getResourceMetrics = FineGrainedAction._('GetResourceMetrics');
 
   final String value;
 
-  const FineGrainedAction(this.value);
+  const FineGrainedAction._(this.value);
+
+  static const values = [
+    describeDimensionKeys,
+    getDimensionKeyDetails,
+    getResourceMetrics
+  ];
 
   static FineGrainedAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FineGrainedAction'));
+          orElse: () => FineGrainedAction._(value));
+
+  @override
+  bool operator ==(other) => other is FineGrainedAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDimensionKeyDetailsResponse {
@@ -2604,19 +2671,28 @@ class PerformanceInsightsMetric {
   }
 }
 
-enum PeriodAlignment {
-  endTime('END_TIME'),
-  startTime('START_TIME'),
-  ;
+class PeriodAlignment {
+  static const endTime = PeriodAlignment._('END_TIME');
+  static const startTime = PeriodAlignment._('START_TIME');
 
   final String value;
 
-  const PeriodAlignment(this.value);
+  const PeriodAlignment._(this.value);
+
+  static const values = [endTime, startTime];
 
   static PeriodAlignment fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PeriodAlignment'));
+          orElse: () => PeriodAlignment._(value));
+
+  @override
+  bool operator ==(other) => other is PeriodAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of recommendations for the insight.
@@ -2780,33 +2856,51 @@ class ResponseResourceMetricKey {
   }
 }
 
-enum ServiceType {
-  rds('RDS'),
-  docdb('DOCDB'),
-  ;
+class ServiceType {
+  static const rds = ServiceType._('RDS');
+  static const docdb = ServiceType._('DOCDB');
 
   final String value;
 
-  const ServiceType(this.value);
+  const ServiceType._(this.value);
 
-  static ServiceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServiceType'));
+  static const values = [rds, docdb];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Severity {
-  low('LOW'),
-  medium('MEDIUM'),
-  high('HIGH'),
-  ;
+class Severity {
+  static const low = Severity._('LOW');
+  static const medium = Severity._('MEDIUM');
+  static const high = Severity._('HIGH');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [low, medium, high];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
@@ -2859,18 +2953,27 @@ class TagResourceResponse {
   }
 }
 
-enum TextFormat {
-  plainText('PLAIN_TEXT'),
-  markdown('MARKDOWN'),
-  ;
+class TextFormat {
+  static const plainText = TextFormat._('PLAIN_TEXT');
+  static const markdown = TextFormat._('MARKDOWN');
 
   final String value;
 
-  const TextFormat(this.value);
+  const TextFormat._(this.value);
 
-  static TextFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TextFormat'));
+  static const values = [plainText, markdown];
+
+  static TextFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TextFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

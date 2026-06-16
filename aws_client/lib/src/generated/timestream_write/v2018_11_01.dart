@@ -1041,18 +1041,28 @@ class TimestreamWrite {
   }
 }
 
-enum BatchLoadDataFormat {
-  csv('CSV'),
-  ;
+class BatchLoadDataFormat {
+  static const csv = BatchLoadDataFormat._('CSV');
 
   final String value;
 
-  const BatchLoadDataFormat(this.value);
+  const BatchLoadDataFormat._(this.value);
 
-  static BatchLoadDataFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BatchLoadDataFormat'));
+  static const values = [csv];
+
+  static BatchLoadDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchLoadDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchLoadDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the progress of a batch load task.
@@ -1114,23 +1124,39 @@ class BatchLoadProgressReport {
   }
 }
 
-enum BatchLoadStatus {
-  created('CREATED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  progressStopped('PROGRESS_STOPPED'),
-  pendingResume('PENDING_RESUME'),
-  ;
+class BatchLoadStatus {
+  static const created = BatchLoadStatus._('CREATED');
+  static const inProgress = BatchLoadStatus._('IN_PROGRESS');
+  static const failed = BatchLoadStatus._('FAILED');
+  static const succeeded = BatchLoadStatus._('SUCCEEDED');
+  static const progressStopped = BatchLoadStatus._('PROGRESS_STOPPED');
+  static const pendingResume = BatchLoadStatus._('PENDING_RESUME');
 
   final String value;
 
-  const BatchLoadStatus(this.value);
+  const BatchLoadStatus._(this.value);
+
+  static const values = [
+    created,
+    inProgress,
+    failed,
+    succeeded,
+    progressStopped,
+    pendingResume
+  ];
 
   static BatchLoadStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BatchLoadStatus'));
+          orElse: () => BatchLoadStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BatchLoadStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a batch load task.
@@ -1608,7 +1634,7 @@ class DataSourceConfiguration {
   factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceConfiguration(
       dataFormat:
-          BatchLoadDataFormat.fromString((json['DataFormat'] as String)),
+          BatchLoadDataFormat.fromString((json['DataFormat'] as String?) ?? ''),
       dataSourceS3Configuration: DataSourceS3Configuration.fromJson(
           (json['DataSourceS3Configuration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -1890,18 +1916,28 @@ class DimensionMapping {
   }
 }
 
-enum DimensionValueType {
-  varchar('VARCHAR'),
-  ;
+class DimensionValueType {
+  static const varchar = DimensionValueType._('VARCHAR');
 
   final String value;
 
-  const DimensionValueType(this.value);
+  const DimensionValueType._(this.value);
 
-  static DimensionValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DimensionValueType'));
+  static const values = [varchar];
+
+  static DimensionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an available endpoint against which to make API calls against, as
@@ -2168,23 +2204,32 @@ class MeasureValue {
   }
 }
 
-enum MeasureValueType {
-  double('DOUBLE'),
-  bigint('BIGINT'),
-  varchar('VARCHAR'),
-  boolean('BOOLEAN'),
-  timestamp('TIMESTAMP'),
-  multi('MULTI'),
-  ;
+class MeasureValueType {
+  static const $double = MeasureValueType._('DOUBLE');
+  static const bigint = MeasureValueType._('BIGINT');
+  static const varchar = MeasureValueType._('VARCHAR');
+  static const boolean = MeasureValueType._('BOOLEAN');
+  static const timestamp = MeasureValueType._('TIMESTAMP');
+  static const multi = MeasureValueType._('MULTI');
 
   final String value;
 
-  const MeasureValueType(this.value);
+  const MeasureValueType._(this.value);
+
+  static const values = [$double, bigint, varchar, boolean, timestamp, multi];
 
   static MeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MeasureValueType'));
+          orElse: () => MeasureValueType._(value));
+
+  @override
+  bool operator ==(other) => other is MeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <p/>
@@ -2214,8 +2259,8 @@ class MixedMeasureMapping {
 
   factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
     return MixedMeasureMapping(
-      measureValueType:
-          MeasureValueType.fromString((json['MeasureValueType'] as String)),
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
@@ -2348,7 +2393,7 @@ class PartitionKey {
 
   factory PartitionKey.fromJson(Map<String, dynamic> json) {
     return PartitionKey(
-      type: PartitionKeyType.fromString((json['Type'] as String)),
+      type: PartitionKeyType.fromString((json['Type'] as String?) ?? ''),
       enforcementInRecord: (json['EnforcementInRecord'] as String?)
           ?.let(PartitionKeyEnforcementLevel.fromString),
       name: json['Name'] as String?,
@@ -2368,34 +2413,53 @@ class PartitionKey {
   }
 }
 
-enum PartitionKeyEnforcementLevel {
-  required('REQUIRED'),
-  optional('OPTIONAL'),
-  ;
+class PartitionKeyEnforcementLevel {
+  static const required = PartitionKeyEnforcementLevel._('REQUIRED');
+  static const optional = PartitionKeyEnforcementLevel._('OPTIONAL');
 
   final String value;
 
-  const PartitionKeyEnforcementLevel(this.value);
+  const PartitionKeyEnforcementLevel._(this.value);
+
+  static const values = [required, optional];
 
   static PartitionKeyEnforcementLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PartitionKeyEnforcementLevel'));
+          orElse: () => PartitionKeyEnforcementLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionKeyEnforcementLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PartitionKeyType {
-  dimension('DIMENSION'),
-  measure('MEASURE'),
-  ;
+class PartitionKeyType {
+  static const dimension = PartitionKeyType._('DIMENSION');
+  static const measure = PartitionKeyType._('MEASURE');
 
   final String value;
 
-  const PartitionKeyType(this.value);
+  const PartitionKeyType._(this.value);
+
+  static const values = [dimension, measure];
 
   static PartitionKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PartitionKeyType'));
+          orElse: () => PartitionKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is PartitionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a time-series data point being written into Timestream. Each
@@ -2699,37 +2763,57 @@ class S3Configuration {
   }
 }
 
-enum S3EncryptionOption {
-  sseS3('SSE_S3'),
-  sseKms('SSE_KMS'),
-  ;
+class S3EncryptionOption {
+  static const sseS3 = S3EncryptionOption._('SSE_S3');
+  static const sseKms = S3EncryptionOption._('SSE_KMS');
 
   final String value;
 
-  const S3EncryptionOption(this.value);
+  const S3EncryptionOption._(this.value);
 
-  static S3EncryptionOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum S3EncryptionOption'));
+  static const values = [sseS3, sseKms];
+
+  static S3EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalarMeasureValueType {
-  double('DOUBLE'),
-  bigint('BIGINT'),
-  boolean('BOOLEAN'),
-  varchar('VARCHAR'),
-  timestamp('TIMESTAMP'),
-  ;
+class ScalarMeasureValueType {
+  static const $double = ScalarMeasureValueType._('DOUBLE');
+  static const bigint = ScalarMeasureValueType._('BIGINT');
+  static const boolean = ScalarMeasureValueType._('BOOLEAN');
+  static const varchar = ScalarMeasureValueType._('VARCHAR');
+  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
 
   final String value;
 
-  const ScalarMeasureValueType(this.value);
+  const ScalarMeasureValueType._(this.value);
+
+  static const values = [$double, bigint, boolean, varchar, timestamp];
 
   static ScalarMeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ScalarMeasureValueType'));
+          orElse: () => ScalarMeasureValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarMeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Schema specifies the expected data model of the table.
@@ -2866,19 +2950,28 @@ class Table {
   }
 }
 
-enum TableStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  restoring('RESTORING'),
-  ;
+class TableStatus {
+  static const active = TableStatus._('ACTIVE');
+  static const deleting = TableStatus._('DELETING');
+  static const restoring = TableStatus._('RESTORING');
 
   final String value;
 
-  const TableStatus(this.value);
+  const TableStatus._(this.value);
 
-  static TableStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TableStatus'));
+  static const values = [active, deleting, restoring];
+
+  static TableStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tag is a label that you assign to a Timestream database and/or table. Each
@@ -2926,20 +3019,29 @@ class TagResourceResponse {
   }
 }
 
-enum TimeUnit {
-  milliseconds('MILLISECONDS'),
-  seconds('SECONDS'),
-  microseconds('MICROSECONDS'),
-  nanoseconds('NANOSECONDS'),
-  ;
+class TimeUnit {
+  static const milliseconds = TimeUnit._('MILLISECONDS');
+  static const seconds = TimeUnit._('SECONDS');
+  static const microseconds = TimeUnit._('MICROSECONDS');
+  static const nanoseconds = TimeUnit._('NANOSECONDS');
 
   final String value;
 
-  const TimeUnit(this.value);
+  const TimeUnit._(this.value);
 
-  static TimeUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TimeUnit'));
+  static const values = [milliseconds, seconds, microseconds, nanoseconds];
+
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

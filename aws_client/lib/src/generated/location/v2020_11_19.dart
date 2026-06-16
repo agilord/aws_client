@@ -4378,23 +4378,42 @@ class BatchItemError {
   }
 }
 
-enum BatchItemErrorCode {
-  accessDeniedError('AccessDeniedError'),
-  conflictError('ConflictError'),
-  internalServerError('InternalServerError'),
-  resourceNotFoundError('ResourceNotFoundError'),
-  throttlingError('ThrottlingError'),
-  validationError('ValidationError'),
-  ;
+class BatchItemErrorCode {
+  static const accessDeniedError = BatchItemErrorCode._('AccessDeniedError');
+  static const conflictError = BatchItemErrorCode._('ConflictError');
+  static const internalServerError =
+      BatchItemErrorCode._('InternalServerError');
+  static const resourceNotFoundError =
+      BatchItemErrorCode._('ResourceNotFoundError');
+  static const throttlingError = BatchItemErrorCode._('ThrottlingError');
+  static const validationError = BatchItemErrorCode._('ValidationError');
 
   final String value;
 
-  const BatchItemErrorCode(this.value);
+  const BatchItemErrorCode._(this.value);
 
-  static BatchItemErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BatchItemErrorCode'));
+  static const values = [
+    accessDeniedError,
+    conflictError,
+    internalServerError,
+    resourceNotFoundError,
+    throttlingError,
+    validationError
+  ];
+
+  static BatchItemErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchItemErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchItemErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains error details for each geofence that failed to be stored in a given
@@ -4766,7 +4785,8 @@ class CalculateRouteMatrixSummary {
   factory CalculateRouteMatrixSummary.fromJson(Map<String, dynamic> json) {
     return CalculateRouteMatrixSummary(
       dataSource: (json['DataSource'] as String?) ?? '',
-      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      distanceUnit:
+          DistanceUnit.fromString((json['DistanceUnit'] as String?) ?? ''),
       errorCount: (json['ErrorCount'] as int?) ?? 0,
       routeCount: (json['RouteCount'] as int?) ?? 0,
     );
@@ -4935,7 +4955,8 @@ class CalculateRouteSummary {
     return CalculateRouteSummary(
       dataSource: (json['DataSource'] as String?) ?? '',
       distance: (json['Distance'] as double?) ?? 0,
-      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      distanceUnit:
+          DistanceUnit.fromString((json['DistanceUnit'] as String?) ?? ''),
       durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
       routeBBox: ((json['RouteBBox'] as List?) ?? const [])
           .nonNulls
@@ -6305,19 +6326,28 @@ class DeviceState {
   }
 }
 
-enum DimensionUnit {
-  meters('Meters'),
-  feet('Feet'),
-  ;
+class DimensionUnit {
+  static const meters = DimensionUnit._('Meters');
+  static const feet = DimensionUnit._('Feet');
 
   final String value;
 
-  const DimensionUnit(this.value);
+  const DimensionUnit._(this.value);
+
+  static const values = [meters, feet];
 
   static DimensionUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DimensionUnit'));
+          orElse: () => DimensionUnit._(value));
+
+  @override
+  bool operator ==(other) => other is DimensionUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateTrackerConsumerResponse {
@@ -6332,19 +6362,27 @@ class DisassociateTrackerConsumerResponse {
   }
 }
 
-enum DistanceUnit {
-  kilometers('Kilometers'),
-  miles('Miles'),
-  ;
+class DistanceUnit {
+  static const kilometers = DistanceUnit._('Kilometers');
+  static const miles = DistanceUnit._('Miles');
 
   final String value;
 
-  const DistanceUnit(this.value);
+  const DistanceUnit._(this.value);
 
-  static DistanceUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DistanceUnit'));
+  static const values = [kilometers, miles];
+
+  static DistanceUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DistanceUnit._(value));
+
+  @override
+  bool operator ==(other) => other is DistanceUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The device's position, IP address, and WiFi access points.
@@ -6393,12 +6431,13 @@ class ForecastGeofenceEventsResponse {
 
   factory ForecastGeofenceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ForecastGeofenceEventsResponse(
-      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      distanceUnit:
+          DistanceUnit.fromString((json['DistanceUnit'] as String?) ?? ''),
       forecastedEvents: ((json['ForecastedEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => ForecastedEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      speedUnit: SpeedUnit.fromString((json['SpeedUnit'] as String)),
+      speedUnit: SpeedUnit.fromString((json['SpeedUnit'] as String?) ?? ''),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -6469,8 +6508,8 @@ class ForecastedEvent {
   factory ForecastedEvent.fromJson(Map<String, dynamic> json) {
     return ForecastedEvent(
       eventId: (json['EventId'] as String?) ?? '',
-      eventType:
-          ForecastedGeofenceEventType.fromString((json['EventType'] as String)),
+      eventType: ForecastedGeofenceEventType.fromString(
+          (json['EventType'] as String?) ?? ''),
       geofenceId: (json['GeofenceId'] as String?) ?? '',
       isDeviceInGeofence: (json['IsDeviceInGeofence'] as bool?) ?? false,
       nearestDistance: (json['NearestDistance'] as double?) ?? 0,
@@ -6501,20 +6540,30 @@ class ForecastedEvent {
   }
 }
 
-enum ForecastedGeofenceEventType {
-  enter('ENTER'),
-  exit('EXIT'),
-  idle('IDLE'),
-  ;
+class ForecastedGeofenceEventType {
+  static const enter = ForecastedGeofenceEventType._('ENTER');
+  static const exit = ForecastedGeofenceEventType._('EXIT');
+  static const idle = ForecastedGeofenceEventType._('IDLE');
 
   final String value;
 
-  const ForecastedGeofenceEventType(this.value);
+  const ForecastedGeofenceEventType._(this.value);
+
+  static const values = [enter, exit, idle];
 
   static ForecastedGeofenceEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ForecastedGeofenceEventType'));
+          orElse: () => ForecastedGeofenceEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ForecastedGeofenceEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the geofence geometry details.
@@ -6966,18 +7015,27 @@ class InferredState {
   }
 }
 
-enum IntendedUse {
-  singleUse('SingleUse'),
-  storage('Storage'),
-  ;
+class IntendedUse {
+  static const singleUse = IntendedUse._('SingleUse');
+  static const storage = IntendedUse._('Storage');
 
   final String value;
 
-  const IntendedUse(this.value);
+  const IntendedUse._(this.value);
 
-  static IntendedUse fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IntendedUse'));
+  static const values = [singleUse, storage];
+
+  static IntendedUse fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IntendedUse._(value));
+
+  @override
+  bool operator ==(other) => other is IntendedUse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the calculated route's details for each path between a pair of
@@ -8428,19 +8486,28 @@ class MapConfigurationUpdate {
   }
 }
 
-enum OptimizationMode {
-  fastestRoute('FastestRoute'),
-  shortestRoute('ShortestRoute'),
-  ;
+class OptimizationMode {
+  static const fastestRoute = OptimizationMode._('FastestRoute');
+  static const shortestRoute = OptimizationMode._('ShortestRoute');
 
   final String value;
 
-  const OptimizationMode(this.value);
+  const OptimizationMode._(this.value);
+
+  static const values = [fastestRoute, shortestRoute];
 
   static OptimizationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OptimizationMode'));
+          orElse: () => OptimizationMode._(value));
+
+  @override
+  bool operator ==(other) => other is OptimizationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about addresses or points of interest that match the search
@@ -8665,20 +8732,29 @@ class PlaceGeometry {
   }
 }
 
-enum PositionFiltering {
-  timeBased('TimeBased'),
-  distanceBased('DistanceBased'),
-  accuracyBased('AccuracyBased'),
-  ;
+class PositionFiltering {
+  static const timeBased = PositionFiltering._('TimeBased');
+  static const distanceBased = PositionFiltering._('DistanceBased');
+  static const accuracyBased = PositionFiltering._('AccuracyBased');
 
   final String value;
 
-  const PositionFiltering(this.value);
+  const PositionFiltering._(this.value);
+
+  static const values = [timeBased, distanceBased, accuracyBased];
 
   static PositionFiltering fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PositionFiltering'));
+          orElse: () => PositionFiltering._(value));
+
+  @override
+  bool operator ==(other) => other is PositionFiltering && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the level of certainty of the position.
@@ -8705,19 +8781,32 @@ class PositionalAccuracy {
   }
 }
 
-enum PricingPlan {
-  requestBasedUsage('RequestBasedUsage'),
-  mobileAssetTracking('MobileAssetTracking'),
-  mobileAssetManagement('MobileAssetManagement'),
-  ;
+class PricingPlan {
+  static const requestBasedUsage = PricingPlan._('RequestBasedUsage');
+  static const mobileAssetTracking = PricingPlan._('MobileAssetTracking');
+  static const mobileAssetManagement = PricingPlan._('MobileAssetManagement');
 
   final String value;
 
-  const PricingPlan(this.value);
+  const PricingPlan._(this.value);
 
-  static PricingPlan fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PricingPlan'));
+  static const values = [
+    requestBasedUsage,
+    mobileAssetTracking,
+    mobileAssetManagement
+  ];
+
+  static PricingPlan fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PricingPlan._(value));
+
+  @override
+  bool operator ==(other) => other is PricingPlan && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutGeofenceResponse {
@@ -8858,7 +8947,7 @@ class RouteMatrixEntryError {
 
   factory RouteMatrixEntryError.fromJson(Map<String, dynamic> json) {
     return RouteMatrixEntryError(
-      code: RouteMatrixErrorCode.fromString((json['Code'] as String)),
+      code: RouteMatrixErrorCode.fromString((json['Code'] as String?) ?? ''),
       message: json['Message'] as String?,
     );
   }
@@ -8873,23 +8962,43 @@ class RouteMatrixEntryError {
   }
 }
 
-enum RouteMatrixErrorCode {
-  routeNotFound('RouteNotFound'),
-  routeTooLong('RouteTooLong'),
-  positionsNotFound('PositionsNotFound'),
-  destinationPositionNotFound('DestinationPositionNotFound'),
-  departurePositionNotFound('DeparturePositionNotFound'),
-  otherValidationError('OtherValidationError'),
-  ;
+class RouteMatrixErrorCode {
+  static const routeNotFound = RouteMatrixErrorCode._('RouteNotFound');
+  static const routeTooLong = RouteMatrixErrorCode._('RouteTooLong');
+  static const positionsNotFound = RouteMatrixErrorCode._('PositionsNotFound');
+  static const destinationPositionNotFound =
+      RouteMatrixErrorCode._('DestinationPositionNotFound');
+  static const departurePositionNotFound =
+      RouteMatrixErrorCode._('DeparturePositionNotFound');
+  static const otherValidationError =
+      RouteMatrixErrorCode._('OtherValidationError');
 
   final String value;
 
-  const RouteMatrixErrorCode(this.value);
+  const RouteMatrixErrorCode._(this.value);
 
-  static RouteMatrixErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RouteMatrixErrorCode'));
+  static const values = [
+    routeNotFound,
+    routeTooLong,
+    positionsNotFound,
+    destinationPositionNotFound,
+    departurePositionNotFound,
+    otherValidationError
+  ];
+
+  static RouteMatrixErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteMatrixErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteMatrixErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a search result from a position search query that is run on a place
@@ -9507,32 +9616,50 @@ class SearchPlaceIndexForTextSummary {
   }
 }
 
-enum SpeedUnit {
-  kilometersPerHour('KilometersPerHour'),
-  milesPerHour('MilesPerHour'),
-  ;
+class SpeedUnit {
+  static const kilometersPerHour = SpeedUnit._('KilometersPerHour');
+  static const milesPerHour = SpeedUnit._('MilesPerHour');
 
   final String value;
 
-  const SpeedUnit(this.value);
+  const SpeedUnit._(this.value);
 
-  static SpeedUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SpeedUnit'));
+  static const values = [kilometersPerHour, milesPerHour];
+
+  static SpeedUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpeedUnit._(value));
+
+  @override
+  bool operator ==(other) => other is SpeedUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  active('Active'),
-  expired('Expired'),
-  ;
+class Status {
+  static const active = Status._('Active');
+  static const expired = Status._('Expired');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [active, expired];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an element of a leg within a route. A step contains instructions
@@ -9667,21 +9794,30 @@ class TrackingFilterGeometry {
   }
 }
 
-enum TravelMode {
-  car('Car'),
-  truck('Truck'),
-  walking('Walking'),
-  bicycle('Bicycle'),
-  motorcycle('Motorcycle'),
-  ;
+class TravelMode {
+  static const car = TravelMode._('Car');
+  static const truck = TravelMode._('Truck');
+  static const walking = TravelMode._('Walking');
+  static const bicycle = TravelMode._('Bicycle');
+  static const motorcycle = TravelMode._('Motorcycle');
 
   final String value;
 
-  const TravelMode(this.value);
+  const TravelMode._(this.value);
 
-  static TravelMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TravelMode'));
+  static const values = [car, truck, walking, bicycle, motorcycle];
+
+  static TravelMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TravelMode._(value));
+
+  @override
+  bool operator ==(other) => other is TravelMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the truck dimensions in the unit of measurement that
@@ -10070,19 +10206,28 @@ class UpdateTrackerResponse {
   }
 }
 
-enum VehicleWeightUnit {
-  kilograms('Kilograms'),
-  pounds('Pounds'),
-  ;
+class VehicleWeightUnit {
+  static const kilograms = VehicleWeightUnit._('Kilograms');
+  static const pounds = VehicleWeightUnit._('Pounds');
 
   final String value;
 
-  const VehicleWeightUnit(this.value);
+  const VehicleWeightUnit._(this.value);
+
+  static const values = [kilograms, pounds];
 
   static VehicleWeightUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VehicleWeightUnit'));
+          orElse: () => VehicleWeightUnit._(value));
+
+  @override
+  bool operator ==(other) => other is VehicleWeightUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class VerifyDevicePositionResponse {
@@ -10117,7 +10262,8 @@ class VerifyDevicePositionResponse {
   factory VerifyDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return VerifyDevicePositionResponse(
       deviceId: (json['DeviceId'] as String?) ?? '',
-      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      distanceUnit:
+          DistanceUnit.fromString((json['DistanceUnit'] as String?) ?? ''),
       inferredState: InferredState.fromJson(
           (json['InferredState'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),

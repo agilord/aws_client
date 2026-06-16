@@ -760,19 +760,28 @@ class CommitTransactionResponse {
   }
 }
 
-enum DecimalReturnType {
-  string('STRING'),
-  doubleOrLong('DOUBLE_OR_LONG'),
-  ;
+class DecimalReturnType {
+  static const string = DecimalReturnType._('STRING');
+  static const doubleOrLong = DecimalReturnType._('DOUBLE_OR_LONG');
 
   final String value;
 
-  const DecimalReturnType(this.value);
+  const DecimalReturnType._(this.value);
+
+  static const values = [string, doubleOrLong];
 
   static DecimalReturnType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DecimalReturnType'));
+          orElse: () => DecimalReturnType._(value));
+
+  @override
+  bool operator ==(other) => other is DecimalReturnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response elements represent the output of a request to run one or more
@@ -950,19 +959,28 @@ class Field {
   }
 }
 
-enum LongReturnType {
-  string('STRING'),
-  long('LONG'),
-  ;
+class LongReturnType {
+  static const string = LongReturnType._('STRING');
+  static const long = LongReturnType._('LONG');
 
   final String value;
 
-  const LongReturnType(this.value);
+  const LongReturnType._(this.value);
+
+  static const values = [string, long];
 
   static LongReturnType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LongReturnType'));
+          orElse: () => LongReturnType._(value));
+
+  @override
+  bool operator ==(other) => other is LongReturnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A record returned by a call.
@@ -996,19 +1014,28 @@ class Record {
   }
 }
 
-enum RecordsFormatType {
-  none('NONE'),
-  json('JSON'),
-  ;
+class RecordsFormatType {
+  static const none = RecordsFormatType._('NONE');
+  static const json = RecordsFormatType._('JSON');
 
   final String value;
 
-  const RecordsFormatType(this.value);
+  const RecordsFormatType._(this.value);
+
+  static const values = [none, json];
 
   static RecordsFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordsFormatType'));
+          orElse: () => RecordsFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordsFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The result set returned by a SQL statement.
@@ -1274,22 +1301,31 @@ class StructValue {
   }
 }
 
-enum TypeHint {
-  json('JSON'),
-  uuid('UUID'),
-  timestamp('TIMESTAMP'),
-  date('DATE'),
-  time('TIME'),
-  decimal('DECIMAL'),
-  ;
+class TypeHint {
+  static const json = TypeHint._('JSON');
+  static const uuid = TypeHint._('UUID');
+  static const timestamp = TypeHint._('TIMESTAMP');
+  static const date = TypeHint._('DATE');
+  static const time = TypeHint._('TIME');
+  static const decimal = TypeHint._('DECIMAL');
 
   final String value;
 
-  const TypeHint(this.value);
+  const TypeHint._(this.value);
 
-  static TypeHint fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TypeHint'));
+  static const values = [json, uuid, timestamp, date, time, decimal];
+
+  static TypeHint fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TypeHint._(value));
+
+  @override
+  bool operator ==(other) => other is TypeHint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response elements represent the results of an update.

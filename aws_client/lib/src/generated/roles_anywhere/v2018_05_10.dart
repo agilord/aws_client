@@ -1071,20 +1071,29 @@ class AttributeMapping {
   }
 }
 
-enum CertificateField {
-  x509Subject('x509Subject'),
-  x509Issuer('x509Issuer'),
-  x509san('x509SAN'),
-  ;
+class CertificateField {
+  static const x509Subject = CertificateField._('x509Subject');
+  static const x509Issuer = CertificateField._('x509Issuer');
+  static const x509san = CertificateField._('x509SAN');
 
   final String value;
 
-  const CertificateField(this.value);
+  const CertificateField._(this.value);
+
+  static const values = [x509Subject, x509Issuer, x509san];
 
   static CertificateField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CertificateField'));
+          orElse: () => CertificateField._(value));
+
+  @override
+  bool operator ==(other) => other is CertificateField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A record of a presented X509 credential from a temporary credential request.
@@ -1498,33 +1507,54 @@ class MappingRule {
   }
 }
 
-enum NotificationChannel {
-  all('ALL'),
-  ;
+class NotificationChannel {
+  static const all = NotificationChannel._('ALL');
 
   final String value;
 
-  const NotificationChannel(this.value);
+  const NotificationChannel._(this.value);
 
-  static NotificationChannel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NotificationChannel'));
+  static const values = [all];
+
+  static NotificationChannel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationChannel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationChannel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotificationEvent {
-  caCertificateExpiry('CA_CERTIFICATE_EXPIRY'),
-  endEntityCertificateExpiry('END_ENTITY_CERTIFICATE_EXPIRY'),
-  ;
+class NotificationEvent {
+  static const caCertificateExpiry =
+      NotificationEvent._('CA_CERTIFICATE_EXPIRY');
+  static const endEntityCertificateExpiry =
+      NotificationEvent._('END_ENTITY_CERTIFICATE_EXPIRY');
 
   final String value;
 
-  const NotificationEvent(this.value);
+  const NotificationEvent._(this.value);
+
+  static const values = [caCertificateExpiry, endEntityCertificateExpiry];
 
   static NotificationEvent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NotificationEvent'));
+          orElse: () => NotificationEvent._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Customizable notification settings that will be applied to notification
@@ -1609,7 +1639,7 @@ class NotificationSettingDetail {
   factory NotificationSettingDetail.fromJson(Map<String, dynamic> json) {
     return NotificationSettingDetail(
       enabled: (json['enabled'] as bool?) ?? false,
-      event: NotificationEvent.fromString((json['event'] as String)),
+      event: NotificationEvent.fromString((json['event'] as String?) ?? ''),
       channel:
           (json['channel'] as String?)?.let(NotificationChannel.fromString),
       configuredBy: json['configuredBy'] as String?,
@@ -2275,20 +2305,30 @@ class TrustAnchorDetailResponse {
   }
 }
 
-enum TrustAnchorType {
-  awsAcmPca('AWS_ACM_PCA'),
-  certificateBundle('CERTIFICATE_BUNDLE'),
-  selfSignedRepository('SELF_SIGNED_REPOSITORY'),
-  ;
+class TrustAnchorType {
+  static const awsAcmPca = TrustAnchorType._('AWS_ACM_PCA');
+  static const certificateBundle = TrustAnchorType._('CERTIFICATE_BUNDLE');
+  static const selfSignedRepository =
+      TrustAnchorType._('SELF_SIGNED_REPOSITORY');
 
   final String value;
 
-  const TrustAnchorType(this.value);
+  const TrustAnchorType._(this.value);
+
+  static const values = [awsAcmPca, certificateBundle, selfSignedRepository];
 
   static TrustAnchorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TrustAnchorType'));
+          orElse: () => TrustAnchorType._(value));
+
+  @override
+  bool operator ==(other) => other is TrustAnchorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

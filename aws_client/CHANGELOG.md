@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+
+- **Breaking:** generated enums are now const classes instead of Dart `enum`s, so unknown values from the server no longer throw.
+
 ## 0.8.0
 
 - Removed clients for AWS services dropped from the AWS SDK: Alexa for Business, Backup Storage, CodeStar (`code_star`), GameSparks, Honeycode, IoT RoboRunner, Macie Classic (`macie`; use `macie2`) and Mobile.

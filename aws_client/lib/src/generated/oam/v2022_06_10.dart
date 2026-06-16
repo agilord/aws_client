@@ -1520,22 +1520,38 @@ class PutSinkPolicyOutput {
   }
 }
 
-enum ResourceType {
-  awsCloudWatchMetric('AWS::CloudWatch::Metric'),
-  awsLogsLogGroup('AWS::Logs::LogGroup'),
-  awsXRayTrace('AWS::XRay::Trace'),
-  awsApplicationInsightsApplication('AWS::ApplicationInsights::Application'),
-  awsInternetMonitorMonitor('AWS::InternetMonitor::Monitor'),
-  ;
+class ResourceType {
+  static const awsCloudWatchMetric = ResourceType._('AWS::CloudWatch::Metric');
+  static const awsLogsLogGroup = ResourceType._('AWS::Logs::LogGroup');
+  static const awsXRayTrace = ResourceType._('AWS::XRay::Trace');
+  static const awsApplicationInsightsApplication =
+      ResourceType._('AWS::ApplicationInsights::Application');
+  static const awsInternetMonitorMonitor =
+      ResourceType._('AWS::InternetMonitor::Monitor');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    awsCloudWatchMetric,
+    awsLogsLogGroup,
+    awsXRayTrace,
+    awsApplicationInsightsApplication,
+    awsInternetMonitorMonitor
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceOutput {

@@ -5836,54 +5836,82 @@ class Ecs {
   }
 }
 
-enum AgentUpdateStatus {
-  pending('PENDING'),
-  staging('STAGING'),
-  staged('STAGED'),
-  updating('UPDATING'),
-  updated('UPDATED'),
-  failed('FAILED'),
-  ;
+class AgentUpdateStatus {
+  static const pending = AgentUpdateStatus._('PENDING');
+  static const staging = AgentUpdateStatus._('STAGING');
+  static const staged = AgentUpdateStatus._('STAGED');
+  static const updating = AgentUpdateStatus._('UPDATING');
+  static const updated = AgentUpdateStatus._('UPDATED');
+  static const failed = AgentUpdateStatus._('FAILED');
 
   final String value;
 
-  const AgentUpdateStatus(this.value);
+  const AgentUpdateStatus._(this.value);
+
+  static const values = [pending, staging, staged, updating, updated, failed];
 
   static AgentUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgentUpdateStatus'));
+          orElse: () => AgentUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationProtocol {
-  http('http'),
-  http2('http2'),
-  grpc('grpc'),
-  ;
+class ApplicationProtocol {
+  static const http = ApplicationProtocol._('http');
+  static const http2 = ApplicationProtocol._('http2');
+  static const grpc = ApplicationProtocol._('grpc');
 
   final String value;
 
-  const ApplicationProtocol(this.value);
+  const ApplicationProtocol._(this.value);
 
-  static ApplicationProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationProtocol'));
+  static const values = [http, http2, grpc];
+
+  static ApplicationProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssignPublicIp {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AssignPublicIp {
+  static const enabled = AssignPublicIp._('ENABLED');
+  static const disabled = AssignPublicIp._('DISABLED');
 
   final String value;
 
-  const AssignPublicIp(this.value);
+  const AssignPublicIp._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AssignPublicIp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignPublicIp'));
+          orElse: () => AssignPublicIp._(value));
+
+  @override
+  bool operator ==(other) => other is AssignPublicIp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a container instance or task attachment.
@@ -6205,19 +6233,28 @@ class AwsVpcConfiguration {
   }
 }
 
-enum CPUArchitecture {
-  x86_64('X86_64'),
-  arm64('ARM64'),
-  ;
+class CPUArchitecture {
+  static const x86_64 = CPUArchitecture._('X86_64');
+  static const arm64 = CPUArchitecture._('ARM64');
 
   final String value;
 
-  const CPUArchitecture(this.value);
+  const CPUArchitecture._(this.value);
+
+  static const values = [x86_64, arm64];
 
   static CPUArchitecture fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CPUArchitecture'));
+          orElse: () => CPUArchitecture._(value));
+
+  @override
+  bool operator ==(other) => other is CPUArchitecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for a capacity provider.
@@ -6344,33 +6381,53 @@ class CapacityProvider {
   }
 }
 
-enum CapacityProviderField {
-  tags('TAGS'),
-  ;
+class CapacityProviderField {
+  static const tags = CapacityProviderField._('TAGS');
 
   final String value;
 
-  const CapacityProviderField(this.value);
+  const CapacityProviderField._(this.value);
 
-  static CapacityProviderField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CapacityProviderField'));
+  static const values = [tags];
+
+  static CapacityProviderField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CapacityProviderStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class CapacityProviderStatus {
+  static const active = CapacityProviderStatus._('ACTIVE');
+  static const inactive = CapacityProviderStatus._('INACTIVE');
 
   final String value;
 
-  const CapacityProviderStatus(this.value);
+  const CapacityProviderStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static CapacityProviderStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityProviderStatus'));
+          orElse: () => CapacityProviderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of a capacity provider strategy. A capacity provider strategy
@@ -6466,23 +6523,44 @@ class CapacityProviderStrategyItem {
   }
 }
 
-enum CapacityProviderUpdateStatus {
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteComplete('DELETE_COMPLETE'),
-  deleteFailed('DELETE_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateComplete('UPDATE_COMPLETE'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class CapacityProviderUpdateStatus {
+  static const deleteInProgress =
+      CapacityProviderUpdateStatus._('DELETE_IN_PROGRESS');
+  static const deleteComplete =
+      CapacityProviderUpdateStatus._('DELETE_COMPLETE');
+  static const deleteFailed = CapacityProviderUpdateStatus._('DELETE_FAILED');
+  static const updateInProgress =
+      CapacityProviderUpdateStatus._('UPDATE_IN_PROGRESS');
+  static const updateComplete =
+      CapacityProviderUpdateStatus._('UPDATE_COMPLETE');
+  static const updateFailed = CapacityProviderUpdateStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const CapacityProviderUpdateStatus(this.value);
+  const CapacityProviderUpdateStatus._(this.value);
+
+  static const values = [
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    updateInProgress,
+    updateComplete,
+    updateFailed
+  ];
 
   static CapacityProviderUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CapacityProviderUpdateStatus'));
+          orElse: () => CapacityProviderUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A regional grouping of one or more container instances where you can run
@@ -6808,22 +6886,36 @@ class ClusterConfiguration {
   }
 }
 
-enum ClusterField {
-  attachments('ATTACHMENTS'),
-  configurations('CONFIGURATIONS'),
-  settings('SETTINGS'),
-  statistics('STATISTICS'),
-  tags('TAGS'),
-  ;
+class ClusterField {
+  static const attachments = ClusterField._('ATTACHMENTS');
+  static const configurations = ClusterField._('CONFIGURATIONS');
+  static const settings = ClusterField._('SETTINGS');
+  static const statistics = ClusterField._('STATISTICS');
+  static const tags = ClusterField._('TAGS');
 
   final String value;
 
-  const ClusterField(this.value);
+  const ClusterField._(this.value);
 
-  static ClusterField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterField'));
+  static const values = [
+    attachments,
+    configurations,
+    settings,
+    statistics,
+    tags
+  ];
+
+  static ClusterField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterField._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this parameter to set a default Service Connect namespace. After you set
@@ -6966,49 +7058,76 @@ class ClusterSetting {
   }
 }
 
-enum ClusterSettingName {
-  containerInsights('containerInsights'),
-  ;
+class ClusterSettingName {
+  static const containerInsights = ClusterSettingName._('containerInsights');
 
   final String value;
 
-  const ClusterSettingName(this.value);
+  const ClusterSettingName._(this.value);
 
-  static ClusterSettingName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ClusterSettingName'));
+  static const values = [containerInsights];
+
+  static ClusterSettingName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterSettingName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterSettingName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Compatibility {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  external('EXTERNAL'),
-  ;
+class Compatibility {
+  static const ec2 = Compatibility._('EC2');
+  static const fargate = Compatibility._('FARGATE');
+  static const external = Compatibility._('EXTERNAL');
 
   final String value;
 
-  const Compatibility(this.value);
+  const Compatibility._(this.value);
+
+  static const values = [ec2, fargate, external];
 
   static Compatibility fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Compatibility'));
+          orElse: () => Compatibility._(value));
+
+  @override
+  bool operator ==(other) => other is Compatibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Connectivity {
-  connected('CONNECTED'),
-  disconnected('DISCONNECTED'),
-  ;
+class Connectivity {
+  static const connected = Connectivity._('CONNECTED');
+  static const disconnected = Connectivity._('DISCONNECTED');
 
   final String value;
 
-  const Connectivity(this.value);
+  const Connectivity._(this.value);
 
-  static Connectivity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Connectivity'));
+  static const values = [connected, disconnected];
+
+  static Connectivity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Connectivity._(value));
+
+  @override
+  bool operator ==(other) => other is Connectivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Docker container that's part of a task.
@@ -7162,21 +7281,31 @@ class Container {
   }
 }
 
-enum ContainerCondition {
-  start('START'),
-  complete('COMPLETE'),
-  success('SUCCESS'),
-  healthy('HEALTHY'),
-  ;
+class ContainerCondition {
+  static const start = ContainerCondition._('START');
+  static const complete = ContainerCondition._('COMPLETE');
+  static const success = ContainerCondition._('SUCCESS');
+  static const healthy = ContainerCondition._('HEALTHY');
 
   final String value;
 
-  const ContainerCondition(this.value);
+  const ContainerCondition._(this.value);
 
-  static ContainerCondition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ContainerCondition'));
+  static const values = [start, complete, success, healthy];
+
+  static ContainerCondition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container definitions are used in task definitions to describe the different
@@ -8220,7 +8349,8 @@ class ContainerDependency {
 
   factory ContainerDependency.fromJson(Map<String, dynamic> json) {
     return ContainerDependency(
-      condition: ContainerCondition.fromString((json['condition'] as String)),
+      condition:
+          ContainerCondition.fromString((json['condition'] as String?) ?? ''),
       containerName: (json['containerName'] as String?) ?? '',
     );
   }
@@ -8497,19 +8627,30 @@ class ContainerInstance {
   }
 }
 
-enum ContainerInstanceField {
-  tags('TAGS'),
-  containerInstanceHealth('CONTAINER_INSTANCE_HEALTH'),
-  ;
+class ContainerInstanceField {
+  static const tags = ContainerInstanceField._('TAGS');
+  static const containerInstanceHealth =
+      ContainerInstanceField._('CONTAINER_INSTANCE_HEALTH');
 
   final String value;
 
-  const ContainerInstanceField(this.value);
+  const ContainerInstanceField._(this.value);
+
+  static const values = [tags, containerInstanceHealth];
 
   static ContainerInstanceField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerInstanceField'));
+          orElse: () => ContainerInstanceField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerInstanceField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the health status of the container instance.
@@ -8549,22 +8690,39 @@ class ContainerInstanceHealthStatus {
   }
 }
 
-enum ContainerInstanceStatus {
-  active('ACTIVE'),
-  draining('DRAINING'),
-  registering('REGISTERING'),
-  deregistering('DEREGISTERING'),
-  registrationFailed('REGISTRATION_FAILED'),
-  ;
+class ContainerInstanceStatus {
+  static const active = ContainerInstanceStatus._('ACTIVE');
+  static const draining = ContainerInstanceStatus._('DRAINING');
+  static const registering = ContainerInstanceStatus._('REGISTERING');
+  static const deregistering = ContainerInstanceStatus._('DEREGISTERING');
+  static const registrationFailed =
+      ContainerInstanceStatus._('REGISTRATION_FAILED');
 
   final String value;
 
-  const ContainerInstanceStatus(this.value);
+  const ContainerInstanceStatus._(this.value);
+
+  static const values = [
+    active,
+    draining,
+    registering,
+    deregistering,
+    registrationFailed
+  ];
 
   static ContainerInstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerInstanceStatus'));
+          orElse: () => ContainerInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The overrides that are sent to a container. An empty container override can
@@ -9633,7 +9791,8 @@ class DeploymentController {
 
   factory DeploymentController.fromJson(Map<String, dynamic> json) {
     return DeploymentController(
-      type: DeploymentControllerType.fromString((json['type'] as String)),
+      type:
+          DeploymentControllerType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -9645,20 +9804,30 @@ class DeploymentController {
   }
 }
 
-enum DeploymentControllerType {
-  ecs('ECS'),
-  codeDeploy('CODE_DEPLOY'),
-  external('EXTERNAL'),
-  ;
+class DeploymentControllerType {
+  static const ecs = DeploymentControllerType._('ECS');
+  static const codeDeploy = DeploymentControllerType._('CODE_DEPLOY');
+  static const external = DeploymentControllerType._('EXTERNAL');
 
   final String value;
 
-  const DeploymentControllerType(this.value);
+  const DeploymentControllerType._(this.value);
+
+  static const values = [ecs, codeDeploy, external];
 
   static DeploymentControllerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentControllerType'));
+          orElse: () => DeploymentControllerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentControllerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The amount of ephemeral storage to allocate for the deployment.
@@ -9685,20 +9854,30 @@ class DeploymentEphemeralStorage {
   }
 }
 
-enum DeploymentRolloutState {
-  completed('COMPLETED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class DeploymentRolloutState {
+  static const completed = DeploymentRolloutState._('COMPLETED');
+  static const failed = DeploymentRolloutState._('FAILED');
+  static const inProgress = DeploymentRolloutState._('IN_PROGRESS');
 
   final String value;
 
-  const DeploymentRolloutState(this.value);
+  const DeploymentRolloutState._(this.value);
+
+  static const values = [completed, failed, inProgress];
 
   static DeploymentRolloutState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeploymentRolloutState'));
+          orElse: () => DeploymentRolloutState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentRolloutState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeregisterContainerInstanceResponse {
@@ -10047,20 +10226,29 @@ class DescribeTasksResponse {
   }
 }
 
-enum DesiredStatus {
-  running('RUNNING'),
-  pending('PENDING'),
-  stopped('STOPPED'),
-  ;
+class DesiredStatus {
+  static const running = DesiredStatus._('RUNNING');
+  static const pending = DesiredStatus._('PENDING');
+  static const stopped = DesiredStatus._('STOPPED');
 
   final String value;
 
-  const DesiredStatus(this.value);
+  const DesiredStatus._(this.value);
+
+  static const values = [running, pending, stopped];
 
   static DesiredStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DesiredStatus'));
+          orElse: () => DesiredStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DesiredStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a container instance host device.
@@ -10106,20 +10294,30 @@ class Device {
   }
 }
 
-enum DeviceCgroupPermission {
-  read('read'),
-  write('write'),
-  mknod('mknod'),
-  ;
+class DeviceCgroupPermission {
+  static const read = DeviceCgroupPermission._('read');
+  static const write = DeviceCgroupPermission._('write');
+  static const mknod = DeviceCgroupPermission._('mknod');
 
   final String value;
 
-  const DeviceCgroupPermission(this.value);
+  const DeviceCgroupPermission._(this.value);
+
+  static const values = [read, write, mknod];
 
   static DeviceCgroupPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceCgroupPermission'));
+          orElse: () => DeviceCgroupPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceCgroupPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DiscoverPollEndpointResponse {
@@ -10236,18 +10434,27 @@ class DockerVolumeConfiguration {
   }
 }
 
-enum EBSResourceType {
-  volume('volume'),
-  ;
+class EBSResourceType {
+  static const volume = EBSResourceType._('volume');
 
   final String value;
 
-  const EBSResourceType(this.value);
+  const EBSResourceType._(this.value);
+
+  static const values = [volume];
 
   static EBSResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EBSResourceType'));
+          orElse: () => EBSResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is EBSResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The tag specifications of an Amazon EBS volume.
@@ -10275,7 +10482,7 @@ class EBSTagSpecification {
   factory EBSTagSpecification.fromJson(Map<String, dynamic> json) {
     return EBSTagSpecification(
       resourceType:
-          EBSResourceType.fromString((json['resourceType'] as String)),
+          EBSResourceType.fromString((json['resourceType'] as String?) ?? ''),
       propagateTags:
           (json['propagateTags'] as String?)?.let(PropagateTags.fromString),
       tags: (json['tags'] as List?)
@@ -10342,34 +10549,54 @@ class EFSAuthorizationConfig {
   }
 }
 
-enum EFSAuthorizationConfigIAM {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EFSAuthorizationConfigIAM {
+  static const enabled = EFSAuthorizationConfigIAM._('ENABLED');
+  static const disabled = EFSAuthorizationConfigIAM._('DISABLED');
 
   final String value;
 
-  const EFSAuthorizationConfigIAM(this.value);
+  const EFSAuthorizationConfigIAM._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EFSAuthorizationConfigIAM fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EFSAuthorizationConfigIAM'));
+          orElse: () => EFSAuthorizationConfigIAM._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EFSAuthorizationConfigIAM && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EFSTransitEncryption {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EFSTransitEncryption {
+  static const enabled = EFSTransitEncryption._('ENABLED');
+  static const disabled = EFSTransitEncryption._('DISABLED');
 
   final String value;
 
-  const EFSTransitEncryption(this.value);
+  const EFSTransitEncryption._(this.value);
 
-  static EFSTransitEncryption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EFSTransitEncryption'));
+  static const values = [enabled, disabled];
+
+  static EFSTransitEncryption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EFSTransitEncryption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EFSTransitEncryption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This parameter is specified when you're using an Amazon Elastic File System
@@ -10511,7 +10738,7 @@ class EnvironmentFile {
 
   factory EnvironmentFile.fromJson(Map<String, dynamic> json) {
     return EnvironmentFile(
-      type: EnvironmentFileType.fromString((json['type'] as String)),
+      type: EnvironmentFileType.fromString((json['type'] as String?) ?? ''),
       value: (json['value'] as String?) ?? '',
     );
   }
@@ -10526,18 +10753,28 @@ class EnvironmentFile {
   }
 }
 
-enum EnvironmentFileType {
-  s3('s3'),
-  ;
+class EnvironmentFileType {
+  static const s3 = EnvironmentFileType._('s3');
 
   final String value;
 
-  const EnvironmentFileType(this.value);
+  const EnvironmentFileType._(this.value);
 
-  static EnvironmentFileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EnvironmentFileType'));
+  static const values = [s3];
+
+  static EnvironmentFileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentFileType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentFileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The amount of ephemeral storage to allocate for the task. This parameter is
@@ -10707,20 +10944,30 @@ class ExecuteCommandLogConfiguration {
   }
 }
 
-enum ExecuteCommandLogging {
-  none('NONE'),
-  $default('DEFAULT'),
-  override('OVERRIDE'),
-  ;
+class ExecuteCommandLogging {
+  static const none = ExecuteCommandLogging._('NONE');
+  static const $default = ExecuteCommandLogging._('DEFAULT');
+  static const $override = ExecuteCommandLogging._('OVERRIDE');
 
   final String value;
 
-  const ExecuteCommandLogging(this.value);
+  const ExecuteCommandLogging._(this.value);
 
-  static ExecuteCommandLogging fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecuteCommandLogging'));
+  static const values = [none, $default, $override];
+
+  static ExecuteCommandLogging fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecuteCommandLogging._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecuteCommandLogging && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExecuteCommandResponse {
@@ -10951,7 +11198,8 @@ class FirelensConfiguration {
 
   factory FirelensConfiguration.fromJson(Map<String, dynamic> json) {
     return FirelensConfiguration(
-      type: FirelensConfigurationType.fromString((json['type'] as String)),
+      type:
+          FirelensConfigurationType.fromString((json['type'] as String?) ?? ''),
       options: (json['options'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -10967,19 +11215,29 @@ class FirelensConfiguration {
   }
 }
 
-enum FirelensConfigurationType {
-  fluentd('fluentd'),
-  fluentbit('fluentbit'),
-  ;
+class FirelensConfigurationType {
+  static const fluentd = FirelensConfigurationType._('fluentd');
+  static const fluentbit = FirelensConfigurationType._('fluentbit');
 
   final String value;
 
-  const FirelensConfigurationType(this.value);
+  const FirelensConfigurationType._(this.value);
+
+  static const values = [fluentd, fluentbit];
 
   static FirelensConfigurationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirelensConfigurationType'));
+          orElse: () => FirelensConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirelensConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetTaskProtectionResponse {
@@ -11264,20 +11522,28 @@ class HealthCheck {
   }
 }
 
-enum HealthStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  unknown('UNKNOWN'),
-  ;
+class HealthStatus {
+  static const healthy = HealthStatus._('HEALTHY');
+  static const unhealthy = HealthStatus._('UNHEALTHY');
+  static const unknown = HealthStatus._('UNKNOWN');
 
   final String value;
 
-  const HealthStatus(this.value);
+  const HealthStatus._(this.value);
 
-  static HealthStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthStatus'));
+  static const values = [healthy, unhealthy, unknown];
+
+  static HealthStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Hostnames and IP address entries that are added to the
@@ -11468,50 +11734,81 @@ class InstanceHealthCheckResult {
   }
 }
 
-enum InstanceHealthCheckState {
-  ok('OK'),
-  impaired('IMPAIRED'),
-  insufficientData('INSUFFICIENT_DATA'),
-  initializing('INITIALIZING'),
-  ;
+class InstanceHealthCheckState {
+  static const ok = InstanceHealthCheckState._('OK');
+  static const impaired = InstanceHealthCheckState._('IMPAIRED');
+  static const insufficientData =
+      InstanceHealthCheckState._('INSUFFICIENT_DATA');
+  static const initializing = InstanceHealthCheckState._('INITIALIZING');
 
   final String value;
 
-  const InstanceHealthCheckState(this.value);
+  const InstanceHealthCheckState._(this.value);
+
+  static const values = [ok, impaired, insufficientData, initializing];
 
   static InstanceHealthCheckState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceHealthCheckState'));
+          orElse: () => InstanceHealthCheckState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceHealthCheckState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceHealthCheckType {
-  containerRuntime('CONTAINER_RUNTIME'),
-  ;
+class InstanceHealthCheckType {
+  static const containerRuntime =
+      InstanceHealthCheckType._('CONTAINER_RUNTIME');
 
   final String value;
 
-  const InstanceHealthCheckType(this.value);
+  const InstanceHealthCheckType._(this.value);
+
+  static const values = [containerRuntime];
 
   static InstanceHealthCheckType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceHealthCheckType'));
+          orElse: () => InstanceHealthCheckType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceHealthCheckType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IpcMode {
-  host('host'),
-  task('task'),
-  none('none'),
-  ;
+class IpcMode {
+  static const host = IpcMode._('host');
+  static const task = IpcMode._('task');
+  static const none = IpcMode._('none');
 
   final String value;
 
-  const IpcMode(this.value);
+  const IpcMode._(this.value);
 
-  static IpcMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum IpcMode'));
+  static const values = [host, task, none];
+
+  static IpcMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpcMode._(value));
+
+  @override
+  bool operator ==(other) => other is IpcMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Linux capabilities to add or remove from the default Docker
@@ -11607,19 +11904,28 @@ class KeyValuePair {
   }
 }
 
-enum LaunchType {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  external('EXTERNAL'),
-  ;
+class LaunchType {
+  static const ec2 = LaunchType._('EC2');
+  static const fargate = LaunchType._('FARGATE');
+  static const external = LaunchType._('EXTERNAL');
 
   final String value;
 
-  const LaunchType(this.value);
+  const LaunchType._(this.value);
 
-  static LaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LaunchType'));
+  static const values = [ec2, fargate, external];
+
+  static LaunchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchType._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Linux-specific options that are applied to the container, such as Linux
@@ -12310,7 +12616,7 @@ class LogConfiguration {
 
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
-      logDriver: LogDriver.fromString((json['logDriver'] as String)),
+      logDriver: LogDriver.fromString((json['logDriver'] as String?) ?? ''),
       options: (json['options'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       secretOptions: (json['secretOptions'] as List?)
@@ -12332,24 +12638,42 @@ class LogConfiguration {
   }
 }
 
-enum LogDriver {
-  jsonFile('json-file'),
-  syslog('syslog'),
-  journald('journald'),
-  gelf('gelf'),
-  fluentd('fluentd'),
-  awslogs('awslogs'),
-  splunk('splunk'),
-  awsfirelens('awsfirelens'),
-  ;
+class LogDriver {
+  static const jsonFile = LogDriver._('json-file');
+  static const syslog = LogDriver._('syslog');
+  static const journald = LogDriver._('journald');
+  static const gelf = LogDriver._('gelf');
+  static const fluentd = LogDriver._('fluentd');
+  static const awslogs = LogDriver._('awslogs');
+  static const splunk = LogDriver._('splunk');
+  static const awsfirelens = LogDriver._('awsfirelens');
 
   final String value;
 
-  const LogDriver(this.value);
+  const LogDriver._(this.value);
 
-  static LogDriver fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogDriver'));
+  static const values = [
+    jsonFile,
+    syslog,
+    journald,
+    gelf,
+    fluentd,
+    awslogs,
+    splunk,
+    awsfirelens
+  ];
+
+  static LogDriver fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogDriver._(value));
+
+  @override
+  bool operator ==(other) => other is LogDriver && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the managed agent status for the container.
@@ -12398,18 +12722,27 @@ class ManagedAgent {
   }
 }
 
-enum ManagedAgentName {
-  executeCommandAgent('ExecuteCommandAgent'),
-  ;
+class ManagedAgentName {
+  static const executeCommandAgent = ManagedAgentName._('ExecuteCommandAgent');
 
   final String value;
 
-  const ManagedAgentName(this.value);
+  const ManagedAgentName._(this.value);
+
+  static const values = [executeCommandAgent];
 
   static ManagedAgentName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManagedAgentName'));
+          orElse: () => ManagedAgentName._(value));
+
+  @override
+  bool operator ==(other) => other is ManagedAgentName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a change in state for a managed agent.
@@ -12447,19 +12780,28 @@ class ManagedAgentStateChange {
   }
 }
 
-enum ManagedDraining {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ManagedDraining {
+  static const enabled = ManagedDraining._('ENABLED');
+  static const disabled = ManagedDraining._('DISABLED');
 
   final String value;
 
-  const ManagedDraining(this.value);
+  const ManagedDraining._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ManagedDraining fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManagedDraining'));
+          orElse: () => ManagedDraining._(value));
+
+  @override
+  bool operator ==(other) => other is ManagedDraining && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The managed scaling settings for the Auto Scaling group capacity provider.
@@ -12549,19 +12891,29 @@ class ManagedScaling {
   }
 }
 
-enum ManagedScalingStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ManagedScalingStatus {
+  static const enabled = ManagedScalingStatus._('ENABLED');
+  static const disabled = ManagedScalingStatus._('DISABLED');
 
   final String value;
 
-  const ManagedScalingStatus(this.value);
+  const ManagedScalingStatus._(this.value);
 
-  static ManagedScalingStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ManagedScalingStatus'));
+  static const values = [enabled, disabled];
+
+  static ManagedScalingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManagedScalingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedScalingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The managed storage configuration for the cluster.
@@ -12597,19 +12949,29 @@ class ManagedStorageConfiguration {
   }
 }
 
-enum ManagedTerminationProtection {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ManagedTerminationProtection {
+  static const enabled = ManagedTerminationProtection._('ENABLED');
+  static const disabled = ManagedTerminationProtection._('DISABLED');
 
   final String value;
 
-  const ManagedTerminationProtection(this.value);
+  const ManagedTerminationProtection._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ManagedTerminationProtection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ManagedTerminationProtection'));
+          orElse: () => ManagedTerminationProtection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedTerminationProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for a volume mount point that's used in a container definition.
@@ -12855,54 +13217,90 @@ class NetworkInterface {
   }
 }
 
-enum NetworkMode {
-  bridge('bridge'),
-  host('host'),
-  awsvpc('awsvpc'),
-  none('none'),
-  ;
+class NetworkMode {
+  static const bridge = NetworkMode._('bridge');
+  static const host = NetworkMode._('host');
+  static const awsvpc = NetworkMode._('awsvpc');
+  static const none = NetworkMode._('none');
 
   final String value;
 
-  const NetworkMode(this.value);
+  const NetworkMode._(this.value);
 
-  static NetworkMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum NetworkMode'));
+  static const values = [bridge, host, awsvpc, none];
+
+  static NetworkMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkMode._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OSFamily {
-  windowsServer_2019Full('WINDOWS_SERVER_2019_FULL'),
-  windowsServer_2019Core('WINDOWS_SERVER_2019_CORE'),
-  windowsServer_2016Full('WINDOWS_SERVER_2016_FULL'),
-  windowsServer_2004Core('WINDOWS_SERVER_2004_CORE'),
-  windowsServer_2022Core('WINDOWS_SERVER_2022_CORE'),
-  windowsServer_2022Full('WINDOWS_SERVER_2022_FULL'),
-  windowsServer_20h2Core('WINDOWS_SERVER_20H2_CORE'),
-  linux('LINUX'),
-  ;
+class OSFamily {
+  static const windowsServer_2019Full = OSFamily._('WINDOWS_SERVER_2019_FULL');
+  static const windowsServer_2019Core = OSFamily._('WINDOWS_SERVER_2019_CORE');
+  static const windowsServer_2016Full = OSFamily._('WINDOWS_SERVER_2016_FULL');
+  static const windowsServer_2004Core = OSFamily._('WINDOWS_SERVER_2004_CORE');
+  static const windowsServer_2022Core = OSFamily._('WINDOWS_SERVER_2022_CORE');
+  static const windowsServer_2022Full = OSFamily._('WINDOWS_SERVER_2022_FULL');
+  static const windowsServer_20h2Core = OSFamily._('WINDOWS_SERVER_20H2_CORE');
+  static const linux = OSFamily._('LINUX');
 
   final String value;
 
-  const OSFamily(this.value);
+  const OSFamily._(this.value);
 
-  static OSFamily fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OSFamily'));
+  static const values = [
+    windowsServer_2019Full,
+    windowsServer_2019Core,
+    windowsServer_2016Full,
+    windowsServer_2004Core,
+    windowsServer_2022Core,
+    windowsServer_2022Full,
+    windowsServer_20h2Core,
+    linux
+  ];
+
+  static OSFamily fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OSFamily._(value));
+
+  @override
+  bool operator ==(other) => other is OSFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PidMode {
-  host('host'),
-  task('task'),
-  ;
+class PidMode {
+  static const host = PidMode._('host');
+  static const task = PidMode._('task');
 
   final String value;
 
-  const PidMode(this.value);
+  const PidMode._(this.value);
 
-  static PidMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum PidMode'));
+  static const values = [host, task];
+
+  static PidMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PidMode._(value));
+
+  @override
+  bool operator ==(other) => other is PidMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing a constraint on task placement. For more information,
@@ -12952,19 +13350,29 @@ class PlacementConstraint {
   }
 }
 
-enum PlacementConstraintType {
-  distinctInstance('distinctInstance'),
-  memberOf('memberOf'),
-  ;
+class PlacementConstraintType {
+  static const distinctInstance = PlacementConstraintType._('distinctInstance');
+  static const memberOf = PlacementConstraintType._('memberOf');
 
   final String value;
 
-  const PlacementConstraintType(this.value);
+  const PlacementConstraintType._(this.value);
+
+  static const values = [distinctInstance, memberOf];
 
   static PlacementConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementConstraintType'));
+          orElse: () => PlacementConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The task placement strategy for a task or service. For more information, see
@@ -13015,20 +13423,30 @@ class PlacementStrategy {
   }
 }
 
-enum PlacementStrategyType {
-  random('random'),
-  spread('spread'),
-  binpack('binpack'),
-  ;
+class PlacementStrategyType {
+  static const random = PlacementStrategyType._('random');
+  static const spread = PlacementStrategyType._('spread');
+  static const binpack = PlacementStrategyType._('binpack');
 
   final String value;
 
-  const PlacementStrategyType(this.value);
+  const PlacementStrategyType._(this.value);
 
-  static PlacementStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlacementStrategyType'));
+  static const values = [random, spread, binpack];
+
+  static PlacementStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlacementStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The devices that are available on the container instance. The only supported
@@ -13058,18 +13476,28 @@ class PlatformDevice {
   }
 }
 
-enum PlatformDeviceType {
-  gpu('GPU'),
-  ;
+class PlatformDeviceType {
+  static const gpu = PlatformDeviceType._('GPU');
 
   final String value;
 
-  const PlatformDeviceType(this.value);
+  const PlatformDeviceType._(this.value);
 
-  static PlatformDeviceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlatformDeviceType'));
+  static const values = [gpu];
+
+  static PlatformDeviceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlatformDeviceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlatformDeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Port mappings allow containers to access ports on the host container
@@ -13313,20 +13741,29 @@ class PortMapping {
   }
 }
 
-enum PropagateTags {
-  taskDefinition('TASK_DEFINITION'),
-  service('SERVICE'),
-  none('NONE'),
-  ;
+class PropagateTags {
+  static const taskDefinition = PropagateTags._('TASK_DEFINITION');
+  static const service = PropagateTags._('SERVICE');
+  static const none = PropagateTags._('NONE');
 
   final String value;
 
-  const PropagateTags(this.value);
+  const PropagateTags._(this.value);
+
+  static const values = [taskDefinition, service, none];
 
   static PropagateTags fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropagateTags'));
+          orElse: () => PropagateTags._(value));
+
+  @override
+  bool operator ==(other) => other is PropagateTags && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the protection status details for a task. You can set
@@ -13461,18 +13898,28 @@ class ProxyConfiguration {
   }
 }
 
-enum ProxyConfigurationType {
-  appmesh('APPMESH'),
-  ;
+class ProxyConfigurationType {
+  static const appmesh = ProxyConfigurationType._('APPMESH');
 
   final String value;
 
-  const ProxyConfigurationType(this.value);
+  const ProxyConfigurationType._(this.value);
+
+  static const values = [appmesh];
 
   static ProxyConfigurationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProxyConfigurationType'));
+          orElse: () => ProxyConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProxyConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutAccountSettingDefaultResponse {
@@ -13765,7 +14212,7 @@ class ResourceRequirement {
 
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
-      type: ResourceType.fromString((json['type'] as String)),
+      type: ResourceType.fromString((json['type'] as String?) ?? ''),
       value: (json['value'] as String?) ?? '',
     );
   }
@@ -13780,19 +14227,27 @@ class ResourceRequirement {
   }
 }
 
-enum ResourceType {
-  gpu('GPU'),
-  inferenceAccelerator('InferenceAccelerator'),
-  ;
+class ResourceType {
+  static const gpu = ResourceType._('GPU');
+  static const inferenceAccelerator = ResourceType._('InferenceAccelerator');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [gpu, inferenceAccelerator];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RunTaskResponse {
@@ -13912,46 +14367,74 @@ class Scale {
   }
 }
 
-enum ScaleUnit {
-  percent('PERCENT'),
-  ;
+class ScaleUnit {
+  static const percent = ScaleUnit._('PERCENT');
 
   final String value;
 
-  const ScaleUnit(this.value);
+  const ScaleUnit._(this.value);
 
-  static ScaleUnit fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScaleUnit'));
+  static const values = [percent];
+
+  static ScaleUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScaleUnit._(value));
+
+  @override
+  bool operator ==(other) => other is ScaleUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SchedulingStrategy {
-  replica('REPLICA'),
-  daemon('DAEMON'),
-  ;
+class SchedulingStrategy {
+  static const replica = SchedulingStrategy._('REPLICA');
+  static const daemon = SchedulingStrategy._('DAEMON');
 
   final String value;
 
-  const SchedulingStrategy(this.value);
+  const SchedulingStrategy._(this.value);
 
-  static SchedulingStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SchedulingStrategy'));
+  static const values = [replica, daemon];
+
+  static SchedulingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SchedulingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SchedulingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Scope {
-  task('task'),
-  shared('shared'),
-  ;
+class Scope {
+  static const task = Scope._('task');
+  static const shared = Scope._('shared');
 
   final String value;
 
-  const Scope(this.value);
+  const Scope._(this.value);
+
+  static const values = [task, shared];
 
   static Scope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Scope'));
+      values.firstWhere((e) => e.value == value, orElse: () => Scope._(value));
+
+  @override
+  bool operator ==(other) => other is Scope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the secret to expose to your container. Secrets can
@@ -14810,18 +15293,26 @@ class ServiceEvent {
   }
 }
 
-enum ServiceField {
-  tags('TAGS'),
-  ;
+class ServiceField {
+  static const tags = ServiceField._('TAGS');
 
   final String value;
 
-  const ServiceField(this.value);
+  const ServiceField._(this.value);
 
-  static ServiceField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceField'));
+  static const values = [tags];
+
+  static ServiceField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceField._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Amazon EBS volume that Amazon ECS creates and
@@ -15242,68 +15733,117 @@ class Setting {
   }
 }
 
-enum SettingName {
-  serviceLongArnFormat('serviceLongArnFormat'),
-  taskLongArnFormat('taskLongArnFormat'),
-  containerInstanceLongArnFormat('containerInstanceLongArnFormat'),
-  awsvpcTrunking('awsvpcTrunking'),
-  containerInsights('containerInsights'),
-  fargateFIPSMode('fargateFIPSMode'),
-  tagResourceAuthorization('tagResourceAuthorization'),
-  fargateTaskRetirementWaitPeriod('fargateTaskRetirementWaitPeriod'),
-  guardDutyActivate('guardDutyActivate'),
-  ;
+class SettingName {
+  static const serviceLongArnFormat = SettingName._('serviceLongArnFormat');
+  static const taskLongArnFormat = SettingName._('taskLongArnFormat');
+  static const containerInstanceLongArnFormat =
+      SettingName._('containerInstanceLongArnFormat');
+  static const awsvpcTrunking = SettingName._('awsvpcTrunking');
+  static const containerInsights = SettingName._('containerInsights');
+  static const fargateFIPSMode = SettingName._('fargateFIPSMode');
+  static const tagResourceAuthorization =
+      SettingName._('tagResourceAuthorization');
+  static const fargateTaskRetirementWaitPeriod =
+      SettingName._('fargateTaskRetirementWaitPeriod');
+  static const guardDutyActivate = SettingName._('guardDutyActivate');
 
   final String value;
 
-  const SettingName(this.value);
+  const SettingName._(this.value);
 
-  static SettingName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SettingName'));
+  static const values = [
+    serviceLongArnFormat,
+    taskLongArnFormat,
+    containerInstanceLongArnFormat,
+    awsvpcTrunking,
+    containerInsights,
+    fargateFIPSMode,
+    tagResourceAuthorization,
+    fargateTaskRetirementWaitPeriod,
+    guardDutyActivate
+  ];
+
+  static SettingName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SettingName._(value));
+
+  @override
+  bool operator ==(other) => other is SettingName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SettingType {
-  user('user'),
-  awsManaged('aws_managed'),
-  ;
+class SettingType {
+  static const user = SettingType._('user');
+  static const awsManaged = SettingType._('aws_managed');
 
   final String value;
 
-  const SettingType(this.value);
+  const SettingType._(this.value);
 
-  static SettingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SettingType'));
+  static const values = [user, awsManaged];
+
+  static SettingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SettingType._(value));
+
+  @override
+  bool operator ==(other) => other is SettingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StabilityStatus {
-  steadyState('STEADY_STATE'),
-  stabilizing('STABILIZING'),
-  ;
+class StabilityStatus {
+  static const steadyState = StabilityStatus._('STEADY_STATE');
+  static const stabilizing = StabilityStatus._('STABILIZING');
 
   final String value;
 
-  const StabilityStatus(this.value);
+  const StabilityStatus._(this.value);
+
+  static const values = [steadyState, stabilizing];
 
   static StabilityStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StabilityStatus'));
+          orElse: () => StabilityStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StabilityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartTaskResponse {
@@ -15599,17 +16139,26 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  containerInstance('container-instance'),
-  ;
+class TargetType {
+  static const containerInstance = TargetType._('container-instance');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [containerInstance];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on a task in a cluster.
@@ -16599,34 +17148,54 @@ class TaskDefinition {
   }
 }
 
-enum TaskDefinitionFamilyStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  all('ALL'),
-  ;
+class TaskDefinitionFamilyStatus {
+  static const active = TaskDefinitionFamilyStatus._('ACTIVE');
+  static const inactive = TaskDefinitionFamilyStatus._('INACTIVE');
+  static const all = TaskDefinitionFamilyStatus._('ALL');
 
   final String value;
 
-  const TaskDefinitionFamilyStatus(this.value);
+  const TaskDefinitionFamilyStatus._(this.value);
+
+  static const values = [active, inactive, all];
 
   static TaskDefinitionFamilyStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TaskDefinitionFamilyStatus'));
+          orElse: () => TaskDefinitionFamilyStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskDefinitionFamilyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskDefinitionField {
-  tags('TAGS'),
-  ;
+class TaskDefinitionField {
+  static const tags = TaskDefinitionField._('TAGS');
 
   final String value;
 
-  const TaskDefinitionField(this.value);
+  const TaskDefinitionField._(this.value);
 
-  static TaskDefinitionField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskDefinitionField'));
+  static const values = [tags];
+
+  static TaskDefinitionField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskDefinitionField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskDefinitionField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The constraint on task placement in the task definition. For more
@@ -16673,34 +17242,54 @@ class TaskDefinitionPlacementConstraint {
   }
 }
 
-enum TaskDefinitionPlacementConstraintType {
-  memberOf('memberOf'),
-  ;
+class TaskDefinitionPlacementConstraintType {
+  static const memberOf = TaskDefinitionPlacementConstraintType._('memberOf');
 
   final String value;
 
-  const TaskDefinitionPlacementConstraintType(this.value);
+  const TaskDefinitionPlacementConstraintType._(this.value);
+
+  static const values = [memberOf];
 
   static TaskDefinitionPlacementConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TaskDefinitionPlacementConstraintType'));
+          orElse: () => TaskDefinitionPlacementConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskDefinitionPlacementConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskDefinitionStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  ;
+class TaskDefinitionStatus {
+  static const active = TaskDefinitionStatus._('ACTIVE');
+  static const inactive = TaskDefinitionStatus._('INACTIVE');
+  static const deleteInProgress = TaskDefinitionStatus._('DELETE_IN_PROGRESS');
 
   final String value;
 
-  const TaskDefinitionStatus(this.value);
+  const TaskDefinitionStatus._(this.value);
 
-  static TaskDefinitionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskDefinitionStatus'));
+  static const values = [active, inactive, deleteInProgress];
+
+  static TaskDefinitionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskDefinitionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskDefinitionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The amount of ephemeral storage to allocate for the task.
@@ -16736,33 +17325,52 @@ class TaskEphemeralStorage {
   }
 }
 
-enum TaskField {
-  tags('TAGS'),
-  ;
+class TaskField {
+  static const tags = TaskField._('TAGS');
 
   final String value;
 
-  const TaskField(this.value);
+  const TaskField._(this.value);
 
-  static TaskField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskField'));
+  static const values = [tags];
+
+  static TaskField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskField._(value));
+
+  @override
+  bool operator ==(other) => other is TaskField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskFilesystemType {
-  ext3('ext3'),
-  ext4('ext4'),
-  xfs('xfs'),
-  ;
+class TaskFilesystemType {
+  static const ext3 = TaskFilesystemType._('ext3');
+  static const ext4 = TaskFilesystemType._('ext4');
+  static const xfs = TaskFilesystemType._('xfs');
 
   final String value;
 
-  const TaskFilesystemType(this.value);
+  const TaskFilesystemType._(this.value);
 
-  static TaskFilesystemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskFilesystemType'));
+  static const values = [ext3, ext4, xfs];
+
+  static TaskFilesystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskFilesystemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskFilesystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for the Amazon EBS volume that Amazon ECS creates and
@@ -17413,37 +18021,62 @@ class TaskSet {
   }
 }
 
-enum TaskSetField {
-  tags('TAGS'),
-  ;
+class TaskSetField {
+  static const tags = TaskSetField._('TAGS');
 
   final String value;
 
-  const TaskSetField(this.value);
+  const TaskSetField._(this.value);
 
-  static TaskSetField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TaskSetField'));
+  static const values = [tags];
+
+  static TaskSetField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskSetField._(value));
+
+  @override
+  bool operator ==(other) => other is TaskSetField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TaskStopCode {
-  taskFailedToStart('TaskFailedToStart'),
-  essentialContainerExited('EssentialContainerExited'),
-  userInitiated('UserInitiated'),
-  serviceSchedulerInitiated('ServiceSchedulerInitiated'),
-  spotInterruption('SpotInterruption'),
-  terminationNotice('TerminationNotice'),
-  ;
+class TaskStopCode {
+  static const taskFailedToStart = TaskStopCode._('TaskFailedToStart');
+  static const essentialContainerExited =
+      TaskStopCode._('EssentialContainerExited');
+  static const userInitiated = TaskStopCode._('UserInitiated');
+  static const serviceSchedulerInitiated =
+      TaskStopCode._('ServiceSchedulerInitiated');
+  static const spotInterruption = TaskStopCode._('SpotInterruption');
+  static const terminationNotice = TaskStopCode._('TerminationNotice');
 
   final String value;
 
-  const TaskStopCode(this.value);
+  const TaskStopCode._(this.value);
 
-  static TaskStopCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TaskStopCode'));
+  static const values = [
+    taskFailedToStart,
+    essentialContainerExited,
+    userInitiated,
+    serviceSchedulerInitiated,
+    spotInterruption,
+    terminationNotice
+  ];
+
+  static TaskStopCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStopCode._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStopCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings for the task volume that was
@@ -17571,19 +18204,28 @@ class Tmpfs {
   }
 }
 
-enum TransportProtocol {
-  tcp('tcp'),
-  udp('udp'),
-  ;
+class TransportProtocol {
+  static const tcp = TransportProtocol._('tcp');
+  static const udp = TransportProtocol._('udp');
 
   final String value;
 
-  const TransportProtocol(this.value);
+  const TransportProtocol._(this.value);
+
+  static const values = [tcp, udp];
 
   static TransportProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TransportProtocol'));
+          orElse: () => TransportProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is TransportProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>ulimit</code> settings to pass to the container.
@@ -17616,7 +18258,7 @@ class Ulimit {
   factory Ulimit.fromJson(Map<String, dynamic> json) {
     return Ulimit(
       hardLimit: (json['hardLimit'] as int?) ?? 0,
-      name: UlimitName.fromString((json['name'] as String)),
+      name: UlimitName.fromString((json['name'] as String?) ?? ''),
       softLimit: (json['softLimit'] as int?) ?? 0,
     );
   }
@@ -17633,31 +18275,56 @@ class Ulimit {
   }
 }
 
-enum UlimitName {
-  core('core'),
-  cpu('cpu'),
-  data('data'),
-  fsize('fsize'),
-  locks('locks'),
-  memlock('memlock'),
-  msgqueue('msgqueue'),
-  nice('nice'),
-  nofile('nofile'),
-  nproc('nproc'),
-  rss('rss'),
-  rtprio('rtprio'),
-  rttime('rttime'),
-  sigpending('sigpending'),
-  stack('stack'),
-  ;
+class UlimitName {
+  static const core = UlimitName._('core');
+  static const cpu = UlimitName._('cpu');
+  static const data = UlimitName._('data');
+  static const fsize = UlimitName._('fsize');
+  static const locks = UlimitName._('locks');
+  static const memlock = UlimitName._('memlock');
+  static const msgqueue = UlimitName._('msgqueue');
+  static const nice = UlimitName._('nice');
+  static const nofile = UlimitName._('nofile');
+  static const nproc = UlimitName._('nproc');
+  static const rss = UlimitName._('rss');
+  static const rtprio = UlimitName._('rtprio');
+  static const rttime = UlimitName._('rttime');
+  static const sigpending = UlimitName._('sigpending');
+  static const stack = UlimitName._('stack');
 
   final String value;
 
-  const UlimitName(this.value);
+  const UlimitName._(this.value);
 
-  static UlimitName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UlimitName'));
+  static const values = [
+    core,
+    cpu,
+    data,
+    fsize,
+    locks,
+    memlock,
+    msgqueue,
+    nice,
+    nofile,
+    nproc,
+    rss,
+    rtprio,
+    rttime,
+    sigpending,
+    stack
+  ];
+
+  static UlimitName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UlimitName._(value));
+
+  @override
+  bool operator ==(other) => other is UlimitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {

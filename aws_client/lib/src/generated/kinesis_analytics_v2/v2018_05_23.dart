@@ -2241,8 +2241,8 @@ class ApplicationCodeConfigurationDescription {
   factory ApplicationCodeConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ApplicationCodeConfigurationDescription(
-      codeContentType:
-          CodeContentType.fromString((json['CodeContentType'] as String)),
+      codeContentType: CodeContentType.fromString(
+          (json['CodeContentType'] as String?) ?? ''),
       codeContentDescription: json['CodeContentDescription'] != null
           ? CodeContentDescription.fromJson(
               json['CodeContentDescription'] as Map<String, dynamic>)
@@ -2700,11 +2700,11 @@ class ApplicationDetail {
     return ApplicationDetail(
       applicationARN: (json['ApplicationARN'] as String?) ?? '',
       applicationName: (json['ApplicationName'] as String?) ?? '',
-      applicationStatus:
-          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
       applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
-      runtimeEnvironment:
-          RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
+      runtimeEnvironment: RuntimeEnvironment.fromString(
+          (json['RuntimeEnvironment'] as String?) ?? ''),
       applicationConfigurationDescription:
           json['ApplicationConfigurationDescription'] != null
               ? ApplicationConfigurationDescription.fromJson(
@@ -2859,19 +2859,28 @@ class ApplicationMaintenanceConfigurationUpdate {
   }
 }
 
-enum ApplicationMode {
-  streaming('STREAMING'),
-  interactive('INTERACTIVE'),
-  ;
+class ApplicationMode {
+  static const streaming = ApplicationMode._('STREAMING');
+  static const interactive = ApplicationMode._('INTERACTIVE');
 
   final String value;
 
-  const ApplicationMode(this.value);
+  const ApplicationMode._(this.value);
+
+  static const values = [streaming, interactive];
 
   static ApplicationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationMode'));
+          orElse: () => ApplicationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a description of the operation, such as the type and status of
@@ -2947,8 +2956,8 @@ class ApplicationOperationInfoDetails {
     return ApplicationOperationInfoDetails(
       endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
       operation: (json['Operation'] as String?) ?? '',
-      operationStatus:
-          OperationStatus.fromString((json['OperationStatus'] as String)),
+      operationStatus: OperationStatus.fromString(
+          (json['OperationStatus'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       applicationVersionChangeDetails:
           json['ApplicationVersionChangeDetails'] != null
@@ -3004,7 +3013,7 @@ class ApplicationRestoreConfiguration {
   factory ApplicationRestoreConfiguration.fromJson(Map<String, dynamic> json) {
     return ApplicationRestoreConfiguration(
       applicationRestoreType: ApplicationRestoreType.fromString(
-          (json['ApplicationRestoreType'] as String)),
+          (json['ApplicationRestoreType'] as String?) ?? ''),
       snapshotName: json['SnapshotName'] as String?,
     );
   }
@@ -3019,20 +3028,37 @@ class ApplicationRestoreConfiguration {
   }
 }
 
-enum ApplicationRestoreType {
-  skipRestoreFromSnapshot('SKIP_RESTORE_FROM_SNAPSHOT'),
-  restoreFromLatestSnapshot('RESTORE_FROM_LATEST_SNAPSHOT'),
-  restoreFromCustomSnapshot('RESTORE_FROM_CUSTOM_SNAPSHOT'),
-  ;
+class ApplicationRestoreType {
+  static const skipRestoreFromSnapshot =
+      ApplicationRestoreType._('SKIP_RESTORE_FROM_SNAPSHOT');
+  static const restoreFromLatestSnapshot =
+      ApplicationRestoreType._('RESTORE_FROM_LATEST_SNAPSHOT');
+  static const restoreFromCustomSnapshot =
+      ApplicationRestoreType._('RESTORE_FROM_CUSTOM_SNAPSHOT');
 
   final String value;
 
-  const ApplicationRestoreType(this.value);
+  const ApplicationRestoreType._(this.value);
+
+  static const values = [
+    skipRestoreFromSnapshot,
+    restoreFromLatestSnapshot,
+    restoreFromCustomSnapshot
+  ];
 
   static ApplicationRestoreType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationRestoreType'));
+          orElse: () => ApplicationRestoreType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationRestoreType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes whether snapshots are enabled for a Managed Service for Apache
@@ -3098,28 +3124,49 @@ class ApplicationSnapshotConfigurationUpdate {
   }
 }
 
-enum ApplicationStatus {
-  deleting('DELETING'),
-  starting('STARTING'),
-  stopping('STOPPING'),
-  ready('READY'),
-  running('RUNNING'),
-  updating('UPDATING'),
-  autoscaling('AUTOSCALING'),
-  forceStopping('FORCE_STOPPING'),
-  rollingBack('ROLLING_BACK'),
-  maintenance('MAINTENANCE'),
-  rolledBack('ROLLED_BACK'),
-  ;
+class ApplicationStatus {
+  static const deleting = ApplicationStatus._('DELETING');
+  static const starting = ApplicationStatus._('STARTING');
+  static const stopping = ApplicationStatus._('STOPPING');
+  static const ready = ApplicationStatus._('READY');
+  static const running = ApplicationStatus._('RUNNING');
+  static const updating = ApplicationStatus._('UPDATING');
+  static const autoscaling = ApplicationStatus._('AUTOSCALING');
+  static const forceStopping = ApplicationStatus._('FORCE_STOPPING');
+  static const rollingBack = ApplicationStatus._('ROLLING_BACK');
+  static const maintenance = ApplicationStatus._('MAINTENANCE');
+  static const rolledBack = ApplicationStatus._('ROLLED_BACK');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [
+    deleting,
+    starting,
+    stopping,
+    ready,
+    running,
+    updating,
+    autoscaling,
+    forceStopping,
+    rollingBack,
+    maintenance,
+    rolledBack
+  ];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides application summary information, including the application Amazon
@@ -3158,11 +3205,11 @@ class ApplicationSummary {
     return ApplicationSummary(
       applicationARN: (json['ApplicationARN'] as String?) ?? '',
       applicationName: (json['ApplicationName'] as String?) ?? '',
-      applicationStatus:
-          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
       applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
-      runtimeEnvironment:
-          RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
+      runtimeEnvironment: RuntimeEnvironment.fromString(
+          (json['RuntimeEnvironment'] as String?) ?? ''),
       applicationMode:
           (json['ApplicationMode'] as String?)?.let(ApplicationMode.fromString),
     );
@@ -3300,8 +3347,8 @@ class ApplicationVersionSummary {
 
   factory ApplicationVersionSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationVersionSummary(
-      applicationStatus:
-          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
       applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
     );
   }
@@ -3316,19 +3363,27 @@ class ApplicationVersionSummary {
   }
 }
 
-enum ArtifactType {
-  udf('UDF'),
-  dependencyJar('DEPENDENCY_JAR'),
-  ;
+class ArtifactType {
+  static const udf = ArtifactType._('UDF');
+  static const dependencyJar = ArtifactType._('DEPENDENCY_JAR');
 
   final String value;
 
-  const ArtifactType(this.value);
+  const ArtifactType._(this.value);
 
-  static ArtifactType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactType'));
+  static const values = [udf, dependencyJar];
+
+  static ArtifactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArtifactType._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides additional
@@ -3880,19 +3935,28 @@ class CodeContentDescription {
   }
 }
 
-enum CodeContentType {
-  plaintext('PLAINTEXT'),
-  zipfile('ZIPFILE'),
-  ;
+class CodeContentType {
+  static const plaintext = CodeContentType._('PLAINTEXT');
+  static const zipfile = CodeContentType._('ZIPFILE');
 
   final String value;
 
-  const CodeContentType(this.value);
+  const CodeContentType._(this.value);
+
+  static const values = [plaintext, zipfile];
 
   static CodeContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CodeContentType'));
+          orElse: () => CodeContentType._(value));
+
+  @override
+  bool operator ==(other) => other is CodeContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an update to the code of an application. Not supported for Apache
@@ -3927,19 +3991,28 @@ class CodeContentUpdate {
   }
 }
 
-enum ConfigurationType {
-  $default('DEFAULT'),
-  custom('CUSTOM'),
-  ;
+class ConfigurationType {
+  static const $default = ConfigurationType._('DEFAULT');
+  static const custom = ConfigurationType._('CUSTOM');
 
   final String value;
 
-  const ConfigurationType(this.value);
+  const ConfigurationType._(this.value);
+
+  static const values = [$default, custom];
 
   static ConfigurationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConfigurationType'));
+          orElse: () => ConfigurationType._(value));
+
+  @override
+  bool operator ==(other) => other is ConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApplicationPresignedUrlResponse {
@@ -4479,8 +4552,8 @@ class DestinationSchema {
 
   factory DestinationSchema.fromJson(Map<String, dynamic> json) {
     return DestinationSchema(
-      recordFormatType:
-          RecordFormatType.fromString((json['RecordFormatType'] as String)),
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
     );
   }
 
@@ -5340,20 +5413,30 @@ class InputSchemaUpdate {
   }
 }
 
-enum InputStartingPosition {
-  now('NOW'),
-  trimHorizon('TRIM_HORIZON'),
-  lastStoppedPoint('LAST_STOPPED_POINT'),
-  ;
+class InputStartingPosition {
+  static const now = InputStartingPosition._('NOW');
+  static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
+  static const lastStoppedPoint = InputStartingPosition._('LAST_STOPPED_POINT');
 
   final String value;
 
-  const InputStartingPosition(this.value);
+  const InputStartingPosition._(this.value);
 
-  static InputStartingPosition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InputStartingPosition'));
+  static const values = [now, trimHorizon, lastStoppedPoint];
+
+  static InputStartingPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputStartingPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputStartingPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the point at which the application reads from the streaming
@@ -6060,20 +6143,29 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LogLevel {
-  info('INFO'),
-  warn('WARN'),
-  error('ERROR'),
-  debug('DEBUG'),
-  ;
+class LogLevel {
+  static const info = LogLevel._('INFO');
+  static const warn = LogLevel._('WARN');
+  static const error = LogLevel._('ERROR');
+  static const debug = LogLevel._('DEBUG');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [info, warn, error, debug];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you configure a SQL-based Kinesis Data Analytics application's input at
@@ -6157,21 +6249,29 @@ class MavenReference {
   }
 }
 
-enum MetricsLevel {
-  application('APPLICATION'),
-  task('TASK'),
-  operator('OPERATOR'),
-  parallelism('PARALLELISM'),
-  ;
+class MetricsLevel {
+  static const application = MetricsLevel._('APPLICATION');
+  static const task = MetricsLevel._('TASK');
+  static const operator = MetricsLevel._('OPERATOR');
+  static const parallelism = MetricsLevel._('PARALLELISM');
 
   final String value;
 
-  const MetricsLevel(this.value);
+  const MetricsLevel._(this.value);
 
-  static MetricsLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricsLevel'));
+  static const values = [application, task, operator, parallelism];
+
+  static MetricsLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricsLevel._(value));
+
+  @override
+  bool operator ==(other) => other is MetricsLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes configuration parameters for Amazon CloudWatch logging for an
@@ -6324,21 +6424,30 @@ class OperationFailureDetails {
 }
 
 /// Status of the operation performed on an application
-enum OperationStatus {
-  inProgress('IN_PROGRESS'),
-  cancelled('CANCELLED'),
-  successful('SUCCESSFUL'),
-  failed('FAILED'),
-  ;
+class OperationStatus {
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const cancelled = OperationStatus._('CANCELLED');
+  static const successful = OperationStatus._('SUCCESSFUL');
+  static const failed = OperationStatus._('FAILED');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [inProgress, cancelled, successful, failed];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a SQL-based Kinesis Data Analytics application's output
@@ -6815,8 +6924,8 @@ class RecordFormat {
 
   factory RecordFormat.fromJson(Map<String, dynamic> json) {
     return RecordFormat(
-      recordFormatType:
-          RecordFormatType.fromString((json['RecordFormatType'] as String)),
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
       mappingParameters: json['MappingParameters'] != null
           ? MappingParameters.fromJson(
               json['MappingParameters'] as Map<String, dynamic>)
@@ -6834,19 +6943,28 @@ class RecordFormat {
   }
 }
 
-enum RecordFormatType {
-  json('JSON'),
-  csv('CSV'),
-  ;
+class RecordFormatType {
+  static const json = RecordFormatType._('JSON');
+  static const csv = RecordFormatType._('CSV');
 
   final String value;
 
-  const RecordFormatType(this.value);
+  const RecordFormatType._(this.value);
+
+  static const values = [json, csv];
 
   static RecordFormatType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RecordFormatType'));
+          orElse: () => RecordFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the reference
@@ -7130,29 +7248,52 @@ class RunConfigurationUpdate {
   }
 }
 
-enum RuntimeEnvironment {
-  sql_1_0('SQL-1_0'),
-  flink_1_6('FLINK-1_6'),
-  flink_1_8('FLINK-1_8'),
-  zeppelinFlink_1_0('ZEPPELIN-FLINK-1_0'),
-  flink_1_11('FLINK-1_11'),
-  flink_1_13('FLINK-1_13'),
-  zeppelinFlink_2_0('ZEPPELIN-FLINK-2_0'),
-  flink_1_15('FLINK-1_15'),
-  zeppelinFlink_3_0('ZEPPELIN-FLINK-3_0'),
-  flink_1_18('FLINK-1_18'),
-  flink_1_19('FLINK-1_19'),
-  flink_1_20('FLINK-1_20'),
-  ;
+class RuntimeEnvironment {
+  static const sql_1_0 = RuntimeEnvironment._('SQL-1_0');
+  static const flink_1_6 = RuntimeEnvironment._('FLINK-1_6');
+  static const flink_1_8 = RuntimeEnvironment._('FLINK-1_8');
+  static const zeppelinFlink_1_0 = RuntimeEnvironment._('ZEPPELIN-FLINK-1_0');
+  static const flink_1_11 = RuntimeEnvironment._('FLINK-1_11');
+  static const flink_1_13 = RuntimeEnvironment._('FLINK-1_13');
+  static const zeppelinFlink_2_0 = RuntimeEnvironment._('ZEPPELIN-FLINK-2_0');
+  static const flink_1_15 = RuntimeEnvironment._('FLINK-1_15');
+  static const zeppelinFlink_3_0 = RuntimeEnvironment._('ZEPPELIN-FLINK-3_0');
+  static const flink_1_18 = RuntimeEnvironment._('FLINK-1_18');
+  static const flink_1_19 = RuntimeEnvironment._('FLINK-1_19');
+  static const flink_1_20 = RuntimeEnvironment._('FLINK-1_20');
 
   final String value;
 
-  const RuntimeEnvironment(this.value);
+  const RuntimeEnvironment._(this.value);
 
-  static RuntimeEnvironment fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuntimeEnvironment'));
+  static const values = [
+    sql_1_0,
+    flink_1_6,
+    flink_1_8,
+    zeppelinFlink_1_0,
+    flink_1_11,
+    flink_1_13,
+    zeppelinFlink_2_0,
+    flink_1_15,
+    zeppelinFlink_3_0,
+    flink_1_18,
+    flink_1_19,
+    flink_1_20
+  ];
+
+  static RuntimeEnvironment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuntimeEnvironment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuntimeEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the location of an application's code stored in an S3 bucket.
@@ -7496,7 +7637,7 @@ class SnapshotDetails {
       applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
       snapshotName: (json['SnapshotName'] as String?) ?? '',
       snapshotStatus:
-          SnapshotStatus.fromString((json['SnapshotStatus'] as String)),
+          SnapshotStatus.fromString((json['SnapshotStatus'] as String?) ?? ''),
       runtimeEnvironment: (json['RuntimeEnvironment'] as String?)
           ?.let(RuntimeEnvironment.fromString),
       snapshotCreationTimestamp:
@@ -7523,21 +7664,30 @@ class SnapshotDetails {
   }
 }
 
-enum SnapshotStatus {
-  creating('CREATING'),
-  ready('READY'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class SnapshotStatus {
+  static const creating = SnapshotStatus._('CREATING');
+  static const ready = SnapshotStatus._('READY');
+  static const deleting = SnapshotStatus._('DELETING');
+  static const failed = SnapshotStatus._('FAILED');
 
   final String value;
 
-  const SnapshotStatus(this.value);
+  const SnapshotStatus._(this.value);
+
+  static const values = [creating, ready, deleting, failed];
 
   static SnapshotStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SnapshotStatus'));
+          orElse: () => SnapshotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the format of
@@ -7909,18 +8059,27 @@ class UpdateApplicationResponse {
   }
 }
 
-enum UrlType {
-  flinkDashboardUrl('FLINK_DASHBOARD_URL'),
-  zeppelinUiUrl('ZEPPELIN_UI_URL'),
-  ;
+class UrlType {
+  static const flinkDashboardUrl = UrlType._('FLINK_DASHBOARD_URL');
+  static const zeppelinUiUrl = UrlType._('ZEPPELIN_UI_URL');
 
   final String value;
 
-  const UrlType(this.value);
+  const UrlType._(this.value);
 
-  static UrlType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum UrlType'));
+  static const values = [flinkDashboardUrl, zeppelinUiUrl];
+
+  static UrlType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UrlType._(value));
+
+  @override
+  bool operator ==(other) => other is UrlType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the parameters of a VPC used by the application.

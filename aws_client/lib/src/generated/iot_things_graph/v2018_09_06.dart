@@ -1790,7 +1790,8 @@ class DefinitionDocument {
 
   factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
     return DefinitionDocument(
-      language: DefinitionLanguage.fromString((json['language'] as String)),
+      language:
+          DefinitionLanguage.fromString((json['language'] as String?) ?? ''),
       text: (json['text'] as String?) ?? '',
     );
   }
@@ -1805,18 +1806,28 @@ class DefinitionDocument {
   }
 }
 
-enum DefinitionLanguage {
-  graphql('GRAPHQL'),
-  ;
+class DefinitionLanguage {
+  static const graphql = DefinitionLanguage._('GRAPHQL');
 
   final String value;
 
-  const DefinitionLanguage(this.value);
+  const DefinitionLanguage._(this.value);
 
-  static DefinitionLanguage fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DefinitionLanguage'));
+  static const values = [graphql];
+
+  static DefinitionLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefinitionLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefinitionLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteFlowTemplateResponse {
@@ -1948,19 +1959,28 @@ class DeploySystemInstanceResponse {
   }
 }
 
-enum DeploymentTarget {
-  greengrass('GREENGRASS'),
-  cloud('CLOUD'),
-  ;
+class DeploymentTarget {
+  static const greengrass = DeploymentTarget._('GREENGRASS');
+  static const cloud = DeploymentTarget._('CLOUD');
 
   final String value;
 
-  const DeploymentTarget(this.value);
+  const DeploymentTarget._(this.value);
+
+  static const values = [greengrass, cloud];
 
   static DeploymentTarget fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentTarget'));
+          orElse: () => DeploymentTarget._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeprecateFlowTemplateResponse {
@@ -2137,73 +2157,138 @@ class EntityFilter {
   }
 }
 
-enum EntityFilterName {
-  name('NAME'),
-  namespace('NAMESPACE'),
-  semanticTypePath('SEMANTIC_TYPE_PATH'),
-  referencedEntityId('REFERENCED_ENTITY_ID'),
-  ;
+class EntityFilterName {
+  static const name = EntityFilterName._('NAME');
+  static const namespace = EntityFilterName._('NAMESPACE');
+  static const semanticTypePath = EntityFilterName._('SEMANTIC_TYPE_PATH');
+  static const referencedEntityId = EntityFilterName._('REFERENCED_ENTITY_ID');
 
   final String value;
 
-  const EntityFilterName(this.value);
+  const EntityFilterName._(this.value);
+
+  static const values = [name, namespace, semanticTypePath, referencedEntityId];
 
   static EntityFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntityFilterName'));
+          orElse: () => EntityFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is EntityFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EntityType {
-  device('DEVICE'),
-  service('SERVICE'),
-  deviceModel('DEVICE_MODEL'),
-  capability('CAPABILITY'),
-  state('STATE'),
-  action('ACTION'),
-  event('EVENT'),
-  property('PROPERTY'),
-  mapping('MAPPING'),
-  $enum('ENUM'),
-  ;
+class EntityType {
+  static const device = EntityType._('DEVICE');
+  static const service = EntityType._('SERVICE');
+  static const deviceModel = EntityType._('DEVICE_MODEL');
+  static const capability = EntityType._('CAPABILITY');
+  static const state = EntityType._('STATE');
+  static const action = EntityType._('ACTION');
+  static const event = EntityType._('EVENT');
+  static const property = EntityType._('PROPERTY');
+  static const mapping = EntityType._('MAPPING');
+  static const $enum = EntityType._('ENUM');
 
   final String value;
 
-  const EntityType(this.value);
+  const EntityType._(this.value);
 
-  static EntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntityType'));
+  static const values = [
+    device,
+    service,
+    deviceModel,
+    capability,
+    state,
+    action,
+    event,
+    property,
+    mapping,
+    $enum
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FlowExecutionEventType {
-  executionStarted('EXECUTION_STARTED'),
-  executionFailed('EXECUTION_FAILED'),
-  executionAborted('EXECUTION_ABORTED'),
-  executionSucceeded('EXECUTION_SUCCEEDED'),
-  stepStarted('STEP_STARTED'),
-  stepFailed('STEP_FAILED'),
-  stepSucceeded('STEP_SUCCEEDED'),
-  activityScheduled('ACTIVITY_SCHEDULED'),
-  activityStarted('ACTIVITY_STARTED'),
-  activityFailed('ACTIVITY_FAILED'),
-  activitySucceeded('ACTIVITY_SUCCEEDED'),
-  startFlowExecutionTask('START_FLOW_EXECUTION_TASK'),
-  scheduleNextReadyStepsTask('SCHEDULE_NEXT_READY_STEPS_TASK'),
-  thingActionTask('THING_ACTION_TASK'),
-  thingActionTaskFailed('THING_ACTION_TASK_FAILED'),
-  thingActionTaskSucceeded('THING_ACTION_TASK_SUCCEEDED'),
-  acknowledgeTaskMessage('ACKNOWLEDGE_TASK_MESSAGE'),
-  ;
+class FlowExecutionEventType {
+  static const executionStarted = FlowExecutionEventType._('EXECUTION_STARTED');
+  static const executionFailed = FlowExecutionEventType._('EXECUTION_FAILED');
+  static const executionAborted = FlowExecutionEventType._('EXECUTION_ABORTED');
+  static const executionSucceeded =
+      FlowExecutionEventType._('EXECUTION_SUCCEEDED');
+  static const stepStarted = FlowExecutionEventType._('STEP_STARTED');
+  static const stepFailed = FlowExecutionEventType._('STEP_FAILED');
+  static const stepSucceeded = FlowExecutionEventType._('STEP_SUCCEEDED');
+  static const activityScheduled =
+      FlowExecutionEventType._('ACTIVITY_SCHEDULED');
+  static const activityStarted = FlowExecutionEventType._('ACTIVITY_STARTED');
+  static const activityFailed = FlowExecutionEventType._('ACTIVITY_FAILED');
+  static const activitySucceeded =
+      FlowExecutionEventType._('ACTIVITY_SUCCEEDED');
+  static const startFlowExecutionTask =
+      FlowExecutionEventType._('START_FLOW_EXECUTION_TASK');
+  static const scheduleNextReadyStepsTask =
+      FlowExecutionEventType._('SCHEDULE_NEXT_READY_STEPS_TASK');
+  static const thingActionTask = FlowExecutionEventType._('THING_ACTION_TASK');
+  static const thingActionTaskFailed =
+      FlowExecutionEventType._('THING_ACTION_TASK_FAILED');
+  static const thingActionTaskSucceeded =
+      FlowExecutionEventType._('THING_ACTION_TASK_SUCCEEDED');
+  static const acknowledgeTaskMessage =
+      FlowExecutionEventType._('ACKNOWLEDGE_TASK_MESSAGE');
 
   final String value;
 
-  const FlowExecutionEventType(this.value);
+  const FlowExecutionEventType._(this.value);
+
+  static const values = [
+    executionStarted,
+    executionFailed,
+    executionAborted,
+    executionSucceeded,
+    stepStarted,
+    stepFailed,
+    stepSucceeded,
+    activityScheduled,
+    activityStarted,
+    activityFailed,
+    activitySucceeded,
+    startFlowExecutionTask,
+    scheduleNextReadyStepsTask,
+    thingActionTask,
+    thingActionTaskFailed,
+    thingActionTaskSucceeded,
+    acknowledgeTaskMessage
+  ];
 
   static FlowExecutionEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlowExecutionEventType'));
+          orElse: () => FlowExecutionEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowExecutionEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about a flow event.
@@ -2251,21 +2336,31 @@ class FlowExecutionMessage {
   }
 }
 
-enum FlowExecutionStatus {
-  running('RUNNING'),
-  aborted('ABORTED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class FlowExecutionStatus {
+  static const running = FlowExecutionStatus._('RUNNING');
+  static const aborted = FlowExecutionStatus._('ABORTED');
+  static const succeeded = FlowExecutionStatus._('SUCCEEDED');
+  static const failed = FlowExecutionStatus._('FAILED');
 
   final String value;
 
-  const FlowExecutionStatus(this.value);
+  const FlowExecutionStatus._(this.value);
 
-  static FlowExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FlowExecutionStatus'));
+  static const values = [running, aborted, succeeded, failed];
+
+  static FlowExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains summary information about a flow execution.
@@ -2395,18 +2490,28 @@ class FlowTemplateFilter {
   }
 }
 
-enum FlowTemplateFilterName {
-  deviceModelId('DEVICE_MODEL_ID'),
-  ;
+class FlowTemplateFilterName {
+  static const deviceModelId = FlowTemplateFilterName._('DEVICE_MODEL_ID');
 
   final String value;
 
-  const FlowTemplateFilterName(this.value);
+  const FlowTemplateFilterName._(this.value);
+
+  static const values = [deviceModelId];
 
   static FlowTemplateFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlowTemplateFilterName'));
+          orElse: () => FlowTemplateFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowTemplateFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains summary information about a workflow.
@@ -2712,7 +2817,8 @@ class GetUploadStatusResponse {
     return GetUploadStatusResponse(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       uploadId: (json['uploadId'] as String?) ?? '',
-      uploadStatus: UploadStatus.fromString((json['uploadStatus'] as String)),
+      uploadStatus:
+          UploadStatus.fromString((json['uploadStatus'] as String?) ?? ''),
       failureReason: (json['failureReason'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2841,34 +2947,55 @@ class MetricsConfiguration {
   }
 }
 
-enum NamespaceDeletionStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class NamespaceDeletionStatus {
+  static const inProgress = NamespaceDeletionStatus._('IN_PROGRESS');
+  static const succeeded = NamespaceDeletionStatus._('SUCCEEDED');
+  static const failed = NamespaceDeletionStatus._('FAILED');
 
   final String value;
 
-  const NamespaceDeletionStatus(this.value);
+  const NamespaceDeletionStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static NamespaceDeletionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NamespaceDeletionStatus'));
+          orElse: () => NamespaceDeletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceDeletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NamespaceDeletionStatusErrorCodes {
-  validationFailed('VALIDATION_FAILED'),
-  ;
+class NamespaceDeletionStatusErrorCodes {
+  static const validationFailed =
+      NamespaceDeletionStatusErrorCodes._('VALIDATION_FAILED');
 
   final String value;
 
-  const NamespaceDeletionStatusErrorCodes(this.value);
+  const NamespaceDeletionStatusErrorCodes._(this.value);
+
+  static const values = [validationFailed];
 
   static NamespaceDeletionStatusErrorCodes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NamespaceDeletionStatusErrorCodes'));
+          orElse: () => NamespaceDeletionStatusErrorCodes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceDeletionStatusErrorCodes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchEntitiesResponse {
@@ -3073,25 +3200,49 @@ class SearchThingsResponse {
   }
 }
 
-enum SystemInstanceDeploymentStatus {
-  notDeployed('NOT_DEPLOYED'),
-  bootstrap('BOOTSTRAP'),
-  deployInProgress('DEPLOY_IN_PROGRESS'),
-  deployedInTarget('DEPLOYED_IN_TARGET'),
-  undeployInProgress('UNDEPLOY_IN_PROGRESS'),
-  failed('FAILED'),
-  pendingDelete('PENDING_DELETE'),
-  deletedInTarget('DELETED_IN_TARGET'),
-  ;
+class SystemInstanceDeploymentStatus {
+  static const notDeployed = SystemInstanceDeploymentStatus._('NOT_DEPLOYED');
+  static const bootstrap = SystemInstanceDeploymentStatus._('BOOTSTRAP');
+  static const deployInProgress =
+      SystemInstanceDeploymentStatus._('DEPLOY_IN_PROGRESS');
+  static const deployedInTarget =
+      SystemInstanceDeploymentStatus._('DEPLOYED_IN_TARGET');
+  static const undeployInProgress =
+      SystemInstanceDeploymentStatus._('UNDEPLOY_IN_PROGRESS');
+  static const failed = SystemInstanceDeploymentStatus._('FAILED');
+  static const pendingDelete =
+      SystemInstanceDeploymentStatus._('PENDING_DELETE');
+  static const deletedInTarget =
+      SystemInstanceDeploymentStatus._('DELETED_IN_TARGET');
 
   final String value;
 
-  const SystemInstanceDeploymentStatus(this.value);
+  const SystemInstanceDeploymentStatus._(this.value);
+
+  static const values = [
+    notDeployed,
+    bootstrap,
+    deployInProgress,
+    deployedInTarget,
+    undeployInProgress,
+    failed,
+    pendingDelete,
+    deletedInTarget
+  ];
 
   static SystemInstanceDeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SystemInstanceDeploymentStatus'));
+          orElse: () => SystemInstanceDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemInstanceDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains a system instance definition and summary
@@ -3206,20 +3357,32 @@ class SystemInstanceFilter {
   }
 }
 
-enum SystemInstanceFilterName {
-  systemTemplateId('SYSTEM_TEMPLATE_ID'),
-  status('STATUS'),
-  greengrassGroupName('GREENGRASS_GROUP_NAME'),
-  ;
+class SystemInstanceFilterName {
+  static const systemTemplateId =
+      SystemInstanceFilterName._('SYSTEM_TEMPLATE_ID');
+  static const status = SystemInstanceFilterName._('STATUS');
+  static const greengrassGroupName =
+      SystemInstanceFilterName._('GREENGRASS_GROUP_NAME');
 
   final String value;
 
-  const SystemInstanceFilterName(this.value);
+  const SystemInstanceFilterName._(this.value);
+
+  static const values = [systemTemplateId, status, greengrassGroupName];
 
   static SystemInstanceFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SystemInstanceFilterName'));
+          orElse: () => SystemInstanceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemInstanceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains summary information about a system instance.
@@ -3374,18 +3537,28 @@ class SystemTemplateFilter {
   }
 }
 
-enum SystemTemplateFilterName {
-  flowTemplateId('FLOW_TEMPLATE_ID'),
-  ;
+class SystemTemplateFilterName {
+  static const flowTemplateId = SystemTemplateFilterName._('FLOW_TEMPLATE_ID');
 
   final String value;
 
-  const SystemTemplateFilterName(this.value);
+  const SystemTemplateFilterName._(this.value);
+
+  static const values = [flowTemplateId];
 
   static SystemTemplateFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SystemTemplateFilterName'));
+          orElse: () => SystemTemplateFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemTemplateFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about a system.
@@ -3618,20 +3791,28 @@ class UploadEntityDefinitionsResponse {
   }
 }
 
-enum UploadStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class UploadStatus {
+  static const inProgress = UploadStatus._('IN_PROGRESS');
+  static const succeeded = UploadStatus._('SUCCEEDED');
+  static const failed = UploadStatus._('FAILED');
 
   final String value;
 
-  const UploadStatus(this.value);
+  const UploadStatus._(this.value);
 
-  static UploadStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UploadStatus'));
+  static const values = [inProgress, succeeded, failed];
+
+  static UploadStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UploadStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalFailureException extends _s.GenericAwsException {

@@ -1115,7 +1115,8 @@ class CalendarInterval {
   factory CalendarInterval.fromJson(Map<String, dynamic> json) {
     return CalendarInterval(
       duration: (json['Duration'] as int?) ?? 0,
-      durationUnit: DurationUnit.fromString((json['DurationUnit'] as String)),
+      durationUnit:
+          DurationUnit.fromString((json['DurationUnit'] as String?) ?? ''),
       startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
     );
   }
@@ -1210,36 +1211,53 @@ class Dimension {
   }
 }
 
-enum DurationUnit {
-  minute('MINUTE'),
-  hour('HOUR'),
-  day('DAY'),
-  month('MONTH'),
-  ;
+class DurationUnit {
+  static const minute = DurationUnit._('MINUTE');
+  static const hour = DurationUnit._('HOUR');
+  static const day = DurationUnit._('DAY');
+  static const month = DurationUnit._('MONTH');
 
   final String value;
 
-  const DurationUnit(this.value);
+  const DurationUnit._(this.value);
 
-  static DurationUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DurationUnit'));
+  static const values = [minute, hour, day, month];
+
+  static DurationUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DurationUnit._(value));
+
+  @override
+  bool operator ==(other) => other is DurationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EvaluationType {
-  periodBased('PeriodBased'),
-  requestBased('RequestBased'),
-  ;
+class EvaluationType {
+  static const periodBased = EvaluationType._('PeriodBased');
+  static const requestBased = EvaluationType._('RequestBased');
 
   final String value;
 
-  const EvaluationType(this.value);
+  const EvaluationType._(this.value);
+
+  static const values = [periodBased, requestBased];
 
   static EvaluationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationType'));
+          orElse: () => EvaluationType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetServiceLevelObjectiveOutput {
@@ -2364,7 +2382,8 @@ class RollingInterval {
   factory RollingInterval.fromJson(Map<String, dynamic> json) {
     return RollingInterval(
       duration: (json['Duration'] as int?) ?? 0,
-      durationUnit: DurationUnit.fromString((json['DurationUnit'] as String)),
+      durationUnit:
+          DurationUnit.fromString((json['DurationUnit'] as String?) ?? ''),
     );
   }
 
@@ -2732,7 +2751,7 @@ class ServiceLevelIndicator {
   factory ServiceLevelIndicator.fromJson(Map<String, dynamic> json) {
     return ServiceLevelIndicator(
       comparisonOperator: ServiceLevelIndicatorComparisonOperator.fromString(
-          (json['ComparisonOperator'] as String)),
+          (json['ComparisonOperator'] as String?) ?? ''),
       metricThreshold: (json['MetricThreshold'] as double?) ?? 0,
       sliMetric: ServiceLevelIndicatorMetric.fromJson(
           (json['SliMetric'] as Map<String, dynamic>?) ??
@@ -2752,21 +2771,39 @@ class ServiceLevelIndicator {
   }
 }
 
-enum ServiceLevelIndicatorComparisonOperator {
-  greaterThanOrEqualTo('GreaterThanOrEqualTo'),
-  greaterThan('GreaterThan'),
-  lessThan('LessThan'),
-  lessThanOrEqualTo('LessThanOrEqualTo'),
-  ;
+class ServiceLevelIndicatorComparisonOperator {
+  static const greaterThanOrEqualTo =
+      ServiceLevelIndicatorComparisonOperator._('GreaterThanOrEqualTo');
+  static const greaterThan =
+      ServiceLevelIndicatorComparisonOperator._('GreaterThan');
+  static const lessThan = ServiceLevelIndicatorComparisonOperator._('LessThan');
+  static const lessThanOrEqualTo =
+      ServiceLevelIndicatorComparisonOperator._('LessThanOrEqualTo');
 
   final String value;
 
-  const ServiceLevelIndicatorComparisonOperator(this.value);
+  const ServiceLevelIndicatorComparisonOperator._(this.value);
+
+  static const values = [
+    greaterThanOrEqualTo,
+    greaterThan,
+    lessThan,
+    lessThanOrEqualTo
+  ];
 
   static ServiceLevelIndicatorComparisonOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceLevelIndicatorComparisonOperator'));
+          orElse: () => ServiceLevelIndicatorComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceLevelIndicatorComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure specifies the information about the service and the
@@ -2973,19 +3010,29 @@ class ServiceLevelIndicatorMetricConfig {
   }
 }
 
-enum ServiceLevelIndicatorMetricType {
-  latency('LATENCY'),
-  availability('AVAILABILITY'),
-  ;
+class ServiceLevelIndicatorMetricType {
+  static const latency = ServiceLevelIndicatorMetricType._('LATENCY');
+  static const availability = ServiceLevelIndicatorMetricType._('AVAILABILITY');
 
   final String value;
 
-  const ServiceLevelIndicatorMetricType(this.value);
+  const ServiceLevelIndicatorMetricType._(this.value);
+
+  static const values = [latency, availability];
 
   static ServiceLevelIndicatorMetricType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceLevelIndicatorMetricType'));
+          orElse: () => ServiceLevelIndicatorMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceLevelIndicatorMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing information about one service level objective (SLO)
@@ -3192,7 +3239,7 @@ class ServiceLevelObjectiveBudgetReport {
     return ServiceLevelObjectiveBudgetReport(
       arn: (json['Arn'] as String?) ?? '',
       budgetStatus: ServiceLevelObjectiveBudgetStatus.fromString(
-          (json['BudgetStatus'] as String)),
+          (json['BudgetStatus'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
       attainment: json['Attainment'] as double?,
       budgetRequestsRemaining: json['BudgetRequestsRemaining'] as int?,
@@ -3294,21 +3341,32 @@ class ServiceLevelObjectiveBudgetReportError {
   }
 }
 
-enum ServiceLevelObjectiveBudgetStatus {
-  ok('OK'),
-  warning('WARNING'),
-  breached('BREACHED'),
-  insufficientData('INSUFFICIENT_DATA'),
-  ;
+class ServiceLevelObjectiveBudgetStatus {
+  static const ok = ServiceLevelObjectiveBudgetStatus._('OK');
+  static const warning = ServiceLevelObjectiveBudgetStatus._('WARNING');
+  static const breached = ServiceLevelObjectiveBudgetStatus._('BREACHED');
+  static const insufficientData =
+      ServiceLevelObjectiveBudgetStatus._('INSUFFICIENT_DATA');
 
   final String value;
 
-  const ServiceLevelObjectiveBudgetStatus(this.value);
+  const ServiceLevelObjectiveBudgetStatus._(this.value);
+
+  static const values = [ok, warning, breached, insufficientData];
 
   static ServiceLevelObjectiveBudgetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceLevelObjectiveBudgetStatus'));
+          orElse: () => ServiceLevelObjectiveBudgetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceLevelObjectiveBudgetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains information about one service level objective
@@ -3575,44 +3633,80 @@ class ServiceSummary {
   }
 }
 
-enum StandardUnit {
-  microseconds('Microseconds'),
-  milliseconds('Milliseconds'),
-  seconds('Seconds'),
-  bytes('Bytes'),
-  kilobytes('Kilobytes'),
-  megabytes('Megabytes'),
-  gigabytes('Gigabytes'),
-  terabytes('Terabytes'),
-  bits('Bits'),
-  kilobits('Kilobits'),
-  megabits('Megabits'),
-  gigabits('Gigabits'),
-  terabits('Terabits'),
-  percent('Percent'),
-  count('Count'),
-  bytesSecond('Bytes/Second'),
-  kilobytesSecond('Kilobytes/Second'),
-  megabytesSecond('Megabytes/Second'),
-  gigabytesSecond('Gigabytes/Second'),
-  terabytesSecond('Terabytes/Second'),
-  bitsSecond('Bits/Second'),
-  kilobitsSecond('Kilobits/Second'),
-  megabitsSecond('Megabits/Second'),
-  gigabitsSecond('Gigabits/Second'),
-  terabitsSecond('Terabits/Second'),
-  countSecond('Count/Second'),
-  none('None'),
-  ;
+class StandardUnit {
+  static const microseconds = StandardUnit._('Microseconds');
+  static const milliseconds = StandardUnit._('Milliseconds');
+  static const seconds = StandardUnit._('Seconds');
+  static const bytes = StandardUnit._('Bytes');
+  static const kilobytes = StandardUnit._('Kilobytes');
+  static const megabytes = StandardUnit._('Megabytes');
+  static const gigabytes = StandardUnit._('Gigabytes');
+  static const terabytes = StandardUnit._('Terabytes');
+  static const bits = StandardUnit._('Bits');
+  static const kilobits = StandardUnit._('Kilobits');
+  static const megabits = StandardUnit._('Megabits');
+  static const gigabits = StandardUnit._('Gigabits');
+  static const terabits = StandardUnit._('Terabits');
+  static const percent = StandardUnit._('Percent');
+  static const count = StandardUnit._('Count');
+  static const bytesSecond = StandardUnit._('Bytes/Second');
+  static const kilobytesSecond = StandardUnit._('Kilobytes/Second');
+  static const megabytesSecond = StandardUnit._('Megabytes/Second');
+  static const gigabytesSecond = StandardUnit._('Gigabytes/Second');
+  static const terabytesSecond = StandardUnit._('Terabytes/Second');
+  static const bitsSecond = StandardUnit._('Bits/Second');
+  static const kilobitsSecond = StandardUnit._('Kilobits/Second');
+  static const megabitsSecond = StandardUnit._('Megabits/Second');
+  static const gigabitsSecond = StandardUnit._('Gigabits/Second');
+  static const terabitsSecond = StandardUnit._('Terabits/Second');
+  static const countSecond = StandardUnit._('Count/Second');
+  static const none = StandardUnit._('None');
 
   final String value;
 
-  const StandardUnit(this.value);
+  const StandardUnit._(this.value);
 
-  static StandardUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StandardUnit'));
+  static const values = [
+    microseconds,
+    milliseconds,
+    seconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    count,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond,
+    none
+  ];
+
+  static StandardUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StandardUnit._(value));
+
+  @override
+  bool operator ==(other) => other is StandardUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartDiscoveryOutput {

@@ -1986,19 +1986,29 @@ class BatchEvaluateFeatureResponse {
   }
 }
 
-enum ChangeDirectionEnum {
-  increase('INCREASE'),
-  decrease('DECREASE'),
-  ;
+class ChangeDirectionEnum {
+  static const increase = ChangeDirectionEnum._('INCREASE');
+  static const decrease = ChangeDirectionEnum._('DECREASE');
 
   final String value;
 
-  const ChangeDirectionEnum(this.value);
+  const ChangeDirectionEnum._(this.value);
 
-  static ChangeDirectionEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ChangeDirectionEnum'));
+  static const values = [increase, decrease];
+
+  static ChangeDirectionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChangeDirectionEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChangeDirectionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing the CloudWatch Logs log group where the project
@@ -2455,18 +2465,27 @@ class Event {
   }
 }
 
-enum EventType {
-  awsEvidentlyEvaluation('aws.evidently.evaluation'),
-  awsEvidentlyCustom('aws.evidently.custom'),
-  ;
+class EventType {
+  static const awsEvidentlyEvaluation = EventType._('aws.evidently.evaluation');
+  static const awsEvidentlyCustom = EventType._('aws.evidently.custom');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [awsEvidentlyEvaluation, awsEvidentlyCustom];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure containing the configuration details of an experiment.
@@ -2572,8 +2591,8 @@ class Experiment {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ExperimentStatus.fromString((json['status'] as String)),
-      type: ExperimentType.fromString((json['type'] as String)),
+      status: ExperimentStatus.fromString((json['status'] as String?) ?? ''),
+      type: ExperimentType.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
       execution: json['execution'] != null
           ? ExperimentExecution.fromJson(
@@ -2647,18 +2666,28 @@ class Experiment {
   }
 }
 
-enum ExperimentBaseStat {
-  mean('Mean'),
-  ;
+class ExperimentBaseStat {
+  static const mean = ExperimentBaseStat._('Mean');
 
   final String value;
 
-  const ExperimentBaseStat(this.value);
+  const ExperimentBaseStat._(this.value);
 
-  static ExperimentBaseStat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExperimentBaseStat'));
+  static const values = [mean];
+
+  static ExperimentBaseStat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentBaseStat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentBaseStat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure contains the date and time that the experiment started and
@@ -2739,53 +2768,94 @@ class ExperimentReport {
   }
 }
 
-enum ExperimentReportName {
-  bayesianInference('BayesianInference'),
-  ;
+class ExperimentReportName {
+  static const bayesianInference = ExperimentReportName._('BayesianInference');
 
   final String value;
 
-  const ExperimentReportName(this.value);
+  const ExperimentReportName._(this.value);
 
-  static ExperimentReportName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExperimentReportName'));
+  static const values = [bayesianInference];
+
+  static ExperimentReportName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentReportName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentReportName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExperimentResultRequestType {
-  baseStat('BaseStat'),
-  treatmentEffect('TreatmentEffect'),
-  confidenceInterval('ConfidenceInterval'),
-  pValue('PValue'),
-  ;
+class ExperimentResultRequestType {
+  static const baseStat = ExperimentResultRequestType._('BaseStat');
+  static const treatmentEffect =
+      ExperimentResultRequestType._('TreatmentEffect');
+  static const confidenceInterval =
+      ExperimentResultRequestType._('ConfidenceInterval');
+  static const pValue = ExperimentResultRequestType._('PValue');
 
   final String value;
 
-  const ExperimentResultRequestType(this.value);
+  const ExperimentResultRequestType._(this.value);
+
+  static const values = [baseStat, treatmentEffect, confidenceInterval, pValue];
 
   static ExperimentResultRequestType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExperimentResultRequestType'));
+          orElse: () => ExperimentResultRequestType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentResultRequestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExperimentResultResponseType {
-  mean('Mean'),
-  treatmentEffect('TreatmentEffect'),
-  confidenceIntervalUpperBound('ConfidenceIntervalUpperBound'),
-  confidenceIntervalLowerBound('ConfidenceIntervalLowerBound'),
-  pValue('PValue'),
-  ;
+class ExperimentResultResponseType {
+  static const mean = ExperimentResultResponseType._('Mean');
+  static const treatmentEffect =
+      ExperimentResultResponseType._('TreatmentEffect');
+  static const confidenceIntervalUpperBound =
+      ExperimentResultResponseType._('ConfidenceIntervalUpperBound');
+  static const confidenceIntervalLowerBound =
+      ExperimentResultResponseType._('ConfidenceIntervalLowerBound');
+  static const pValue = ExperimentResultResponseType._('PValue');
 
   final String value;
 
-  const ExperimentResultResponseType(this.value);
+  const ExperimentResultResponseType._(this.value);
+
+  static const values = [
+    mean,
+    treatmentEffect,
+    confidenceIntervalUpperBound,
+    confidenceIntervalLowerBound,
+    pValue
+  ];
 
   static ExperimentResultResponseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExperimentResultResponseType'));
+          orElse: () => ExperimentResultResponseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentResultResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains experiment results for one metric that is
@@ -2862,51 +2932,80 @@ class ExperimentSchedule {
   }
 }
 
-enum ExperimentStatus {
-  created('CREATED'),
-  updating('UPDATING'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class ExperimentStatus {
+  static const created = ExperimentStatus._('CREATED');
+  static const updating = ExperimentStatus._('UPDATING');
+  static const running = ExperimentStatus._('RUNNING');
+  static const completed = ExperimentStatus._('COMPLETED');
+  static const cancelled = ExperimentStatus._('CANCELLED');
 
   final String value;
 
-  const ExperimentStatus(this.value);
+  const ExperimentStatus._(this.value);
+
+  static const values = [created, updating, running, completed, cancelled];
 
   static ExperimentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExperimentStatus'));
+          orElse: () => ExperimentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExperimentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExperimentStopDesiredState {
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class ExperimentStopDesiredState {
+  static const completed = ExperimentStopDesiredState._('COMPLETED');
+  static const cancelled = ExperimentStopDesiredState._('CANCELLED');
 
   final String value;
 
-  const ExperimentStopDesiredState(this.value);
+  const ExperimentStopDesiredState._(this.value);
+
+  static const values = [completed, cancelled];
 
   static ExperimentStopDesiredState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExperimentStopDesiredState'));
+          orElse: () => ExperimentStopDesiredState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentStopDesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExperimentType {
-  awsEvidentlyOnlineab('aws.evidently.onlineab'),
-  ;
+class ExperimentType {
+  static const awsEvidentlyOnlineab =
+      ExperimentType._('aws.evidently.onlineab');
 
   final String value;
 
-  const ExperimentType(this.value);
+  const ExperimentType._(this.value);
+
+  static const values = [awsEvidentlyOnlineab];
 
   static ExperimentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExperimentType'));
+          orElse: () => ExperimentType._(value));
+
+  @override
+  bool operator ==(other) => other is ExperimentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure contains information about one Evidently feature in your
@@ -2998,12 +3097,13 @@ class Feature {
       arn: (json['arn'] as String?) ?? '',
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       evaluationStrategy: FeatureEvaluationStrategy.fromString(
-          (json['evaluationStrategy'] as String)),
+          (json['evaluationStrategy'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: FeatureStatus.fromString((json['status'] as String)),
-      valueType: VariationValueType.fromString((json['valueType'] as String)),
+      status: FeatureStatus.fromString((json['status'] as String?) ?? ''),
+      valueType:
+          VariationValueType.fromString((json['valueType'] as String?) ?? ''),
       variations: ((json['variations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Variation.fromJson(e as Map<String, dynamic>))
@@ -3056,34 +3156,54 @@ class Feature {
   }
 }
 
-enum FeatureEvaluationStrategy {
-  allRules('ALL_RULES'),
-  defaultVariation('DEFAULT_VARIATION'),
-  ;
+class FeatureEvaluationStrategy {
+  static const allRules = FeatureEvaluationStrategy._('ALL_RULES');
+  static const defaultVariation =
+      FeatureEvaluationStrategy._('DEFAULT_VARIATION');
 
   final String value;
 
-  const FeatureEvaluationStrategy(this.value);
+  const FeatureEvaluationStrategy._(this.value);
+
+  static const values = [allRules, defaultVariation];
 
   static FeatureEvaluationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FeatureEvaluationStrategy'));
+          orElse: () => FeatureEvaluationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeatureEvaluationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeatureStatus {
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  ;
+class FeatureStatus {
+  static const available = FeatureStatus._('AVAILABLE');
+  static const updating = FeatureStatus._('UPDATING');
 
   final String value;
 
-  const FeatureStatus(this.value);
+  const FeatureStatus._(this.value);
+
+  static const values = [available, updating];
 
   static FeatureStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeatureStatus'));
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure contains information about one Evidently feature in your
@@ -3142,11 +3262,11 @@ class FeatureSummary {
       arn: (json['arn'] as String?) ?? '',
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       evaluationStrategy: FeatureEvaluationStrategy.fromString(
-          (json['evaluationStrategy'] as String)),
+          (json['evaluationStrategy'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: FeatureStatus.fromString((json['status'] as String)),
+      status: FeatureStatus.fromString((json['status'] as String?) ?? ''),
       defaultVariation: json['defaultVariation'] as String?,
       evaluationRules: (json['evaluationRules'] as List?)
           ?.nonNulls
@@ -3438,8 +3558,8 @@ class Launch {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: LaunchStatus.fromString((json['status'] as String)),
-      type: LaunchType.fromString((json['type'] as String)),
+      status: LaunchStatus.fromString((json['status'] as String?) ?? ''),
+      type: LaunchType.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
       execution: json['execution'] != null
           ? LaunchExecution.fromJson(json['execution'] as Map<String, dynamic>)
@@ -3609,50 +3729,77 @@ class LaunchGroupConfig {
   }
 }
 
-enum LaunchStatus {
-  created('CREATED'),
-  updating('UPDATING'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class LaunchStatus {
+  static const created = LaunchStatus._('CREATED');
+  static const updating = LaunchStatus._('UPDATING');
+  static const running = LaunchStatus._('RUNNING');
+  static const completed = LaunchStatus._('COMPLETED');
+  static const cancelled = LaunchStatus._('CANCELLED');
 
   final String value;
 
-  const LaunchStatus(this.value);
+  const LaunchStatus._(this.value);
 
-  static LaunchStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LaunchStatus'));
+  static const values = [created, updating, running, completed, cancelled];
+
+  static LaunchStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchStopDesiredState {
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class LaunchStopDesiredState {
+  static const completed = LaunchStopDesiredState._('COMPLETED');
+  static const cancelled = LaunchStopDesiredState._('CANCELLED');
 
   final String value;
 
-  const LaunchStopDesiredState(this.value);
+  const LaunchStopDesiredState._(this.value);
+
+  static const values = [completed, cancelled];
 
   static LaunchStopDesiredState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LaunchStopDesiredState'));
+          orElse: () => LaunchStopDesiredState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LaunchStopDesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LaunchType {
-  awsEvidentlySplits('aws.evidently.splits'),
-  ;
+class LaunchType {
+  static const awsEvidentlySplits = LaunchType._('aws.evidently.splits');
 
   final String value;
 
-  const LaunchType(this.value);
+  const LaunchType._(this.value);
 
-  static LaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LaunchType'));
+  static const values = [awsEvidentlySplits];
+
+  static LaunchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchType._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListExperimentsResponse {
@@ -4243,7 +4390,7 @@ class Project {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ProjectStatus.fromString((json['status'] as String)),
+      status: ProjectStatus.fromString((json['status'] as String?) ?? ''),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
       appConfigResource: json['appConfigResource'] != null
@@ -4437,19 +4584,28 @@ class ProjectDataDeliveryConfig {
   }
 }
 
-enum ProjectStatus {
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  ;
+class ProjectStatus {
+  static const available = ProjectStatus._('AVAILABLE');
+  static const updating = ProjectStatus._('UPDATING');
 
   final String value;
 
-  const ProjectStatus(this.value);
+  const ProjectStatus._(this.value);
+
+  static const values = [available, updating];
 
   static ProjectStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProjectStatus'));
+          orElse: () => ProjectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains configuration information about an Evidently
@@ -4514,7 +4670,7 @@ class ProjectSummary {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: ProjectStatus.fromString((json['status'] as String)),
+      status: ProjectStatus.fromString((json['status'] as String?) ?? ''),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
       description: json['description'] as String?,
@@ -5049,19 +5205,29 @@ class SegmentOverride {
   }
 }
 
-enum SegmentReferenceResourceType {
-  experiment('EXPERIMENT'),
-  launch('LAUNCH'),
-  ;
+class SegmentReferenceResourceType {
+  static const experiment = SegmentReferenceResourceType._('EXPERIMENT');
+  static const launch = SegmentReferenceResourceType._('LAUNCH');
 
   final String value;
 
-  const SegmentReferenceResourceType(this.value);
+  const SegmentReferenceResourceType._(this.value);
+
+  static const values = [experiment, launch];
 
   static SegmentReferenceResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SegmentReferenceResourceType'));
+          orElse: () => SegmentReferenceResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentReferenceResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartExperimentResponse {
@@ -5502,21 +5668,31 @@ class VariationConfig {
   }
 }
 
-enum VariationValueType {
-  string('STRING'),
-  long('LONG'),
-  double('DOUBLE'),
-  boolean('BOOLEAN'),
-  ;
+class VariationValueType {
+  static const string = VariationValueType._('STRING');
+  static const long = VariationValueType._('LONG');
+  static const $double = VariationValueType._('DOUBLE');
+  static const boolean = VariationValueType._('BOOLEAN');
 
   final String value;
 
-  const VariationValueType(this.value);
+  const VariationValueType._(this.value);
 
-  static VariationValueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VariationValueType'));
+  static const values = [string, long, $double, boolean];
+
+  static VariationValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VariationValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VariationValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

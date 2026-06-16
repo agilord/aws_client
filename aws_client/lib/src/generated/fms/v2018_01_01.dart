@@ -1931,22 +1931,31 @@ class Fms {
   }
 }
 
-enum AccountRoleStatus {
-  ready('READY'),
-  creating('CREATING'),
-  pendingDeletion('PENDING_DELETION'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class AccountRoleStatus {
+  static const ready = AccountRoleStatus._('READY');
+  static const creating = AccountRoleStatus._('CREATING');
+  static const pendingDeletion = AccountRoleStatus._('PENDING_DELETION');
+  static const deleting = AccountRoleStatus._('DELETING');
+  static const deleted = AccountRoleStatus._('DELETED');
 
   final String value;
 
-  const AccountRoleStatus(this.value);
+  const AccountRoleStatus._(this.value);
+
+  static const values = [ready, creating, pendingDeletion, deleting, deleted];
 
   static AccountRoleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountRoleStatus'));
+          orElse: () => AccountRoleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccountRoleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures the accounts within the administrator's Organizations
@@ -2740,34 +2749,54 @@ class CreateNetworkAclEntriesAction {
   }
 }
 
-enum CustomerPolicyScopeIdType {
-  account('ACCOUNT'),
-  orgUnit('ORG_UNIT'),
-  ;
+class CustomerPolicyScopeIdType {
+  static const account = CustomerPolicyScopeIdType._('ACCOUNT');
+  static const orgUnit = CustomerPolicyScopeIdType._('ORG_UNIT');
 
   final String value;
 
-  const CustomerPolicyScopeIdType(this.value);
+  const CustomerPolicyScopeIdType._(this.value);
+
+  static const values = [account, orgUnit];
 
   static CustomerPolicyScopeIdType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomerPolicyScopeIdType'));
+          orElse: () => CustomerPolicyScopeIdType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerPolicyScopeIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CustomerPolicyStatus {
-  active('ACTIVE'),
-  outOfAdminScope('OUT_OF_ADMIN_SCOPE'),
-  ;
+class CustomerPolicyStatus {
+  static const active = CustomerPolicyStatus._('ACTIVE');
+  static const outOfAdminScope = CustomerPolicyStatus._('OUT_OF_ADMIN_SCOPE');
 
   final String value;
 
-  const CustomerPolicyStatus(this.value);
+  const CustomerPolicyStatus._(this.value);
 
-  static CustomerPolicyStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CustomerPolicyStatus'));
+  static const values = [active, outOfAdminScope];
+
+  static CustomerPolicyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerPolicyStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerPolicyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the <code>DeleteNetworkAclEntries</code> action in Amazon
@@ -2825,37 +2854,56 @@ class DeleteNetworkAclEntriesAction {
   }
 }
 
-enum DependentServiceName {
-  awsconfig('AWSCONFIG'),
-  awswaf('AWSWAF'),
-  awsshieldAdvanced('AWSSHIELD_ADVANCED'),
-  awsvpc('AWSVPC'),
-  ;
+class DependentServiceName {
+  static const awsconfig = DependentServiceName._('AWSCONFIG');
+  static const awswaf = DependentServiceName._('AWSWAF');
+  static const awsshieldAdvanced = DependentServiceName._('AWSSHIELD_ADVANCED');
+  static const awsvpc = DependentServiceName._('AWSVPC');
 
   final String value;
 
-  const DependentServiceName(this.value);
+  const DependentServiceName._(this.value);
 
-  static DependentServiceName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DependentServiceName'));
+  static const values = [awsconfig, awswaf, awsshieldAdvanced, awsvpc];
+
+  static DependentServiceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DependentServiceName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DependentServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DestinationType {
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  prefixList('PREFIX_LIST'),
-  ;
+class DestinationType {
+  static const ipv4 = DestinationType._('IPV4');
+  static const ipv6 = DestinationType._('IPV6');
+  static const prefixList = DestinationType._('PREFIX_LIST');
 
   final String value;
 
-  const DestinationType(this.value);
+  const DestinationType._(this.value);
+
+  static const values = [ipv4, ipv6, prefixList];
 
   static DestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DestinationType'));
+          orElse: () => DestinationType._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateThirdPartyFirewallResponse {
@@ -3504,19 +3552,32 @@ class EntryDescription {
   }
 }
 
-enum EntryType {
-  fmsManagedFirstEntry('FMS_MANAGED_FIRST_ENTRY'),
-  fmsManagedLastEntry('FMS_MANAGED_LAST_ENTRY'),
-  customEntry('CUSTOM_ENTRY'),
-  ;
+class EntryType {
+  static const fmsManagedFirstEntry = EntryType._('FMS_MANAGED_FIRST_ENTRY');
+  static const fmsManagedLastEntry = EntryType._('FMS_MANAGED_LAST_ENTRY');
+  static const customEntry = EntryType._('CUSTOM_ENTRY');
 
   final String value;
 
-  const EntryType(this.value);
+  const EntryType._(this.value);
 
-  static EntryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EntryType'));
+  static const values = [
+    fmsManagedFirstEntry,
+    fmsManagedLastEntry,
+    customEntry
+  ];
+
+  static EntryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntryType._(value));
+
+  @override
+  bool operator ==(other) => other is EntryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Detailed information about an entry violation in a network ACL. The
@@ -3605,20 +3666,36 @@ class EntryViolation {
   }
 }
 
-enum EntryViolationReason {
-  missingExpectedEntry('MISSING_EXPECTED_ENTRY'),
-  incorrectEntryOrder('INCORRECT_ENTRY_ORDER'),
-  entryConflict('ENTRY_CONFLICT'),
-  ;
+class EntryViolationReason {
+  static const missingExpectedEntry =
+      EntryViolationReason._('MISSING_EXPECTED_ENTRY');
+  static const incorrectEntryOrder =
+      EntryViolationReason._('INCORRECT_ENTRY_ORDER');
+  static const entryConflict = EntryViolationReason._('ENTRY_CONFLICT');
 
   final String value;
 
-  const EntryViolationReason(this.value);
+  const EntryViolationReason._(this.value);
 
-  static EntryViolationReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EntryViolationReason'));
+  static const values = [
+    missingExpectedEntry,
+    incorrectEntryOrder,
+    entryConflict
+  ];
+
+  static EntryViolationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EntryViolationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EntryViolationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the compliance status for the account. An account is considered
@@ -3803,38 +3880,65 @@ class FailedItem {
   }
 }
 
-enum FailedItemReason {
-  notValidArn('NOT_VALID_ARN'),
-  notValidPartition('NOT_VALID_PARTITION'),
-  notValidRegion('NOT_VALID_REGION'),
-  notValidService('NOT_VALID_SERVICE'),
-  notValidResourceType('NOT_VALID_RESOURCE_TYPE'),
-  notValidAccountId('NOT_VALID_ACCOUNT_ID'),
-  ;
+class FailedItemReason {
+  static const notValidArn = FailedItemReason._('NOT_VALID_ARN');
+  static const notValidPartition = FailedItemReason._('NOT_VALID_PARTITION');
+  static const notValidRegion = FailedItemReason._('NOT_VALID_REGION');
+  static const notValidService = FailedItemReason._('NOT_VALID_SERVICE');
+  static const notValidResourceType =
+      FailedItemReason._('NOT_VALID_RESOURCE_TYPE');
+  static const notValidAccountId = FailedItemReason._('NOT_VALID_ACCOUNT_ID');
 
   final String value;
 
-  const FailedItemReason(this.value);
+  const FailedItemReason._(this.value);
+
+  static const values = [
+    notValidArn,
+    notValidPartition,
+    notValidRegion,
+    notValidService,
+    notValidResourceType,
+    notValidAccountId
+  ];
 
   static FailedItemReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailedItemReason'));
+          orElse: () => FailedItemReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailedItemReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FirewallDeploymentModel {
-  centralized('CENTRALIZED'),
-  distributed('DISTRIBUTED'),
-  ;
+class FirewallDeploymentModel {
+  static const centralized = FirewallDeploymentModel._('CENTRALIZED');
+  static const distributed = FirewallDeploymentModel._('DISTRIBUTED');
 
   final String value;
 
-  const FirewallDeploymentModel(this.value);
+  const FirewallDeploymentModel._(this.value);
+
+  static const values = [centralized, distributed];
 
   static FirewallDeploymentModel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallDeploymentModel'));
+          orElse: () => FirewallDeploymentModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallDeploymentModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the firewall subnet that violates the policy scope.
@@ -4879,20 +4983,32 @@ class ListThirdPartyFirewallFirewallPoliciesResponse {
   }
 }
 
-enum MarketplaceSubscriptionOnboardingStatus {
-  noSubscription('NO_SUBSCRIPTION'),
-  notComplete('NOT_COMPLETE'),
-  complete('COMPLETE'),
-  ;
+class MarketplaceSubscriptionOnboardingStatus {
+  static const noSubscription =
+      MarketplaceSubscriptionOnboardingStatus._('NO_SUBSCRIPTION');
+  static const notComplete =
+      MarketplaceSubscriptionOnboardingStatus._('NOT_COMPLETE');
+  static const complete = MarketplaceSubscriptionOnboardingStatus._('COMPLETE');
 
   final String value;
 
-  const MarketplaceSubscriptionOnboardingStatus(this.value);
+  const MarketplaceSubscriptionOnboardingStatus._(this.value);
+
+  static const values = [noSubscription, notComplete, complete];
 
   static MarketplaceSubscriptionOnboardingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MarketplaceSubscriptionOnboardingStatus'));
+          orElse: () => MarketplaceSubscriptionOnboardingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MarketplaceSubscriptionOnboardingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a Firewall Manager network ACL policy. This is used in the
@@ -4980,8 +5096,8 @@ class NetworkAclEntry {
     return NetworkAclEntry(
       egress: (json['Egress'] as bool?) ?? false,
       protocol: (json['Protocol'] as String?) ?? '',
-      ruleAction:
-          NetworkAclRuleAction.fromString((json['RuleAction'] as String)),
+      ruleAction: NetworkAclRuleAction.fromString(
+          (json['RuleAction'] as String?) ?? ''),
       cidrBlock: json['CidrBlock'] as String?,
       icmpTypeCode: json['IcmpTypeCode'] != null
           ? NetworkAclIcmpTypeCode.fromJson(
@@ -5160,19 +5276,29 @@ class NetworkAclPortRange {
   }
 }
 
-enum NetworkAclRuleAction {
-  allow('allow'),
-  deny('deny'),
-  ;
+class NetworkAclRuleAction {
+  static const allow = NetworkAclRuleAction._('allow');
+  static const deny = NetworkAclRuleAction._('deny');
 
   final String value;
 
-  const NetworkAclRuleAction(this.value);
+  const NetworkAclRuleAction._(this.value);
 
-  static NetworkAclRuleAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NetworkAclRuleAction'));
+  static const values = [allow, deny];
+
+  static NetworkAclRuleAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkAclRuleAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkAclRuleAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Violation detail for an internet gateway route with an inactive state in the
@@ -5738,18 +5864,28 @@ class NetworkFirewallMissingSubnetViolation {
   }
 }
 
-enum NetworkFirewallOverrideAction {
-  dropToAlert('DROP_TO_ALERT'),
-  ;
+class NetworkFirewallOverrideAction {
+  static const dropToAlert = NetworkFirewallOverrideAction._('DROP_TO_ALERT');
 
   final String value;
 
-  const NetworkFirewallOverrideAction(this.value);
+  const NetworkFirewallOverrideAction._(this.value);
+
+  static const values = [dropToAlert];
 
   static NetworkFirewallOverrideAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NetworkFirewallOverrideAction'));
+          orElse: () => NetworkFirewallOverrideAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkFirewallOverrideAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures the firewall policy deployment model of Network Firewall. For
@@ -6084,21 +6220,37 @@ class NetworkFirewallUnexpectedGatewayRoutesViolation {
   }
 }
 
-enum OrganizationStatus {
-  onboarding('ONBOARDING'),
-  onboardingComplete('ONBOARDING_COMPLETE'),
-  offboarding('OFFBOARDING'),
-  offboardingComplete('OFFBOARDING_COMPLETE'),
-  ;
+class OrganizationStatus {
+  static const onboarding = OrganizationStatus._('ONBOARDING');
+  static const onboardingComplete = OrganizationStatus._('ONBOARDING_COMPLETE');
+  static const offboarding = OrganizationStatus._('OFFBOARDING');
+  static const offboardingComplete =
+      OrganizationStatus._('OFFBOARDING_COMPLETE');
 
   final String value;
 
-  const OrganizationStatus(this.value);
+  const OrganizationStatus._(this.value);
 
-  static OrganizationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OrganizationStatus'));
+  static const values = [
+    onboarding,
+    onboardingComplete,
+    offboarding,
+    offboardingComplete
+  ];
+
+  static OrganizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the Organizations organizational units (OUs) that the specified
@@ -6637,19 +6789,29 @@ class PolicyComplianceStatus {
   }
 }
 
-enum PolicyComplianceStatusType {
-  compliant('COMPLIANT'),
-  nonCompliant('NON_COMPLIANT'),
-  ;
+class PolicyComplianceStatusType {
+  static const compliant = PolicyComplianceStatusType._('COMPLIANT');
+  static const nonCompliant = PolicyComplianceStatusType._('NON_COMPLIANT');
 
   final String value;
 
-  const PolicyComplianceStatusType(this.value);
+  const PolicyComplianceStatusType._(this.value);
+
+  static const values = [compliant, nonCompliant];
 
   static PolicyComplianceStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PolicyComplianceStatusType'));
+          orElse: () => PolicyComplianceStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyComplianceStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the settings to configure a network ACL policy, a Network Firewall
@@ -7382,19 +7544,29 @@ class RemediationAction {
   }
 }
 
-enum RemediationActionType {
-  remove('REMOVE'),
-  modify('MODIFY'),
-  ;
+class RemediationActionType {
+  static const remove = RemediationActionType._('REMOVE');
+  static const modify = RemediationActionType._('MODIFY');
 
   final String value;
 
-  const RemediationActionType(this.value);
+  const RemediationActionType._(this.value);
 
-  static RemediationActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RemediationActionType'));
+  static const values = [remove, modify];
+
+  static RemediationActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An ordered list of actions you can take to remediate a violation.
@@ -7619,19 +7791,28 @@ class ResourceSet {
   }
 }
 
-enum ResourceSetStatus {
-  active('ACTIVE'),
-  outOfAdminScope('OUT_OF_ADMIN_SCOPE'),
-  ;
+class ResourceSetStatus {
+  static const active = ResourceSetStatus._('ACTIVE');
+  static const outOfAdminScope = ResourceSetStatus._('OUT_OF_ADMIN_SCOPE');
 
   final String value;
 
-  const ResourceSetStatus(this.value);
+  const ResourceSetStatus._(this.value);
+
+  static const values = [active, outOfAdminScope];
 
   static ResourceSetStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceSetStatus'));
+          orElse: () => ResourceSetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summarizes the resource sets used in a policy.
@@ -8310,18 +8491,27 @@ class RouteHasOutOfScopeEndpointViolation {
   }
 }
 
-enum RuleOrder {
-  strictOrder('STRICT_ORDER'),
-  defaultActionOrder('DEFAULT_ACTION_ORDER'),
-  ;
+class RuleOrder {
+  static const strictOrder = RuleOrder._('STRICT_ORDER');
+  static const defaultActionOrder = RuleOrder._('DEFAULT_ACTION_ORDER');
 
   final String value;
 
-  const RuleOrder(this.value);
+  const RuleOrder._(this.value);
 
-  static RuleOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleOrder'));
+  static const values = [strictOrder, defaultActionOrder];
+
+  static RuleOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleOrder._(value));
+
+  @override
+  bool operator ==(other) => other is RuleOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Remediation option for the rule specified in the
@@ -8806,7 +8996,7 @@ class SecurityServicePolicyData {
 
   factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) {
     return SecurityServicePolicyData(
-      type: SecurityServiceType.fromString((json['Type'] as String)),
+      type: SecurityServiceType.fromString((json['Type'] as String?) ?? ''),
       managedServiceData: json['ManagedServiceData'] as String?,
       policyOption: json['PolicyOption'] != null
           ? PolicyOption.fromJson(json['PolicyOption'] as Map<String, dynamic>)
@@ -8826,28 +9016,55 @@ class SecurityServicePolicyData {
   }
 }
 
-enum SecurityServiceType {
-  waf('WAF'),
-  wafv2('WAFV2'),
-  shieldAdvanced('SHIELD_ADVANCED'),
-  securityGroupsCommon('SECURITY_GROUPS_COMMON'),
-  securityGroupsContentAudit('SECURITY_GROUPS_CONTENT_AUDIT'),
-  securityGroupsUsageAudit('SECURITY_GROUPS_USAGE_AUDIT'),
-  networkFirewall('NETWORK_FIREWALL'),
-  dnsFirewall('DNS_FIREWALL'),
-  thirdPartyFirewall('THIRD_PARTY_FIREWALL'),
-  importNetworkFirewall('IMPORT_NETWORK_FIREWALL'),
-  networkAclCommon('NETWORK_ACL_COMMON'),
-  ;
+class SecurityServiceType {
+  static const waf = SecurityServiceType._('WAF');
+  static const wafv2 = SecurityServiceType._('WAFV2');
+  static const shieldAdvanced = SecurityServiceType._('SHIELD_ADVANCED');
+  static const securityGroupsCommon =
+      SecurityServiceType._('SECURITY_GROUPS_COMMON');
+  static const securityGroupsContentAudit =
+      SecurityServiceType._('SECURITY_GROUPS_CONTENT_AUDIT');
+  static const securityGroupsUsageAudit =
+      SecurityServiceType._('SECURITY_GROUPS_USAGE_AUDIT');
+  static const networkFirewall = SecurityServiceType._('NETWORK_FIREWALL');
+  static const dnsFirewall = SecurityServiceType._('DNS_FIREWALL');
+  static const thirdPartyFirewall =
+      SecurityServiceType._('THIRD_PARTY_FIREWALL');
+  static const importNetworkFirewall =
+      SecurityServiceType._('IMPORT_NETWORK_FIREWALL');
+  static const networkAclCommon = SecurityServiceType._('NETWORK_ACL_COMMON');
 
   final String value;
 
-  const SecurityServiceType(this.value);
+  const SecurityServiceType._(this.value);
 
-  static SecurityServiceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SecurityServiceType'));
+  static const values = [
+    waf,
+    wafv2,
+    shieldAdvanced,
+    securityGroupsCommon,
+    securityGroupsContentAudit,
+    securityGroupsUsageAudit,
+    networkFirewall,
+    dnsFirewall,
+    thirdPartyFirewall,
+    importNetworkFirewall,
+    networkAclCommon
+  ];
+
+  static SecurityServiceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityServiceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration settings for the handling of the stateful rule groups in a
@@ -9027,21 +9244,31 @@ class StatelessRuleGroup {
   }
 }
 
-enum StreamExceptionPolicy {
-  drop('DROP'),
-  $continue('CONTINUE'),
-  reject('REJECT'),
-  fmsIgnore('FMS_IGNORE'),
-  ;
+class StreamExceptionPolicy {
+  static const drop = StreamExceptionPolicy._('DROP');
+  static const $continue = StreamExceptionPolicy._('CONTINUE');
+  static const reject = StreamExceptionPolicy._('REJECT');
+  static const fmsIgnore = StreamExceptionPolicy._('FMS_IGNORE');
 
   final String value;
 
-  const StreamExceptionPolicy(this.value);
+  const StreamExceptionPolicy._(this.value);
 
-  static StreamExceptionPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StreamExceptionPolicy'));
+  static const values = [drop, $continue, reject, fmsIgnore];
+
+  static StreamExceptionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamExceptionPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamExceptionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A collection of key:value pairs associated with an Amazon Web Services
@@ -9095,59 +9322,114 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  gateway('GATEWAY'),
-  carrierGateway('CARRIER_GATEWAY'),
-  instance('INSTANCE'),
-  localGateway('LOCAL_GATEWAY'),
-  natGateway('NAT_GATEWAY'),
-  networkInterface('NETWORK_INTERFACE'),
-  vpcEndpoint('VPC_ENDPOINT'),
-  vpcPeeringConnection('VPC_PEERING_CONNECTION'),
-  egressOnlyInternetGateway('EGRESS_ONLY_INTERNET_GATEWAY'),
-  transitGateway('TRANSIT_GATEWAY'),
-  ;
+class TargetType {
+  static const gateway = TargetType._('GATEWAY');
+  static const carrierGateway = TargetType._('CARRIER_GATEWAY');
+  static const instance = TargetType._('INSTANCE');
+  static const localGateway = TargetType._('LOCAL_GATEWAY');
+  static const natGateway = TargetType._('NAT_GATEWAY');
+  static const networkInterface = TargetType._('NETWORK_INTERFACE');
+  static const vpcEndpoint = TargetType._('VPC_ENDPOINT');
+  static const vpcPeeringConnection = TargetType._('VPC_PEERING_CONNECTION');
+  static const egressOnlyInternetGateway =
+      TargetType._('EGRESS_ONLY_INTERNET_GATEWAY');
+  static const transitGateway = TargetType._('TRANSIT_GATEWAY');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [
+    gateway,
+    carrierGateway,
+    instance,
+    localGateway,
+    natGateway,
+    networkInterface,
+    vpcEndpoint,
+    vpcPeeringConnection,
+    egressOnlyInternetGateway,
+    transitGateway
+  ];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThirdPartyFirewall {
-  paloAltoNetworksCloudNgfw('PALO_ALTO_NETWORKS_CLOUD_NGFW'),
-  fortigateCloudNativeFirewall('FORTIGATE_CLOUD_NATIVE_FIREWALL'),
-  ;
+class ThirdPartyFirewall {
+  static const paloAltoNetworksCloudNgfw =
+      ThirdPartyFirewall._('PALO_ALTO_NETWORKS_CLOUD_NGFW');
+  static const fortigateCloudNativeFirewall =
+      ThirdPartyFirewall._('FORTIGATE_CLOUD_NATIVE_FIREWALL');
 
   final String value;
 
-  const ThirdPartyFirewall(this.value);
+  const ThirdPartyFirewall._(this.value);
 
-  static ThirdPartyFirewall fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ThirdPartyFirewall'));
+  static const values = [
+    paloAltoNetworksCloudNgfw,
+    fortigateCloudNativeFirewall
+  ];
+
+  static ThirdPartyFirewall fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThirdPartyFirewall._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThirdPartyFirewall && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThirdPartyFirewallAssociationStatus {
-  onboarding('ONBOARDING'),
-  onboardComplete('ONBOARD_COMPLETE'),
-  offboarding('OFFBOARDING'),
-  offboardComplete('OFFBOARD_COMPLETE'),
-  notExist('NOT_EXIST'),
-  ;
+class ThirdPartyFirewallAssociationStatus {
+  static const onboarding = ThirdPartyFirewallAssociationStatus._('ONBOARDING');
+  static const onboardComplete =
+      ThirdPartyFirewallAssociationStatus._('ONBOARD_COMPLETE');
+  static const offboarding =
+      ThirdPartyFirewallAssociationStatus._('OFFBOARDING');
+  static const offboardComplete =
+      ThirdPartyFirewallAssociationStatus._('OFFBOARD_COMPLETE');
+  static const notExist = ThirdPartyFirewallAssociationStatus._('NOT_EXIST');
 
   final String value;
 
-  const ThirdPartyFirewallAssociationStatus(this.value);
+  const ThirdPartyFirewallAssociationStatus._(this.value);
+
+  static const values = [
+    onboarding,
+    onboardComplete,
+    offboarding,
+    offboardComplete,
+    notExist
+  ];
 
   static ThirdPartyFirewallAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ThirdPartyFirewallAssociationStatus'));
+          orElse: () => ThirdPartyFirewallAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ThirdPartyFirewallAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures the third-party firewall's firewall policy.
@@ -9446,49 +9728,112 @@ class ViolationDetail {
   }
 }
 
-enum ViolationReason {
-  webAclMissingRuleGroup('WEB_ACL_MISSING_RULE_GROUP'),
-  resourceMissingWebAcl('RESOURCE_MISSING_WEB_ACL'),
-  resourceIncorrectWebAcl('RESOURCE_INCORRECT_WEB_ACL'),
-  resourceMissingShieldProtection('RESOURCE_MISSING_SHIELD_PROTECTION'),
-  resourceMissingWebAclOrShieldProtection(
-      'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION'),
-  resourceMissingSecurityGroup('RESOURCE_MISSING_SECURITY_GROUP'),
-  resourceViolatesAuditSecurityGroup('RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP'),
-  securityGroupUnused('SECURITY_GROUP_UNUSED'),
-  securityGroupRedundant('SECURITY_GROUP_REDUNDANT'),
-  fmsCreatedSecurityGroupEdited('FMS_CREATED_SECURITY_GROUP_EDITED'),
-  missingFirewall('MISSING_FIREWALL'),
-  missingFirewallSubnetInAz('MISSING_FIREWALL_SUBNET_IN_AZ'),
-  missingExpectedRouteTable('MISSING_EXPECTED_ROUTE_TABLE'),
-  networkFirewallPolicyModified('NETWORK_FIREWALL_POLICY_MODIFIED'),
-  firewallSubnetIsOutOfScope('FIREWALL_SUBNET_IS_OUT_OF_SCOPE'),
-  internetGatewayMissingExpectedRoute(
-      'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE'),
-  firewallSubnetMissingExpectedRoute('FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE'),
-  unexpectedFirewallRoutes('UNEXPECTED_FIREWALL_ROUTES'),
-  unexpectedTargetGatewayRoutes('UNEXPECTED_TARGET_GATEWAY_ROUTES'),
-  trafficInspectionCrossesAzBoundary('TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY'),
-  invalidRouteConfiguration('INVALID_ROUTE_CONFIGURATION'),
-  missingTargetGateway('MISSING_TARGET_GATEWAY'),
-  internetTrafficNotInspected('INTERNET_TRAFFIC_NOT_INSPECTED'),
-  blackHoleRouteDetected('BLACK_HOLE_ROUTE_DETECTED'),
-  blackHoleRouteDetectedInFirewallSubnet(
-      'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET'),
-  resourceMissingDnsFirewall('RESOURCE_MISSING_DNS_FIREWALL'),
-  routeHasOutOfScopeEndpoint('ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT'),
-  firewallSubnetMissingVpceEndpoint('FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT'),
-  invalidNetworkAclEntry('INVALID_NETWORK_ACL_ENTRY'),
-  ;
+class ViolationReason {
+  static const webAclMissingRuleGroup =
+      ViolationReason._('WEB_ACL_MISSING_RULE_GROUP');
+  static const resourceMissingWebAcl =
+      ViolationReason._('RESOURCE_MISSING_WEB_ACL');
+  static const resourceIncorrectWebAcl =
+      ViolationReason._('RESOURCE_INCORRECT_WEB_ACL');
+  static const resourceMissingShieldProtection =
+      ViolationReason._('RESOURCE_MISSING_SHIELD_PROTECTION');
+  static const resourceMissingWebAclOrShieldProtection =
+      ViolationReason._('RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION');
+  static const resourceMissingSecurityGroup =
+      ViolationReason._('RESOURCE_MISSING_SECURITY_GROUP');
+  static const resourceViolatesAuditSecurityGroup =
+      ViolationReason._('RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP');
+  static const securityGroupUnused = ViolationReason._('SECURITY_GROUP_UNUSED');
+  static const securityGroupRedundant =
+      ViolationReason._('SECURITY_GROUP_REDUNDANT');
+  static const fmsCreatedSecurityGroupEdited =
+      ViolationReason._('FMS_CREATED_SECURITY_GROUP_EDITED');
+  static const missingFirewall = ViolationReason._('MISSING_FIREWALL');
+  static const missingFirewallSubnetInAz =
+      ViolationReason._('MISSING_FIREWALL_SUBNET_IN_AZ');
+  static const missingExpectedRouteTable =
+      ViolationReason._('MISSING_EXPECTED_ROUTE_TABLE');
+  static const networkFirewallPolicyModified =
+      ViolationReason._('NETWORK_FIREWALL_POLICY_MODIFIED');
+  static const firewallSubnetIsOutOfScope =
+      ViolationReason._('FIREWALL_SUBNET_IS_OUT_OF_SCOPE');
+  static const internetGatewayMissingExpectedRoute =
+      ViolationReason._('INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE');
+  static const firewallSubnetMissingExpectedRoute =
+      ViolationReason._('FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE');
+  static const unexpectedFirewallRoutes =
+      ViolationReason._('UNEXPECTED_FIREWALL_ROUTES');
+  static const unexpectedTargetGatewayRoutes =
+      ViolationReason._('UNEXPECTED_TARGET_GATEWAY_ROUTES');
+  static const trafficInspectionCrossesAzBoundary =
+      ViolationReason._('TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY');
+  static const invalidRouteConfiguration =
+      ViolationReason._('INVALID_ROUTE_CONFIGURATION');
+  static const missingTargetGateway =
+      ViolationReason._('MISSING_TARGET_GATEWAY');
+  static const internetTrafficNotInspected =
+      ViolationReason._('INTERNET_TRAFFIC_NOT_INSPECTED');
+  static const blackHoleRouteDetected =
+      ViolationReason._('BLACK_HOLE_ROUTE_DETECTED');
+  static const blackHoleRouteDetectedInFirewallSubnet =
+      ViolationReason._('BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET');
+  static const resourceMissingDnsFirewall =
+      ViolationReason._('RESOURCE_MISSING_DNS_FIREWALL');
+  static const routeHasOutOfScopeEndpoint =
+      ViolationReason._('ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT');
+  static const firewallSubnetMissingVpceEndpoint =
+      ViolationReason._('FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT');
+  static const invalidNetworkAclEntry =
+      ViolationReason._('INVALID_NETWORK_ACL_ENTRY');
 
   final String value;
 
-  const ViolationReason(this.value);
+  const ViolationReason._(this.value);
+
+  static const values = [
+    webAclMissingRuleGroup,
+    resourceMissingWebAcl,
+    resourceIncorrectWebAcl,
+    resourceMissingShieldProtection,
+    resourceMissingWebAclOrShieldProtection,
+    resourceMissingSecurityGroup,
+    resourceViolatesAuditSecurityGroup,
+    securityGroupUnused,
+    securityGroupRedundant,
+    fmsCreatedSecurityGroupEdited,
+    missingFirewall,
+    missingFirewallSubnetInAz,
+    missingExpectedRouteTable,
+    networkFirewallPolicyModified,
+    firewallSubnetIsOutOfScope,
+    internetGatewayMissingExpectedRoute,
+    firewallSubnetMissingExpectedRoute,
+    unexpectedFirewallRoutes,
+    unexpectedTargetGatewayRoutes,
+    trafficInspectionCrossesAzBoundary,
+    invalidRouteConfiguration,
+    missingTargetGateway,
+    internetTrafficNotInspected,
+    blackHoleRouteDetected,
+    blackHoleRouteDetectedInFirewallSubnet,
+    resourceMissingDnsFirewall,
+    routeHasOutOfScopeEndpoint,
+    firewallSubnetMissingVpceEndpoint,
+    invalidNetworkAclEntry
+  ];
 
   static ViolationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ViolationReason'));
+          orElse: () => ViolationReason._(value));
+
+  @override
+  bool operator ==(other) => other is ViolationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalErrorException extends _s.GenericAwsException {

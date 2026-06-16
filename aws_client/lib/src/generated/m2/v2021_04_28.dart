@@ -1490,43 +1490,76 @@ class AlternateKey {
   }
 }
 
-enum ApplicationDeploymentLifecycle {
-  deploying('Deploying'),
-  deployed('Deployed'),
-  ;
+class ApplicationDeploymentLifecycle {
+  static const deploying = ApplicationDeploymentLifecycle._('Deploying');
+  static const deployed = ApplicationDeploymentLifecycle._('Deployed');
 
   final String value;
 
-  const ApplicationDeploymentLifecycle(this.value);
+  const ApplicationDeploymentLifecycle._(this.value);
+
+  static const values = [deploying, deployed];
 
   static ApplicationDeploymentLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationDeploymentLifecycle'));
+          orElse: () => ApplicationDeploymentLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationDeploymentLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationLifecycle {
-  creating('Creating'),
-  created('Created'),
-  available('Available'),
-  ready('Ready'),
-  starting('Starting'),
-  running('Running'),
-  stopping('Stopping'),
-  stopped('Stopped'),
-  failed('Failed'),
-  deleting('Deleting'),
-  deletingFromEnvironment('Deleting From Environment'),
-  ;
+class ApplicationLifecycle {
+  static const creating = ApplicationLifecycle._('Creating');
+  static const created = ApplicationLifecycle._('Created');
+  static const available = ApplicationLifecycle._('Available');
+  static const ready = ApplicationLifecycle._('Ready');
+  static const starting = ApplicationLifecycle._('Starting');
+  static const running = ApplicationLifecycle._('Running');
+  static const stopping = ApplicationLifecycle._('Stopping');
+  static const stopped = ApplicationLifecycle._('Stopped');
+  static const failed = ApplicationLifecycle._('Failed');
+  static const deleting = ApplicationLifecycle._('Deleting');
+  static const deletingFromEnvironment =
+      ApplicationLifecycle._('Deleting From Environment');
 
   final String value;
 
-  const ApplicationLifecycle(this.value);
+  const ApplicationLifecycle._(this.value);
 
-  static ApplicationLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationLifecycle'));
+  static const values = [
+    creating,
+    created,
+    available,
+    ready,
+    starting,
+    running,
+    stopping,
+    stopped,
+    failed,
+    deleting,
+    deletingFromEnvironment
+  ];
+
+  static ApplicationLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A subset of the possible application attributes. Used in the application
@@ -1596,9 +1629,10 @@ class ApplicationSummary {
       applicationId: (json['applicationId'] as String?) ?? '',
       applicationVersion: (json['applicationVersion'] as int?) ?? 0,
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      engineType: EngineType.fromString((json['engineType'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
-      status: ApplicationLifecycle.fromString((json['status'] as String)),
+      status:
+          ApplicationLifecycle.fromString((json['status'] as String?) ?? ''),
       deploymentStatus: (json['deploymentStatus'] as String?)
           ?.let(ApplicationDeploymentLifecycle.fromString),
       description: json['description'] as String?,
@@ -1643,20 +1677,30 @@ class ApplicationSummary {
   }
 }
 
-enum ApplicationVersionLifecycle {
-  creating('Creating'),
-  available('Available'),
-  failed('Failed'),
-  ;
+class ApplicationVersionLifecycle {
+  static const creating = ApplicationVersionLifecycle._('Creating');
+  static const available = ApplicationVersionLifecycle._('Available');
+  static const failed = ApplicationVersionLifecycle._('Failed');
 
   final String value;
 
-  const ApplicationVersionLifecycle(this.value);
+  const ApplicationVersionLifecycle._(this.value);
+
+  static const values = [creating, available, failed];
 
   static ApplicationVersionLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationVersionLifecycle'));
+          orElse: () => ApplicationVersionLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationVersionLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an application version summary.
@@ -1684,8 +1728,8 @@ class ApplicationVersionSummary {
     return ApplicationVersionSummary(
       applicationVersion: (json['applicationVersion'] as int?) ?? 0,
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      status:
-          ApplicationVersionLifecycle.fromString((json['status'] as String)),
+      status: ApplicationVersionLifecycle.fromString(
+          (json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1742,27 +1786,49 @@ class BatchJobDefinition {
   }
 }
 
-enum BatchJobExecutionStatus {
-  submitting('Submitting'),
-  holding('Holding'),
-  dispatching('Dispatching'),
-  running('Running'),
-  cancelling('Cancelling'),
-  cancelled('Cancelled'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  purged('Purged'),
-  succeededWithWarning('Succeeded With Warning'),
-  ;
+class BatchJobExecutionStatus {
+  static const submitting = BatchJobExecutionStatus._('Submitting');
+  static const holding = BatchJobExecutionStatus._('Holding');
+  static const dispatching = BatchJobExecutionStatus._('Dispatching');
+  static const running = BatchJobExecutionStatus._('Running');
+  static const cancelling = BatchJobExecutionStatus._('Cancelling');
+  static const cancelled = BatchJobExecutionStatus._('Cancelled');
+  static const succeeded = BatchJobExecutionStatus._('Succeeded');
+  static const failed = BatchJobExecutionStatus._('Failed');
+  static const purged = BatchJobExecutionStatus._('Purged');
+  static const succeededWithWarning =
+      BatchJobExecutionStatus._('Succeeded With Warning');
 
   final String value;
 
-  const BatchJobExecutionStatus(this.value);
+  const BatchJobExecutionStatus._(this.value);
+
+  static const values = [
+    submitting,
+    holding,
+    dispatching,
+    running,
+    cancelling,
+    cancelled,
+    succeeded,
+    failed,
+    purged,
+    succeededWithWarning
+  ];
 
   static BatchJobExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchJobExecutionStatus'));
+          orElse: () => BatchJobExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchJobExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A subset of the possible batch job attributes. Used in the batch job list.
@@ -1819,7 +1885,8 @@ class BatchJobExecutionSummary {
       applicationId: (json['applicationId'] as String?) ?? '',
       executionId: (json['executionId'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: BatchJobExecutionStatus.fromString((json['status'] as String)),
+      status:
+          BatchJobExecutionStatus.fromString((json['status'] as String?) ?? ''),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
               json['batchJobIdentifier'] as Map<String, dynamic>)
@@ -1921,20 +1988,28 @@ class BatchJobIdentifier {
   }
 }
 
-enum BatchJobType {
-  vse('VSE'),
-  jes2('JES2'),
-  jes3('JES3'),
-  ;
+class BatchJobType {
+  static const vse = BatchJobType._('VSE');
+  static const jes2 = BatchJobType._('JES2');
+  static const jes3 = BatchJobType._('JES3');
 
   final String value;
 
-  const BatchJobType(this.value);
+  const BatchJobType._(this.value);
 
-  static BatchJobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BatchJobType'));
+  static const values = [vse, jes2, jes3];
+
+  static BatchJobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BatchJobType._(value));
+
+  @override
+  bool operator ==(other) => other is BatchJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelBatchJobExecutionResponse {
@@ -2218,7 +2293,8 @@ class DataSetImportTask {
 
   factory DataSetImportTask.fromJson(Map<String, dynamic> json) {
     return DataSetImportTask(
-      status: DataSetTaskLifecycle.fromString((json['status'] as String)),
+      status:
+          DataSetTaskLifecycle.fromString((json['status'] as String?) ?? ''),
       summary: DataSetImportSummary.fromJson(
           (json['summary'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2302,21 +2378,31 @@ class DataSetSummary {
   }
 }
 
-enum DataSetTaskLifecycle {
-  creating('Creating'),
-  running('Running'),
-  completed('Completed'),
-  failed('Failed'),
-  ;
+class DataSetTaskLifecycle {
+  static const creating = DataSetTaskLifecycle._('Creating');
+  static const running = DataSetTaskLifecycle._('Running');
+  static const completed = DataSetTaskLifecycle._('Completed');
+  static const failed = DataSetTaskLifecycle._('Failed');
 
   final String value;
 
-  const DataSetTaskLifecycle(this.value);
+  const DataSetTaskLifecycle._(this.value);
 
-  static DataSetTaskLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataSetTaskLifecycle'));
+  static const values = [creating, running, completed, failed];
+
+  static DataSetTaskLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSetTaskLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSetTaskLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Additional details about the data set. Different attributes correspond to
@@ -2492,7 +2578,7 @@ class DeployedVersionSummary {
   factory DeployedVersionSummary.fromJson(Map<String, dynamic> json) {
     return DeployedVersionSummary(
       applicationVersion: (json['applicationVersion'] as int?) ?? 0,
-      status: DeploymentLifecycle.fromString((json['status'] as String)),
+      status: DeploymentLifecycle.fromString((json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2509,21 +2595,32 @@ class DeployedVersionSummary {
   }
 }
 
-enum DeploymentLifecycle {
-  deploying('Deploying'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  updatingDeployment('Updating Deployment'),
-  ;
+class DeploymentLifecycle {
+  static const deploying = DeploymentLifecycle._('Deploying');
+  static const succeeded = DeploymentLifecycle._('Succeeded');
+  static const failed = DeploymentLifecycle._('Failed');
+  static const updatingDeployment =
+      DeploymentLifecycle._('Updating Deployment');
 
   final String value;
 
-  const DeploymentLifecycle(this.value);
+  const DeploymentLifecycle._(this.value);
 
-  static DeploymentLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentLifecycle'));
+  static const values = [deploying, succeeded, failed, updatingDeployment];
+
+  static DeploymentLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A subset of information about a specific deployment.
@@ -2566,7 +2663,7 @@ class DeploymentSummary {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       deploymentId: (json['deploymentId'] as String?) ?? '',
       environmentId: (json['environmentId'] as String?) ?? '',
-      status: DeploymentLifecycle.fromString((json['status'] as String)),
+      status: DeploymentLifecycle.fromString((json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2621,18 +2718,27 @@ class EfsStorageConfiguration {
   }
 }
 
-enum EngineType {
-  microfocus('microfocus'),
-  bluage('bluage'),
-  ;
+class EngineType {
+  static const microfocus = EngineType._('microfocus');
+  static const bluage = EngineType._('bluage');
 
   final String value;
 
-  const EngineType(this.value);
+  const EngineType._(this.value);
 
-  static EngineType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EngineType'));
+  static const values = [microfocus, bluage];
+
+  static EngineType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EngineType._(value));
+
+  @override
+  bool operator ==(other) => other is EngineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A subset of information about the engine version for a specific application.
@@ -2665,22 +2771,32 @@ class EngineVersionsSummary {
   }
 }
 
-enum EnvironmentLifecycle {
-  creating('Creating'),
-  available('Available'),
-  updating('Updating'),
-  deleting('Deleting'),
-  failed('Failed'),
-  ;
+class EnvironmentLifecycle {
+  static const creating = EnvironmentLifecycle._('Creating');
+  static const available = EnvironmentLifecycle._('Available');
+  static const updating = EnvironmentLifecycle._('Updating');
+  static const deleting = EnvironmentLifecycle._('Deleting');
+  static const failed = EnvironmentLifecycle._('Failed');
 
   final String value;
 
-  const EnvironmentLifecycle(this.value);
+  const EnvironmentLifecycle._(this.value);
 
-  static EnvironmentLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EnvironmentLifecycle'));
+  static const values = [creating, available, updating, deleting, failed];
+
+  static EnvironmentLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a subset of the possible runtime environment attributes. Used in
@@ -2724,13 +2840,14 @@ class EnvironmentSummary {
   factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentSummary(
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      engineType: EngineType.fromString((json['engineType'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       engineVersion: (json['engineVersion'] as String?) ?? '',
       environmentArn: (json['environmentArn'] as String?) ?? '',
       environmentId: (json['environmentId'] as String?) ?? '',
       instanceType: (json['instanceType'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: EnvironmentLifecycle.fromString((json['status'] as String)),
+      status:
+          EnvironmentLifecycle.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -3029,12 +3146,13 @@ class GetApplicationResponse {
       applicationArn: (json['applicationArn'] as String?) ?? '',
       applicationId: (json['applicationId'] as String?) ?? '',
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      engineType: EngineType.fromString((json['engineType'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       latestVersion: ApplicationVersionSummary.fromJson(
           (json['latestVersion'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['name'] as String?) ?? '',
-      status: ApplicationLifecycle.fromString((json['status'] as String)),
+      status:
+          ApplicationLifecycle.fromString((json['status'] as String?) ?? ''),
       deployedVersion: json['deployedVersion'] != null
           ? DeployedVersionSummary.fromJson(
               json['deployedVersion'] as Map<String, dynamic>)
@@ -3155,8 +3273,8 @@ class GetApplicationVersionResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       definitionContent: (json['definitionContent'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status:
-          ApplicationVersionLifecycle.fromString((json['status'] as String)),
+      status: ApplicationVersionLifecycle.fromString(
+          (json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       statusReason: json['statusReason'] as String?,
     );
@@ -3247,7 +3365,8 @@ class GetBatchJobExecutionResponse {
       applicationId: (json['applicationId'] as String?) ?? '',
       executionId: (json['executionId'] as String?) ?? '',
       startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: BatchJobExecutionStatus.fromString((json['status'] as String)),
+      status:
+          BatchJobExecutionStatus.fromString((json['status'] as String?) ?? ''),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
               json['batchJobIdentifier'] as Map<String, dynamic>)
@@ -3401,7 +3520,8 @@ class GetDataSetImportTaskResponse {
 
   factory GetDataSetImportTaskResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetImportTaskResponse(
-      status: DataSetTaskLifecycle.fromString((json['status'] as String)),
+      status:
+          DataSetTaskLifecycle.fromString((json['status'] as String?) ?? ''),
       taskId: (json['taskId'] as String?) ?? '',
       summary: json['summary'] != null
           ? DataSetImportSummary.fromJson(
@@ -3461,7 +3581,7 @@ class GetDeploymentResponse {
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       deploymentId: (json['deploymentId'] as String?) ?? '',
       environmentId: (json['environmentId'] as String?) ?? '',
-      status: DeploymentLifecycle.fromString((json['status'] as String)),
+      status: DeploymentLifecycle.fromString((json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -3588,7 +3708,7 @@ class GetEnvironmentResponse {
   factory GetEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentResponse(
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      engineType: EngineType.fromString((json['engineType'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       engineVersion: (json['engineVersion'] as String?) ?? '',
       environmentArn: (json['environmentArn'] as String?) ?? '',
       environmentId: (json['environmentId'] as String?) ?? '',
@@ -3598,7 +3718,8 @@ class GetEnvironmentResponse {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      status: EnvironmentLifecycle.fromString((json['status'] as String)),
+      status:
+          EnvironmentLifecycle.fromString((json['status'] as String?) ?? ''),
       subnetIds: ((json['subnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)

@@ -1866,34 +1866,52 @@ class MailManager {
   }
 }
 
-enum AcceptAction {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class AcceptAction {
+  static const allow = AcceptAction._('ALLOW');
+  static const deny = AcceptAction._('DENY');
 
   final String value;
 
-  const AcceptAction(this.value);
+  const AcceptAction._(this.value);
 
-  static AcceptAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AcceptAction'));
+  static const values = [allow, deny];
+
+  static AcceptAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AcceptAction._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActionFailurePolicy {
-  $continue('CONTINUE'),
-  drop('DROP'),
-  ;
+class ActionFailurePolicy {
+  static const $continue = ActionFailurePolicy._('CONTINUE');
+  static const drop = ActionFailurePolicy._('DROP');
 
   final String value;
 
-  const ActionFailurePolicy(this.value);
+  const ActionFailurePolicy._(this.value);
 
-  static ActionFailurePolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActionFailurePolicy'));
+  static const values = [$continue, drop];
+
+  static ActionFailurePolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionFailurePolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActionFailurePolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The action to add a header to a message. When executed, this action will add
@@ -2154,18 +2172,29 @@ class ArchiveAction {
   }
 }
 
-enum ArchiveBooleanEmailAttribute {
-  hasAttachments('HAS_ATTACHMENTS'),
-  ;
+class ArchiveBooleanEmailAttribute {
+  static const hasAttachments =
+      ArchiveBooleanEmailAttribute._('HAS_ATTACHMENTS');
 
   final String value;
 
-  const ArchiveBooleanEmailAttribute(this.value);
+  const ArchiveBooleanEmailAttribute._(this.value);
+
+  static const values = [hasAttachments];
 
   static ArchiveBooleanEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ArchiveBooleanEmailAttribute'));
+          orElse: () => ArchiveBooleanEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArchiveBooleanEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A boolean expression to evaluate email attribute values.
@@ -2186,7 +2215,8 @@ class ArchiveBooleanExpression {
       evaluate: ArchiveBooleanToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: ArchiveBooleanOperator.fromString((json['Operator'] as String)),
+      operator: ArchiveBooleanOperator.fromString(
+          (json['Operator'] as String?) ?? ''),
     );
   }
 
@@ -2200,19 +2230,29 @@ class ArchiveBooleanExpression {
   }
 }
 
-enum ArchiveBooleanOperator {
-  isTrue('IS_TRUE'),
-  isFalse('IS_FALSE'),
-  ;
+class ArchiveBooleanOperator {
+  static const isTrue = ArchiveBooleanOperator._('IS_TRUE');
+  static const isFalse = ArchiveBooleanOperator._('IS_FALSE');
 
   final String value;
 
-  const ArchiveBooleanOperator(this.value);
+  const ArchiveBooleanOperator._(this.value);
+
+  static const values = [isTrue, isFalse];
 
   static ArchiveBooleanOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ArchiveBooleanOperator'));
+          orElse: () => ArchiveBooleanOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArchiveBooleanOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The attribute to evaluate in a boolean expression.
@@ -2339,36 +2379,54 @@ class ArchiveRetention {
   }
 }
 
-enum ArchiveState {
-  active('ACTIVE'),
-  pendingDeletion('PENDING_DELETION'),
-  ;
+class ArchiveState {
+  static const active = ArchiveState._('ACTIVE');
+  static const pendingDeletion = ArchiveState._('PENDING_DELETION');
 
   final String value;
 
-  const ArchiveState(this.value);
+  const ArchiveState._(this.value);
 
-  static ArchiveState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArchiveState'));
+  static const values = [active, pendingDeletion];
+
+  static ArchiveState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArchiveState._(value));
+
+  @override
+  bool operator ==(other) => other is ArchiveState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ArchiveStringEmailAttribute {
-  to('TO'),
-  from('FROM'),
-  cc('CC'),
-  subject('SUBJECT'),
-  ;
+class ArchiveStringEmailAttribute {
+  static const to = ArchiveStringEmailAttribute._('TO');
+  static const from = ArchiveStringEmailAttribute._('FROM');
+  static const cc = ArchiveStringEmailAttribute._('CC');
+  static const subject = ArchiveStringEmailAttribute._('SUBJECT');
 
   final String value;
 
-  const ArchiveStringEmailAttribute(this.value);
+  const ArchiveStringEmailAttribute._(this.value);
+
+  static const values = [to, from, cc, subject];
 
   static ArchiveStringEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ArchiveStringEmailAttribute'));
+          orElse: () => ArchiveStringEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArchiveStringEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A string expression to evaluate an email attribute value against one or more
@@ -2394,7 +2452,8 @@ class ArchiveStringExpression {
       evaluate: ArchiveStringToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: ArchiveStringOperator.fromString((json['Operator'] as String)),
+      operator:
+          ArchiveStringOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -2414,18 +2473,28 @@ class ArchiveStringExpression {
   }
 }
 
-enum ArchiveStringOperator {
-  contains('CONTAINS'),
-  ;
+class ArchiveStringOperator {
+  static const contains = ArchiveStringOperator._('CONTAINS');
 
   final String value;
 
-  const ArchiveStringOperator(this.value);
+  const ArchiveStringOperator._(this.value);
 
-  static ArchiveStringOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ArchiveStringOperator'));
+  static const values = [contains];
+
+  static ArchiveStringOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArchiveStringOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ArchiveStringOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the email attribute to evaluate in a string expression.
@@ -2779,22 +2848,38 @@ class ExportDestinationConfiguration {
   }
 }
 
-enum ExportState {
-  queued('QUEUED'),
-  preprocessing('PREPROCESSING'),
-  processing('PROCESSING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  ;
+class ExportState {
+  static const queued = ExportState._('QUEUED');
+  static const preprocessing = ExportState._('PREPROCESSING');
+  static const processing = ExportState._('PROCESSING');
+  static const completed = ExportState._('COMPLETED');
+  static const failed = ExportState._('FAILED');
+  static const cancelled = ExportState._('CANCELLED');
 
   final String value;
 
-  const ExportState(this.value);
+  const ExportState._(this.value);
 
-  static ExportState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ExportState'));
+  static const values = [
+    queued,
+    preprocessing,
+    processing,
+    completed,
+    failed,
+    cancelled
+  ];
+
+  static ExportState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportState._(value));
+
+  @override
+  bool operator ==(other) => other is ExportState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current status of an archive export job.
@@ -3137,7 +3222,8 @@ class GetArchiveResponse {
       archiveArn: (json['ArchiveArn'] as String?) ?? '',
       archiveId: (json['ArchiveId'] as String?) ?? '',
       archiveName: (json['ArchiveName'] as String?) ?? '',
-      archiveState: ArchiveState.fromString((json['ArchiveState'] as String)),
+      archiveState:
+          ArchiveState.fromString((json['ArchiveState'] as String?) ?? ''),
       retention: ArchiveRetention.fromJson(
           (json['Retention'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -3628,7 +3714,8 @@ class IngressBooleanExpression {
       evaluate: IngressBooleanToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: IngressBooleanOperator.fromString((json['Operator'] as String)),
+      operator: IngressBooleanOperator.fromString(
+          (json['Operator'] as String?) ?? ''),
     );
   }
 
@@ -3642,19 +3729,29 @@ class IngressBooleanExpression {
   }
 }
 
-enum IngressBooleanOperator {
-  isTrue('IS_TRUE'),
-  isFalse('IS_FALSE'),
-  ;
+class IngressBooleanOperator {
+  static const isTrue = IngressBooleanOperator._('IS_TRUE');
+  static const isFalse = IngressBooleanOperator._('IS_FALSE');
 
   final String value;
 
-  const IngressBooleanOperator(this.value);
+  const IngressBooleanOperator._(this.value);
+
+  static const values = [isTrue, isFalse];
 
   static IngressBooleanOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngressBooleanOperator'));
+          orElse: () => IngressBooleanOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressBooleanOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The union type representing the allowed types of operands for a boolean
@@ -3684,19 +3781,28 @@ class IngressBooleanToEvaluate {
   }
 }
 
-enum IngressIpOperator {
-  cidrMatches('CIDR_MATCHES'),
-  notCidrMatches('NOT_CIDR_MATCHES'),
-  ;
+class IngressIpOperator {
+  static const cidrMatches = IngressIpOperator._('CIDR_MATCHES');
+  static const notCidrMatches = IngressIpOperator._('NOT_CIDR_MATCHES');
 
   final String value;
 
-  const IngressIpOperator(this.value);
+  const IngressIpOperator._(this.value);
+
+  static const values = [cidrMatches, notCidrMatches];
 
   static IngressIpOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngressIpOperator'));
+          orElse: () => IngressIpOperator._(value));
+
+  @override
+  bool operator ==(other) => other is IngressIpOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure for an IP based condition matching on the incoming mail.
@@ -3723,18 +3829,28 @@ class IngressIpToEvaluate {
   }
 }
 
-enum IngressIpv4Attribute {
-  senderIp('SENDER_IP'),
-  ;
+class IngressIpv4Attribute {
+  static const senderIp = IngressIpv4Attribute._('SENDER_IP');
 
   final String value;
 
-  const IngressIpv4Attribute(this.value);
+  const IngressIpv4Attribute._(this.value);
 
-  static IngressIpv4Attribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngressIpv4Attribute'));
+  static const values = [senderIp];
+
+  static IngressIpv4Attribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngressIpv4Attribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressIpv4Attribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The union type representing the allowed types for the left hand side of an
@@ -3760,7 +3876,8 @@ class IngressIpv4Expression {
       evaluate: IngressIpToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: IngressIpOperator.fromString((json['Operator'] as String)),
+      operator:
+          IngressIpOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -3810,8 +3927,8 @@ class IngressPoint {
     return IngressPoint(
       ingressPointId: (json['IngressPointId'] as String?) ?? '',
       ingressPointName: (json['IngressPointName'] as String?) ?? '',
-      status: IngressPointStatus.fromString((json['Status'] as String)),
-      type: IngressPointType.fromString((json['Type'] as String)),
+      status: IngressPointStatus.fromString((json['Status'] as String?) ?? ''),
+      type: IngressPointType.fromString((json['Type'] as String?) ?? ''),
       aRecord: json['ARecord'] as String?,
     );
   }
@@ -3939,67 +4056,113 @@ class IngressPointPasswordConfiguration {
   }
 }
 
-enum IngressPointStatus {
-  provisioning('PROVISIONING'),
-  deprovisioning('DEPROVISIONING'),
-  updating('UPDATING'),
-  active('ACTIVE'),
-  closed('CLOSED'),
-  failed('FAILED'),
-  ;
+class IngressPointStatus {
+  static const provisioning = IngressPointStatus._('PROVISIONING');
+  static const deprovisioning = IngressPointStatus._('DEPROVISIONING');
+  static const updating = IngressPointStatus._('UPDATING');
+  static const active = IngressPointStatus._('ACTIVE');
+  static const closed = IngressPointStatus._('CLOSED');
+  static const failed = IngressPointStatus._('FAILED');
 
   final String value;
 
-  const IngressPointStatus(this.value);
+  const IngressPointStatus._(this.value);
 
-  static IngressPointStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngressPointStatus'));
+  static const values = [
+    provisioning,
+    deprovisioning,
+    updating,
+    active,
+    closed,
+    failed
+  ];
+
+  static IngressPointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngressPointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressPointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngressPointStatusToUpdate {
-  active('ACTIVE'),
-  closed('CLOSED'),
-  ;
+class IngressPointStatusToUpdate {
+  static const active = IngressPointStatusToUpdate._('ACTIVE');
+  static const closed = IngressPointStatusToUpdate._('CLOSED');
 
   final String value;
 
-  const IngressPointStatusToUpdate(this.value);
+  const IngressPointStatusToUpdate._(this.value);
+
+  static const values = [active, closed];
 
   static IngressPointStatusToUpdate fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngressPointStatusToUpdate'));
+          orElse: () => IngressPointStatusToUpdate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressPointStatusToUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngressPointType {
-  open('OPEN'),
-  auth('AUTH'),
-  ;
+class IngressPointType {
+  static const open = IngressPointType._('OPEN');
+  static const auth = IngressPointType._('AUTH');
 
   final String value;
 
-  const IngressPointType(this.value);
+  const IngressPointType._(this.value);
+
+  static const values = [open, auth];
 
   static IngressPointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IngressPointType'));
+          orElse: () => IngressPointType._(value));
+
+  @override
+  bool operator ==(other) => other is IngressPointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngressStringEmailAttribute {
-  recipient('RECIPIENT'),
-  ;
+class IngressStringEmailAttribute {
+  static const recipient = IngressStringEmailAttribute._('RECIPIENT');
 
   final String value;
 
-  const IngressStringEmailAttribute(this.value);
+  const IngressStringEmailAttribute._(this.value);
+
+  static const values = [recipient];
 
   static IngressStringEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngressStringEmailAttribute'));
+          orElse: () => IngressStringEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressStringEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure for a string based condition matching on the incoming mail.
@@ -4024,7 +4187,8 @@ class IngressStringExpression {
       evaluate: IngressStringToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: IngressStringOperator.fromString((json['Operator'] as String)),
+      operator:
+          IngressStringOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -4044,22 +4208,32 @@ class IngressStringExpression {
   }
 }
 
-enum IngressStringOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  ;
+class IngressStringOperator {
+  static const equals = IngressStringOperator._('EQUALS');
+  static const notEquals = IngressStringOperator._('NOT_EQUALS');
+  static const startsWith = IngressStringOperator._('STARTS_WITH');
+  static const endsWith = IngressStringOperator._('ENDS_WITH');
+  static const contains = IngressStringOperator._('CONTAINS');
 
   final String value;
 
-  const IngressStringOperator(this.value);
+  const IngressStringOperator._(this.value);
 
-  static IngressStringOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngressStringOperator'));
+  static const values = [equals, notEquals, startsWith, endsWith, contains];
+
+  static IngressStringOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngressStringOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressStringOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The union type representing the allowed types for the left hand side of a
@@ -4088,33 +4262,53 @@ class IngressStringToEvaluate {
   }
 }
 
-enum IngressTlsAttribute {
-  tlsProtocol('TLS_PROTOCOL'),
-  ;
+class IngressTlsAttribute {
+  static const tlsProtocol = IngressTlsAttribute._('TLS_PROTOCOL');
 
   final String value;
 
-  const IngressTlsAttribute(this.value);
+  const IngressTlsAttribute._(this.value);
 
-  static IngressTlsAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IngressTlsAttribute'));
+  static const values = [tlsProtocol];
+
+  static IngressTlsAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngressTlsAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressTlsAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IngressTlsProtocolAttribute {
-  tls1_2('TLS1_2'),
-  tls1_3('TLS1_3'),
-  ;
+class IngressTlsProtocolAttribute {
+  static const tls1_2 = IngressTlsProtocolAttribute._('TLS1_2');
+  static const tls1_3 = IngressTlsProtocolAttribute._('TLS1_3');
 
   final String value;
 
-  const IngressTlsProtocolAttribute(this.value);
+  const IngressTlsProtocolAttribute._(this.value);
+
+  static const values = [tls1_2, tls1_3];
 
   static IngressTlsProtocolAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngressTlsProtocolAttribute'));
+          orElse: () => IngressTlsProtocolAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressTlsProtocolAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure for a TLS related condition matching on the incoming mail.
@@ -4139,9 +4333,10 @@ class IngressTlsProtocolExpression {
       evaluate: IngressTlsProtocolToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator:
-          IngressTlsProtocolOperator.fromString((json['Operator'] as String)),
-      value: IngressTlsProtocolAttribute.fromString((json['Value'] as String)),
+      operator: IngressTlsProtocolOperator.fromString(
+          (json['Operator'] as String?) ?? ''),
+      value: IngressTlsProtocolAttribute.fromString(
+          (json['Value'] as String?) ?? ''),
     );
   }
 
@@ -4157,19 +4352,30 @@ class IngressTlsProtocolExpression {
   }
 }
 
-enum IngressTlsProtocolOperator {
-  minimumTlsVersion('MINIMUM_TLS_VERSION'),
-  $is('IS'),
-  ;
+class IngressTlsProtocolOperator {
+  static const minimumTlsVersion =
+      IngressTlsProtocolOperator._('MINIMUM_TLS_VERSION');
+  static const $is = IngressTlsProtocolOperator._('IS');
 
   final String value;
 
-  const IngressTlsProtocolOperator(this.value);
+  const IngressTlsProtocolOperator._(this.value);
+
+  static const values = [minimumTlsVersion, $is];
 
   static IngressTlsProtocolOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IngressTlsProtocolOperator'));
+          orElse: () => IngressTlsProtocolOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngressTlsProtocolOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The union type representing the allowed types for the left hand side of a
@@ -4527,18 +4733,27 @@ class ListTrafficPoliciesResponse {
   }
 }
 
-enum MailFrom {
-  replace('REPLACE'),
-  preserve('PRESERVE'),
-  ;
+class MailFrom {
+  static const replace = MailFrom._('REPLACE');
+  static const preserve = MailFrom._('PRESERVE');
 
   final String value;
 
-  const MailFrom(this.value);
+  const MailFrom._(this.value);
 
-  static MailFrom fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MailFrom'));
+  static const values = [replace, preserve];
+
+  static MailFrom fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MailFrom._(value));
+
+  @override
+  bool operator ==(other) => other is MailFrom && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The textual body content of an email message.
@@ -4674,7 +4889,7 @@ class PolicyStatement {
 
   factory PolicyStatement.fromJson(Map<String, dynamic> json) {
     return PolicyStatement(
-      action: AcceptAction.fromString((json['Action'] as String)),
+      action: AcceptAction.fromString((json['Action'] as String?) ?? ''),
       conditions: ((json['Conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyCondition.fromJson(e as Map<String, dynamic>))
@@ -4841,33 +5056,59 @@ class ReplaceRecipientAction {
   }
 }
 
-enum RetentionPeriod {
-  threeMonths('THREE_MONTHS'),
-  sixMonths('SIX_MONTHS'),
-  nineMonths('NINE_MONTHS'),
-  oneYear('ONE_YEAR'),
-  eighteenMonths('EIGHTEEN_MONTHS'),
-  twoYears('TWO_YEARS'),
-  thirtyMonths('THIRTY_MONTHS'),
-  threeYears('THREE_YEARS'),
-  fourYears('FOUR_YEARS'),
-  fiveYears('FIVE_YEARS'),
-  sixYears('SIX_YEARS'),
-  sevenYears('SEVEN_YEARS'),
-  eightYears('EIGHT_YEARS'),
-  nineYears('NINE_YEARS'),
-  tenYears('TEN_YEARS'),
-  permanent('PERMANENT'),
-  ;
+class RetentionPeriod {
+  static const threeMonths = RetentionPeriod._('THREE_MONTHS');
+  static const sixMonths = RetentionPeriod._('SIX_MONTHS');
+  static const nineMonths = RetentionPeriod._('NINE_MONTHS');
+  static const oneYear = RetentionPeriod._('ONE_YEAR');
+  static const eighteenMonths = RetentionPeriod._('EIGHTEEN_MONTHS');
+  static const twoYears = RetentionPeriod._('TWO_YEARS');
+  static const thirtyMonths = RetentionPeriod._('THIRTY_MONTHS');
+  static const threeYears = RetentionPeriod._('THREE_YEARS');
+  static const fourYears = RetentionPeriod._('FOUR_YEARS');
+  static const fiveYears = RetentionPeriod._('FIVE_YEARS');
+  static const sixYears = RetentionPeriod._('SIX_YEARS');
+  static const sevenYears = RetentionPeriod._('SEVEN_YEARS');
+  static const eightYears = RetentionPeriod._('EIGHT_YEARS');
+  static const nineYears = RetentionPeriod._('NINE_YEARS');
+  static const tenYears = RetentionPeriod._('TEN_YEARS');
+  static const permanent = RetentionPeriod._('PERMANENT');
 
   final String value;
 
-  const RetentionPeriod(this.value);
+  const RetentionPeriod._(this.value);
+
+  static const values = [
+    threeMonths,
+    sixMonths,
+    nineMonths,
+    oneYear,
+    eighteenMonths,
+    twoYears,
+    thirtyMonths,
+    threeYears,
+    fourYears,
+    fiveYears,
+    sixYears,
+    sevenYears,
+    eightYears,
+    nineYears,
+    tenYears,
+    permanent
+  ];
 
   static RetentionPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RetentionPeriod'));
+          orElse: () => RetentionPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A result row containing metadata for an archived email message.
@@ -5144,20 +5385,31 @@ class RuleAction {
   }
 }
 
-enum RuleBooleanEmailAttribute {
-  readReceiptRequested('READ_RECEIPT_REQUESTED'),
-  tls('TLS'),
-  tlsWrapped('TLS_WRAPPED'),
-  ;
+class RuleBooleanEmailAttribute {
+  static const readReceiptRequested =
+      RuleBooleanEmailAttribute._('READ_RECEIPT_REQUESTED');
+  static const tls = RuleBooleanEmailAttribute._('TLS');
+  static const tlsWrapped = RuleBooleanEmailAttribute._('TLS_WRAPPED');
 
   final String value;
 
-  const RuleBooleanEmailAttribute(this.value);
+  const RuleBooleanEmailAttribute._(this.value);
+
+  static const values = [readReceiptRequested, tls, tlsWrapped];
 
   static RuleBooleanEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleBooleanEmailAttribute'));
+          orElse: () => RuleBooleanEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleBooleanEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A boolean expression to be used in a rule condition.
@@ -5178,7 +5430,8 @@ class RuleBooleanExpression {
       evaluate: RuleBooleanToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: RuleBooleanOperator.fromString((json['Operator'] as String)),
+      operator:
+          RuleBooleanOperator.fromString((json['Operator'] as String?) ?? ''),
     );
   }
 
@@ -5192,19 +5445,29 @@ class RuleBooleanExpression {
   }
 }
 
-enum RuleBooleanOperator {
-  isTrue('IS_TRUE'),
-  isFalse('IS_FALSE'),
-  ;
+class RuleBooleanOperator {
+  static const isTrue = RuleBooleanOperator._('IS_TRUE');
+  static const isFalse = RuleBooleanOperator._('IS_FALSE');
 
   final String value;
 
-  const RuleBooleanOperator(this.value);
+  const RuleBooleanOperator._(this.value);
 
-  static RuleBooleanOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleBooleanOperator'));
+  static const values = [isTrue, isFalse];
+
+  static RuleBooleanOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleBooleanOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleBooleanOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The union type representing the allowed types of operands for a boolean
@@ -5330,7 +5593,8 @@ class RuleDmarcExpression {
 
   factory RuleDmarcExpression.fromJson(Map<String, dynamic> json) {
     return RuleDmarcExpression(
-      operator: RuleDmarcOperator.fromString((json['Operator'] as String)),
+      operator:
+          RuleDmarcOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleDmarcPolicy.fromString((e as String)))
@@ -5348,49 +5612,77 @@ class RuleDmarcExpression {
   }
 }
 
-enum RuleDmarcOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  ;
+class RuleDmarcOperator {
+  static const equals = RuleDmarcOperator._('EQUALS');
+  static const notEquals = RuleDmarcOperator._('NOT_EQUALS');
 
   final String value;
 
-  const RuleDmarcOperator(this.value);
+  const RuleDmarcOperator._(this.value);
+
+  static const values = [equals, notEquals];
 
   static RuleDmarcOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleDmarcOperator'));
+          orElse: () => RuleDmarcOperator._(value));
+
+  @override
+  bool operator ==(other) => other is RuleDmarcOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleDmarcPolicy {
-  none('NONE'),
-  quarantine('QUARANTINE'),
-  reject('REJECT'),
-  ;
+class RuleDmarcPolicy {
+  static const none = RuleDmarcPolicy._('NONE');
+  static const quarantine = RuleDmarcPolicy._('QUARANTINE');
+  static const reject = RuleDmarcPolicy._('REJECT');
 
   final String value;
 
-  const RuleDmarcPolicy(this.value);
+  const RuleDmarcPolicy._(this.value);
+
+  static const values = [none, quarantine, reject];
 
   static RuleDmarcPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleDmarcPolicy'));
+          orElse: () => RuleDmarcPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is RuleDmarcPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleIpEmailAttribute {
-  sourceIp('SOURCE_IP'),
-  ;
+class RuleIpEmailAttribute {
+  static const sourceIp = RuleIpEmailAttribute._('SOURCE_IP');
 
   final String value;
 
-  const RuleIpEmailAttribute(this.value);
+  const RuleIpEmailAttribute._(this.value);
 
-  static RuleIpEmailAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleIpEmailAttribute'));
+  static const values = [sourceIp];
+
+  static RuleIpEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleIpEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleIpEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An IP address expression matching certain IP addresses within a given range
@@ -5421,7 +5713,7 @@ class RuleIpExpression {
       evaluate: RuleIpToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: RuleIpOperator.fromString((json['Operator'] as String)),
+      operator: RuleIpOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -5441,19 +5733,28 @@ class RuleIpExpression {
   }
 }
 
-enum RuleIpOperator {
-  cidrMatches('CIDR_MATCHES'),
-  notCidrMatches('NOT_CIDR_MATCHES'),
-  ;
+class RuleIpOperator {
+  static const cidrMatches = RuleIpOperator._('CIDR_MATCHES');
+  static const notCidrMatches = RuleIpOperator._('NOT_CIDR_MATCHES');
 
   final String value;
 
-  const RuleIpOperator(this.value);
+  const RuleIpOperator._(this.value);
+
+  static const values = [cidrMatches, notCidrMatches];
 
   static RuleIpOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleIpOperator'));
+          orElse: () => RuleIpOperator._(value));
+
+  @override
+  bool operator ==(other) => other is RuleIpOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The IP address to evaluate for this condition.
@@ -5480,18 +5781,28 @@ class RuleIpToEvaluate {
   }
 }
 
-enum RuleNumberEmailAttribute {
-  messageSize('MESSAGE_SIZE'),
-  ;
+class RuleNumberEmailAttribute {
+  static const messageSize = RuleNumberEmailAttribute._('MESSAGE_SIZE');
 
   final String value;
 
-  const RuleNumberEmailAttribute(this.value);
+  const RuleNumberEmailAttribute._(this.value);
+
+  static const values = [messageSize];
 
   static RuleNumberEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleNumberEmailAttribute'));
+          orElse: () => RuleNumberEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleNumberEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A number expression to match numeric conditions with integers from the
@@ -5517,7 +5828,8 @@ class RuleNumberExpression {
       evaluate: RuleNumberToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: RuleNumberOperator.fromString((json['Operator'] as String)),
+      operator:
+          RuleNumberOperator.fromString((json['Operator'] as String?) ?? ''),
       value: (json['Value'] as double?) ?? 0,
     );
   }
@@ -5534,23 +5846,41 @@ class RuleNumberExpression {
   }
 }
 
-enum RuleNumberOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  ;
+class RuleNumberOperator {
+  static const equals = RuleNumberOperator._('EQUALS');
+  static const notEquals = RuleNumberOperator._('NOT_EQUALS');
+  static const lessThan = RuleNumberOperator._('LESS_THAN');
+  static const greaterThan = RuleNumberOperator._('GREATER_THAN');
+  static const lessThanOrEqual = RuleNumberOperator._('LESS_THAN_OR_EQUAL');
+  static const greaterThanOrEqual =
+      RuleNumberOperator._('GREATER_THAN_OR_EQUAL');
 
   final String value;
 
-  const RuleNumberOperator(this.value);
+  const RuleNumberOperator._(this.value);
 
-  static RuleNumberOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleNumberOperator'));
+  static const values = [
+    equals,
+    notEquals,
+    lessThan,
+    greaterThan,
+    lessThanOrEqual,
+    greaterThanOrEqual
+  ];
+
+  static RuleNumberOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleNumberOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleNumberOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The number to evaluate in a numeric condition expression.
@@ -5616,25 +5946,44 @@ class RuleSet {
   }
 }
 
-enum RuleStringEmailAttribute {
-  mailFrom('MAIL_FROM'),
-  helo('HELO'),
-  recipient('RECIPIENT'),
-  sender('SENDER'),
-  from('FROM'),
-  subject('SUBJECT'),
-  to('TO'),
-  cc('CC'),
-  ;
+class RuleStringEmailAttribute {
+  static const mailFrom = RuleStringEmailAttribute._('MAIL_FROM');
+  static const helo = RuleStringEmailAttribute._('HELO');
+  static const recipient = RuleStringEmailAttribute._('RECIPIENT');
+  static const sender = RuleStringEmailAttribute._('SENDER');
+  static const from = RuleStringEmailAttribute._('FROM');
+  static const subject = RuleStringEmailAttribute._('SUBJECT');
+  static const to = RuleStringEmailAttribute._('TO');
+  static const cc = RuleStringEmailAttribute._('CC');
 
   final String value;
 
-  const RuleStringEmailAttribute(this.value);
+  const RuleStringEmailAttribute._(this.value);
+
+  static const values = [
+    mailFrom,
+    helo,
+    recipient,
+    sender,
+    from,
+    subject,
+    to,
+    cc
+  ];
 
   static RuleStringEmailAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RuleStringEmailAttribute'));
+          orElse: () => RuleStringEmailAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleStringEmailAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A string expression is evaluated against strings or substrings of the email.
@@ -5664,7 +6013,8 @@ class RuleStringExpression {
       evaluate: RuleStringToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: RuleStringOperator.fromString((json['Operator'] as String)),
+      operator:
+          RuleStringOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -5684,22 +6034,32 @@ class RuleStringExpression {
   }
 }
 
-enum RuleStringOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  ;
+class RuleStringOperator {
+  static const equals = RuleStringOperator._('EQUALS');
+  static const notEquals = RuleStringOperator._('NOT_EQUALS');
+  static const startsWith = RuleStringOperator._('STARTS_WITH');
+  static const endsWith = RuleStringOperator._('ENDS_WITH');
+  static const contains = RuleStringOperator._('CONTAINS');
 
   final String value;
 
-  const RuleStringOperator(this.value);
+  const RuleStringOperator._(this.value);
 
-  static RuleStringOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleStringOperator'));
+  static const values = [equals, notEquals, startsWith, endsWith, contains];
+
+  static RuleStringOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleStringOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleStringOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The string to evaluate in a string condition expression.
@@ -5726,35 +6086,54 @@ class RuleStringToEvaluate {
   }
 }
 
-enum RuleVerdict {
-  pass('PASS'),
-  fail('FAIL'),
-  gray('GRAY'),
-  processingFailed('PROCESSING_FAILED'),
-  ;
+class RuleVerdict {
+  static const pass = RuleVerdict._('PASS');
+  static const fail = RuleVerdict._('FAIL');
+  static const gray = RuleVerdict._('GRAY');
+  static const processingFailed = RuleVerdict._('PROCESSING_FAILED');
 
   final String value;
 
-  const RuleVerdict(this.value);
+  const RuleVerdict._(this.value);
 
-  static RuleVerdict fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleVerdict'));
+  static const values = [pass, fail, gray, processingFailed];
+
+  static RuleVerdict fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleVerdict._(value));
+
+  @override
+  bool operator ==(other) => other is RuleVerdict && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleVerdictAttribute {
-  spf('SPF'),
-  dkim('DKIM'),
-  ;
+class RuleVerdictAttribute {
+  static const spf = RuleVerdictAttribute._('SPF');
+  static const dkim = RuleVerdictAttribute._('DKIM');
 
   final String value;
 
-  const RuleVerdictAttribute(this.value);
+  const RuleVerdictAttribute._(this.value);
 
-  static RuleVerdictAttribute fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleVerdictAttribute'));
+  static const values = [spf, dkim];
+
+  static RuleVerdictAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleVerdictAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleVerdictAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A verdict expression is evaluated against verdicts of the email.
@@ -5783,7 +6162,8 @@ class RuleVerdictExpression {
       evaluate: RuleVerdictToEvaluate.fromJson(
           (json['Evaluate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      operator: RuleVerdictOperator.fromString((json['Operator'] as String)),
+      operator:
+          RuleVerdictOperator.fromString((json['Operator'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleVerdict.fromString((e as String)))
@@ -5803,19 +6183,29 @@ class RuleVerdictExpression {
   }
 }
 
-enum RuleVerdictOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  ;
+class RuleVerdictOperator {
+  static const equals = RuleVerdictOperator._('EQUALS');
+  static const notEquals = RuleVerdictOperator._('NOT_EQUALS');
 
   final String value;
 
-  const RuleVerdictOperator(this.value);
+  const RuleVerdictOperator._(this.value);
 
-  static RuleVerdictOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RuleVerdictOperator'));
+  static const values = [equals, notEquals];
+
+  static RuleVerdictOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleVerdictOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleVerdictOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The verdict to evaluate in a verdict condition expression.
@@ -5932,21 +6322,30 @@ class S3ExportDestinationConfiguration {
   }
 }
 
-enum SearchState {
-  queued('QUEUED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  ;
+class SearchState {
+  static const queued = SearchState._('QUEUED');
+  static const running = SearchState._('RUNNING');
+  static const completed = SearchState._('COMPLETED');
+  static const failed = SearchState._('FAILED');
+  static const cancelled = SearchState._('CANCELLED');
 
   final String value;
 
-  const SearchState(this.value);
+  const SearchState._(this.value);
 
-  static SearchState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SearchState'));
+  static const values = [queued, running, completed, failed, cancelled];
+
+  static SearchState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchState._(value));
+
+  @override
+  bool operator ==(other) => other is SearchState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The current status of an archive search job.
@@ -6205,7 +6604,8 @@ class TrafficPolicy {
 
   factory TrafficPolicy.fromJson(Map<String, dynamic> json) {
     return TrafficPolicy(
-      defaultAction: AcceptAction.fromString((json['DefaultAction'] as String)),
+      defaultAction:
+          AcceptAction.fromString((json['DefaultAction'] as String?) ?? ''),
       trafficPolicyId: (json['TrafficPolicyId'] as String?) ?? '',
       trafficPolicyName: (json['TrafficPolicyName'] as String?) ?? '',
     );

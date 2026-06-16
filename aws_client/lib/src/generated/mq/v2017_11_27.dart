@@ -1155,19 +1155,29 @@ class ActionRequired {
 
 /// Optional. The authentication strategy used to secure the broker. The default
 /// is SIMPLE.
-enum AuthenticationStrategy {
-  simple('SIMPLE'),
-  ldap('LDAP'),
-  ;
+class AuthenticationStrategy {
+  static const simple = AuthenticationStrategy._('SIMPLE');
+  static const ldap = AuthenticationStrategy._('LDAP');
 
   final String value;
 
-  const AuthenticationStrategy(this.value);
+  const AuthenticationStrategy._(this.value);
+
+  static const values = [simple, ldap];
 
   static AuthenticationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticationStrategy'));
+          orElse: () => AuthenticationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Name of the availability zone.
@@ -1339,42 +1349,69 @@ class BrokerInstanceOption {
 }
 
 /// The broker's status.
-enum BrokerState {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  creationFailed('CREATION_FAILED'),
-  deletionInProgress('DELETION_IN_PROGRESS'),
-  running('RUNNING'),
-  rebootInProgress('REBOOT_IN_PROGRESS'),
-  criticalActionRequired('CRITICAL_ACTION_REQUIRED'),
-  replica('REPLICA'),
-  ;
+class BrokerState {
+  static const creationInProgress = BrokerState._('CREATION_IN_PROGRESS');
+  static const creationFailed = BrokerState._('CREATION_FAILED');
+  static const deletionInProgress = BrokerState._('DELETION_IN_PROGRESS');
+  static const running = BrokerState._('RUNNING');
+  static const rebootInProgress = BrokerState._('REBOOT_IN_PROGRESS');
+  static const criticalActionRequired =
+      BrokerState._('CRITICAL_ACTION_REQUIRED');
+  static const replica = BrokerState._('REPLICA');
 
   final String value;
 
-  const BrokerState(this.value);
+  const BrokerState._(this.value);
 
-  static BrokerState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BrokerState'));
+  static const values = [
+    creationInProgress,
+    creationFailed,
+    deletionInProgress,
+    running,
+    rebootInProgress,
+    criticalActionRequired,
+    replica
+  ];
+
+  static BrokerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BrokerState._(value));
+
+  @override
+  bool operator ==(other) => other is BrokerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The broker's storage type.
 /// <important>
 /// EFS is not supported for RabbitMQ engine type.
 /// </important>
-enum BrokerStorageType {
-  ebs('EBS'),
-  efs('EFS'),
-  ;
+class BrokerStorageType {
+  static const ebs = BrokerStorageType._('EBS');
+  static const efs = BrokerStorageType._('EFS');
 
   final String value;
 
-  const BrokerStorageType(this.value);
+  const BrokerStorageType._(this.value);
+
+  static const values = [ebs, efs];
 
   static BrokerStorageType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BrokerStorageType'));
+          orElse: () => BrokerStorageType._(value));
+
+  @override
+  bool operator ==(other) => other is BrokerStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about all brokers.
@@ -1420,8 +1457,8 @@ class BrokerSummary {
   factory BrokerSummary.fromJson(Map<String, dynamic> json) {
     return BrokerSummary(
       deploymentMode:
-          DeploymentMode.fromString((json['deploymentMode'] as String)),
-      engineType: EngineType.fromString((json['engineType'] as String)),
+          DeploymentMode.fromString((json['deploymentMode'] as String?) ?? ''),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       brokerArn: json['brokerArn'] as String?,
       brokerId: json['brokerId'] as String?,
       brokerName: json['brokerName'] as String?,
@@ -1455,19 +1492,28 @@ class BrokerSummary {
 }
 
 /// The type of change pending for the ActiveMQ user.
-enum ChangeType {
-  create('CREATE'),
-  update('UPDATE'),
-  delete('DELETE'),
-  ;
+class ChangeType {
+  static const create = ChangeType._('CREATE');
+  static const update = ChangeType._('UPDATE');
+  static const delete = ChangeType._('DELETE');
 
   final String value;
 
-  const ChangeType(this.value);
+  const ChangeType._(this.value);
 
-  static ChangeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChangeType'));
+  static const values = [create, update, delete];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns information about all configurations.
@@ -1529,10 +1575,10 @@ class Configuration {
     return Configuration(
       arn: (json['arn'] as String?) ?? '',
       authenticationStrategy: AuthenticationStrategy.fromString(
-          (json['authenticationStrategy'] as String)),
+          (json['authenticationStrategy'] as String?) ?? ''),
       created: nonNullableTimeStampFromJson(json['created'] ?? 0),
       description: (json['description'] as String?) ?? '',
-      engineType: EngineType.fromString((json['engineType'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String?) ?? ''),
       engineVersion: (json['engineVersion'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       latestRevision: ConfigurationRevision.fromJson(
@@ -1857,38 +1903,65 @@ class DataReplicationMetadataOutput {
 }
 
 /// Specifies whether a broker is a part of a data replication pair.
-enum DataReplicationMode {
-  none('NONE'),
-  crdr('CRDR'),
-  ;
+class DataReplicationMode {
+  static const none = DataReplicationMode._('NONE');
+  static const crdr = DataReplicationMode._('CRDR');
 
   final String value;
 
-  const DataReplicationMode(this.value);
+  const DataReplicationMode._(this.value);
 
-  static DataReplicationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataReplicationMode'));
+  static const values = [none, crdr];
+
+  static DataReplicationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataReplicationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataReplicationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DayOfWeek {
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  sunday('SUNDAY'),
-  ;
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteBrokerResponse {
@@ -1926,20 +1999,30 @@ class DeleteUserResponse {
 }
 
 /// The broker's deployment mode.
-enum DeploymentMode {
-  singleInstance('SINGLE_INSTANCE'),
-  activeStandbyMultiAz('ACTIVE_STANDBY_MULTI_AZ'),
-  clusterMultiAz('CLUSTER_MULTI_AZ'),
-  ;
+class DeploymentMode {
+  static const singleInstance = DeploymentMode._('SINGLE_INSTANCE');
+  static const activeStandbyMultiAz =
+      DeploymentMode._('ACTIVE_STANDBY_MULTI_AZ');
+  static const clusterMultiAz = DeploymentMode._('CLUSTER_MULTI_AZ');
 
   final String value;
 
-  const DeploymentMode(this.value);
+  const DeploymentMode._(this.value);
+
+  static const values = [singleInstance, activeStandbyMultiAz, clusterMultiAz];
 
   static DeploymentMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentMode'));
+          orElse: () => DeploymentMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeBrokerEngineTypesResponse {
@@ -2609,18 +2692,27 @@ class EncryptionOptions {
 }
 
 /// The type of broker engine. Amazon MQ supports ActiveMQ and RabbitMQ.
-enum EngineType {
-  activemq('ACTIVEMQ'),
-  rabbitmq('RABBITMQ'),
-  ;
+class EngineType {
+  static const activemq = EngineType._('ACTIVEMQ');
+  static const rabbitmq = EngineType._('RABBITMQ');
 
   final String value;
 
-  const EngineType(this.value);
+  const EngineType._(this.value);
 
-  static EngineType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EngineType'));
+  static const values = [activemq, rabbitmq];
+
+  static EngineType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EngineType._(value));
+
+  @override
+  bool operator ==(other) => other is EngineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Id of the engine version.
@@ -3188,18 +3280,27 @@ class PendingLogs {
 }
 
 /// The Promote mode requested.
-enum PromoteMode {
-  switchover('SWITCHOVER'),
-  failover('FAILOVER'),
-  ;
+class PromoteMode {
+  static const switchover = PromoteMode._('SWITCHOVER');
+  static const failover = PromoteMode._('FAILOVER');
 
   final String value;
 
-  const PromoteMode(this.value);
+  const PromoteMode._(this.value);
 
-  static PromoteMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PromoteMode'));
+  static const values = [switchover, failover];
+
+  static PromoteMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PromoteMode._(value));
+
+  @override
+  bool operator ==(other) => other is PromoteMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PromoteResponse {
@@ -3257,7 +3358,8 @@ class SanitizationWarning {
 
   factory SanitizationWarning.fromJson(Map<String, dynamic> json) {
     return SanitizationWarning(
-      reason: SanitizationWarningReason.fromString((json['reason'] as String)),
+      reason: SanitizationWarningReason.fromString(
+          (json['reason'] as String?) ?? ''),
       attributeName: json['attributeName'] as String?,
       elementName: json['elementName'] as String?,
     );
@@ -3277,20 +3379,37 @@ class SanitizationWarning {
 
 /// The reason for which the configuration elements or attributes were
 /// sanitized.
-enum SanitizationWarningReason {
-  disallowedElementRemoved('DISALLOWED_ELEMENT_REMOVED'),
-  disallowedAttributeRemoved('DISALLOWED_ATTRIBUTE_REMOVED'),
-  invalidAttributeValueRemoved('INVALID_ATTRIBUTE_VALUE_REMOVED'),
-  ;
+class SanitizationWarningReason {
+  static const disallowedElementRemoved =
+      SanitizationWarningReason._('DISALLOWED_ELEMENT_REMOVED');
+  static const disallowedAttributeRemoved =
+      SanitizationWarningReason._('DISALLOWED_ATTRIBUTE_REMOVED');
+  static const invalidAttributeValueRemoved =
+      SanitizationWarningReason._('INVALID_ATTRIBUTE_VALUE_REMOVED');
 
   final String value;
 
-  const SanitizationWarningReason(this.value);
+  const SanitizationWarningReason._(this.value);
+
+  static const values = [
+    disallowedElementRemoved,
+    disallowedAttributeRemoved,
+    invalidAttributeValueRemoved
+  ];
 
   static SanitizationWarningReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SanitizationWarningReason'));
+          orElse: () => SanitizationWarningReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SanitizationWarningReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateBrokerResponse {
@@ -3623,7 +3742,8 @@ class UserPendingChanges {
 
   factory UserPendingChanges.fromJson(Map<String, dynamic> json) {
     return UserPendingChanges(
-      pendingChange: ChangeType.fromString((json['pendingChange'] as String)),
+      pendingChange:
+          ChangeType.fromString((json['pendingChange'] as String?) ?? ''),
       consoleAccess: json['consoleAccess'] as bool?,
       groups:
           (json['groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -3696,7 +3816,7 @@ class WeeklyStartTime {
 
   factory WeeklyStartTime.fromJson(Map<String, dynamic> json) {
     return WeeklyStartTime(
-      dayOfWeek: DayOfWeek.fromString((json['dayOfWeek'] as String)),
+      dayOfWeek: DayOfWeek.fromString((json['dayOfWeek'] as String?) ?? ''),
       timeOfDay: (json['timeOfDay'] as String?) ?? '',
       timeZone: json['timeZone'] as String?,
     );

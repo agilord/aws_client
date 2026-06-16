@@ -3329,7 +3329,8 @@ class OperationWithNestedStructureOutput {
   factory OperationWithNestedStructureOutput.fromJson(
       Map<String, dynamic> json) {
     return OperationWithNestedStructureOutput(
-      dialog: Dialog.fromJson(json['dialog'] as Map<String, dynamic>),
+      dialog: Dialog.fromJson((json['dialog'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       dialogList: (json['dialogList'] as List?)
           ?.nonNulls
           .map((e) => Dialog.fromJson(e as Map<String, dynamic>))
@@ -3393,7 +3394,8 @@ class PostPlayerActionOutput {
 
   factory PostPlayerActionOutput.fromJson(Map<String, dynamic> json) {
     return PostPlayerActionOutput(
-      action: PlayerAction.fromJson(json['action'] as Map<String, dynamic>),
+      action: PlayerAction.fromJson((json['action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3414,7 +3416,9 @@ class PostUnionWithJsonNameOutput {
 
   factory PostUnionWithJsonNameOutput.fromJson(Map<String, dynamic> json) {
     return PostUnionWithJsonNameOutput(
-      value: UnionWithJsonName.fromJson(json['value'] as Map<String, dynamic>),
+      value: UnionWithJsonName.fromJson(
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3471,7 +3475,7 @@ class ResponseCodeRequiredOutput {
 
   factory ResponseCodeRequiredOutput.fromJson(Map<String, dynamic> json) {
     return ResponseCodeRequiredOutput(
-      responseCode: json['responseCode'] as int,
+      responseCode: (json['responseCode'] as int?) ?? 0,
     );
   }
 
@@ -4321,19 +4325,28 @@ class TopLevel {
   }
 }
 
-enum TestEnum {
-  foo('FOO'),
-  bar('BAR'),
-  baz('BAZ'),
-  ;
+class TestEnum {
+  static const foo = TestEnum._('FOO');
+  static const bar = TestEnum._('BAR');
+  static const baz = TestEnum._('BAZ');
 
   final String value;
 
-  const TestEnum(this.value);
+  const TestEnum._(this.value);
 
-  static TestEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TestEnum'));
+  static const values = [foo, bar, baz];
+
+  static TestEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestEnum._(value));
+
+  @override
+  bool operator ==(other) => other is TestEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Defaults {
@@ -4479,21 +4492,30 @@ class ClientOptionalDefaults {
   }
 }
 
-enum FooEnum {
-  foo('Foo'),
-  baz('Baz'),
-  bar('Bar'),
-  $1('1'),
-  $0('0'),
-  ;
+class FooEnum {
+  static const foo = FooEnum._('Foo');
+  static const baz = FooEnum._('Baz');
+  static const bar = FooEnum._('Bar');
+  static const $1 = FooEnum._('1');
+  static const $0 = FooEnum._('0');
 
   final String value;
 
-  const FooEnum(this.value);
+  const FooEnum._(this.value);
 
-  static FooEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum FooEnum'));
+  static const values = [foo, baz, bar, $1, $0];
+
+  static FooEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FooEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FooEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SimpleUnion {
@@ -4688,17 +4710,26 @@ class NestedPayload {
   }
 }
 
-enum StringEnum {
-  enumvalue('enumvalue'),
-  ;
+class StringEnum {
+  static const enumvalue = StringEnum._('enumvalue');
 
   final String value;
 
-  const StringEnum(this.value);
+  const StringEnum._(this.value);
 
-  static StringEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StringEnum'));
+  static const values = [enumvalue];
+
+  static StringEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StringEnum._(value));
+
+  @override
+  bool operator ==(other) => other is StringEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SingletonEventStream {

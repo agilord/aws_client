@@ -575,19 +575,28 @@ class Column {
   }
 }
 
-enum CompressionOption {
-  gzip('GZIP'),
-  parquet('PARQUET'),
-  ;
+class CompressionOption {
+  static const gzip = CompressionOption._('GZIP');
+  static const parquet = CompressionOption._('PARQUET');
 
   final String value;
 
-  const CompressionOption(this.value);
+  const CompressionOption._(this.value);
+
+  static const values = [gzip, parquet];
 
   static CompressionOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionOption'));
+          orElse: () => CompressionOption._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateExportResponse {
@@ -781,40 +790,74 @@ class ExecutionStatus {
   }
 }
 
-enum ExecutionStatusCode {
-  initiationInProcess('INITIATION_IN_PROCESS'),
-  queryQueued('QUERY_QUEUED'),
-  queryInProcess('QUERY_IN_PROCESS'),
-  queryFailure('QUERY_FAILURE'),
-  deliveryInProcess('DELIVERY_IN_PROCESS'),
-  deliverySuccess('DELIVERY_SUCCESS'),
-  deliveryFailure('DELIVERY_FAILURE'),
-  ;
+class ExecutionStatusCode {
+  static const initiationInProcess =
+      ExecutionStatusCode._('INITIATION_IN_PROCESS');
+  static const queryQueued = ExecutionStatusCode._('QUERY_QUEUED');
+  static const queryInProcess = ExecutionStatusCode._('QUERY_IN_PROCESS');
+  static const queryFailure = ExecutionStatusCode._('QUERY_FAILURE');
+  static const deliveryInProcess = ExecutionStatusCode._('DELIVERY_IN_PROCESS');
+  static const deliverySuccess = ExecutionStatusCode._('DELIVERY_SUCCESS');
+  static const deliveryFailure = ExecutionStatusCode._('DELIVERY_FAILURE');
 
   final String value;
 
-  const ExecutionStatusCode(this.value);
+  const ExecutionStatusCode._(this.value);
 
-  static ExecutionStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecutionStatusCode'));
+  static const values = [
+    initiationInProcess,
+    queryQueued,
+    queryInProcess,
+    queryFailure,
+    deliveryInProcess,
+    deliverySuccess,
+    deliveryFailure
+  ];
+
+  static ExecutionStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionStatusReason {
-  insufficientPermission('INSUFFICIENT_PERMISSION'),
-  billOwnerChanged('BILL_OWNER_CHANGED'),
-  internalFailure('INTERNAL_FAILURE'),
-  ;
+class ExecutionStatusReason {
+  static const insufficientPermission =
+      ExecutionStatusReason._('INSUFFICIENT_PERMISSION');
+  static const billOwnerChanged = ExecutionStatusReason._('BILL_OWNER_CHANGED');
+  static const internalFailure = ExecutionStatusReason._('INTERNAL_FAILURE');
 
   final String value;
 
-  const ExecutionStatusReason(this.value);
+  const ExecutionStatusReason._(this.value);
 
-  static ExecutionStatusReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExecutionStatusReason'));
+  static const values = [
+    insufficientPermission,
+    billOwnerChanged,
+    internalFailure
+  ];
+
+  static ExecutionStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details that are available for an export.
@@ -974,48 +1017,74 @@ class ExportStatus {
   }
 }
 
-enum ExportStatusCode {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class ExportStatusCode {
+  static const healthy = ExportStatusCode._('HEALTHY');
+  static const unhealthy = ExportStatusCode._('UNHEALTHY');
 
   final String value;
 
-  const ExportStatusCode(this.value);
+  const ExportStatusCode._(this.value);
+
+  static const values = [healthy, unhealthy];
 
   static ExportStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportStatusCode'));
+          orElse: () => ExportStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FormatOption {
-  textOrCsv('TEXT_OR_CSV'),
-  parquet('PARQUET'),
-  ;
+class FormatOption {
+  static const textOrCsv = FormatOption._('TEXT_OR_CSV');
+  static const parquet = FormatOption._('PARQUET');
 
   final String value;
 
-  const FormatOption(this.value);
+  const FormatOption._(this.value);
 
-  static FormatOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FormatOption'));
+  static const values = [textOrCsv, parquet];
+
+  static FormatOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FormatOption._(value));
+
+  @override
+  bool operator ==(other) => other is FormatOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FrequencyOption {
-  synchronous('SYNCHRONOUS'),
-  ;
+class FrequencyOption {
+  static const synchronous = FrequencyOption._('SYNCHRONOUS');
 
   final String value;
 
-  const FrequencyOption(this.value);
+  const FrequencyOption._(this.value);
+
+  static const values = [synchronous];
 
   static FrequencyOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FrequencyOption'));
+          orElse: () => FrequencyOption._(value));
+
+  @override
+  bool operator ==(other) => other is FrequencyOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetExecutionResponse {
@@ -1274,19 +1343,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum OverwriteOption {
-  createNewReport('CREATE_NEW_REPORT'),
-  overwriteReport('OVERWRITE_REPORT'),
-  ;
+class OverwriteOption {
+  static const createNewReport = OverwriteOption._('CREATE_NEW_REPORT');
+  static const overwriteReport = OverwriteOption._('OVERWRITE_REPORT');
 
   final String value;
 
-  const OverwriteOption(this.value);
+  const OverwriteOption._(this.value);
+
+  static const values = [createNewReport, overwriteReport];
 
   static OverwriteOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OverwriteOption'));
+          orElse: () => OverwriteOption._(value));
+
+  @override
+  bool operator ==(other) => other is OverwriteOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cadence for Amazon Web Services to update the data export in your S3
@@ -1302,7 +1380,8 @@ class RefreshCadence {
 
   factory RefreshCadence.fromJson(Map<String, dynamic> json) {
     return RefreshCadence(
-      frequency: FrequencyOption.fromString((json['Frequency'] as String)),
+      frequency:
+          FrequencyOption.fromString((json['Frequency'] as String?) ?? ''),
     );
   }
 
@@ -1421,10 +1500,12 @@ class S3OutputConfigurations {
   factory S3OutputConfigurations.fromJson(Map<String, dynamic> json) {
     return S3OutputConfigurations(
       compression:
-          CompressionOption.fromString((json['Compression'] as String)),
-      format: FormatOption.fromString((json['Format'] as String)),
-      outputType: S3OutputType.fromString((json['OutputType'] as String)),
-      overwrite: OverwriteOption.fromString((json['Overwrite'] as String)),
+          CompressionOption.fromString((json['Compression'] as String?) ?? ''),
+      format: FormatOption.fromString((json['Format'] as String?) ?? ''),
+      outputType:
+          S3OutputType.fromString((json['OutputType'] as String?) ?? ''),
+      overwrite:
+          OverwriteOption.fromString((json['Overwrite'] as String?) ?? ''),
     );
   }
 
@@ -1442,18 +1523,26 @@ class S3OutputConfigurations {
   }
 }
 
-enum S3OutputType {
-  custom('CUSTOM'),
-  ;
+class S3OutputType {
+  static const custom = S3OutputType._('CUSTOM');
 
   final String value;
 
-  const S3OutputType(this.value);
+  const S3OutputType._(this.value);
 
-  static S3OutputType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3OutputType'));
+  static const values = [custom];
+
+  static S3OutputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3OutputType._(value));
+
+  @override
+  bool operator ==(other) => other is S3OutputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details for the data export table.

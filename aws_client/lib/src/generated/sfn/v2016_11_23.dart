@@ -3619,7 +3619,7 @@ class DescribeExecutionOutput {
       executionArn: (json['executionArn'] as String?) ?? '',
       startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
       stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      status: ExecutionStatus.fromString((json['status'] as String)),
+      status: ExecutionStatus.fromString((json['status'] as String?) ?? ''),
       cause: json['cause'] as String?,
       error: json['error'] as String?,
       input: json['input'] as String?,
@@ -3771,7 +3771,7 @@ class DescribeMapRunOutput {
       mapRunArn: (json['mapRunArn'] as String?) ?? '',
       maxConcurrency: (json['maxConcurrency'] as int?) ?? 0,
       startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
-      status: MapRunStatus.fromString((json['status'] as String)),
+      status: MapRunStatus.fromString((json['status'] as String?) ?? ''),
       toleratedFailureCount: (json['toleratedFailureCount'] as int?) ?? 0,
       toleratedFailurePercentage:
           (json['toleratedFailurePercentage'] as double?) ?? 0,
@@ -4103,7 +4103,7 @@ class DescribeStateMachineOutput {
       name: (json['name'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
       stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      type: StateMachineType.fromString((json['type'] as String)),
+      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
       encryptionConfiguration: json['encryptionConfiguration'] != null
           ? EncryptionConfiguration.fromJson(
@@ -4199,7 +4199,7 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      type: EncryptionType.fromString((json['type'] as String)),
+      type: EncryptionType.fromString((json['type'] as String?) ?? ''),
       kmsDataKeyReusePeriodSeconds:
           json['kmsDataKeyReusePeriodSeconds'] as int?,
       kmsKeyId: json['kmsKeyId'] as String?,
@@ -4219,19 +4219,29 @@ class EncryptionConfiguration {
   }
 }
 
-enum EncryptionType {
-  awsOwnedKey('AWS_OWNED_KEY'),
-  customerManagedKmsKey('CUSTOMER_MANAGED_KMS_KEY'),
-  ;
+class EncryptionType {
+  static const awsOwnedKey = EncryptionType._('AWS_OWNED_KEY');
+  static const customerManagedKmsKey =
+      EncryptionType._('CUSTOMER_MANAGED_KMS_KEY');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [awsOwnedKey, customerManagedKmsKey];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about an abort of an execution.
@@ -4397,7 +4407,7 @@ class ExecutionListItem {
       name: (json['name'] as String?) ?? '',
       startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
       stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      status: ExecutionStatus.fromString((json['status'] as String)),
+      status: ExecutionStatus.fromString((json['status'] as String?) ?? ''),
       itemCount: json['itemCount'] as int?,
       mapRunArn: json['mapRunArn'] as String?,
       redriveCount: json['redriveCount'] as int?,
@@ -4440,35 +4450,56 @@ class ExecutionListItem {
   }
 }
 
-enum ExecutionRedriveFilter {
-  redriven('REDRIVEN'),
-  notRedriven('NOT_REDRIVEN'),
-  ;
+class ExecutionRedriveFilter {
+  static const redriven = ExecutionRedriveFilter._('REDRIVEN');
+  static const notRedriven = ExecutionRedriveFilter._('NOT_REDRIVEN');
 
   final String value;
 
-  const ExecutionRedriveFilter(this.value);
+  const ExecutionRedriveFilter._(this.value);
+
+  static const values = [redriven, notRedriven];
 
   static ExecutionRedriveFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExecutionRedriveFilter'));
+          orElse: () => ExecutionRedriveFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionRedriveFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExecutionRedriveStatus {
-  redrivable('REDRIVABLE'),
-  notRedrivable('NOT_REDRIVABLE'),
-  redrivableByMapRun('REDRIVABLE_BY_MAP_RUN'),
-  ;
+class ExecutionRedriveStatus {
+  static const redrivable = ExecutionRedriveStatus._('REDRIVABLE');
+  static const notRedrivable = ExecutionRedriveStatus._('NOT_REDRIVABLE');
+  static const redrivableByMapRun =
+      ExecutionRedriveStatus._('REDRIVABLE_BY_MAP_RUN');
 
   final String value;
 
-  const ExecutionRedriveStatus(this.value);
+  const ExecutionRedriveStatus._(this.value);
+
+  static const values = [redrivable, notRedrivable, redrivableByMapRun];
 
   static ExecutionRedriveStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExecutionRedriveStatus'));
+          orElse: () => ExecutionRedriveStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionRedriveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a redriven execution.
@@ -4556,23 +4587,39 @@ class ExecutionStartedEventDetails {
   }
 }
 
-enum ExecutionStatus {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timedOut('TIMED_OUT'),
-  aborted('ABORTED'),
-  pendingRedrive('PENDING_REDRIVE'),
-  ;
+class ExecutionStatus {
+  static const running = ExecutionStatus._('RUNNING');
+  static const succeeded = ExecutionStatus._('SUCCEEDED');
+  static const failed = ExecutionStatus._('FAILED');
+  static const timedOut = ExecutionStatus._('TIMED_OUT');
+  static const aborted = ExecutionStatus._('ABORTED');
+  static const pendingRedrive = ExecutionStatus._('PENDING_REDRIVE');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    running,
+    succeeded,
+    failed,
+    timedOut,
+    aborted,
+    pendingRedrive
+  ];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the successful termination of the execution.
@@ -4857,7 +4904,7 @@ class HistoryEvent {
     return HistoryEvent(
       id: (json['id'] as int?) ?? 0,
       timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
-      type: HistoryEventType.fromString((json['type'] as String)),
+      type: HistoryEventType.fromString((json['type'] as String?) ?? ''),
       activityFailedEventDetails: json['activityFailedEventDetails'] != null
           ? ActivityFailedEventDetails.fromJson(
               json['activityFailedEventDetails'] as Map<String, dynamic>)
@@ -5194,93 +5241,185 @@ class HistoryEventExecutionDataDetails {
   }
 }
 
-enum HistoryEventType {
-  activityFailed('ActivityFailed'),
-  activityScheduled('ActivityScheduled'),
-  activityScheduleFailed('ActivityScheduleFailed'),
-  activityStarted('ActivityStarted'),
-  activitySucceeded('ActivitySucceeded'),
-  activityTimedOut('ActivityTimedOut'),
-  choiceStateEntered('ChoiceStateEntered'),
-  choiceStateExited('ChoiceStateExited'),
-  executionAborted('ExecutionAborted'),
-  executionFailed('ExecutionFailed'),
-  executionStarted('ExecutionStarted'),
-  executionSucceeded('ExecutionSucceeded'),
-  executionTimedOut('ExecutionTimedOut'),
-  failStateEntered('FailStateEntered'),
-  lambdaFunctionFailed('LambdaFunctionFailed'),
-  lambdaFunctionScheduled('LambdaFunctionScheduled'),
-  lambdaFunctionScheduleFailed('LambdaFunctionScheduleFailed'),
-  lambdaFunctionStarted('LambdaFunctionStarted'),
-  lambdaFunctionStartFailed('LambdaFunctionStartFailed'),
-  lambdaFunctionSucceeded('LambdaFunctionSucceeded'),
-  lambdaFunctionTimedOut('LambdaFunctionTimedOut'),
-  mapIterationAborted('MapIterationAborted'),
-  mapIterationFailed('MapIterationFailed'),
-  mapIterationStarted('MapIterationStarted'),
-  mapIterationSucceeded('MapIterationSucceeded'),
-  mapStateAborted('MapStateAborted'),
-  mapStateEntered('MapStateEntered'),
-  mapStateExited('MapStateExited'),
-  mapStateFailed('MapStateFailed'),
-  mapStateStarted('MapStateStarted'),
-  mapStateSucceeded('MapStateSucceeded'),
-  parallelStateAborted('ParallelStateAborted'),
-  parallelStateEntered('ParallelStateEntered'),
-  parallelStateExited('ParallelStateExited'),
-  parallelStateFailed('ParallelStateFailed'),
-  parallelStateStarted('ParallelStateStarted'),
-  parallelStateSucceeded('ParallelStateSucceeded'),
-  passStateEntered('PassStateEntered'),
-  passStateExited('PassStateExited'),
-  succeedStateEntered('SucceedStateEntered'),
-  succeedStateExited('SucceedStateExited'),
-  taskFailed('TaskFailed'),
-  taskScheduled('TaskScheduled'),
-  taskStarted('TaskStarted'),
-  taskStartFailed('TaskStartFailed'),
-  taskStateAborted('TaskStateAborted'),
-  taskStateEntered('TaskStateEntered'),
-  taskStateExited('TaskStateExited'),
-  taskSubmitFailed('TaskSubmitFailed'),
-  taskSubmitted('TaskSubmitted'),
-  taskSucceeded('TaskSucceeded'),
-  taskTimedOut('TaskTimedOut'),
-  waitStateAborted('WaitStateAborted'),
-  waitStateEntered('WaitStateEntered'),
-  waitStateExited('WaitStateExited'),
-  mapRunAborted('MapRunAborted'),
-  mapRunFailed('MapRunFailed'),
-  mapRunStarted('MapRunStarted'),
-  mapRunSucceeded('MapRunSucceeded'),
-  executionRedriven('ExecutionRedriven'),
-  mapRunRedriven('MapRunRedriven'),
-  ;
+class HistoryEventType {
+  static const activityFailed = HistoryEventType._('ActivityFailed');
+  static const activityScheduled = HistoryEventType._('ActivityScheduled');
+  static const activityScheduleFailed =
+      HistoryEventType._('ActivityScheduleFailed');
+  static const activityStarted = HistoryEventType._('ActivityStarted');
+  static const activitySucceeded = HistoryEventType._('ActivitySucceeded');
+  static const activityTimedOut = HistoryEventType._('ActivityTimedOut');
+  static const choiceStateEntered = HistoryEventType._('ChoiceStateEntered');
+  static const choiceStateExited = HistoryEventType._('ChoiceStateExited');
+  static const executionAborted = HistoryEventType._('ExecutionAborted');
+  static const executionFailed = HistoryEventType._('ExecutionFailed');
+  static const executionStarted = HistoryEventType._('ExecutionStarted');
+  static const executionSucceeded = HistoryEventType._('ExecutionSucceeded');
+  static const executionTimedOut = HistoryEventType._('ExecutionTimedOut');
+  static const failStateEntered = HistoryEventType._('FailStateEntered');
+  static const lambdaFunctionFailed =
+      HistoryEventType._('LambdaFunctionFailed');
+  static const lambdaFunctionScheduled =
+      HistoryEventType._('LambdaFunctionScheduled');
+  static const lambdaFunctionScheduleFailed =
+      HistoryEventType._('LambdaFunctionScheduleFailed');
+  static const lambdaFunctionStarted =
+      HistoryEventType._('LambdaFunctionStarted');
+  static const lambdaFunctionStartFailed =
+      HistoryEventType._('LambdaFunctionStartFailed');
+  static const lambdaFunctionSucceeded =
+      HistoryEventType._('LambdaFunctionSucceeded');
+  static const lambdaFunctionTimedOut =
+      HistoryEventType._('LambdaFunctionTimedOut');
+  static const mapIterationAborted = HistoryEventType._('MapIterationAborted');
+  static const mapIterationFailed = HistoryEventType._('MapIterationFailed');
+  static const mapIterationStarted = HistoryEventType._('MapIterationStarted');
+  static const mapIterationSucceeded =
+      HistoryEventType._('MapIterationSucceeded');
+  static const mapStateAborted = HistoryEventType._('MapStateAborted');
+  static const mapStateEntered = HistoryEventType._('MapStateEntered');
+  static const mapStateExited = HistoryEventType._('MapStateExited');
+  static const mapStateFailed = HistoryEventType._('MapStateFailed');
+  static const mapStateStarted = HistoryEventType._('MapStateStarted');
+  static const mapStateSucceeded = HistoryEventType._('MapStateSucceeded');
+  static const parallelStateAborted =
+      HistoryEventType._('ParallelStateAborted');
+  static const parallelStateEntered =
+      HistoryEventType._('ParallelStateEntered');
+  static const parallelStateExited = HistoryEventType._('ParallelStateExited');
+  static const parallelStateFailed = HistoryEventType._('ParallelStateFailed');
+  static const parallelStateStarted =
+      HistoryEventType._('ParallelStateStarted');
+  static const parallelStateSucceeded =
+      HistoryEventType._('ParallelStateSucceeded');
+  static const passStateEntered = HistoryEventType._('PassStateEntered');
+  static const passStateExited = HistoryEventType._('PassStateExited');
+  static const succeedStateEntered = HistoryEventType._('SucceedStateEntered');
+  static const succeedStateExited = HistoryEventType._('SucceedStateExited');
+  static const taskFailed = HistoryEventType._('TaskFailed');
+  static const taskScheduled = HistoryEventType._('TaskScheduled');
+  static const taskStarted = HistoryEventType._('TaskStarted');
+  static const taskStartFailed = HistoryEventType._('TaskStartFailed');
+  static const taskStateAborted = HistoryEventType._('TaskStateAborted');
+  static const taskStateEntered = HistoryEventType._('TaskStateEntered');
+  static const taskStateExited = HistoryEventType._('TaskStateExited');
+  static const taskSubmitFailed = HistoryEventType._('TaskSubmitFailed');
+  static const taskSubmitted = HistoryEventType._('TaskSubmitted');
+  static const taskSucceeded = HistoryEventType._('TaskSucceeded');
+  static const taskTimedOut = HistoryEventType._('TaskTimedOut');
+  static const waitStateAborted = HistoryEventType._('WaitStateAborted');
+  static const waitStateEntered = HistoryEventType._('WaitStateEntered');
+  static const waitStateExited = HistoryEventType._('WaitStateExited');
+  static const mapRunAborted = HistoryEventType._('MapRunAborted');
+  static const mapRunFailed = HistoryEventType._('MapRunFailed');
+  static const mapRunStarted = HistoryEventType._('MapRunStarted');
+  static const mapRunSucceeded = HistoryEventType._('MapRunSucceeded');
+  static const executionRedriven = HistoryEventType._('ExecutionRedriven');
+  static const mapRunRedriven = HistoryEventType._('MapRunRedriven');
 
   final String value;
 
-  const HistoryEventType(this.value);
+  const HistoryEventType._(this.value);
+
+  static const values = [
+    activityFailed,
+    activityScheduled,
+    activityScheduleFailed,
+    activityStarted,
+    activitySucceeded,
+    activityTimedOut,
+    choiceStateEntered,
+    choiceStateExited,
+    executionAborted,
+    executionFailed,
+    executionStarted,
+    executionSucceeded,
+    executionTimedOut,
+    failStateEntered,
+    lambdaFunctionFailed,
+    lambdaFunctionScheduled,
+    lambdaFunctionScheduleFailed,
+    lambdaFunctionStarted,
+    lambdaFunctionStartFailed,
+    lambdaFunctionSucceeded,
+    lambdaFunctionTimedOut,
+    mapIterationAborted,
+    mapIterationFailed,
+    mapIterationStarted,
+    mapIterationSucceeded,
+    mapStateAborted,
+    mapStateEntered,
+    mapStateExited,
+    mapStateFailed,
+    mapStateStarted,
+    mapStateSucceeded,
+    parallelStateAborted,
+    parallelStateEntered,
+    parallelStateExited,
+    parallelStateFailed,
+    parallelStateStarted,
+    parallelStateSucceeded,
+    passStateEntered,
+    passStateExited,
+    succeedStateEntered,
+    succeedStateExited,
+    taskFailed,
+    taskScheduled,
+    taskStarted,
+    taskStartFailed,
+    taskStateAborted,
+    taskStateEntered,
+    taskStateExited,
+    taskSubmitFailed,
+    taskSubmitted,
+    taskSucceeded,
+    taskTimedOut,
+    waitStateAborted,
+    waitStateEntered,
+    waitStateExited,
+    mapRunAborted,
+    mapRunFailed,
+    mapRunStarted,
+    mapRunSucceeded,
+    executionRedriven,
+    mapRunRedriven
+  ];
 
   static HistoryEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HistoryEventType'));
+          orElse: () => HistoryEventType._(value));
+
+  @override
+  bool operator ==(other) => other is HistoryEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum IncludedData {
-  allData('ALL_DATA'),
-  metadataOnly('METADATA_ONLY'),
-  ;
+class IncludedData {
+  static const allData = IncludedData._('ALL_DATA');
+  static const metadataOnly = IncludedData._('METADATA_ONLY');
 
   final String value;
 
-  const IncludedData(this.value);
+  const IncludedData._(this.value);
 
-  static IncludedData fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IncludedData'));
+  static const values = [allData, metadataOnly];
+
+  static IncludedData fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IncludedData._(value));
+
+  @override
+  bool operator ==(other) => other is IncludedData && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains additional details about the state's execution, including its input
@@ -5478,20 +5617,29 @@ class InspectionDataResponse {
   }
 }
 
-enum InspectionLevel {
-  info('INFO'),
-  debug('DEBUG'),
-  trace('TRACE'),
-  ;
+class InspectionLevel {
+  static const info = InspectionLevel._('INFO');
+  static const debug = InspectionLevel._('DEBUG');
+  static const trace = InspectionLevel._('TRACE');
 
   final String value;
 
-  const InspectionLevel(this.value);
+  const InspectionLevel._(this.value);
+
+  static const values = [info, debug, trace];
 
   static InspectionLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InspectionLevel'));
+          orElse: () => InspectionLevel._(value));
+
+  @override
+  bool operator ==(other) => other is InspectionLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a Lambda function that failed during an execution.
@@ -5995,20 +6143,29 @@ class LogDestination {
   }
 }
 
-enum LogLevel {
-  all('ALL'),
-  error('ERROR'),
-  fatal('FATAL'),
-  off('OFF'),
-  ;
+class LogLevel {
+  static const all = LogLevel._('ALL');
+  static const error = LogLevel._('ERROR');
+  static const fatal = LogLevel._('FATAL');
+  static const off = LogLevel._('OFF');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [all, error, fatal, off];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
@@ -6436,21 +6593,29 @@ class MapRunStartedEventDetails {
   }
 }
 
-enum MapRunStatus {
-  running('RUNNING'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  aborted('ABORTED'),
-  ;
+class MapRunStatus {
+  static const running = MapRunStatus._('RUNNING');
+  static const succeeded = MapRunStatus._('SUCCEEDED');
+  static const failed = MapRunStatus._('FAILED');
+  static const aborted = MapRunStatus._('ABORTED');
 
   final String value;
 
-  const MapRunStatus(this.value);
+  const MapRunStatus._(this.value);
 
-  static MapRunStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MapRunStatus'));
+  static const values = [running, succeeded, failed, aborted];
+
+  static MapRunStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MapRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MapRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a Map state that was started.
@@ -6699,7 +6864,7 @@ class StartSyncExecutionOutput {
     return StartSyncExecutionOutput(
       executionArn: (json['executionArn'] as String?) ?? '',
       startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
-      status: SyncExecutionStatus.fromString((json['status'] as String)),
+      status: SyncExecutionStatus.fromString((json['status'] as String?) ?? ''),
       stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
       billingDetails: json['billingDetails'] != null
           ? BillingDetails.fromJson(
@@ -6942,7 +7107,7 @@ class StateMachineListItem {
       creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
       name: (json['name'] as String?) ?? '',
       stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      type: StateMachineType.fromString((json['type'] as String)),
+      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -6960,34 +7125,53 @@ class StateMachineListItem {
   }
 }
 
-enum StateMachineStatus {
-  active('ACTIVE'),
-  deleting('DELETING'),
-  ;
+class StateMachineStatus {
+  static const active = StateMachineStatus._('ACTIVE');
+  static const deleting = StateMachineStatus._('DELETING');
 
   final String value;
 
-  const StateMachineStatus(this.value);
+  const StateMachineStatus._(this.value);
 
-  static StateMachineStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StateMachineStatus'));
+  static const values = [active, deleting];
+
+  static StateMachineStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StateMachineStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StateMachineStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StateMachineType {
-  standard('STANDARD'),
-  express('EXPRESS'),
-  ;
+class StateMachineType {
+  static const standard = StateMachineType._('STANDARD');
+  static const express = StateMachineType._('EXPRESS');
 
   final String value;
 
-  const StateMachineType(this.value);
+  const StateMachineType._(this.value);
+
+  static const values = [standard, express];
 
   static StateMachineType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StateMachineType'));
+          orElse: () => StateMachineType._(value));
+
+  @override
+  bool operator ==(other) => other is StateMachineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a specific state machine version.
@@ -7044,20 +7228,30 @@ class StopExecutionOutput {
   }
 }
 
-enum SyncExecutionStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timedOut('TIMED_OUT'),
-  ;
+class SyncExecutionStatus {
+  static const succeeded = SyncExecutionStatus._('SUCCEEDED');
+  static const failed = SyncExecutionStatus._('FAILED');
+  static const timedOut = SyncExecutionStatus._('TIMED_OUT');
 
   final String value;
 
-  const SyncExecutionStatus(this.value);
+  const SyncExecutionStatus._(this.value);
 
-  static SyncExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SyncExecutionStatus'));
+  static const values = [succeeded, failed, timedOut];
+
+  static SyncExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Tags are key-value pairs that can be associated with Step Functions state
@@ -7510,21 +7704,31 @@ class TaskTimedOutEventDetails {
   }
 }
 
-enum TestExecutionStatus {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  retriable('RETRIABLE'),
-  caughtError('CAUGHT_ERROR'),
-  ;
+class TestExecutionStatus {
+  static const succeeded = TestExecutionStatus._('SUCCEEDED');
+  static const failed = TestExecutionStatus._('FAILED');
+  static const retriable = TestExecutionStatus._('RETRIABLE');
+  static const caughtError = TestExecutionStatus._('CAUGHT_ERROR');
 
   final String value;
 
-  const TestExecutionStatus(this.value);
+  const TestExecutionStatus._(this.value);
 
-  static TestExecutionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestExecutionStatus'));
+  static const values = [succeeded, failed, retriable, caughtError];
+
+  static TestExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TestStateOutput {
@@ -7738,7 +7942,7 @@ class ValidateStateMachineDefinitionDiagnostic {
       code: (json['code'] as String?) ?? '',
       message: (json['message'] as String?) ?? '',
       severity: ValidateStateMachineDefinitionSeverity.fromString(
-          (json['severity'] as String)),
+          (json['severity'] as String?) ?? ''),
       location: json['location'] as String?,
     );
   }
@@ -7787,7 +7991,7 @@ class ValidateStateMachineDefinitionOutput {
               e as Map<String, dynamic>))
           .toList(),
       result: ValidateStateMachineDefinitionResultCode.fromString(
-          (json['result'] as String)),
+          (json['result'] as String?) ?? ''),
       truncated: json['truncated'] as bool?,
     );
   }
@@ -7804,34 +8008,54 @@ class ValidateStateMachineDefinitionOutput {
   }
 }
 
-enum ValidateStateMachineDefinitionResultCode {
-  ok('OK'),
-  fail('FAIL'),
-  ;
+class ValidateStateMachineDefinitionResultCode {
+  static const ok = ValidateStateMachineDefinitionResultCode._('OK');
+  static const fail = ValidateStateMachineDefinitionResultCode._('FAIL');
 
   final String value;
 
-  const ValidateStateMachineDefinitionResultCode(this.value);
+  const ValidateStateMachineDefinitionResultCode._(this.value);
+
+  static const values = [ok, fail];
 
   static ValidateStateMachineDefinitionResultCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ValidateStateMachineDefinitionResultCode'));
+          orElse: () => ValidateStateMachineDefinitionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidateStateMachineDefinitionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ValidateStateMachineDefinitionSeverity {
-  error('ERROR'),
-  warning('WARNING'),
-  ;
+class ValidateStateMachineDefinitionSeverity {
+  static const error = ValidateStateMachineDefinitionSeverity._('ERROR');
+  static const warning = ValidateStateMachineDefinitionSeverity._('WARNING');
 
   final String value;
 
-  const ValidateStateMachineDefinitionSeverity(this.value);
+  const ValidateStateMachineDefinitionSeverity._(this.value);
+
+  static const values = [error, warning];
 
   static ValidateStateMachineDefinitionSeverity fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ValidateStateMachineDefinitionSeverity'));
+          orElse: () => ValidateStateMachineDefinitionSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidateStateMachineDefinitionSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivityAlreadyExists extends _s.GenericAwsException {

@@ -783,21 +783,30 @@ class BulkPublishResponse {
   }
 }
 
-enum BulkPublishStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class BulkPublishStatus {
+  static const notStarted = BulkPublishStatus._('NOT_STARTED');
+  static const inProgress = BulkPublishStatus._('IN_PROGRESS');
+  static const failed = BulkPublishStatus._('FAILED');
+  static const succeeded = BulkPublishStatus._('SUCCEEDED');
 
   final String value;
 
-  const BulkPublishStatus(this.value);
+  const BulkPublishStatus._(this.value);
+
+  static const values = [notStarted, inProgress, failed, succeeded];
 
   static BulkPublishStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BulkPublishStatus'));
+          orElse: () => BulkPublishStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BulkPublishStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration options for configure Cognito streams.
@@ -1446,34 +1455,52 @@ class ListRecordsResponse {
   }
 }
 
-enum Operation {
-  replace('replace'),
-  remove('remove'),
-  ;
+class Operation {
+  static const replace = Operation._('replace');
+  static const remove = Operation._('remove');
 
   final String value;
 
-  const Operation(this.value);
+  const Operation._(this.value);
 
-  static Operation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operation'));
+  static const values = [replace, remove];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Platform {
-  apns('APNS'),
-  apnsSandbox('APNS_SANDBOX'),
-  gcm('GCM'),
-  adm('ADM'),
-  ;
+class Platform {
+  static const apns = Platform._('APNS');
+  static const apnsSandbox = Platform._('APNS_SANDBOX');
+  static const gcm = Platform._('GCM');
+  static const adm = Platform._('ADM');
 
   final String value;
 
-  const Platform(this.value);
+  const Platform._(this.value);
 
-  static Platform fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Platform'));
+  static const values = [apns, apnsSandbox, gcm, adm];
+
+  static Platform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
+
+  @override
+  bool operator ==(other) => other is Platform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration options to be applied to the identity pool.
@@ -1678,19 +1705,28 @@ class SetIdentityPoolConfigurationResponse {
   }
 }
 
-enum StreamingStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class StreamingStatus {
+  static const enabled = StreamingStatus._('ENABLED');
+  static const disabled = StreamingStatus._('DISABLED');
 
   final String value;
 
-  const StreamingStatus(this.value);
+  const StreamingStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static StreamingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamingStatus'));
+          orElse: () => StreamingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Response to a SubscribeToDataset request.

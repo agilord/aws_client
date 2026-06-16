@@ -308,22 +308,37 @@ class IoTFleetHub {
   }
 }
 
-enum ApplicationState {
-  creating('CREATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ApplicationState {
+  static const creating = ApplicationState._('CREATING');
+  static const deleting = ApplicationState._('DELETING');
+  static const active = ApplicationState._('ACTIVE');
+  static const createFailed = ApplicationState._('CREATE_FAILED');
+  static const deleteFailed = ApplicationState._('DELETE_FAILED');
 
   final String value;
 
-  const ApplicationState(this.value);
+  const ApplicationState._(this.value);
+
+  static const values = [
+    creating,
+    deleting,
+    active,
+    createFailed,
+    deleteFailed
+  ];
 
   static ApplicationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationState'));
+          orElse: () => ApplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of information about a Fleet Hub for IoT Device Management web
@@ -503,8 +518,8 @@ class DescribeApplicationResponse {
       applicationLastUpdateDate:
           (json['applicationLastUpdateDate'] as int?) ?? 0,
       applicationName: (json['applicationName'] as String?) ?? '',
-      applicationState:
-          ApplicationState.fromString((json['applicationState'] as String)),
+      applicationState: ApplicationState.fromString(
+          (json['applicationState'] as String?) ?? ''),
       applicationUrl: (json['applicationUrl'] as String?) ?? '',
       roleArn: (json['roleArn'] as String?) ?? '',
       applicationDescription: json['applicationDescription'] as String?,

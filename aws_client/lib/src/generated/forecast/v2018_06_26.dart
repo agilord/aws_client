@@ -4604,7 +4604,7 @@ class Action {
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
       attributeName: (json['AttributeName'] as String?) ?? '',
-      operation: Operation.fromString((json['Operation'] as String)),
+      operation: Operation.fromString((json['Operation'] as String?) ?? ''),
       value: (json['Value'] as double?) ?? 0,
     );
   }
@@ -4979,37 +4979,57 @@ class AttributeConfig {
   }
 }
 
-enum AttributeType {
-  string('string'),
-  integer('integer'),
-  float('float'),
-  timestamp('timestamp'),
-  geolocation('geolocation'),
-  ;
+class AttributeType {
+  static const string = AttributeType._('string');
+  static const integer = AttributeType._('integer');
+  static const float = AttributeType._('float');
+  static const timestamp = AttributeType._('timestamp');
+  static const geolocation = AttributeType._('geolocation');
 
   final String value;
 
-  const AttributeType(this.value);
+  const AttributeType._(this.value);
+
+  static const values = [string, integer, float, timestamp, geolocation];
 
   static AttributeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeType'));
+          orElse: () => AttributeType._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AutoMLOverrideStrategy {
-  latencyOptimized('LatencyOptimized'),
-  accuracyOptimized('AccuracyOptimized'),
-  ;
+class AutoMLOverrideStrategy {
+  static const latencyOptimized = AutoMLOverrideStrategy._('LatencyOptimized');
+  static const accuracyOptimized =
+      AutoMLOverrideStrategy._('AccuracyOptimized');
 
   final String value;
 
-  const AutoMLOverrideStrategy(this.value);
+  const AutoMLOverrideStrategy._(this.value);
+
+  static const values = [latencyOptimized, accuracyOptimized];
 
   static AutoMLOverrideStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoMLOverrideStrategy'));
+          orElse: () => AutoMLOverrideStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLOverrideStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metrics you can use as a baseline for comparison purposes. Use these metrics
@@ -5108,20 +5128,29 @@ class CategoricalParameterRange {
   }
 }
 
-enum Condition {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  ;
+class Condition {
+  static const equals = Condition._('EQUALS');
+  static const notEquals = Condition._('NOT_EQUALS');
+  static const lessThan = Condition._('LESS_THAN');
+  static const greaterThan = Condition._('GREATER_THAN');
 
   final String value;
 
-  const Condition(this.value);
+  const Condition._(this.value);
 
-  static Condition fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Condition'));
+  static const values = [equals, notEquals, lessThan, greaterThan];
+
+  static Condition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Condition._(value));
+
+  @override
+  bool operator ==(other) => other is Condition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a continuous hyperparameter and it's range of tunable values. This
@@ -5856,38 +5885,64 @@ class DatasetSummary {
   }
 }
 
-enum DatasetType {
-  targetTimeSeries('TARGET_TIME_SERIES'),
-  relatedTimeSeries('RELATED_TIME_SERIES'),
-  itemMetadata('ITEM_METADATA'),
-  ;
+class DatasetType {
+  static const targetTimeSeries = DatasetType._('TARGET_TIME_SERIES');
+  static const relatedTimeSeries = DatasetType._('RELATED_TIME_SERIES');
+  static const itemMetadata = DatasetType._('ITEM_METADATA');
 
   final String value;
 
-  const DatasetType(this.value);
+  const DatasetType._(this.value);
 
-  static DatasetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DatasetType'));
+  static const values = [targetTimeSeries, relatedTimeSeries, itemMetadata];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DayOfWeek {
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  sunday('SUNDAY'),
-  ;
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
 
   final String value;
 
-  const DayOfWeek(this.value);
+  const DayOfWeek._(this.value);
 
-  static DayOfWeek fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeAutoPredictorResponse {
@@ -8057,23 +8112,40 @@ class DescribeWhatIfForecastResponse {
   }
 }
 
-enum Domain {
-  retail('RETAIL'),
-  custom('CUSTOM'),
-  inventoryPlanning('INVENTORY_PLANNING'),
-  ec2Capacity('EC2_CAPACITY'),
-  workForce('WORK_FORCE'),
-  webTraffic('WEB_TRAFFIC'),
-  metrics('METRICS'),
-  ;
+class Domain {
+  static const retail = Domain._('RETAIL');
+  static const custom = Domain._('CUSTOM');
+  static const inventoryPlanning = Domain._('INVENTORY_PLANNING');
+  static const ec2Capacity = Domain._('EC2_CAPACITY');
+  static const workForce = Domain._('WORK_FORCE');
+  static const webTraffic = Domain._('WEB_TRAFFIC');
+  static const metrics = Domain._('METRICS');
 
   final String value;
 
-  const Domain(this.value);
+  const Domain._(this.value);
+
+  static const values = [
+    retail,
+    custom,
+    inventoryPlanning,
+    ec2Capacity,
+    workForce,
+    webTraffic,
+    metrics
+  ];
 
   static Domain fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Domain'));
+      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
+
+  @override
+  bool operator ==(other) => other is Domain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An Key Management Service (KMS) key and an Identity and Access Management
@@ -8247,19 +8319,28 @@ class EvaluationResult {
   }
 }
 
-enum EvaluationType {
-  summary('SUMMARY'),
-  computed('COMPUTED'),
-  ;
+class EvaluationType {
+  static const summary = EvaluationType._('SUMMARY');
+  static const computed = EvaluationType._('COMPUTED');
 
   final String value;
 
-  const EvaluationType(this.value);
+  const EvaluationType._(this.value);
+
+  static const values = [summary, computed];
 
   static EvaluationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationType'));
+          orElse: () => EvaluationType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ExplainabilityConfig data type defines the number of time series and
@@ -8299,9 +8380,9 @@ class ExplainabilityConfig {
   factory ExplainabilityConfig.fromJson(Map<String, dynamic> json) {
     return ExplainabilityConfig(
       timePointGranularity: TimePointGranularity.fromString(
-          (json['TimePointGranularity'] as String)),
+          (json['TimePointGranularity'] as String?) ?? ''),
       timeSeriesGranularity: TimeSeriesGranularity.fromString(
-          (json['TimeSeriesGranularity'] as String)),
+          (json['TimeSeriesGranularity'] as String?) ?? ''),
     );
   }
 
@@ -8844,7 +8925,7 @@ class FeaturizationMethod {
   factory FeaturizationMethod.fromJson(Map<String, dynamic> json) {
     return FeaturizationMethod(
       featurizationMethodName: FeaturizationMethodName.fromString(
-          (json['FeaturizationMethodName'] as String)),
+          (json['FeaturizationMethodName'] as String?) ?? ''),
       featurizationMethodParameters:
           (json['FeaturizationMethodParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -8862,18 +8943,28 @@ class FeaturizationMethod {
   }
 }
 
-enum FeaturizationMethodName {
-  filling('filling'),
-  ;
+class FeaturizationMethodName {
+  static const filling = FeaturizationMethodName._('filling');
 
   final String value;
 
-  const FeaturizationMethodName(this.value);
+  const FeaturizationMethodName._(this.value);
+
+  static const values = [filling];
 
   static FeaturizationMethodName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FeaturizationMethodName'));
+          orElse: () => FeaturizationMethodName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeaturizationMethodName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a filter for choosing a subset of objects. Each filter consists of
@@ -8911,19 +9002,29 @@ class Filter {
   }
 }
 
-enum FilterConditionString {
-  $is('IS'),
-  isNot('IS_NOT'),
-  ;
+class FilterConditionString {
+  static const $is = FilterConditionString._('IS');
+  static const isNot = FilterConditionString._('IS_NOT');
 
   final String value;
 
-  const FilterConditionString(this.value);
+  const FilterConditionString._(this.value);
 
-  static FilterConditionString fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FilterConditionString'));
+  static const values = [$is, isNot];
+
+  static FilterConditionString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterConditionString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterConditionString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides a summary of the forecast export job properties used in the
@@ -9266,18 +9367,27 @@ class HyperParameterTuningJobConfig {
   }
 }
 
-enum ImportMode {
-  full('FULL'),
-  incremental('INCREMENTAL'),
-  ;
+class ImportMode {
+  static const full = ImportMode._('FULL');
+  static const incremental = ImportMode._('INCREMENTAL');
 
   final String value;
 
-  const ImportMode(this.value);
+  const ImportMode._(this.value);
 
-  static ImportMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImportMode'));
+  static const values = [full, incremental];
+
+  static ImportMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
+
+  @override
+  bool operator ==(other) => other is ImportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -10207,62 +10317,104 @@ class MonitorSummary {
   }
 }
 
-enum Month {
-  january('JANUARY'),
-  february('FEBRUARY'),
-  march('MARCH'),
-  april('APRIL'),
-  may('MAY'),
-  june('JUNE'),
-  july('JULY'),
-  august('AUGUST'),
-  september('SEPTEMBER'),
-  october('OCTOBER'),
-  november('NOVEMBER'),
-  december('DECEMBER'),
-  ;
+class Month {
+  static const january = Month._('JANUARY');
+  static const february = Month._('FEBRUARY');
+  static const march = Month._('MARCH');
+  static const april = Month._('APRIL');
+  static const may = Month._('MAY');
+  static const june = Month._('JUNE');
+  static const july = Month._('JULY');
+  static const august = Month._('AUGUST');
+  static const september = Month._('SEPTEMBER');
+  static const october = Month._('OCTOBER');
+  static const november = Month._('NOVEMBER');
+  static const december = Month._('DECEMBER');
 
   final String value;
 
-  const Month(this.value);
+  const Month._(this.value);
+
+  static const values = [
+    january,
+    february,
+    march,
+    april,
+    may,
+    june,
+    july,
+    august,
+    september,
+    october,
+    november,
+    december
+  ];
 
   static Month fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Month._(value));
+
+  @override
+  bool operator ==(other) => other is Month && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Operation {
+  static const add = Operation._('ADD');
+  static const subtract = Operation._('SUBTRACT');
+  static const multiply = Operation._('MULTIPLY');
+  static const divide = Operation._('DIVIDE');
+
+  final String value;
+
+  const Operation._(this.value);
+
+  static const values = [add, subtract, multiply, divide];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OptimizationMetric {
+  static const wape = OptimizationMetric._('WAPE');
+  static const rmse = OptimizationMetric._('RMSE');
+  static const averageWeightedQuantileLoss =
+      OptimizationMetric._('AverageWeightedQuantileLoss');
+  static const mase = OptimizationMetric._('MASE');
+  static const mape = OptimizationMetric._('MAPE');
+
+  final String value;
+
+  const OptimizationMetric._(this.value);
+
+  static const values = [wape, rmse, averageWeightedQuantileLoss, mase, mape];
+
+  static OptimizationMetric fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Month'));
-}
+          orElse: () => OptimizationMetric._(value));
 
-enum Operation {
-  add('ADD'),
-  subtract('SUBTRACT'),
-  multiply('MULTIPLY'),
-  divide('DIVIDE'),
-  ;
+  @override
+  bool operator ==(other) =>
+      other is OptimizationMetric && other.value == value;
 
-  final String value;
+  @override
+  int get hashCode => value.hashCode;
 
-  const Operation(this.value);
-
-  static Operation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operation'));
-}
-
-enum OptimizationMetric {
-  wape('WAPE'),
-  rmse('RMSE'),
-  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
-  mase('MASE'),
-  mape('MAPE'),
-  ;
-
-  final String value;
-
-  const OptimizationMetric(this.value);
-
-  static OptimizationMetric fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OptimizationMetric'));
+  @override
+  String toString() => value;
 }
 
 /// Specifies the categorical, continuous, and integer hyperparameters, and
@@ -10888,20 +11040,29 @@ class S3Config {
   }
 }
 
-enum ScalingType {
-  auto('Auto'),
-  linear('Linear'),
-  logarithmic('Logarithmic'),
-  reverseLogarithmic('ReverseLogarithmic'),
-  ;
+class ScalingType {
+  static const auto = ScalingType._('Auto');
+  static const linear = ScalingType._('Linear');
+  static const logarithmic = ScalingType._('Logarithmic');
+  static const reverseLogarithmic = ScalingType._('ReverseLogarithmic');
 
   final String value;
 
-  const ScalingType(this.value);
+  const ScalingType._(this.value);
 
-  static ScalingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScalingType'));
+  static const values = [auto, linear, logarithmic, reverseLogarithmic];
+
+  static ScalingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the fields of a dataset.
@@ -10969,18 +11130,27 @@ class SchemaAttribute {
   }
 }
 
-enum State {
-  active('Active'),
-  deleted('Deleted'),
-  ;
+class State {
+  static const active = State._('Active');
+  static const deleted = State._('Deleted');
 
   final String value;
 
-  const State(this.value);
+  const State._(this.value);
+
+  static const values = [active, deleted];
 
   static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum State'));
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides statistics for each data field imported into to an Amazon Forecast
@@ -11563,19 +11733,29 @@ class TimeAlignmentBoundary {
   }
 }
 
-enum TimePointGranularity {
-  all('ALL'),
-  specific('SPECIFIC'),
-  ;
+class TimePointGranularity {
+  static const all = TimePointGranularity._('ALL');
+  static const specific = TimePointGranularity._('SPECIFIC');
 
   final String value;
 
-  const TimePointGranularity(this.value);
+  const TimePointGranularity._(this.value);
 
-  static TimePointGranularity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TimePointGranularity'));
+  static const values = [all, specific];
+
+  static TimePointGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimePointGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimePointGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Creates a subset of items within an attribute that are modified. For
@@ -11607,7 +11787,7 @@ class TimeSeriesCondition {
     return TimeSeriesCondition(
       attributeName: (json['AttributeName'] as String?) ?? '',
       attributeValue: (json['AttributeValue'] as String?) ?? '',
-      condition: Condition.fromString((json['Condition'] as String)),
+      condition: Condition.fromString((json['Condition'] as String?) ?? ''),
     );
   }
 
@@ -11623,19 +11803,29 @@ class TimeSeriesCondition {
   }
 }
 
-enum TimeSeriesGranularity {
-  all('ALL'),
-  specific('SPECIFIC'),
-  ;
+class TimeSeriesGranularity {
+  static const all = TimeSeriesGranularity._('ALL');
+  static const specific = TimeSeriesGranularity._('SPECIFIC');
 
   final String value;
 
-  const TimeSeriesGranularity(this.value);
+  const TimeSeriesGranularity._(this.value);
 
-  static TimeSeriesGranularity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TimeSeriesGranularity'));
+  static const values = [all, specific];
+
+  static TimeSeriesGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeSeriesGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimeSeriesGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the import file that contains the time series for which you

@@ -3984,20 +3984,29 @@ class Accuracy {
   }
 }
 
-enum AggregationPeriod {
-  oneHour('OneHour'),
-  oneDay('OneDay'),
-  oneWeek('OneWeek'),
-  ;
+class AggregationPeriod {
+  static const oneHour = AggregationPeriod._('OneHour');
+  static const oneDay = AggregationPeriod._('OneDay');
+  static const oneWeek = AggregationPeriod._('OneWeek');
 
   final String value;
 
-  const AggregationPeriod(this.value);
+  const AggregationPeriod._(this.value);
+
+  static const values = [oneHour, oneDay, oneWeek];
 
   static AggregationPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AggregationPeriod'));
+          orElse: () => AggregationPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is AggregationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// LoRaWAN application configuration, which can be used to perform geolocation.
@@ -4038,18 +4047,29 @@ class ApplicationConfig {
   }
 }
 
-enum ApplicationConfigType {
-  semtechGeolocation('SemtechGeolocation'),
-  ;
+class ApplicationConfigType {
+  static const semtechGeolocation =
+      ApplicationConfigType._('SemtechGeolocation');
 
   final String value;
 
-  const ApplicationConfigType(this.value);
+  const ApplicationConfigType._(this.value);
 
-  static ApplicationConfigType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationConfigType'));
+  static const values = [semtechGeolocation];
+
+  static ApplicationConfigType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationConfigType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationConfigType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateAwsAccountWithPartnerAccountResponse {
@@ -4174,20 +4194,28 @@ class AssociateWirelessGatewayWithThingResponse {
 }
 
 /// Sidewalk device battery level.
-enum BatteryLevel {
-  normal('normal'),
-  low('low'),
-  critical('critical'),
-  ;
+class BatteryLevel {
+  static const normal = BatteryLevel._('normal');
+  static const low = BatteryLevel._('low');
+  static const critical = BatteryLevel._('critical');
 
   final String value;
 
-  const BatteryLevel(this.value);
+  const BatteryLevel._(this.value);
 
-  static BatteryLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BatteryLevel'));
+  static const values = [normal, low, critical];
+
+  static BatteryLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BatteryLevel._(value));
+
+  @override
+  bool operator ==(other) => other is BatteryLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Beaconing parameters for configuring the wireless gateways.
@@ -4419,7 +4447,7 @@ class CertificateList {
 
   factory CertificateList.fromJson(Map<String, dynamic> json) {
     return CertificateList(
-      signingAlg: SigningAlg.fromString((json['SigningAlg'] as String)),
+      signingAlg: SigningAlg.fromString((json['SigningAlg'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -4434,19 +4462,28 @@ class CertificateList {
   }
 }
 
-enum ConnectionStatus {
-  connected('Connected'),
-  disconnected('Disconnected'),
-  ;
+class ConnectionStatus {
+  static const connected = ConnectionStatus._('Connected');
+  static const disconnected = ConnectionStatus._('Disconnected');
 
   final String value;
 
-  const ConnectionStatus(this.value);
+  const ConnectionStatus._(this.value);
+
+  static const values = [connected, disconnected];
 
   static ConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionStatus'));
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Connection status event configuration object for enabling or disabling
@@ -5116,19 +5153,28 @@ class DeviceProfile {
   }
 }
 
-enum DeviceProfileType {
-  sidewalk('Sidewalk'),
-  loRaWAN('LoRaWAN'),
-  ;
+class DeviceProfileType {
+  static const sidewalk = DeviceProfileType._('Sidewalk');
+  static const loRaWAN = DeviceProfileType._('LoRaWAN');
 
   final String value;
 
-  const DeviceProfileType(this.value);
+  const DeviceProfileType._(this.value);
+
+  static const values = [sidewalk, loRaWAN];
 
   static DeviceProfileType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeviceProfileType'));
+          orElse: () => DeviceProfileType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Device registration state event configuration object for enabling and
@@ -5201,20 +5247,34 @@ class DeviceRegistrationStateResourceTypeEventConfiguration {
 }
 
 /// Device state defines the device status of sidewalk device.
-enum DeviceState {
-  provisioned('Provisioned'),
-  registeredNotSeen('RegisteredNotSeen'),
-  registeredReachable('RegisteredReachable'),
-  registeredUnreachable('RegisteredUnreachable'),
-  ;
+class DeviceState {
+  static const provisioned = DeviceState._('Provisioned');
+  static const registeredNotSeen = DeviceState._('RegisteredNotSeen');
+  static const registeredReachable = DeviceState._('RegisteredReachable');
+  static const registeredUnreachable = DeviceState._('RegisteredUnreachable');
 
   final String value;
 
-  const DeviceState(this.value);
+  const DeviceState._(this.value);
 
-  static DeviceState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DeviceState'));
+  static const values = [
+    provisioned,
+    registeredNotSeen,
+    registeredReachable,
+    registeredUnreachable
+  ];
+
+  static DeviceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceState._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The required list of dimensions for the metric.
@@ -5247,19 +5307,28 @@ class Dimension {
   }
 }
 
-enum DimensionName {
-  deviceId('DeviceId'),
-  gatewayId('GatewayId'),
-  ;
+class DimensionName {
+  static const deviceId = DimensionName._('DeviceId');
+  static const gatewayId = DimensionName._('GatewayId');
 
   final String value;
 
-  const DimensionName(this.value);
+  const DimensionName._(this.value);
+
+  static const values = [deviceId, gatewayId];
 
   static DimensionName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DimensionName'));
+          orElse: () => DimensionName._(value));
+
+  @override
+  bool operator ==(other) => other is DimensionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateAwsAccountFromPartnerAccountResponse {
@@ -5354,34 +5423,51 @@ class DisassociateWirelessGatewayFromThingResponse {
 }
 
 /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
-enum DlClass {
-  classB('ClassB'),
-  classC('ClassC'),
-  ;
+class DlClass {
+  static const classB = DlClass._('ClassB');
+  static const classC = DlClass._('ClassC');
 
   final String value;
 
-  const DlClass(this.value);
+  const DlClass._(this.value);
 
-  static DlClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum DlClass'));
+  static const values = [classB, classC];
+
+  static DlClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DlClass._(value));
+
+  @override
+  bool operator ==(other) => other is DlClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DownlinkMode {
-  sequential('SEQUENTIAL'),
-  concurrent('CONCURRENT'),
-  usingUplinkGateway('USING_UPLINK_GATEWAY'),
-  ;
+class DownlinkMode {
+  static const sequential = DownlinkMode._('SEQUENTIAL');
+  static const concurrent = DownlinkMode._('CONCURRENT');
+  static const usingUplinkGateway = DownlinkMode._('USING_UPLINK_GATEWAY');
 
   final String value;
 
-  const DownlinkMode(this.value);
+  const DownlinkMode._(this.value);
 
-  static DownlinkMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DownlinkMode'));
+  static const values = [sequential, concurrent, usingUplinkGateway];
+
+  static DownlinkMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DownlinkMode._(value));
+
+  @override
+  bool operator ==(other) => other is DownlinkMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The message in the downlink queue.
@@ -5434,21 +5520,30 @@ class DownlinkQueueMessage {
 }
 
 /// Sidewalk device status notification.
-enum Event {
-  discovered('discovered'),
-  lost('lost'),
-  ack('ack'),
-  nack('nack'),
-  passthrough('passthrough'),
-  ;
+class Event {
+  static const discovered = Event._('discovered');
+  static const lost = Event._('lost');
+  static const ack = Event._('ack');
+  static const nack = Event._('nack');
+  static const passthrough = Event._('passthrough');
 
   final String value;
 
-  const Event(this.value);
+  const Event._(this.value);
+
+  static const values = [discovered, lost, ack, nack, passthrough];
 
   static Event fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Event'));
+      values.firstWhere((e) => e.value == value, orElse: () => Event._(value));
+
+  @override
+  bool operator ==(other) => other is Event && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Event configuration object for a single resource.
@@ -5570,64 +5665,106 @@ class EventNotificationItemConfigurations {
   }
 }
 
-enum EventNotificationPartnerType {
-  sidewalk('Sidewalk'),
-  ;
+class EventNotificationPartnerType {
+  static const sidewalk = EventNotificationPartnerType._('Sidewalk');
 
   final String value;
 
-  const EventNotificationPartnerType(this.value);
+  const EventNotificationPartnerType._(this.value);
+
+  static const values = [sidewalk];
 
   static EventNotificationPartnerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EventNotificationPartnerType'));
+          orElse: () => EventNotificationPartnerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventNotificationPartnerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventNotificationResourceType {
-  sidewalkAccount('SidewalkAccount'),
-  wirelessDevice('WirelessDevice'),
-  wirelessGateway('WirelessGateway'),
-  ;
+class EventNotificationResourceType {
+  static const sidewalkAccount =
+      EventNotificationResourceType._('SidewalkAccount');
+  static const wirelessDevice =
+      EventNotificationResourceType._('WirelessDevice');
+  static const wirelessGateway =
+      EventNotificationResourceType._('WirelessGateway');
 
   final String value;
 
-  const EventNotificationResourceType(this.value);
+  const EventNotificationResourceType._(this.value);
+
+  static const values = [sidewalkAccount, wirelessDevice, wirelessGateway];
 
   static EventNotificationResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EventNotificationResourceType'));
+          orElse: () => EventNotificationResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventNotificationResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventNotificationTopicStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class EventNotificationTopicStatus {
+  static const enabled = EventNotificationTopicStatus._('Enabled');
+  static const disabled = EventNotificationTopicStatus._('Disabled');
 
   final String value;
 
-  const EventNotificationTopicStatus(this.value);
+  const EventNotificationTopicStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EventNotificationTopicStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EventNotificationTopicStatus'));
+          orElse: () => EventNotificationTopicStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventNotificationTopicStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpressionType {
-  ruleName('RuleName'),
-  mqttTopic('MqttTopic'),
-  ;
+class ExpressionType {
+  static const ruleName = ExpressionType._('RuleName');
+  static const mqttTopic = ExpressionType._('MqttTopic');
 
   final String value;
 
-  const ExpressionType(this.value);
+  const ExpressionType._(this.value);
+
+  static const values = [ruleName, mqttTopic];
 
   static ExpressionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExpressionType'));
+          orElse: () => ExpressionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExpressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// List of FPort assigned for different LoRaWAN application packages to use
@@ -5682,29 +5819,55 @@ class FPorts {
 }
 
 /// The status of a wireless device in a FUOTA task.
-enum FuotaDeviceStatus {
-  initial('Initial'),
-  packageNotSupported('Package_Not_Supported'),
-  fragAlgoUnsupported('FragAlgo_unsupported'),
-  notEnoughMemory('Not_enough_memory'),
-  fragIndexUnsupported('FragIndex_unsupported'),
-  wrongDescriptor('Wrong_descriptor'),
-  sessionCntReplay('SessionCnt_replay'),
-  missingFrag('MissingFrag'),
-  memoryError('MemoryError'),
-  mICError('MICError'),
-  successful('Successful'),
-  deviceExistInConflictFuotaTask('Device_exist_in_conflict_fuota_task'),
-  ;
+class FuotaDeviceStatus {
+  static const initial = FuotaDeviceStatus._('Initial');
+  static const packageNotSupported =
+      FuotaDeviceStatus._('Package_Not_Supported');
+  static const fragAlgoUnsupported =
+      FuotaDeviceStatus._('FragAlgo_unsupported');
+  static const notEnoughMemory = FuotaDeviceStatus._('Not_enough_memory');
+  static const fragIndexUnsupported =
+      FuotaDeviceStatus._('FragIndex_unsupported');
+  static const wrongDescriptor = FuotaDeviceStatus._('Wrong_descriptor');
+  static const sessionCntReplay = FuotaDeviceStatus._('SessionCnt_replay');
+  static const missingFrag = FuotaDeviceStatus._('MissingFrag');
+  static const memoryError = FuotaDeviceStatus._('MemoryError');
+  static const mICError = FuotaDeviceStatus._('MICError');
+  static const successful = FuotaDeviceStatus._('Successful');
+  static const deviceExistInConflictFuotaTask =
+      FuotaDeviceStatus._('Device_exist_in_conflict_fuota_task');
 
   final String value;
 
-  const FuotaDeviceStatus(this.value);
+  const FuotaDeviceStatus._(this.value);
+
+  static const values = [
+    initial,
+    packageNotSupported,
+    fragAlgoUnsupported,
+    notEnoughMemory,
+    fragIndexUnsupported,
+    wrongDescriptor,
+    sessionCntReplay,
+    missingFrag,
+    memoryError,
+    mICError,
+    successful,
+    deviceExistInConflictFuotaTask
+  ];
 
   static FuotaDeviceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FuotaDeviceStatus'));
+          orElse: () => FuotaDeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FuotaDeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A FUOTA task.
@@ -5740,22 +5903,37 @@ class FuotaTask {
 }
 
 /// The status of a FUOTA task.
-enum FuotaTaskStatus {
-  pending('Pending'),
-  fuotaSessionWaiting('FuotaSession_Waiting'),
-  inFuotaSession('In_FuotaSession'),
-  fuotaDone('FuotaDone'),
-  deleteWaiting('Delete_Waiting'),
-  ;
+class FuotaTaskStatus {
+  static const pending = FuotaTaskStatus._('Pending');
+  static const fuotaSessionWaiting = FuotaTaskStatus._('FuotaSession_Waiting');
+  static const inFuotaSession = FuotaTaskStatus._('In_FuotaSession');
+  static const fuotaDone = FuotaTaskStatus._('FuotaDone');
+  static const deleteWaiting = FuotaTaskStatus._('Delete_Waiting');
 
   final String value;
 
-  const FuotaTaskStatus(this.value);
+  const FuotaTaskStatus._(this.value);
+
+  static const values = [
+    pending,
+    fuotaSessionWaiting,
+    inFuotaSession,
+    fuotaDone,
+    deleteWaiting
+  ];
 
   static FuotaTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FuotaTaskStatus'));
+          orElse: () => FuotaTaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FuotaTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Gateway list item object that specifies the frequency and list of gateways
@@ -7390,41 +7568,72 @@ class GsmObj {
   }
 }
 
-enum IdentifierType {
-  partnerAccountId('PartnerAccountId'),
-  devEui('DevEui'),
-  gatewayEui('GatewayEui'),
-  wirelessDeviceId('WirelessDeviceId'),
-  wirelessGatewayId('WirelessGatewayId'),
-  ;
+class IdentifierType {
+  static const partnerAccountId = IdentifierType._('PartnerAccountId');
+  static const devEui = IdentifierType._('DevEui');
+  static const gatewayEui = IdentifierType._('GatewayEui');
+  static const wirelessDeviceId = IdentifierType._('WirelessDeviceId');
+  static const wirelessGatewayId = IdentifierType._('WirelessGatewayId');
 
   final String value;
 
-  const IdentifierType(this.value);
+  const IdentifierType._(this.value);
+
+  static const values = [
+    partnerAccountId,
+    devEui,
+    gatewayEui,
+    wirelessDeviceId,
+    wirelessGatewayId
+  ];
 
   static IdentifierType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentifierType'));
+          orElse: () => IdentifierType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentifierType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ImportTaskStatus {
-  initializing('INITIALIZING'),
-  initialized('INITIALIZED'),
-  pending('PENDING'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  ;
+class ImportTaskStatus {
+  static const initializing = ImportTaskStatus._('INITIALIZING');
+  static const initialized = ImportTaskStatus._('INITIALIZED');
+  static const pending = ImportTaskStatus._('PENDING');
+  static const complete = ImportTaskStatus._('COMPLETE');
+  static const failed = ImportTaskStatus._('FAILED');
+  static const deleting = ImportTaskStatus._('DELETING');
 
   final String value;
 
-  const ImportTaskStatus(this.value);
+  const ImportTaskStatus._(this.value);
+
+  static const values = [
+    initializing,
+    initialized,
+    pending,
+    complete,
+    failed,
+    deleting
+  ];
 
   static ImportTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportTaskStatus'));
+          orElse: () => ImportTaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Sidewalk device that has been added to an import task.
@@ -9376,19 +9585,28 @@ class LoRaWANUpdateGatewayTaskEntry {
 /// The log level for a log message. The log levels can be disabled, or set to
 /// <code>ERROR</code> to display less verbose logs containing only error
 /// information, or to <code>INFO</code> for more detailed logs.
-enum LogLevel {
-  info('INFO'),
-  error('ERROR'),
-  disabled('DISABLED'),
-  ;
+class LogLevel {
+  static const info = LogLevel._('INFO');
+  static const error = LogLevel._('ERROR');
+  static const disabled = LogLevel._('DISABLED');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [info, error, disabled];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// LTE local identification (local ID) information.
@@ -9600,79 +9818,157 @@ class MessageDeliveryStatusResourceTypeEventConfiguration {
 
 /// Sidewalk device message type. Default value is
 /// <code>CUSTOM_COMMAND_ID_NOTIFY</code>.
-enum MessageType {
-  customCommandIdNotify('CUSTOM_COMMAND_ID_NOTIFY'),
-  customCommandIdGet('CUSTOM_COMMAND_ID_GET'),
-  customCommandIdSet('CUSTOM_COMMAND_ID_SET'),
-  customCommandIdResp('CUSTOM_COMMAND_ID_RESP'),
-  ;
+class MessageType {
+  static const customCommandIdNotify =
+      MessageType._('CUSTOM_COMMAND_ID_NOTIFY');
+  static const customCommandIdGet = MessageType._('CUSTOM_COMMAND_ID_GET');
+  static const customCommandIdSet = MessageType._('CUSTOM_COMMAND_ID_SET');
+  static const customCommandIdResp = MessageType._('CUSTOM_COMMAND_ID_RESP');
 
   final String value;
 
-  const MessageType(this.value);
+  const MessageType._(this.value);
 
-  static MessageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MessageType'));
+  static const values = [
+    customCommandIdNotify,
+    customCommandIdGet,
+    customCommandIdSet,
+    customCommandIdResp
+  ];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetricName {
-  deviceRSSI('DeviceRSSI'),
-  deviceSNR('DeviceSNR'),
-  deviceRoamingRSSI('DeviceRoamingRSSI'),
-  deviceRoamingSNR('DeviceRoamingSNR'),
-  deviceUplinkCount('DeviceUplinkCount'),
-  deviceDownlinkCount('DeviceDownlinkCount'),
-  deviceUplinkLostCount('DeviceUplinkLostCount'),
-  deviceUplinkLostRate('DeviceUplinkLostRate'),
-  deviceJoinRequestCount('DeviceJoinRequestCount'),
-  deviceJoinAcceptCount('DeviceJoinAcceptCount'),
-  deviceRoamingUplinkCount('DeviceRoamingUplinkCount'),
-  deviceRoamingDownlinkCount('DeviceRoamingDownlinkCount'),
-  gatewayUpTime('GatewayUpTime'),
-  gatewayDownTime('GatewayDownTime'),
-  gatewayRSSI('GatewayRSSI'),
-  gatewaySNR('GatewaySNR'),
-  gatewayUplinkCount('GatewayUplinkCount'),
-  gatewayDownlinkCount('GatewayDownlinkCount'),
-  gatewayJoinRequestCount('GatewayJoinRequestCount'),
-  gatewayJoinAcceptCount('GatewayJoinAcceptCount'),
-  awsAccountUplinkCount('AwsAccountUplinkCount'),
-  awsAccountDownlinkCount('AwsAccountDownlinkCount'),
-  awsAccountUplinkLostCount('AwsAccountUplinkLostCount'),
-  awsAccountUplinkLostRate('AwsAccountUplinkLostRate'),
-  awsAccountJoinRequestCount('AwsAccountJoinRequestCount'),
-  awsAccountJoinAcceptCount('AwsAccountJoinAcceptCount'),
-  awsAccountRoamingUplinkCount('AwsAccountRoamingUplinkCount'),
-  awsAccountRoamingDownlinkCount('AwsAccountRoamingDownlinkCount'),
-  awsAccountDeviceCount('AwsAccountDeviceCount'),
-  awsAccountGatewayCount('AwsAccountGatewayCount'),
-  awsAccountActiveDeviceCount('AwsAccountActiveDeviceCount'),
-  awsAccountActiveGatewayCount('AwsAccountActiveGatewayCount'),
-  ;
+class MetricName {
+  static const deviceRSSI = MetricName._('DeviceRSSI');
+  static const deviceSNR = MetricName._('DeviceSNR');
+  static const deviceRoamingRSSI = MetricName._('DeviceRoamingRSSI');
+  static const deviceRoamingSNR = MetricName._('DeviceRoamingSNR');
+  static const deviceUplinkCount = MetricName._('DeviceUplinkCount');
+  static const deviceDownlinkCount = MetricName._('DeviceDownlinkCount');
+  static const deviceUplinkLostCount = MetricName._('DeviceUplinkLostCount');
+  static const deviceUplinkLostRate = MetricName._('DeviceUplinkLostRate');
+  static const deviceJoinRequestCount = MetricName._('DeviceJoinRequestCount');
+  static const deviceJoinAcceptCount = MetricName._('DeviceJoinAcceptCount');
+  static const deviceRoamingUplinkCount =
+      MetricName._('DeviceRoamingUplinkCount');
+  static const deviceRoamingDownlinkCount =
+      MetricName._('DeviceRoamingDownlinkCount');
+  static const gatewayUpTime = MetricName._('GatewayUpTime');
+  static const gatewayDownTime = MetricName._('GatewayDownTime');
+  static const gatewayRSSI = MetricName._('GatewayRSSI');
+  static const gatewaySNR = MetricName._('GatewaySNR');
+  static const gatewayUplinkCount = MetricName._('GatewayUplinkCount');
+  static const gatewayDownlinkCount = MetricName._('GatewayDownlinkCount');
+  static const gatewayJoinRequestCount =
+      MetricName._('GatewayJoinRequestCount');
+  static const gatewayJoinAcceptCount = MetricName._('GatewayJoinAcceptCount');
+  static const awsAccountUplinkCount = MetricName._('AwsAccountUplinkCount');
+  static const awsAccountDownlinkCount =
+      MetricName._('AwsAccountDownlinkCount');
+  static const awsAccountUplinkLostCount =
+      MetricName._('AwsAccountUplinkLostCount');
+  static const awsAccountUplinkLostRate =
+      MetricName._('AwsAccountUplinkLostRate');
+  static const awsAccountJoinRequestCount =
+      MetricName._('AwsAccountJoinRequestCount');
+  static const awsAccountJoinAcceptCount =
+      MetricName._('AwsAccountJoinAcceptCount');
+  static const awsAccountRoamingUplinkCount =
+      MetricName._('AwsAccountRoamingUplinkCount');
+  static const awsAccountRoamingDownlinkCount =
+      MetricName._('AwsAccountRoamingDownlinkCount');
+  static const awsAccountDeviceCount = MetricName._('AwsAccountDeviceCount');
+  static const awsAccountGatewayCount = MetricName._('AwsAccountGatewayCount');
+  static const awsAccountActiveDeviceCount =
+      MetricName._('AwsAccountActiveDeviceCount');
+  static const awsAccountActiveGatewayCount =
+      MetricName._('AwsAccountActiveGatewayCount');
 
   final String value;
 
-  const MetricName(this.value);
+  const MetricName._(this.value);
 
-  static MetricName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricName'));
+  static const values = [
+    deviceRSSI,
+    deviceSNR,
+    deviceRoamingRSSI,
+    deviceRoamingSNR,
+    deviceUplinkCount,
+    deviceDownlinkCount,
+    deviceUplinkLostCount,
+    deviceUplinkLostRate,
+    deviceJoinRequestCount,
+    deviceJoinAcceptCount,
+    deviceRoamingUplinkCount,
+    deviceRoamingDownlinkCount,
+    gatewayUpTime,
+    gatewayDownTime,
+    gatewayRSSI,
+    gatewaySNR,
+    gatewayUplinkCount,
+    gatewayDownlinkCount,
+    gatewayJoinRequestCount,
+    gatewayJoinAcceptCount,
+    awsAccountUplinkCount,
+    awsAccountDownlinkCount,
+    awsAccountUplinkLostCount,
+    awsAccountUplinkLostRate,
+    awsAccountJoinRequestCount,
+    awsAccountJoinAcceptCount,
+    awsAccountRoamingUplinkCount,
+    awsAccountRoamingDownlinkCount,
+    awsAccountDeviceCount,
+    awsAccountGatewayCount,
+    awsAccountActiveDeviceCount,
+    awsAccountActiveGatewayCount
+  ];
+
+  static MetricName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricName._(value));
+
+  @override
+  bool operator ==(other) => other is MetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetricQueryStatus {
-  succeeded('Succeeded'),
-  failed('Failed'),
-  ;
+class MetricQueryStatus {
+  static const succeeded = MetricQueryStatus._('Succeeded');
+  static const failed = MetricQueryStatus._('Failed');
 
   final String value;
 
-  const MetricQueryStatus(this.value);
+  const MetricQueryStatus._(this.value);
+
+  static const values = [succeeded, failed];
 
   static MetricQueryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricQueryStatus'));
+          orElse: () => MetricQueryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MetricQueryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The aggregated values of the metric.
@@ -9742,19 +10038,29 @@ class MetricQueryValue {
 /// <code>FrameInfo</code> of your multicast group resources for the trace
 /// content. Use FrameInfo to debug the multicast communication between your
 /// multicast groups and the network server.
-enum MulticastFrameInfo {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class MulticastFrameInfo {
+  static const enabled = MulticastFrameInfo._('ENABLED');
+  static const disabled = MulticastFrameInfo._('DISABLED');
 
   final String value;
 
-  const MulticastFrameInfo(this.value);
+  const MulticastFrameInfo._(this.value);
 
-  static MulticastFrameInfo fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MulticastFrameInfo'));
+  static const values = [enabled, disabled];
+
+  static MulticastFrameInfo fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MulticastFrameInfo._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MulticastFrameInfo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A multicast group.
@@ -9855,21 +10161,30 @@ class NetworkAnalyzerConfigurations {
   }
 }
 
-enum OnboardStatus {
-  initialized('INITIALIZED'),
-  pending('PENDING'),
-  onboarded('ONBOARDED'),
-  failed('FAILED'),
-  ;
+class OnboardStatus {
+  static const initialized = OnboardStatus._('INITIALIZED');
+  static const pending = OnboardStatus._('PENDING');
+  static const onboarded = OnboardStatus._('ONBOARDED');
+  static const failed = OnboardStatus._('FAILED');
 
   final String value;
 
-  const OnboardStatus(this.value);
+  const OnboardStatus._(this.value);
+
+  static const values = [initialized, pending, onboarded, failed];
 
   static OnboardStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OnboardStatus'));
+          orElse: () => OnboardStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OnboardStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// OTAA device object for v1.0.x
@@ -9981,7 +10296,8 @@ class ParticipatingGateways {
 
   factory ParticipatingGateways.fromJson(Map<String, dynamic> json) {
     return ParticipatingGateways(
-      downlinkMode: DownlinkMode.fromString((json['DownlinkMode'] as String)),
+      downlinkMode:
+          DownlinkMode.fromString((json['DownlinkMode'] as String?) ?? ''),
       gatewayList: ((json['GatewayList'] as List?) ?? const [])
           .nonNulls
           .map((e) => GatewayListItem.fromJson(e as Map<String, dynamic>))
@@ -10002,32 +10318,51 @@ class ParticipatingGateways {
   }
 }
 
-enum PartnerType {
-  sidewalk('Sidewalk'),
-  ;
+class PartnerType {
+  static const sidewalk = PartnerType._('Sidewalk');
 
   final String value;
 
-  const PartnerType(this.value);
+  const PartnerType._(this.value);
 
-  static PartnerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PartnerType'));
+  static const values = [sidewalk];
+
+  static PartnerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PartnerType._(value));
+
+  @override
+  bool operator ==(other) => other is PartnerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PositionConfigurationFec {
-  rose('ROSE'),
-  none('NONE'),
-  ;
+class PositionConfigurationFec {
+  static const rose = PositionConfigurationFec._('ROSE');
+  static const none = PositionConfigurationFec._('NONE');
 
   final String value;
 
-  const PositionConfigurationFec(this.value);
+  const PositionConfigurationFec._(this.value);
+
+  static const values = [rose, none];
 
   static PositionConfigurationFec fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PositionConfigurationFec'));
+          orElse: () => PositionConfigurationFec._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionConfigurationFec && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The wrapper for a position configuration.
@@ -10079,34 +10414,54 @@ class PositionConfigurationItem {
   }
 }
 
-enum PositionConfigurationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class PositionConfigurationStatus {
+  static const enabled = PositionConfigurationStatus._('Enabled');
+  static const disabled = PositionConfigurationStatus._('Disabled');
 
   final String value;
 
-  const PositionConfigurationStatus(this.value);
+  const PositionConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PositionConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PositionConfigurationStatus'));
+          orElse: () => PositionConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PositionResourceType {
-  wirelessDevice('WirelessDevice'),
-  wirelessGateway('WirelessGateway'),
-  ;
+class PositionResourceType {
+  static const wirelessDevice = PositionResourceType._('WirelessDevice');
+  static const wirelessGateway = PositionResourceType._('WirelessGateway');
 
   final String value;
 
-  const PositionResourceType(this.value);
+  const PositionResourceType._(this.value);
 
-  static PositionResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PositionResourceType'));
+  static const values = [wirelessDevice, wirelessGateway];
+
+  static PositionResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PositionResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The wrapper for position solver configurations.
@@ -10152,32 +10507,52 @@ class PositionSolverDetails {
   }
 }
 
-enum PositionSolverProvider {
-  semtech('Semtech'),
-  ;
+class PositionSolverProvider {
+  static const semtech = PositionSolverProvider._('Semtech');
 
   final String value;
 
-  const PositionSolverProvider(this.value);
+  const PositionSolverProvider._(this.value);
+
+  static const values = [semtech];
 
   static PositionSolverProvider fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PositionSolverProvider'));
+          orElse: () => PositionSolverProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionSolverProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PositionSolverType {
-  gnss('GNSS'),
-  ;
+class PositionSolverType {
+  static const gnss = PositionSolverType._('GNSS');
 
   final String value;
 
-  const PositionSolverType(this.value);
+  const PositionSolverType._(this.value);
 
-  static PositionSolverType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PositionSolverType'));
+  static const values = [gnss];
+
+  static PositionSolverType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PositionSolverType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionSolverType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The FPorts for the position information.
@@ -10212,19 +10587,29 @@ class Positioning {
   }
 }
 
-enum PositioningConfigStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class PositioningConfigStatus {
+  static const enabled = PositioningConfigStatus._('Enabled');
+  static const disabled = PositioningConfigStatus._('Disabled');
 
   final String value;
 
-  const PositioningConfigStatus(this.value);
+  const PositioningConfigStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static PositioningConfigStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PositioningConfigStatus'));
+          orElse: () => PositioningConfigStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositioningConfigStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Proximity event configuration object for enabling and disabling relevant
@@ -11097,18 +11482,27 @@ class SidewalkUpdateImportInfo {
 }
 
 /// The certificate chain algorithm provided by sidewalk.
-enum SigningAlg {
-  ed25519('Ed25519'),
-  p256r1('P256r1'),
-  ;
+class SigningAlg {
+  static const ed25519 = SigningAlg._('Ed25519');
+  static const p256r1 = SigningAlg._('P256r1');
 
   final String value;
 
-  const SigningAlg(this.value);
+  const SigningAlg._(this.value);
 
-  static SigningAlg fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SigningAlg'));
+  static const values = [ed25519, p256r1];
+
+  static SigningAlg fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SigningAlg._(value));
+
+  @override
+  bool operator ==(other) => other is SigningAlg && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
@@ -11245,19 +11639,29 @@ class SummaryMetricConfiguration {
   }
 }
 
-enum SummaryMetricConfigurationStatus {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class SummaryMetricConfigurationStatus {
+  static const enabled = SummaryMetricConfigurationStatus._('Enabled');
+  static const disabled = SummaryMetricConfigurationStatus._('Disabled');
 
   final String value;
 
-  const SummaryMetricConfigurationStatus(this.value);
+  const SummaryMetricConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static SummaryMetricConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SummaryMetricConfigurationStatus'));
+          orElse: () => SummaryMetricConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SummaryMetricConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary metric query object.
@@ -11419,30 +11823,53 @@ class SummaryMetricQueryResult {
 }
 
 /// Supported RfRegions
-enum SupportedRfRegion {
-  eu868('EU868'),
-  us915('US915'),
-  au915('AU915'),
-  as923_1('AS923-1'),
-  as923_2('AS923-2'),
-  as923_3('AS923-3'),
-  as923_4('AS923-4'),
-  eu433('EU433'),
-  cn470('CN470'),
-  cn779('CN779'),
-  ru864('RU864'),
-  kr920('KR920'),
-  in865('IN865'),
-  ;
+class SupportedRfRegion {
+  static const eu868 = SupportedRfRegion._('EU868');
+  static const us915 = SupportedRfRegion._('US915');
+  static const au915 = SupportedRfRegion._('AU915');
+  static const as923_1 = SupportedRfRegion._('AS923-1');
+  static const as923_2 = SupportedRfRegion._('AS923-2');
+  static const as923_3 = SupportedRfRegion._('AS923-3');
+  static const as923_4 = SupportedRfRegion._('AS923-4');
+  static const eu433 = SupportedRfRegion._('EU433');
+  static const cn470 = SupportedRfRegion._('CN470');
+  static const cn779 = SupportedRfRegion._('CN779');
+  static const ru864 = SupportedRfRegion._('RU864');
+  static const kr920 = SupportedRfRegion._('KR920');
+  static const in865 = SupportedRfRegion._('IN865');
 
   final String value;
 
-  const SupportedRfRegion(this.value);
+  const SupportedRfRegion._(this.value);
+
+  static const values = [
+    eu868,
+    us915,
+    au915,
+    as923_1,
+    as923_2,
+    as923_3,
+    as923_4,
+    eu433,
+    cn470,
+    cn779,
+    ru864,
+    kr920,
+    in865
+  ];
 
   static SupportedRfRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SupportedRfRegion'));
+          orElse: () => SupportedRfRegion._(value));
+
+  @override
+  bool operator ==(other) => other is SupportedRfRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A simple label consisting of a customer-defined key-value pair
@@ -12156,22 +12583,32 @@ class WiFiAccessPoint {
 
 /// The event for a log message, if the log message is tied to a wireless
 /// device.
-enum WirelessDeviceEvent {
-  join('Join'),
-  rejoin('Rejoin'),
-  uplinkData('Uplink_Data'),
-  downlinkData('Downlink_Data'),
-  registration('Registration'),
-  ;
+class WirelessDeviceEvent {
+  static const join = WirelessDeviceEvent._('Join');
+  static const rejoin = WirelessDeviceEvent._('Rejoin');
+  static const uplinkData = WirelessDeviceEvent._('Uplink_Data');
+  static const downlinkData = WirelessDeviceEvent._('Downlink_Data');
+  static const registration = WirelessDeviceEvent._('Registration');
 
   final String value;
 
-  const WirelessDeviceEvent(this.value);
+  const WirelessDeviceEvent._(this.value);
 
-  static WirelessDeviceEvent fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessDeviceEvent'));
+  static const values = [join, rejoin, uplinkData, downlinkData, registration];
+
+  static WirelessDeviceEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessDeviceEvent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessDeviceEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The log options for a wireless device event and can be used to set log
@@ -12193,8 +12630,8 @@ class WirelessDeviceEventLogOption {
 
   factory WirelessDeviceEventLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessDeviceEventLogOption(
-      event: WirelessDeviceEvent.fromString((json['Event'] as String)),
-      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
+      event: WirelessDeviceEvent.fromString((json['Event'] as String?) ?? ''),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String?) ?? ''),
     );
   }
 
@@ -12211,36 +12648,62 @@ class WirelessDeviceEventLogOption {
 /// <code>FrameInfo</code> of your wireless device resources for the trace
 /// content. Use FrameInfo to debug the communication between your LoRaWAN end
 /// devices and the network server.
-enum WirelessDeviceFrameInfo {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class WirelessDeviceFrameInfo {
+  static const enabled = WirelessDeviceFrameInfo._('ENABLED');
+  static const disabled = WirelessDeviceFrameInfo._('DISABLED');
 
   final String value;
 
-  const WirelessDeviceFrameInfo(this.value);
+  const WirelessDeviceFrameInfo._(this.value);
+
+  static const values = [enabled, disabled];
 
   static WirelessDeviceFrameInfo fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WirelessDeviceFrameInfo'));
+          orElse: () => WirelessDeviceFrameInfo._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessDeviceFrameInfo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WirelessDeviceIdType {
-  wirelessDeviceId('WirelessDeviceId'),
-  devEui('DevEui'),
-  thingName('ThingName'),
-  sidewalkManufacturingSn('SidewalkManufacturingSn'),
-  ;
+class WirelessDeviceIdType {
+  static const wirelessDeviceId = WirelessDeviceIdType._('WirelessDeviceId');
+  static const devEui = WirelessDeviceIdType._('DevEui');
+  static const thingName = WirelessDeviceIdType._('ThingName');
+  static const sidewalkManufacturingSn =
+      WirelessDeviceIdType._('SidewalkManufacturingSn');
 
   final String value;
 
-  const WirelessDeviceIdType(this.value);
+  const WirelessDeviceIdType._(this.value);
 
-  static WirelessDeviceIdType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessDeviceIdType'));
+  static const values = [
+    wirelessDeviceId,
+    devEui,
+    thingName,
+    sidewalkManufacturingSn
+  ];
+
+  static WirelessDeviceIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessDeviceIdType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessDeviceIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an import task for wireless devices.
@@ -12369,8 +12832,8 @@ class WirelessDeviceLogOption {
 
   factory WirelessDeviceLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessDeviceLogOption(
-      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
-      type: WirelessDeviceType.fromString((json['Type'] as String)),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String?) ?? ''),
+      type: WirelessDeviceType.fromString((json['Type'] as String?) ?? ''),
       events: (json['Events'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -12391,21 +12854,31 @@ class WirelessDeviceLogOption {
   }
 }
 
-enum WirelessDeviceSidewalkStatus {
-  provisioned('PROVISIONED'),
-  registered('REGISTERED'),
-  activated('ACTIVATED'),
-  unknown('UNKNOWN'),
-  ;
+class WirelessDeviceSidewalkStatus {
+  static const provisioned = WirelessDeviceSidewalkStatus._('PROVISIONED');
+  static const registered = WirelessDeviceSidewalkStatus._('REGISTERED');
+  static const activated = WirelessDeviceSidewalkStatus._('ACTIVATED');
+  static const unknown = WirelessDeviceSidewalkStatus._('UNKNOWN');
 
   final String value;
 
-  const WirelessDeviceSidewalkStatus(this.value);
+  const WirelessDeviceSidewalkStatus._(this.value);
+
+  static const values = [provisioned, registered, activated, unknown];
 
   static WirelessDeviceSidewalkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WirelessDeviceSidewalkStatus'));
+          orElse: () => WirelessDeviceSidewalkStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessDeviceSidewalkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a wireless device's operation.
@@ -12509,36 +12982,56 @@ class WirelessDeviceStatistics {
   }
 }
 
-enum WirelessDeviceType {
-  sidewalk('Sidewalk'),
-  loRaWAN('LoRaWAN'),
-  ;
+class WirelessDeviceType {
+  static const sidewalk = WirelessDeviceType._('Sidewalk');
+  static const loRaWAN = WirelessDeviceType._('LoRaWAN');
 
   final String value;
 
-  const WirelessDeviceType(this.value);
+  const WirelessDeviceType._(this.value);
 
-  static WirelessDeviceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessDeviceType'));
+  static const values = [sidewalk, loRaWAN];
+
+  static WirelessDeviceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessDeviceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessDeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The event for a log message, if the log message is tied to a wireless
 /// gateway.
-enum WirelessGatewayEvent {
-  cupsRequest('CUPS_Request'),
-  certificate('Certificate'),
-  ;
+class WirelessGatewayEvent {
+  static const cupsRequest = WirelessGatewayEvent._('CUPS_Request');
+  static const certificate = WirelessGatewayEvent._('Certificate');
 
   final String value;
 
-  const WirelessGatewayEvent(this.value);
+  const WirelessGatewayEvent._(this.value);
 
-  static WirelessGatewayEvent fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessGatewayEvent'));
+  static const values = [cupsRequest, certificate];
+
+  static WirelessGatewayEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessGatewayEvent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The log options for a wireless gateway event and can be used to set log
@@ -12557,8 +13050,8 @@ class WirelessGatewayEventLogOption {
 
   factory WirelessGatewayEventLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessGatewayEventLogOption(
-      event: WirelessGatewayEvent.fromString((json['Event'] as String)),
-      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
+      event: WirelessGatewayEvent.fromString((json['Event'] as String?) ?? ''),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String?) ?? ''),
     );
   }
 
@@ -12572,20 +13065,30 @@ class WirelessGatewayEventLogOption {
   }
 }
 
-enum WirelessGatewayIdType {
-  gatewayEui('GatewayEui'),
-  wirelessGatewayId('WirelessGatewayId'),
-  thingName('ThingName'),
-  ;
+class WirelessGatewayIdType {
+  static const gatewayEui = WirelessGatewayIdType._('GatewayEui');
+  static const wirelessGatewayId = WirelessGatewayIdType._('WirelessGatewayId');
+  static const thingName = WirelessGatewayIdType._('ThingName');
 
   final String value;
 
-  const WirelessGatewayIdType(this.value);
+  const WirelessGatewayIdType._(this.value);
 
-  static WirelessGatewayIdType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessGatewayIdType'));
+  static const values = [gatewayEui, wirelessGatewayId, thingName];
+
+  static WirelessGatewayIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessGatewayIdType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The log options for wireless gateways and can be used to set log levels for
@@ -12603,8 +13106,8 @@ class WirelessGatewayLogOption {
 
   factory WirelessGatewayLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessGatewayLogOption(
-      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
-      type: WirelessGatewayType.fromString((json['Type'] as String)),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String?) ?? ''),
+      type: WirelessGatewayType.fromString((json['Type'] as String?) ?? ''),
       events: (json['Events'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -12625,19 +13128,29 @@ class WirelessGatewayLogOption {
   }
 }
 
-enum WirelessGatewayServiceType {
-  cups('CUPS'),
-  lns('LNS'),
-  ;
+class WirelessGatewayServiceType {
+  static const cups = WirelessGatewayServiceType._('CUPS');
+  static const lns = WirelessGatewayServiceType._('LNS');
 
   final String value;
 
-  const WirelessGatewayServiceType(this.value);
+  const WirelessGatewayServiceType._(this.value);
+
+  static const values = [cups, lns];
 
   static WirelessGatewayServiceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WirelessGatewayServiceType'));
+          orElse: () => WirelessGatewayServiceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a wireless gateway's operation.
@@ -12704,52 +13217,89 @@ class WirelessGatewayStatistics {
   }
 }
 
-enum WirelessGatewayTaskDefinitionType {
-  update('UPDATE'),
-  ;
+class WirelessGatewayTaskDefinitionType {
+  static const update = WirelessGatewayTaskDefinitionType._('UPDATE');
 
   final String value;
 
-  const WirelessGatewayTaskDefinitionType(this.value);
+  const WirelessGatewayTaskDefinitionType._(this.value);
+
+  static const values = [update];
 
   static WirelessGatewayTaskDefinitionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WirelessGatewayTaskDefinitionType'));
+          orElse: () => WirelessGatewayTaskDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayTaskDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WirelessGatewayTaskStatus {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  firstRetry('FIRST_RETRY'),
-  secondRetry('SECOND_RETRY'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class WirelessGatewayTaskStatus {
+  static const pending = WirelessGatewayTaskStatus._('PENDING');
+  static const inProgress = WirelessGatewayTaskStatus._('IN_PROGRESS');
+  static const firstRetry = WirelessGatewayTaskStatus._('FIRST_RETRY');
+  static const secondRetry = WirelessGatewayTaskStatus._('SECOND_RETRY');
+  static const completed = WirelessGatewayTaskStatus._('COMPLETED');
+  static const failed = WirelessGatewayTaskStatus._('FAILED');
 
   final String value;
 
-  const WirelessGatewayTaskStatus(this.value);
+  const WirelessGatewayTaskStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    firstRetry,
+    secondRetry,
+    completed,
+    failed
+  ];
 
   static WirelessGatewayTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WirelessGatewayTaskStatus'));
+          orElse: () => WirelessGatewayTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The wireless gateway type.
-enum WirelessGatewayType {
-  loRaWAN('LoRaWAN'),
-  ;
+class WirelessGatewayType {
+  static const loRaWAN = WirelessGatewayType._('LoRaWAN');
 
   final String value;
 
-  const WirelessGatewayType(this.value);
+  const WirelessGatewayType._(this.value);
 
-  static WirelessGatewayType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WirelessGatewayType'));
+  static const values = [loRaWAN];
+
+  static WirelessGatewayType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WirelessGatewayType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WirelessGatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// WirelessMetadata object.

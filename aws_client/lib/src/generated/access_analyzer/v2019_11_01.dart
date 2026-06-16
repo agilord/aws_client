@@ -1537,50 +1537,102 @@ class Access {
   }
 }
 
-enum AccessCheckPolicyType {
-  identityPolicy('IDENTITY_POLICY'),
-  resourcePolicy('RESOURCE_POLICY'),
-  ;
+class AccessCheckPolicyType {
+  static const identityPolicy = AccessCheckPolicyType._('IDENTITY_POLICY');
+  static const resourcePolicy = AccessCheckPolicyType._('RESOURCE_POLICY');
 
   final String value;
 
-  const AccessCheckPolicyType(this.value);
+  const AccessCheckPolicyType._(this.value);
 
-  static AccessCheckPolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessCheckPolicyType'));
+  static const values = [identityPolicy, resourcePolicy];
+
+  static AccessCheckPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessCheckPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessCheckPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AccessCheckResourceType {
-  awsDynamoDBTable('AWS::DynamoDB::Table'),
-  awsDynamoDBStream('AWS::DynamoDB::Stream'),
-  awsEfsFileSystem('AWS::EFS::FileSystem'),
-  awsOpenSearchServiceDomain('AWS::OpenSearchService::Domain'),
-  awsKinesisStream('AWS::Kinesis::Stream'),
-  awsKinesisStreamConsumer('AWS::Kinesis::StreamConsumer'),
-  awsKmsKey('AWS::KMS::Key'),
-  awsLambdaFunction('AWS::Lambda::Function'),
-  awsS3Bucket('AWS::S3::Bucket'),
-  awsS3AccessPoint('AWS::S3::AccessPoint'),
-  awsS3ExpressDirectoryBucket('AWS::S3Express::DirectoryBucket'),
-  awsS3Glacier('AWS::S3::Glacier'),
-  awsS3OutpostsBucket('AWS::S3Outposts::Bucket'),
-  awsS3OutpostsAccessPoint('AWS::S3Outposts::AccessPoint'),
-  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
-  awsSnsTopic('AWS::SNS::Topic'),
-  awsSqsQueue('AWS::SQS::Queue'),
-  awsIamAssumeRolePolicyDocument('AWS::IAM::AssumeRolePolicyDocument'),
-  ;
+class AccessCheckResourceType {
+  static const awsDynamoDBTable =
+      AccessCheckResourceType._('AWS::DynamoDB::Table');
+  static const awsDynamoDBStream =
+      AccessCheckResourceType._('AWS::DynamoDB::Stream');
+  static const awsEfsFileSystem =
+      AccessCheckResourceType._('AWS::EFS::FileSystem');
+  static const awsOpenSearchServiceDomain =
+      AccessCheckResourceType._('AWS::OpenSearchService::Domain');
+  static const awsKinesisStream =
+      AccessCheckResourceType._('AWS::Kinesis::Stream');
+  static const awsKinesisStreamConsumer =
+      AccessCheckResourceType._('AWS::Kinesis::StreamConsumer');
+  static const awsKmsKey = AccessCheckResourceType._('AWS::KMS::Key');
+  static const awsLambdaFunction =
+      AccessCheckResourceType._('AWS::Lambda::Function');
+  static const awsS3Bucket = AccessCheckResourceType._('AWS::S3::Bucket');
+  static const awsS3AccessPoint =
+      AccessCheckResourceType._('AWS::S3::AccessPoint');
+  static const awsS3ExpressDirectoryBucket =
+      AccessCheckResourceType._('AWS::S3Express::DirectoryBucket');
+  static const awsS3Glacier = AccessCheckResourceType._('AWS::S3::Glacier');
+  static const awsS3OutpostsBucket =
+      AccessCheckResourceType._('AWS::S3Outposts::Bucket');
+  static const awsS3OutpostsAccessPoint =
+      AccessCheckResourceType._('AWS::S3Outposts::AccessPoint');
+  static const awsSecretsManagerSecret =
+      AccessCheckResourceType._('AWS::SecretsManager::Secret');
+  static const awsSnsTopic = AccessCheckResourceType._('AWS::SNS::Topic');
+  static const awsSqsQueue = AccessCheckResourceType._('AWS::SQS::Queue');
+  static const awsIamAssumeRolePolicyDocument =
+      AccessCheckResourceType._('AWS::IAM::AssumeRolePolicyDocument');
 
   final String value;
 
-  const AccessCheckResourceType(this.value);
+  const AccessCheckResourceType._(this.value);
+
+  static const values = [
+    awsDynamoDBTable,
+    awsDynamoDBStream,
+    awsEfsFileSystem,
+    awsOpenSearchServiceDomain,
+    awsKinesisStream,
+    awsKinesisStreamConsumer,
+    awsKmsKey,
+    awsLambdaFunction,
+    awsS3Bucket,
+    awsS3AccessPoint,
+    awsS3ExpressDirectoryBucket,
+    awsS3Glacier,
+    awsS3OutpostsBucket,
+    awsS3OutpostsAccessPoint,
+    awsSecretsManagerSecret,
+    awsSnsTopic,
+    awsSqsQueue,
+    awsIamAssumeRolePolicyDocument
+  ];
 
   static AccessCheckResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AccessCheckResourceType'));
+          orElse: () => AccessCheckResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessCheckResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an access preview.
@@ -1639,7 +1691,7 @@ class AccessPreview {
               MapEntry(k, Configuration.fromJson(e as Map<String, dynamic>))),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
-      status: AccessPreviewStatus.fromString((json['status'] as String)),
+      status: AccessPreviewStatus.fromString((json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] != null
           ? AccessPreviewStatusReason.fromJson(
               json['statusReason'] as Map<String, dynamic>)
@@ -1765,12 +1817,14 @@ class AccessPreviewFinding {
 
   factory AccessPreviewFinding.fromJson(Map<String, dynamic> json) {
     return AccessPreviewFinding(
-      changeType: FindingChangeType.fromString((json['changeType'] as String)),
+      changeType:
+          FindingChangeType.fromString((json['changeType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
-      status: FindingStatus.fromString((json['status'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      status: FindingStatus.fromString((json['status'] as String?) ?? ''),
       action:
           (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
       condition: (json['condition'] as Map<String, dynamic>?)
@@ -1827,20 +1881,30 @@ class AccessPreviewFinding {
   }
 }
 
-enum AccessPreviewStatus {
-  completed('COMPLETED'),
-  creating('CREATING'),
-  failed('FAILED'),
-  ;
+class AccessPreviewStatus {
+  static const completed = AccessPreviewStatus._('COMPLETED');
+  static const creating = AccessPreviewStatus._('CREATING');
+  static const failed = AccessPreviewStatus._('FAILED');
 
   final String value;
 
-  const AccessPreviewStatus(this.value);
+  const AccessPreviewStatus._(this.value);
 
-  static AccessPreviewStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessPreviewStatus'));
+  static const values = [completed, creating, failed];
+
+  static AccessPreviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessPreviewStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessPreviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides more details about the current status of the access preview. For
@@ -1857,7 +1921,8 @@ class AccessPreviewStatusReason {
 
   factory AccessPreviewStatusReason.fromJson(Map<String, dynamic> json) {
     return AccessPreviewStatusReason(
-      code: AccessPreviewStatusReasonCode.fromString((json['code'] as String)),
+      code: AccessPreviewStatusReasonCode.fromString(
+          (json['code'] as String?) ?? ''),
     );
   }
 
@@ -1869,19 +1934,31 @@ class AccessPreviewStatusReason {
   }
 }
 
-enum AccessPreviewStatusReasonCode {
-  internalError('INTERNAL_ERROR'),
-  invalidConfiguration('INVALID_CONFIGURATION'),
-  ;
+class AccessPreviewStatusReasonCode {
+  static const internalError =
+      AccessPreviewStatusReasonCode._('INTERNAL_ERROR');
+  static const invalidConfiguration =
+      AccessPreviewStatusReasonCode._('INVALID_CONFIGURATION');
 
   final String value;
 
-  const AccessPreviewStatusReasonCode(this.value);
+  const AccessPreviewStatusReasonCode._(this.value);
+
+  static const values = [internalError, invalidConfiguration];
 
   static AccessPreviewStatusReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AccessPreviewStatusReasonCode'));
+          orElse: () => AccessPreviewStatusReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessPreviewStatusReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of information about an access preview.
@@ -1925,7 +2002,7 @@ class AccessPreviewSummary {
       analyzerArn: (json['analyzerArn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
-      status: AccessPreviewStatus.fromString((json['status'] as String)),
+      status: AccessPreviewStatus.fromString((json['status'] as String?) ?? ''),
       statusReason: json['statusReason'] != null
           ? AccessPreviewStatusReason.fromJson(
               json['statusReason'] as Map<String, dynamic>)
@@ -1982,22 +2059,31 @@ class AclGrantee {
   }
 }
 
-enum AclPermission {
-  read('READ'),
-  write('WRITE'),
-  readAcp('READ_ACP'),
-  writeAcp('WRITE_ACP'),
-  fullControl('FULL_CONTROL'),
-  ;
+class AclPermission {
+  static const read = AclPermission._('READ');
+  static const write = AclPermission._('WRITE');
+  static const readAcp = AclPermission._('READ_ACP');
+  static const writeAcp = AclPermission._('WRITE_ACP');
+  static const fullControl = AclPermission._('FULL_CONTROL');
 
   final String value;
 
-  const AclPermission(this.value);
+  const AclPermission._(this.value);
+
+  static const values = [read, write, readAcp, writeAcp, fullControl];
 
   static AclPermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AclPermission'));
+          orElse: () => AclPermission._(value));
+
+  @override
+  bool operator ==(other) => other is AclPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about the analyzed resource.
@@ -2059,7 +2145,8 @@ class AnalyzedResource {
       isPublic: (json['isPublic'] as bool?) ?? false,
       resourceArn: (json['resourceArn'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       actions:
           (json['actions'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -2121,7 +2208,8 @@ class AnalyzedResourceSummary {
     return AnalyzedResourceSummary(
       resourceArn: (json['resourceArn'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
     );
   }
 
@@ -2166,21 +2254,30 @@ class AnalyzerConfiguration {
   }
 }
 
-enum AnalyzerStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  disabled('DISABLED'),
-  failed('FAILED'),
-  ;
+class AnalyzerStatus {
+  static const active = AnalyzerStatus._('ACTIVE');
+  static const creating = AnalyzerStatus._('CREATING');
+  static const disabled = AnalyzerStatus._('DISABLED');
+  static const failed = AnalyzerStatus._('FAILED');
 
   final String value;
 
-  const AnalyzerStatus(this.value);
+  const AnalyzerStatus._(this.value);
+
+  static const values = [active, creating, disabled, failed];
 
   static AnalyzerStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalyzerStatus'));
+          orElse: () => AnalyzerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyzerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the analyzer.
@@ -2246,8 +2343,8 @@ class AnalyzerSummary {
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      status: AnalyzerStatus.fromString((json['status'] as String)),
-      type: Type.fromString((json['type'] as String)),
+      status: AnalyzerStatus.fromString((json['status'] as String?) ?? ''),
+      type: Type.fromString((json['type'] as String?) ?? ''),
       configuration: json['configuration'] != null
           ? AnalyzerConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -2393,19 +2490,29 @@ class CheckAccessNotGrantedResponse {
   }
 }
 
-enum CheckAccessNotGrantedResult {
-  pass('PASS'),
-  fail('FAIL'),
-  ;
+class CheckAccessNotGrantedResult {
+  static const pass = CheckAccessNotGrantedResult._('PASS');
+  static const fail = CheckAccessNotGrantedResult._('FAIL');
 
   final String value;
 
-  const CheckAccessNotGrantedResult(this.value);
+  const CheckAccessNotGrantedResult._(this.value);
+
+  static const values = [pass, fail];
 
   static CheckAccessNotGrantedResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CheckAccessNotGrantedResult'));
+          orElse: () => CheckAccessNotGrantedResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CheckAccessNotGrantedResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CheckNoNewAccessResponse {
@@ -2450,19 +2557,29 @@ class CheckNoNewAccessResponse {
   }
 }
 
-enum CheckNoNewAccessResult {
-  pass('PASS'),
-  fail('FAIL'),
-  ;
+class CheckNoNewAccessResult {
+  static const pass = CheckNoNewAccessResult._('PASS');
+  static const fail = CheckNoNewAccessResult._('FAIL');
 
   final String value;
 
-  const CheckNoNewAccessResult(this.value);
+  const CheckNoNewAccessResult._(this.value);
+
+  static const values = [pass, fail];
 
   static CheckNoNewAccessResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CheckNoNewAccessResult'));
+          orElse: () => CheckNoNewAccessResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CheckNoNewAccessResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CheckNoPublicAccessResponse {
@@ -2510,19 +2627,29 @@ class CheckNoPublicAccessResponse {
   }
 }
 
-enum CheckNoPublicAccessResult {
-  pass('PASS'),
-  fail('FAIL'),
-  ;
+class CheckNoPublicAccessResult {
+  static const pass = CheckNoPublicAccessResult._('PASS');
+  static const fail = CheckNoPublicAccessResult._('FAIL');
 
   final String value;
 
-  const CheckNoPublicAccessResult(this.value);
+  const CheckNoPublicAccessResult._(this.value);
+
+  static const values = [pass, fail];
 
   static CheckNoPublicAccessResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CheckNoPublicAccessResult'));
+          orElse: () => CheckNoPublicAccessResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CheckNoPublicAccessResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about CloudTrail access.
@@ -3283,8 +3410,9 @@ class Finding {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
-      status: FindingStatus.fromString((json['status'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      status: FindingStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       action:
           (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -3334,20 +3462,29 @@ class Finding {
   }
 }
 
-enum FindingChangeType {
-  changed('CHANGED'),
-  $new('NEW'),
-  unchanged('UNCHANGED'),
-  ;
+class FindingChangeType {
+  static const changed = FindingChangeType._('CHANGED');
+  static const $new = FindingChangeType._('NEW');
+  static const unchanged = FindingChangeType._('UNCHANGED');
 
   final String value;
 
-  const FindingChangeType(this.value);
+  const FindingChangeType._(this.value);
+
+  static const values = [changed, $new, unchanged];
 
   static FindingChangeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingChangeType'));
+          orElse: () => FindingChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is FindingChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an external access or unused access finding. Only
@@ -3444,7 +3581,7 @@ class FindingSource {
 
   factory FindingSource.fromJson(Map<String, dynamic> json) {
     return FindingSource(
-      type: FindingSourceType.fromString((json['type'] as String)),
+      type: FindingSourceType.fromString((json['type'] as String?) ?? ''),
       detail: json['detail'] != null
           ? FindingSourceDetail.fromJson(json['detail'] as Map<String, dynamic>)
           : null,
@@ -3494,52 +3631,86 @@ class FindingSourceDetail {
   }
 }
 
-enum FindingSourceType {
-  policy('POLICY'),
-  bucketAcl('BUCKET_ACL'),
-  s3AccessPoint('S3_ACCESS_POINT'),
-  s3AccessPointAccount('S3_ACCESS_POINT_ACCOUNT'),
-  ;
+class FindingSourceType {
+  static const policy = FindingSourceType._('POLICY');
+  static const bucketAcl = FindingSourceType._('BUCKET_ACL');
+  static const s3AccessPoint = FindingSourceType._('S3_ACCESS_POINT');
+  static const s3AccessPointAccount =
+      FindingSourceType._('S3_ACCESS_POINT_ACCOUNT');
 
   final String value;
 
-  const FindingSourceType(this.value);
+  const FindingSourceType._(this.value);
+
+  static const values = [
+    policy,
+    bucketAcl,
+    s3AccessPoint,
+    s3AccessPointAccount
+  ];
 
   static FindingSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingSourceType'));
+          orElse: () => FindingSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is FindingSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FindingStatus {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  resolved('RESOLVED'),
-  ;
+class FindingStatus {
+  static const active = FindingStatus._('ACTIVE');
+  static const archived = FindingStatus._('ARCHIVED');
+  static const resolved = FindingStatus._('RESOLVED');
 
   final String value;
 
-  const FindingStatus(this.value);
+  const FindingStatus._(this.value);
+
+  static const values = [active, archived, resolved];
 
   static FindingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingStatus'));
+          orElse: () => FindingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FindingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FindingStatusUpdate {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  ;
+class FindingStatusUpdate {
+  static const active = FindingStatusUpdate._('ACTIVE');
+  static const archived = FindingStatusUpdate._('ARCHIVED');
 
   final String value;
 
-  const FindingStatusUpdate(this.value);
+  const FindingStatusUpdate._(this.value);
 
-  static FindingStatusUpdate fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FindingStatusUpdate'));
+  static const values = [active, archived];
+
+  static FindingStatusUpdate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FindingStatusUpdate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FindingStatusUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a finding.
@@ -3617,8 +3788,9 @@ class FindingSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
-      status: FindingStatus.fromString((json['status'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      status: FindingStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       action:
           (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -3720,8 +3892,9 @@ class FindingSummaryV2 {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
-      status: FindingStatus.fromString((json['status'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      status: FindingStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       error: json['error'] as String?,
       findingType:
@@ -3756,21 +3929,36 @@ class FindingSummaryV2 {
   }
 }
 
-enum FindingType {
-  externalAccess('ExternalAccess'),
-  unusedIAMRole('UnusedIAMRole'),
-  unusedIAMUserAccessKey('UnusedIAMUserAccessKey'),
-  unusedIAMUserPassword('UnusedIAMUserPassword'),
-  unusedPermission('UnusedPermission'),
-  ;
+class FindingType {
+  static const externalAccess = FindingType._('ExternalAccess');
+  static const unusedIAMRole = FindingType._('UnusedIAMRole');
+  static const unusedIAMUserAccessKey = FindingType._('UnusedIAMUserAccessKey');
+  static const unusedIAMUserPassword = FindingType._('UnusedIAMUserPassword');
+  static const unusedPermission = FindingType._('UnusedPermission');
 
   final String value;
 
-  const FindingType(this.value);
+  const FindingType._(this.value);
 
-  static FindingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FindingType'));
+  static const values = [
+    externalAccess,
+    unusedIAMRole,
+    unusedIAMUserAccessKey,
+    unusedIAMUserPassword,
+    unusedPermission
+  ];
+
+  static FindingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FindingType._(value));
+
+  @override
+  bool operator ==(other) => other is FindingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the text for the generated policy.
@@ -4021,11 +4209,11 @@ class GetFindingRecommendationResponse {
 
   factory GetFindingRecommendationResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingRecommendationResponse(
-      recommendationType:
-          RecommendationType.fromString((json['recommendationType'] as String)),
+      recommendationType: RecommendationType.fromString(
+          (json['recommendationType'] as String?) ?? ''),
       resourceArn: (json['resourceArn'] as String?) ?? '',
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
-      status: Status.fromString((json['status'] as String)),
+      status: Status.fromString((json['status'] as String?) ?? ''),
       completedAt: timeStampFromJson(json['completedAt']),
       error: json['error'] != null
           ? RecommendationError.fromJson(json['error'] as Map<String, dynamic>)
@@ -4152,8 +4340,9 @@ class GetFindingV2Response {
           .toList(),
       id: (json['id'] as String?) ?? '',
       resourceOwnerAccount: (json['resourceOwnerAccount'] as String?) ?? '',
-      resourceType: ResourceType.fromString((json['resourceType'] as String)),
-      status: FindingStatus.fromString((json['status'] as String)),
+      resourceType:
+          ResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      status: FindingStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       error: json['error'] as String?,
       findingType:
@@ -4331,7 +4520,7 @@ class JobDetails {
     return JobDetails(
       jobId: (json['jobId'] as String?) ?? '',
       startedOn: nonNullableTimeStampFromJson(json['startedOn'] ?? 0),
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       completedOn: timeStampFromJson(json['completedOn']),
       jobError: json['jobError'] != null
           ? JobError.fromJson(json['jobError'] as Map<String, dynamic>)
@@ -4371,7 +4560,7 @@ class JobError {
 
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
-      code: JobErrorCode.fromString((json['code'] as String)),
+      code: JobErrorCode.fromString((json['code'] as String?) ?? ''),
       message: (json['message'] as String?) ?? '',
     );
   }
@@ -4386,37 +4575,61 @@ class JobError {
   }
 }
 
-enum JobErrorCode {
-  authorizationError('AUTHORIZATION_ERROR'),
-  resourceNotFoundError('RESOURCE_NOT_FOUND_ERROR'),
-  serviceQuotaExceededError('SERVICE_QUOTA_EXCEEDED_ERROR'),
-  serviceError('SERVICE_ERROR'),
-  ;
+class JobErrorCode {
+  static const authorizationError = JobErrorCode._('AUTHORIZATION_ERROR');
+  static const resourceNotFoundError =
+      JobErrorCode._('RESOURCE_NOT_FOUND_ERROR');
+  static const serviceQuotaExceededError =
+      JobErrorCode._('SERVICE_QUOTA_EXCEEDED_ERROR');
+  static const serviceError = JobErrorCode._('SERVICE_ERROR');
 
   final String value;
 
-  const JobErrorCode(this.value);
+  const JobErrorCode._(this.value);
 
-  static JobErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobErrorCode'));
+  static const values = [
+    authorizationError,
+    resourceNotFoundError,
+    serviceQuotaExceededError,
+    serviceError
+  ];
+
+  static JobErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is JobErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  canceled('CANCELED'),
-  ;
+class JobStatus {
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const succeeded = JobStatus._('SUCCEEDED');
+  static const failed = JobStatus._('FAILED');
+  static const canceled = JobStatus._('CANCELED');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [inProgress, succeeded, failed, canceled];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A proposed grant configuration for a KMS key. For more information, see <a
@@ -4540,31 +4753,57 @@ class KmsGrantConstraints {
   }
 }
 
-enum KmsGrantOperation {
-  createGrant('CreateGrant'),
-  decrypt('Decrypt'),
-  describeKey('DescribeKey'),
-  encrypt('Encrypt'),
-  generateDataKey('GenerateDataKey'),
-  generateDataKeyPair('GenerateDataKeyPair'),
-  generateDataKeyPairWithoutPlaintext('GenerateDataKeyPairWithoutPlaintext'),
-  generateDataKeyWithoutPlaintext('GenerateDataKeyWithoutPlaintext'),
-  getPublicKey('GetPublicKey'),
-  reEncryptFrom('ReEncryptFrom'),
-  reEncryptTo('ReEncryptTo'),
-  retireGrant('RetireGrant'),
-  sign('Sign'),
-  verify('Verify'),
-  ;
+class KmsGrantOperation {
+  static const createGrant = KmsGrantOperation._('CreateGrant');
+  static const decrypt = KmsGrantOperation._('Decrypt');
+  static const describeKey = KmsGrantOperation._('DescribeKey');
+  static const encrypt = KmsGrantOperation._('Encrypt');
+  static const generateDataKey = KmsGrantOperation._('GenerateDataKey');
+  static const generateDataKeyPair = KmsGrantOperation._('GenerateDataKeyPair');
+  static const generateDataKeyPairWithoutPlaintext =
+      KmsGrantOperation._('GenerateDataKeyPairWithoutPlaintext');
+  static const generateDataKeyWithoutPlaintext =
+      KmsGrantOperation._('GenerateDataKeyWithoutPlaintext');
+  static const getPublicKey = KmsGrantOperation._('GetPublicKey');
+  static const reEncryptFrom = KmsGrantOperation._('ReEncryptFrom');
+  static const reEncryptTo = KmsGrantOperation._('ReEncryptTo');
+  static const retireGrant = KmsGrantOperation._('RetireGrant');
+  static const sign = KmsGrantOperation._('Sign');
+  static const verify = KmsGrantOperation._('Verify');
 
   final String value;
 
-  const KmsGrantOperation(this.value);
+  const KmsGrantOperation._(this.value);
+
+  static const values = [
+    createGrant,
+    decrypt,
+    describeKey,
+    encrypt,
+    generateDataKey,
+    generateDataKeyPair,
+    generateDataKeyPairWithoutPlaintext,
+    generateDataKeyWithoutPlaintext,
+    getPublicKey,
+    reEncryptFrom,
+    reEncryptTo,
+    retireGrant,
+    sign,
+    verify
+  ];
 
   static KmsGrantOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KmsGrantOperation'));
+          orElse: () => KmsGrantOperation._(value));
+
+  @override
+  bool operator ==(other) => other is KmsGrantOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Proposed access control configuration for a KMS key. You can propose a
@@ -4908,26 +5147,35 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum Locale {
-  de('DE'),
-  en('EN'),
-  es('ES'),
-  fr('FR'),
-  it('IT'),
-  ja('JA'),
-  ko('KO'),
-  ptBr('PT_BR'),
-  zhCn('ZH_CN'),
-  zhTw('ZH_TW'),
-  ;
+class Locale {
+  static const de = Locale._('DE');
+  static const en = Locale._('EN');
+  static const es = Locale._('ES');
+  static const fr = Locale._('FR');
+  static const it = Locale._('IT');
+  static const ja = Locale._('JA');
+  static const ko = Locale._('KO');
+  static const ptBr = Locale._('PT_BR');
+  static const zhCn = Locale._('ZH_CN');
+  static const zhTw = Locale._('ZH_TW');
 
   final String value;
 
-  const Locale(this.value);
+  const Locale._(this.value);
+
+  static const values = [de, en, es, fr, it, ja, ko, ptBr, zhCn, zhTw];
 
   static Locale fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Locale'));
+      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
+
+  @override
+  bool operator ==(other) => other is Locale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A location in a policy that is represented as a path through the JSON
@@ -5009,18 +5257,27 @@ class NetworkOriginConfiguration {
   }
 }
 
-enum OrderBy {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class OrderBy {
+  static const asc = OrderBy._('ASC');
+  static const desc = OrderBy._('DESC');
 
   final String value;
 
-  const OrderBy(this.value);
+  const OrderBy._(this.value);
 
-  static OrderBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OrderBy'));
+  static const values = [asc, desc];
+
+  static OrderBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single element in a path through the JSON representation of a policy.
@@ -5104,7 +5361,7 @@ class PolicyGeneration {
       jobId: (json['jobId'] as String?) ?? '',
       principalArn: (json['principalArn'] as String?) ?? '',
       startedOn: nonNullableTimeStampFromJson(json['startedOn'] ?? 0),
-      status: JobStatus.fromString((json['status'] as String)),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
       completedOn: timeStampFromJson(json['completedOn']),
     );
   }
@@ -5144,19 +5401,28 @@ class PolicyGenerationDetails {
   }
 }
 
-enum PolicyType {
-  identityPolicy('IDENTITY_POLICY'),
-  resourcePolicy('RESOURCE_POLICY'),
-  serviceControlPolicy('SERVICE_CONTROL_POLICY'),
-  ;
+class PolicyType {
+  static const identityPolicy = PolicyType._('IDENTITY_POLICY');
+  static const resourcePolicy = PolicyType._('RESOURCE_POLICY');
+  static const serviceControlPolicy = PolicyType._('SERVICE_CONTROL_POLICY');
 
   final String value;
 
-  const PolicyType(this.value);
+  const PolicyType._(this.value);
 
-  static PolicyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PolicyType'));
+  static const values = [identityPolicy, resourcePolicy, serviceControlPolicy];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A position in a policy.
@@ -5411,20 +5677,37 @@ class RdsDbSnapshotConfiguration {
   }
 }
 
-enum ReasonCode {
-  awsServiceAccessDisabled('AWS_SERVICE_ACCESS_DISABLED'),
-  delegatedAdministratorDeregistered('DELEGATED_ADMINISTRATOR_DEREGISTERED'),
-  organizationDeleted('ORGANIZATION_DELETED'),
-  serviceLinkedRoleCreationFailed('SERVICE_LINKED_ROLE_CREATION_FAILED'),
-  ;
+class ReasonCode {
+  static const awsServiceAccessDisabled =
+      ReasonCode._('AWS_SERVICE_ACCESS_DISABLED');
+  static const delegatedAdministratorDeregistered =
+      ReasonCode._('DELEGATED_ADMINISTRATOR_DEREGISTERED');
+  static const organizationDeleted = ReasonCode._('ORGANIZATION_DELETED');
+  static const serviceLinkedRoleCreationFailed =
+      ReasonCode._('SERVICE_LINKED_ROLE_CREATION_FAILED');
 
   final String value;
 
-  const ReasonCode(this.value);
+  const ReasonCode._(this.value);
 
-  static ReasonCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReasonCode'));
+  static const values = [
+    awsServiceAccessDisabled,
+    delegatedAdministratorDeregistered,
+    organizationDeleted,
+    serviceLinkedRoleCreationFailed
+  ];
+
+  static ReasonCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is ReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the reasoning why a check for access passed or
@@ -5496,33 +5779,54 @@ class RecommendationError {
   }
 }
 
-enum RecommendationType {
-  unusedPermissionRecommendation('UnusedPermissionRecommendation'),
-  ;
+class RecommendationType {
+  static const unusedPermissionRecommendation =
+      RecommendationType._('UnusedPermissionRecommendation');
 
   final String value;
 
-  const RecommendationType(this.value);
+  const RecommendationType._(this.value);
 
-  static RecommendationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationType'));
+  static const values = [unusedPermissionRecommendation];
+
+  static RecommendationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendedRemediationAction {
-  createPolicy('CREATE_POLICY'),
-  detachPolicy('DETACH_POLICY'),
-  ;
+class RecommendedRemediationAction {
+  static const createPolicy = RecommendedRemediationAction._('CREATE_POLICY');
+  static const detachPolicy = RecommendedRemediationAction._('DETACH_POLICY');
 
   final String value;
 
-  const RecommendedRemediationAction(this.value);
+  const RecommendedRemediationAction._(this.value);
+
+  static const values = [createPolicy, detachPolicy];
 
   static RecommendedRemediationAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendedRemediationAction'));
+          orElse: () => RecommendedRemediationAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendedRemediationAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a recommended step for an unused access analyzer
@@ -5556,33 +5860,62 @@ class RecommendedStep {
   }
 }
 
-enum ResourceType {
-  awsS3Bucket('AWS::S3::Bucket'),
-  awsIamRole('AWS::IAM::Role'),
-  awsSqsQueue('AWS::SQS::Queue'),
-  awsLambdaFunction('AWS::Lambda::Function'),
-  awsLambdaLayerVersion('AWS::Lambda::LayerVersion'),
-  awsKmsKey('AWS::KMS::Key'),
-  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
-  awsEfsFileSystem('AWS::EFS::FileSystem'),
-  awsEc2Snapshot('AWS::EC2::Snapshot'),
-  awsEcrRepository('AWS::ECR::Repository'),
-  awsRdsDBSnapshot('AWS::RDS::DBSnapshot'),
-  awsRdsDBClusterSnapshot('AWS::RDS::DBClusterSnapshot'),
-  awsSnsTopic('AWS::SNS::Topic'),
-  awsS3ExpressDirectoryBucket('AWS::S3Express::DirectoryBucket'),
-  awsDynamoDBTable('AWS::DynamoDB::Table'),
-  awsDynamoDBStream('AWS::DynamoDB::Stream'),
-  ;
+class ResourceType {
+  static const awsS3Bucket = ResourceType._('AWS::S3::Bucket');
+  static const awsIamRole = ResourceType._('AWS::IAM::Role');
+  static const awsSqsQueue = ResourceType._('AWS::SQS::Queue');
+  static const awsLambdaFunction = ResourceType._('AWS::Lambda::Function');
+  static const awsLambdaLayerVersion =
+      ResourceType._('AWS::Lambda::LayerVersion');
+  static const awsKmsKey = ResourceType._('AWS::KMS::Key');
+  static const awsSecretsManagerSecret =
+      ResourceType._('AWS::SecretsManager::Secret');
+  static const awsEfsFileSystem = ResourceType._('AWS::EFS::FileSystem');
+  static const awsEc2Snapshot = ResourceType._('AWS::EC2::Snapshot');
+  static const awsEcrRepository = ResourceType._('AWS::ECR::Repository');
+  static const awsRdsDBSnapshot = ResourceType._('AWS::RDS::DBSnapshot');
+  static const awsRdsDBClusterSnapshot =
+      ResourceType._('AWS::RDS::DBClusterSnapshot');
+  static const awsSnsTopic = ResourceType._('AWS::SNS::Topic');
+  static const awsS3ExpressDirectoryBucket =
+      ResourceType._('AWS::S3Express::DirectoryBucket');
+  static const awsDynamoDBTable = ResourceType._('AWS::DynamoDB::Table');
+  static const awsDynamoDBStream = ResourceType._('AWS::DynamoDB::Stream');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    awsS3Bucket,
+    awsIamRole,
+    awsSqsQueue,
+    awsLambdaFunction,
+    awsLambdaLayerVersion,
+    awsKmsKey,
+    awsSecretsManagerSecret,
+    awsEfsFileSystem,
+    awsEc2Snapshot,
+    awsEcrRepository,
+    awsRdsDBSnapshot,
+    awsRdsDBClusterSnapshot,
+    awsSnsTopic,
+    awsS3ExpressDirectoryBucket,
+    awsDynamoDBTable,
+    awsDynamoDBStream
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration for an Amazon S3 access point or multi-region access point
@@ -5666,7 +5999,8 @@ class S3BucketAclGrantConfiguration {
     return S3BucketAclGrantConfiguration(
       grantee: AclGrantee.fromJson((json['grantee'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      permission: AclPermission.fromString((json['permission'] as String)),
+      permission:
+          AclPermission.fromString((json['permission'] as String?) ?? ''),
     );
   }
 
@@ -6027,19 +6361,28 @@ class StartPolicyGenerationResponse {
   }
 }
 
-enum Status {
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class Status {
+  static const succeeded = Status._('SUCCEEDED');
+  static const failed = Status._('FAILED');
+  static const inProgress = Status._('IN_PROGRESS');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides more details about the current status of the analyzer. For example,
@@ -6057,7 +6400,7 @@ class StatusReason {
 
   factory StatusReason.fromJson(Map<String, dynamic> json) {
     return StatusReason(
-      code: ReasonCode.fromString((json['code'] as String)),
+      code: ReasonCode.fromString((json['code'] as String?) ?? ''),
     );
   }
 
@@ -6189,20 +6532,34 @@ class TrailProperties {
   }
 }
 
-enum Type {
-  account('ACCOUNT'),
-  organization('ORGANIZATION'),
-  accountUnusedAccess('ACCOUNT_UNUSED_ACCESS'),
-  organizationUnusedAccess('ORGANIZATION_UNUSED_ACCESS'),
-  ;
+class Type {
+  static const account = Type._('ACCOUNT');
+  static const organization = Type._('ORGANIZATION');
+  static const accountUnusedAccess = Type._('ACCOUNT_UNUSED_ACCESS');
+  static const organizationUnusedAccess = Type._('ORGANIZATION_UNUSED_ACCESS');
 
   final String value;
 
-  const Type(this.value);
+  const Type._(this.value);
+
+  static const values = [
+    account,
+    organization,
+    accountUnusedAccess,
+    organizationUnusedAccess
+  ];
 
   static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Type'));
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The response to the request.
@@ -6444,7 +6801,7 @@ class UnusedPermissionsRecommendedStep {
   factory UnusedPermissionsRecommendedStep.fromJson(Map<String, dynamic> json) {
     return UnusedPermissionsRecommendedStep(
       recommendedAction: RecommendedRemediationAction.fromString(
-          (json['recommendedAction'] as String)),
+          (json['recommendedAction'] as String?) ?? ''),
       existingPolicyId: json['existingPolicyId'] as String?,
       policyUpdatedAt: timeStampFromJson(json['policyUpdatedAt']),
       recommendedPolicy: json['recommendedPolicy'] as String?,
@@ -6510,8 +6867,8 @@ class ValidatePolicyFinding {
   factory ValidatePolicyFinding.fromJson(Map<String, dynamic> json) {
     return ValidatePolicyFinding(
       findingDetails: (json['findingDetails'] as String?) ?? '',
-      findingType:
-          ValidatePolicyFindingType.fromString((json['findingType'] as String)),
+      findingType: ValidatePolicyFindingType.fromString(
+          (json['findingType'] as String?) ?? ''),
       issueCode: (json['issueCode'] as String?) ?? '',
       learnMoreLink: (json['learnMoreLink'] as String?) ?? '',
       locations: ((json['locations'] as List?) ?? const [])
@@ -6537,40 +6894,73 @@ class ValidatePolicyFinding {
   }
 }
 
-enum ValidatePolicyFindingType {
-  error('ERROR'),
-  securityWarning('SECURITY_WARNING'),
-  suggestion('SUGGESTION'),
-  warning('WARNING'),
-  ;
+class ValidatePolicyFindingType {
+  static const error = ValidatePolicyFindingType._('ERROR');
+  static const securityWarning =
+      ValidatePolicyFindingType._('SECURITY_WARNING');
+  static const suggestion = ValidatePolicyFindingType._('SUGGESTION');
+  static const warning = ValidatePolicyFindingType._('WARNING');
 
   final String value;
 
-  const ValidatePolicyFindingType(this.value);
+  const ValidatePolicyFindingType._(this.value);
+
+  static const values = [error, securityWarning, suggestion, warning];
 
   static ValidatePolicyFindingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ValidatePolicyFindingType'));
+          orElse: () => ValidatePolicyFindingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidatePolicyFindingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ValidatePolicyResourceType {
-  awsS3Bucket('AWS::S3::Bucket'),
-  awsS3AccessPoint('AWS::S3::AccessPoint'),
-  awsS3MultiRegionAccessPoint('AWS::S3::MultiRegionAccessPoint'),
-  awsS3ObjectLambdaAccessPoint('AWS::S3ObjectLambda::AccessPoint'),
-  awsIamAssumeRolePolicyDocument('AWS::IAM::AssumeRolePolicyDocument'),
-  awsDynamoDBTable('AWS::DynamoDB::Table'),
-  ;
+class ValidatePolicyResourceType {
+  static const awsS3Bucket = ValidatePolicyResourceType._('AWS::S3::Bucket');
+  static const awsS3AccessPoint =
+      ValidatePolicyResourceType._('AWS::S3::AccessPoint');
+  static const awsS3MultiRegionAccessPoint =
+      ValidatePolicyResourceType._('AWS::S3::MultiRegionAccessPoint');
+  static const awsS3ObjectLambdaAccessPoint =
+      ValidatePolicyResourceType._('AWS::S3ObjectLambda::AccessPoint');
+  static const awsIamAssumeRolePolicyDocument =
+      ValidatePolicyResourceType._('AWS::IAM::AssumeRolePolicyDocument');
+  static const awsDynamoDBTable =
+      ValidatePolicyResourceType._('AWS::DynamoDB::Table');
 
   final String value;
 
-  const ValidatePolicyResourceType(this.value);
+  const ValidatePolicyResourceType._(this.value);
+
+  static const values = [
+    awsS3Bucket,
+    awsS3AccessPoint,
+    awsS3MultiRegionAccessPoint,
+    awsS3ObjectLambdaAccessPoint,
+    awsIamAssumeRolePolicyDocument,
+    awsDynamoDBTable
+  ];
 
   static ValidatePolicyResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ValidatePolicyResourceType'));
+          orElse: () => ValidatePolicyResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidatePolicyResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ValidatePolicyResponse {

@@ -4166,19 +4166,28 @@ class AmiDistributionConfiguration {
   }
 }
 
-enum BuildType {
-  userInitiated('USER_INITIATED'),
-  scheduled('SCHEDULED'),
-  import('IMPORT'),
-  ;
+class BuildType {
+  static const userInitiated = BuildType._('USER_INITIATED');
+  static const scheduled = BuildType._('SCHEDULED');
+  static const import = BuildType._('IMPORT');
 
   final String value;
 
-  const BuildType(this.value);
+  const BuildType._(this.value);
 
-  static BuildType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BuildType'));
+  static const values = [userInitiated, scheduled, import];
+
+  static BuildType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BuildType._(value));
+
+  @override
+  bool operator ==(other) => other is BuildType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CancelImageCreationResponse {
@@ -4437,18 +4446,27 @@ class ComponentConfiguration {
   }
 }
 
-enum ComponentFormat {
-  shell('SHELL'),
-  ;
+class ComponentFormat {
+  static const shell = ComponentFormat._('SHELL');
 
   final String value;
 
-  const ComponentFormat(this.value);
+  const ComponentFormat._(this.value);
+
+  static const values = [shell];
 
   static ComponentFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComponentFormat'));
+          orElse: () => ComponentFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ComponentFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a key/value pair that sets the named component parameter.
@@ -4563,18 +4581,27 @@ class ComponentState {
   }
 }
 
-enum ComponentStatus {
-  deprecated('DEPRECATED'),
-  ;
+class ComponentStatus {
+  static const deprecated = ComponentStatus._('DEPRECATED');
 
   final String value;
 
-  const ComponentStatus(this.value);
+  const ComponentStatus._(this.value);
+
+  static const values = [deprecated];
 
   static ComponentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComponentStatus'));
+          orElse: () => ComponentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ComponentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A high-level summary of a component.
@@ -4703,19 +4730,28 @@ class ComponentSummary {
   }
 }
 
-enum ComponentType {
-  build('BUILD'),
-  test('TEST'),
-  ;
+class ComponentType {
+  static const build = ComponentType._('BUILD');
+  static const test = ComponentType._('TEST');
 
   final String value;
 
-  const ComponentType(this.value);
+  const ComponentType._(this.value);
+
+  static const values = [build, test];
 
   static ComponentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComponentType'));
+          orElse: () => ComponentType._(value));
+
+  @override
+  bool operator ==(other) => other is ComponentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The defining characteristics of a specific version of an Amazon Web Services
@@ -5188,32 +5224,51 @@ class ContainerRecipeSummary {
   }
 }
 
-enum ContainerRepositoryService {
-  ecr('ECR'),
-  ;
+class ContainerRepositoryService {
+  static const ecr = ContainerRepositoryService._('ECR');
 
   final String value;
 
-  const ContainerRepositoryService(this.value);
+  const ContainerRepositoryService._(this.value);
+
+  static const values = [ecr];
 
   static ContainerRepositoryService fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContainerRepositoryService'));
+          orElse: () => ContainerRepositoryService._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerRepositoryService && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContainerType {
-  docker('DOCKER'),
-  ;
+class ContainerType {
+  static const docker = ContainerType._('DOCKER');
 
   final String value;
 
-  const ContainerType(this.value);
+  const ContainerType._(this.value);
+
+  static const values = [docker];
 
   static ContainerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContainerType'));
+          orElse: () => ContainerType._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateComponentResponse {
@@ -5946,20 +6001,29 @@ class DeleteWorkflowResponse {
   }
 }
 
-enum DiskImageFormat {
-  vmdk('VMDK'),
-  raw('RAW'),
-  vhd('VHD'),
-  ;
+class DiskImageFormat {
+  static const vmdk = DiskImageFormat._('VMDK');
+  static const raw = DiskImageFormat._('RAW');
+  static const vhd = DiskImageFormat._('VHD');
 
   final String value;
 
-  const DiskImageFormat(this.value);
+  const DiskImageFormat._(this.value);
+
+  static const values = [vmdk, raw, vhd];
 
   static DiskImageFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DiskImageFormat'));
+          orElse: () => DiskImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DiskImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the settings for a specific Region.
@@ -6282,24 +6346,33 @@ class EbsInstanceBlockDeviceSpecification {
   }
 }
 
-enum EbsVolumeType {
-  standard('standard'),
-  io1('io1'),
-  io2('io2'),
-  gp2('gp2'),
-  gp3('gp3'),
-  sc1('sc1'),
-  st1('st1'),
-  ;
+class EbsVolumeType {
+  static const standard = EbsVolumeType._('standard');
+  static const io1 = EbsVolumeType._('io1');
+  static const io2 = EbsVolumeType._('io2');
+  static const gp2 = EbsVolumeType._('gp2');
+  static const gp3 = EbsVolumeType._('gp3');
+  static const sc1 = EbsVolumeType._('sc1');
+  static const st1 = EbsVolumeType._('st1');
 
   final String value;
 
-  const EbsVolumeType(this.value);
+  const EbsVolumeType._(this.value);
+
+  static const values = [standard, io1, io2, gp2, gp3, sc1, st1];
 
   static EbsVolumeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EbsVolumeType'));
+          orElse: () => EbsVolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is EbsVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings that Image Builder uses to configure the ECR repository and the
@@ -8234,24 +8307,41 @@ class ImageScanState {
   }
 }
 
-enum ImageScanStatus {
-  pending('PENDING'),
-  scanning('SCANNING'),
-  collecting('COLLECTING'),
-  completed('COMPLETED'),
-  abandoned('ABANDONED'),
-  failed('FAILED'),
-  timedOut('TIMED_OUT'),
-  ;
+class ImageScanStatus {
+  static const pending = ImageScanStatus._('PENDING');
+  static const scanning = ImageScanStatus._('SCANNING');
+  static const collecting = ImageScanStatus._('COLLECTING');
+  static const completed = ImageScanStatus._('COMPLETED');
+  static const abandoned = ImageScanStatus._('ABANDONED');
+  static const failed = ImageScanStatus._('FAILED');
+  static const timedOut = ImageScanStatus._('TIMED_OUT');
 
   final String value;
 
-  const ImageScanStatus(this.value);
+  const ImageScanStatus._(this.value);
+
+  static const values = [
+    pending,
+    scanning,
+    collecting,
+    completed,
+    abandoned,
+    failed,
+    timedOut
+  ];
 
   static ImageScanStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImageScanStatus'));
+          orElse: () => ImageScanStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImageScanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains settings for Image Builder image resource and container image
@@ -8291,20 +8381,29 @@ class ImageScanningConfiguration {
   }
 }
 
-enum ImageSource {
-  amazonManaged('AMAZON_MANAGED'),
-  awsMarketplace('AWS_MARKETPLACE'),
-  imported('IMPORTED'),
-  custom('CUSTOM'),
-  ;
+class ImageSource {
+  static const amazonManaged = ImageSource._('AMAZON_MANAGED');
+  static const awsMarketplace = ImageSource._('AWS_MARKETPLACE');
+  static const imported = ImageSource._('IMPORTED');
+  static const custom = ImageSource._('CUSTOM');
 
   final String value;
 
-  const ImageSource(this.value);
+  const ImageSource._(this.value);
 
-  static ImageSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageSource'));
+  static const values = [amazonManaged, awsMarketplace, imported, custom];
+
+  static ImageSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageSource._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Image status and the reason for that status.
@@ -8337,28 +8436,50 @@ class ImageState {
   }
 }
 
-enum ImageStatus {
-  pending('PENDING'),
-  creating('CREATING'),
-  building('BUILDING'),
-  testing('TESTING'),
-  distributing('DISTRIBUTING'),
-  integrating('INTEGRATING'),
-  available('AVAILABLE'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  deprecated('DEPRECATED'),
-  deleted('DELETED'),
-  disabled('DISABLED'),
-  ;
+class ImageStatus {
+  static const pending = ImageStatus._('PENDING');
+  static const creating = ImageStatus._('CREATING');
+  static const building = ImageStatus._('BUILDING');
+  static const testing = ImageStatus._('TESTING');
+  static const distributing = ImageStatus._('DISTRIBUTING');
+  static const integrating = ImageStatus._('INTEGRATING');
+  static const available = ImageStatus._('AVAILABLE');
+  static const cancelled = ImageStatus._('CANCELLED');
+  static const failed = ImageStatus._('FAILED');
+  static const deprecated = ImageStatus._('DEPRECATED');
+  static const deleted = ImageStatus._('DELETED');
+  static const disabled = ImageStatus._('DISABLED');
 
   final String value;
 
-  const ImageStatus(this.value);
+  const ImageStatus._(this.value);
 
-  static ImageStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageStatus'));
+  static const values = [
+    pending,
+    creating,
+    building,
+    testing,
+    distributing,
+    integrating,
+    available,
+    cancelled,
+    failed,
+    deprecated,
+    deleted,
+    disabled
+  ];
+
+  static ImageStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An image summary.
@@ -8546,18 +8667,27 @@ class ImageTestsConfiguration {
   }
 }
 
-enum ImageType {
-  ami('AMI'),
-  docker('DOCKER'),
-  ;
+class ImageType {
+  static const ami = ImageType._('AMI');
+  static const docker = ImageType._('DOCKER');
 
   final String value;
 
-  const ImageType(this.value);
+  const ImageType._(this.value);
 
-  static ImageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageType'));
+  static const values = [ami, docker];
+
+  static ImageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The defining characteristics of a specific version of an Image Builder
@@ -9506,21 +9636,31 @@ class LifecycleExecutionResourceAction {
   }
 }
 
-enum LifecycleExecutionResourceActionName {
-  available('AVAILABLE'),
-  delete('DELETE'),
-  deprecate('DEPRECATE'),
-  disable('DISABLE'),
-  ;
+class LifecycleExecutionResourceActionName {
+  static const available = LifecycleExecutionResourceActionName._('AVAILABLE');
+  static const delete = LifecycleExecutionResourceActionName._('DELETE');
+  static const deprecate = LifecycleExecutionResourceActionName._('DEPRECATE');
+  static const disable = LifecycleExecutionResourceActionName._('DISABLE');
 
   final String value;
 
-  const LifecycleExecutionResourceActionName(this.value);
+  const LifecycleExecutionResourceActionName._(this.value);
+
+  static const values = [available, delete, deprecate, disable];
 
   static LifecycleExecutionResourceActionName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecycleExecutionResourceActionName'));
+          orElse: () => LifecycleExecutionResourceActionName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleExecutionResourceActionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the state of an impacted resource that the runtime instance of the
@@ -9555,21 +9695,31 @@ class LifecycleExecutionResourceState {
   }
 }
 
-enum LifecycleExecutionResourceStatus {
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  skipped('SKIPPED'),
-  success('SUCCESS'),
-  ;
+class LifecycleExecutionResourceStatus {
+  static const failed = LifecycleExecutionResourceStatus._('FAILED');
+  static const inProgress = LifecycleExecutionResourceStatus._('IN_PROGRESS');
+  static const skipped = LifecycleExecutionResourceStatus._('SKIPPED');
+  static const success = LifecycleExecutionResourceStatus._('SUCCESS');
 
   final String value;
 
-  const LifecycleExecutionResourceStatus(this.value);
+  const LifecycleExecutionResourceStatus._(this.value);
+
+  static const values = [failed, inProgress, skipped, success];
 
   static LifecycleExecutionResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecycleExecutionResourceStatus'));
+          orElse: () => LifecycleExecutionResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleExecutionResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details for an image resource that was identified for a lifecycle
@@ -9665,23 +9815,40 @@ class LifecycleExecutionState {
   }
 }
 
-enum LifecycleExecutionStatus {
-  inProgress('IN_PROGRESS'),
-  cancelled('CANCELLED'),
-  cancelling('CANCELLING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  pending('PENDING'),
-  ;
+class LifecycleExecutionStatus {
+  static const inProgress = LifecycleExecutionStatus._('IN_PROGRESS');
+  static const cancelled = LifecycleExecutionStatus._('CANCELLED');
+  static const cancelling = LifecycleExecutionStatus._('CANCELLING');
+  static const failed = LifecycleExecutionStatus._('FAILED');
+  static const success = LifecycleExecutionStatus._('SUCCESS');
+  static const pending = LifecycleExecutionStatus._('PENDING');
 
   final String value;
 
-  const LifecycleExecutionStatus(this.value);
+  const LifecycleExecutionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    cancelled,
+    cancelling,
+    failed,
+    success,
+    pending
+  ];
 
   static LifecycleExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecycleExecutionStatus'));
+          orElse: () => LifecycleExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration details for a lifecycle policy resource.
@@ -9856,8 +10023,8 @@ class LifecyclePolicyDetailAction {
 
   factory LifecyclePolicyDetailAction.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicyDetailAction(
-      type:
-          LifecyclePolicyDetailActionType.fromString((json['type'] as String)),
+      type: LifecyclePolicyDetailActionType.fromString(
+          (json['type'] as String?) ?? ''),
       includeResources: json['includeResources'] != null
           ? LifecyclePolicyDetailActionIncludeResources.fromJson(
               json['includeResources'] as Map<String, dynamic>)
@@ -9916,20 +10083,30 @@ class LifecyclePolicyDetailActionIncludeResources {
   }
 }
 
-enum LifecyclePolicyDetailActionType {
-  delete('DELETE'),
-  deprecate('DEPRECATE'),
-  disable('DISABLE'),
-  ;
+class LifecyclePolicyDetailActionType {
+  static const delete = LifecyclePolicyDetailActionType._('DELETE');
+  static const deprecate = LifecyclePolicyDetailActionType._('DEPRECATE');
+  static const disable = LifecyclePolicyDetailActionType._('DISABLE');
 
   final String value;
 
-  const LifecyclePolicyDetailActionType(this.value);
+  const LifecyclePolicyDetailActionType._(this.value);
+
+  static const values = [delete, deprecate, disable];
 
   static LifecyclePolicyDetailActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecyclePolicyDetailActionType'));
+          orElse: () => LifecyclePolicyDetailActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyDetailActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies resources that lifecycle policy actions should not apply to.
@@ -10053,7 +10230,7 @@ class LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
   factory LifecyclePolicyDetailExclusionRulesAmisLastLaunched.fromJson(
       Map<String, dynamic> json) {
     return LifecyclePolicyDetailExclusionRulesAmisLastLaunched(
-      unit: LifecyclePolicyTimeUnit.fromString((json['unit'] as String)),
+      unit: LifecyclePolicyTimeUnit.fromString((json['unit'] as String?) ?? ''),
       value: (json['value'] as int?) ?? 0,
     );
   }
@@ -10102,8 +10279,8 @@ class LifecyclePolicyDetailFilter {
 
   factory LifecyclePolicyDetailFilter.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicyDetailFilter(
-      type:
-          LifecyclePolicyDetailFilterType.fromString((json['type'] as String)),
+      type: LifecyclePolicyDetailFilterType.fromString(
+          (json['type'] as String?) ?? ''),
       value: (json['value'] as int?) ?? 0,
       retainAtLeast: json['retainAtLeast'] as int?,
       unit: (json['unit'] as String?)?.let(LifecyclePolicyTimeUnit.fromString),
@@ -10124,19 +10301,29 @@ class LifecyclePolicyDetailFilter {
   }
 }
 
-enum LifecyclePolicyDetailFilterType {
-  age('AGE'),
-  count('COUNT'),
-  ;
+class LifecyclePolicyDetailFilterType {
+  static const age = LifecyclePolicyDetailFilterType._('AGE');
+  static const count = LifecyclePolicyDetailFilterType._('COUNT');
 
   final String value;
 
-  const LifecyclePolicyDetailFilterType(this.value);
+  const LifecyclePolicyDetailFilterType._(this.value);
+
+  static const values = [age, count];
 
   static LifecyclePolicyDetailFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecyclePolicyDetailFilterType'));
+          orElse: () => LifecyclePolicyDetailFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyDetailFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Resource selection criteria for the lifecycle policy.
@@ -10210,34 +10397,55 @@ class LifecyclePolicyResourceSelectionRecipe {
   }
 }
 
-enum LifecyclePolicyResourceType {
-  amiImage('AMI_IMAGE'),
-  containerImage('CONTAINER_IMAGE'),
-  ;
+class LifecyclePolicyResourceType {
+  static const amiImage = LifecyclePolicyResourceType._('AMI_IMAGE');
+  static const containerImage =
+      LifecyclePolicyResourceType._('CONTAINER_IMAGE');
 
   final String value;
 
-  const LifecyclePolicyResourceType(this.value);
+  const LifecyclePolicyResourceType._(this.value);
+
+  static const values = [amiImage, containerImage];
 
   static LifecyclePolicyResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecyclePolicyResourceType'));
+          orElse: () => LifecyclePolicyResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LifecyclePolicyStatus {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class LifecyclePolicyStatus {
+  static const disabled = LifecyclePolicyStatus._('DISABLED');
+  static const enabled = LifecyclePolicyStatus._('ENABLED');
 
   final String value;
 
-  const LifecyclePolicyStatus(this.value);
+  const LifecyclePolicyStatus._(this.value);
 
-  static LifecyclePolicyStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LifecyclePolicyStatus'));
+  static const values = [disabled, enabled];
+
+  static LifecyclePolicyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecyclePolicyStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a summary of lifecycle policy resources.
@@ -10332,21 +10540,31 @@ class LifecyclePolicySummary {
   }
 }
 
-enum LifecyclePolicyTimeUnit {
-  days('DAYS'),
-  weeks('WEEKS'),
-  months('MONTHS'),
-  years('YEARS'),
-  ;
+class LifecyclePolicyTimeUnit {
+  static const days = LifecyclePolicyTimeUnit._('DAYS');
+  static const weeks = LifecyclePolicyTimeUnit._('WEEKS');
+  static const months = LifecyclePolicyTimeUnit._('MONTHS');
+  static const years = LifecyclePolicyTimeUnit._('YEARS');
 
   final String value;
 
-  const LifecyclePolicyTimeUnit(this.value);
+  const LifecyclePolicyTimeUnit._(this.value);
+
+  static const values = [days, weeks, months, years];
 
   static LifecyclePolicyTimeUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LifecyclePolicyTimeUnit'));
+          orElse: () => LifecyclePolicyTimeUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecyclePolicyTimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListComponentBuildVersionsResponse {
@@ -11388,19 +11606,28 @@ class Logging {
   }
 }
 
-enum OnWorkflowFailure {
-  $continue('CONTINUE'),
-  abort('ABORT'),
-  ;
+class OnWorkflowFailure {
+  static const $continue = OnWorkflowFailure._('CONTINUE');
+  static const abort = OnWorkflowFailure._('ABORT');
 
   final String value;
 
-  const OnWorkflowFailure(this.value);
+  const OnWorkflowFailure._(this.value);
+
+  static const values = [$continue, abort];
 
   static OnWorkflowFailure fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OnWorkflowFailure'));
+          orElse: () => OnWorkflowFailure._(value));
+
+  @override
+  bool operator ==(other) => other is OnWorkflowFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resources produced by this image.
@@ -11440,20 +11667,29 @@ class OutputResources {
   }
 }
 
-enum Ownership {
-  self('Self'),
-  shared('Shared'),
-  amazon('Amazon'),
-  thirdParty('ThirdParty'),
-  ;
+class Ownership {
+  static const self = Ownership._('Self');
+  static const shared = Ownership._('Shared');
+  static const amazon = Ownership._('Amazon');
+  static const thirdParty = Ownership._('ThirdParty');
 
   final String value;
 
-  const Ownership(this.value);
+  const Ownership._(this.value);
 
-  static Ownership fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Ownership'));
+  static const values = [self, shared, amazon, thirdParty];
+
+  static Ownership fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Ownership._(value));
+
+  @override
+  bool operator ==(other) => other is Ownership && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about package vulnerability findings.
@@ -11561,49 +11797,82 @@ class PackageVulnerabilityDetails {
   }
 }
 
-enum PipelineExecutionStartCondition {
-  expressionMatchOnly('EXPRESSION_MATCH_ONLY'),
-  expressionMatchAndDependencyUpdatesAvailable(
-      'EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE'),
-  ;
+class PipelineExecutionStartCondition {
+  static const expressionMatchOnly =
+      PipelineExecutionStartCondition._('EXPRESSION_MATCH_ONLY');
+  static const expressionMatchAndDependencyUpdatesAvailable =
+      PipelineExecutionStartCondition._(
+          'EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE');
 
   final String value;
 
-  const PipelineExecutionStartCondition(this.value);
+  const PipelineExecutionStartCondition._(this.value);
+
+  static const values = [
+    expressionMatchOnly,
+    expressionMatchAndDependencyUpdatesAvailable
+  ];
 
   static PipelineExecutionStartCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PipelineExecutionStartCondition'));
+          orElse: () => PipelineExecutionStartCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipelineExecutionStartCondition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PipelineStatus {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class PipelineStatus {
+  static const disabled = PipelineStatus._('DISABLED');
+  static const enabled = PipelineStatus._('ENABLED');
 
   final String value;
 
-  const PipelineStatus(this.value);
+  const PipelineStatus._(this.value);
+
+  static const values = [disabled, enabled];
 
   static PipelineStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PipelineStatus'));
+          orElse: () => PipelineStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Platform {
-  windows('Windows'),
-  linux('Linux'),
-  ;
+class Platform {
+  static const windows = Platform._('Windows');
+  static const linux = Platform._('Linux');
 
   final String value;
 
-  const Platform(this.value);
+  const Platform._(this.value);
 
-  static Platform fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Platform'));
+  static const values = [windows, linux];
+
+  static Platform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
+
+  @override
+  bool operator ==(other) => other is Platform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutComponentPolicyResponse {
@@ -11850,21 +12119,30 @@ class ResourceStateUpdateIncludeResources {
   }
 }
 
-enum ResourceStatus {
-  available('AVAILABLE'),
-  deleted('DELETED'),
-  deprecated('DEPRECATED'),
-  disabled('DISABLED'),
-  ;
+class ResourceStatus {
+  static const available = ResourceStatus._('AVAILABLE');
+  static const deleted = ResourceStatus._('DELETED');
+  static const deprecated = ResourceStatus._('DEPRECATED');
+  static const disabled = ResourceStatus._('DISABLED');
 
   final String value;
 
-  const ResourceStatus(this.value);
+  const ResourceStatus._(this.value);
+
+  static const values = [available, deleted, deprecated, disabled];
 
   static ResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStatus'));
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties that configure export from your build instance to a compatible
@@ -11908,8 +12186,8 @@ class S3ExportConfiguration {
 
   factory S3ExportConfiguration.fromJson(Map<String, dynamic> json) {
     return S3ExportConfiguration(
-      diskImageFormat:
-          DiskImageFormat.fromString((json['diskImageFormat'] as String)),
+      diskImageFormat: DiskImageFormat.fromString(
+          (json['diskImageFormat'] as String?) ?? ''),
       roleName: (json['roleName'] as String?) ?? '',
       s3Bucket: (json['s3Bucket'] as String?) ?? '',
       s3Prefix: json['s3Prefix'] as String?,
@@ -12230,8 +12508,8 @@ class TargetContainerRepository {
   factory TargetContainerRepository.fromJson(Map<String, dynamic> json) {
     return TargetContainerRepository(
       repositoryName: (json['repositoryName'] as String?) ?? '',
-      service:
-          ContainerRepositoryService.fromString((json['service'] as String)),
+      service: ContainerRepositoryService.fromString(
+          (json['service'] as String?) ?? ''),
     );
   }
 
@@ -12802,25 +13080,46 @@ class WorkflowExecutionMetadata {
   }
 }
 
-enum WorkflowExecutionStatus {
-  pending('PENDING'),
-  skipped('SKIPPED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  rollbackInProgress('ROLLBACK_IN_PROGRESS'),
-  rollbackCompleted('ROLLBACK_COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class WorkflowExecutionStatus {
+  static const pending = WorkflowExecutionStatus._('PENDING');
+  static const skipped = WorkflowExecutionStatus._('SKIPPED');
+  static const running = WorkflowExecutionStatus._('RUNNING');
+  static const completed = WorkflowExecutionStatus._('COMPLETED');
+  static const failed = WorkflowExecutionStatus._('FAILED');
+  static const rollbackInProgress =
+      WorkflowExecutionStatus._('ROLLBACK_IN_PROGRESS');
+  static const rollbackCompleted =
+      WorkflowExecutionStatus._('ROLLBACK_COMPLETED');
+  static const cancelled = WorkflowExecutionStatus._('CANCELLED');
 
   final String value;
 
-  const WorkflowExecutionStatus(this.value);
+  const WorkflowExecutionStatus._(this.value);
+
+  static const values = [
+    pending,
+    skipped,
+    running,
+    completed,
+    failed,
+    rollbackInProgress,
+    rollbackCompleted,
+    cancelled
+  ];
 
   static WorkflowExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowExecutionStatus'));
+          orElse: () => WorkflowExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains a key/value pair that sets the named workflow parameter.
@@ -12935,33 +13234,52 @@ class WorkflowState {
   }
 }
 
-enum WorkflowStatus {
-  deprecated('DEPRECATED'),
-  ;
+class WorkflowStatus {
+  static const deprecated = WorkflowStatus._('DEPRECATED');
 
   final String value;
 
-  const WorkflowStatus(this.value);
+  const WorkflowStatus._(this.value);
+
+  static const values = [deprecated];
 
   static WorkflowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowStatus'));
+          orElse: () => WorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkflowStepActionType {
-  resume('RESUME'),
-  stop('STOP'),
-  ;
+class WorkflowStepActionType {
+  static const resume = WorkflowStepActionType._('RESUME');
+  static const stop = WorkflowStepActionType._('STOP');
 
   final String value;
 
-  const WorkflowStepActionType(this.value);
+  const WorkflowStepActionType._(this.value);
+
+  static const values = [resume, stop];
 
   static WorkflowStepActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowStepActionType'));
+          orElse: () => WorkflowStepActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowStepActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains runtime details for an instance of a workflow that ran for the
@@ -13036,40 +13354,67 @@ class WorkflowStepExecution {
   }
 }
 
-enum WorkflowStepExecutionRollbackStatus {
-  running('RUNNING'),
-  completed('COMPLETED'),
-  skipped('SKIPPED'),
-  failed('FAILED'),
-  ;
+class WorkflowStepExecutionRollbackStatus {
+  static const running = WorkflowStepExecutionRollbackStatus._('RUNNING');
+  static const completed = WorkflowStepExecutionRollbackStatus._('COMPLETED');
+  static const skipped = WorkflowStepExecutionRollbackStatus._('SKIPPED');
+  static const failed = WorkflowStepExecutionRollbackStatus._('FAILED');
 
   final String value;
 
-  const WorkflowStepExecutionRollbackStatus(this.value);
+  const WorkflowStepExecutionRollbackStatus._(this.value);
+
+  static const values = [running, completed, skipped, failed];
 
   static WorkflowStepExecutionRollbackStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowStepExecutionRollbackStatus'));
+          orElse: () => WorkflowStepExecutionRollbackStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowStepExecutionRollbackStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkflowStepExecutionStatus {
-  pending('PENDING'),
-  skipped('SKIPPED'),
-  running('RUNNING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  cancelled('CANCELLED'),
-  ;
+class WorkflowStepExecutionStatus {
+  static const pending = WorkflowStepExecutionStatus._('PENDING');
+  static const skipped = WorkflowStepExecutionStatus._('SKIPPED');
+  static const running = WorkflowStepExecutionStatus._('RUNNING');
+  static const completed = WorkflowStepExecutionStatus._('COMPLETED');
+  static const failed = WorkflowStepExecutionStatus._('FAILED');
+  static const cancelled = WorkflowStepExecutionStatus._('CANCELLED');
 
   final String value;
 
-  const WorkflowStepExecutionStatus(this.value);
+  const WorkflowStepExecutionStatus._(this.value);
+
+  static const values = [
+    pending,
+    skipped,
+    running,
+    completed,
+    failed,
+    cancelled
+  ];
 
   static WorkflowStepExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkflowStepExecutionStatus'));
+          orElse: () => WorkflowStepExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowStepExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Runtime details and status for the workflow step.
@@ -13258,20 +13603,28 @@ class WorkflowSummary {
   }
 }
 
-enum WorkflowType {
-  build('BUILD'),
-  test('TEST'),
-  distribution('DISTRIBUTION'),
-  ;
+class WorkflowType {
+  static const build = WorkflowType._('BUILD');
+  static const test = WorkflowType._('TEST');
+  static const distribution = WorkflowType._('DISTRIBUTION');
 
   final String value;
 
-  const WorkflowType(this.value);
+  const WorkflowType._(this.value);
 
-  static WorkflowType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkflowType'));
+  static const values = [build, test, distribution];
+
+  static WorkflowType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WorkflowType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about this version of the workflow.

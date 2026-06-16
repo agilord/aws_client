@@ -94,18 +94,27 @@ class Enum {
   }
 }
 
-enum EnumType {
-  foo('foo'),
-  bar('bar'),
-  ;
+class EnumType {
+  static const foo = EnumType._('foo');
+  static const bar = EnumType._('bar');
 
   final String value;
 
-  const EnumType(this.value);
+  const EnumType._(this.value);
 
-  static EnumType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EnumType'));
+  static const values = [foo, bar];
+
+  static EnumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EnumType._(value));
+
+  @override
+  bool operator ==(other) => other is EnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

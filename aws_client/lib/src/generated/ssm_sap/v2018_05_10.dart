@@ -820,21 +820,30 @@ class SsmSap {
   }
 }
 
-enum AllocationType {
-  vpcSubnet('VPC_SUBNET'),
-  elasticIp('ELASTIC_IP'),
-  overlay('OVERLAY'),
-  unknown('UNKNOWN'),
-  ;
+class AllocationType {
+  static const vpcSubnet = AllocationType._('VPC_SUBNET');
+  static const elasticIp = AllocationType._('ELASTIC_IP');
+  static const overlay = AllocationType._('OVERLAY');
+  static const unknown = AllocationType._('UNKNOWN');
 
   final String value;
 
-  const AllocationType(this.value);
+  const AllocationType._(this.value);
+
+  static const values = [vpcSubnet, elasticIp, overlay, unknown];
 
   static AllocationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllocationType'));
+          orElse: () => AllocationType._(value));
+
+  @override
+  bool operator ==(other) => other is AllocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An SAP application registered with AWS Systems Manager for SAP.
@@ -953,7 +962,7 @@ class ApplicationCredential {
   factory ApplicationCredential.fromJson(Map<String, dynamic> json) {
     return ApplicationCredential(
       credentialType:
-          CredentialType.fromString((json['CredentialType'] as String)),
+          CredentialType.fromString((json['CredentialType'] as String?) ?? ''),
       databaseName: (json['DatabaseName'] as String?) ?? '',
       secretId: (json['SecretId'] as String?) ?? '',
     );
@@ -971,43 +980,78 @@ class ApplicationCredential {
   }
 }
 
-enum ApplicationDiscoveryStatus {
-  success('SUCCESS'),
-  registrationFailed('REGISTRATION_FAILED'),
-  refreshFailed('REFRESH_FAILED'),
-  registering('REGISTERING'),
-  deleting('DELETING'),
-  ;
+class ApplicationDiscoveryStatus {
+  static const success = ApplicationDiscoveryStatus._('SUCCESS');
+  static const registrationFailed =
+      ApplicationDiscoveryStatus._('REGISTRATION_FAILED');
+  static const refreshFailed = ApplicationDiscoveryStatus._('REFRESH_FAILED');
+  static const registering = ApplicationDiscoveryStatus._('REGISTERING');
+  static const deleting = ApplicationDiscoveryStatus._('DELETING');
 
   final String value;
 
-  const ApplicationDiscoveryStatus(this.value);
+  const ApplicationDiscoveryStatus._(this.value);
+
+  static const values = [
+    success,
+    registrationFailed,
+    refreshFailed,
+    registering,
+    deleting
+  ];
 
   static ApplicationDiscoveryStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationDiscoveryStatus'));
+          orElse: () => ApplicationDiscoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationDiscoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationStatus {
-  activated('ACTIVATED'),
-  starting('STARTING'),
-  stopped('STOPPED'),
-  stopping('STOPPING'),
-  failed('FAILED'),
-  registering('REGISTERING'),
-  deleting('DELETING'),
-  unknown('UNKNOWN'),
-  ;
+class ApplicationStatus {
+  static const activated = ApplicationStatus._('ACTIVATED');
+  static const starting = ApplicationStatus._('STARTING');
+  static const stopped = ApplicationStatus._('STOPPED');
+  static const stopping = ApplicationStatus._('STOPPING');
+  static const failed = ApplicationStatus._('FAILED');
+  static const registering = ApplicationStatus._('REGISTERING');
+  static const deleting = ApplicationStatus._('DELETING');
+  static const unknown = ApplicationStatus._('UNKNOWN');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [
+    activated,
+    starting,
+    stopped,
+    stopping,
+    failed,
+    registering,
+    deleting,
+    unknown
+  ];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the SAP application registered with AWS Systems Manager for
@@ -1064,19 +1108,28 @@ class ApplicationSummary {
   }
 }
 
-enum ApplicationType {
-  hana('HANA'),
-  sapAbap('SAP_ABAP'),
-  ;
+class ApplicationType {
+  static const hana = ApplicationType._('HANA');
+  static const sapAbap = ApplicationType._('SAP_ABAP');
 
   final String value;
 
-  const ApplicationType(this.value);
+  const ApplicationType._(this.value);
+
+  static const values = [hana, sapAbap];
 
   static ApplicationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationType'));
+          orElse: () => ApplicationType._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the properties of the associated host.
@@ -1150,35 +1203,53 @@ class BackintConfig {
   }
 }
 
-enum BackintMode {
-  awsBackup('AWSBackup'),
-  ;
+class BackintMode {
+  static const awsBackup = BackintMode._('AWSBackup');
 
   final String value;
 
-  const BackintMode(this.value);
+  const BackintMode._(this.value);
 
-  static BackintMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BackintMode'));
+  static const values = [awsBackup];
+
+  static BackintMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackintMode._(value));
+
+  @override
+  bool operator ==(other) => other is BackintMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClusterStatus {
-  online('ONLINE'),
-  standby('STANDBY'),
-  maintenance('MAINTENANCE'),
-  offline('OFFLINE'),
-  none('NONE'),
-  ;
+class ClusterStatus {
+  static const online = ClusterStatus._('ONLINE');
+  static const standby = ClusterStatus._('STANDBY');
+  static const maintenance = ClusterStatus._('MAINTENANCE');
+  static const offline = ClusterStatus._('OFFLINE');
+  static const none = ClusterStatus._('NONE');
 
   final String value;
 
-  const ClusterStatus(this.value);
+  const ClusterStatus._(this.value);
+
+  static const values = [online, standby, maintenance, offline, none];
 
   static ClusterStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClusterStatus'));
+          orElse: () => ClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SAP component of your application.
@@ -1387,24 +1458,41 @@ class Component {
   }
 }
 
-enum ComponentStatus {
-  activated('ACTIVATED'),
-  starting('STARTING'),
-  stopped('STOPPED'),
-  stopping('STOPPING'),
-  running('RUNNING'),
-  runningWithError('RUNNING_WITH_ERROR'),
-  undefined('UNDEFINED'),
-  ;
+class ComponentStatus {
+  static const activated = ComponentStatus._('ACTIVATED');
+  static const starting = ComponentStatus._('STARTING');
+  static const stopped = ComponentStatus._('STOPPED');
+  static const stopping = ComponentStatus._('STOPPING');
+  static const running = ComponentStatus._('RUNNING');
+  static const runningWithError = ComponentStatus._('RUNNING_WITH_ERROR');
+  static const undefined = ComponentStatus._('UNDEFINED');
 
   final String value;
 
-  const ComponentStatus(this.value);
+  const ComponentStatus._(this.value);
+
+  static const values = [
+    activated,
+    starting,
+    stopped,
+    stopping,
+    running,
+    runningWithError,
+    undefined
+  ];
 
   static ComponentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComponentStatus'));
+          orElse: () => ComponentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ComponentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the component.
@@ -1460,53 +1548,81 @@ class ComponentSummary {
   }
 }
 
-enum ComponentType {
-  hana('HANA'),
-  hanaNode('HANA_NODE'),
-  abap('ABAP'),
-  ascs('ASCS'),
-  dialog('DIALOG'),
-  webdisp('WEBDISP'),
-  wd('WD'),
-  ers('ERS'),
-  ;
+class ComponentType {
+  static const hana = ComponentType._('HANA');
+  static const hanaNode = ComponentType._('HANA_NODE');
+  static const abap = ComponentType._('ABAP');
+  static const ascs = ComponentType._('ASCS');
+  static const dialog = ComponentType._('DIALOG');
+  static const webdisp = ComponentType._('WEBDISP');
+  static const wd = ComponentType._('WD');
+  static const ers = ComponentType._('ERS');
 
   final String value;
 
-  const ComponentType(this.value);
+  const ComponentType._(this.value);
+
+  static const values = [hana, hanaNode, abap, ascs, dialog, webdisp, wd, ers];
 
   static ComponentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComponentType'));
+          orElse: () => ComponentType._(value));
+
+  @override
+  bool operator ==(other) => other is ComponentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectedEntityType {
-  dbms('DBMS'),
-  ;
+class ConnectedEntityType {
+  static const dbms = ConnectedEntityType._('DBMS');
 
   final String value;
 
-  const ConnectedEntityType(this.value);
+  const ConnectedEntityType._(this.value);
 
-  static ConnectedEntityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectedEntityType'));
+  static const values = [dbms];
+
+  static ConnectedEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectedEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectedEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CredentialType {
-  admin('ADMIN'),
-  ;
+class CredentialType {
+  static const admin = CredentialType._('ADMIN');
 
   final String value;
 
-  const CredentialType(this.value);
+  const CredentialType._(this.value);
+
+  static const values = [admin];
 
   static CredentialType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CredentialType'));
+          orElse: () => CredentialType._(value));
+
+  @override
+  bool operator ==(other) => other is CredentialType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SAP HANA database of the application registered with AWS Systems Manager
@@ -1658,38 +1774,57 @@ class DatabaseConnection {
   }
 }
 
-enum DatabaseConnectionMethod {
-  direct('DIRECT'),
-  overlay('OVERLAY'),
-  ;
+class DatabaseConnectionMethod {
+  static const direct = DatabaseConnectionMethod._('DIRECT');
+  static const overlay = DatabaseConnectionMethod._('OVERLAY');
 
   final String value;
 
-  const DatabaseConnectionMethod(this.value);
+  const DatabaseConnectionMethod._(this.value);
+
+  static const values = [direct, overlay];
 
   static DatabaseConnectionMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatabaseConnectionMethod'));
+          orElse: () => DatabaseConnectionMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseConnectionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatabaseStatus {
-  running('RUNNING'),
-  starting('STARTING'),
-  stopped('STOPPED'),
-  warning('WARNING'),
-  unknown('UNKNOWN'),
-  error('ERROR'),
-  ;
+class DatabaseStatus {
+  static const running = DatabaseStatus._('RUNNING');
+  static const starting = DatabaseStatus._('STARTING');
+  static const stopped = DatabaseStatus._('STOPPED');
+  static const warning = DatabaseStatus._('WARNING');
+  static const unknown = DatabaseStatus._('UNKNOWN');
+  static const error = DatabaseStatus._('ERROR');
 
   final String value;
 
-  const DatabaseStatus(this.value);
+  const DatabaseStatus._(this.value);
+
+  static const values = [running, starting, stopped, warning, unknown, error];
 
   static DatabaseStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatabaseStatus'));
+          orElse: () => DatabaseStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the database.
@@ -1752,19 +1887,27 @@ class DatabaseSummary {
   }
 }
 
-enum DatabaseType {
-  system('SYSTEM'),
-  tenant('TENANT'),
-  ;
+class DatabaseType {
+  static const system = DatabaseType._('SYSTEM');
+  static const tenant = DatabaseType._('TENANT');
 
   final String value;
 
-  const DatabaseType(this.value);
+  const DatabaseType._(this.value);
 
-  static DatabaseType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DatabaseType'));
+  static const values = [system, tenant];
+
+  static DatabaseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatabaseType._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteResourcePermissionOutput {
@@ -1832,20 +1975,29 @@ class Filter {
   }
 }
 
-enum FilterOperator {
-  equals('Equals'),
-  greaterThanOrEquals('GreaterThanOrEquals'),
-  lessThanOrEquals('LessThanOrEquals'),
-  ;
+class FilterOperator {
+  static const equals = FilterOperator._('Equals');
+  static const greaterThanOrEquals = FilterOperator._('GreaterThanOrEquals');
+  static const lessThanOrEquals = FilterOperator._('LessThanOrEquals');
 
   final String value;
 
-  const FilterOperator(this.value);
+  const FilterOperator._(this.value);
+
+  static const values = [equals, greaterThanOrEquals, lessThanOrEquals];
 
   static FilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperator'));
+          orElse: () => FilterOperator._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetApplicationOutput {
@@ -2050,20 +2202,29 @@ class Host {
   }
 }
 
-enum HostRole {
-  leader('LEADER'),
-  worker('WORKER'),
-  standby('STANDBY'),
-  unknown('UNKNOWN'),
-  ;
+class HostRole {
+  static const leader = HostRole._('LEADER');
+  static const worker = HostRole._('WORKER');
+  static const standby = HostRole._('STANDBY');
+  static const unknown = HostRole._('UNKNOWN');
 
   final String value;
 
-  const HostRole(this.value);
+  const HostRole._(this.value);
 
-  static HostRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HostRole'));
+  static const values = [leader, worker, standby, unknown];
+
+  static HostRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HostRole._(value));
+
+  @override
+  bool operator ==(other) => other is HostRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information of the IP address.
@@ -2466,68 +2627,112 @@ class OperationEvent {
   }
 }
 
-enum OperationEventStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class OperationEventStatus {
+  static const inProgress = OperationEventStatus._('IN_PROGRESS');
+  static const completed = OperationEventStatus._('COMPLETED');
+  static const failed = OperationEventStatus._('FAILED');
 
   final String value;
 
-  const OperationEventStatus(this.value);
+  const OperationEventStatus._(this.value);
 
-  static OperationEventStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OperationEventStatus'));
+  static const values = [inProgress, completed, failed];
+
+  static OperationEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationEventStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperationEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationMode {
-  primary('PRIMARY'),
-  logreplay('LOGREPLAY'),
-  deltaDatashipping('DELTA_DATASHIPPING'),
-  logreplayReadaccess('LOGREPLAY_READACCESS'),
-  none('NONE'),
-  ;
+class OperationMode {
+  static const primary = OperationMode._('PRIMARY');
+  static const logreplay = OperationMode._('LOGREPLAY');
+  static const deltaDatashipping = OperationMode._('DELTA_DATASHIPPING');
+  static const logreplayReadaccess = OperationMode._('LOGREPLAY_READACCESS');
+  static const none = OperationMode._('NONE');
 
   final String value;
 
-  const OperationMode(this.value);
+  const OperationMode._(this.value);
+
+  static const values = [
+    primary,
+    logreplay,
+    deltaDatashipping,
+    logreplayReadaccess,
+    none
+  ];
 
   static OperationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationMode'));
+          orElse: () => OperationMode._(value));
+
+  @override
+  bool operator ==(other) => other is OperationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperationStatus {
-  inprogress('INPROGRESS'),
-  success('SUCCESS'),
-  error('ERROR'),
-  ;
+class OperationStatus {
+  static const inprogress = OperationStatus._('INPROGRESS');
+  static const success = OperationStatus._('SUCCESS');
+  static const error = OperationStatus._('ERROR');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [inprogress, success, error];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionActionType {
-  restore('RESTORE'),
-  ;
+class PermissionActionType {
+  static const restore = PermissionActionType._('RESTORE');
 
   final String value;
 
-  const PermissionActionType(this.value);
+  const PermissionActionType._(this.value);
 
-  static PermissionActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PermissionActionType'));
+  static const values = [restore];
+
+  static PermissionActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutResourcePermissionOutput {
@@ -2583,22 +2788,31 @@ class RegisterApplicationOutput {
   }
 }
 
-enum ReplicationMode {
-  primary('PRIMARY'),
-  none('NONE'),
-  sync('SYNC'),
-  syncmem('SYNCMEM'),
-  async('ASYNC'),
-  ;
+class ReplicationMode {
+  static const primary = ReplicationMode._('PRIMARY');
+  static const none = ReplicationMode._('NONE');
+  static const sync = ReplicationMode._('SYNC');
+  static const syncmem = ReplicationMode._('SYNCMEM');
+  static const async = ReplicationMode._('ASYNC');
 
   final String value;
 
-  const ReplicationMode(this.value);
+  const ReplicationMode._(this.value);
+
+  static const values = [primary, none, sync, syncmem, async];
 
   static ReplicationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationMode'));
+          orElse: () => ReplicationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the SAP HANA system replication for the instance.

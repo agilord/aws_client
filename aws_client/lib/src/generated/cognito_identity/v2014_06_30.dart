@@ -1325,19 +1325,30 @@ class CognitoIdentity {
   }
 }
 
-enum AmbiguousRoleResolutionType {
-  authenticatedRole('AuthenticatedRole'),
-  deny('Deny'),
-  ;
+class AmbiguousRoleResolutionType {
+  static const authenticatedRole =
+      AmbiguousRoleResolutionType._('AuthenticatedRole');
+  static const deny = AmbiguousRoleResolutionType._('Deny');
 
   final String value;
 
-  const AmbiguousRoleResolutionType(this.value);
+  const AmbiguousRoleResolutionType._(this.value);
+
+  static const values = [authenticatedRole, deny];
 
   static AmbiguousRoleResolutionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmbiguousRoleResolutionType'));
+          orElse: () => AmbiguousRoleResolutionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmbiguousRoleResolutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A provider representing an Amazon Cognito user pool and its client ID.
@@ -1461,18 +1472,27 @@ class DeleteIdentitiesResponse {
   }
 }
 
-enum ErrorCode {
-  accessDenied('AccessDenied'),
-  internalServerError('InternalServerError'),
-  ;
+class ErrorCode {
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const internalServerError = ErrorCode._('InternalServerError');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [accessDenied, internalServerError];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returned in response to a successful <code>GetCredentialsForIdentity</code>
@@ -2052,7 +2072,8 @@ class MappingRule {
   factory MappingRule.fromJson(Map<String, dynamic> json) {
     return MappingRule(
       claim: (json['Claim'] as String?) ?? '',
-      matchType: MappingRuleMatchType.fromString((json['MatchType'] as String)),
+      matchType:
+          MappingRuleMatchType.fromString((json['MatchType'] as String?) ?? ''),
       roleARN: (json['RoleARN'] as String?) ?? '',
       value: (json['Value'] as String?) ?? '',
     );
@@ -2072,21 +2093,31 @@ class MappingRule {
   }
 }
 
-enum MappingRuleMatchType {
-  equals('Equals'),
-  contains('Contains'),
-  startsWith('StartsWith'),
-  notEqual('NotEqual'),
-  ;
+class MappingRuleMatchType {
+  static const equals = MappingRuleMatchType._('Equals');
+  static const contains = MappingRuleMatchType._('Contains');
+  static const startsWith = MappingRuleMatchType._('StartsWith');
+  static const notEqual = MappingRuleMatchType._('NotEqual');
 
   final String value;
 
-  const MappingRuleMatchType(this.value);
+  const MappingRuleMatchType._(this.value);
 
-  static MappingRuleMatchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MappingRuleMatchType'));
+  static const values = [equals, contains, startsWith, notEqual];
+
+  static MappingRuleMatchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MappingRuleMatchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MappingRuleMatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returned in response to a successful <code>MergeDeveloperIdentities</code>
@@ -2144,7 +2175,7 @@ class RoleMapping {
 
   factory RoleMapping.fromJson(Map<String, dynamic> json) {
     return RoleMapping(
-      type: RoleMappingType.fromString((json['Type'] as String)),
+      type: RoleMappingType.fromString((json['Type'] as String?) ?? ''),
       ambiguousRoleResolution: (json['AmbiguousRoleResolution'] as String?)
           ?.let(AmbiguousRoleResolutionType.fromString),
       rulesConfiguration: json['RulesConfiguration'] != null
@@ -2167,19 +2198,28 @@ class RoleMapping {
   }
 }
 
-enum RoleMappingType {
-  token('Token'),
-  rules('Rules'),
-  ;
+class RoleMappingType {
+  static const token = RoleMappingType._('Token');
+  static const rules = RoleMappingType._('Rules');
 
   final String value;
 
-  const RoleMappingType(this.value);
+  const RoleMappingType._(this.value);
+
+  static const values = [token, rules];
 
   static RoleMappingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RoleMappingType'));
+          orElse: () => RoleMappingType._(value));
+
+  @override
+  bool operator ==(other) => other is RoleMappingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for rules.

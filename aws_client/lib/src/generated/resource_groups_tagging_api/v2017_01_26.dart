@@ -814,18 +814,29 @@ class DescribeReportCreationOutput {
   }
 }
 
-enum ErrorCode {
-  internalServiceException('InternalServiceException'),
-  invalidParameterException('InvalidParameterException'),
-  ;
+class ErrorCode {
+  static const internalServiceException =
+      ErrorCode._('InternalServiceException');
+  static const invalidParameterException =
+      ErrorCode._('InvalidParameterException');
 
   final String value;
 
-  const ErrorCode(this.value);
+  const ErrorCode._(this.value);
 
-  static ErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
+  static const values = [internalServiceException, invalidParameterException];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the errors that are returned for each failed resource.
@@ -1040,20 +1051,29 @@ class GetTagValuesOutput {
   }
 }
 
-enum GroupByAttribute {
-  targetId('TARGET_ID'),
-  region('REGION'),
-  resourceType('RESOURCE_TYPE'),
-  ;
+class GroupByAttribute {
+  static const targetId = GroupByAttribute._('TARGET_ID');
+  static const region = GroupByAttribute._('REGION');
+  static const resourceType = GroupByAttribute._('RESOURCE_TYPE');
 
   final String value;
 
-  const GroupByAttribute(this.value);
+  const GroupByAttribute._(this.value);
+
+  static const values = [targetId, region, resourceType];
 
   static GroupByAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GroupByAttribute'));
+          orElse: () => GroupByAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is GroupByAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of resource ARNs and the tags (keys and values) that are associated
@@ -1268,20 +1288,28 @@ class TagResourcesOutput {
   }
 }
 
-enum TargetIdType {
-  account('ACCOUNT'),
-  ou('OU'),
-  root('ROOT'),
-  ;
+class TargetIdType {
+  static const account = TargetIdType._('ACCOUNT');
+  static const ou = TargetIdType._('OU');
+  static const root = TargetIdType._('ROOT');
 
   final String value;
 
-  const TargetIdType(this.value);
+  const TargetIdType._(this.value);
 
-  static TargetIdType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetIdType'));
+  static const values = [account, ou, root];
+
+  static TargetIdType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetIdType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourcesOutput {

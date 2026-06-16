@@ -1327,34 +1327,52 @@ class DescribeLedgerResponse {
   }
 }
 
-enum EncryptionStatus {
-  enabled('ENABLED'),
-  updating('UPDATING'),
-  kmsKeyInaccessible('KMS_KEY_INACCESSIBLE'),
-  ;
+class EncryptionStatus {
+  static const enabled = EncryptionStatus._('ENABLED');
+  static const updating = EncryptionStatus._('UPDATING');
+  static const kmsKeyInaccessible = EncryptionStatus._('KMS_KEY_INACCESSIBLE');
 
   final String value;
 
-  const EncryptionStatus(this.value);
+  const EncryptionStatus._(this.value);
+
+  static const values = [enabled, updating, kmsKeyInaccessible];
 
   static EncryptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionStatus'));
+          orElse: () => EncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ErrorCause {
-  kinesisStreamNotFound('KINESIS_STREAM_NOT_FOUND'),
-  iamPermissionRevoked('IAM_PERMISSION_REVOKED'),
-  ;
+class ErrorCause {
+  static const kinesisStreamNotFound = ErrorCause._('KINESIS_STREAM_NOT_FOUND');
+  static const iamPermissionRevoked = ErrorCause._('IAM_PERMISSION_REVOKED');
 
   final String value;
 
-  const ErrorCause(this.value);
+  const ErrorCause._(this.value);
 
-  static ErrorCause fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ErrorCause'));
+  static const values = [kinesisStreamNotFound, iamPermissionRevoked];
+
+  static ErrorCause fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCause._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExportJournalToS3Response {
@@ -1383,20 +1401,28 @@ class ExportJournalToS3Response {
   }
 }
 
-enum ExportStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  ;
+class ExportStatus {
+  static const inProgress = ExportStatus._('IN_PROGRESS');
+  static const completed = ExportStatus._('COMPLETED');
+  static const cancelled = ExportStatus._('CANCELLED');
 
   final String value;
 
-  const ExportStatus(this.value);
+  const ExportStatus._(this.value);
 
-  static ExportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportStatus'));
+  static const values = [inProgress, completed, cancelled];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetBlockResponse {
@@ -1570,7 +1596,7 @@ class JournalKinesisStreamDescription {
               const <String, dynamic>{}),
       ledgerName: (json['LedgerName'] as String?) ?? '',
       roleArn: (json['RoleArn'] as String?) ?? '',
-      status: StreamStatus.fromString((json['Status'] as String)),
+      status: StreamStatus.fromString((json['Status'] as String?) ?? ''),
       streamId: (json['StreamId'] as String?) ?? '',
       streamName: (json['StreamName'] as String?) ?? '',
       arn: json['Arn'] as String?,
@@ -1682,7 +1708,7 @@ class JournalS3ExportDescription {
       s3ExportConfiguration: S3ExportConfiguration.fromJson(
           (json['S3ExportConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: ExportStatus.fromString((json['Status'] as String)),
+      status: ExportStatus.fromString((json['Status'] as String?) ?? ''),
       outputFormat:
           (json['OutputFormat'] as String?)?.let(OutputFormat.fromString),
     );
@@ -1815,8 +1841,8 @@ class LedgerEncryptionDescription {
 
   factory LedgerEncryptionDescription.fromJson(Map<String, dynamic> json) {
     return LedgerEncryptionDescription(
-      encryptionStatus:
-          EncryptionStatus.fromString((json['EncryptionStatus'] as String)),
+      encryptionStatus: EncryptionStatus.fromString(
+          (json['EncryptionStatus'] as String?) ?? ''),
       kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
       inaccessibleKmsKeyDateTime:
           timeStampFromJson(json['InaccessibleKmsKeyDateTime']),
@@ -1837,20 +1863,29 @@ class LedgerEncryptionDescription {
   }
 }
 
-enum LedgerState {
-  creating('CREATING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class LedgerState {
+  static const creating = LedgerState._('CREATING');
+  static const active = LedgerState._('ACTIVE');
+  static const deleting = LedgerState._('DELETING');
+  static const deleted = LedgerState._('DELETED');
 
   final String value;
 
-  const LedgerState(this.value);
+  const LedgerState._(this.value);
 
-  static LedgerState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LedgerState'));
+  static const values = [creating, active, deleting, deleted];
+
+  static LedgerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LedgerState._(value));
+
+  @override
+  bool operator ==(other) => other is LedgerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a ledger, including its name, state, and when it was
@@ -2100,35 +2135,52 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum OutputFormat {
-  ionBinary('ION_BINARY'),
-  ionText('ION_TEXT'),
-  json('JSON'),
-  ;
+class OutputFormat {
+  static const ionBinary = OutputFormat._('ION_BINARY');
+  static const ionText = OutputFormat._('ION_TEXT');
+  static const json = OutputFormat._('JSON');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [ionBinary, ionText, json];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionsMode {
-  allowAll('ALLOW_ALL'),
-  standard('STANDARD'),
-  ;
+class PermissionsMode {
+  static const allowAll = PermissionsMode._('ALLOW_ALL');
+  static const standard = PermissionsMode._('STANDARD');
 
   final String value;
 
-  const PermissionsMode(this.value);
+  const PermissionsMode._(this.value);
+
+  static const values = [allowAll, standard];
 
   static PermissionsMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionsMode'));
+          orElse: () => PermissionsMode._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The encryption settings that are used by a journal export job to write data
@@ -2160,7 +2212,7 @@ class S3EncryptionConfiguration {
   factory S3EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return S3EncryptionConfiguration(
       objectEncryptionType: S3ObjectEncryptionType.fromString(
-          (json['ObjectEncryptionType'] as String)),
+          (json['ObjectEncryptionType'] as String?) ?? ''),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -2242,20 +2294,30 @@ class S3ExportConfiguration {
   }
 }
 
-enum S3ObjectEncryptionType {
-  sseKms('SSE_KMS'),
-  sseS3('SSE_S3'),
-  noEncryption('NO_ENCRYPTION'),
-  ;
+class S3ObjectEncryptionType {
+  static const sseKms = S3ObjectEncryptionType._('SSE_KMS');
+  static const sseS3 = S3ObjectEncryptionType._('SSE_S3');
+  static const noEncryption = S3ObjectEncryptionType._('NO_ENCRYPTION');
 
   final String value;
 
-  const S3ObjectEncryptionType(this.value);
+  const S3ObjectEncryptionType._(this.value);
+
+  static const values = [sseKms, sseS3, noEncryption];
 
   static S3ObjectEncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum S3ObjectEncryptionType'));
+          orElse: () => S3ObjectEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ObjectEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StreamJournalToKinesisResponse {
@@ -2281,22 +2343,30 @@ class StreamJournalToKinesisResponse {
   }
 }
 
-enum StreamStatus {
-  active('ACTIVE'),
-  completed('COMPLETED'),
-  canceled('CANCELED'),
-  failed('FAILED'),
-  impaired('IMPAIRED'),
-  ;
+class StreamStatus {
+  static const active = StreamStatus._('ACTIVE');
+  static const completed = StreamStatus._('COMPLETED');
+  static const canceled = StreamStatus._('CANCELED');
+  static const failed = StreamStatus._('FAILED');
+  static const impaired = StreamStatus._('IMPAIRED');
 
   final String value;
 
-  const StreamStatus(this.value);
+  const StreamStatus._(this.value);
 
-  static StreamStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StreamStatus'));
+  static const values = [active, completed, canceled, failed, impaired];
+
+  static StreamStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {

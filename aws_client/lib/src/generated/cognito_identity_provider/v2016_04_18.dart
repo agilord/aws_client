@@ -9812,7 +9812,7 @@ class AccountTakeoverActionType {
   factory AccountTakeoverActionType.fromJson(Map<String, dynamic> json) {
     return AccountTakeoverActionType(
       eventAction: AccountTakeoverEventActionType.fromString(
-          (json['EventAction'] as String)),
+          (json['EventAction'] as String?) ?? ''),
       notify: (json['Notify'] as bool?) ?? false,
     );
   }
@@ -9873,21 +9873,32 @@ class AccountTakeoverActionsType {
   }
 }
 
-enum AccountTakeoverEventActionType {
-  block('BLOCK'),
-  mfaIfConfigured('MFA_IF_CONFIGURED'),
-  mfaRequired('MFA_REQUIRED'),
-  noAction('NO_ACTION'),
-  ;
+class AccountTakeoverEventActionType {
+  static const block = AccountTakeoverEventActionType._('BLOCK');
+  static const mfaIfConfigured =
+      AccountTakeoverEventActionType._('MFA_IF_CONFIGURED');
+  static const mfaRequired = AccountTakeoverEventActionType._('MFA_REQUIRED');
+  static const noAction = AccountTakeoverEventActionType._('NO_ACTION');
 
   final String value;
 
-  const AccountTakeoverEventActionType(this.value);
+  const AccountTakeoverEventActionType._(this.value);
+
+  static const values = [block, mfaIfConfigured, mfaRequired, noAction];
 
   static AccountTakeoverEventActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AccountTakeoverEventActionType'));
+          orElse: () => AccountTakeoverEventActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountTakeoverEventActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for mitigation actions and notification for different levels
@@ -10695,51 +10706,81 @@ class AdvancedSecurityAdditionalFlowsType {
   }
 }
 
-enum AdvancedSecurityEnabledModeType {
-  audit('AUDIT'),
-  enforced('ENFORCED'),
-  ;
+class AdvancedSecurityEnabledModeType {
+  static const audit = AdvancedSecurityEnabledModeType._('AUDIT');
+  static const enforced = AdvancedSecurityEnabledModeType._('ENFORCED');
 
   final String value;
 
-  const AdvancedSecurityEnabledModeType(this.value);
+  const AdvancedSecurityEnabledModeType._(this.value);
+
+  static const values = [audit, enforced];
 
   static AdvancedSecurityEnabledModeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdvancedSecurityEnabledModeType'));
+          orElse: () => AdvancedSecurityEnabledModeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvancedSecurityEnabledModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AdvancedSecurityModeType {
-  off('OFF'),
-  audit('AUDIT'),
-  enforced('ENFORCED'),
-  ;
+class AdvancedSecurityModeType {
+  static const off = AdvancedSecurityModeType._('OFF');
+  static const audit = AdvancedSecurityModeType._('AUDIT');
+  static const enforced = AdvancedSecurityModeType._('ENFORCED');
 
   final String value;
 
-  const AdvancedSecurityModeType(this.value);
+  const AdvancedSecurityModeType._(this.value);
+
+  static const values = [off, audit, enforced];
 
   static AdvancedSecurityModeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdvancedSecurityModeType'));
+          orElse: () => AdvancedSecurityModeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvancedSecurityModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AliasAttributeType {
-  phoneNumber('phone_number'),
-  email('email'),
-  preferredUsername('preferred_username'),
-  ;
+class AliasAttributeType {
+  static const phoneNumber = AliasAttributeType._('phone_number');
+  static const email = AliasAttributeType._('email');
+  static const preferredUsername = AliasAttributeType._('preferred_username');
 
   final String value;
 
-  const AliasAttributeType(this.value);
+  const AliasAttributeType._(this.value);
 
-  static AliasAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AliasAttributeType'));
+  static const values = [phoneNumber, email, preferredUsername];
+
+  static AliasAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AliasAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AliasAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon Pinpoint analytics configuration necessary to collect metrics for
@@ -10862,21 +10903,30 @@ class AssociateSoftwareTokenResponse {
   }
 }
 
-enum AttributeDataType {
-  string('String'),
-  number('Number'),
-  dateTime('DateTime'),
-  boolean('Boolean'),
-  ;
+class AttributeDataType {
+  static const string = AttributeDataType._('String');
+  static const number = AttributeDataType._('Number');
+  static const dateTime = AttributeDataType._('DateTime');
+  static const boolean = AttributeDataType._('Boolean');
 
   final String value;
 
-  const AttributeDataType(this.value);
+  const AttributeDataType._(this.value);
+
+  static const values = [string, number, dateTime, boolean];
 
   static AttributeDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeDataType'));
+          orElse: () => AttributeDataType._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies whether the attribute is standard or custom.
@@ -10999,24 +11049,41 @@ class AuthEventType {
   }
 }
 
-enum AuthFlowType {
-  userSrpAuth('USER_SRP_AUTH'),
-  refreshTokenAuth('REFRESH_TOKEN_AUTH'),
-  refreshToken('REFRESH_TOKEN'),
-  customAuth('CUSTOM_AUTH'),
-  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
-  userPasswordAuth('USER_PASSWORD_AUTH'),
-  adminUserPasswordAuth('ADMIN_USER_PASSWORD_AUTH'),
-  ;
+class AuthFlowType {
+  static const userSrpAuth = AuthFlowType._('USER_SRP_AUTH');
+  static const refreshTokenAuth = AuthFlowType._('REFRESH_TOKEN_AUTH');
+  static const refreshToken = AuthFlowType._('REFRESH_TOKEN');
+  static const customAuth = AuthFlowType._('CUSTOM_AUTH');
+  static const adminNoSrpAuth = AuthFlowType._('ADMIN_NO_SRP_AUTH');
+  static const userPasswordAuth = AuthFlowType._('USER_PASSWORD_AUTH');
+  static const adminUserPasswordAuth =
+      AuthFlowType._('ADMIN_USER_PASSWORD_AUTH');
 
   final String value;
 
-  const AuthFlowType(this.value);
+  const AuthFlowType._(this.value);
 
-  static AuthFlowType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthFlowType'));
+  static const values = [
+    userSrpAuth,
+    refreshTokenAuth,
+    refreshToken,
+    customAuth,
+    adminNoSrpAuth,
+    userPasswordAuth,
+    adminUserPasswordAuth
+  ];
+
+  static AuthFlowType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthFlowType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthFlowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authentication result.
@@ -11081,57 +11148,97 @@ class AuthenticationResultType {
   }
 }
 
-enum ChallengeName {
-  password('Password'),
-  mfa('Mfa'),
-  ;
+class ChallengeName {
+  static const password = ChallengeName._('Password');
+  static const mfa = ChallengeName._('Mfa');
 
   final String value;
 
-  const ChallengeName(this.value);
+  const ChallengeName._(this.value);
+
+  static const values = [password, mfa];
 
   static ChallengeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChallengeName'));
+          orElse: () => ChallengeName._(value));
+
+  @override
+  bool operator ==(other) => other is ChallengeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChallengeNameType {
-  smsMfa('SMS_MFA'),
-  softwareTokenMfa('SOFTWARE_TOKEN_MFA'),
-  selectMfaType('SELECT_MFA_TYPE'),
-  mfaSetup('MFA_SETUP'),
-  passwordVerifier('PASSWORD_VERIFIER'),
-  customChallenge('CUSTOM_CHALLENGE'),
-  deviceSrpAuth('DEVICE_SRP_AUTH'),
-  devicePasswordVerifier('DEVICE_PASSWORD_VERIFIER'),
-  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
-  newPasswordRequired('NEW_PASSWORD_REQUIRED'),
-  ;
+class ChallengeNameType {
+  static const smsMfa = ChallengeNameType._('SMS_MFA');
+  static const softwareTokenMfa = ChallengeNameType._('SOFTWARE_TOKEN_MFA');
+  static const selectMfaType = ChallengeNameType._('SELECT_MFA_TYPE');
+  static const mfaSetup = ChallengeNameType._('MFA_SETUP');
+  static const passwordVerifier = ChallengeNameType._('PASSWORD_VERIFIER');
+  static const customChallenge = ChallengeNameType._('CUSTOM_CHALLENGE');
+  static const deviceSrpAuth = ChallengeNameType._('DEVICE_SRP_AUTH');
+  static const devicePasswordVerifier =
+      ChallengeNameType._('DEVICE_PASSWORD_VERIFIER');
+  static const adminNoSrpAuth = ChallengeNameType._('ADMIN_NO_SRP_AUTH');
+  static const newPasswordRequired =
+      ChallengeNameType._('NEW_PASSWORD_REQUIRED');
 
   final String value;
 
-  const ChallengeNameType(this.value);
+  const ChallengeNameType._(this.value);
+
+  static const values = [
+    smsMfa,
+    softwareTokenMfa,
+    selectMfaType,
+    mfaSetup,
+    passwordVerifier,
+    customChallenge,
+    deviceSrpAuth,
+    devicePasswordVerifier,
+    adminNoSrpAuth,
+    newPasswordRequired
+  ];
 
   static ChallengeNameType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChallengeNameType'));
+          orElse: () => ChallengeNameType._(value));
+
+  @override
+  bool operator ==(other) => other is ChallengeNameType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChallengeResponse {
-  success('Success'),
-  failure('Failure'),
-  ;
+class ChallengeResponse {
+  static const success = ChallengeResponse._('Success');
+  static const failure = ChallengeResponse._('Failure');
 
   final String value;
 
-  const ChallengeResponse(this.value);
+  const ChallengeResponse._(this.value);
+
+  static const values = [success, failure];
 
   static ChallengeResponse fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChallengeResponse'));
+          orElse: () => ChallengeResponse._(value));
+
+  @override
+  bool operator ==(other) => other is ChallengeResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The challenge response type.
@@ -11267,7 +11374,7 @@ class CompromisedCredentialsActionsType {
       Map<String, dynamic> json) {
     return CompromisedCredentialsActionsType(
       eventAction: CompromisedCredentialsEventActionType.fromString(
-          (json['EventAction'] as String)),
+          (json['EventAction'] as String?) ?? ''),
     );
   }
 
@@ -11279,19 +11386,29 @@ class CompromisedCredentialsActionsType {
   }
 }
 
-enum CompromisedCredentialsEventActionType {
-  block('BLOCK'),
-  noAction('NO_ACTION'),
-  ;
+class CompromisedCredentialsEventActionType {
+  static const block = CompromisedCredentialsEventActionType._('BLOCK');
+  static const noAction = CompromisedCredentialsEventActionType._('NO_ACTION');
 
   final String value;
 
-  const CompromisedCredentialsEventActionType(this.value);
+  const CompromisedCredentialsEventActionType._(this.value);
+
+  static const values = [block, noAction];
 
   static CompromisedCredentialsEventActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CompromisedCredentialsEventActionType'));
+          orElse: () => CompromisedCredentialsEventActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompromisedCredentialsEventActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The compromised credentials risk configuration type.
@@ -11654,7 +11771,7 @@ class CustomEmailLambdaVersionConfigType {
     return CustomEmailLambdaVersionConfigType(
       lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: CustomEmailSenderLambdaVersionType.fromString(
-          (json['LambdaVersion'] as String)),
+          (json['LambdaVersion'] as String?) ?? ''),
     );
   }
 
@@ -11668,18 +11785,28 @@ class CustomEmailLambdaVersionConfigType {
   }
 }
 
-enum CustomEmailSenderLambdaVersionType {
-  v1_0('V1_0'),
-  ;
+class CustomEmailSenderLambdaVersionType {
+  static const v1_0 = CustomEmailSenderLambdaVersionType._('V1_0');
 
   final String value;
 
-  const CustomEmailSenderLambdaVersionType(this.value);
+  const CustomEmailSenderLambdaVersionType._(this.value);
+
+  static const values = [v1_0];
 
   static CustomEmailSenderLambdaVersionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomEmailSenderLambdaVersionType'));
+          orElse: () => CustomEmailSenderLambdaVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomEmailSenderLambdaVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of a custom SMS sender Lambda trigger.
@@ -11705,7 +11832,7 @@ class CustomSMSLambdaVersionConfigType {
     return CustomSMSLambdaVersionConfigType(
       lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: CustomSMSSenderLambdaVersionType.fromString(
-          (json['LambdaVersion'] as String)),
+          (json['LambdaVersion'] as String?) ?? ''),
     );
   }
 
@@ -11719,33 +11846,53 @@ class CustomSMSLambdaVersionConfigType {
   }
 }
 
-enum CustomSMSSenderLambdaVersionType {
-  v1_0('V1_0'),
-  ;
+class CustomSMSSenderLambdaVersionType {
+  static const v1_0 = CustomSMSSenderLambdaVersionType._('V1_0');
 
   final String value;
 
-  const CustomSMSSenderLambdaVersionType(this.value);
+  const CustomSMSSenderLambdaVersionType._(this.value);
+
+  static const values = [v1_0];
 
   static CustomSMSSenderLambdaVersionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomSMSSenderLambdaVersionType'));
+          orElse: () => CustomSMSSenderLambdaVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomSMSSenderLambdaVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultEmailOptionType {
-  confirmWithLink('CONFIRM_WITH_LINK'),
-  confirmWithCode('CONFIRM_WITH_CODE'),
-  ;
+class DefaultEmailOptionType {
+  static const confirmWithLink = DefaultEmailOptionType._('CONFIRM_WITH_LINK');
+  static const confirmWithCode = DefaultEmailOptionType._('CONFIRM_WITH_CODE');
 
   final String value;
 
-  const DefaultEmailOptionType(this.value);
+  const DefaultEmailOptionType._(this.value);
+
+  static const values = [confirmWithLink, confirmWithCode];
 
   static DefaultEmailOptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultEmailOptionType'));
+          orElse: () => DefaultEmailOptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultEmailOptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the response from the server to delete user attributes.
@@ -11773,34 +11920,54 @@ class DeleteUserPoolDomainResponse {
   }
 }
 
-enum DeletionProtectionType {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class DeletionProtectionType {
+  static const active = DeletionProtectionType._('ACTIVE');
+  static const inactive = DeletionProtectionType._('INACTIVE');
 
   final String value;
 
-  const DeletionProtectionType(this.value);
+  const DeletionProtectionType._(this.value);
+
+  static const values = [active, inactive];
 
   static DeletionProtectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeletionProtectionType'));
+          orElse: () => DeletionProtectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionProtectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeliveryMediumType {
-  sms('SMS'),
-  email('EMAIL'),
-  ;
+class DeliveryMediumType {
+  static const sms = DeliveryMediumType._('SMS');
+  static const email = DeliveryMediumType._('EMAIL');
 
   final String value;
 
-  const DeliveryMediumType(this.value);
+  const DeliveryMediumType._(this.value);
 
-  static DeliveryMediumType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeliveryMediumType'));
+  static const values = [sms, email];
+
+  static DeliveryMediumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryMediumType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryMediumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeIdentityProviderResponse {
@@ -12060,19 +12227,29 @@ class DeviceConfigurationType {
   }
 }
 
-enum DeviceRememberedStatusType {
-  remembered('remembered'),
-  notRemembered('not_remembered'),
-  ;
+class DeviceRememberedStatusType {
+  static const remembered = DeviceRememberedStatusType._('remembered');
+  static const notRemembered = DeviceRememberedStatusType._('not_remembered');
 
   final String value;
 
-  const DeviceRememberedStatusType(this.value);
+  const DeviceRememberedStatusType._(this.value);
+
+  static const values = [remembered, notRemembered];
 
   static DeviceRememberedStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeviceRememberedStatusType'));
+          orElse: () => DeviceRememberedStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceRememberedStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The device verifier against which it is authenticated.
@@ -12239,22 +12416,31 @@ class DomainDescriptionType {
   }
 }
 
-enum DomainStatusType {
-  creating('CREATING'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  ;
+class DomainStatusType {
+  static const creating = DomainStatusType._('CREATING');
+  static const deleting = DomainStatusType._('DELETING');
+  static const updating = DomainStatusType._('UPDATING');
+  static const active = DomainStatusType._('ACTIVE');
+  static const failed = DomainStatusType._('FAILED');
 
   final String value;
 
-  const DomainStatusType(this.value);
+  const DomainStatusType._(this.value);
+
+  static const values = [creating, deleting, updating, active, failed];
 
   static DomainStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatusType'));
+          orElse: () => DomainStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The email configuration of your user pool. The email configuration type sets
@@ -12403,19 +12589,29 @@ class EmailConfigurationType {
   }
 }
 
-enum EmailSendingAccountType {
-  cognitoDefault('COGNITO_DEFAULT'),
-  developer('DEVELOPER'),
-  ;
+class EmailSendingAccountType {
+  static const cognitoDefault = EmailSendingAccountType._('COGNITO_DEFAULT');
+  static const developer = EmailSendingAccountType._('DEVELOPER');
 
   final String value;
 
-  const EmailSendingAccountType(this.value);
+  const EmailSendingAccountType._(this.value);
+
+  static const values = [cognitoDefault, developer];
 
   static EmailSendingAccountType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EmailSendingAccountType'));
+          orElse: () => EmailSendingAccountType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmailSendingAccountType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the user context data captured at the time of an event request.
@@ -12494,8 +12690,8 @@ class EventFeedbackType {
 
   factory EventFeedbackType.fromJson(Map<String, dynamic> json) {
     return EventFeedbackType(
-      feedbackValue:
-          FeedbackValueType.fromString((json['FeedbackValue'] as String)),
+      feedbackValue: FeedbackValueType.fromString(
+          (json['FeedbackValue'] as String?) ?? ''),
       provider: (json['Provider'] as String?) ?? '',
       feedbackDate: timeStampFromJson(json['FeedbackDate']),
     );
@@ -12514,36 +12710,54 @@ class EventFeedbackType {
   }
 }
 
-enum EventFilterType {
-  signIn('SIGN_IN'),
-  passwordChange('PASSWORD_CHANGE'),
-  signUp('SIGN_UP'),
-  ;
+class EventFilterType {
+  static const signIn = EventFilterType._('SIGN_IN');
+  static const passwordChange = EventFilterType._('PASSWORD_CHANGE');
+  static const signUp = EventFilterType._('SIGN_UP');
 
   final String value;
 
-  const EventFilterType(this.value);
+  const EventFilterType._(this.value);
+
+  static const values = [signIn, passwordChange, signUp];
 
   static EventFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventFilterType'));
+          orElse: () => EventFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is EventFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventResponseType {
-  pass('Pass'),
-  fail('Fail'),
-  inProgress('InProgress'),
-  ;
+class EventResponseType {
+  static const pass = EventResponseType._('Pass');
+  static const fail = EventResponseType._('Fail');
+  static const inProgress = EventResponseType._('InProgress');
 
   final String value;
 
-  const EventResponseType(this.value);
+  const EventResponseType._(this.value);
+
+  static const values = [pass, fail, inProgress];
 
   static EventResponseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventResponseType'));
+          orElse: () => EventResponseType._(value));
+
+  @override
+  bool operator ==(other) => other is EventResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The event risk type.
@@ -12587,72 +12801,129 @@ class EventRiskType {
   }
 }
 
-enum EventSourceName {
-  userNotification('userNotification'),
-  userAuthEvents('userAuthEvents'),
-  ;
+class EventSourceName {
+  static const userNotification = EventSourceName._('userNotification');
+  static const userAuthEvents = EventSourceName._('userAuthEvents');
 
   final String value;
 
-  const EventSourceName(this.value);
+  const EventSourceName._(this.value);
+
+  static const values = [userNotification, userAuthEvents];
 
   static EventSourceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventSourceName'));
+          orElse: () => EventSourceName._(value));
+
+  @override
+  bool operator ==(other) => other is EventSourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventType {
-  signIn('SignIn'),
-  signUp('SignUp'),
-  forgotPassword('ForgotPassword'),
-  passwordChange('PasswordChange'),
-  resendCode('ResendCode'),
-  ;
+class EventType {
+  static const signIn = EventType._('SignIn');
+  static const signUp = EventType._('SignUp');
+  static const forgotPassword = EventType._('ForgotPassword');
+  static const passwordChange = EventType._('PasswordChange');
+  static const resendCode = EventType._('ResendCode');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    signIn,
+    signUp,
+    forgotPassword,
+    passwordChange,
+    resendCode
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExplicitAuthFlowsType {
-  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
-  customAuthFlowOnly('CUSTOM_AUTH_FLOW_ONLY'),
-  userPasswordAuth('USER_PASSWORD_AUTH'),
-  allowAdminUserPasswordAuth('ALLOW_ADMIN_USER_PASSWORD_AUTH'),
-  allowCustomAuth('ALLOW_CUSTOM_AUTH'),
-  allowUserPasswordAuth('ALLOW_USER_PASSWORD_AUTH'),
-  allowUserSrpAuth('ALLOW_USER_SRP_AUTH'),
-  allowRefreshTokenAuth('ALLOW_REFRESH_TOKEN_AUTH'),
-  ;
+class ExplicitAuthFlowsType {
+  static const adminNoSrpAuth = ExplicitAuthFlowsType._('ADMIN_NO_SRP_AUTH');
+  static const customAuthFlowOnly =
+      ExplicitAuthFlowsType._('CUSTOM_AUTH_FLOW_ONLY');
+  static const userPasswordAuth = ExplicitAuthFlowsType._('USER_PASSWORD_AUTH');
+  static const allowAdminUserPasswordAuth =
+      ExplicitAuthFlowsType._('ALLOW_ADMIN_USER_PASSWORD_AUTH');
+  static const allowCustomAuth = ExplicitAuthFlowsType._('ALLOW_CUSTOM_AUTH');
+  static const allowUserPasswordAuth =
+      ExplicitAuthFlowsType._('ALLOW_USER_PASSWORD_AUTH');
+  static const allowUserSrpAuth =
+      ExplicitAuthFlowsType._('ALLOW_USER_SRP_AUTH');
+  static const allowRefreshTokenAuth =
+      ExplicitAuthFlowsType._('ALLOW_REFRESH_TOKEN_AUTH');
 
   final String value;
 
-  const ExplicitAuthFlowsType(this.value);
+  const ExplicitAuthFlowsType._(this.value);
 
-  static ExplicitAuthFlowsType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExplicitAuthFlowsType'));
+  static const values = [
+    adminNoSrpAuth,
+    customAuthFlowOnly,
+    userPasswordAuth,
+    allowAdminUserPasswordAuth,
+    allowCustomAuth,
+    allowUserPasswordAuth,
+    allowUserSrpAuth,
+    allowRefreshTokenAuth
+  ];
+
+  static ExplicitAuthFlowsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExplicitAuthFlowsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExplicitAuthFlowsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeedbackValueType {
-  valid('Valid'),
-  invalid('Invalid'),
-  ;
+class FeedbackValueType {
+  static const valid = FeedbackValueType._('Valid');
+  static const invalid = FeedbackValueType._('Invalid');
 
   final String value;
 
-  const FeedbackValueType(this.value);
+  const FeedbackValueType._(this.value);
+
+  static const values = [valid, invalid];
 
   static FeedbackValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeedbackValueType'));
+          orElse: () => FeedbackValueType._(value));
+
+  @override
+  bool operator ==(other) => other is FeedbackValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for the Amazon Data Firehose stream destination of user
@@ -13353,23 +13624,40 @@ class IdentityProviderType {
   }
 }
 
-enum IdentityProviderTypeType {
-  saml('SAML'),
-  facebook('Facebook'),
-  google('Google'),
-  loginWithAmazon('LoginWithAmazon'),
-  signInWithApple('SignInWithApple'),
-  oidc('OIDC'),
-  ;
+class IdentityProviderTypeType {
+  static const saml = IdentityProviderTypeType._('SAML');
+  static const facebook = IdentityProviderTypeType._('Facebook');
+  static const google = IdentityProviderTypeType._('Google');
+  static const loginWithAmazon = IdentityProviderTypeType._('LoginWithAmazon');
+  static const signInWithApple = IdentityProviderTypeType._('SignInWithApple');
+  static const oidc = IdentityProviderTypeType._('OIDC');
 
   final String value;
 
-  const IdentityProviderTypeType(this.value);
+  const IdentityProviderTypeType._(this.value);
+
+  static const values = [
+    saml,
+    facebook,
+    google,
+    loginWithAmazon,
+    signInWithApple,
+    oidc
+  ];
 
   static IdentityProviderTypeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum IdentityProviderTypeType'));
+          orElse: () => IdentityProviderTypeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdentityProviderTypeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Initiates the authentication response.
@@ -14033,8 +14321,9 @@ class LogConfigurationType {
 
   factory LogConfigurationType.fromJson(Map<String, dynamic> json) {
     return LogConfigurationType(
-      eventSource: EventSourceName.fromString((json['EventSource'] as String)),
-      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
+      eventSource:
+          EventSourceName.fromString((json['EventSource'] as String?) ?? ''),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String?) ?? ''),
       cloudWatchLogsConfiguration: json['CloudWatchLogsConfiguration'] != null
           ? CloudWatchLogsConfigurationType.fromJson(
               json['CloudWatchLogsConfiguration'] as Map<String, dynamic>)
@@ -14103,18 +14392,27 @@ class LogDeliveryConfigurationType {
   }
 }
 
-enum LogLevel {
-  error('ERROR'),
-  info('INFO'),
-  ;
+class LogLevel {
+  static const error = LogLevel._('ERROR');
+  static const info = LogLevel._('INFO');
 
   final String value;
 
-  const LogLevel(this.value);
+  const LogLevel._(this.value);
 
-  static LogLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogLevel'));
+  static const values = [error, info];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <i>This data type is no longer supported.</i> Applies only to SMS
@@ -14152,19 +14450,28 @@ class MFAOptionType {
   }
 }
 
-enum MessageActionType {
-  resend('RESEND'),
-  suppress('SUPPRESS'),
-  ;
+class MessageActionType {
+  static const resend = MessageActionType._('RESEND');
+  static const suppress = MessageActionType._('SUPPRESS');
 
   final String value;
 
-  const MessageActionType(this.value);
+  const MessageActionType._(this.value);
+
+  static const values = [resend, suppress];
 
   static MessageActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MessageActionType'));
+          orElse: () => MessageActionType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The message template structure.
@@ -14378,20 +14685,29 @@ class NumberAttributeConstraintsType {
   }
 }
 
-enum OAuthFlowType {
-  code('code'),
-  implicit('implicit'),
-  clientCredentials('client_credentials'),
-  ;
+class OAuthFlowType {
+  static const code = OAuthFlowType._('code');
+  static const implicit = OAuthFlowType._('implicit');
+  static const clientCredentials = OAuthFlowType._('client_credentials');
 
   final String value;
 
-  const OAuthFlowType(this.value);
+  const OAuthFlowType._(this.value);
+
+  static const values = [code, implicit, clientCredentials];
 
   static OAuthFlowType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OAuthFlowType'));
+          orElse: () => OAuthFlowType._(value));
+
+  @override
+  bool operator ==(other) => other is OAuthFlowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The password policy type.
@@ -14486,19 +14802,29 @@ class PasswordPolicyType {
   }
 }
 
-enum PreTokenGenerationLambdaVersionType {
-  v1_0('V1_0'),
-  v2_0('V2_0'),
-  ;
+class PreTokenGenerationLambdaVersionType {
+  static const v1_0 = PreTokenGenerationLambdaVersionType._('V1_0');
+  static const v2_0 = PreTokenGenerationLambdaVersionType._('V2_0');
 
   final String value;
 
-  const PreTokenGenerationLambdaVersionType(this.value);
+  const PreTokenGenerationLambdaVersionType._(this.value);
+
+  static const values = [v1_0, v2_0];
 
   static PreTokenGenerationLambdaVersionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PreTokenGenerationLambdaVersionType'));
+          orElse: () => PreTokenGenerationLambdaVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PreTokenGenerationLambdaVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of a pre token generation Lambda trigger.
@@ -14526,7 +14852,7 @@ class PreTokenGenerationVersionConfigType {
     return PreTokenGenerationVersionConfigType(
       lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: PreTokenGenerationLambdaVersionType.fromString(
-          (json['LambdaVersion'] as String)),
+          (json['LambdaVersion'] as String?) ?? ''),
     );
   }
 
@@ -14540,19 +14866,29 @@ class PreTokenGenerationVersionConfigType {
   }
 }
 
-enum PreventUserExistenceErrorTypes {
-  legacy('LEGACY'),
-  enabled('ENABLED'),
-  ;
+class PreventUserExistenceErrorTypes {
+  static const legacy = PreventUserExistenceErrorTypes._('LEGACY');
+  static const enabled = PreventUserExistenceErrorTypes._('ENABLED');
 
   final String value;
 
-  const PreventUserExistenceErrorTypes(this.value);
+  const PreventUserExistenceErrorTypes._(this.value);
+
+  static const values = [legacy, enabled];
 
   static PreventUserExistenceErrorTypes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PreventUserExistenceErrorTypes'));
+          orElse: () => PreventUserExistenceErrorTypes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PreventUserExistenceErrorTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container for IdP details.
@@ -14636,20 +14972,31 @@ class ProviderUserIdentifierType {
   }
 }
 
-enum RecoveryOptionNameType {
-  verifiedEmail('verified_email'),
-  verifiedPhoneNumber('verified_phone_number'),
-  adminOnly('admin_only'),
-  ;
+class RecoveryOptionNameType {
+  static const verifiedEmail = RecoveryOptionNameType._('verified_email');
+  static const verifiedPhoneNumber =
+      RecoveryOptionNameType._('verified_phone_number');
+  static const adminOnly = RecoveryOptionNameType._('admin_only');
 
   final String value;
 
-  const RecoveryOptionNameType(this.value);
+  const RecoveryOptionNameType._(this.value);
+
+  static const values = [verifiedEmail, verifiedPhoneNumber, adminOnly];
 
   static RecoveryOptionNameType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecoveryOptionNameType'));
+          orElse: () => RecoveryOptionNameType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecoveryOptionNameType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A map containing a priority as a key, and recovery method name as a value.
@@ -14668,7 +15015,7 @@ class RecoveryOptionType {
 
   factory RecoveryOptionType.fromJson(Map<String, dynamic> json) {
     return RecoveryOptionType(
-      name: RecoveryOptionNameType.fromString((json['Name'] as String)),
+      name: RecoveryOptionNameType.fromString((json['Name'] as String?) ?? ''),
       priority: (json['Priority'] as int?) ?? 0,
     );
   }
@@ -14951,20 +15298,29 @@ class RiskConfigurationType {
   }
 }
 
-enum RiskDecisionType {
-  noRisk('NoRisk'),
-  accountTakeover('AccountTakeover'),
-  block('Block'),
-  ;
+class RiskDecisionType {
+  static const noRisk = RiskDecisionType._('NoRisk');
+  static const accountTakeover = RiskDecisionType._('AccountTakeover');
+  static const block = RiskDecisionType._('Block');
 
   final String value;
 
-  const RiskDecisionType(this.value);
+  const RiskDecisionType._(this.value);
+
+  static const values = [noRisk, accountTakeover, block];
 
   static RiskDecisionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RiskDecisionType'));
+          orElse: () => RiskDecisionType._(value));
+
+  @override
+  bool operator ==(other) => other is RiskDecisionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of the configuration to override the risk decision.
@@ -15006,20 +15362,29 @@ class RiskExceptionConfigurationType {
   }
 }
 
-enum RiskLevelType {
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  ;
+class RiskLevelType {
+  static const low = RiskLevelType._('Low');
+  static const medium = RiskLevelType._('Medium');
+  static const high = RiskLevelType._('High');
 
   final String value;
 
-  const RiskLevelType(this.value);
+  const RiskLevelType._(this.value);
+
+  static const values = [low, medium, high];
 
   static RiskLevelType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RiskLevelType'));
+          orElse: () => RiskLevelType._(value));
+
+  @override
+  bool operator ==(other) => other is RiskLevelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for the Amazon S3 bucket destination of user activity log
@@ -15593,18 +15958,27 @@ class StartUserImportJobResponse {
   }
 }
 
-enum StatusType {
-  enabled('Enabled'),
-  disabled('Disabled'),
-  ;
+class StatusType {
+  static const enabled = StatusType._('Enabled');
+  static const disabled = StatusType._('Disabled');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [enabled, disabled];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the response from the server to the request to stop the user
@@ -15678,21 +16052,30 @@ class TagResourceResponse {
   }
 }
 
-enum TimeUnitsType {
-  seconds('seconds'),
-  minutes('minutes'),
-  hours('hours'),
-  days('days'),
-  ;
+class TimeUnitsType {
+  static const seconds = TimeUnitsType._('seconds');
+  static const minutes = TimeUnitsType._('minutes');
+  static const hours = TimeUnitsType._('hours');
+  static const days = TimeUnitsType._('days');
 
   final String value;
 
-  const TimeUnitsType(this.value);
+  const TimeUnitsType._(this.value);
+
+  static const values = [seconds, minutes, hours, days];
 
   static TimeUnitsType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimeUnitsType'));
+          orElse: () => TimeUnitsType._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnitsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The data type TokenValidityUnits specifies the time units you use when you
@@ -16112,25 +16495,44 @@ class UserContextDataType {
   }
 }
 
-enum UserImportJobStatusType {
-  created('Created'),
-  pending('Pending'),
-  inProgress('InProgress'),
-  stopping('Stopping'),
-  expired('Expired'),
-  stopped('Stopped'),
-  failed('Failed'),
-  succeeded('Succeeded'),
-  ;
+class UserImportJobStatusType {
+  static const created = UserImportJobStatusType._('Created');
+  static const pending = UserImportJobStatusType._('Pending');
+  static const inProgress = UserImportJobStatusType._('InProgress');
+  static const stopping = UserImportJobStatusType._('Stopping');
+  static const expired = UserImportJobStatusType._('Expired');
+  static const stopped = UserImportJobStatusType._('Stopped');
+  static const failed = UserImportJobStatusType._('Failed');
+  static const succeeded = UserImportJobStatusType._('Succeeded');
 
   final String value;
 
-  const UserImportJobStatusType(this.value);
+  const UserImportJobStatusType._(this.value);
+
+  static const values = [
+    created,
+    pending,
+    inProgress,
+    stopping,
+    expired,
+    stopped,
+    failed,
+    succeeded
+  ];
 
   static UserImportJobStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UserImportJobStatusType'));
+          orElse: () => UserImportJobStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserImportJobStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The user import job type.
@@ -16306,7 +16708,7 @@ class UserPoolAddOnsType {
   factory UserPoolAddOnsType.fromJson(Map<String, dynamic> json) {
     return UserPoolAddOnsType(
       advancedSecurityMode: AdvancedSecurityModeType.fromString(
-          (json['AdvancedSecurityMode'] as String)),
+          (json['AdvancedSecurityMode'] as String?) ?? ''),
       advancedSecurityAdditionalFlows:
           json['AdvancedSecurityAdditionalFlows'] != null
               ? AdvancedSecurityAdditionalFlowsType.fromJson(
@@ -16941,20 +17343,29 @@ class UserPoolDescriptionType {
   }
 }
 
-enum UserPoolMfaType {
-  off('OFF'),
-  on('ON'),
-  optional('OPTIONAL'),
-  ;
+class UserPoolMfaType {
+  static const off = UserPoolMfaType._('OFF');
+  static const on = UserPoolMfaType._('ON');
+  static const optional = UserPoolMfaType._('OPTIONAL');
 
   final String value;
 
-  const UserPoolMfaType(this.value);
+  const UserPoolMfaType._(this.value);
+
+  static const values = [off, on, optional];
 
   static UserPoolMfaType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserPoolMfaType'));
+          orElse: () => UserPoolMfaType._(value));
+
+  @override
+  bool operator ==(other) => other is UserPoolMfaType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The policy associated with a user pool.
@@ -17401,25 +17812,43 @@ class UserPoolType {
   }
 }
 
-enum UserStatusType {
-  unconfirmed('UNCONFIRMED'),
-  confirmed('CONFIRMED'),
-  archived('ARCHIVED'),
-  compromised('COMPROMISED'),
-  unknown('UNKNOWN'),
-  resetRequired('RESET_REQUIRED'),
-  forceChangePassword('FORCE_CHANGE_PASSWORD'),
-  externalProvider('EXTERNAL_PROVIDER'),
-  ;
+class UserStatusType {
+  static const unconfirmed = UserStatusType._('UNCONFIRMED');
+  static const confirmed = UserStatusType._('CONFIRMED');
+  static const archived = UserStatusType._('ARCHIVED');
+  static const compromised = UserStatusType._('COMPROMISED');
+  static const unknown = UserStatusType._('UNKNOWN');
+  static const resetRequired = UserStatusType._('RESET_REQUIRED');
+  static const forceChangePassword = UserStatusType._('FORCE_CHANGE_PASSWORD');
+  static const externalProvider = UserStatusType._('EXTERNAL_PROVIDER');
 
   final String value;
 
-  const UserStatusType(this.value);
+  const UserStatusType._(this.value);
+
+  static const values = [
+    unconfirmed,
+    confirmed,
+    archived,
+    compromised,
+    unknown,
+    resetRequired,
+    forceChangePassword,
+    externalProvider
+  ];
 
   static UserStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserStatusType'));
+          orElse: () => UserStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A user profile in a Amazon Cognito user pool.
@@ -17522,19 +17951,29 @@ class UserType {
   }
 }
 
-enum UsernameAttributeType {
-  phoneNumber('phone_number'),
-  email('email'),
-  ;
+class UsernameAttributeType {
+  static const phoneNumber = UsernameAttributeType._('phone_number');
+  static const email = UsernameAttributeType._('email');
 
   final String value;
 
-  const UsernameAttributeType(this.value);
+  const UsernameAttributeType._(this.value);
 
-  static UsernameAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UsernameAttributeType'));
+  static const values = [phoneNumber, email];
+
+  static UsernameAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsernameAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsernameAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The username configuration type.
@@ -17664,19 +18103,29 @@ class VerificationMessageTemplateType {
   }
 }
 
-enum VerifiedAttributeType {
-  phoneNumber('phone_number'),
-  email('email'),
-  ;
+class VerifiedAttributeType {
+  static const phoneNumber = VerifiedAttributeType._('phone_number');
+  static const email = VerifiedAttributeType._('email');
 
   final String value;
 
-  const VerifiedAttributeType(this.value);
+  const VerifiedAttributeType._(this.value);
 
-  static VerifiedAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VerifiedAttributeType'));
+  static const values = [phoneNumber, email];
+
+  static VerifiedAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerifiedAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifiedAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class VerifySoftwareTokenResponse {
@@ -17710,19 +18159,29 @@ class VerifySoftwareTokenResponse {
   }
 }
 
-enum VerifySoftwareTokenResponseType {
-  success('SUCCESS'),
-  error('ERROR'),
-  ;
+class VerifySoftwareTokenResponseType {
+  static const success = VerifySoftwareTokenResponseType._('SUCCESS');
+  static const error = VerifySoftwareTokenResponseType._('ERROR');
 
   final String value;
 
-  const VerifySoftwareTokenResponseType(this.value);
+  const VerifySoftwareTokenResponseType._(this.value);
+
+  static const values = [success, error];
 
   static VerifySoftwareTokenResponseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VerifySoftwareTokenResponseType'));
+          orElse: () => VerifySoftwareTokenResponseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerifySoftwareTokenResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A container representing the response from the server from the request to

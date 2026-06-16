@@ -1446,19 +1446,31 @@ class AmazonOpenSearchServerlessRetryOptions {
   }
 }
 
-enum AmazonOpenSearchServerlessS3BackupMode {
-  failedDocumentsOnly('FailedDocumentsOnly'),
-  allDocuments('AllDocuments'),
-  ;
+class AmazonOpenSearchServerlessS3BackupMode {
+  static const failedDocumentsOnly =
+      AmazonOpenSearchServerlessS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments =
+      AmazonOpenSearchServerlessS3BackupMode._('AllDocuments');
 
   final String value;
 
-  const AmazonOpenSearchServerlessS3BackupMode(this.value);
+  const AmazonOpenSearchServerlessS3BackupMode._(this.value);
+
+  static const values = [failedDocumentsOnly, allDocuments];
 
   static AmazonOpenSearchServerlessS3BackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmazonOpenSearchServerlessS3BackupMode'));
+          orElse: () => AmazonOpenSearchServerlessS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmazonOpenSearchServerlessS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the buffering to perform before delivering data to the Amazon
@@ -1846,22 +1858,37 @@ class AmazonopensearchserviceDestinationUpdate {
   }
 }
 
-enum AmazonopensearchserviceIndexRotationPeriod {
-  noRotation('NoRotation'),
-  oneHour('OneHour'),
-  oneDay('OneDay'),
-  oneWeek('OneWeek'),
-  oneMonth('OneMonth'),
-  ;
+class AmazonopensearchserviceIndexRotationPeriod {
+  static const noRotation =
+      AmazonopensearchserviceIndexRotationPeriod._('NoRotation');
+  static const oneHour =
+      AmazonopensearchserviceIndexRotationPeriod._('OneHour');
+  static const oneDay = AmazonopensearchserviceIndexRotationPeriod._('OneDay');
+  static const oneWeek =
+      AmazonopensearchserviceIndexRotationPeriod._('OneWeek');
+  static const oneMonth =
+      AmazonopensearchserviceIndexRotationPeriod._('OneMonth');
 
   final String value;
 
-  const AmazonopensearchserviceIndexRotationPeriod(this.value);
+  const AmazonopensearchserviceIndexRotationPeriod._(this.value);
+
+  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
 
   static AmazonopensearchserviceIndexRotationPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmazonopensearchserviceIndexRotationPeriod'));
+          orElse: () => AmazonopensearchserviceIndexRotationPeriod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmazonopensearchserviceIndexRotationPeriod &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
@@ -1893,19 +1920,31 @@ class AmazonopensearchserviceRetryOptions {
   }
 }
 
-enum AmazonopensearchserviceS3BackupMode {
-  failedDocumentsOnly('FailedDocumentsOnly'),
-  allDocuments('AllDocuments'),
-  ;
+class AmazonopensearchserviceS3BackupMode {
+  static const failedDocumentsOnly =
+      AmazonopensearchserviceS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments =
+      AmazonopensearchserviceS3BackupMode._('AllDocuments');
 
   final String value;
 
-  const AmazonopensearchserviceS3BackupMode(this.value);
+  const AmazonopensearchserviceS3BackupMode._(this.value);
+
+  static const values = [failedDocumentsOnly, allDocuments];
 
   static AmazonopensearchserviceS3BackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmazonopensearchserviceS3BackupMode'));
+          orElse: () => AmazonopensearchserviceS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmazonopensearchserviceS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authentication configuration of the Amazon MSK cluster.
@@ -1923,7 +1962,8 @@ class AuthenticationConfiguration {
 
   factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfiguration(
-      connectivity: Connectivity.fromString((json['Connectivity'] as String)),
+      connectivity:
+          Connectivity.fromString((json['Connectivity'] as String?) ?? ''),
       roleARN: (json['RoleARN'] as String?) ?? '',
     );
   }
@@ -2053,52 +2093,78 @@ class CloudWatchLoggingOptions {
   }
 }
 
-enum CompressionFormat {
-  uncompressed('UNCOMPRESSED'),
-  gzip('GZIP'),
-  zip('ZIP'),
-  snappy('Snappy'),
-  hadoopSnappy('HADOOP_SNAPPY'),
-  ;
+class CompressionFormat {
+  static const uncompressed = CompressionFormat._('UNCOMPRESSED');
+  static const gzip = CompressionFormat._('GZIP');
+  static const zip = CompressionFormat._('ZIP');
+  static const snappy = CompressionFormat._('Snappy');
+  static const hadoopSnappy = CompressionFormat._('HADOOP_SNAPPY');
 
   final String value;
 
-  const CompressionFormat(this.value);
+  const CompressionFormat._(this.value);
+
+  static const values = [uncompressed, gzip, zip, snappy, hadoopSnappy];
 
   static CompressionFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionFormat'));
+          orElse: () => CompressionFormat._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Connectivity {
-  public('PUBLIC'),
-  private('PRIVATE'),
-  ;
+class Connectivity {
+  static const public = Connectivity._('PUBLIC');
+  static const private = Connectivity._('PRIVATE');
 
   final String value;
 
-  const Connectivity(this.value);
+  const Connectivity._(this.value);
 
-  static Connectivity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Connectivity'));
+  static const values = [public, private];
+
+  static Connectivity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Connectivity._(value));
+
+  @override
+  bool operator ==(other) => other is Connectivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentEncoding {
-  none('NONE'),
-  gzip('GZIP'),
-  ;
+class ContentEncoding {
+  static const none = ContentEncoding._('NONE');
+  static const gzip = ContentEncoding._('GZIP');
 
   final String value;
 
-  const ContentEncoding(this.value);
+  const ContentEncoding._(this.value);
+
+  static const values = [none, gzip];
 
   static ContentEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentEncoding'));
+          orElse: () => ContentEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is ContentEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
@@ -2255,19 +2321,29 @@ class DataFormatConversionConfiguration {
   }
 }
 
-enum DefaultDocumentIdFormat {
-  firehoseDefault('FIREHOSE_DEFAULT'),
-  noDocumentId('NO_DOCUMENT_ID'),
-  ;
+class DefaultDocumentIdFormat {
+  static const firehoseDefault = DefaultDocumentIdFormat._('FIREHOSE_DEFAULT');
+  static const noDocumentId = DefaultDocumentIdFormat._('NO_DOCUMENT_ID');
 
   final String value;
 
-  const DefaultDocumentIdFormat(this.value);
+  const DefaultDocumentIdFormat._(this.value);
+
+  static const values = [firehoseDefault, noDocumentId];
 
   static DefaultDocumentIdFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultDocumentIdFormat'));
+          orElse: () => DefaultDocumentIdFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultDocumentIdFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDeliveryStreamOutput {
@@ -2366,9 +2442,9 @@ class DeliveryStreamDescription {
       deliveryStreamARN: (json['DeliveryStreamARN'] as String?) ?? '',
       deliveryStreamName: (json['DeliveryStreamName'] as String?) ?? '',
       deliveryStreamStatus: DeliveryStreamStatus.fromString(
-          (json['DeliveryStreamStatus'] as String)),
-      deliveryStreamType:
-          DeliveryStreamType.fromString((json['DeliveryStreamType'] as String)),
+          (json['DeliveryStreamStatus'] as String?) ?? ''),
+      deliveryStreamType: DeliveryStreamType.fromString(
+          (json['DeliveryStreamType'] as String?) ?? ''),
       destinations: ((json['Destinations'] as List?) ?? const [])
           .nonNulls
           .map(
@@ -2552,85 +2628,168 @@ class DeliveryStreamEncryptionConfigurationInput {
   }
 }
 
-enum DeliveryStreamEncryptionStatus {
-  enabled('ENABLED'),
-  enabling('ENABLING'),
-  enablingFailed('ENABLING_FAILED'),
-  disabled('DISABLED'),
-  disabling('DISABLING'),
-  disablingFailed('DISABLING_FAILED'),
-  ;
+class DeliveryStreamEncryptionStatus {
+  static const enabled = DeliveryStreamEncryptionStatus._('ENABLED');
+  static const enabling = DeliveryStreamEncryptionStatus._('ENABLING');
+  static const enablingFailed =
+      DeliveryStreamEncryptionStatus._('ENABLING_FAILED');
+  static const disabled = DeliveryStreamEncryptionStatus._('DISABLED');
+  static const disabling = DeliveryStreamEncryptionStatus._('DISABLING');
+  static const disablingFailed =
+      DeliveryStreamEncryptionStatus._('DISABLING_FAILED');
 
   final String value;
 
-  const DeliveryStreamEncryptionStatus(this.value);
+  const DeliveryStreamEncryptionStatus._(this.value);
+
+  static const values = [
+    enabled,
+    enabling,
+    enablingFailed,
+    disabled,
+    disabling,
+    disablingFailed
+  ];
 
   static DeliveryStreamEncryptionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeliveryStreamEncryptionStatus'));
+          orElse: () => DeliveryStreamEncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamEncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeliveryStreamFailureType {
-  retireKmsGrantFailed('RETIRE_KMS_GRANT_FAILED'),
-  createKmsGrantFailed('CREATE_KMS_GRANT_FAILED'),
-  kmsAccessDenied('KMS_ACCESS_DENIED'),
-  disabledKmsKey('DISABLED_KMS_KEY'),
-  invalidKmsKey('INVALID_KMS_KEY'),
-  kmsKeyNotFound('KMS_KEY_NOT_FOUND'),
-  kmsOptInRequired('KMS_OPT_IN_REQUIRED'),
-  createEniFailed('CREATE_ENI_FAILED'),
-  deleteEniFailed('DELETE_ENI_FAILED'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  securityGroupNotFound('SECURITY_GROUP_NOT_FOUND'),
-  eniAccessDenied('ENI_ACCESS_DENIED'),
-  subnetAccessDenied('SUBNET_ACCESS_DENIED'),
-  securityGroupAccessDenied('SECURITY_GROUP_ACCESS_DENIED'),
-  unknownError('UNKNOWN_ERROR'),
-  ;
+class DeliveryStreamFailureType {
+  static const retireKmsGrantFailed =
+      DeliveryStreamFailureType._('RETIRE_KMS_GRANT_FAILED');
+  static const createKmsGrantFailed =
+      DeliveryStreamFailureType._('CREATE_KMS_GRANT_FAILED');
+  static const kmsAccessDenied =
+      DeliveryStreamFailureType._('KMS_ACCESS_DENIED');
+  static const disabledKmsKey = DeliveryStreamFailureType._('DISABLED_KMS_KEY');
+  static const invalidKmsKey = DeliveryStreamFailureType._('INVALID_KMS_KEY');
+  static const kmsKeyNotFound =
+      DeliveryStreamFailureType._('KMS_KEY_NOT_FOUND');
+  static const kmsOptInRequired =
+      DeliveryStreamFailureType._('KMS_OPT_IN_REQUIRED');
+  static const createEniFailed =
+      DeliveryStreamFailureType._('CREATE_ENI_FAILED');
+  static const deleteEniFailed =
+      DeliveryStreamFailureType._('DELETE_ENI_FAILED');
+  static const subnetNotFound = DeliveryStreamFailureType._('SUBNET_NOT_FOUND');
+  static const securityGroupNotFound =
+      DeliveryStreamFailureType._('SECURITY_GROUP_NOT_FOUND');
+  static const eniAccessDenied =
+      DeliveryStreamFailureType._('ENI_ACCESS_DENIED');
+  static const subnetAccessDenied =
+      DeliveryStreamFailureType._('SUBNET_ACCESS_DENIED');
+  static const securityGroupAccessDenied =
+      DeliveryStreamFailureType._('SECURITY_GROUP_ACCESS_DENIED');
+  static const unknownError = DeliveryStreamFailureType._('UNKNOWN_ERROR');
 
   final String value;
 
-  const DeliveryStreamFailureType(this.value);
+  const DeliveryStreamFailureType._(this.value);
+
+  static const values = [
+    retireKmsGrantFailed,
+    createKmsGrantFailed,
+    kmsAccessDenied,
+    disabledKmsKey,
+    invalidKmsKey,
+    kmsKeyNotFound,
+    kmsOptInRequired,
+    createEniFailed,
+    deleteEniFailed,
+    subnetNotFound,
+    securityGroupNotFound,
+    eniAccessDenied,
+    subnetAccessDenied,
+    securityGroupAccessDenied,
+    unknownError
+  ];
 
   static DeliveryStreamFailureType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeliveryStreamFailureType'));
+          orElse: () => DeliveryStreamFailureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamFailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeliveryStreamStatus {
-  creating('CREATING'),
-  creatingFailed('CREATING_FAILED'),
-  deleting('DELETING'),
-  deletingFailed('DELETING_FAILED'),
-  active('ACTIVE'),
-  ;
+class DeliveryStreamStatus {
+  static const creating = DeliveryStreamStatus._('CREATING');
+  static const creatingFailed = DeliveryStreamStatus._('CREATING_FAILED');
+  static const deleting = DeliveryStreamStatus._('DELETING');
+  static const deletingFailed = DeliveryStreamStatus._('DELETING_FAILED');
+  static const active = DeliveryStreamStatus._('ACTIVE');
 
   final String value;
 
-  const DeliveryStreamStatus(this.value);
+  const DeliveryStreamStatus._(this.value);
 
-  static DeliveryStreamStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeliveryStreamStatus'));
+  static const values = [
+    creating,
+    creatingFailed,
+    deleting,
+    deletingFailed,
+    active
+  ];
+
+  static DeliveryStreamStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeliveryStreamType {
-  directPut('DirectPut'),
-  kinesisStreamAsSource('KinesisStreamAsSource'),
-  mSKAsSource('MSKAsSource'),
-  ;
+class DeliveryStreamType {
+  static const directPut = DeliveryStreamType._('DirectPut');
+  static const kinesisStreamAsSource =
+      DeliveryStreamType._('KinesisStreamAsSource');
+  static const mSKAsSource = DeliveryStreamType._('MSKAsSource');
 
   final String value;
 
-  const DeliveryStreamType(this.value);
+  const DeliveryStreamType._(this.value);
 
-  static DeliveryStreamType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeliveryStreamType'));
+  static const values = [directPut, kinesisStreamAsSource, mSKAsSource];
+
+  static DeliveryStreamType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeDeliveryStreamOutput {
@@ -2958,7 +3117,7 @@ class DocumentIdOptions {
   factory DocumentIdOptions.fromJson(Map<String, dynamic> json) {
     return DocumentIdOptions(
       defaultDocumentIdFormat: DefaultDocumentIdFormat.fromString(
-          (json['DefaultDocumentIdFormat'] as String)),
+          (json['DefaultDocumentIdFormat'] as String?) ?? ''),
     );
   }
 
@@ -3453,22 +3612,32 @@ class ElasticsearchDestinationUpdate {
   }
 }
 
-enum ElasticsearchIndexRotationPeriod {
-  noRotation('NoRotation'),
-  oneHour('OneHour'),
-  oneDay('OneDay'),
-  oneWeek('OneWeek'),
-  oneMonth('OneMonth'),
-  ;
+class ElasticsearchIndexRotationPeriod {
+  static const noRotation = ElasticsearchIndexRotationPeriod._('NoRotation');
+  static const oneHour = ElasticsearchIndexRotationPeriod._('OneHour');
+  static const oneDay = ElasticsearchIndexRotationPeriod._('OneDay');
+  static const oneWeek = ElasticsearchIndexRotationPeriod._('OneWeek');
+  static const oneMonth = ElasticsearchIndexRotationPeriod._('OneMonth');
 
   final String value;
 
-  const ElasticsearchIndexRotationPeriod(this.value);
+  const ElasticsearchIndexRotationPeriod._(this.value);
+
+  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
 
   static ElasticsearchIndexRotationPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ElasticsearchIndexRotationPeriod'));
+          orElse: () => ElasticsearchIndexRotationPeriod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ElasticsearchIndexRotationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
@@ -3499,19 +3668,30 @@ class ElasticsearchRetryOptions {
   }
 }
 
-enum ElasticsearchS3BackupMode {
-  failedDocumentsOnly('FailedDocumentsOnly'),
-  allDocuments('AllDocuments'),
-  ;
+class ElasticsearchS3BackupMode {
+  static const failedDocumentsOnly =
+      ElasticsearchS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments = ElasticsearchS3BackupMode._('AllDocuments');
 
   final String value;
 
-  const ElasticsearchS3BackupMode(this.value);
+  const ElasticsearchS3BackupMode._(this.value);
+
+  static const values = [failedDocumentsOnly, allDocuments];
 
   static ElasticsearchS3BackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ElasticsearchS3BackupMode'));
+          orElse: () => ElasticsearchS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ElasticsearchS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the encryption for a destination in Amazon S3.
@@ -3770,8 +3950,8 @@ class ExtendedS3DestinationDescription {
       bufferingHints: BufferingHints.fromJson(
           (json['BufferingHints'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      compressionFormat:
-          CompressionFormat.fromString((json['CompressionFormat'] as String)),
+      compressionFormat: CompressionFormat.fromString(
+          (json['CompressionFormat'] as String?) ?? ''),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
           (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -4000,7 +4180,8 @@ class FailureDescription {
   factory FailureDescription.fromJson(Map<String, dynamic> json) {
     return FailureDescription(
       details: (json['Details'] as String?) ?? '',
-      type: DeliveryStreamFailureType.fromString((json['Type'] as String)),
+      type:
+          DeliveryStreamFailureType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
@@ -4014,19 +4195,28 @@ class FailureDescription {
   }
 }
 
-enum HECEndpointType {
-  raw('Raw'),
-  event('Event'),
-  ;
+class HECEndpointType {
+  static const raw = HECEndpointType._('Raw');
+  static const event = HECEndpointType._('Event');
 
   final String value;
 
-  const HECEndpointType(this.value);
+  const HECEndpointType._(this.value);
+
+  static const values = [raw, event];
 
   static HECEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HECEndpointType'));
+          orElse: () => HECEndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is HECEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
@@ -4562,19 +4752,29 @@ class HttpEndpointRetryOptions {
   }
 }
 
-enum HttpEndpointS3BackupMode {
-  failedDataOnly('FailedDataOnly'),
-  allData('AllData'),
-  ;
+class HttpEndpointS3BackupMode {
+  static const failedDataOnly = HttpEndpointS3BackupMode._('FailedDataOnly');
+  static const allData = HttpEndpointS3BackupMode._('AllData');
 
   final String value;
 
-  const HttpEndpointS3BackupMode(this.value);
+  const HttpEndpointS3BackupMode._(this.value);
+
+  static const values = [failedDataOnly, allData];
 
   static HttpEndpointS3BackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HttpEndpointS3BackupMode'));
+          orElse: () => HttpEndpointS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HttpEndpointS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the destination configure settings for Apache Iceberg Table.
@@ -4833,19 +5033,29 @@ class IcebergDestinationUpdate {
   }
 }
 
-enum IcebergS3BackupMode {
-  failedDataOnly('FailedDataOnly'),
-  allData('AllData'),
-  ;
+class IcebergS3BackupMode {
+  static const failedDataOnly = IcebergS3BackupMode._('FailedDataOnly');
+  static const allData = IcebergS3BackupMode._('AllData');
 
   final String value;
 
-  const IcebergS3BackupMode(this.value);
+  const IcebergS3BackupMode._(this.value);
 
-  static IcebergS3BackupMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IcebergS3BackupMode'));
+  static const values = [failedDataOnly, allData];
+
+  static IcebergS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IcebergS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IcebergS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the deserializer you want to use to convert the format of the
@@ -4904,18 +5114,27 @@ class KMSEncryptionConfig {
   }
 }
 
-enum KeyType {
-  awsOwnedCmk('AWS_OWNED_CMK'),
-  customerManagedCmk('CUSTOMER_MANAGED_CMK'),
-  ;
+class KeyType {
+  static const awsOwnedCmk = KeyType._('AWS_OWNED_CMK');
+  static const customerManagedCmk = KeyType._('CUSTOMER_MANAGED_CMK');
 
   final String value;
 
-  const KeyType(this.value);
+  const KeyType._(this.value);
 
-  static KeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum KeyType'));
+  static const values = [awsOwnedCmk, customerManagedCmk];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
@@ -5170,18 +5389,28 @@ class MSKSourceDescription {
   }
 }
 
-enum NoEncryptionConfig {
-  noEncryption('NoEncryption'),
-  ;
+class NoEncryptionConfig {
+  static const noEncryption = NoEncryptionConfig._('NoEncryption');
 
   final String value;
 
-  const NoEncryptionConfig(this.value);
+  const NoEncryptionConfig._(this.value);
 
-  static NoEncryptionConfig fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NoEncryptionConfig'));
+  static const values = [noEncryption];
+
+  static NoEncryptionConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NoEncryptionConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NoEncryptionConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The OpenX SerDe. Used by Firehose for deserializing data, which means
@@ -5243,35 +5472,53 @@ class OpenXJsonSerDe {
   }
 }
 
-enum OrcCompression {
-  none('NONE'),
-  zlib('ZLIB'),
-  snappy('SNAPPY'),
-  ;
+class OrcCompression {
+  static const none = OrcCompression._('NONE');
+  static const zlib = OrcCompression._('ZLIB');
+  static const snappy = OrcCompression._('SNAPPY');
 
   final String value;
 
-  const OrcCompression(this.value);
+  const OrcCompression._(this.value);
+
+  static const values = [none, zlib, snappy];
 
   static OrcCompression fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrcCompression'));
+          orElse: () => OrcCompression._(value));
+
+  @override
+  bool operator ==(other) => other is OrcCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrcFormatVersion {
-  v0_11('V0_11'),
-  v0_12('V0_12'),
-  ;
+class OrcFormatVersion {
+  static const v0_11 = OrcFormatVersion._('V0_11');
+  static const v0_12 = OrcFormatVersion._('V0_12');
 
   final String value;
 
-  const OrcFormatVersion(this.value);
+  const OrcFormatVersion._(this.value);
+
+  static const values = [v0_11, v0_12];
 
   static OrcFormatVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrcFormatVersion'));
+          orElse: () => OrcFormatVersion._(value));
+
+  @override
+  bool operator ==(other) => other is OrcFormatVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A serializer to use for converting data to the ORC format before storing it
@@ -5427,20 +5674,30 @@ class OutputFormatConfiguration {
   }
 }
 
-enum ParquetCompression {
-  uncompressed('UNCOMPRESSED'),
-  gzip('GZIP'),
-  snappy('SNAPPY'),
-  ;
+class ParquetCompression {
+  static const uncompressed = ParquetCompression._('UNCOMPRESSED');
+  static const gzip = ParquetCompression._('GZIP');
+  static const snappy = ParquetCompression._('SNAPPY');
 
   final String value;
 
-  const ParquetCompression(this.value);
+  const ParquetCompression._(this.value);
 
-  static ParquetCompression fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParquetCompression'));
+  static const values = [uncompressed, gzip, snappy];
+
+  static ParquetCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A serializer to use for converting data to the Parquet format before storing
@@ -5517,19 +5774,29 @@ class ParquetSerDe {
   }
 }
 
-enum ParquetWriterVersion {
-  v1('V1'),
-  v2('V2'),
-  ;
+class ParquetWriterVersion {
+  static const v1 = ParquetWriterVersion._('V1');
+  static const v2 = ParquetWriterVersion._('V2');
 
   final String value;
 
-  const ParquetWriterVersion(this.value);
+  const ParquetWriterVersion._(this.value);
 
-  static ParquetWriterVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParquetWriterVersion'));
+  static const values = [v1, v2];
+
+  static ParquetWriterVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetWriterVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetWriterVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a data processing configuration.
@@ -5586,7 +5853,7 @@ class Processor {
 
   factory Processor.fromJson(Map<String, dynamic> json) {
     return Processor(
-      type: ProcessorType.fromString((json['Type'] as String)),
+      type: ProcessorType.fromString((json['Type'] as String?) ?? ''),
       parameters: (json['Parameters'] as List?)
           ?.nonNulls
           .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
@@ -5624,8 +5891,8 @@ class ProcessorParameter {
 
   factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
     return ProcessorParameter(
-      parameterName:
-          ProcessorParameterName.fromString((json['ParameterName'] as String)),
+      parameterName: ProcessorParameterName.fromString(
+          (json['ParameterName'] as String?) ?? ''),
       parameterValue: (json['ParameterValue'] as String?) ?? '',
     );
   }
@@ -5640,47 +5907,92 @@ class ProcessorParameter {
   }
 }
 
-enum ProcessorParameterName {
-  lambdaArn('LambdaArn'),
-  numberOfRetries('NumberOfRetries'),
-  metadataExtractionQuery('MetadataExtractionQuery'),
-  jsonParsingEngine('JsonParsingEngine'),
-  roleArn('RoleArn'),
-  bufferSizeInMBs('BufferSizeInMBs'),
-  bufferIntervalInSeconds('BufferIntervalInSeconds'),
-  subRecordType('SubRecordType'),
-  delimiter('Delimiter'),
-  compressionFormat('CompressionFormat'),
-  dataMessageExtraction('DataMessageExtraction'),
-  ;
+class ProcessorParameterName {
+  static const lambdaArn = ProcessorParameterName._('LambdaArn');
+  static const numberOfRetries = ProcessorParameterName._('NumberOfRetries');
+  static const metadataExtractionQuery =
+      ProcessorParameterName._('MetadataExtractionQuery');
+  static const jsonParsingEngine =
+      ProcessorParameterName._('JsonParsingEngine');
+  static const roleArn = ProcessorParameterName._('RoleArn');
+  static const bufferSizeInMBs = ProcessorParameterName._('BufferSizeInMBs');
+  static const bufferIntervalInSeconds =
+      ProcessorParameterName._('BufferIntervalInSeconds');
+  static const subRecordType = ProcessorParameterName._('SubRecordType');
+  static const delimiter = ProcessorParameterName._('Delimiter');
+  static const compressionFormat =
+      ProcessorParameterName._('CompressionFormat');
+  static const dataMessageExtraction =
+      ProcessorParameterName._('DataMessageExtraction');
 
   final String value;
 
-  const ProcessorParameterName(this.value);
+  const ProcessorParameterName._(this.value);
+
+  static const values = [
+    lambdaArn,
+    numberOfRetries,
+    metadataExtractionQuery,
+    jsonParsingEngine,
+    roleArn,
+    bufferSizeInMBs,
+    bufferIntervalInSeconds,
+    subRecordType,
+    delimiter,
+    compressionFormat,
+    dataMessageExtraction
+  ];
 
   static ProcessorParameterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ProcessorParameterName'));
+          orElse: () => ProcessorParameterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessorParameterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProcessorType {
-  recordDeAggregation('RecordDeAggregation'),
-  decompression('Decompression'),
-  cloudWatchLogProcessing('CloudWatchLogProcessing'),
-  lambda('Lambda'),
-  metadataExtraction('MetadataExtraction'),
-  appendDelimiterToRecord('AppendDelimiterToRecord'),
-  ;
+class ProcessorType {
+  static const recordDeAggregation = ProcessorType._('RecordDeAggregation');
+  static const decompression = ProcessorType._('Decompression');
+  static const cloudWatchLogProcessing =
+      ProcessorType._('CloudWatchLogProcessing');
+  static const lambda = ProcessorType._('Lambda');
+  static const metadataExtraction = ProcessorType._('MetadataExtraction');
+  static const appendDelimiterToRecord =
+      ProcessorType._('AppendDelimiterToRecord');
 
   final String value;
 
-  const ProcessorType(this.value);
+  const ProcessorType._(this.value);
+
+  static const values = [
+    recordDeAggregation,
+    decompression,
+    cloudWatchLogProcessing,
+    lambda,
+    metadataExtraction,
+    appendDelimiterToRecord
+  ];
 
   static ProcessorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProcessorType'));
+          orElse: () => ProcessorType._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutRecordBatchOutput {
@@ -6162,19 +6474,29 @@ class RedshiftRetryOptions {
   }
 }
 
-enum RedshiftS3BackupMode {
-  disabled('Disabled'),
-  enabled('Enabled'),
-  ;
+class RedshiftS3BackupMode {
+  static const disabled = RedshiftS3BackupMode._('Disabled');
+  static const enabled = RedshiftS3BackupMode._('Enabled');
 
   final String value;
 
-  const RedshiftS3BackupMode(this.value);
+  const RedshiftS3BackupMode._(this.value);
 
-  static RedshiftS3BackupMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RedshiftS3BackupMode'));
+  static const values = [disabled, enabled];
+
+  static RedshiftS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedshiftS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedshiftS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The retry behavior in case Firehose is unable to deliver data to an Amazon
@@ -6202,19 +6524,27 @@ class RetryOptions {
   }
 }
 
-enum S3BackupMode {
-  disabled('Disabled'),
-  enabled('Enabled'),
-  ;
+class S3BackupMode {
+  static const disabled = S3BackupMode._('Disabled');
+  static const enabled = S3BackupMode._('Enabled');
 
   final String value;
 
-  const S3BackupMode(this.value);
+  const S3BackupMode._(this.value);
 
-  static S3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3BackupMode'));
+  static const values = [disabled, enabled];
+
+  static S3BackupMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3BackupMode._(value));
+
+  @override
+  bool operator ==(other) => other is S3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of a destination in Amazon S3.
@@ -6357,8 +6687,8 @@ class S3DestinationDescription {
       bufferingHints: BufferingHints.fromJson(
           (json['BufferingHints'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      compressionFormat:
-          CompressionFormat.fromString((json['CompressionFormat'] as String)),
+      compressionFormat: CompressionFormat.fromString(
+          (json['CompressionFormat'] as String?) ?? ''),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
           (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -6689,20 +7019,36 @@ class SnowflakeBufferingHints {
   }
 }
 
-enum SnowflakeDataLoadingOption {
-  jsonMapping('JSON_MAPPING'),
-  variantContentMapping('VARIANT_CONTENT_MAPPING'),
-  variantContentAndMetadataMapping('VARIANT_CONTENT_AND_METADATA_MAPPING'),
-  ;
+class SnowflakeDataLoadingOption {
+  static const jsonMapping = SnowflakeDataLoadingOption._('JSON_MAPPING');
+  static const variantContentMapping =
+      SnowflakeDataLoadingOption._('VARIANT_CONTENT_MAPPING');
+  static const variantContentAndMetadataMapping =
+      SnowflakeDataLoadingOption._('VARIANT_CONTENT_AND_METADATA_MAPPING');
 
   final String value;
 
-  const SnowflakeDataLoadingOption(this.value);
+  const SnowflakeDataLoadingOption._(this.value);
+
+  static const values = [
+    jsonMapping,
+    variantContentMapping,
+    variantContentAndMetadataMapping
+  ];
 
   static SnowflakeDataLoadingOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SnowflakeDataLoadingOption'));
+          orElse: () => SnowflakeDataLoadingOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnowflakeDataLoadingOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configure Snowflake destination
@@ -7265,19 +7611,29 @@ class SnowflakeRoleConfiguration {
   }
 }
 
-enum SnowflakeS3BackupMode {
-  failedDataOnly('FailedDataOnly'),
-  allData('AllData'),
-  ;
+class SnowflakeS3BackupMode {
+  static const failedDataOnly = SnowflakeS3BackupMode._('FailedDataOnly');
+  static const allData = SnowflakeS3BackupMode._('AllData');
 
   final String value;
 
-  const SnowflakeS3BackupMode(this.value);
+  const SnowflakeS3BackupMode._(this.value);
 
-  static SnowflakeS3BackupMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SnowflakeS3BackupMode'));
+  static const values = [failedDataOnly, allData];
+
+  static SnowflakeS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnowflakeS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnowflakeS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configure a Snowflake VPC
@@ -7734,19 +8090,29 @@ class SplunkRetryOptions {
   }
 }
 
-enum SplunkS3BackupMode {
-  failedEventsOnly('FailedEventsOnly'),
-  allEvents('AllEvents'),
-  ;
+class SplunkS3BackupMode {
+  static const failedEventsOnly = SplunkS3BackupMode._('FailedEventsOnly');
+  static const allEvents = SplunkS3BackupMode._('AllEvents');
 
   final String value;
 
-  const SplunkS3BackupMode(this.value);
+  const SplunkS3BackupMode._(this.value);
 
-  static SplunkS3BackupMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SplunkS3BackupMode'));
+  static const values = [failedEventsOnly, allEvents];
+
+  static SplunkS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SplunkS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SplunkS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartDeliveryStreamEncryptionOutput {

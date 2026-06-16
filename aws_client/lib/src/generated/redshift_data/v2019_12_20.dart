@@ -2119,43 +2119,69 @@ class StatementData {
   }
 }
 
-enum StatementStatusString {
-  submitted('SUBMITTED'),
-  picked('PICKED'),
-  started('STARTED'),
-  finished('FINISHED'),
-  aborted('ABORTED'),
-  failed('FAILED'),
-  ;
+class StatementStatusString {
+  static const submitted = StatementStatusString._('SUBMITTED');
+  static const picked = StatementStatusString._('PICKED');
+  static const started = StatementStatusString._('STARTED');
+  static const finished = StatementStatusString._('FINISHED');
+  static const aborted = StatementStatusString._('ABORTED');
+  static const failed = StatementStatusString._('FAILED');
 
   final String value;
 
-  const StatementStatusString(this.value);
+  const StatementStatusString._(this.value);
 
-  static StatementStatusString fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StatementStatusString'));
+  static const values = [submitted, picked, started, finished, aborted, failed];
+
+  static StatementStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatementStatusString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatementStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusString {
-  submitted('SUBMITTED'),
-  picked('PICKED'),
-  started('STARTED'),
-  finished('FINISHED'),
-  aborted('ABORTED'),
-  failed('FAILED'),
-  all('ALL'),
-  ;
+class StatusString {
+  static const submitted = StatusString._('SUBMITTED');
+  static const picked = StatusString._('PICKED');
+  static const started = StatusString._('STARTED');
+  static const finished = StatusString._('FINISHED');
+  static const aborted = StatusString._('ABORTED');
+  static const failed = StatusString._('FAILED');
+  static const all = StatusString._('ALL');
 
   final String value;
 
-  const StatusString(this.value);
+  const StatusString._(this.value);
 
-  static StatusString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatusString'));
+  static const values = [
+    submitted,
+    picked,
+    started,
+    finished,
+    aborted,
+    failed,
+    all
+  ];
+
+  static StatusString fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusString._(value));
+
+  @override
+  bool operator ==(other) => other is StatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an SQL statement.

@@ -3218,39 +3218,59 @@ class ApiDestination {
   }
 }
 
-enum ApiDestinationHttpMethod {
-  post('POST'),
-  get('GET'),
-  head('HEAD'),
-  options('OPTIONS'),
-  put('PUT'),
-  patch('PATCH'),
-  delete('DELETE'),
-  ;
+class ApiDestinationHttpMethod {
+  static const post = ApiDestinationHttpMethod._('POST');
+  static const get = ApiDestinationHttpMethod._('GET');
+  static const head = ApiDestinationHttpMethod._('HEAD');
+  static const options = ApiDestinationHttpMethod._('OPTIONS');
+  static const put = ApiDestinationHttpMethod._('PUT');
+  static const patch = ApiDestinationHttpMethod._('PATCH');
+  static const delete = ApiDestinationHttpMethod._('DELETE');
 
   final String value;
 
-  const ApiDestinationHttpMethod(this.value);
+  const ApiDestinationHttpMethod._(this.value);
+
+  static const values = [post, get, head, options, put, patch, delete];
 
   static ApiDestinationHttpMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApiDestinationHttpMethod'));
+          orElse: () => ApiDestinationHttpMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApiDestinationHttpMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApiDestinationState {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class ApiDestinationState {
+  static const active = ApiDestinationState._('ACTIVE');
+  static const inactive = ApiDestinationState._('INACTIVE');
 
   final String value;
 
-  const ApiDestinationState(this.value);
+  const ApiDestinationState._(this.value);
 
-  static ApiDestinationState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApiDestinationState'));
+  static const values = [active, inactive];
+
+  static ApiDestinationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApiDestinationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApiDestinationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the GraphQL operation to be parsed and executed, if the event
@@ -3356,38 +3376,62 @@ class Archive {
   }
 }
 
-enum ArchiveState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class ArchiveState {
+  static const enabled = ArchiveState._('ENABLED');
+  static const disabled = ArchiveState._('DISABLED');
+  static const creating = ArchiveState._('CREATING');
+  static const updating = ArchiveState._('UPDATING');
+  static const createFailed = ArchiveState._('CREATE_FAILED');
+  static const updateFailed = ArchiveState._('UPDATE_FAILED');
 
   final String value;
 
-  const ArchiveState(this.value);
+  const ArchiveState._(this.value);
 
-  static ArchiveState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArchiveState'));
+  static const values = [
+    enabled,
+    disabled,
+    creating,
+    updating,
+    createFailed,
+    updateFailed
+  ];
+
+  static ArchiveState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArchiveState._(value));
+
+  @override
+  bool operator ==(other) => other is ArchiveState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssignPublicIp {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AssignPublicIp {
+  static const enabled = AssignPublicIp._('ENABLED');
+  static const disabled = AssignPublicIp._('DISABLED');
 
   final String value;
 
-  const AssignPublicIp(this.value);
+  const AssignPublicIp._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AssignPublicIp fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignPublicIp'));
+          orElse: () => AssignPublicIp._(value));
+
+  @override
+  bool operator ==(other) => other is AssignPublicIp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This structure specifies the VPC subnets and security groups for the task,
@@ -3843,20 +3887,31 @@ class ConnectionAuthResponseParameters {
   }
 }
 
-enum ConnectionAuthorizationType {
-  basic('BASIC'),
-  oauthClientCredentials('OAUTH_CLIENT_CREDENTIALS'),
-  apiKey('API_KEY'),
-  ;
+class ConnectionAuthorizationType {
+  static const basic = ConnectionAuthorizationType._('BASIC');
+  static const oauthClientCredentials =
+      ConnectionAuthorizationType._('OAUTH_CLIENT_CREDENTIALS');
+  static const apiKey = ConnectionAuthorizationType._('API_KEY');
 
   final String value;
 
-  const ConnectionAuthorizationType(this.value);
+  const ConnectionAuthorizationType._(this.value);
+
+  static const values = [basic, oauthClientCredentials, apiKey];
 
   static ConnectionAuthorizationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectionAuthorizationType'));
+          orElse: () => ConnectionAuthorizationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionAuthorizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the authorization parameters for the connection if Basic is
@@ -4037,20 +4092,30 @@ class ConnectionOAuthClientResponseParameters {
   }
 }
 
-enum ConnectionOAuthHttpMethod {
-  get('GET'),
-  post('POST'),
-  put('PUT'),
-  ;
+class ConnectionOAuthHttpMethod {
+  static const get = ConnectionOAuthHttpMethod._('GET');
+  static const post = ConnectionOAuthHttpMethod._('POST');
+  static const put = ConnectionOAuthHttpMethod._('PUT');
 
   final String value;
 
-  const ConnectionOAuthHttpMethod(this.value);
+  const ConnectionOAuthHttpMethod._(this.value);
+
+  static const values = [get, post, put];
 
   static ConnectionOAuthHttpMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectionOAuthHttpMethod'));
+          orElse: () => ConnectionOAuthHttpMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionOAuthHttpMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the response parameters when OAuth is specified as the
@@ -4149,24 +4214,41 @@ class ConnectionQueryStringParameter {
   }
 }
 
-enum ConnectionState {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  authorized('AUTHORIZED'),
-  deauthorized('DEAUTHORIZED'),
-  authorizing('AUTHORIZING'),
-  deauthorizing('DEAUTHORIZING'),
-  ;
+class ConnectionState {
+  static const creating = ConnectionState._('CREATING');
+  static const updating = ConnectionState._('UPDATING');
+  static const deleting = ConnectionState._('DELETING');
+  static const authorized = ConnectionState._('AUTHORIZED');
+  static const deauthorized = ConnectionState._('DEAUTHORIZED');
+  static const authorizing = ConnectionState._('AUTHORIZING');
+  static const deauthorizing = ConnectionState._('DEAUTHORIZING');
 
   final String value;
 
-  const ConnectionState(this.value);
+  const ConnectionState._(this.value);
+
+  static const values = [
+    creating,
+    updating,
+    deleting,
+    authorized,
+    deauthorized,
+    authorizing,
+    deauthorizing
+  ];
 
   static ConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionState'));
+          orElse: () => ConnectionState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApiDestinationResponse {
@@ -5901,24 +5983,41 @@ class EndpointEventBus {
   }
 }
 
-enum EndpointState {
-  active('ACTIVE'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class EndpointState {
+  static const active = EndpointState._('ACTIVE');
+  static const creating = EndpointState._('CREATING');
+  static const updating = EndpointState._('UPDATING');
+  static const deleting = EndpointState._('DELETING');
+  static const createFailed = EndpointState._('CREATE_FAILED');
+  static const updateFailed = EndpointState._('UPDATE_FAILED');
+  static const deleteFailed = EndpointState._('DELETE_FAILED');
 
   final String value;
 
-  const EndpointState(this.value);
+  const EndpointState._(this.value);
+
+  static const values = [
+    active,
+    creating,
+    updating,
+    deleting,
+    createFailed,
+    updateFailed,
+    deleteFailed
+  ];
 
   static EndpointState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointState'));
+          orElse: () => EndpointState._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An event bus receives events from a source, uses rules to evaluate them,
@@ -6055,20 +6154,29 @@ class EventSource {
   }
 }
 
-enum EventSourceState {
-  pending('PENDING'),
-  active('ACTIVE'),
-  deleted('DELETED'),
-  ;
+class EventSourceState {
+  static const pending = EventSourceState._('PENDING');
+  static const active = EventSourceState._('ACTIVE');
+  static const deleted = EventSourceState._('DELETED');
 
   final String value;
 
-  const EventSourceState(this.value);
+  const EventSourceState._(this.value);
+
+  static const values = [pending, active, deleted];
 
   static EventSourceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventSourceState'));
+          orElse: () => EventSourceState._(value));
+
+  @override
+  bool operator ==(other) => other is EventSourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The failover configuration for an endpoint. This includes what triggers
@@ -6283,19 +6391,28 @@ class KinesisParameters {
   }
 }
 
-enum LaunchType {
-  ec2('EC2'),
-  fargate('FARGATE'),
-  external('EXTERNAL'),
-  ;
+class LaunchType {
+  static const ec2 = LaunchType._('EC2');
+  static const fargate = LaunchType._('FARGATE');
+  static const external = LaunchType._('EXTERNAL');
 
   final String value;
 
-  const LaunchType(this.value);
+  const LaunchType._(this.value);
 
-  static LaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LaunchType'));
+  static const values = [ec2, fargate, external];
+
+  static LaunchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LaunchType._(value));
+
+  @override
+  bool operator ==(other) => other is LaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListApiDestinationsResponse {
@@ -6881,19 +6998,29 @@ class PlacementConstraint {
   }
 }
 
-enum PlacementConstraintType {
-  distinctInstance('distinctInstance'),
-  memberOf('memberOf'),
-  ;
+class PlacementConstraintType {
+  static const distinctInstance = PlacementConstraintType._('distinctInstance');
+  static const memberOf = PlacementConstraintType._('memberOf');
 
   final String value;
 
-  const PlacementConstraintType(this.value);
+  const PlacementConstraintType._(this.value);
+
+  static const values = [distinctInstance, memberOf];
 
   static PlacementConstraintType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PlacementConstraintType'));
+          orElse: () => PlacementConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The task placement strategy for a task or service. To learn more, see <a
@@ -6941,20 +7068,30 @@ class PlacementStrategy {
   }
 }
 
-enum PlacementStrategyType {
-  random('random'),
-  spread('spread'),
-  binpack('binpack'),
-  ;
+class PlacementStrategyType {
+  static const random = PlacementStrategyType._('random');
+  static const spread = PlacementStrategyType._('spread');
+  static const binpack = PlacementStrategyType._('binpack');
 
   final String value;
 
-  const PlacementStrategyType(this.value);
+  const PlacementStrategyType._(this.value);
 
-  static PlacementStrategyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlacementStrategyType'));
+  static const values = [random, spread, binpack];
+
+  static PlacementStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlacementStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlacementStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The primary Region of the endpoint.
@@ -6981,18 +7118,27 @@ class Primary {
   }
 }
 
-enum PropagateTags {
-  taskDefinition('TASK_DEFINITION'),
-  ;
+class PropagateTags {
+  static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
   final String value;
 
-  const PropagateTags(this.value);
+  const PropagateTags._(this.value);
+
+  static const values = [taskDefinition];
 
   static PropagateTags fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PropagateTags'));
+          orElse: () => PropagateTags._(value));
+
+  @override
+  bool operator ==(other) => other is PropagateTags && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an event to be submitted.
@@ -7752,22 +7898,38 @@ class ReplayDestination {
   }
 }
 
-enum ReplayState {
-  starting('STARTING'),
-  running('RUNNING'),
-  cancelling('CANCELLING'),
-  completed('COMPLETED'),
-  cancelled('CANCELLED'),
-  failed('FAILED'),
-  ;
+class ReplayState {
+  static const starting = ReplayState._('STARTING');
+  static const running = ReplayState._('RUNNING');
+  static const cancelling = ReplayState._('CANCELLING');
+  static const completed = ReplayState._('COMPLETED');
+  static const cancelled = ReplayState._('CANCELLED');
+  static const failed = ReplayState._('FAILED');
 
   final String value;
 
-  const ReplayState(this.value);
+  const ReplayState._(this.value);
 
-  static ReplayState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReplayState'));
+  static const values = [
+    starting,
+    running,
+    cancelling,
+    completed,
+    cancelled,
+    failed
+  ];
+
+  static ReplayState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReplayState._(value));
+
+  @override
+  bool operator ==(other) => other is ReplayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Endpoints can replicate all events to the secondary Region.
@@ -7793,19 +7955,28 @@ class ReplicationConfig {
   }
 }
 
-enum ReplicationState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ReplicationState {
+  static const enabled = ReplicationState._('ENABLED');
+  static const disabled = ReplicationState._('DISABLED');
 
   final String value;
 
-  const ReplicationState(this.value);
+  const ReplicationState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ReplicationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReplicationState'));
+          orElse: () => ReplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A <code>RetryPolicy</code> object that includes information about the retry
@@ -7999,20 +8170,33 @@ class Rule {
   }
 }
 
-enum RuleState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  enabledWithAllCloudtrailManagementEvents(
-      'ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS'),
-  ;
+class RuleState {
+  static const enabled = RuleState._('ENABLED');
+  static const disabled = RuleState._('DISABLED');
+  static const enabledWithAllCloudtrailManagementEvents =
+      RuleState._('ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS');
 
   final String value;
 
-  const RuleState(this.value);
+  const RuleState._(this.value);
 
-  static RuleState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleState'));
+  static const values = [
+    enabled,
+    disabled,
+    enabledWithAllCloudtrailManagementEvents
+  ];
+
+  static RuleState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleState._(value));
+
+  @override
+  bool operator ==(other) => other is RuleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This parameter contains the criteria (either InstanceIds or a tag) used to

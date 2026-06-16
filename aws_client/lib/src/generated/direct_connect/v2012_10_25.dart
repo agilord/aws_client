@@ -3049,19 +3049,28 @@ class AcceptDirectConnectGatewayAssociationProposalResult {
   }
 }
 
-enum AddressFamily {
-  ipv4('ipv4'),
-  ipv6('ipv6'),
-  ;
+class AddressFamily {
+  static const ipv4 = AddressFamily._('ipv4');
+  static const ipv6 = AddressFamily._('ipv6');
 
   final String value;
 
-  const AddressFamily(this.value);
+  const AddressFamily._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static AddressFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AddressFamily'));
+          orElse: () => AddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AllocateTransitVirtualInterfaceResult {
@@ -3296,37 +3305,54 @@ class BGPPeer {
   }
 }
 
-enum BGPPeerState {
-  verifying('verifying'),
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class BGPPeerState {
+  static const verifying = BGPPeerState._('verifying');
+  static const pending = BGPPeerState._('pending');
+  static const available = BGPPeerState._('available');
+  static const deleting = BGPPeerState._('deleting');
+  static const deleted = BGPPeerState._('deleted');
 
   final String value;
 
-  const BGPPeerState(this.value);
+  const BGPPeerState._(this.value);
 
-  static BGPPeerState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BGPPeerState'));
+  static const values = [verifying, pending, available, deleting, deleted];
+
+  static BGPPeerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BGPPeerState._(value));
+
+  @override
+  bool operator ==(other) => other is BGPPeerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BGPStatus {
-  up('up'),
-  down('down'),
-  unknown('unknown'),
-  ;
+class BGPStatus {
+  static const up = BGPStatus._('up');
+  static const down = BGPStatus._('down');
+  static const unknown = BGPStatus._('unknown');
 
   final String value;
 
-  const BGPStatus(this.value);
+  const BGPStatus._(this.value);
 
-  static BGPStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BGPStatus'));
+  static const values = [up, down, unknown];
+
+  static BGPStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BGPStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BGPStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConfirmConnectionResponse {
@@ -3843,26 +3869,45 @@ class Connection {
   }
 }
 
-enum ConnectionState {
-  ordering('ordering'),
-  requested('requested'),
-  pending('pending'),
-  available('available'),
-  down('down'),
-  deleting('deleting'),
-  deleted('deleted'),
-  rejected('rejected'),
-  unknown('unknown'),
-  ;
+class ConnectionState {
+  static const ordering = ConnectionState._('ordering');
+  static const requested = ConnectionState._('requested');
+  static const pending = ConnectionState._('pending');
+  static const available = ConnectionState._('available');
+  static const down = ConnectionState._('down');
+  static const deleting = ConnectionState._('deleting');
+  static const deleted = ConnectionState._('deleted');
+  static const rejected = ConnectionState._('rejected');
+  static const unknown = ConnectionState._('unknown');
 
   final String value;
 
-  const ConnectionState(this.value);
+  const ConnectionState._(this.value);
+
+  static const values = [
+    ordering,
+    requested,
+    pending,
+    available,
+    down,
+    deleting,
+    deleted,
+    rejected,
+    unknown
+  ];
 
   static ConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionState'));
+          orElse: () => ConnectionState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Connections {
@@ -4930,39 +4975,73 @@ class DirectConnectGatewayAssociationProposal {
   }
 }
 
-enum DirectConnectGatewayAssociationProposalState {
-  requested('requested'),
-  accepted('accepted'),
-  deleted('deleted'),
-  ;
+class DirectConnectGatewayAssociationProposalState {
+  static const requested =
+      DirectConnectGatewayAssociationProposalState._('requested');
+  static const accepted =
+      DirectConnectGatewayAssociationProposalState._('accepted');
+  static const deleted =
+      DirectConnectGatewayAssociationProposalState._('deleted');
 
   final String value;
 
-  const DirectConnectGatewayAssociationProposalState(this.value);
+  const DirectConnectGatewayAssociationProposalState._(this.value);
+
+  static const values = [requested, accepted, deleted];
 
   static DirectConnectGatewayAssociationProposalState fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectConnectGatewayAssociationProposalState'));
+          orElse: () => DirectConnectGatewayAssociationProposalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayAssociationProposalState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectConnectGatewayAssociationState {
-  associating('associating'),
-  associated('associated'),
-  disassociating('disassociating'),
-  disassociated('disassociated'),
-  updating('updating'),
-  ;
+class DirectConnectGatewayAssociationState {
+  static const associating =
+      DirectConnectGatewayAssociationState._('associating');
+  static const associated =
+      DirectConnectGatewayAssociationState._('associated');
+  static const disassociating =
+      DirectConnectGatewayAssociationState._('disassociating');
+  static const disassociated =
+      DirectConnectGatewayAssociationState._('disassociated');
+  static const updating = DirectConnectGatewayAssociationState._('updating');
 
   final String value;
 
-  const DirectConnectGatewayAssociationState(this.value);
+  const DirectConnectGatewayAssociationState._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    disassociating,
+    disassociated,
+    updating
+  ];
 
   static DirectConnectGatewayAssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectConnectGatewayAssociationState'));
+          orElse: () => DirectConnectGatewayAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an attachment between a Direct Connect gateway and a
@@ -5057,53 +5136,85 @@ class DirectConnectGatewayAttachment {
   }
 }
 
-enum DirectConnectGatewayAttachmentState {
-  attaching('attaching'),
-  attached('attached'),
-  detaching('detaching'),
-  detached('detached'),
-  ;
+class DirectConnectGatewayAttachmentState {
+  static const attaching = DirectConnectGatewayAttachmentState._('attaching');
+  static const attached = DirectConnectGatewayAttachmentState._('attached');
+  static const detaching = DirectConnectGatewayAttachmentState._('detaching');
+  static const detached = DirectConnectGatewayAttachmentState._('detached');
 
   final String value;
 
-  const DirectConnectGatewayAttachmentState(this.value);
+  const DirectConnectGatewayAttachmentState._(this.value);
+
+  static const values = [attaching, attached, detaching, detached];
 
   static DirectConnectGatewayAttachmentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectConnectGatewayAttachmentState'));
+          orElse: () => DirectConnectGatewayAttachmentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayAttachmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectConnectGatewayAttachmentType {
-  transitVirtualInterface('TransitVirtualInterface'),
-  privateVirtualInterface('PrivateVirtualInterface'),
-  ;
+class DirectConnectGatewayAttachmentType {
+  static const transitVirtualInterface =
+      DirectConnectGatewayAttachmentType._('TransitVirtualInterface');
+  static const privateVirtualInterface =
+      DirectConnectGatewayAttachmentType._('PrivateVirtualInterface');
 
   final String value;
 
-  const DirectConnectGatewayAttachmentType(this.value);
+  const DirectConnectGatewayAttachmentType._(this.value);
+
+  static const values = [transitVirtualInterface, privateVirtualInterface];
 
   static DirectConnectGatewayAttachmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectConnectGatewayAttachmentType'));
+          orElse: () => DirectConnectGatewayAttachmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayAttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DirectConnectGatewayState {
-  pending('pending'),
-  available('available'),
-  deleting('deleting'),
-  deleted('deleted'),
-  ;
+class DirectConnectGatewayState {
+  static const pending = DirectConnectGatewayState._('pending');
+  static const available = DirectConnectGatewayState._('available');
+  static const deleting = DirectConnectGatewayState._('deleting');
+  static const deleted = DirectConnectGatewayState._('deleted');
 
   final String value;
 
-  const DirectConnectGatewayState(this.value);
+  const DirectConnectGatewayState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
 
   static DirectConnectGatewayState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DirectConnectGatewayState'));
+          orElse: () => DirectConnectGatewayState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateMacSecKeyResponse {
@@ -5140,34 +5251,53 @@ class DisassociateMacSecKeyResponse {
   }
 }
 
-enum GatewayType {
-  virtualPrivateGateway('virtualPrivateGateway'),
-  transitGateway('transitGateway'),
-  ;
+class GatewayType {
+  static const virtualPrivateGateway = GatewayType._('virtualPrivateGateway');
+  static const transitGateway = GatewayType._('transitGateway');
 
   final String value;
 
-  const GatewayType(this.value);
+  const GatewayType._(this.value);
 
-  static GatewayType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GatewayType'));
+  static const values = [virtualPrivateGateway, transitGateway];
+
+  static GatewayType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HasLogicalRedundancy {
-  unknown('unknown'),
-  yes('yes'),
-  no('no'),
-  ;
+class HasLogicalRedundancy {
+  static const unknown = HasLogicalRedundancy._('unknown');
+  static const yes = HasLogicalRedundancy._('yes');
+  static const no = HasLogicalRedundancy._('no');
 
   final String value;
 
-  const HasLogicalRedundancy(this.value);
+  const HasLogicalRedundancy._(this.value);
 
-  static HasLogicalRedundancy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HasLogicalRedundancy'));
+  static const values = [unknown, yes, no];
+
+  static HasLogicalRedundancy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HasLogicalRedundancy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HasLogicalRedundancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an interconnect.
@@ -5330,24 +5460,41 @@ class Interconnect {
   }
 }
 
-enum InterconnectState {
-  requested('requested'),
-  pending('pending'),
-  available('available'),
-  down('down'),
-  deleting('deleting'),
-  deleted('deleted'),
-  unknown('unknown'),
-  ;
+class InterconnectState {
+  static const requested = InterconnectState._('requested');
+  static const pending = InterconnectState._('pending');
+  static const available = InterconnectState._('available');
+  static const down = InterconnectState._('down');
+  static const deleting = InterconnectState._('deleting');
+  static const deleted = InterconnectState._('deleted');
+  static const unknown = InterconnectState._('unknown');
 
   final String value;
 
-  const InterconnectState(this.value);
+  const InterconnectState._(this.value);
+
+  static const values = [
+    requested,
+    pending,
+    available,
+    down,
+    deleting,
+    deleted,
+    unknown
+  ];
 
   static InterconnectState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InterconnectState'));
+          orElse: () => InterconnectState._(value));
+
+  @override
+  bool operator ==(other) => other is InterconnectState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Interconnects {
@@ -5589,23 +5736,40 @@ class Lag {
   }
 }
 
-enum LagState {
-  requested('requested'),
-  pending('pending'),
-  available('available'),
-  down('down'),
-  deleting('deleting'),
-  deleted('deleted'),
-  unknown('unknown'),
-  ;
+class LagState {
+  static const requested = LagState._('requested');
+  static const pending = LagState._('pending');
+  static const available = LagState._('available');
+  static const down = LagState._('down');
+  static const deleting = LagState._('deleting');
+  static const deleted = LagState._('deleted');
+  static const unknown = LagState._('unknown');
 
   final String value;
 
-  const LagState(this.value);
+  const LagState._(this.value);
 
-  static LagState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LagState'));
+  static const values = [
+    requested,
+    pending,
+    available,
+    down,
+    deleting,
+    deleted,
+    unknown
+  ];
+
+  static LagState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LagState._(value));
+
+  @override
+  bool operator ==(other) => other is LagState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Lags {
@@ -5703,18 +5867,27 @@ class Loa {
   }
 }
 
-enum LoaContentType {
-  applicationPdf('application/pdf'),
-  ;
+class LoaContentType {
+  static const applicationPdf = LoaContentType._('application/pdf');
 
   final String value;
 
-  const LoaContentType(this.value);
+  const LoaContentType._(this.value);
+
+  static const values = [applicationPdf];
 
   static LoaContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoaContentType'));
+          orElse: () => LoaContentType._(value));
+
+  @override
+  bool operator ==(other) => other is LoaContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Direct Connect location.
@@ -6392,20 +6565,29 @@ class NewTransitVirtualInterfaceAllocation {
   }
 }
 
-enum NniPartnerType {
-  v1('v1'),
-  v2('v2'),
-  nonPartner('nonPartner'),
-  ;
+class NniPartnerType {
+  static const v1 = NniPartnerType._('v1');
+  static const v2 = NniPartnerType._('v2');
+  static const nonPartner = NniPartnerType._('nonPartner');
 
   final String value;
 
-  const NniPartnerType(this.value);
+  const NniPartnerType._(this.value);
+
+  static const values = [v1, v2, nonPartner];
 
   static NniPartnerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NniPartnerType'));
+          orElse: () => NniPartnerType._(value));
+
+  @override
+  bool operator ==(other) => other is NniPartnerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a tag associated with an Direct Connect resource.
@@ -7036,26 +7218,46 @@ class VirtualInterface {
   }
 }
 
-enum VirtualInterfaceState {
-  confirming('confirming'),
-  verifying('verifying'),
-  pending('pending'),
-  available('available'),
-  down('down'),
-  deleting('deleting'),
-  deleted('deleted'),
-  rejected('rejected'),
-  unknown('unknown'),
-  ;
+class VirtualInterfaceState {
+  static const confirming = VirtualInterfaceState._('confirming');
+  static const verifying = VirtualInterfaceState._('verifying');
+  static const pending = VirtualInterfaceState._('pending');
+  static const available = VirtualInterfaceState._('available');
+  static const down = VirtualInterfaceState._('down');
+  static const deleting = VirtualInterfaceState._('deleting');
+  static const deleted = VirtualInterfaceState._('deleted');
+  static const rejected = VirtualInterfaceState._('rejected');
+  static const unknown = VirtualInterfaceState._('unknown');
 
   final String value;
 
-  const VirtualInterfaceState(this.value);
+  const VirtualInterfaceState._(this.value);
 
-  static VirtualInterfaceState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualInterfaceState'));
+  static const values = [
+    confirming,
+    verifying,
+    pending,
+    available,
+    down,
+    deleting,
+    deleted,
+    rejected,
+    unknown
+  ];
+
+  static VirtualInterfaceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualInterfaceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualInterfaceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the virtual interface failover test.

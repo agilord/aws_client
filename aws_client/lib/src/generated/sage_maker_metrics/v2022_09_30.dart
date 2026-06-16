@@ -158,21 +158,37 @@ class BatchPutMetricsResponse {
   }
 }
 
-enum PutMetricsErrorCode {
-  metricLimitExceeded('METRIC_LIMIT_EXCEEDED'),
-  internalError('INTERNAL_ERROR'),
-  validationError('VALIDATION_ERROR'),
-  conflictError('CONFLICT_ERROR'),
-  ;
+class PutMetricsErrorCode {
+  static const metricLimitExceeded =
+      PutMetricsErrorCode._('METRIC_LIMIT_EXCEEDED');
+  static const internalError = PutMetricsErrorCode._('INTERNAL_ERROR');
+  static const validationError = PutMetricsErrorCode._('VALIDATION_ERROR');
+  static const conflictError = PutMetricsErrorCode._('CONFLICT_ERROR');
 
   final String value;
 
-  const PutMetricsErrorCode(this.value);
+  const PutMetricsErrorCode._(this.value);
 
-  static PutMetricsErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PutMetricsErrorCode'));
+  static const values = [
+    metricLimitExceeded,
+    internalError,
+    validationError,
+    conflictError
+  ];
+
+  static PutMetricsErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PutMetricsErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PutMetricsErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The raw metric data to associate with the resource.

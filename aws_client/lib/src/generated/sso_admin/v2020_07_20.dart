@@ -4173,7 +4173,7 @@ class ApplicationAssignment {
       applicationArn: (json['ApplicationArn'] as String?) ?? '',
       principalId: (json['PrincipalId'] as String?) ?? '',
       principalType:
-          PrincipalType.fromString((json['PrincipalType'] as String)),
+          PrincipalType.fromString((json['PrincipalType'] as String?) ?? ''),
     );
   }
 
@@ -4283,34 +4283,53 @@ class ApplicationProvider {
   }
 }
 
-enum ApplicationStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ApplicationStatus {
+  static const enabled = ApplicationStatus._('ENABLED');
+  static const disabled = ApplicationStatus._('DISABLED');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationVisibility {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ApplicationVisibility {
+  static const enabled = ApplicationVisibility._('ENABLED');
+  static const disabled = ApplicationVisibility._('DISABLED');
 
   final String value;
 
-  const ApplicationVisibility(this.value);
+  const ApplicationVisibility._(this.value);
 
-  static ApplicationVisibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApplicationVisibility'));
+  static const values = [enabled, disabled];
+
+  static ApplicationVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationVisibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AttachCustomerManagedPolicyReferenceToPermissionSetResponse {
@@ -4438,18 +4457,28 @@ class AuthenticationMethodItem {
   }
 }
 
-enum AuthenticationMethodType {
-  iam('IAM'),
-  ;
+class AuthenticationMethodType {
+  static const iam = AuthenticationMethodType._('IAM');
 
   final String value;
 
-  const AuthenticationMethodType(this.value);
+  const AuthenticationMethodType._(this.value);
+
+  static const values = [iam];
 
   static AuthenticationMethodType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AuthenticationMethodType'));
+          orElse: () => AuthenticationMethodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationMethodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines configuration settings for an application that
@@ -5364,19 +5393,29 @@ class DisplayData {
   }
 }
 
-enum FederationProtocol {
-  saml('SAML'),
-  oauth('OAUTH'),
-  ;
+class FederationProtocol {
+  static const saml = FederationProtocol._('SAML');
+  static const oauth = FederationProtocol._('OAUTH');
 
   final String value;
 
-  const FederationProtocol(this.value);
+  const FederationProtocol._(this.value);
 
-  static FederationProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FederationProtocol'));
+  static const values = [saml, oauth];
+
+  static FederationProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FederationProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FederationProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetApplicationAccessScopeResponse {
@@ -5619,7 +5658,7 @@ class GrantItem {
     return GrantItem(
       grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      grantType: GrantType.fromString((json['GrantType'] as String)),
+      grantType: GrantType.fromString((json['GrantType'] as String?) ?? ''),
     );
   }
 
@@ -5633,22 +5672,36 @@ class GrantItem {
   }
 }
 
-enum GrantType {
-  authorizationCode('authorization_code'),
-  refreshToken('refresh_token'),
-  urnIetfParamsOauthGrantTypeJwtBearer(
-      'urn:ietf:params:oauth:grant-type:jwt-bearer'),
-  urnIetfParamsOauthGrantTypeTokenExchange(
-      'urn:ietf:params:oauth:grant-type:token-exchange'),
-  ;
+class GrantType {
+  static const authorizationCode = GrantType._('authorization_code');
+  static const refreshToken = GrantType._('refresh_token');
+  static const urnIetfParamsOauthGrantTypeJwtBearer =
+      GrantType._('urn:ietf:params:oauth:grant-type:jwt-bearer');
+  static const urnIetfParamsOauthGrantTypeTokenExchange =
+      GrantType._('urn:ietf:params:oauth:grant-type:token-exchange');
 
   final String value;
 
-  const GrantType(this.value);
+  const GrantType._(this.value);
 
-  static GrantType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GrantType'));
+  static const values = [
+    authorizationCode,
+    refreshToken,
+    urnIetfParamsOauthGrantTypeJwtBearer,
+    urnIetfParamsOauthGrantTypeTokenExchange
+  ];
+
+  static GrantType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GrantType._(value));
+
+  @override
+  bool operator ==(other) => other is GrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes details for authentication that uses IAM.
@@ -5707,21 +5760,37 @@ class InstanceAccessControlAttributeConfiguration {
   }
 }
 
-enum InstanceAccessControlAttributeConfigurationStatus {
-  enabled('ENABLED'),
-  creationInProgress('CREATION_IN_PROGRESS'),
-  creationFailed('CREATION_FAILED'),
-  ;
+class InstanceAccessControlAttributeConfigurationStatus {
+  static const enabled =
+      InstanceAccessControlAttributeConfigurationStatus._('ENABLED');
+  static const creationInProgress =
+      InstanceAccessControlAttributeConfigurationStatus._(
+          'CREATION_IN_PROGRESS');
+  static const creationFailed =
+      InstanceAccessControlAttributeConfigurationStatus._('CREATION_FAILED');
 
   final String value;
 
-  const InstanceAccessControlAttributeConfigurationStatus(this.value);
+  const InstanceAccessControlAttributeConfigurationStatus._(this.value);
+
+  static const values = [enabled, creationInProgress, creationFailed];
 
   static InstanceAccessControlAttributeConfigurationStatus fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceAccessControlAttributeConfigurationStatus'));
+          orElse: () =>
+              InstanceAccessControlAttributeConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceAccessControlAttributeConfigurationStatus &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about the IAM Identity Center instance.
@@ -5788,34 +5857,53 @@ class InstanceMetadata {
   }
 }
 
-enum InstanceStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  active('ACTIVE'),
-  ;
+class InstanceStatus {
+  static const createInProgress = InstanceStatus._('CREATE_IN_PROGRESS');
+  static const deleteInProgress = InstanceStatus._('DELETE_IN_PROGRESS');
+  static const active = InstanceStatus._('ACTIVE');
 
   final String value;
 
-  const InstanceStatus(this.value);
+  const InstanceStatus._(this.value);
+
+  static const values = [createInProgress, deleteInProgress, active];
 
   static InstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStatus'));
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JwksRetrievalOption {
-  openIdDiscovery('OPEN_ID_DISCOVERY'),
-  ;
+class JwksRetrievalOption {
+  static const openIdDiscovery = JwksRetrievalOption._('OPEN_ID_DISCOVERY');
 
   final String value;
 
-  const JwksRetrievalOption(this.value);
+  const JwksRetrievalOption._(this.value);
 
-  static JwksRetrievalOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum JwksRetrievalOption'));
+  static const values = [openIdDiscovery];
+
+  static JwksRetrievalOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JwksRetrievalOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JwksRetrievalOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines configuration settings for an application that
@@ -6686,7 +6774,7 @@ class OidcJwtConfiguration {
           (json['IdentityStoreAttributePath'] as String?) ?? '',
       issuerUrl: (json['IssuerUrl'] as String?) ?? '',
       jwksRetrievalOption: JwksRetrievalOption.fromString(
-          (json['JwksRetrievalOption'] as String)),
+          (json['JwksRetrievalOption'] as String?) ?? ''),
     );
   }
 
@@ -7016,19 +7104,28 @@ class PortalOptions {
   }
 }
 
-enum PrincipalType {
-  user('USER'),
-  group('GROUP'),
-  ;
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [user, group];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvisionPermissionSetResponse {
@@ -7060,34 +7157,60 @@ class ProvisionPermissionSetResponse {
   }
 }
 
-enum ProvisionTargetType {
-  awsAccount('AWS_ACCOUNT'),
-  allProvisionedAccounts('ALL_PROVISIONED_ACCOUNTS'),
-  ;
+class ProvisionTargetType {
+  static const awsAccount = ProvisionTargetType._('AWS_ACCOUNT');
+  static const allProvisionedAccounts =
+      ProvisionTargetType._('ALL_PROVISIONED_ACCOUNTS');
 
   final String value;
 
-  const ProvisionTargetType(this.value);
+  const ProvisionTargetType._(this.value);
 
-  static ProvisionTargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProvisionTargetType'));
+  static const values = [awsAccount, allProvisionedAccounts];
+
+  static ProvisionTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ProvisioningStatus {
-  latestPermissionSetProvisioned('LATEST_PERMISSION_SET_PROVISIONED'),
-  latestPermissionSetNotProvisioned('LATEST_PERMISSION_SET_NOT_PROVISIONED'),
-  ;
+class ProvisioningStatus {
+  static const latestPermissionSetProvisioned =
+      ProvisioningStatus._('LATEST_PERMISSION_SET_PROVISIONED');
+  static const latestPermissionSetNotProvisioned =
+      ProvisioningStatus._('LATEST_PERMISSION_SET_NOT_PROVISIONED');
 
   final String value;
 
-  const ProvisioningStatus(this.value);
+  const ProvisioningStatus._(this.value);
 
-  static ProvisioningStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ProvisioningStatus'));
+  static const values = [
+    latestPermissionSetProvisioned,
+    latestPermissionSetNotProvisioned
+  ];
+
+  static ProvisioningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutApplicationAssignmentConfigurationResponse {
@@ -7263,7 +7386,7 @@ class SignInOptions {
 
   factory SignInOptions.fromJson(Map<String, dynamic> json) {
     return SignInOptions(
-      origin: SignInOrigin.fromString((json['Origin'] as String)),
+      origin: SignInOrigin.fromString((json['Origin'] as String?) ?? ''),
       applicationUrl: json['ApplicationUrl'] as String?,
     );
   }
@@ -7278,35 +7401,51 @@ class SignInOptions {
   }
 }
 
-enum SignInOrigin {
-  identityCenter('IDENTITY_CENTER'),
-  application('APPLICATION'),
-  ;
+class SignInOrigin {
+  static const identityCenter = SignInOrigin._('IDENTITY_CENTER');
+  static const application = SignInOrigin._('APPLICATION');
 
   final String value;
 
-  const SignInOrigin(this.value);
+  const SignInOrigin._(this.value);
 
-  static SignInOrigin fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SignInOrigin'));
+  static const values = [identityCenter, application];
+
+  static SignInOrigin fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SignInOrigin._(value));
+
+  @override
+  bool operator ==(other) => other is SignInOrigin && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusValues {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class StatusValues {
+  static const inProgress = StatusValues._('IN_PROGRESS');
+  static const failed = StatusValues._('FAILED');
+  static const succeeded = StatusValues._('SUCCEEDED');
 
   final String value;
 
-  const StatusValues(this.value);
+  const StatusValues._(this.value);
 
-  static StatusValues fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StatusValues'));
+  static const values = [inProgress, failed, succeeded];
+
+  static StatusValues fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusValues._(value));
+
+  @override
+  bool operator ==(other) => other is StatusValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of key-value pairs that are used to manage the resource. Tags can only
@@ -7353,17 +7492,26 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  awsAccount('AWS_ACCOUNT'),
-  ;
+class TargetType {
+  static const awsAccount = TargetType._('AWS_ACCOUNT');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [awsAccount];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines configuration settings for an application that
@@ -7452,18 +7600,28 @@ class TrustedTokenIssuerMetadata {
   }
 }
 
-enum TrustedTokenIssuerType {
-  oidcJwt('OIDC_JWT'),
-  ;
+class TrustedTokenIssuerType {
+  static const oidcJwt = TrustedTokenIssuerType._('OIDC_JWT');
 
   final String value;
 
-  const TrustedTokenIssuerType(this.value);
+  const TrustedTokenIssuerType._(this.value);
+
+  static const values = [oidcJwt];
 
   static TrustedTokenIssuerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrustedTokenIssuerType'));
+          orElse: () => TrustedTokenIssuerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrustedTokenIssuerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains details to be updated for a trusted token issuer

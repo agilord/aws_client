@@ -3745,34 +3745,51 @@ class CodeArtifact {
   }
 }
 
-enum AllowPublish {
-  allow('ALLOW'),
-  block('BLOCK'),
-  ;
+class AllowPublish {
+  static const allow = AllowPublish._('ALLOW');
+  static const block = AllowPublish._('BLOCK');
 
   final String value;
 
-  const AllowPublish(this.value);
+  const AllowPublish._(this.value);
 
-  static AllowPublish fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllowPublish'));
+  static const values = [allow, block];
+
+  static AllowPublish fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AllowPublish._(value));
+
+  @override
+  bool operator ==(other) => other is AllowPublish && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AllowUpstream {
-  allow('ALLOW'),
-  block('BLOCK'),
-  ;
+class AllowUpstream {
+  static const allow = AllowUpstream._('ALLOW');
+  static const block = AllowUpstream._('BLOCK');
 
   final String value;
 
-  const AllowUpstream(this.value);
+  const AllowUpstream._(this.value);
+
+  static const values = [allow, block];
 
   static AllowUpstream fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllowUpstream'));
+          orElse: () => AllowUpstream._(value));
+
+  @override
+  bool operator ==(other) => other is AllowUpstream && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a package version asset.
@@ -4583,19 +4600,27 @@ class DomainEntryPoint {
   }
 }
 
-enum DomainStatus {
-  active('Active'),
-  deleted('Deleted'),
-  ;
+class DomainStatus {
+  static const active = DomainStatus._('Active');
+  static const deleted = DomainStatus._('Deleted');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [active, deleted];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a domain, including its name, Amazon Resource Name (ARN),
@@ -4660,18 +4685,28 @@ class DomainSummary {
   }
 }
 
-enum ExternalConnectionStatus {
-  available('Available'),
-  ;
+class ExternalConnectionStatus {
+  static const available = ExternalConnectionStatus._('Available');
 
   final String value;
 
-  const ExternalConnectionStatus(this.value);
+  const ExternalConnectionStatus._(this.value);
+
+  static const values = [available];
 
   static ExternalConnectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExternalConnectionStatus'));
+          orElse: () => ExternalConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExternalConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAssociatedPackageGroupResult {
@@ -4918,21 +4953,30 @@ class GetRepositoryPermissionsPolicyResult {
   }
 }
 
-enum HashAlgorithm {
-  md5('MD5'),
-  sha_1('SHA-1'),
-  sha_256('SHA-256'),
-  sha_512('SHA-512'),
-  ;
+class HashAlgorithm {
+  static const md5 = HashAlgorithm._('MD5');
+  static const sha_1 = HashAlgorithm._('SHA-1');
+  static const sha_256 = HashAlgorithm._('SHA-256');
+  static const sha_512 = HashAlgorithm._('SHA-512');
 
   final String value;
 
-  const HashAlgorithm(this.value);
+  const HashAlgorithm._(this.value);
+
+  static const values = [md5, sha_1, sha_256, sha_512];
 
   static HashAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HashAlgorithm'));
+          orElse: () => HashAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is HashAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the license data.
@@ -5699,25 +5743,34 @@ class PackageDescription {
   }
 }
 
-enum PackageFormat {
-  npm('npm'),
-  pypi('pypi'),
-  maven('maven'),
-  nuget('nuget'),
-  generic('generic'),
-  ruby('ruby'),
-  swift('swift'),
-  cargo('cargo'),
-  ;
+class PackageFormat {
+  static const npm = PackageFormat._('npm');
+  static const pypi = PackageFormat._('pypi');
+  static const maven = PackageFormat._('maven');
+  static const nuget = PackageFormat._('nuget');
+  static const generic = PackageFormat._('generic');
+  static const ruby = PackageFormat._('ruby');
+  static const swift = PackageFormat._('swift');
+  static const cargo = PackageFormat._('cargo');
 
   final String value;
 
-  const PackageFormat(this.value);
+  const PackageFormat._(this.value);
+
+  static const values = [npm, pypi, maven, nuget, generic, ruby, swift, cargo];
 
   static PackageFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PackageFormat'));
+          orElse: () => PackageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is PackageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about an allowed repository for a package group, including its name
@@ -5745,34 +5798,54 @@ class PackageGroupAllowedRepository {
   }
 }
 
-enum PackageGroupAllowedRepositoryUpdateType {
-  added('ADDED'),
-  removed('REMOVED'),
-  ;
+class PackageGroupAllowedRepositoryUpdateType {
+  static const added = PackageGroupAllowedRepositoryUpdateType._('ADDED');
+  static const removed = PackageGroupAllowedRepositoryUpdateType._('REMOVED');
 
   final String value;
 
-  const PackageGroupAllowedRepositoryUpdateType(this.value);
+  const PackageGroupAllowedRepositoryUpdateType._(this.value);
+
+  static const values = [added, removed];
 
   static PackageGroupAllowedRepositoryUpdateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageGroupAllowedRepositoryUpdateType'));
+          orElse: () => PackageGroupAllowedRepositoryUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageGroupAllowedRepositoryUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageGroupAssociationType {
-  strong('STRONG'),
-  weak('WEAK'),
-  ;
+class PackageGroupAssociationType {
+  static const strong = PackageGroupAssociationType._('STRONG');
+  static const weak = PackageGroupAssociationType._('WEAK');
 
   final String value;
 
-  const PackageGroupAssociationType(this.value);
+  const PackageGroupAssociationType._(this.value);
+
+  static const values = [strong, weak];
 
   static PackageGroupAssociationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageGroupAssociationType'));
+          orElse: () => PackageGroupAssociationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageGroupAssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The description of the package group.
@@ -5958,37 +6031,60 @@ class PackageGroupOriginRestriction {
   }
 }
 
-enum PackageGroupOriginRestrictionMode {
-  allow('ALLOW'),
-  allowSpecificRepositories('ALLOW_SPECIFIC_REPOSITORIES'),
-  block('BLOCK'),
-  inherit('INHERIT'),
-  ;
+class PackageGroupOriginRestrictionMode {
+  static const allow = PackageGroupOriginRestrictionMode._('ALLOW');
+  static const allowSpecificRepositories =
+      PackageGroupOriginRestrictionMode._('ALLOW_SPECIFIC_REPOSITORIES');
+  static const block = PackageGroupOriginRestrictionMode._('BLOCK');
+  static const inherit = PackageGroupOriginRestrictionMode._('INHERIT');
 
   final String value;
 
-  const PackageGroupOriginRestrictionMode(this.value);
+  const PackageGroupOriginRestrictionMode._(this.value);
+
+  static const values = [allow, allowSpecificRepositories, block, inherit];
 
   static PackageGroupOriginRestrictionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageGroupOriginRestrictionMode'));
+          orElse: () => PackageGroupOriginRestrictionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageGroupOriginRestrictionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageGroupOriginRestrictionType {
-  externalUpstream('EXTERNAL_UPSTREAM'),
-  internalUpstream('INTERNAL_UPSTREAM'),
-  publish('PUBLISH'),
-  ;
+class PackageGroupOriginRestrictionType {
+  static const externalUpstream =
+      PackageGroupOriginRestrictionType._('EXTERNAL_UPSTREAM');
+  static const internalUpstream =
+      PackageGroupOriginRestrictionType._('INTERNAL_UPSTREAM');
+  static const publish = PackageGroupOriginRestrictionType._('PUBLISH');
 
   final String value;
 
-  const PackageGroupOriginRestrictionType(this.value);
+  const PackageGroupOriginRestrictionType._(this.value);
+
+  static const values = [externalUpstream, internalUpstream, publish];
 
   static PackageGroupOriginRestrictionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageGroupOriginRestrictionType'));
+          orElse: () => PackageGroupOriginRestrictionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageGroupOriginRestrictionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the identifiers of a package group.
@@ -6158,8 +6254,8 @@ class PackageOriginRestrictions {
 
   factory PackageOriginRestrictions.fromJson(Map<String, dynamic> json) {
     return PackageOriginRestrictions(
-      publish: AllowPublish.fromString((json['publish'] as String)),
-      upstream: AllowUpstream.fromString((json['upstream'] as String)),
+      publish: AllowPublish.fromString((json['publish'] as String?) ?? ''),
+      upstream: AllowUpstream.fromString((json['upstream'] as String?) ?? ''),
     );
   }
 
@@ -6440,23 +6536,42 @@ class PackageVersionError {
   }
 }
 
-enum PackageVersionErrorCode {
-  alreadyExists('ALREADY_EXISTS'),
-  mismatchedRevision('MISMATCHED_REVISION'),
-  mismatchedStatus('MISMATCHED_STATUS'),
-  notAllowed('NOT_ALLOWED'),
-  notFound('NOT_FOUND'),
-  skipped('SKIPPED'),
-  ;
+class PackageVersionErrorCode {
+  static const alreadyExists = PackageVersionErrorCode._('ALREADY_EXISTS');
+  static const mismatchedRevision =
+      PackageVersionErrorCode._('MISMATCHED_REVISION');
+  static const mismatchedStatus =
+      PackageVersionErrorCode._('MISMATCHED_STATUS');
+  static const notAllowed = PackageVersionErrorCode._('NOT_ALLOWED');
+  static const notFound = PackageVersionErrorCode._('NOT_FOUND');
+  static const skipped = PackageVersionErrorCode._('SKIPPED');
 
   final String value;
 
-  const PackageVersionErrorCode(this.value);
+  const PackageVersionErrorCode._(this.value);
+
+  static const values = [
+    alreadyExists,
+    mismatchedRevision,
+    mismatchedStatus,
+    notAllowed,
+    notFound,
+    skipped
+  ];
 
   static PackageVersionErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageVersionErrorCode'));
+          orElse: () => PackageVersionErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about how a package version was added to a repository.
@@ -6499,53 +6614,90 @@ class PackageVersionOrigin {
   }
 }
 
-enum PackageVersionOriginType {
-  internal('INTERNAL'),
-  external('EXTERNAL'),
-  unknown('UNKNOWN'),
-  ;
+class PackageVersionOriginType {
+  static const internal = PackageVersionOriginType._('INTERNAL');
+  static const external = PackageVersionOriginType._('EXTERNAL');
+  static const unknown = PackageVersionOriginType._('UNKNOWN');
 
   final String value;
 
-  const PackageVersionOriginType(this.value);
+  const PackageVersionOriginType._(this.value);
+
+  static const values = [internal, external, unknown];
 
   static PackageVersionOriginType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageVersionOriginType'));
+          orElse: () => PackageVersionOriginType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionOriginType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageVersionSortType {
-  publishedTime('PUBLISHED_TIME'),
-  ;
+class PackageVersionSortType {
+  static const publishedTime = PackageVersionSortType._('PUBLISHED_TIME');
 
   final String value;
 
-  const PackageVersionSortType(this.value);
+  const PackageVersionSortType._(this.value);
+
+  static const values = [publishedTime];
 
   static PackageVersionSortType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PackageVersionSortType'));
+          orElse: () => PackageVersionSortType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PackageVersionStatus {
-  published('Published'),
-  unfinished('Unfinished'),
-  unlisted('Unlisted'),
-  archived('Archived'),
-  disposed('Disposed'),
-  deleted('Deleted'),
-  ;
+class PackageVersionStatus {
+  static const published = PackageVersionStatus._('Published');
+  static const unfinished = PackageVersionStatus._('Unfinished');
+  static const unlisted = PackageVersionStatus._('Unlisted');
+  static const archived = PackageVersionStatus._('Archived');
+  static const disposed = PackageVersionStatus._('Disposed');
+  static const deleted = PackageVersionStatus._('Deleted');
 
   final String value;
 
-  const PackageVersionStatus(this.value);
+  const PackageVersionStatus._(this.value);
 
-  static PackageVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PackageVersionStatus'));
+  static const values = [
+    published,
+    unfinished,
+    unlisted,
+    archived,
+    disposed,
+    deleted
+  ];
+
+  static PackageVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a package version, including its status, version, and
@@ -6578,7 +6730,8 @@ class PackageVersionSummary {
 
   factory PackageVersionSummary.fromJson(Map<String, dynamic> json) {
     return PackageVersionSummary(
-      status: PackageVersionStatus.fromString((json['status'] as String)),
+      status:
+          PackageVersionStatus.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as String?) ?? '',
       origin: json['origin'] != null
           ? PackageVersionOrigin.fromJson(

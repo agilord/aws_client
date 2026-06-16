@@ -2410,20 +2410,29 @@ class Assignment {
   }
 }
 
-enum AssignmentStatus {
-  submitted('Submitted'),
-  approved('Approved'),
-  rejected('Rejected'),
-  ;
+class AssignmentStatus {
+  static const submitted = AssignmentStatus._('Submitted');
+  static const approved = AssignmentStatus._('Approved');
+  static const rejected = AssignmentStatus._('Rejected');
 
   final String value;
 
-  const AssignmentStatus(this.value);
+  const AssignmentStatus._(this.value);
+
+  static const values = [submitted, approved, rejected];
 
   static AssignmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssignmentStatus'));
+          orElse: () => AssignmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssignmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateQualificationWithWorkerResponse {
@@ -2488,26 +2497,46 @@ class BonusPayment {
   }
 }
 
-enum Comparator {
-  lessThan('LessThan'),
-  lessThanOrEqualTo('LessThanOrEqualTo'),
-  greaterThan('GreaterThan'),
-  greaterThanOrEqualTo('GreaterThanOrEqualTo'),
-  equalTo('EqualTo'),
-  notEqualTo('NotEqualTo'),
-  exists('Exists'),
-  doesNotExist('DoesNotExist'),
-  $in('In'),
-  notIn('NotIn'),
-  ;
+class Comparator {
+  static const lessThan = Comparator._('LessThan');
+  static const lessThanOrEqualTo = Comparator._('LessThanOrEqualTo');
+  static const greaterThan = Comparator._('GreaterThan');
+  static const greaterThanOrEqualTo = Comparator._('GreaterThanOrEqualTo');
+  static const equalTo = Comparator._('EqualTo');
+  static const notEqualTo = Comparator._('NotEqualTo');
+  static const exists = Comparator._('Exists');
+  static const doesNotExist = Comparator._('DoesNotExist');
+  static const $in = Comparator._('In');
+  static const notIn = Comparator._('NotIn');
 
   final String value;
 
-  const Comparator(this.value);
+  const Comparator._(this.value);
 
-  static Comparator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Comparator'));
+  static const values = [
+    lessThan,
+    lessThanOrEqualTo,
+    greaterThan,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    exists,
+    doesNotExist,
+    $in,
+    notIn
+  ];
+
+  static Comparator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Comparator._(value));
+
+  @override
+  bool operator ==(other) => other is Comparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAdditionalAssignmentsForHITResponse {
@@ -2684,28 +2713,50 @@ class DisassociateQualificationFromWorkerResponse {
   }
 }
 
-enum EventType {
-  assignmentAccepted('AssignmentAccepted'),
-  assignmentAbandoned('AssignmentAbandoned'),
-  assignmentReturned('AssignmentReturned'),
-  assignmentSubmitted('AssignmentSubmitted'),
-  assignmentRejected('AssignmentRejected'),
-  assignmentApproved('AssignmentApproved'),
-  hITCreated('HITCreated'),
-  hITExpired('HITExpired'),
-  hITReviewable('HITReviewable'),
-  hITExtended('HITExtended'),
-  hITDisposed('HITDisposed'),
-  ping('Ping'),
-  ;
+class EventType {
+  static const assignmentAccepted = EventType._('AssignmentAccepted');
+  static const assignmentAbandoned = EventType._('AssignmentAbandoned');
+  static const assignmentReturned = EventType._('AssignmentReturned');
+  static const assignmentSubmitted = EventType._('AssignmentSubmitted');
+  static const assignmentRejected = EventType._('AssignmentRejected');
+  static const assignmentApproved = EventType._('AssignmentApproved');
+  static const hITCreated = EventType._('HITCreated');
+  static const hITExpired = EventType._('HITExpired');
+  static const hITReviewable = EventType._('HITReviewable');
+  static const hITExtended = EventType._('HITExtended');
+  static const hITDisposed = EventType._('HITDisposed');
+  static const ping = EventType._('Ping');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    assignmentAccepted,
+    assignmentAbandoned,
+    assignmentReturned,
+    assignmentSubmitted,
+    assignmentRejected,
+    assignmentApproved,
+    hITCreated,
+    hITExpired,
+    hITReviewable,
+    hITExtended,
+    hITDisposed,
+    ping
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAccountBalanceResponse {
@@ -3063,20 +3114,30 @@ class HIT {
   }
 }
 
-enum HITAccessActions {
-  accept('Accept'),
-  previewAndAccept('PreviewAndAccept'),
-  discoverPreviewAndAccept('DiscoverPreviewAndAccept'),
-  ;
+class HITAccessActions {
+  static const accept = HITAccessActions._('Accept');
+  static const previewAndAccept = HITAccessActions._('PreviewAndAccept');
+  static const discoverPreviewAndAccept =
+      HITAccessActions._('DiscoverPreviewAndAccept');
 
   final String value;
 
-  const HITAccessActions(this.value);
+  const HITAccessActions._(this.value);
+
+  static const values = [accept, previewAndAccept, discoverPreviewAndAccept];
 
   static HITAccessActions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HITAccessActions'));
+          orElse: () => HITAccessActions._(value));
+
+  @override
+  bool operator ==(other) => other is HITAccessActions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The HITLayoutParameter data structure defines parameter values used with a
@@ -3104,38 +3165,68 @@ class HITLayoutParameter {
   }
 }
 
-enum HITReviewStatus {
-  notReviewed('NotReviewed'),
-  markedForReview('MarkedForReview'),
-  reviewedAppropriate('ReviewedAppropriate'),
-  reviewedInappropriate('ReviewedInappropriate'),
-  ;
+class HITReviewStatus {
+  static const notReviewed = HITReviewStatus._('NotReviewed');
+  static const markedForReview = HITReviewStatus._('MarkedForReview');
+  static const reviewedAppropriate = HITReviewStatus._('ReviewedAppropriate');
+  static const reviewedInappropriate =
+      HITReviewStatus._('ReviewedInappropriate');
 
   final String value;
 
-  const HITReviewStatus(this.value);
+  const HITReviewStatus._(this.value);
+
+  static const values = [
+    notReviewed,
+    markedForReview,
+    reviewedAppropriate,
+    reviewedInappropriate
+  ];
 
   static HITReviewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HITReviewStatus'));
+          orElse: () => HITReviewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HITReviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HITStatus {
-  assignable('Assignable'),
-  unassignable('Unassignable'),
-  reviewable('Reviewable'),
-  reviewing('Reviewing'),
-  disposed('Disposed'),
-  ;
+class HITStatus {
+  static const assignable = HITStatus._('Assignable');
+  static const unassignable = HITStatus._('Unassignable');
+  static const reviewable = HITStatus._('Reviewable');
+  static const reviewing = HITStatus._('Reviewing');
+  static const disposed = HITStatus._('Disposed');
 
   final String value;
 
-  const HITStatus(this.value);
+  const HITStatus._(this.value);
 
-  static HITStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HITStatus'));
+  static const values = [
+    assignable,
+    unassignable,
+    reviewable,
+    reviewing,
+    disposed
+  ];
+
+  static HITStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HITStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HITStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAssignmentsForHITResponse {
@@ -3650,35 +3741,55 @@ class NotificationSpecification {
   }
 }
 
-enum NotificationTransport {
-  email('Email'),
-  sqs('SQS'),
-  sns('SNS'),
-  ;
+class NotificationTransport {
+  static const email = NotificationTransport._('Email');
+  static const sqs = NotificationTransport._('SQS');
+  static const sns = NotificationTransport._('SNS');
 
   final String value;
 
-  const NotificationTransport(this.value);
+  const NotificationTransport._(this.value);
 
-  static NotificationTransport fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NotificationTransport'));
+  static const values = [email, sqs, sns];
+
+  static NotificationTransport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationTransport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationTransport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotifyWorkersFailureCode {
-  softFailure('SoftFailure'),
-  hardFailure('HardFailure'),
-  ;
+class NotifyWorkersFailureCode {
+  static const softFailure = NotifyWorkersFailureCode._('SoftFailure');
+  static const hardFailure = NotifyWorkersFailureCode._('HardFailure');
 
   final String value;
 
-  const NotifyWorkersFailureCode(this.value);
+  const NotifyWorkersFailureCode._(this.value);
+
+  static const values = [softFailure, hardFailure];
 
   static NotifyWorkersFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotifyWorkersFailureCode'));
+          orElse: () => NotifyWorkersFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotifyWorkersFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When MTurk encounters an issue with notifying the Workers you specified, it
@@ -4045,7 +4156,7 @@ class QualificationRequirement {
 
   factory QualificationRequirement.fromJson(Map<String, dynamic> json) {
     return QualificationRequirement(
-      comparator: Comparator.fromString((json['Comparator'] as String)),
+      comparator: Comparator.fromString((json['Comparator'] as String?) ?? ''),
       qualificationTypeId: (json['QualificationTypeId'] as String?) ?? '',
       actionsGuarded:
           (json['ActionsGuarded'] as String?)?.let(HITAccessActions.fromString),
@@ -4079,19 +4190,29 @@ class QualificationRequirement {
   }
 }
 
-enum QualificationStatus {
-  granted('Granted'),
-  revoked('Revoked'),
-  ;
+class QualificationStatus {
+  static const granted = QualificationStatus._('Granted');
+  static const revoked = QualificationStatus._('Revoked');
 
   final String value;
 
-  const QualificationStatus(this.value);
+  const QualificationStatus._(this.value);
 
-  static QualificationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QualificationStatus'));
+  static const values = [granted, revoked];
+
+  static QualificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The QualificationType data structure represents a Qualification type, a
@@ -4235,19 +4356,29 @@ class QualificationType {
   }
 }
 
-enum QualificationTypeStatus {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class QualificationTypeStatus {
+  static const active = QualificationTypeStatus._('Active');
+  static const inactive = QualificationTypeStatus._('Inactive');
 
   final String value;
 
-  const QualificationTypeStatus(this.value);
+  const QualificationTypeStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static QualificationTypeStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QualificationTypeStatus'));
+          orElse: () => QualificationTypeStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationTypeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RejectAssignmentResponse {
@@ -4352,21 +4483,31 @@ class ReviewActionDetail {
   }
 }
 
-enum ReviewActionStatus {
-  intended('Intended'),
-  succeeded('Succeeded'),
-  failed('Failed'),
-  cancelled('Cancelled'),
-  ;
+class ReviewActionStatus {
+  static const intended = ReviewActionStatus._('Intended');
+  static const succeeded = ReviewActionStatus._('Succeeded');
+  static const failed = ReviewActionStatus._('Failed');
+  static const cancelled = ReviewActionStatus._('Cancelled');
 
   final String value;
 
-  const ReviewActionStatus(this.value);
+  const ReviewActionStatus._(this.value);
 
-  static ReviewActionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReviewActionStatus'));
+  static const values = [intended, succeeded, failed, cancelled];
+
+  static ReviewActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// HIT Review Policy data structures represent HIT review policies, which you
@@ -4404,19 +4545,28 @@ class ReviewPolicy {
   }
 }
 
-enum ReviewPolicyLevel {
-  assignment('Assignment'),
-  hit('HIT'),
-  ;
+class ReviewPolicyLevel {
+  static const assignment = ReviewPolicyLevel._('Assignment');
+  static const hit = ReviewPolicyLevel._('HIT');
 
   final String value;
 
-  const ReviewPolicyLevel(this.value);
+  const ReviewPolicyLevel._(this.value);
+
+  static const values = [assignment, hit];
 
   static ReviewPolicyLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReviewPolicyLevel'));
+          orElse: () => ReviewPolicyLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ReviewPolicyLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
@@ -4524,19 +4674,29 @@ class ReviewResultDetail {
   }
 }
 
-enum ReviewableHITStatus {
-  reviewable('Reviewable'),
-  reviewing('Reviewing'),
-  ;
+class ReviewableHITStatus {
+  static const reviewable = ReviewableHITStatus._('Reviewable');
+  static const reviewing = ReviewableHITStatus._('Reviewing');
 
   final String value;
 
-  const ReviewableHITStatus(this.value);
+  const ReviewableHITStatus._(this.value);
 
-  static ReviewableHITStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReviewableHITStatus'));
+  static const values = [reviewable, reviewing];
+
+  static ReviewableHITStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewableHITStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewableHITStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SendBonusResponse {

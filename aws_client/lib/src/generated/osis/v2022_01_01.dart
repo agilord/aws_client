@@ -657,21 +657,31 @@ class ChangeProgressStage {
   }
 }
 
-enum ChangeProgressStageStatuses {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class ChangeProgressStageStatuses {
+  static const pending = ChangeProgressStageStatuses._('PENDING');
+  static const inProgress = ChangeProgressStageStatuses._('IN_PROGRESS');
+  static const completed = ChangeProgressStageStatuses._('COMPLETED');
+  static const failed = ChangeProgressStageStatuses._('FAILED');
 
   final String value;
 
-  const ChangeProgressStageStatuses(this.value);
+  const ChangeProgressStageStatuses._(this.value);
+
+  static const values = [pending, inProgress, completed, failed];
 
   static ChangeProgressStageStatuses fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ChangeProgressStageStatuses'));
+          orElse: () => ChangeProgressStageStatuses._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChangeProgressStageStatuses && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The progress details of a pipeline configuration change.
@@ -725,21 +735,31 @@ class ChangeProgressStatus {
   }
 }
 
-enum ChangeProgressStatuses {
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class ChangeProgressStatuses {
+  static const pending = ChangeProgressStatuses._('PENDING');
+  static const inProgress = ChangeProgressStatuses._('IN_PROGRESS');
+  static const completed = ChangeProgressStatuses._('COMPLETED');
+  static const failed = ChangeProgressStatuses._('FAILED');
 
   final String value;
 
-  const ChangeProgressStatuses(this.value);
+  const ChangeProgressStatuses._(this.value);
+
+  static const values = [pending, inProgress, completed, failed];
 
   static ChangeProgressStatuses fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ChangeProgressStatuses'));
+          orElse: () => ChangeProgressStatuses._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChangeProgressStatuses && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch.
@@ -1346,27 +1366,47 @@ class PipelineDestination {
   }
 }
 
-enum PipelineStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  createFailed('CREATE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  starting('STARTING'),
-  startFailed('START_FAILED'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  ;
+class PipelineStatus {
+  static const creating = PipelineStatus._('CREATING');
+  static const active = PipelineStatus._('ACTIVE');
+  static const updating = PipelineStatus._('UPDATING');
+  static const deleting = PipelineStatus._('DELETING');
+  static const createFailed = PipelineStatus._('CREATE_FAILED');
+  static const updateFailed = PipelineStatus._('UPDATE_FAILED');
+  static const starting = PipelineStatus._('STARTING');
+  static const startFailed = PipelineStatus._('START_FAILED');
+  static const stopping = PipelineStatus._('STOPPING');
+  static const stopped = PipelineStatus._('STOPPED');
 
   final String value;
 
-  const PipelineStatus(this.value);
+  const PipelineStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    createFailed,
+    updateFailed,
+    starting,
+    startFailed,
+    stopping,
+    stopped
+  ];
 
   static PipelineStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PipelineStatus'));
+          orElse: () => PipelineStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a pipeline's current status.
@@ -1774,33 +1814,54 @@ class VpcEndpoint {
   }
 }
 
-enum VpcEndpointManagement {
-  customer('CUSTOMER'),
-  service('SERVICE'),
-  ;
+class VpcEndpointManagement {
+  static const customer = VpcEndpointManagement._('CUSTOMER');
+  static const service = VpcEndpointManagement._('SERVICE');
 
   final String value;
 
-  const VpcEndpointManagement(this.value);
+  const VpcEndpointManagement._(this.value);
 
-  static VpcEndpointManagement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VpcEndpointManagement'));
+  static const values = [customer, service];
+
+  static VpcEndpointManagement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcEndpointManagement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcEndpointManagement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VpcEndpointServiceName {
-  opensearchServerless('OPENSEARCH_SERVERLESS'),
-  ;
+class VpcEndpointServiceName {
+  static const opensearchServerless =
+      VpcEndpointServiceName._('OPENSEARCH_SERVERLESS');
 
   final String value;
 
-  const VpcEndpointServiceName(this.value);
+  const VpcEndpointServiceName._(this.value);
+
+  static const values = [opensearchServerless];
 
   static VpcEndpointServiceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VpcEndpointServiceName'));
+          orElse: () => VpcEndpointServiceName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VpcEndpointServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Options that specify the subnets and security groups for an OpenSearch

@@ -876,20 +876,30 @@ class AlternateContact {
   }
 }
 
-enum AlternateContactType {
-  billing('BILLING'),
-  operations('OPERATIONS'),
-  security('SECURITY'),
-  ;
+class AlternateContactType {
+  static const billing = AlternateContactType._('BILLING');
+  static const operations = AlternateContactType._('OPERATIONS');
+  static const security = AlternateContactType._('SECURITY');
 
   final String value;
 
-  const AlternateContactType(this.value);
+  const AlternateContactType._(this.value);
 
-  static AlternateContactType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AlternateContactType'));
+  static const values = [billing, operations, security];
+
+  static AlternateContactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlternateContactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlternateContactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details of the primary contact information associated with an
@@ -1141,19 +1151,29 @@ class ListRegionsResponse {
   }
 }
 
-enum PrimaryEmailUpdateStatus {
-  pending('PENDING'),
-  accepted('ACCEPTED'),
-  ;
+class PrimaryEmailUpdateStatus {
+  static const pending = PrimaryEmailUpdateStatus._('PENDING');
+  static const accepted = PrimaryEmailUpdateStatus._('ACCEPTED');
 
   final String value;
 
-  const PrimaryEmailUpdateStatus(this.value);
+  const PrimaryEmailUpdateStatus._(this.value);
+
+  static const values = [pending, accepted];
 
   static PrimaryEmailUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PrimaryEmailUpdateStatus'));
+          orElse: () => PrimaryEmailUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrimaryEmailUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This is a structure that expresses the Region for a given account,
@@ -1189,22 +1209,37 @@ class Region {
   }
 }
 
-enum RegionOptStatus {
-  enabled('ENABLED'),
-  enabling('ENABLING'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  enabledByDefault('ENABLED_BY_DEFAULT'),
-  ;
+class RegionOptStatus {
+  static const enabled = RegionOptStatus._('ENABLED');
+  static const enabling = RegionOptStatus._('ENABLING');
+  static const disabling = RegionOptStatus._('DISABLING');
+  static const disabled = RegionOptStatus._('DISABLED');
+  static const enabledByDefault = RegionOptStatus._('ENABLED_BY_DEFAULT');
 
   final String value;
 
-  const RegionOptStatus(this.value);
+  const RegionOptStatus._(this.value);
+
+  static const values = [
+    enabled,
+    enabling,
+    disabling,
+    disabled,
+    enabledByDefault
+  ];
 
   static RegionOptStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RegionOptStatus'));
+          orElse: () => RegionOptStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RegionOptStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartPrimaryEmailUpdateResponse {

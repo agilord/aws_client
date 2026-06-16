@@ -2906,36 +2906,54 @@ class BuiltinSlotTypeMetadata {
   }
 }
 
-enum ChannelStatus {
-  inProgress('IN_PROGRESS'),
-  created('CREATED'),
-  failed('FAILED'),
-  ;
+class ChannelStatus {
+  static const inProgress = ChannelStatus._('IN_PROGRESS');
+  static const created = ChannelStatus._('CREATED');
+  static const failed = ChannelStatus._('FAILED');
 
   final String value;
 
-  const ChannelStatus(this.value);
+  const ChannelStatus._(this.value);
+
+  static const values = [inProgress, created, failed];
 
   static ChannelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChannelStatus'));
+          orElse: () => ChannelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ChannelType {
-  facebook('Facebook'),
-  slack('Slack'),
-  twilioSms('Twilio-Sms'),
-  kik('Kik'),
-  ;
+class ChannelType {
+  static const facebook = ChannelType._('Facebook');
+  static const slack = ChannelType._('Slack');
+  static const twilioSms = ChannelType._('Twilio-Sms');
+  static const kik = ChannelType._('Kik');
 
   final String value;
 
-  const ChannelType(this.value);
+  const ChannelType._(this.value);
 
-  static ChannelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ChannelType'));
+  static const values = [facebook, slack, twilioSms, kik];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a Lambda function that verifies requests to a bot or fulfills the
@@ -2970,19 +2988,28 @@ class CodeHook {
   }
 }
 
-enum ContentType {
-  plainText('PlainText'),
-  ssml('SSML'),
-  customPayload('CustomPayload'),
-  ;
+class ContentType {
+  static const plainText = ContentType._('PlainText');
+  static const ssml = ContentType._('SSML');
+  static const customPayload = ContentType._('CustomPayload');
 
   final String value;
 
-  const ContentType(this.value);
+  const ContentType._(this.value);
 
-  static ContentType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContentType'));
+  static const values = [plainText, ssml, customPayload];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the settings needed for conversation logs.
@@ -3518,18 +3545,27 @@ class CreateSlotTypeVersionResponse {
   }
 }
 
-enum Destination {
-  cloudwatchLogs('CLOUDWATCH_LOGS'),
-  s3('S3'),
-  ;
+class Destination {
+  static const cloudwatchLogs = Destination._('CLOUDWATCH_LOGS');
+  static const s3 = Destination._('S3');
 
   final String value;
 
-  const Destination(this.value);
+  const Destination._(this.value);
 
-  static Destination fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Destination'));
+  static const values = [cloudwatchLogs, s3];
+
+  static Destination fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Destination._(value));
+
+  @override
+  bool operator ==(other) => other is Destination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Each slot type can have a set of values. Each enumeration value represents a
@@ -3582,34 +3618,51 @@ class EnumerationValue {
   }
 }
 
-enum ExportStatus {
-  inProgress('IN_PROGRESS'),
-  ready('READY'),
-  failed('FAILED'),
-  ;
+class ExportStatus {
+  static const inProgress = ExportStatus._('IN_PROGRESS');
+  static const ready = ExportStatus._('READY');
+  static const failed = ExportStatus._('FAILED');
 
   final String value;
 
-  const ExportStatus(this.value);
+  const ExportStatus._(this.value);
 
-  static ExportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportStatus'));
+  static const values = [inProgress, ready, failed];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportType {
-  alexaSkillsKit('ALEXA_SKILLS_KIT'),
-  lex('LEX'),
-  ;
+class ExportType {
+  static const alexaSkillsKit = ExportType._('ALEXA_SKILLS_KIT');
+  static const lex = ExportType._('LEX');
 
   final String value;
 
-  const ExportType(this.value);
+  const ExportType._(this.value);
 
-  static ExportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ExportType'));
+  static const values = [alexaSkillsKit, lex];
+
+  static ExportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A prompt for additional activity after an intent is fulfilled. For example,
@@ -3687,7 +3740,7 @@ class FulfillmentActivity {
 
   factory FulfillmentActivity.fromJson(Map<String, dynamic> json) {
     return FulfillmentActivity(
-      type: FulfillmentActivityType.fromString((json['type'] as String)),
+      type: FulfillmentActivityType.fromString((json['type'] as String?) ?? ''),
       codeHook: json['codeHook'] != null
           ? CodeHook.fromJson(json['codeHook'] as Map<String, dynamic>)
           : null,
@@ -3704,19 +3757,29 @@ class FulfillmentActivity {
   }
 }
 
-enum FulfillmentActivityType {
-  returnIntent('ReturnIntent'),
-  codeHook('CodeHook'),
-  ;
+class FulfillmentActivityType {
+  static const returnIntent = FulfillmentActivityType._('ReturnIntent');
+  static const codeHook = FulfillmentActivityType._('CodeHook');
 
   final String value;
 
-  const FulfillmentActivityType(this.value);
+  const FulfillmentActivityType._(this.value);
+
+  static const values = [returnIntent, codeHook];
 
   static FulfillmentActivityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FulfillmentActivityType'));
+          orElse: () => FulfillmentActivityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FulfillmentActivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetBotAliasResponse {
@@ -5133,20 +5196,28 @@ class GetUtterancesViewResponse {
   }
 }
 
-enum ImportStatus {
-  inProgress('IN_PROGRESS'),
-  complete('COMPLETE'),
-  failed('FAILED'),
-  ;
+class ImportStatus {
+  static const inProgress = ImportStatus._('IN_PROGRESS');
+  static const complete = ImportStatus._('COMPLETE');
+  static const failed = ImportStatus._('FAILED');
 
   final String value;
 
-  const ImportStatus(this.value);
+  const ImportStatus._(this.value);
 
-  static ImportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportStatus'));
+  static const values = [inProgress, complete, failed];
+
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The name of a context that must be active for an intent to be selected by
@@ -5336,29 +5407,52 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum Locale {
-  deDe('de-DE'),
-  enAu('en-AU'),
-  enGb('en-GB'),
-  enIn('en-IN'),
-  enUs('en-US'),
-  es_419('es-419'),
-  esEs('es-ES'),
-  esUs('es-US'),
-  frFr('fr-FR'),
-  frCa('fr-CA'),
-  itIt('it-IT'),
-  jaJp('ja-JP'),
-  koKr('ko-KR'),
-  ;
+class Locale {
+  static const deDe = Locale._('de-DE');
+  static const enAu = Locale._('en-AU');
+  static const enGb = Locale._('en-GB');
+  static const enIn = Locale._('en-IN');
+  static const enUs = Locale._('en-US');
+  static const es_419 = Locale._('es-419');
+  static const esEs = Locale._('es-ES');
+  static const esUs = Locale._('es-US');
+  static const frFr = Locale._('fr-FR');
+  static const frCa = Locale._('fr-CA');
+  static const itIt = Locale._('it-IT');
+  static const jaJp = Locale._('ja-JP');
+  static const koKr = Locale._('ko-KR');
 
   final String value;
 
-  const Locale(this.value);
+  const Locale._(this.value);
+
+  static const values = [
+    deDe,
+    enAu,
+    enGb,
+    enIn,
+    enUs,
+    es_419,
+    esEs,
+    esUs,
+    frFr,
+    frCa,
+    itIt,
+    jaJp,
+    koKr
+  ];
 
   static Locale fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Locale'));
+      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
+
+  @override
+  bool operator ==(other) => other is Locale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Settings used to configure delivery mode and destination for conversation
@@ -5458,33 +5552,51 @@ class LogSettingsResponse {
   }
 }
 
-enum LogType {
-  audio('AUDIO'),
-  text('TEXT'),
-  ;
+class LogType {
+  static const audio = LogType._('AUDIO');
+  static const text = LogType._('TEXT');
 
   final String value;
 
-  const LogType(this.value);
+  const LogType._(this.value);
 
-  static LogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum LogType'));
+  static const values = [audio, text];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MergeStrategy {
-  overwriteLatest('OVERWRITE_LATEST'),
-  failOnConflict('FAIL_ON_CONFLICT'),
-  ;
+class MergeStrategy {
+  static const overwriteLatest = MergeStrategy._('OVERWRITE_LATEST');
+  static const failOnConflict = MergeStrategy._('FAIL_ON_CONFLICT');
 
   final String value;
 
-  const MergeStrategy(this.value);
+  const MergeStrategy._(this.value);
+
+  static const values = [overwriteLatest, failOnConflict];
 
   static MergeStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MergeStrategy'));
+          orElse: () => MergeStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MergeStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The message object that provides the message text and its type.
@@ -5509,7 +5621,8 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       content: (json['content'] as String?) ?? '',
-      contentType: ContentType.fromString((json['contentType'] as String)),
+      contentType:
+          ContentType.fromString((json['contentType'] as String?) ?? ''),
       groupNumber: json['groupNumber'] as int?,
     );
   }
@@ -5587,65 +5700,104 @@ class MigrationAlert {
   }
 }
 
-enum MigrationAlertType {
-  error('ERROR'),
-  warn('WARN'),
-  ;
+class MigrationAlertType {
+  static const error = MigrationAlertType._('ERROR');
+  static const warn = MigrationAlertType._('WARN');
 
   final String value;
 
-  const MigrationAlertType(this.value);
+  const MigrationAlertType._(this.value);
 
-  static MigrationAlertType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MigrationAlertType'));
+  static const values = [error, warn];
+
+  static MigrationAlertType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationAlertType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationAlertType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MigrationSortAttribute {
-  v1BotName('V1_BOT_NAME'),
-  migrationDateTime('MIGRATION_DATE_TIME'),
-  ;
+class MigrationSortAttribute {
+  static const v1BotName = MigrationSortAttribute._('V1_BOT_NAME');
+  static const migrationDateTime =
+      MigrationSortAttribute._('MIGRATION_DATE_TIME');
 
   final String value;
 
-  const MigrationSortAttribute(this.value);
+  const MigrationSortAttribute._(this.value);
+
+  static const values = [v1BotName, migrationDateTime];
 
   static MigrationSortAttribute fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MigrationSortAttribute'));
+          orElse: () => MigrationSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MigrationStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class MigrationStatus {
+  static const inProgress = MigrationStatus._('IN_PROGRESS');
+  static const completed = MigrationStatus._('COMPLETED');
+  static const failed = MigrationStatus._('FAILED');
 
   final String value;
 
-  const MigrationStatus(this.value);
+  const MigrationStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static MigrationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MigrationStatus'));
+          orElse: () => MigrationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MigrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MigrationStrategy {
-  createNew('CREATE_NEW'),
-  updateExisting('UPDATE_EXISTING'),
-  ;
+class MigrationStrategy {
+  static const createNew = MigrationStrategy._('CREATE_NEW');
+  static const updateExisting = MigrationStrategy._('UPDATE_EXISTING');
 
   final String value;
 
-  const MigrationStrategy(this.value);
+  const MigrationStrategy._(this.value);
+
+  static const values = [createNew, updateExisting];
 
   static MigrationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MigrationStrategy'));
+          orElse: () => MigrationStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MigrationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
@@ -5735,19 +5887,29 @@ class MigrationSummary {
   }
 }
 
-enum ObfuscationSetting {
-  none('NONE'),
-  defaultObfuscation('DEFAULT_OBFUSCATION'),
-  ;
+class ObfuscationSetting {
+  static const none = ObfuscationSetting._('NONE');
+  static const defaultObfuscation = ObfuscationSetting._('DEFAULT_OBFUSCATION');
 
   final String value;
 
-  const ObfuscationSetting(this.value);
+  const ObfuscationSetting._(this.value);
 
-  static ObfuscationSetting fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ObfuscationSetting'));
+  static const values = [none, defaultObfuscation];
+
+  static ObfuscationSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObfuscationSetting._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObfuscationSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The specification of an output context that is set when an intent is
@@ -5792,19 +5954,28 @@ class OutputContext {
   }
 }
 
-enum ProcessBehavior {
-  save('SAVE'),
-  build('BUILD'),
-  ;
+class ProcessBehavior {
+  static const save = ProcessBehavior._('SAVE');
+  static const build = ProcessBehavior._('BUILD');
 
   final String value;
 
-  const ProcessBehavior(this.value);
+  const ProcessBehavior._(this.value);
+
+  static const values = [save, build];
 
   static ProcessBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProcessBehavior'));
+          orElse: () => ProcessBehavior._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Obtains information from the user. To define a prompt, provide one or more
@@ -6490,20 +6661,28 @@ class PutSlotTypeResponse {
   }
 }
 
-enum ResourceType {
-  bot('BOT'),
-  intent('INTENT'),
-  slotType('SLOT_TYPE'),
-  ;
+class ResourceType {
+  static const bot = ResourceType._('BOT');
+  static const intent = ResourceType._('INTENT');
+  static const slotType = ResourceType._('SLOT_TYPE');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [bot, intent, slotType];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Identifies the version of a specific slot.
@@ -6577,7 +6756,7 @@ class Slot {
     return Slot(
       name: (json['name'] as String?) ?? '',
       slotConstraint:
-          SlotConstraint.fromString((json['slotConstraint'] as String)),
+          SlotConstraint.fromString((json['slotConstraint'] as String?) ?? ''),
       defaultValueSpec: json['defaultValueSpec'] != null
           ? SlotDefaultValueSpec.fromJson(
               json['defaultValueSpec'] as Map<String, dynamic>)
@@ -6630,19 +6809,28 @@ class Slot {
   }
 }
 
-enum SlotConstraint {
-  required('Required'),
-  optional('Optional'),
-  ;
+class SlotConstraint {
+  static const required = SlotConstraint._('Required');
+  static const optional = SlotConstraint._('Optional');
 
   final String value;
 
-  const SlotConstraint(this.value);
+  const SlotConstraint._(this.value);
+
+  static const values = [required, optional];
 
   static SlotConstraint fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SlotConstraint'));
+          orElse: () => SlotConstraint._(value));
+
+  @override
+  bool operator ==(other) => other is SlotConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A default value for a slot.
@@ -6846,33 +7034,52 @@ class SlotTypeRegexConfiguration {
   }
 }
 
-enum SlotValueSelectionStrategy {
-  originalValue('ORIGINAL_VALUE'),
-  topResolution('TOP_RESOLUTION'),
-  ;
+class SlotValueSelectionStrategy {
+  static const originalValue = SlotValueSelectionStrategy._('ORIGINAL_VALUE');
+  static const topResolution = SlotValueSelectionStrategy._('TOP_RESOLUTION');
 
   final String value;
 
-  const SlotValueSelectionStrategy(this.value);
+  const SlotValueSelectionStrategy._(this.value);
+
+  static const values = [originalValue, topResolution];
 
   static SlotValueSelectionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SlotValueSelectionStrategy'));
+          orElse: () => SlotValueSelectionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotValueSelectionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartImportResponse {
@@ -7058,35 +7265,53 @@ class Statement {
   }
 }
 
-enum Status {
-  building('BUILDING'),
-  ready('READY'),
-  readyBasicTesting('READY_BASIC_TESTING'),
-  failed('FAILED'),
-  notBuilt('NOT_BUILT'),
-  ;
+class Status {
+  static const building = Status._('BUILDING');
+  static const ready = Status._('READY');
+  static const readyBasicTesting = Status._('READY_BASIC_TESTING');
+  static const failed = Status._('FAILED');
+  static const notBuilt = Status._('NOT_BUILT');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [building, ready, readyBasicTesting, failed, notBuilt];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusType {
-  detected('Detected'),
-  missed('Missed'),
-  ;
+class StatusType {
+  static const detected = StatusType._('Detected');
+  static const missed = StatusType._('Missed');
 
   final String value;
 
-  const StatusType(this.value);
+  const StatusType._(this.value);
 
-  static StatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusType'));
+  static const values = [detected, missed];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of key/value pairs that identify a bot, bot alias, or bot channel.

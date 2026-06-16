@@ -425,19 +425,29 @@ class RePostPrivate {
   }
 }
 
-enum ConfigurationStatus {
-  configured('CONFIGURED'),
-  unconfigured('UNCONFIGURED'),
-  ;
+class ConfigurationStatus {
+  static const configured = ConfigurationStatus._('CONFIGURED');
+  static const unconfigured = ConfigurationStatus._('UNCONFIGURED');
 
   final String value;
 
-  const ConfigurationStatus(this.value);
+  const ConfigurationStatus._(this.value);
 
-  static ConfigurationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConfigurationStatus'));
+  static const values = [configured, unconfigured];
+
+  static ConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateSpaceOutput {
@@ -553,17 +563,17 @@ class GetSpaceOutput {
       arn: (json['arn'] as String?) ?? '',
       clientId: (json['clientId'] as String?) ?? '',
       configurationStatus: ConfigurationStatus.fromString(
-          (json['configurationStatus'] as String)),
+          (json['configurationStatus'] as String?) ?? ''),
       createDateTime: nonNullableTimeStampFromJson(json['createDateTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
       randomDomain: (json['randomDomain'] as String?) ?? '',
       spaceId: (json['spaceId'] as String?) ?? '',
       status: (json['status'] as String?) ?? '',
       storageLimit: (json['storageLimit'] as int?) ?? 0,
-      tier: TierLevel.fromString((json['tier'] as String)),
+      tier: TierLevel.fromString((json['tier'] as String?) ?? ''),
       vanityDomain: (json['vanityDomain'] as String?) ?? '',
-      vanityDomainStatus:
-          VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
+      vanityDomainStatus: VanityDomainStatus.fromString(
+          (json['vanityDomainStatus'] as String?) ?? ''),
       contentSize: json['contentSize'] as int?,
       customerRoleArn: json['customerRoleArn'] as String?,
       deleteDateTime: timeStampFromJson(json['deleteDateTime']),
@@ -760,17 +770,17 @@ class SpaceData {
     return SpaceData(
       arn: (json['arn'] as String?) ?? '',
       configurationStatus: ConfigurationStatus.fromString(
-          (json['configurationStatus'] as String)),
+          (json['configurationStatus'] as String?) ?? ''),
       createDateTime: nonNullableTimeStampFromJson(json['createDateTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
       randomDomain: (json['randomDomain'] as String?) ?? '',
       spaceId: (json['spaceId'] as String?) ?? '',
       status: (json['status'] as String?) ?? '',
       storageLimit: (json['storageLimit'] as int?) ?? 0,
-      tier: TierLevel.fromString((json['tier'] as String)),
+      tier: TierLevel.fromString((json['tier'] as String?) ?? ''),
       vanityDomain: (json['vanityDomain'] as String?) ?? '',
-      vanityDomainStatus:
-          VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
+      vanityDomainStatus: VanityDomainStatus.fromString(
+          (json['vanityDomainStatus'] as String?) ?? ''),
       contentSize: json['contentSize'] as int?,
       deleteDateTime: timeStampFromJson(json['deleteDateTime']),
       description: json['description'] as String?,
@@ -830,18 +840,27 @@ class TagResourceResponse {
   }
 }
 
-enum TierLevel {
-  basic('BASIC'),
-  standard('STANDARD'),
-  ;
+class TierLevel {
+  static const basic = TierLevel._('BASIC');
+  static const standard = TierLevel._('STANDARD');
 
   final String value;
 
-  const TierLevel(this.value);
+  const TierLevel._(this.value);
 
-  static TierLevel fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TierLevel'));
+  static const values = [basic, standard];
+
+  static TierLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TierLevel._(value));
+
+  @override
+  bool operator ==(other) => other is TierLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -856,20 +875,30 @@ class UntagResourceResponse {
   }
 }
 
-enum VanityDomainStatus {
-  pending('PENDING'),
-  approved('APPROVED'),
-  unapproved('UNAPPROVED'),
-  ;
+class VanityDomainStatus {
+  static const pending = VanityDomainStatus._('PENDING');
+  static const approved = VanityDomainStatus._('APPROVED');
+  static const unapproved = VanityDomainStatus._('UNAPPROVED');
 
   final String value;
 
-  const VanityDomainStatus(this.value);
+  const VanityDomainStatus._(this.value);
 
-  static VanityDomainStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VanityDomainStatus'));
+  static const values = [pending, approved, unapproved];
+
+  static VanityDomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VanityDomainStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VanityDomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

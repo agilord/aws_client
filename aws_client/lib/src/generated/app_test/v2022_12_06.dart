@@ -1126,18 +1126,27 @@ class BatchSummary {
   }
 }
 
-enum CaptureTool {
-  precisely('Precisely'),
-  awsDms('AWS DMS'),
-  ;
+class CaptureTool {
+  static const precisely = CaptureTool._('Precisely');
+  static const awsDms = CaptureTool._('AWS DMS');
 
   final String value;
 
-  const CaptureTool(this.value);
+  const CaptureTool._(this.value);
 
-  static CaptureTool fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CaptureTool'));
+  static const values = [precisely, awsDms];
+
+  static CaptureTool fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CaptureTool._(value));
+
+  @override
+  bool operator ==(other) => other is CaptureTool && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the CloudFormation template and its parameters.
@@ -1202,19 +1211,29 @@ class CloudFormationAction {
   }
 }
 
-enum CloudFormationActionType {
-  create('Create'),
-  delete('Delete'),
-  ;
+class CloudFormationActionType {
+  static const create = CloudFormationActionType._('Create');
+  static const delete = CloudFormationActionType._('Delete');
 
   final String value;
 
-  const CloudFormationActionType(this.value);
+  const CloudFormationActionType._(this.value);
+
+  static const values = [create, delete];
 
   static CloudFormationActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CloudFormationActionType'));
+          orElse: () => CloudFormationActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudFormationActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the CloudFormation step summary.
@@ -1379,8 +1398,8 @@ class CompareDataSetsStepOutput {
     return CompareDataSetsStepOutput(
       comparisonOutputLocation:
           (json['comparisonOutputLocation'] as String?) ?? '',
-      comparisonStatus:
-          ComparisonStatusEnum.fromString((json['comparisonStatus'] as String)),
+      comparisonStatus: ComparisonStatusEnum.fromString(
+          (json['comparisonStatus'] as String?) ?? ''),
     );
   }
 
@@ -1501,8 +1520,8 @@ class CompareDatabaseCDCStepOutput {
     return CompareDatabaseCDCStepOutput(
       comparisonOutputLocation:
           (json['comparisonOutputLocation'] as String?) ?? '',
-      comparisonStatus:
-          ComparisonStatusEnum.fromString((json['comparisonStatus'] as String)),
+      comparisonStatus: ComparisonStatusEnum.fromString(
+          (json['comparisonStatus'] as String?) ?? ''),
     );
   }
 
@@ -1587,20 +1606,30 @@ class CompareFileType {
   }
 }
 
-enum ComparisonStatusEnum {
-  different('Different'),
-  equivalent('Equivalent'),
-  equal('Equal'),
-  ;
+class ComparisonStatusEnum {
+  static const different = ComparisonStatusEnum._('Different');
+  static const equivalent = ComparisonStatusEnum._('Equivalent');
+  static const equal = ComparisonStatusEnum._('Equal');
 
   final String value;
 
-  const ComparisonStatusEnum(this.value);
+  const ComparisonStatusEnum._(this.value);
 
-  static ComparisonStatusEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonStatusEnum'));
+  static const values = [different, equivalent, equal];
+
+  static ComparisonStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Creates the CloudFormation step input.
@@ -1815,10 +1844,10 @@ class DataSet {
   factory DataSet.fromJson(Map<String, dynamic> json) {
     return DataSet(
       ccsid: (json['ccsid'] as String?) ?? '',
-      format: Format.fromString((json['format'] as String)),
+      format: Format.fromString((json['format'] as String?) ?? ''),
       length: (json['length'] as int?) ?? 0,
       name: (json['name'] as String?) ?? '',
-      type: DataSetType.fromString((json['type'] as String)),
+      type: DataSetType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -1838,17 +1867,26 @@ class DataSet {
   }
 }
 
-enum DataSetType {
-  ps('PS'),
-  ;
+class DataSetType {
+  static const ps = DataSetType._('PS');
 
   final String value;
 
-  const DataSetType(this.value);
+  const DataSetType._(this.value);
 
-  static DataSetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataSetType'));
+  static const values = [ps];
+
+  static DataSetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSetType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the Change Data Capture (CDC) of the database.
@@ -2064,19 +2102,28 @@ class FileMetadata {
   }
 }
 
-enum Format {
-  fixed('FIXED'),
-  variable('VARIABLE'),
-  lineSequential('LINE_SEQUENTIAL'),
-  ;
+class Format {
+  static const fixed = Format._('FIXED');
+  static const variable = Format._('VARIABLE');
+  static const lineSequential = Format._('LINE_SEQUENTIAL');
 
   final String value;
 
-  const Format(this.value);
+  const Format._(this.value);
+
+  static const values = [fixed, variable, lineSequential];
 
   static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Format'));
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetTestCaseResponse {
@@ -2139,7 +2186,7 @@ class GetTestCaseResponse {
           (json['latestVersion'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['name'] as String?) ?? '',
-      status: TestCaseLifecycle.fromString((json['status'] as String)),
+      status: TestCaseLifecycle.fromString((json['status'] as String?) ?? ''),
       steps: ((json['steps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
@@ -2259,7 +2306,8 @@ class GetTestConfigurationResponse {
           .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: TestConfigurationLifecycle.fromString((json['status'] as String)),
+      status: TestConfigurationLifecycle.fromString(
+          (json['status'] as String?) ?? ''),
       testConfigurationArn: (json['testConfigurationArn'] as String?) ?? '',
       testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
       testConfigurationVersion: (json['testConfigurationVersion'] as int?) ?? 0,
@@ -2367,7 +2415,7 @@ class GetTestRunStepResponse {
   factory GetTestRunStepResponse.fromJson(Map<String, dynamic> json) {
     return GetTestRunStepResponse(
       runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
-      status: StepRunStatus.fromString((json['status'] as String)),
+      status: StepRunStatus.fromString((json['status'] as String?) ?? ''),
       stepName: (json['stepName'] as String?) ?? '',
       testRunId: (json['testRunId'] as String?) ?? '',
       afterStep: json['afterStep'] as bool?,
@@ -2855,19 +2903,29 @@ class M2ManagedActionProperties {
   }
 }
 
-enum M2ManagedActionType {
-  configure('Configure'),
-  deconfigure('Deconfigure'),
-  ;
+class M2ManagedActionType {
+  static const configure = M2ManagedActionType._('Configure');
+  static const deconfigure = M2ManagedActionType._('Deconfigure');
 
   final String value;
 
-  const M2ManagedActionType(this.value);
+  const M2ManagedActionType._(this.value);
 
-  static M2ManagedActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2ManagedActionType'));
+  static const values = [configure, deconfigure];
+
+  static M2ManagedActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2ManagedActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2ManagedActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the AWS Mainframe Modernization managed application.
@@ -2895,7 +2953,7 @@ class M2ManagedApplication {
   factory M2ManagedApplication.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplication(
       applicationId: (json['applicationId'] as String?) ?? '',
-      runtime: M2ManagedRuntime.fromString((json['runtime'] as String)),
+      runtime: M2ManagedRuntime.fromString((json['runtime'] as String?) ?? ''),
       listenerPort: json['listenerPort'] as String?,
       vpcEndpointServiceName: json['vpcEndpointServiceName'] as String?,
     );
@@ -2938,7 +2996,7 @@ class M2ManagedApplicationAction {
   factory M2ManagedApplicationAction.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplicationAction(
       actionType:
-          M2ManagedActionType.fromString((json['actionType'] as String)),
+          M2ManagedActionType.fromString((json['actionType'] as String?) ?? ''),
       resource: (json['resource'] as String?) ?? '',
       properties: json['properties'] != null
           ? M2ManagedActionProperties.fromJson(
@@ -2997,7 +3055,7 @@ class M2ManagedApplicationStepInput {
   factory M2ManagedApplicationStepInput.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplicationStepInput(
       actionType:
-          M2ManagedActionType.fromString((json['actionType'] as String)),
+          M2ManagedActionType.fromString((json['actionType'] as String?) ?? ''),
       applicationId: (json['applicationId'] as String?) ?? '',
       runtime: (json['runtime'] as String?) ?? '',
       listenerPort: json['listenerPort'] as int?,
@@ -3114,7 +3172,7 @@ class M2ManagedApplicationSummary {
   factory M2ManagedApplicationSummary.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplicationSummary(
       applicationId: (json['applicationId'] as String?) ?? '',
-      runtime: M2ManagedRuntime.fromString((json['runtime'] as String)),
+      runtime: M2ManagedRuntime.fromString((json['runtime'] as String?) ?? ''),
       listenerPort: json['listenerPort'] as int?,
     );
   }
@@ -3131,33 +3189,52 @@ class M2ManagedApplicationSummary {
   }
 }
 
-enum M2ManagedRuntime {
-  microFocus('MicroFocus'),
-  ;
+class M2ManagedRuntime {
+  static const microFocus = M2ManagedRuntime._('MicroFocus');
 
   final String value;
 
-  const M2ManagedRuntime(this.value);
+  const M2ManagedRuntime._(this.value);
+
+  static const values = [microFocus];
 
   static M2ManagedRuntime fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum M2ManagedRuntime'));
+          orElse: () => M2ManagedRuntime._(value));
+
+  @override
+  bool operator ==(other) => other is M2ManagedRuntime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum M2NonManagedActionType {
-  configure('Configure'),
-  deconfigure('Deconfigure'),
-  ;
+class M2NonManagedActionType {
+  static const configure = M2NonManagedActionType._('Configure');
+  static const deconfigure = M2NonManagedActionType._('Deconfigure');
 
   final String value;
 
-  const M2NonManagedActionType(this.value);
+  const M2NonManagedActionType._(this.value);
+
+  static const values = [configure, deconfigure];
 
   static M2NonManagedActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum M2NonManagedActionType'));
+          orElse: () => M2NonManagedActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2NonManagedActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the AWS Mainframe Modernization non-managed application.
@@ -3187,7 +3264,8 @@ class M2NonManagedApplication {
   factory M2NonManagedApplication.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplication(
       listenerPort: (json['listenerPort'] as String?) ?? '',
-      runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
+      runtime:
+          M2NonManagedRuntime.fromString((json['runtime'] as String?) ?? ''),
       vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
@@ -3224,8 +3302,8 @@ class M2NonManagedApplicationAction {
 
   factory M2NonManagedApplicationAction.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplicationAction(
-      actionType:
-          M2NonManagedActionType.fromString((json['actionType'] as String)),
+      actionType: M2NonManagedActionType.fromString(
+          (json['actionType'] as String?) ?? ''),
       resource: (json['resource'] as String?) ?? '',
     );
   }
@@ -3273,10 +3351,11 @@ class M2NonManagedApplicationStepInput {
 
   factory M2NonManagedApplicationStepInput.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplicationStepInput(
-      actionType:
-          M2NonManagedActionType.fromString((json['actionType'] as String)),
+      actionType: M2NonManagedActionType.fromString(
+          (json['actionType'] as String?) ?? ''),
       listenerPort: (json['listenerPort'] as int?) ?? 0,
-      runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
+      runtime:
+          M2NonManagedRuntime.fromString((json['runtime'] as String?) ?? ''),
       vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
@@ -3379,7 +3458,8 @@ class M2NonManagedApplicationSummary {
   factory M2NonManagedApplicationSummary.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplicationSummary(
       listenerPort: (json['listenerPort'] as int?) ?? 0,
-      runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
+      runtime:
+          M2NonManagedRuntime.fromString((json['runtime'] as String?) ?? ''),
       vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
@@ -3399,18 +3479,28 @@ class M2NonManagedApplicationSummary {
   }
 }
 
-enum M2NonManagedRuntime {
-  bluAge('BluAge'),
-  ;
+class M2NonManagedRuntime {
+  static const bluAge = M2NonManagedRuntime._('BluAge');
 
   final String value;
 
-  const M2NonManagedRuntime(this.value);
+  const M2NonManagedRuntime._(this.value);
 
-  static M2NonManagedRuntime fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum M2NonManagedRuntime'));
+  static const values = [bluAge];
+
+  static M2NonManagedRuntime fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => M2NonManagedRuntime._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is M2NonManagedRuntime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the mainframe action.
@@ -3832,7 +3922,7 @@ class Script {
   factory Script.fromJson(Map<String, dynamic> json) {
     return Script(
       scriptLocation: (json['scriptLocation'] as String?) ?? '',
-      type: ScriptType.fromString((json['type'] as String)),
+      type: ScriptType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -3862,7 +3952,7 @@ class ScriptSummary {
   factory ScriptSummary.fromJson(Map<String, dynamic> json) {
     return ScriptSummary(
       scriptLocation: (json['scriptLocation'] as String?) ?? '',
-      type: ScriptType.fromString((json['type'] as String)),
+      type: ScriptType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -3876,17 +3966,26 @@ class ScriptSummary {
   }
 }
 
-enum ScriptType {
-  selenium('Selenium'),
-  ;
+class ScriptType {
+  static const selenium = ScriptType._('Selenium');
 
   final String value;
 
-  const ScriptType(this.value);
+  const ScriptType._(this.value);
 
-  static ScriptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScriptType'));
+  static const values = [selenium];
+
+  static ScriptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScriptType._(value));
+
+  @override
+  bool operator ==(other) => other is ScriptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the service settings.
@@ -3912,18 +4011,27 @@ class ServiceSettings {
   }
 }
 
-enum SourceDatabase {
-  zOsDb2('z/OS-DB2'),
-  ;
+class SourceDatabase {
+  static const zOsDb2 = SourceDatabase._('z/OS-DB2');
 
   final String value;
 
-  const SourceDatabase(this.value);
+  const SourceDatabase._(this.value);
+
+  static const values = [zOsDb2];
 
   static SourceDatabase fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SourceDatabase'));
+          orElse: () => SourceDatabase._(value));
+
+  @override
+  bool operator ==(other) => other is SourceDatabase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the source database metadata.
@@ -3941,8 +4049,9 @@ class SourceDatabaseMetadata {
 
   factory SourceDatabaseMetadata.fromJson(Map<String, dynamic> json) {
     return SourceDatabaseMetadata(
-      captureTool: CaptureTool.fromString((json['captureTool'] as String)),
-      type: SourceDatabase.fromString((json['type'] as String)),
+      captureTool:
+          CaptureTool.fromString((json['captureTool'] as String?) ?? ''),
+      type: SourceDatabase.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -3972,7 +4081,7 @@ class StartTestRunResponse {
     return StartTestRunResponse(
       testRunId: (json['testRunId'] as String?) ?? '',
       testRunStatus:
-          TestRunStatus.fromString((json['testRunStatus'] as String)),
+          TestRunStatus.fromString((json['testRunStatus'] as String?) ?? ''),
     );
   }
 
@@ -4070,20 +4179,29 @@ class StepAction {
   }
 }
 
-enum StepRunStatus {
-  success('Success'),
-  failed('Failed'),
-  running('Running'),
-  ;
+class StepRunStatus {
+  static const success = StepRunStatus._('Success');
+  static const failed = StepRunStatus._('Failed');
+  static const running = StepRunStatus._('Running');
 
   final String value;
 
-  const StepRunStatus(this.value);
+  const StepRunStatus._(this.value);
+
+  static const values = [success, failed, running];
 
   static StepRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StepRunStatus'));
+          orElse: () => StepRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the step run summary.
@@ -4315,18 +4433,27 @@ class TagResourceResponse {
   }
 }
 
-enum TargetDatabase {
-  postgreSQL('PostgreSQL'),
-  ;
+class TargetDatabase {
+  static const postgreSQL = TargetDatabase._('PostgreSQL');
 
   final String value;
 
-  const TargetDatabase(this.value);
+  const TargetDatabase._(this.value);
+
+  static const values = [postgreSQL];
 
   static TargetDatabase fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetDatabase'));
+          orElse: () => TargetDatabase._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDatabase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a target database metadata.
@@ -4344,8 +4471,9 @@ class TargetDatabaseMetadata {
 
   factory TargetDatabaseMetadata.fromJson(Map<String, dynamic> json) {
     return TargetDatabaseMetadata(
-      captureTool: CaptureTool.fromString((json['captureTool'] as String)),
-      type: TargetDatabase.fromString((json['type'] as String)),
+      captureTool:
+          CaptureTool.fromString((json['captureTool'] as String?) ?? ''),
+      type: TargetDatabase.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -4378,7 +4506,7 @@ class TestCaseLatestVersion {
 
   factory TestCaseLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestCaseLatestVersion(
-      status: TestCaseLifecycle.fromString((json['status'] as String)),
+      status: TestCaseLifecycle.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
@@ -4396,35 +4524,53 @@ class TestCaseLatestVersion {
   }
 }
 
-enum TestCaseLifecycle {
-  active('Active'),
-  deleting('Deleting'),
-  ;
+class TestCaseLifecycle {
+  static const active = TestCaseLifecycle._('Active');
+  static const deleting = TestCaseLifecycle._('Deleting');
 
   final String value;
 
-  const TestCaseLifecycle(this.value);
+  const TestCaseLifecycle._(this.value);
+
+  static const values = [active, deleting];
 
   static TestCaseLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TestCaseLifecycle'));
+          orElse: () => TestCaseLifecycle._(value));
+
+  @override
+  bool operator ==(other) => other is TestCaseLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestCaseRunStatus {
-  success('Success'),
-  running('Running'),
-  failed('Failed'),
-  ;
+class TestCaseRunStatus {
+  static const success = TestCaseRunStatus._('Success');
+  static const running = TestCaseRunStatus._('Running');
+  static const failed = TestCaseRunStatus._('Failed');
 
   final String value;
 
-  const TestCaseRunStatus(this.value);
+  const TestCaseRunStatus._(this.value);
+
+  static const values = [success, running, failed];
 
   static TestCaseRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TestCaseRunStatus'));
+          orElse: () => TestCaseRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TestCaseRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the test case run summary.
@@ -4463,7 +4609,7 @@ class TestCaseRunSummary {
   factory TestCaseRunSummary.fromJson(Map<String, dynamic> json) {
     return TestCaseRunSummary(
       runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
-      status: TestCaseRunStatus.fromString((json['status'] as String)),
+      status: TestCaseRunStatus.fromString((json['status'] as String?) ?? ''),
       testCaseId: (json['testCaseId'] as String?) ?? '',
       testCaseVersion: (json['testCaseVersion'] as int?) ?? 0,
       testRunId: (json['testRunId'] as String?) ?? '',
@@ -4535,7 +4681,7 @@ class TestCaseSummary {
       lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: (json['latestVersion'] as int?) ?? 0,
       name: (json['name'] as String?) ?? '',
-      status: TestCaseLifecycle.fromString((json['status'] as String)),
+      status: TestCaseLifecycle.fromString((json['status'] as String?) ?? ''),
       testCaseArn: (json['testCaseArn'] as String?) ?? '',
       testCaseId: (json['testCaseId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
@@ -4609,7 +4755,8 @@ class TestConfigurationLatestVersion {
 
   factory TestConfigurationLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestConfigurationLatestVersion(
-      status: TestConfigurationLifecycle.fromString((json['status'] as String)),
+      status: TestConfigurationLifecycle.fromString(
+          (json['status'] as String?) ?? ''),
       version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
@@ -4627,19 +4774,29 @@ class TestConfigurationLatestVersion {
   }
 }
 
-enum TestConfigurationLifecycle {
-  active('Active'),
-  deleting('Deleting'),
-  ;
+class TestConfigurationLifecycle {
+  static const active = TestConfigurationLifecycle._('Active');
+  static const deleting = TestConfigurationLifecycle._('Deleting');
 
   final String value;
 
-  const TestConfigurationLifecycle(this.value);
+  const TestConfigurationLifecycle._(this.value);
+
+  static const values = [active, deleting];
 
   static TestConfigurationLifecycle fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestConfigurationLifecycle'));
+          orElse: () => TestConfigurationLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestConfigurationLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a test configuration summary.
@@ -4685,7 +4842,8 @@ class TestConfigurationSummary {
       lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: (json['latestVersion'] as int?) ?? 0,
       name: (json['name'] as String?) ?? '',
-      status: TestConfigurationLifecycle.fromString((json['status'] as String)),
+      status: TestConfigurationLifecycle.fromString(
+          (json['status'] as String?) ?? ''),
       testConfigurationArn: (json['testConfigurationArn'] as String?) ?? '',
       testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
@@ -4714,21 +4872,30 @@ class TestConfigurationSummary {
   }
 }
 
-enum TestRunStatus {
-  success('Success'),
-  running('Running'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class TestRunStatus {
+  static const success = TestRunStatus._('Success');
+  static const running = TestRunStatus._('Running');
+  static const failed = TestRunStatus._('Failed');
+  static const deleting = TestRunStatus._('Deleting');
 
   final String value;
 
-  const TestRunStatus(this.value);
+  const TestRunStatus._(this.value);
+
+  static const values = [success, running, failed, deleting];
 
   static TestRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TestRunStatus'));
+          orElse: () => TestRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TestRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies a test run step summary.
@@ -4787,7 +4954,7 @@ class TestRunStepSummary {
   factory TestRunStepSummary.fromJson(Map<String, dynamic> json) {
     return TestRunStepSummary(
       runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
-      status: StepRunStatus.fromString((json['status'] as String)),
+      status: StepRunStatus.fromString((json['status'] as String?) ?? ''),
       stepName: (json['stepName'] as String?) ?? '',
       testRunId: (json['testRunId'] as String?) ?? '',
       afterStep: json['afterStep'] as bool?,
@@ -4879,7 +5046,7 @@ class TestRunSummary {
   factory TestRunSummary.fromJson(Map<String, dynamic> json) {
     return TestRunSummary(
       runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
-      status: TestRunStatus.fromString((json['status'] as String)),
+      status: TestRunStatus.fromString((json['status'] as String?) ?? ''),
       testRunArn: (json['testRunArn'] as String?) ?? '',
       testRunId: (json['testRunId'] as String?) ?? '',
       testSuiteId: (json['testSuiteId'] as String?) ?? '',
@@ -4938,7 +5105,7 @@ class TestSuiteLatestVersion {
 
   factory TestSuiteLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestSuiteLatestVersion(
-      status: TestSuiteLifecycle.fromString((json['status'] as String)),
+      status: TestSuiteLifecycle.fromString((json['status'] as String?) ?? ''),
       version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
@@ -4956,22 +5123,32 @@ class TestSuiteLatestVersion {
   }
 }
 
-enum TestSuiteLifecycle {
-  creating('Creating'),
-  updating('Updating'),
-  active('Active'),
-  failed('Failed'),
-  deleting('Deleting'),
-  ;
+class TestSuiteLifecycle {
+  static const creating = TestSuiteLifecycle._('Creating');
+  static const updating = TestSuiteLifecycle._('Updating');
+  static const active = TestSuiteLifecycle._('Active');
+  static const failed = TestSuiteLifecycle._('Failed');
+  static const deleting = TestSuiteLifecycle._('Deleting');
 
   final String value;
 
-  const TestSuiteLifecycle(this.value);
+  const TestSuiteLifecycle._(this.value);
 
-  static TestSuiteLifecycle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestSuiteLifecycle'));
+  static const values = [creating, updating, active, failed, deleting];
+
+  static TestSuiteLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestSuiteLifecycle._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestSuiteLifecycle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the test suite summary.
@@ -5017,7 +5194,7 @@ class TestSuiteSummary {
       lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: (json['latestVersion'] as int?) ?? 0,
       name: (json['name'] as String?) ?? '',
-      status: TestSuiteLifecycle.fromString((json['status'] as String)),
+      status: TestSuiteLifecycle.fromString((json['status'] as String?) ?? ''),
       testSuiteArn: (json['testSuiteArn'] as String?) ?? '',
       testSuiteId: (json['testSuiteId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,

@@ -250,17 +250,26 @@ class SendAlexaOfferToMasterResponse {
   }
 }
 
-enum Service {
-  turn('TURN'),
-  ;
+class Service {
+  static const turn = Service._('TURN');
 
   final String value;
 
-  const Service(this.value);
+  const Service._(this.value);
 
-  static Service fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Service'));
+  static const values = [turn];
+
+  static Service fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Service._(value));
+
+  @override
+  bool operator ==(other) => other is Service && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {

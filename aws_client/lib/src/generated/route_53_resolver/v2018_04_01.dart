@@ -4311,19 +4311,28 @@ class Route53Resolver {
   }
 }
 
-enum Action {
-  allow('ALLOW'),
-  block('BLOCK'),
-  alert('ALERT'),
-  ;
+class Action {
+  static const allow = Action._('ALLOW');
+  static const block = Action._('BLOCK');
+  static const alert = Action._('ALERT');
 
   final String value;
 
-  const Action(this.value);
+  const Action._(this.value);
+
+  static const values = [allow, block, alert];
 
   static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Action'));
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateFirewallRuleGroupResponse {
@@ -4438,50 +4447,80 @@ class AssociateResolverRuleResponse {
   }
 }
 
-enum AutodefinedReverseFlag {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
-  ;
+class AutodefinedReverseFlag {
+  static const enable = AutodefinedReverseFlag._('ENABLE');
+  static const disable = AutodefinedReverseFlag._('DISABLE');
+  static const useLocalResourceSetting =
+      AutodefinedReverseFlag._('USE_LOCAL_RESOURCE_SETTING');
 
   final String value;
 
-  const AutodefinedReverseFlag(this.value);
+  const AutodefinedReverseFlag._(this.value);
+
+  static const values = [enable, disable, useLocalResourceSetting];
 
   static AutodefinedReverseFlag fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutodefinedReverseFlag'));
+          orElse: () => AutodefinedReverseFlag._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutodefinedReverseFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BlockOverrideDnsType {
-  cname('CNAME'),
-  ;
+class BlockOverrideDnsType {
+  static const cname = BlockOverrideDnsType._('CNAME');
 
   final String value;
 
-  const BlockOverrideDnsType(this.value);
+  const BlockOverrideDnsType._(this.value);
 
-  static BlockOverrideDnsType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BlockOverrideDnsType'));
+  static const values = [cname];
+
+  static BlockOverrideDnsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BlockOverrideDnsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BlockOverrideDnsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BlockResponse {
-  nodata('NODATA'),
-  nxdomain('NXDOMAIN'),
-  override('OVERRIDE'),
-  ;
+class BlockResponse {
+  static const nodata = BlockResponse._('NODATA');
+  static const nxdomain = BlockResponse._('NXDOMAIN');
+  static const $override = BlockResponse._('OVERRIDE');
 
   final String value;
 
-  const BlockResponse(this.value);
+  const BlockResponse._(this.value);
+
+  static const values = [nodata, nxdomain, $override];
 
   static BlockResponse fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BlockResponse'));
+          orElse: () => BlockResponse._(value));
+
+  @override
+  bool operator ==(other) => other is BlockResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateFirewallDomainListResponse {
@@ -5293,18 +5332,28 @@ class FirewallConfig {
   }
 }
 
-enum FirewallDomainImportOperation {
-  replace('REPLACE'),
-  ;
+class FirewallDomainImportOperation {
+  static const replace = FirewallDomainImportOperation._('REPLACE');
 
   final String value;
 
-  const FirewallDomainImportOperation(this.value);
+  const FirewallDomainImportOperation._(this.value);
+
+  static const values = [replace];
 
   static FirewallDomainImportOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallDomainImportOperation'));
+          orElse: () => FirewallDomainImportOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallDomainImportOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// High-level information about a list of firewall domains for use in a
@@ -5465,69 +5514,119 @@ class FirewallDomainListMetadata {
   }
 }
 
-enum FirewallDomainListStatus {
-  complete('COMPLETE'),
-  completeImportFailed('COMPLETE_IMPORT_FAILED'),
-  importing('IMPORTING'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class FirewallDomainListStatus {
+  static const complete = FirewallDomainListStatus._('COMPLETE');
+  static const completeImportFailed =
+      FirewallDomainListStatus._('COMPLETE_IMPORT_FAILED');
+  static const importing = FirewallDomainListStatus._('IMPORTING');
+  static const deleting = FirewallDomainListStatus._('DELETING');
+  static const updating = FirewallDomainListStatus._('UPDATING');
 
   final String value;
 
-  const FirewallDomainListStatus(this.value);
+  const FirewallDomainListStatus._(this.value);
+
+  static const values = [
+    complete,
+    completeImportFailed,
+    importing,
+    deleting,
+    updating
+  ];
 
   static FirewallDomainListStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallDomainListStatus'));
+          orElse: () => FirewallDomainListStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallDomainListStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FirewallDomainRedirectionAction {
-  inspectRedirectionDomain('INSPECT_REDIRECTION_DOMAIN'),
-  trustRedirectionDomain('TRUST_REDIRECTION_DOMAIN'),
-  ;
+class FirewallDomainRedirectionAction {
+  static const inspectRedirectionDomain =
+      FirewallDomainRedirectionAction._('INSPECT_REDIRECTION_DOMAIN');
+  static const trustRedirectionDomain =
+      FirewallDomainRedirectionAction._('TRUST_REDIRECTION_DOMAIN');
 
   final String value;
 
-  const FirewallDomainRedirectionAction(this.value);
+  const FirewallDomainRedirectionAction._(this.value);
+
+  static const values = [inspectRedirectionDomain, trustRedirectionDomain];
 
   static FirewallDomainRedirectionAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallDomainRedirectionAction'));
+          orElse: () => FirewallDomainRedirectionAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallDomainRedirectionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FirewallDomainUpdateOperation {
-  add('ADD'),
-  remove('REMOVE'),
-  replace('REPLACE'),
-  ;
+class FirewallDomainUpdateOperation {
+  static const add = FirewallDomainUpdateOperation._('ADD');
+  static const remove = FirewallDomainUpdateOperation._('REMOVE');
+  static const replace = FirewallDomainUpdateOperation._('REPLACE');
 
   final String value;
 
-  const FirewallDomainUpdateOperation(this.value);
+  const FirewallDomainUpdateOperation._(this.value);
+
+  static const values = [add, remove, replace];
 
   static FirewallDomainUpdateOperation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallDomainUpdateOperation'));
+          orElse: () => FirewallDomainUpdateOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallDomainUpdateOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FirewallFailOpenStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
-  ;
+class FirewallFailOpenStatus {
+  static const enabled = FirewallFailOpenStatus._('ENABLED');
+  static const disabled = FirewallFailOpenStatus._('DISABLED');
+  static const useLocalResourceSetting =
+      FirewallFailOpenStatus._('USE_LOCAL_RESOURCE_SETTING');
 
   final String value;
 
-  const FirewallFailOpenStatus(this.value);
+  const FirewallFailOpenStatus._(this.value);
+
+  static const values = [enabled, disabled, useLocalResourceSetting];
 
   static FirewallFailOpenStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallFailOpenStatus'));
+          orElse: () => FirewallFailOpenStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallFailOpenStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A single firewall rule in a rule group.
@@ -5988,20 +6087,30 @@ class FirewallRuleGroupAssociation {
   }
 }
 
-enum FirewallRuleGroupAssociationStatus {
-  complete('COMPLETE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class FirewallRuleGroupAssociationStatus {
+  static const complete = FirewallRuleGroupAssociationStatus._('COMPLETE');
+  static const deleting = FirewallRuleGroupAssociationStatus._('DELETING');
+  static const updating = FirewallRuleGroupAssociationStatus._('UPDATING');
 
   final String value;
 
-  const FirewallRuleGroupAssociationStatus(this.value);
+  const FirewallRuleGroupAssociationStatus._(this.value);
+
+  static const values = [complete, deleting, updating];
 
   static FirewallRuleGroupAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallRuleGroupAssociationStatus'));
+          orElse: () => FirewallRuleGroupAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallRuleGroupAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Minimal high-level information for a firewall rule group. The action
@@ -6073,20 +6182,30 @@ class FirewallRuleGroupMetadata {
   }
 }
 
-enum FirewallRuleGroupStatus {
-  complete('COMPLETE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  ;
+class FirewallRuleGroupStatus {
+  static const complete = FirewallRuleGroupStatus._('COMPLETE');
+  static const deleting = FirewallRuleGroupStatus._('DELETING');
+  static const updating = FirewallRuleGroupStatus._('UPDATING');
 
   final String value;
 
-  const FirewallRuleGroupStatus(this.value);
+  const FirewallRuleGroupStatus._(this.value);
+
+  static const values = [complete, deleting, updating];
 
   static FirewallRuleGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FirewallRuleGroupStatus'));
+          orElse: () => FirewallRuleGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FirewallRuleGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetFirewallConfigResponse {
@@ -6640,29 +6759,52 @@ class IpAddressResponse {
   }
 }
 
-enum IpAddressStatus {
-  creating('CREATING'),
-  failedCreation('FAILED_CREATION'),
-  attaching('ATTACHING'),
-  attached('ATTACHED'),
-  remapDetaching('REMAP_DETACHING'),
-  remapAttaching('REMAP_ATTACHING'),
-  detaching('DETACHING'),
-  failedResourceGone('FAILED_RESOURCE_GONE'),
-  deleting('DELETING'),
-  deleteFailedFasExpired('DELETE_FAILED_FAS_EXPIRED'),
-  updating('UPDATING'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class IpAddressStatus {
+  static const creating = IpAddressStatus._('CREATING');
+  static const failedCreation = IpAddressStatus._('FAILED_CREATION');
+  static const attaching = IpAddressStatus._('ATTACHING');
+  static const attached = IpAddressStatus._('ATTACHED');
+  static const remapDetaching = IpAddressStatus._('REMAP_DETACHING');
+  static const remapAttaching = IpAddressStatus._('REMAP_ATTACHING');
+  static const detaching = IpAddressStatus._('DETACHING');
+  static const failedResourceGone = IpAddressStatus._('FAILED_RESOURCE_GONE');
+  static const deleting = IpAddressStatus._('DELETING');
+  static const deleteFailedFasExpired =
+      IpAddressStatus._('DELETE_FAILED_FAS_EXPIRED');
+  static const updating = IpAddressStatus._('UPDATING');
+  static const updateFailed = IpAddressStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const IpAddressStatus(this.value);
+  const IpAddressStatus._(this.value);
+
+  static const values = [
+    creating,
+    failedCreation,
+    attaching,
+    attached,
+    remapDetaching,
+    remapAttaching,
+    detaching,
+    failedResourceGone,
+    deleting,
+    deleteFailedFasExpired,
+    updating,
+    updateFailed
+  ];
 
   static IpAddressStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressStatus'));
+          orElse: () => IpAddressStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In an <a
@@ -7399,19 +7541,29 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MutationProtectionStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class MutationProtectionStatus {
+  static const enabled = MutationProtectionStatus._('ENABLED');
+  static const disabled = MutationProtectionStatus._('DISABLED');
 
   final String value;
 
-  const MutationProtectionStatus(this.value);
+  const MutationProtectionStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static MutationProtectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MutationProtectionStatus'));
+          orElse: () => MutationProtectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MutationProtectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains settings for an existing Resolver on an
@@ -7514,39 +7666,66 @@ class OutpostResolver {
   }
 }
 
-enum OutpostResolverStatus {
-  creating('CREATING'),
-  operational('OPERATIONAL'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  actionNeeded('ACTION_NEEDED'),
-  failedCreation('FAILED_CREATION'),
-  failedDeletion('FAILED_DELETION'),
-  ;
+class OutpostResolverStatus {
+  static const creating = OutpostResolverStatus._('CREATING');
+  static const operational = OutpostResolverStatus._('OPERATIONAL');
+  static const updating = OutpostResolverStatus._('UPDATING');
+  static const deleting = OutpostResolverStatus._('DELETING');
+  static const actionNeeded = OutpostResolverStatus._('ACTION_NEEDED');
+  static const failedCreation = OutpostResolverStatus._('FAILED_CREATION');
+  static const failedDeletion = OutpostResolverStatus._('FAILED_DELETION');
 
   final String value;
 
-  const OutpostResolverStatus(this.value);
+  const OutpostResolverStatus._(this.value);
 
-  static OutpostResolverStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OutpostResolverStatus'));
+  static const values = [
+    creating,
+    operational,
+    updating,
+    deleting,
+    actionNeeded,
+    failedCreation,
+    failedDeletion
+  ];
+
+  static OutpostResolverStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutpostResolverStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutpostResolverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Protocol {
-  doH('DoH'),
-  do53('Do53'),
-  doHFips('DoH-FIPS'),
-  ;
+class Protocol {
+  static const doH = Protocol._('DoH');
+  static const do53 = Protocol._('Do53');
+  static const doHFips = Protocol._('DoH-FIPS');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [doH, do53, doHFips];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutFirewallRuleGroupPolicyResponse {
@@ -7620,23 +7799,43 @@ class PutResolverRulePolicyResponse {
   }
 }
 
-enum ResolverAutodefinedReverseStatus {
-  enabling('ENABLING'),
-  enabled('ENABLED'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  updatingToUseLocalResourceSetting('UPDATING_TO_USE_LOCAL_RESOURCE_SETTING'),
-  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
-  ;
+class ResolverAutodefinedReverseStatus {
+  static const enabling = ResolverAutodefinedReverseStatus._('ENABLING');
+  static const enabled = ResolverAutodefinedReverseStatus._('ENABLED');
+  static const disabling = ResolverAutodefinedReverseStatus._('DISABLING');
+  static const disabled = ResolverAutodefinedReverseStatus._('DISABLED');
+  static const updatingToUseLocalResourceSetting =
+      ResolverAutodefinedReverseStatus._(
+          'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING');
+  static const useLocalResourceSetting =
+      ResolverAutodefinedReverseStatus._('USE_LOCAL_RESOURCE_SETTING');
 
   final String value;
 
-  const ResolverAutodefinedReverseStatus(this.value);
+  const ResolverAutodefinedReverseStatus._(this.value);
+
+  static const values = [
+    enabling,
+    enabled,
+    disabling,
+    disabled,
+    updatingToUseLocalResourceSetting,
+    useLocalResourceSetting
+  ];
 
   static ResolverAutodefinedReverseStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverAutodefinedReverseStatus'));
+          orElse: () => ResolverAutodefinedReverseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverAutodefinedReverseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about a Resolver configuration for
@@ -7706,23 +7905,43 @@ class ResolverConfig {
   }
 }
 
-enum ResolverDNSSECValidationStatus {
-  enabling('ENABLING'),
-  enabled('ENABLED'),
-  disabling('DISABLING'),
-  disabled('DISABLED'),
-  updatingToUseLocalResourceSetting('UPDATING_TO_USE_LOCAL_RESOURCE_SETTING'),
-  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
-  ;
+class ResolverDNSSECValidationStatus {
+  static const enabling = ResolverDNSSECValidationStatus._('ENABLING');
+  static const enabled = ResolverDNSSECValidationStatus._('ENABLED');
+  static const disabling = ResolverDNSSECValidationStatus._('DISABLING');
+  static const disabled = ResolverDNSSECValidationStatus._('DISABLED');
+  static const updatingToUseLocalResourceSetting =
+      ResolverDNSSECValidationStatus._(
+          'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING');
+  static const useLocalResourceSetting =
+      ResolverDNSSECValidationStatus._('USE_LOCAL_RESOURCE_SETTING');
 
   final String value;
 
-  const ResolverDNSSECValidationStatus(this.value);
+  const ResolverDNSSECValidationStatus._(this.value);
+
+  static const values = [
+    enabling,
+    enabled,
+    disabling,
+    disabled,
+    updatingToUseLocalResourceSetting,
+    useLocalResourceSetting
+  ];
 
   static ResolverDNSSECValidationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverDNSSECValidationStatus'));
+          orElse: () => ResolverDNSSECValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverDNSSECValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about a configuration for DNSSEC
@@ -8049,54 +8268,91 @@ class ResolverEndpoint {
   }
 }
 
-enum ResolverEndpointDirection {
-  inbound('INBOUND'),
-  outbound('OUTBOUND'),
-  ;
+class ResolverEndpointDirection {
+  static const inbound = ResolverEndpointDirection._('INBOUND');
+  static const outbound = ResolverEndpointDirection._('OUTBOUND');
 
   final String value;
 
-  const ResolverEndpointDirection(this.value);
+  const ResolverEndpointDirection._(this.value);
+
+  static const values = [inbound, outbound];
 
   static ResolverEndpointDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverEndpointDirection'));
+          orElse: () => ResolverEndpointDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverEndpointDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverEndpointStatus {
-  creating('CREATING'),
-  operational('OPERATIONAL'),
-  updating('UPDATING'),
-  autoRecovering('AUTO_RECOVERING'),
-  actionNeeded('ACTION_NEEDED'),
-  deleting('DELETING'),
-  ;
+class ResolverEndpointStatus {
+  static const creating = ResolverEndpointStatus._('CREATING');
+  static const operational = ResolverEndpointStatus._('OPERATIONAL');
+  static const updating = ResolverEndpointStatus._('UPDATING');
+  static const autoRecovering = ResolverEndpointStatus._('AUTO_RECOVERING');
+  static const actionNeeded = ResolverEndpointStatus._('ACTION_NEEDED');
+  static const deleting = ResolverEndpointStatus._('DELETING');
 
   final String value;
 
-  const ResolverEndpointStatus(this.value);
+  const ResolverEndpointStatus._(this.value);
+
+  static const values = [
+    creating,
+    operational,
+    updating,
+    autoRecovering,
+    actionNeeded,
+    deleting
+  ];
 
   static ResolverEndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverEndpointStatus'));
+          orElse: () => ResolverEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverEndpointType {
-  ipv6('IPV6'),
-  ipv4('IPV4'),
-  dualstack('DUALSTACK'),
-  ;
+class ResolverEndpointType {
+  static const ipv6 = ResolverEndpointType._('IPV6');
+  static const ipv4 = ResolverEndpointType._('IPV4');
+  static const dualstack = ResolverEndpointType._('DUALSTACK');
 
   final String value;
 
-  const ResolverEndpointType(this.value);
+  const ResolverEndpointType._(this.value);
 
-  static ResolverEndpointType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResolverEndpointType'));
+  static const values = [ipv6, ipv4, dualstack];
+
+  static ResolverEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResolverEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In the response to a <a
@@ -8348,56 +8604,95 @@ class ResolverQueryLogConfigAssociation {
   }
 }
 
-enum ResolverQueryLogConfigAssociationError {
-  none('NONE'),
-  destinationNotFound('DESTINATION_NOT_FOUND'),
-  accessDenied('ACCESS_DENIED'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  ;
+class ResolverQueryLogConfigAssociationError {
+  static const none = ResolverQueryLogConfigAssociationError._('NONE');
+  static const destinationNotFound =
+      ResolverQueryLogConfigAssociationError._('DESTINATION_NOT_FOUND');
+  static const accessDenied =
+      ResolverQueryLogConfigAssociationError._('ACCESS_DENIED');
+  static const internalServiceError =
+      ResolverQueryLogConfigAssociationError._('INTERNAL_SERVICE_ERROR');
 
   final String value;
 
-  const ResolverQueryLogConfigAssociationError(this.value);
+  const ResolverQueryLogConfigAssociationError._(this.value);
+
+  static const values = [
+    none,
+    destinationNotFound,
+    accessDenied,
+    internalServiceError
+  ];
 
   static ResolverQueryLogConfigAssociationError fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverQueryLogConfigAssociationError'));
+          orElse: () => ResolverQueryLogConfigAssociationError._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverQueryLogConfigAssociationError && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverQueryLogConfigAssociationStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  actionNeeded('ACTION_NEEDED'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ResolverQueryLogConfigAssociationStatus {
+  static const creating = ResolverQueryLogConfigAssociationStatus._('CREATING');
+  static const active = ResolverQueryLogConfigAssociationStatus._('ACTIVE');
+  static const actionNeeded =
+      ResolverQueryLogConfigAssociationStatus._('ACTION_NEEDED');
+  static const deleting = ResolverQueryLogConfigAssociationStatus._('DELETING');
+  static const failed = ResolverQueryLogConfigAssociationStatus._('FAILED');
 
   final String value;
 
-  const ResolverQueryLogConfigAssociationStatus(this.value);
+  const ResolverQueryLogConfigAssociationStatus._(this.value);
+
+  static const values = [creating, active, actionNeeded, deleting, failed];
 
   static ResolverQueryLogConfigAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverQueryLogConfigAssociationStatus'));
+          orElse: () => ResolverQueryLogConfigAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverQueryLogConfigAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverQueryLogConfigStatus {
-  creating('CREATING'),
-  created('CREATED'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ResolverQueryLogConfigStatus {
+  static const creating = ResolverQueryLogConfigStatus._('CREATING');
+  static const created = ResolverQueryLogConfigStatus._('CREATED');
+  static const deleting = ResolverQueryLogConfigStatus._('DELETING');
+  static const failed = ResolverQueryLogConfigStatus._('FAILED');
 
   final String value;
 
-  const ResolverQueryLogConfigStatus(this.value);
+  const ResolverQueryLogConfigStatus._(this.value);
+
+  static const values = [creating, created, deleting, failed];
 
   static ResolverQueryLogConfigStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverQueryLogConfigStatus'));
+          orElse: () => ResolverQueryLogConfigStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverQueryLogConfigStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// For queries that originate in your VPC, detailed information about a
@@ -8631,22 +8926,32 @@ class ResolverRuleAssociation {
   }
 }
 
-enum ResolverRuleAssociationStatus {
-  creating('CREATING'),
-  complete('COMPLETE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  overridden('OVERRIDDEN'),
-  ;
+class ResolverRuleAssociationStatus {
+  static const creating = ResolverRuleAssociationStatus._('CREATING');
+  static const complete = ResolverRuleAssociationStatus._('COMPLETE');
+  static const deleting = ResolverRuleAssociationStatus._('DELETING');
+  static const failed = ResolverRuleAssociationStatus._('FAILED');
+  static const overridden = ResolverRuleAssociationStatus._('OVERRIDDEN');
 
   final String value;
 
-  const ResolverRuleAssociationStatus(this.value);
+  const ResolverRuleAssociationStatus._(this.value);
+
+  static const values = [creating, complete, deleting, failed, overridden];
 
   static ResolverRuleAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverRuleAssociationStatus'));
+          orElse: () => ResolverRuleAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverRuleAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// In an <a
@@ -8683,66 +8988,103 @@ class ResolverRuleConfig {
   }
 }
 
-enum ResolverRuleStatus {
-  complete('COMPLETE'),
-  deleting('DELETING'),
-  updating('UPDATING'),
-  failed('FAILED'),
-  ;
+class ResolverRuleStatus {
+  static const complete = ResolverRuleStatus._('COMPLETE');
+  static const deleting = ResolverRuleStatus._('DELETING');
+  static const updating = ResolverRuleStatus._('UPDATING');
+  static const failed = ResolverRuleStatus._('FAILED');
 
   final String value;
 
-  const ResolverRuleStatus(this.value);
+  const ResolverRuleStatus._(this.value);
 
-  static ResolverRuleStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResolverRuleStatus'));
+  static const values = [complete, deleting, updating, failed];
+
+  static ResolverRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResolverRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuleTypeOption {
-  forward('FORWARD'),
-  system('SYSTEM'),
-  recursive('RECURSIVE'),
-  ;
+class RuleTypeOption {
+  static const forward = RuleTypeOption._('FORWARD');
+  static const system = RuleTypeOption._('SYSTEM');
+  static const recursive = RuleTypeOption._('RECURSIVE');
 
   final String value;
 
-  const RuleTypeOption(this.value);
+  const RuleTypeOption._(this.value);
+
+  static const values = [forward, system, recursive];
 
   static RuleTypeOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RuleTypeOption'));
+          orElse: () => RuleTypeOption._(value));
+
+  @override
+  bool operator ==(other) => other is RuleTypeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ShareStatus {
-  notShared('NOT_SHARED'),
-  sharedWithMe('SHARED_WITH_ME'),
-  sharedByMe('SHARED_BY_ME'),
-  ;
+class ShareStatus {
+  static const notShared = ShareStatus._('NOT_SHARED');
+  static const sharedWithMe = ShareStatus._('SHARED_WITH_ME');
+  static const sharedByMe = ShareStatus._('SHARED_BY_ME');
 
   final String value;
 
-  const ShareStatus(this.value);
+  const ShareStatus._(this.value);
 
-  static ShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
+  static const values = [notShared, sharedWithMe, sharedByMe];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// One tag that you want to add to the specified resource. A tag consists of a
@@ -9162,19 +9504,29 @@ class UpdateResolverRuleResponse {
   }
 }
 
-enum Validation {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
-  ;
+class Validation {
+  static const enable = Validation._('ENABLE');
+  static const disable = Validation._('DISABLE');
+  static const useLocalResourceSetting =
+      Validation._('USE_LOCAL_RESOURCE_SETTING');
 
   final String value;
 
-  const Validation(this.value);
+  const Validation._(this.value);
 
-  static Validation fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Validation'));
+  static const values = [enable, disable, useLocalResourceSetting];
+
+  static Validation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Validation._(value));
+
+  @override
+  bool operator ==(other) => other is Validation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

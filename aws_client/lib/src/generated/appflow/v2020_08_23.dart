@@ -1375,33 +1375,52 @@ class AggregationConfig {
   }
 }
 
-enum AggregationType {
-  none('None'),
-  singleFile('SingleFile'),
-  ;
+class AggregationType {
+  static const none = AggregationType._('None');
+  static const singleFile = AggregationType._('SingleFile');
 
   final String value;
 
-  const AggregationType(this.value);
+  const AggregationType._(this.value);
+
+  static const values = [none, singleFile];
 
   static AggregationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AggregationType'));
+          orElse: () => AggregationType._(value));
+
+  @override
+  bool operator ==(other) => other is AggregationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AmplitudeConnectorOperator {
-  between('BETWEEN'),
-  ;
+class AmplitudeConnectorOperator {
+  static const between = AmplitudeConnectorOperator._('BETWEEN');
 
   final String value;
 
-  const AmplitudeConnectorOperator(this.value);
+  const AmplitudeConnectorOperator._(this.value);
+
+  static const values = [between];
 
   static AmplitudeConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AmplitudeConnectorOperator'));
+          orElse: () => AmplitudeConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmplitudeConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific credentials required when using Amplitude.
@@ -1631,21 +1650,31 @@ class AuthenticationConfig {
   }
 }
 
-enum AuthenticationType {
-  oauth2('OAUTH2'),
-  apikey('APIKEY'),
-  basic('BASIC'),
-  custom('CUSTOM'),
-  ;
+class AuthenticationType {
+  static const oauth2 = AuthenticationType._('OAUTH2');
+  static const apikey = AuthenticationType._('APIKEY');
+  static const basic = AuthenticationType._('BASIC');
+  static const custom = AuthenticationType._('CUSTOM');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [oauth2, apikey, basic, custom];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The basic auth credentials required for basic authentication.
@@ -1698,32 +1727,50 @@ class CancelFlowExecutionsResponse {
   }
 }
 
-enum CatalogType {
-  glue('GLUE'),
-  ;
+class CatalogType {
+  static const glue = CatalogType._('GLUE');
 
   final String value;
 
-  const CatalogType(this.value);
+  const CatalogType._(this.value);
 
-  static CatalogType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CatalogType'));
+  static const values = [glue];
+
+  static CatalogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CatalogType._(value));
+
+  @override
+  bool operator ==(other) => other is CatalogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionMode {
-  public('Public'),
-  private('Private'),
-  ;
+class ConnectionMode {
+  static const public = ConnectionMode._('Public');
+  static const private = ConnectionMode._('Private');
 
   final String value;
 
-  const ConnectionMode(this.value);
+  const ConnectionMode._(this.value);
+
+  static const values = [public, private];
 
   static ConnectionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionMode'));
+          orElse: () => ConnectionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings related to a given connector.
@@ -3178,18 +3225,28 @@ class ConnectorProvisioningConfig {
 }
 
 /// The type of provisioning that the connector supports, such as Lambda.
-enum ConnectorProvisioningType {
-  lambda('LAMBDA'),
-  ;
+class ConnectorProvisioningType {
+  static const lambda = ConnectorProvisioningType._('LAMBDA');
 
   final String value;
 
-  const ConnectorProvisioningType(this.value);
+  const ConnectorProvisioningType._(this.value);
+
+  static const values = [lambda];
 
   static ConnectorProvisioningType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConnectorProvisioningType'));
+          orElse: () => ConnectorProvisioningType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorProvisioningType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the connector runtime settings that are required
@@ -3264,41 +3321,75 @@ class ConnectorRuntimeSetting {
   }
 }
 
-enum ConnectorType {
-  salesforce('Salesforce'),
-  singular('Singular'),
-  slack('Slack'),
-  redshift('Redshift'),
-  s3('S3'),
-  marketo('Marketo'),
-  googleanalytics('Googleanalytics'),
-  zendesk('Zendesk'),
-  servicenow('Servicenow'),
-  datadog('Datadog'),
-  trendmicro('Trendmicro'),
-  snowflake('Snowflake'),
-  dynatrace('Dynatrace'),
-  infornexus('Infornexus'),
-  amplitude('Amplitude'),
-  veeva('Veeva'),
-  eventBridge('EventBridge'),
-  lookoutMetrics('LookoutMetrics'),
-  upsolver('Upsolver'),
-  honeycode('Honeycode'),
-  customerProfiles('CustomerProfiles'),
-  sAPOData('SAPOData'),
-  customConnector('CustomConnector'),
-  pardot('Pardot'),
-  ;
+class ConnectorType {
+  static const salesforce = ConnectorType._('Salesforce');
+  static const singular = ConnectorType._('Singular');
+  static const slack = ConnectorType._('Slack');
+  static const redshift = ConnectorType._('Redshift');
+  static const s3 = ConnectorType._('S3');
+  static const marketo = ConnectorType._('Marketo');
+  static const googleanalytics = ConnectorType._('Googleanalytics');
+  static const zendesk = ConnectorType._('Zendesk');
+  static const servicenow = ConnectorType._('Servicenow');
+  static const datadog = ConnectorType._('Datadog');
+  static const trendmicro = ConnectorType._('Trendmicro');
+  static const snowflake = ConnectorType._('Snowflake');
+  static const dynatrace = ConnectorType._('Dynatrace');
+  static const infornexus = ConnectorType._('Infornexus');
+  static const amplitude = ConnectorType._('Amplitude');
+  static const veeva = ConnectorType._('Veeva');
+  static const eventBridge = ConnectorType._('EventBridge');
+  static const lookoutMetrics = ConnectorType._('LookoutMetrics');
+  static const upsolver = ConnectorType._('Upsolver');
+  static const honeycode = ConnectorType._('Honeycode');
+  static const customerProfiles = ConnectorType._('CustomerProfiles');
+  static const sAPOData = ConnectorType._('SAPOData');
+  static const customConnector = ConnectorType._('CustomConnector');
+  static const pardot = ConnectorType._('Pardot');
 
   final String value;
 
-  const ConnectorType(this.value);
+  const ConnectorType._(this.value);
+
+  static const values = [
+    salesforce,
+    singular,
+    slack,
+    redshift,
+    s3,
+    marketo,
+    googleanalytics,
+    zendesk,
+    servicenow,
+    datadog,
+    trendmicro,
+    snowflake,
+    dynatrace,
+    infornexus,
+    amplitude,
+    veeva,
+    eventBridge,
+    lookoutMetrics,
+    upsolver,
+    honeycode,
+    customerProfiles,
+    sAPOData,
+    customConnector,
+    pardot
+  ];
 
   static ConnectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorType'));
+          orElse: () => ConnectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateConnectorProfileResponse {
@@ -3644,19 +3735,27 @@ class CustomerProfilesMetadata {
   }
 }
 
-enum DataPullMode {
-  incremental('Incremental'),
-  complete('Complete'),
-  ;
+class DataPullMode {
+  static const incremental = DataPullMode._('Incremental');
+  static const complete = DataPullMode._('Complete');
 
   final String value;
 
-  const DataPullMode(this.value);
+  const DataPullMode._(this.value);
 
-  static DataPullMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataPullMode'));
+  static const values = [incremental, complete];
+
+  static DataPullMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataPullMode._(value));
+
+  @override
+  bool operator ==(other) => other is DataPullMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The API of the connector application that Amazon AppFlow uses to transfer
@@ -3700,48 +3799,87 @@ class DataTransferApi {
   }
 }
 
-enum DataTransferApiType {
-  sync('SYNC'),
-  async('ASYNC'),
-  automatic('AUTOMATIC'),
-  ;
+class DataTransferApiType {
+  static const sync = DataTransferApiType._('SYNC');
+  static const async = DataTransferApiType._('ASYNC');
+  static const automatic = DataTransferApiType._('AUTOMATIC');
 
   final String value;
 
-  const DataTransferApiType(this.value);
+  const DataTransferApiType._(this.value);
 
-  static DataTransferApiType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataTransferApiType'));
+  static const values = [sync, async, automatic];
+
+  static DataTransferApiType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataTransferApiType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataTransferApiType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DatadogConnectorOperator {
-  projection('PROJECTION'),
-  between('BETWEEN'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class DatadogConnectorOperator {
+  static const projection = DatadogConnectorOperator._('PROJECTION');
+  static const between = DatadogConnectorOperator._('BETWEEN');
+  static const equalTo = DatadogConnectorOperator._('EQUAL_TO');
+  static const addition = DatadogConnectorOperator._('ADDITION');
+  static const multiplication = DatadogConnectorOperator._('MULTIPLICATION');
+  static const division = DatadogConnectorOperator._('DIVISION');
+  static const subtraction = DatadogConnectorOperator._('SUBTRACTION');
+  static const maskAll = DatadogConnectorOperator._('MASK_ALL');
+  static const maskFirstN = DatadogConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = DatadogConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      DatadogConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      DatadogConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      DatadogConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = DatadogConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = DatadogConnectorOperator._('NO_OP');
 
   final String value;
 
-  const DatadogConnectorOperator(this.value);
+  const DatadogConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static DatadogConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DatadogConnectorOperator'));
+          orElse: () => DatadogConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatadogConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific credentials required by Datadog.
@@ -4466,7 +4604,7 @@ class DestinationFlowConfig {
   factory DestinationFlowConfig.fromJson(Map<String, dynamic> json) {
     return DestinationFlowConfig(
       connectorType:
-          ConnectorType.fromString((json['connectorType'] as String)),
+          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
       destinationConnectorProperties: DestinationConnectorProperties.fromJson(
           (json['destinationConnectorProperties'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -4490,32 +4628,62 @@ class DestinationFlowConfig {
   }
 }
 
-enum DynatraceConnectorOperator {
-  projection('PROJECTION'),
-  between('BETWEEN'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class DynatraceConnectorOperator {
+  static const projection = DynatraceConnectorOperator._('PROJECTION');
+  static const between = DynatraceConnectorOperator._('BETWEEN');
+  static const equalTo = DynatraceConnectorOperator._('EQUAL_TO');
+  static const addition = DynatraceConnectorOperator._('ADDITION');
+  static const multiplication = DynatraceConnectorOperator._('MULTIPLICATION');
+  static const division = DynatraceConnectorOperator._('DIVISION');
+  static const subtraction = DynatraceConnectorOperator._('SUBTRACTION');
+  static const maskAll = DynatraceConnectorOperator._('MASK_ALL');
+  static const maskFirstN = DynatraceConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = DynatraceConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      DynatraceConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      DynatraceConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      DynatraceConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      DynatraceConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = DynatraceConnectorOperator._('NO_OP');
 
   final String value;
 
-  const DynatraceConnectorOperator(this.value);
+  const DynatraceConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static DynatraceConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DynatraceConnectorOperator'));
+          orElse: () => DynatraceConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynatraceConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required by Dynatrace.
@@ -4909,22 +5077,37 @@ class ExecutionResult {
   }
 }
 
-enum ExecutionStatus {
-  inProgress('InProgress'),
-  successful('Successful'),
-  error('Error'),
-  cancelStarted('CancelStarted'),
-  canceled('Canceled'),
-  ;
+class ExecutionStatus {
+  static const inProgress = ExecutionStatus._('InProgress');
+  static const successful = ExecutionStatus._('Successful');
+  static const error = ExecutionStatus._('Error');
+  static const cancelStarted = ExecutionStatus._('CancelStarted');
+  static const canceled = ExecutionStatus._('Canceled');
 
   final String value;
 
-  const ExecutionStatus(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    successful,
+    error,
+    cancelStarted,
+    canceled
+  ];
 
   static ExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExecutionStatus'));
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details regarding the supported field type and the operators that
@@ -5005,19 +5188,28 @@ class FieldTypeDetails {
   }
 }
 
-enum FileType {
-  csv('CSV'),
-  json('JSON'),
-  parquet('PARQUET'),
-  ;
+class FileType {
+  static const csv = FileType._('CSV');
+  static const json = FileType._('JSON');
+  static const parquet = FileType._('PARQUET');
 
   final String value;
 
-  const FileType(this.value);
+  const FileType._(this.value);
 
-  static FileType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileType'));
+  static const values = [csv, json, parquet];
+
+  static FileType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileType._(value));
+
+  @override
+  bool operator ==(other) => other is FileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties of the flow, such as its source, destination, trigger type,
@@ -5159,22 +5351,38 @@ class FlowDefinition {
   }
 }
 
-enum FlowStatus {
-  active('Active'),
-  deprecated('Deprecated'),
-  deleted('Deleted'),
-  draft('Draft'),
-  errored('Errored'),
-  suspended('Suspended'),
-  ;
+class FlowStatus {
+  static const active = FlowStatus._('Active');
+  static const deprecated = FlowStatus._('Deprecated');
+  static const deleted = FlowStatus._('Deleted');
+  static const draft = FlowStatus._('Draft');
+  static const errored = FlowStatus._('Errored');
+  static const suspended = FlowStatus._('Suspended');
 
   final String value;
 
-  const FlowStatus(this.value);
+  const FlowStatus._(this.value);
 
-  static FlowStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FlowStatus'));
+  static const values = [
+    active,
+    deprecated,
+    deleted,
+    draft,
+    errored,
+    suspended
+  ];
+
+  static FlowStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FlowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FlowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
@@ -5236,19 +5444,29 @@ class GlueDataCatalogConfig {
   }
 }
 
-enum GoogleAnalyticsConnectorOperator {
-  projection('PROJECTION'),
-  between('BETWEEN'),
-  ;
+class GoogleAnalyticsConnectorOperator {
+  static const projection = GoogleAnalyticsConnectorOperator._('PROJECTION');
+  static const between = GoogleAnalyticsConnectorOperator._('BETWEEN');
 
   final String value;
 
-  const GoogleAnalyticsConnectorOperator(this.value);
+  const GoogleAnalyticsConnectorOperator._(this.value);
+
+  static const values = [projection, between];
 
   static GoogleAnalyticsConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GoogleAnalyticsConnectorOperator'));
+          orElse: () => GoogleAnalyticsConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GoogleAnalyticsConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required by Google Analytics.
@@ -5484,32 +5702,62 @@ class IncrementalPullConfig {
   }
 }
 
-enum InforNexusConnectorOperator {
-  projection('PROJECTION'),
-  between('BETWEEN'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class InforNexusConnectorOperator {
+  static const projection = InforNexusConnectorOperator._('PROJECTION');
+  static const between = InforNexusConnectorOperator._('BETWEEN');
+  static const equalTo = InforNexusConnectorOperator._('EQUAL_TO');
+  static const addition = InforNexusConnectorOperator._('ADDITION');
+  static const multiplication = InforNexusConnectorOperator._('MULTIPLICATION');
+  static const division = InforNexusConnectorOperator._('DIVISION');
+  static const subtraction = InforNexusConnectorOperator._('SUBTRACTION');
+  static const maskAll = InforNexusConnectorOperator._('MASK_ALL');
+  static const maskFirstN = InforNexusConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = InforNexusConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      InforNexusConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      InforNexusConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      InforNexusConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      InforNexusConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = InforNexusConnectorOperator._('NO_OP');
 
   final String value;
 
-  const InforNexusConnectorOperator(this.value);
+  const InforNexusConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static InforNexusConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InforNexusConnectorOperator'));
+          orElse: () => InforNexusConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InforNexusConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required by Infor Nexus.
@@ -5777,33 +6025,63 @@ class LookoutMetricsDestinationProperties {
   }
 }
 
-enum MarketoConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class MarketoConnectorOperator {
+  static const projection = MarketoConnectorOperator._('PROJECTION');
+  static const lessThan = MarketoConnectorOperator._('LESS_THAN');
+  static const greaterThan = MarketoConnectorOperator._('GREATER_THAN');
+  static const between = MarketoConnectorOperator._('BETWEEN');
+  static const addition = MarketoConnectorOperator._('ADDITION');
+  static const multiplication = MarketoConnectorOperator._('MULTIPLICATION');
+  static const division = MarketoConnectorOperator._('DIVISION');
+  static const subtraction = MarketoConnectorOperator._('SUBTRACTION');
+  static const maskAll = MarketoConnectorOperator._('MASK_ALL');
+  static const maskFirstN = MarketoConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = MarketoConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      MarketoConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      MarketoConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      MarketoConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = MarketoConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = MarketoConnectorOperator._('NO_OP');
 
   final String value;
 
-  const MarketoConnectorOperator(this.value);
+  const MarketoConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static MarketoConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MarketoConnectorOperator'));
+          orElse: () => MarketoConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MarketoConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required by Marketo.
@@ -6143,19 +6421,29 @@ class OAuth2CustomParameter {
   }
 }
 
-enum OAuth2CustomPropType {
-  tokenUrl('TOKEN_URL'),
-  authUrl('AUTH_URL'),
-  ;
+class OAuth2CustomPropType {
+  static const tokenUrl = OAuth2CustomPropType._('TOKEN_URL');
+  static const authUrl = OAuth2CustomPropType._('AUTH_URL');
 
   final String value;
 
-  const OAuth2CustomPropType(this.value);
+  const OAuth2CustomPropType._(this.value);
 
-  static OAuth2CustomPropType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OAuth2CustomPropType'));
+  static const values = [tokenUrl, authUrl];
+
+  static OAuth2CustomPropType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OAuth2CustomPropType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OAuth2CustomPropType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the default values required for OAuth 2.0 authentication.
@@ -6227,20 +6515,29 @@ class OAuth2Defaults {
   }
 }
 
-enum OAuth2GrantType {
-  clientCredentials('CLIENT_CREDENTIALS'),
-  authorizationCode('AUTHORIZATION_CODE'),
-  jwtBearer('JWT_BEARER'),
-  ;
+class OAuth2GrantType {
+  static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
+  static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
+  static const jwtBearer = OAuth2GrantType._('JWT_BEARER');
 
   final String value;
 
-  const OAuth2GrantType(this.value);
+  const OAuth2GrantType._(this.value);
+
+  static const values = [clientCredentials, authorizationCode, jwtBearer];
 
   static OAuth2GrantType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OAuth2GrantType'));
+          orElse: () => OAuth2GrantType._(value));
+
+  @override
+  bool operator ==(other) => other is OAuth2GrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The OAuth 2.0 properties required for OAuth 2.0 authentication.
@@ -6264,8 +6561,8 @@ class OAuth2Properties {
 
   factory OAuth2Properties.fromJson(Map<String, dynamic> json) {
     return OAuth2Properties(
-      oAuth2GrantType:
-          OAuth2GrantType.fromString((json['oAuth2GrantType'] as String)),
+      oAuth2GrantType: OAuth2GrantType.fromString(
+          (json['oAuth2GrantType'] as String?) ?? ''),
       tokenUrl: (json['tokenUrl'] as String?) ?? '',
       tokenUrlCustomProperties:
           (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
@@ -6371,127 +6668,249 @@ class OAuthProperties {
   }
 }
 
-enum Operator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  contains('CONTAINS'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class Operator {
+  static const projection = Operator._('PROJECTION');
+  static const lessThan = Operator._('LESS_THAN');
+  static const greaterThan = Operator._('GREATER_THAN');
+  static const contains = Operator._('CONTAINS');
+  static const between = Operator._('BETWEEN');
+  static const lessThanOrEqualTo = Operator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo = Operator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = Operator._('EQUAL_TO');
+  static const notEqualTo = Operator._('NOT_EQUAL_TO');
+  static const addition = Operator._('ADDITION');
+  static const multiplication = Operator._('MULTIPLICATION');
+  static const division = Operator._('DIVISION');
+  static const subtraction = Operator._('SUBTRACTION');
+  static const maskAll = Operator._('MASK_ALL');
+  static const maskFirstN = Operator._('MASK_FIRST_N');
+  static const maskLastN = Operator._('MASK_LAST_N');
+  static const validateNonNull = Operator._('VALIDATE_NON_NULL');
+  static const validateNonZero = Operator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative = Operator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = Operator._('VALIDATE_NUMERIC');
+  static const noOp = Operator._('NO_OP');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperatorPropertiesKeys {
-  $value('VALUE'),
-  $values('VALUES'),
-  dataType('DATA_TYPE'),
-  upperBound('UPPER_BOUND'),
-  lowerBound('LOWER_BOUND'),
-  sourceDataType('SOURCE_DATA_TYPE'),
-  destinationDataType('DESTINATION_DATA_TYPE'),
-  validationAction('VALIDATION_ACTION'),
-  maskValue('MASK_VALUE'),
-  maskLength('MASK_LENGTH'),
-  truncateLength('TRUNCATE_LENGTH'),
-  mathOperationFieldsOrder('MATH_OPERATION_FIELDS_ORDER'),
-  concatFormat('CONCAT_FORMAT'),
-  subfieldCategoryMap('SUBFIELD_CATEGORY_MAP'),
-  excludeSourceFieldsList('EXCLUDE_SOURCE_FIELDS_LIST'),
-  includeNewFields('INCLUDE_NEW_FIELDS'),
-  orderedPartitionKeysList('ORDERED_PARTITION_KEYS_LIST'),
-  ;
+class OperatorPropertiesKeys {
+  static const $value = OperatorPropertiesKeys._('VALUE');
+  static const $values = OperatorPropertiesKeys._('VALUES');
+  static const dataType = OperatorPropertiesKeys._('DATA_TYPE');
+  static const upperBound = OperatorPropertiesKeys._('UPPER_BOUND');
+  static const lowerBound = OperatorPropertiesKeys._('LOWER_BOUND');
+  static const sourceDataType = OperatorPropertiesKeys._('SOURCE_DATA_TYPE');
+  static const destinationDataType =
+      OperatorPropertiesKeys._('DESTINATION_DATA_TYPE');
+  static const validationAction = OperatorPropertiesKeys._('VALIDATION_ACTION');
+  static const maskValue = OperatorPropertiesKeys._('MASK_VALUE');
+  static const maskLength = OperatorPropertiesKeys._('MASK_LENGTH');
+  static const truncateLength = OperatorPropertiesKeys._('TRUNCATE_LENGTH');
+  static const mathOperationFieldsOrder =
+      OperatorPropertiesKeys._('MATH_OPERATION_FIELDS_ORDER');
+  static const concatFormat = OperatorPropertiesKeys._('CONCAT_FORMAT');
+  static const subfieldCategoryMap =
+      OperatorPropertiesKeys._('SUBFIELD_CATEGORY_MAP');
+  static const excludeSourceFieldsList =
+      OperatorPropertiesKeys._('EXCLUDE_SOURCE_FIELDS_LIST');
+  static const includeNewFields =
+      OperatorPropertiesKeys._('INCLUDE_NEW_FIELDS');
+  static const orderedPartitionKeysList =
+      OperatorPropertiesKeys._('ORDERED_PARTITION_KEYS_LIST');
 
   final String value;
 
-  const OperatorPropertiesKeys(this.value);
+  const OperatorPropertiesKeys._(this.value);
+
+  static const values = [
+    $value,
+    $values,
+    dataType,
+    upperBound,
+    lowerBound,
+    sourceDataType,
+    destinationDataType,
+    validationAction,
+    maskValue,
+    maskLength,
+    truncateLength,
+    mathOperationFieldsOrder,
+    concatFormat,
+    subfieldCategoryMap,
+    excludeSourceFieldsList,
+    includeNewFields,
+    orderedPartitionKeysList
+  ];
 
   static OperatorPropertiesKeys fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OperatorPropertiesKeys'));
+          orElse: () => OperatorPropertiesKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperatorPropertiesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Operators {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  contains('CONTAINS'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class Operators {
+  static const projection = Operators._('PROJECTION');
+  static const lessThan = Operators._('LESS_THAN');
+  static const greaterThan = Operators._('GREATER_THAN');
+  static const contains = Operators._('CONTAINS');
+  static const between = Operators._('BETWEEN');
+  static const lessThanOrEqualTo = Operators._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo = Operators._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = Operators._('EQUAL_TO');
+  static const notEqualTo = Operators._('NOT_EQUAL_TO');
+  static const addition = Operators._('ADDITION');
+  static const multiplication = Operators._('MULTIPLICATION');
+  static const division = Operators._('DIVISION');
+  static const subtraction = Operators._('SUBTRACTION');
+  static const maskAll = Operators._('MASK_ALL');
+  static const maskFirstN = Operators._('MASK_FIRST_N');
+  static const maskLastN = Operators._('MASK_LAST_N');
+  static const validateNonNull = Operators._('VALIDATE_NON_NULL');
+  static const validateNonZero = Operators._('VALIDATE_NON_ZERO');
+  static const validateNonNegative = Operators._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = Operators._('VALIDATE_NUMERIC');
+  static const noOp = Operators._('NO_OP');
 
   final String value;
 
-  const Operators(this.value);
+  const Operators._(this.value);
 
-  static Operators fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operators'));
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static Operators fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operators._(value));
+
+  @override
+  bool operator ==(other) => other is Operators && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PardotConnectorOperator {
-  projection('PROJECTION'),
-  equalTo('EQUAL_TO'),
-  noOp('NO_OP'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  ;
+class PardotConnectorOperator {
+  static const projection = PardotConnectorOperator._('PROJECTION');
+  static const equalTo = PardotConnectorOperator._('EQUAL_TO');
+  static const noOp = PardotConnectorOperator._('NO_OP');
+  static const addition = PardotConnectorOperator._('ADDITION');
+  static const multiplication = PardotConnectorOperator._('MULTIPLICATION');
+  static const division = PardotConnectorOperator._('DIVISION');
+  static const subtraction = PardotConnectorOperator._('SUBTRACTION');
+  static const maskAll = PardotConnectorOperator._('MASK_ALL');
+  static const maskFirstN = PardotConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = PardotConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = PardotConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = PardotConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      PardotConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = PardotConnectorOperator._('VALIDATE_NUMERIC');
 
   final String value;
 
-  const PardotConnectorOperator(this.value);
+  const PardotConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    noOp,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric
+  ];
 
   static PardotConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PardotConnectorOperator'));
+          orElse: () => PardotConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PardotConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Salesforce
@@ -6607,18 +7026,27 @@ class PardotSourceProperties {
   }
 }
 
-enum PathPrefix {
-  executionId('EXECUTION_ID'),
-  schemaVersion('SCHEMA_VERSION'),
-  ;
+class PathPrefix {
+  static const executionId = PathPrefix._('EXECUTION_ID');
+  static const schemaVersion = PathPrefix._('SCHEMA_VERSION');
 
   final String value;
 
-  const PathPrefix(this.value);
+  const PathPrefix._(this.value);
 
-  static PathPrefix fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PathPrefix'));
+  static const values = [executionId, schemaVersion];
+
+  static PathPrefix fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PathPrefix._(value));
+
+  @override
+  bool operator ==(other) => other is PathPrefix && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies elements that Amazon AppFlow includes in the file and folder names
@@ -6685,55 +7113,94 @@ class PrefixConfig {
   }
 }
 
-enum PrefixFormat {
-  year('YEAR'),
-  month('MONTH'),
-  day('DAY'),
-  hour('HOUR'),
-  minute('MINUTE'),
-  ;
+class PrefixFormat {
+  static const year = PrefixFormat._('YEAR');
+  static const month = PrefixFormat._('MONTH');
+  static const day = PrefixFormat._('DAY');
+  static const hour = PrefixFormat._('HOUR');
+  static const minute = PrefixFormat._('MINUTE');
 
   final String value;
 
-  const PrefixFormat(this.value);
+  const PrefixFormat._(this.value);
 
-  static PrefixFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrefixFormat'));
+  static const values = [year, month, day, hour, minute];
+
+  static PrefixFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PrefixFormat._(value));
+
+  @override
+  bool operator ==(other) => other is PrefixFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PrefixType {
-  filename('FILENAME'),
-  path('PATH'),
-  pathAndFilename('PATH_AND_FILENAME'),
-  ;
+class PrefixType {
+  static const filename = PrefixType._('FILENAME');
+  static const path = PrefixType._('PATH');
+  static const pathAndFilename = PrefixType._('PATH_AND_FILENAME');
 
   final String value;
 
-  const PrefixType(this.value);
+  const PrefixType._(this.value);
 
-  static PrefixType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PrefixType'));
+  static const values = [filename, path, pathAndFilename];
+
+  static PrefixType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PrefixType._(value));
+
+  @override
+  bool operator ==(other) => other is PrefixType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PrivateConnectionProvisioningFailureCause {
-  connectorAuthentication('CONNECTOR_AUTHENTICATION'),
-  connectorServer('CONNECTOR_SERVER'),
-  internalServer('INTERNAL_SERVER'),
-  accessDenied('ACCESS_DENIED'),
-  validation('VALIDATION'),
-  ;
+class PrivateConnectionProvisioningFailureCause {
+  static const connectorAuthentication =
+      PrivateConnectionProvisioningFailureCause._('CONNECTOR_AUTHENTICATION');
+  static const connectorServer =
+      PrivateConnectionProvisioningFailureCause._('CONNECTOR_SERVER');
+  static const internalServer =
+      PrivateConnectionProvisioningFailureCause._('INTERNAL_SERVER');
+  static const accessDenied =
+      PrivateConnectionProvisioningFailureCause._('ACCESS_DENIED');
+  static const validation =
+      PrivateConnectionProvisioningFailureCause._('VALIDATION');
 
   final String value;
 
-  const PrivateConnectionProvisioningFailureCause(this.value);
+  const PrivateConnectionProvisioningFailureCause._(this.value);
+
+  static const values = [
+    connectorAuthentication,
+    connectorServer,
+    internalServer,
+    accessDenied,
+    validation
+  ];
 
   static PrivateConnectionProvisioningFailureCause fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PrivateConnectionProvisioningFailureCause'));
+          orElse: () => PrivateConnectionProvisioningFailureCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrivateConnectionProvisioningFailureCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the private connection provisioning state.
@@ -6776,20 +7243,30 @@ class PrivateConnectionProvisioningState {
   }
 }
 
-enum PrivateConnectionProvisioningStatus {
-  failed('FAILED'),
-  pending('PENDING'),
-  created('CREATED'),
-  ;
+class PrivateConnectionProvisioningStatus {
+  static const failed = PrivateConnectionProvisioningStatus._('FAILED');
+  static const pending = PrivateConnectionProvisioningStatus._('PENDING');
+  static const created = PrivateConnectionProvisioningStatus._('CREATED');
 
   final String value;
 
-  const PrivateConnectionProvisioningStatus(this.value);
+  const PrivateConnectionProvisioningStatus._(this.value);
+
+  static const values = [failed, pending, created];
 
   static PrivateConnectionProvisioningStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PrivateConnectionProvisioningStatus'));
+          orElse: () => PrivateConnectionProvisioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrivateConnectionProvisioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The range of values that the property supports.
@@ -7086,37 +7563,71 @@ class ResetConnectorMetadataCacheResponse {
   }
 }
 
-enum S3ConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class S3ConnectorOperator {
+  static const projection = S3ConnectorOperator._('PROJECTION');
+  static const lessThan = S3ConnectorOperator._('LESS_THAN');
+  static const greaterThan = S3ConnectorOperator._('GREATER_THAN');
+  static const between = S3ConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      S3ConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      S3ConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = S3ConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = S3ConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = S3ConnectorOperator._('ADDITION');
+  static const multiplication = S3ConnectorOperator._('MULTIPLICATION');
+  static const division = S3ConnectorOperator._('DIVISION');
+  static const subtraction = S3ConnectorOperator._('SUBTRACTION');
+  static const maskAll = S3ConnectorOperator._('MASK_ALL');
+  static const maskFirstN = S3ConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = S3ConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = S3ConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = S3ConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      S3ConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = S3ConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = S3ConnectorOperator._('NO_OP');
 
   final String value;
 
-  const S3ConnectorOperator(this.value);
+  const S3ConnectorOperator._(this.value);
 
-  static S3ConnectorOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum S3ConnectorOperator'));
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static S3ConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when Amazon S3 is used as a destination.
@@ -7160,19 +7671,28 @@ class S3DestinationProperties {
   }
 }
 
-enum S3InputFileType {
-  csv('CSV'),
-  json('JSON'),
-  ;
+class S3InputFileType {
+  static const csv = S3InputFileType._('CSV');
+  static const json = S3InputFileType._('JSON');
 
   final String value;
 
-  const S3InputFileType(this.value);
+  const S3InputFileType._(this.value);
+
+  static const values = [csv, json];
 
   static S3InputFileType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum S3InputFileType'));
+          orElse: () => S3InputFileType._(value));
+
+  @override
+  bool operator ==(other) => other is S3InputFileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// When you use Amazon S3 as the source, the configuration format that you
@@ -7322,38 +7842,76 @@ class S3SourceProperties {
   }
 }
 
-enum SAPODataConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  contains('CONTAINS'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class SAPODataConnectorOperator {
+  static const projection = SAPODataConnectorOperator._('PROJECTION');
+  static const lessThan = SAPODataConnectorOperator._('LESS_THAN');
+  static const contains = SAPODataConnectorOperator._('CONTAINS');
+  static const greaterThan = SAPODataConnectorOperator._('GREATER_THAN');
+  static const between = SAPODataConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SAPODataConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SAPODataConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SAPODataConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = SAPODataConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = SAPODataConnectorOperator._('ADDITION');
+  static const multiplication = SAPODataConnectorOperator._('MULTIPLICATION');
+  static const division = SAPODataConnectorOperator._('DIVISION');
+  static const subtraction = SAPODataConnectorOperator._('SUBTRACTION');
+  static const maskAll = SAPODataConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SAPODataConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SAPODataConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SAPODataConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SAPODataConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SAPODataConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SAPODataConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SAPODataConnectorOperator._('NO_OP');
 
   final String value;
 
-  const SAPODataConnectorOperator(this.value);
+  const SAPODataConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    contains,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static SAPODataConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SAPODataConnectorOperator'));
+          orElse: () => SAPODataConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SAPODataConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using SAPOData.
@@ -7645,38 +8203,76 @@ class SAPODataSourceProperties {
   }
 }
 
-enum SalesforceConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  contains('CONTAINS'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class SalesforceConnectorOperator {
+  static const projection = SalesforceConnectorOperator._('PROJECTION');
+  static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
+  static const contains = SalesforceConnectorOperator._('CONTAINS');
+  static const greaterThan = SalesforceConnectorOperator._('GREATER_THAN');
+  static const between = SalesforceConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SalesforceConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SalesforceConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SalesforceConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = SalesforceConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = SalesforceConnectorOperator._('ADDITION');
+  static const multiplication = SalesforceConnectorOperator._('MULTIPLICATION');
+  static const division = SalesforceConnectorOperator._('DIVISION');
+  static const subtraction = SalesforceConnectorOperator._('SUBTRACTION');
+  static const maskAll = SalesforceConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SalesforceConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SalesforceConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SalesforceConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SalesforceConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SalesforceConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SalesforceConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SalesforceConnectorOperator._('NO_OP');
 
   final String value;
 
-  const SalesforceConnectorOperator(this.value);
+  const SalesforceConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    contains,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static SalesforceConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SalesforceConnectorOperator'));
+          orElse: () => SalesforceConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Salesforce.
@@ -7839,20 +8435,30 @@ class SalesforceConnectorProfileProperties {
   }
 }
 
-enum SalesforceDataTransferApi {
-  automatic('AUTOMATIC'),
-  bulkv2('BULKV2'),
-  restSync('REST_SYNC'),
-  ;
+class SalesforceDataTransferApi {
+  static const automatic = SalesforceDataTransferApi._('AUTOMATIC');
+  static const bulkv2 = SalesforceDataTransferApi._('BULKV2');
+  static const restSync = SalesforceDataTransferApi._('REST_SYNC');
 
   final String value;
 
-  const SalesforceDataTransferApi(this.value);
+  const SalesforceDataTransferApi._(this.value);
+
+  static const values = [automatic, bulkv2, restSync];
 
   static SalesforceDataTransferApi fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SalesforceDataTransferApi'));
+          orElse: () => SalesforceDataTransferApi._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceDataTransferApi && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The properties that are applied when Salesforce is being used as a
@@ -8112,23 +8718,33 @@ class SalesforceSourceProperties {
   }
 }
 
-enum ScheduleFrequencyType {
-  byminute('BYMINUTE'),
-  hourly('HOURLY'),
-  daily('DAILY'),
-  weekly('WEEKLY'),
-  monthly('MONTHLY'),
-  once('ONCE'),
-  ;
+class ScheduleFrequencyType {
+  static const byminute = ScheduleFrequencyType._('BYMINUTE');
+  static const hourly = ScheduleFrequencyType._('HOURLY');
+  static const daily = ScheduleFrequencyType._('DAILY');
+  static const weekly = ScheduleFrequencyType._('WEEKLY');
+  static const monthly = ScheduleFrequencyType._('MONTHLY');
+  static const once = ScheduleFrequencyType._('ONCE');
 
   final String value;
 
-  const ScheduleFrequencyType(this.value);
+  const ScheduleFrequencyType._(this.value);
 
-  static ScheduleFrequencyType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScheduleFrequencyType'));
+  static const values = [byminute, hourly, daily, weekly, monthly, once];
+
+  static ScheduleFrequencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleFrequencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleFrequencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the configuration details of a schedule-triggered flow as defined
@@ -8228,38 +8844,76 @@ class ScheduledTriggerProperties {
   }
 }
 
-enum ServiceNowConnectorOperator {
-  projection('PROJECTION'),
-  contains('CONTAINS'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class ServiceNowConnectorOperator {
+  static const projection = ServiceNowConnectorOperator._('PROJECTION');
+  static const contains = ServiceNowConnectorOperator._('CONTAINS');
+  static const lessThan = ServiceNowConnectorOperator._('LESS_THAN');
+  static const greaterThan = ServiceNowConnectorOperator._('GREATER_THAN');
+  static const between = ServiceNowConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      ServiceNowConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      ServiceNowConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = ServiceNowConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = ServiceNowConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = ServiceNowConnectorOperator._('ADDITION');
+  static const multiplication = ServiceNowConnectorOperator._('MULTIPLICATION');
+  static const division = ServiceNowConnectorOperator._('DIVISION');
+  static const subtraction = ServiceNowConnectorOperator._('SUBTRACTION');
+  static const maskAll = ServiceNowConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ServiceNowConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ServiceNowConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ServiceNowConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      ServiceNowConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ServiceNowConnectorOperator._('NO_OP');
 
   final String value;
 
-  const ServiceNowConnectorOperator(this.value);
+  const ServiceNowConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    contains,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static ServiceNowConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceNowConnectorOperator'));
+          orElse: () => ServiceNowConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceNowConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using ServiceNow.
@@ -8351,31 +9005,60 @@ class ServiceNowSourceProperties {
   }
 }
 
-enum SingularConnectorOperator {
-  projection('PROJECTION'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class SingularConnectorOperator {
+  static const projection = SingularConnectorOperator._('PROJECTION');
+  static const equalTo = SingularConnectorOperator._('EQUAL_TO');
+  static const addition = SingularConnectorOperator._('ADDITION');
+  static const multiplication = SingularConnectorOperator._('MULTIPLICATION');
+  static const division = SingularConnectorOperator._('DIVISION');
+  static const subtraction = SingularConnectorOperator._('SUBTRACTION');
+  static const maskAll = SingularConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SingularConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SingularConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SingularConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SingularConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SingularConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SingularConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SingularConnectorOperator._('NO_OP');
 
   final String value;
 
-  const SingularConnectorOperator(this.value);
+  const SingularConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static SingularConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SingularConnectorOperator'));
+          orElse: () => SingularConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SingularConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Singular.
@@ -8445,36 +9128,69 @@ class SingularSourceProperties {
   }
 }
 
-enum SlackConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class SlackConnectorOperator {
+  static const projection = SlackConnectorOperator._('PROJECTION');
+  static const lessThan = SlackConnectorOperator._('LESS_THAN');
+  static const greaterThan = SlackConnectorOperator._('GREATER_THAN');
+  static const between = SlackConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SlackConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SlackConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SlackConnectorOperator._('EQUAL_TO');
+  static const addition = SlackConnectorOperator._('ADDITION');
+  static const multiplication = SlackConnectorOperator._('MULTIPLICATION');
+  static const division = SlackConnectorOperator._('DIVISION');
+  static const subtraction = SlackConnectorOperator._('SUBTRACTION');
+  static const maskAll = SlackConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SlackConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SlackConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = SlackConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = SlackConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SlackConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = SlackConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SlackConnectorOperator._('NO_OP');
 
   final String value;
 
-  const SlackConnectorOperator(this.value);
+  const SlackConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static SlackConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SlackConnectorOperator'));
+          orElse: () => SlackConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlackConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Slack.
@@ -9018,7 +9734,7 @@ class SourceFlowConfig {
   factory SourceFlowConfig.fromJson(Map<String, dynamic> json) {
     return SourceFlowConfig(
       connectorType:
-          ConnectorType.fromString((json['connectorType'] as String)),
+          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
       sourceConnectorProperties: SourceConnectorProperties.fromJson(
           (json['sourceConnectorProperties'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -9149,19 +9865,29 @@ class SuccessResponseHandlingConfig {
   }
 }
 
-enum SupportedDataTransferType {
-  record('RECORD'),
-  file('FILE'),
-  ;
+class SupportedDataTransferType {
+  static const record = SupportedDataTransferType._('RECORD');
+  static const file = SupportedDataTransferType._('FILE');
 
   final String value;
 
-  const SupportedDataTransferType(this.value);
+  const SupportedDataTransferType._(this.value);
+
+  static const values = [record, file];
 
   static SupportedDataTransferType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SupportedDataTransferType'));
+          orElse: () => SupportedDataTransferType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedDataTransferType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details regarding all the supported <code>FieldTypes</code> and
@@ -9237,7 +9963,7 @@ class Task {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      taskType: TaskType.fromString((json['taskType'] as String)),
+      taskType: TaskType.fromString((json['taskType'] as String?) ?? ''),
       connectorOperator: json['connectorOperator'] != null
           ? ConnectorOperator.fromJson(
               json['connectorOperator'] as Map<String, dynamic>)
@@ -9266,53 +9992,102 @@ class Task {
   }
 }
 
-enum TaskType {
-  arithmetic('Arithmetic'),
-  filter('Filter'),
-  map('Map'),
-  mapAll('Map_all'),
-  mask('Mask'),
-  merge('Merge'),
-  passthrough('Passthrough'),
-  truncate('Truncate'),
-  validate('Validate'),
-  partition('Partition'),
-  ;
+class TaskType {
+  static const arithmetic = TaskType._('Arithmetic');
+  static const filter = TaskType._('Filter');
+  static const map = TaskType._('Map');
+  static const mapAll = TaskType._('Map_all');
+  static const mask = TaskType._('Mask');
+  static const merge = TaskType._('Merge');
+  static const passthrough = TaskType._('Passthrough');
+  static const truncate = TaskType._('Truncate');
+  static const validate = TaskType._('Validate');
+  static const partition = TaskType._('Partition');
 
   final String value;
 
-  const TaskType(this.value);
+  const TaskType._(this.value);
 
-  static TaskType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskType'));
+  static const values = [
+    arithmetic,
+    filter,
+    map,
+    mapAll,
+    mask,
+    merge,
+    passthrough,
+    truncate,
+    validate,
+    partition
+  ];
+
+  static TaskType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
+
+  @override
+  bool operator ==(other) => other is TaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TrendmicroConnectorOperator {
-  projection('PROJECTION'),
-  equalTo('EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class TrendmicroConnectorOperator {
+  static const projection = TrendmicroConnectorOperator._('PROJECTION');
+  static const equalTo = TrendmicroConnectorOperator._('EQUAL_TO');
+  static const addition = TrendmicroConnectorOperator._('ADDITION');
+  static const multiplication = TrendmicroConnectorOperator._('MULTIPLICATION');
+  static const division = TrendmicroConnectorOperator._('DIVISION');
+  static const subtraction = TrendmicroConnectorOperator._('SUBTRACTION');
+  static const maskAll = TrendmicroConnectorOperator._('MASK_ALL');
+  static const maskFirstN = TrendmicroConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = TrendmicroConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      TrendmicroConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      TrendmicroConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      TrendmicroConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      TrendmicroConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = TrendmicroConnectorOperator._('NO_OP');
 
   final String value;
 
-  const TrendmicroConnectorOperator(this.value);
+  const TrendmicroConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static TrendmicroConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrendmicroConnectorOperator'));
+          orElse: () => TrendmicroConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrendmicroConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Trend Micro.
@@ -9401,7 +10176,8 @@ class TriggerConfig {
 
   factory TriggerConfig.fromJson(Map<String, dynamic> json) {
     return TriggerConfig(
-      triggerType: TriggerType.fromString((json['triggerType'] as String)),
+      triggerType:
+          TriggerType.fromString((json['triggerType'] as String?) ?? ''),
       triggerProperties: json['triggerProperties'] != null
           ? TriggerProperties.fromJson(
               json['triggerProperties'] as Map<String, dynamic>)
@@ -9448,19 +10224,28 @@ class TriggerProperties {
   }
 }
 
-enum TriggerType {
-  scheduled('Scheduled'),
-  event('Event'),
-  onDemand('OnDemand'),
-  ;
+class TriggerType {
+  static const scheduled = TriggerType._('Scheduled');
+  static const event = TriggerType._('Event');
+  static const onDemand = TriggerType._('OnDemand');
 
   final String value;
 
-  const TriggerType(this.value);
+  const TriggerType._(this.value);
 
-  static TriggerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TriggerType'));
+  static const values = [scheduled, event, onDemand];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UnregisterConnectorResponse {
@@ -9651,38 +10436,73 @@ class UpsolverS3OutputFormatConfig {
   }
 }
 
-enum VeevaConnectorOperator {
-  projection('PROJECTION'),
-  lessThan('LESS_THAN'),
-  greaterThan('GREATER_THAN'),
-  contains('CONTAINS'),
-  between('BETWEEN'),
-  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
-  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
-  equalTo('EQUAL_TO'),
-  notEqualTo('NOT_EQUAL_TO'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class VeevaConnectorOperator {
+  static const projection = VeevaConnectorOperator._('PROJECTION');
+  static const lessThan = VeevaConnectorOperator._('LESS_THAN');
+  static const greaterThan = VeevaConnectorOperator._('GREATER_THAN');
+  static const contains = VeevaConnectorOperator._('CONTAINS');
+  static const between = VeevaConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      VeevaConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      VeevaConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = VeevaConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = VeevaConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = VeevaConnectorOperator._('ADDITION');
+  static const multiplication = VeevaConnectorOperator._('MULTIPLICATION');
+  static const division = VeevaConnectorOperator._('DIVISION');
+  static const subtraction = VeevaConnectorOperator._('SUBTRACTION');
+  static const maskAll = VeevaConnectorOperator._('MASK_ALL');
+  static const maskFirstN = VeevaConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = VeevaConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = VeevaConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = VeevaConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      VeevaConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = VeevaConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = VeevaConnectorOperator._('NO_OP');
 
   final String value;
 
-  const VeevaConnectorOperator(this.value);
+  const VeevaConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static VeevaConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VeevaConnectorOperator'));
+          orElse: () => VeevaConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VeevaConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Veeva.
@@ -9798,48 +10618,86 @@ class VeevaSourceProperties {
 
 /// The possible write operations in the destination connector. When this value
 /// is not provided, this defaults to the <code>INSERT</code> operation.
-enum WriteOperationType {
-  insert('INSERT'),
-  upsert('UPSERT'),
-  update('UPDATE'),
-  delete('DELETE'),
-  ;
+class WriteOperationType {
+  static const insert = WriteOperationType._('INSERT');
+  static const upsert = WriteOperationType._('UPSERT');
+  static const update = WriteOperationType._('UPDATE');
+  static const delete = WriteOperationType._('DELETE');
 
   final String value;
 
-  const WriteOperationType(this.value);
+  const WriteOperationType._(this.value);
 
-  static WriteOperationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WriteOperationType'));
+  static const values = [insert, upsert, update, delete];
+
+  static WriteOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WriteOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WriteOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ZendeskConnectorOperator {
-  projection('PROJECTION'),
-  greaterThan('GREATER_THAN'),
-  addition('ADDITION'),
-  multiplication('MULTIPLICATION'),
-  division('DIVISION'),
-  subtraction('SUBTRACTION'),
-  maskAll('MASK_ALL'),
-  maskFirstN('MASK_FIRST_N'),
-  maskLastN('MASK_LAST_N'),
-  validateNonNull('VALIDATE_NON_NULL'),
-  validateNonZero('VALIDATE_NON_ZERO'),
-  validateNonNegative('VALIDATE_NON_NEGATIVE'),
-  validateNumeric('VALIDATE_NUMERIC'),
-  noOp('NO_OP'),
-  ;
+class ZendeskConnectorOperator {
+  static const projection = ZendeskConnectorOperator._('PROJECTION');
+  static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
+  static const addition = ZendeskConnectorOperator._('ADDITION');
+  static const multiplication = ZendeskConnectorOperator._('MULTIPLICATION');
+  static const division = ZendeskConnectorOperator._('DIVISION');
+  static const subtraction = ZendeskConnectorOperator._('SUBTRACTION');
+  static const maskAll = ZendeskConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ZendeskConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ZendeskConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ZendeskConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ZendeskConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ZendeskConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = ZendeskConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ZendeskConnectorOperator._('NO_OP');
 
   final String value;
 
-  const ZendeskConnectorOperator(this.value);
+  const ZendeskConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    greaterThan,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
 
   static ZendeskConnectorOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ZendeskConnectorOperator'));
+          orElse: () => ZendeskConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ZendeskConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The connector-specific profile credentials required when using Zendesk.

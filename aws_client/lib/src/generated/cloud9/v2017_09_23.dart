@@ -769,19 +769,28 @@ class Cloud9 {
   }
 }
 
-enum ConnectionType {
-  connectSsh('CONNECT_SSH'),
-  connectSsm('CONNECT_SSM'),
-  ;
+class ConnectionType {
+  static const connectSsh = ConnectionType._('CONNECT_SSH');
+  static const connectSsm = ConnectionType._('CONNECT_SSM');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [connectSsh, connectSsm];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateEnvironmentEC2Result {
@@ -930,7 +939,7 @@ class DescribeEnvironmentStatusResult {
   factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) {
     return DescribeEnvironmentStatusResult(
       message: (json['message'] as String?) ?? '',
-      status: EnvironmentStatus.fromString((json['status'] as String)),
+      status: EnvironmentStatus.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -1059,7 +1068,7 @@ class Environment {
     return Environment(
       arn: (json['arn'] as String?) ?? '',
       ownerArn: (json['ownerArn'] as String?) ?? '',
-      type: EnvironmentType.fromString((json['type'] as String)),
+      type: EnvironmentType.fromString((json['type'] as String?) ?? ''),
       connectionType:
           (json['connectionType'] as String?)?.let(ConnectionType.fromString),
       description: json['description'] as String?,
@@ -1157,22 +1166,38 @@ class EnvironmentLifecycle {
   }
 }
 
-enum EnvironmentLifecycleStatus {
-  creating('CREATING'),
-  created('CREATED'),
-  createFailed('CREATE_FAILED'),
-  deleting('DELETING'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class EnvironmentLifecycleStatus {
+  static const creating = EnvironmentLifecycleStatus._('CREATING');
+  static const created = EnvironmentLifecycleStatus._('CREATED');
+  static const createFailed = EnvironmentLifecycleStatus._('CREATE_FAILED');
+  static const deleting = EnvironmentLifecycleStatus._('DELETING');
+  static const deleteFailed = EnvironmentLifecycleStatus._('DELETE_FAILED');
 
   final String value;
 
-  const EnvironmentLifecycleStatus(this.value);
+  const EnvironmentLifecycleStatus._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    deleting,
+    deleteFailed
+  ];
 
   static EnvironmentLifecycleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnvironmentLifecycleStatus'));
+          orElse: () => EnvironmentLifecycleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentLifecycleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an environment member for an Cloud9 development
@@ -1219,7 +1244,8 @@ class EnvironmentMember {
   factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
     return EnvironmentMember(
       environmentId: (json['environmentId'] as String?) ?? '',
-      permissions: Permissions.fromString((json['permissions'] as String)),
+      permissions:
+          Permissions.fromString((json['permissions'] as String?) ?? ''),
       userArn: (json['userArn'] as String?) ?? '',
       userId: (json['userId'] as String?) ?? '',
       lastAccess: timeStampFromJson(json['lastAccess']),
@@ -1242,39 +1268,65 @@ class EnvironmentMember {
   }
 }
 
-enum EnvironmentStatus {
-  error('error'),
-  creating('creating'),
-  connecting('connecting'),
-  ready('ready'),
-  stopping('stopping'),
-  stopped('stopped'),
-  deleting('deleting'),
-  ;
+class EnvironmentStatus {
+  static const error = EnvironmentStatus._('error');
+  static const creating = EnvironmentStatus._('creating');
+  static const connecting = EnvironmentStatus._('connecting');
+  static const ready = EnvironmentStatus._('ready');
+  static const stopping = EnvironmentStatus._('stopping');
+  static const stopped = EnvironmentStatus._('stopped');
+  static const deleting = EnvironmentStatus._('deleting');
 
   final String value;
 
-  const EnvironmentStatus(this.value);
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    error,
+    creating,
+    connecting,
+    ready,
+    stopping,
+    stopped,
+    deleting
+  ];
 
   static EnvironmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentStatus'));
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EnvironmentType {
-  ssh('ssh'),
-  ec2('ec2'),
-  ;
+class EnvironmentType {
+  static const ssh = EnvironmentType._('ssh');
+  static const ec2 = EnvironmentType._('ec2');
 
   final String value;
 
-  const EnvironmentType(this.value);
+  const EnvironmentType._(this.value);
+
+  static const values = [ssh, ec2];
 
   static EnvironmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnvironmentType'));
+          orElse: () => EnvironmentType._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListEnvironmentsResult {
@@ -1337,73 +1389,133 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum ManagedCredentialsAction {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  ;
+class ManagedCredentialsAction {
+  static const enable = ManagedCredentialsAction._('ENABLE');
+  static const disable = ManagedCredentialsAction._('DISABLE');
 
   final String value;
 
-  const ManagedCredentialsAction(this.value);
+  const ManagedCredentialsAction._(this.value);
+
+  static const values = [enable, disable];
 
   static ManagedCredentialsAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ManagedCredentialsAction'));
+          orElse: () => ManagedCredentialsAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedCredentialsAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ManagedCredentialsStatus {
-  enabledOnCreate('ENABLED_ON_CREATE'),
-  enabledByOwner('ENABLED_BY_OWNER'),
-  disabledByDefault('DISABLED_BY_DEFAULT'),
-  disabledByOwner('DISABLED_BY_OWNER'),
-  disabledByCollaborator('DISABLED_BY_COLLABORATOR'),
-  pendingRemovalByCollaborator('PENDING_REMOVAL_BY_COLLABORATOR'),
-  pendingStartRemovalByCollaborator('PENDING_START_REMOVAL_BY_COLLABORATOR'),
-  pendingRemovalByOwner('PENDING_REMOVAL_BY_OWNER'),
-  pendingStartRemovalByOwner('PENDING_START_REMOVAL_BY_OWNER'),
-  failedRemovalByCollaborator('FAILED_REMOVAL_BY_COLLABORATOR'),
-  failedRemovalByOwner('FAILED_REMOVAL_BY_OWNER'),
-  ;
+class ManagedCredentialsStatus {
+  static const enabledOnCreate =
+      ManagedCredentialsStatus._('ENABLED_ON_CREATE');
+  static const enabledByOwner = ManagedCredentialsStatus._('ENABLED_BY_OWNER');
+  static const disabledByDefault =
+      ManagedCredentialsStatus._('DISABLED_BY_DEFAULT');
+  static const disabledByOwner =
+      ManagedCredentialsStatus._('DISABLED_BY_OWNER');
+  static const disabledByCollaborator =
+      ManagedCredentialsStatus._('DISABLED_BY_COLLABORATOR');
+  static const pendingRemovalByCollaborator =
+      ManagedCredentialsStatus._('PENDING_REMOVAL_BY_COLLABORATOR');
+  static const pendingStartRemovalByCollaborator =
+      ManagedCredentialsStatus._('PENDING_START_REMOVAL_BY_COLLABORATOR');
+  static const pendingRemovalByOwner =
+      ManagedCredentialsStatus._('PENDING_REMOVAL_BY_OWNER');
+  static const pendingStartRemovalByOwner =
+      ManagedCredentialsStatus._('PENDING_START_REMOVAL_BY_OWNER');
+  static const failedRemovalByCollaborator =
+      ManagedCredentialsStatus._('FAILED_REMOVAL_BY_COLLABORATOR');
+  static const failedRemovalByOwner =
+      ManagedCredentialsStatus._('FAILED_REMOVAL_BY_OWNER');
 
   final String value;
 
-  const ManagedCredentialsStatus(this.value);
+  const ManagedCredentialsStatus._(this.value);
+
+  static const values = [
+    enabledOnCreate,
+    enabledByOwner,
+    disabledByDefault,
+    disabledByOwner,
+    disabledByCollaborator,
+    pendingRemovalByCollaborator,
+    pendingStartRemovalByCollaborator,
+    pendingRemovalByOwner,
+    pendingStartRemovalByOwner,
+    failedRemovalByCollaborator,
+    failedRemovalByOwner
+  ];
 
   static ManagedCredentialsStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ManagedCredentialsStatus'));
+          orElse: () => ManagedCredentialsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedCredentialsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MemberPermissions {
-  readWrite('read-write'),
-  readOnly('read-only'),
-  ;
+class MemberPermissions {
+  static const readWrite = MemberPermissions._('read-write');
+  static const readOnly = MemberPermissions._('read-only');
 
   final String value;
 
-  const MemberPermissions(this.value);
+  const MemberPermissions._(this.value);
+
+  static const values = [readWrite, readOnly];
 
   static MemberPermissions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MemberPermissions'));
+          orElse: () => MemberPermissions._(value));
+
+  @override
+  bool operator ==(other) => other is MemberPermissions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Permissions {
-  owner('owner'),
-  readWrite('read-write'),
-  readOnly('read-only'),
-  ;
+class Permissions {
+  static const owner = Permissions._('owner');
+  static const readWrite = Permissions._('read-write');
+  static const readOnly = Permissions._('read-only');
 
   final String value;
 
-  const Permissions(this.value);
+  const Permissions._(this.value);
 
-  static Permissions fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Permissions'));
+  static const values = [owner, readWrite, readOnly];
+
+  static Permissions fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permissions._(value));
+
+  @override
+  bool operator ==(other) => other is Permissions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Metadata that is associated with Amazon Web Services resources. In

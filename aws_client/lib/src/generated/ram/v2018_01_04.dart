@@ -3793,68 +3793,108 @@ class ListResourcesResponse {
   }
 }
 
-enum PermissionFeatureSet {
-  createdFromPolicy('CREATED_FROM_POLICY'),
-  promotingToStandard('PROMOTING_TO_STANDARD'),
-  standard('STANDARD'),
-  ;
+class PermissionFeatureSet {
+  static const createdFromPolicy =
+      PermissionFeatureSet._('CREATED_FROM_POLICY');
+  static const promotingToStandard =
+      PermissionFeatureSet._('PROMOTING_TO_STANDARD');
+  static const standard = PermissionFeatureSet._('STANDARD');
 
   final String value;
 
-  const PermissionFeatureSet(this.value);
+  const PermissionFeatureSet._(this.value);
 
-  static PermissionFeatureSet fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PermissionFeatureSet'));
+  static const values = [createdFromPolicy, promotingToStandard, standard];
+
+  static PermissionFeatureSet fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionFeatureSet._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionFeatureSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionStatus {
-  attachable('ATTACHABLE'),
-  unattachable('UNATTACHABLE'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class PermissionStatus {
+  static const attachable = PermissionStatus._('ATTACHABLE');
+  static const unattachable = PermissionStatus._('UNATTACHABLE');
+  static const deleting = PermissionStatus._('DELETING');
+  static const deleted = PermissionStatus._('DELETED');
 
   final String value;
 
-  const PermissionStatus(this.value);
+  const PermissionStatus._(this.value);
+
+  static const values = [attachable, unattachable, deleting, deleted];
 
   static PermissionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionStatus'));
+          orElse: () => PermissionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionType {
-  customerManaged('CUSTOMER_MANAGED'),
-  awsManaged('AWS_MANAGED'),
-  ;
+class PermissionType {
+  static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
+  static const awsManaged = PermissionType._('AWS_MANAGED');
 
   final String value;
 
-  const PermissionType(this.value);
+  const PermissionType._(this.value);
+
+  static const values = [customerManaged, awsManaged];
 
   static PermissionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PermissionType'));
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PermissionTypeFilter {
-  all('ALL'),
-  awsManaged('AWS_MANAGED'),
-  customerManaged('CUSTOMER_MANAGED'),
-  ;
+class PermissionTypeFilter {
+  static const all = PermissionTypeFilter._('ALL');
+  static const awsManaged = PermissionTypeFilter._('AWS_MANAGED');
+  static const customerManaged = PermissionTypeFilter._('CUSTOMER_MANAGED');
 
   final String value;
 
-  const PermissionTypeFilter(this.value);
+  const PermissionTypeFilter._(this.value);
 
-  static PermissionTypeFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PermissionTypeFilter'));
+  static const values = [all, awsManaged, customerManaged];
+
+  static PermissionTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionTypeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a principal for use with Resource Access Manager.
@@ -4176,20 +4216,32 @@ class ReplacePermissionAssociationsWork {
   }
 }
 
-enum ReplacePermissionAssociationsWorkStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class ReplacePermissionAssociationsWorkStatus {
+  static const inProgress =
+      ReplacePermissionAssociationsWorkStatus._('IN_PROGRESS');
+  static const completed =
+      ReplacePermissionAssociationsWorkStatus._('COMPLETED');
+  static const failed = ReplacePermissionAssociationsWorkStatus._('FAILED');
 
   final String value;
 
-  const ReplacePermissionAssociationsWorkStatus(this.value);
+  const ReplacePermissionAssociationsWorkStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
 
   static ReplacePermissionAssociationsWorkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReplacePermissionAssociationsWorkStatus'));
+          orElse: () => ReplacePermissionAssociationsWorkStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplacePermissionAssociationsWorkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource associated with a resource share in RAM.
@@ -4298,50 +4350,79 @@ class Resource {
   }
 }
 
-enum ResourceOwner {
-  self('SELF'),
-  otherAccounts('OTHER-ACCOUNTS'),
-  ;
+class ResourceOwner {
+  static const self = ResourceOwner._('SELF');
+  static const otherAccounts = ResourceOwner._('OTHER-ACCOUNTS');
 
   final String value;
 
-  const ResourceOwner(this.value);
+  const ResourceOwner._(this.value);
+
+  static const values = [self, otherAccounts];
 
   static ResourceOwner fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceOwner'));
+          orElse: () => ResourceOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceRegionScope {
-  regional('REGIONAL'),
-  global('GLOBAL'),
-  ;
+class ResourceRegionScope {
+  static const regional = ResourceRegionScope._('REGIONAL');
+  static const global = ResourceRegionScope._('GLOBAL');
 
   final String value;
 
-  const ResourceRegionScope(this.value);
+  const ResourceRegionScope._(this.value);
 
-  static ResourceRegionScope fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceRegionScope'));
+  static const values = [regional, global];
+
+  static ResourceRegionScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceRegionScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRegionScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceRegionScopeFilter {
-  all('ALL'),
-  regional('REGIONAL'),
-  global('GLOBAL'),
-  ;
+class ResourceRegionScopeFilter {
+  static const all = ResourceRegionScopeFilter._('ALL');
+  static const regional = ResourceRegionScopeFilter._('REGIONAL');
+  static const global = ResourceRegionScopeFilter._('GLOBAL');
 
   final String value;
 
-  const ResourceRegionScopeFilter(this.value);
+  const ResourceRegionScopeFilter._(this.value);
+
+  static const values = [all, regional, global];
 
   static ResourceRegionScopeFilter fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceRegionScopeFilter'));
+          orElse: () => ResourceRegionScopeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRegionScopeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resource share in RAM.
@@ -4596,53 +4677,93 @@ class ResourceShareAssociation {
   }
 }
 
-enum ResourceShareAssociationStatus {
-  associating('ASSOCIATING'),
-  associated('ASSOCIATED'),
-  failed('FAILED'),
-  disassociating('DISASSOCIATING'),
-  disassociated('DISASSOCIATED'),
-  ;
+class ResourceShareAssociationStatus {
+  static const associating = ResourceShareAssociationStatus._('ASSOCIATING');
+  static const associated = ResourceShareAssociationStatus._('ASSOCIATED');
+  static const failed = ResourceShareAssociationStatus._('FAILED');
+  static const disassociating =
+      ResourceShareAssociationStatus._('DISASSOCIATING');
+  static const disassociated =
+      ResourceShareAssociationStatus._('DISASSOCIATED');
 
   final String value;
 
-  const ResourceShareAssociationStatus(this.value);
+  const ResourceShareAssociationStatus._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    failed,
+    disassociating,
+    disassociated
+  ];
 
   static ResourceShareAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceShareAssociationStatus'));
+          orElse: () => ResourceShareAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceShareAssociationType {
-  principal('PRINCIPAL'),
-  resource('RESOURCE'),
-  ;
+class ResourceShareAssociationType {
+  static const principal = ResourceShareAssociationType._('PRINCIPAL');
+  static const resource = ResourceShareAssociationType._('RESOURCE');
 
   final String value;
 
-  const ResourceShareAssociationType(this.value);
+  const ResourceShareAssociationType._(this.value);
+
+  static const values = [principal, resource];
 
   static ResourceShareAssociationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceShareAssociationType'));
+          orElse: () => ResourceShareAssociationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareAssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceShareFeatureSet {
-  createdFromPolicy('CREATED_FROM_POLICY'),
-  promotingToStandard('PROMOTING_TO_STANDARD'),
-  standard('STANDARD'),
-  ;
+class ResourceShareFeatureSet {
+  static const createdFromPolicy =
+      ResourceShareFeatureSet._('CREATED_FROM_POLICY');
+  static const promotingToStandard =
+      ResourceShareFeatureSet._('PROMOTING_TO_STANDARD');
+  static const standard = ResourceShareFeatureSet._('STANDARD');
 
   final String value;
 
-  const ResourceShareFeatureSet(this.value);
+  const ResourceShareFeatureSet._(this.value);
+
+  static const values = [createdFromPolicy, promotingToStandard, standard];
 
   static ResourceShareFeatureSet fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceShareFeatureSet'));
+          orElse: () => ResourceShareFeatureSet._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareFeatureSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an invitation for an Amazon Web Services account to join a
@@ -4741,21 +4862,31 @@ class ResourceShareInvitation {
   }
 }
 
-enum ResourceShareInvitationStatus {
-  pending('PENDING'),
-  accepted('ACCEPTED'),
-  rejected('REJECTED'),
-  expired('EXPIRED'),
-  ;
+class ResourceShareInvitationStatus {
+  static const pending = ResourceShareInvitationStatus._('PENDING');
+  static const accepted = ResourceShareInvitationStatus._('ACCEPTED');
+  static const rejected = ResourceShareInvitationStatus._('REJECTED');
+  static const expired = ResourceShareInvitationStatus._('EXPIRED');
 
   final String value;
 
-  const ResourceShareInvitationStatus(this.value);
+  const ResourceShareInvitationStatus._(this.value);
+
+  static const values = [pending, accepted, rejected, expired];
 
   static ResourceShareInvitationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceShareInvitationStatus'));
+          orElse: () => ResourceShareInvitationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareInvitationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a RAM managed permission.
@@ -5094,40 +5225,66 @@ class ResourceSharePermissionSummary {
   }
 }
 
-enum ResourceShareStatus {
-  pending('PENDING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ResourceShareStatus {
+  static const pending = ResourceShareStatus._('PENDING');
+  static const active = ResourceShareStatus._('ACTIVE');
+  static const failed = ResourceShareStatus._('FAILED');
+  static const deleting = ResourceShareStatus._('DELETING');
+  static const deleted = ResourceShareStatus._('DELETED');
 
   final String value;
 
-  const ResourceShareStatus(this.value);
+  const ResourceShareStatus._(this.value);
 
-  static ResourceShareStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceShareStatus'));
+  static const values = [pending, active, failed, deleting, deleted];
+
+  static ResourceShareStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceShareStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceStatus {
-  available('AVAILABLE'),
-  zonalResourceInaccessible('ZONAL_RESOURCE_INACCESSIBLE'),
-  limitExceeded('LIMIT_EXCEEDED'),
-  unavailable('UNAVAILABLE'),
-  pending('PENDING'),
-  ;
+class ResourceStatus {
+  static const available = ResourceStatus._('AVAILABLE');
+  static const zonalResourceInaccessible =
+      ResourceStatus._('ZONAL_RESOURCE_INACCESSIBLE');
+  static const limitExceeded = ResourceStatus._('LIMIT_EXCEEDED');
+  static const unavailable = ResourceStatus._('UNAVAILABLE');
+  static const pending = ResourceStatus._('PENDING');
 
   final String value;
 
-  const ResourceStatus(this.value);
+  const ResourceStatus._(this.value);
+
+  static const values = [
+    available,
+    zonalResourceInaccessible,
+    limitExceeded,
+    unavailable,
+    pending
+  ];
 
   static ResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStatus'));
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a shareable resource type and the Amazon Web Services

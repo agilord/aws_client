@@ -3665,7 +3665,7 @@ class AlarmRecommendation {
       name: (json['name'] as String?) ?? '',
       recommendationId: (json['recommendationId'] as String?) ?? '',
       referenceId: (json['referenceId'] as String?) ?? '',
-      type: AlarmType.fromString((json['type'] as String)),
+      type: AlarmType.fromString((json['type'] as String?) ?? ''),
       appComponentName: json['appComponentName'] as String?,
       appComponentNames: (json['appComponentNames'] as List?)
           ?.nonNulls
@@ -3709,21 +3709,30 @@ class AlarmRecommendation {
   }
 }
 
-enum AlarmType {
-  metric('Metric'),
-  composite('Composite'),
-  canary('Canary'),
-  logs('Logs'),
-  event('Event'),
-  ;
+class AlarmType {
+  static const metric = AlarmType._('Metric');
+  static const composite = AlarmType._('Composite');
+  static const canary = AlarmType._('Canary');
+  static const logs = AlarmType._('Logs');
+  static const event = AlarmType._('Event');
 
   final String value;
 
-  const AlarmType(this.value);
+  const AlarmType._(this.value);
 
-  static AlarmType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AlarmType'));
+  static const values = [metric, composite, canary, logs, event];
+
+  static AlarmType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
+
+  @override
+  bool operator ==(other) => other is AlarmType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an Resilience Hub application.
@@ -4006,9 +4015,9 @@ class AppAssessment {
   factory AppAssessment.fromJson(Map<String, dynamic> json) {
     return AppAssessment(
       assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      assessmentStatus:
-          AssessmentStatus.fromString((json['assessmentStatus'] as String)),
-      invoker: AssessmentInvoker.fromString((json['invoker'] as String)),
+      assessmentStatus: AssessmentStatus.fromString(
+          (json['assessmentStatus'] as String?) ?? ''),
+      invoker: AssessmentInvoker.fromString((json['invoker'] as String?) ?? ''),
       appArn: json['appArn'] as String?,
       appVersion: json['appVersion'] as String?,
       assessmentName: json['assessmentName'] as String?,
@@ -4091,19 +4100,29 @@ class AppAssessment {
   }
 }
 
-enum AppAssessmentScheduleType {
-  disabled('Disabled'),
-  daily('Daily'),
-  ;
+class AppAssessmentScheduleType {
+  static const disabled = AppAssessmentScheduleType._('Disabled');
+  static const daily = AppAssessmentScheduleType._('Daily');
 
   final String value;
 
-  const AppAssessmentScheduleType(this.value);
+  const AppAssessmentScheduleType._(this.value);
+
+  static const values = [disabled, daily];
 
   static AppAssessmentScheduleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppAssessmentScheduleType'));
+          orElse: () => AppAssessmentScheduleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppAssessmentScheduleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an application assessment summary.
@@ -4182,8 +4201,8 @@ class AppAssessmentSummary {
   factory AppAssessmentSummary.fromJson(Map<String, dynamic> json) {
     return AppAssessmentSummary(
       assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      assessmentStatus:
-          AssessmentStatus.fromString((json['assessmentStatus'] as String)),
+      assessmentStatus: AssessmentStatus.fromString(
+          (json['assessmentStatus'] as String?) ?? ''),
       appArn: json['appArn'] as String?,
       appVersion: json['appVersion'] as String?,
       assessmentName: json['assessmentName'] as String?,
@@ -4237,23 +4256,40 @@ class AppAssessmentSummary {
   }
 }
 
-enum AppComplianceStatusType {
-  policyBreached('PolicyBreached'),
-  policyMet('PolicyMet'),
-  notAssessed('NotAssessed'),
-  changesDetected('ChangesDetected'),
-  notApplicable('NotApplicable'),
-  missingPolicy('MissingPolicy'),
-  ;
+class AppComplianceStatusType {
+  static const policyBreached = AppComplianceStatusType._('PolicyBreached');
+  static const policyMet = AppComplianceStatusType._('PolicyMet');
+  static const notAssessed = AppComplianceStatusType._('NotAssessed');
+  static const changesDetected = AppComplianceStatusType._('ChangesDetected');
+  static const notApplicable = AppComplianceStatusType._('NotApplicable');
+  static const missingPolicy = AppComplianceStatusType._('MissingPolicy');
 
   final String value;
 
-  const AppComplianceStatusType(this.value);
+  const AppComplianceStatusType._(this.value);
+
+  static const values = [
+    policyBreached,
+    policyMet,
+    notAssessed,
+    changesDetected,
+    notApplicable,
+    missingPolicy
+  ];
 
   static AppComplianceStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppComplianceStatusType'));
+          orElse: () => AppComplianceStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppComplianceStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an Application Component.
@@ -4382,20 +4418,30 @@ class AppComponentCompliance {
   }
 }
 
-enum AppDriftStatusType {
-  notChecked('NotChecked'),
-  notDetected('NotDetected'),
-  detected('Detected'),
-  ;
+class AppDriftStatusType {
+  static const notChecked = AppDriftStatusType._('NotChecked');
+  static const notDetected = AppDriftStatusType._('NotDetected');
+  static const detected = AppDriftStatusType._('Detected');
 
   final String value;
 
-  const AppDriftStatusType(this.value);
+  const AppDriftStatusType._(this.value);
 
-  static AppDriftStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppDriftStatusType'));
+  static const values = [notChecked, notDetected, detected];
+
+  static AppDriftStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppDriftStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppDriftStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of Resilience Hub application input sources.
@@ -4434,7 +4480,7 @@ class AppInputSource {
   factory AppInputSource.fromJson(Map<String, dynamic> json) {
     return AppInputSource(
       importType:
-          ResourceMappingType.fromString((json['importType'] as String)),
+          ResourceMappingType.fromString((json['importType'] as String?) ?? ''),
       eksSourceClusterNamespace: json['eksSourceClusterNamespace'] != null
           ? EksSourceClusterNamespace.fromJson(
               json['eksSourceClusterNamespace'] as Map<String, dynamic>)
@@ -4468,19 +4514,28 @@ class AppInputSource {
   }
 }
 
-enum AppStatusType {
-  active('Active'),
-  deleting('Deleting'),
-  ;
+class AppStatusType {
+  static const active = AppStatusType._('Active');
+  static const deleting = AppStatusType._('Deleting');
 
   final String value;
 
-  const AppStatusType(this.value);
+  const AppStatusType._(this.value);
+
+  static const values = [active, deleting];
 
   static AppStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppStatusType'));
+          orElse: () => AppStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is AppStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines an application summary.
@@ -4643,19 +4698,28 @@ class AppVersionSummary {
   }
 }
 
-enum AssessmentInvoker {
-  user('User'),
-  system('System'),
-  ;
+class AssessmentInvoker {
+  static const user = AssessmentInvoker._('User');
+  static const system = AssessmentInvoker._('System');
 
   final String value;
 
-  const AssessmentInvoker(this.value);
+  const AssessmentInvoker._(this.value);
+
+  static const values = [user, system];
 
   static AssessmentInvoker fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssessmentInvoker'));
+          orElse: () => AssessmentInvoker._(value));
+
+  @override
+  bool operator ==(other) => other is AssessmentInvoker && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates a specific risk identified in the Resilience Hub assessment and
@@ -4721,21 +4785,30 @@ class AssessmentRiskRecommendation {
   }
 }
 
-enum AssessmentStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  success('Success'),
-  ;
+class AssessmentStatus {
+  static const pending = AssessmentStatus._('Pending');
+  static const inProgress = AssessmentStatus._('InProgress');
+  static const failed = AssessmentStatus._('Failed');
+  static const success = AssessmentStatus._('Success');
 
   final String value;
 
-  const AssessmentStatus(this.value);
+  const AssessmentStatus._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
 
   static AssessmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssessmentStatus'));
+          orElse: () => AssessmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssessmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the AI-generated summary for the Resilience Hub assessment,
@@ -5039,21 +5112,35 @@ class ComplianceDrift {
   }
 }
 
-enum ComplianceStatus {
-  policyBreached('PolicyBreached'),
-  policyMet('PolicyMet'),
-  notApplicable('NotApplicable'),
-  missingPolicy('MissingPolicy'),
-  ;
+class ComplianceStatus {
+  static const policyBreached = ComplianceStatus._('PolicyBreached');
+  static const policyMet = ComplianceStatus._('PolicyMet');
+  static const notApplicable = ComplianceStatus._('NotApplicable');
+  static const missingPolicy = ComplianceStatus._('MissingPolicy');
 
   final String value;
 
-  const ComplianceStatus(this.value);
+  const ComplianceStatus._(this.value);
+
+  static const values = [
+    policyBreached,
+    policyMet,
+    notApplicable,
+    missingPolicy
+  ];
 
   static ComplianceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ComplianceStatus'));
+          orElse: () => ComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines recommendations for an Resilience Hub Application Component,
@@ -5084,7 +5171,7 @@ class ComponentRecommendation {
           .map((e) => ConfigRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationStatus: RecommendationComplianceStatus.fromString(
-          (json['recommendationStatus'] as String)),
+          (json['recommendationStatus'] as String?) ?? ''),
     );
   }
 
@@ -5152,7 +5239,7 @@ class ConfigRecommendation {
     return ConfigRecommendation(
       name: (json['name'] as String?) ?? '',
       optimizationType: ConfigRecommendationOptimizationType.fromString(
-          (json['optimizationType'] as String)),
+          (json['optimizationType'] as String?) ?? ''),
       referenceId: (json['referenceId'] as String?) ?? '',
       appComponentName: json['appComponentName'] as String?,
       compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -5206,23 +5293,45 @@ class ConfigRecommendation {
   }
 }
 
-enum ConfigRecommendationOptimizationType {
-  leastCost('LeastCost'),
-  leastChange('LeastChange'),
-  bestAZRecovery('BestAZRecovery'),
-  leastErrors('LeastErrors'),
-  bestAttainable('BestAttainable'),
-  bestRegionRecovery('BestRegionRecovery'),
-  ;
+class ConfigRecommendationOptimizationType {
+  static const leastCost = ConfigRecommendationOptimizationType._('LeastCost');
+  static const leastChange =
+      ConfigRecommendationOptimizationType._('LeastChange');
+  static const bestAZRecovery =
+      ConfigRecommendationOptimizationType._('BestAZRecovery');
+  static const leastErrors =
+      ConfigRecommendationOptimizationType._('LeastErrors');
+  static const bestAttainable =
+      ConfigRecommendationOptimizationType._('BestAttainable');
+  static const bestRegionRecovery =
+      ConfigRecommendationOptimizationType._('BestRegionRecovery');
 
   final String value;
 
-  const ConfigRecommendationOptimizationType(this.value);
+  const ConfigRecommendationOptimizationType._(this.value);
+
+  static const values = [
+    leastCost,
+    leastChange,
+    bestAZRecovery,
+    leastErrors,
+    bestAttainable,
+    bestRegionRecovery
+  ];
 
   static ConfigRecommendationOptimizationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigRecommendationOptimizationType'));
+          orElse: () => ConfigRecommendationOptimizationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigRecommendationOptimizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a cost object.
@@ -5246,7 +5355,7 @@ class Cost {
     return Cost(
       amount: (json['amount'] as double?) ?? 0,
       currency: (json['currency'] as String?) ?? '',
-      frequency: CostFrequency.fromString((json['frequency'] as String)),
+      frequency: CostFrequency.fromString((json['frequency'] as String?) ?? ''),
     );
   }
 
@@ -5262,21 +5371,30 @@ class Cost {
   }
 }
 
-enum CostFrequency {
-  hourly('Hourly'),
-  daily('Daily'),
-  monthly('Monthly'),
-  yearly('Yearly'),
-  ;
+class CostFrequency {
+  static const hourly = CostFrequency._('Hourly');
+  static const daily = CostFrequency._('Daily');
+  static const monthly = CostFrequency._('Monthly');
+  static const yearly = CostFrequency._('Yearly');
 
   final String value;
 
-  const CostFrequency(this.value);
+  const CostFrequency._(this.value);
+
+  static const values = [hourly, daily, monthly, yearly];
 
   static CostFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CostFrequency'));
+          orElse: () => CostFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is CostFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAppResponse {
@@ -5449,20 +5567,30 @@ class CreateResiliencyPolicyResponse {
   }
 }
 
-enum DataLocationConstraint {
-  anyLocation('AnyLocation'),
-  sameContinent('SameContinent'),
-  sameCountry('SameCountry'),
-  ;
+class DataLocationConstraint {
+  static const anyLocation = DataLocationConstraint._('AnyLocation');
+  static const sameContinent = DataLocationConstraint._('SameContinent');
+  static const sameCountry = DataLocationConstraint._('SameCountry');
 
   final String value;
 
-  const DataLocationConstraint(this.value);
+  const DataLocationConstraint._(this.value);
+
+  static const values = [anyLocation, sameContinent, sameCountry];
 
   static DataLocationConstraint fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataLocationConstraint'));
+          orElse: () => DataLocationConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataLocationConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAppAssessmentResponse {
@@ -5485,8 +5613,8 @@ class DeleteAppAssessmentResponse {
   factory DeleteAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAppAssessmentResponse(
       assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      assessmentStatus:
-          AssessmentStatus.fromString((json['assessmentStatus'] as String)),
+      assessmentStatus: AssessmentStatus.fromString(
+          (json['assessmentStatus'] as String?) ?? ''),
     );
   }
 
@@ -5676,8 +5804,8 @@ class DeleteRecommendationTemplateResponse {
     return DeleteRecommendationTemplateResponse(
       recommendationTemplateArn:
           (json['recommendationTemplateArn'] as String?) ?? '',
-      status:
-          RecommendationTemplateStatus.fromString((json['status'] as String)),
+      status: RecommendationTemplateStatus.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -5898,8 +6026,8 @@ class DescribeAppVersionResourcesResolutionStatusResponse {
       appArn: (json['appArn'] as String?) ?? '',
       appVersion: (json['appVersion'] as String?) ?? '',
       resolutionId: (json['resolutionId'] as String?) ?? '',
-      status:
-          ResourceResolutionStatusType.fromString((json['status'] as String)),
+      status: ResourceResolutionStatusType.fromString(
+          (json['status'] as String?) ?? ''),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -6307,7 +6435,8 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
     return DescribeDraftAppVersionResourcesImportStatusResponse(
       appArn: (json['appArn'] as String?) ?? '',
       appVersion: (json['appVersion'] as String?) ?? '',
-      status: ResourceImportStatusType.fromString((json['status'] as String)),
+      status: ResourceImportStatusType.fromString(
+          (json['status'] as String?) ?? ''),
       statusChangeTime:
           nonNullableTimeStampFromJson(json['statusChangeTime'] ?? 0),
       errorMessage: json['errorMessage'] as String?,
@@ -6379,7 +6508,7 @@ class DescribeResourceGroupingRecommendationTaskResponse {
     return DescribeResourceGroupingRecommendationTaskResponse(
       groupingId: (json['groupingId'] as String?) ?? '',
       status: ResourcesGroupingRecGenStatusType.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -6396,20 +6525,29 @@ class DescribeResourceGroupingRecommendationTaskResponse {
   }
 }
 
-enum DifferenceType {
-  notEqual('NotEqual'),
-  added('Added'),
-  removed('Removed'),
-  ;
+class DifferenceType {
+  static const notEqual = DifferenceType._('NotEqual');
+  static const added = DifferenceType._('Added');
+  static const removed = DifferenceType._('Removed');
 
   final String value;
 
-  const DifferenceType(this.value);
+  const DifferenceType._(this.value);
+
+  static const values = [notEqual, added, removed];
 
   static DifferenceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DifferenceType'));
+          orElse: () => DifferenceType._(value));
+
+  @override
+  bool operator ==(other) => other is DifferenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the compliance against the resiliency policy for a disruption.
@@ -6459,8 +6597,8 @@ class DisruptionCompliance {
 
   factory DisruptionCompliance.fromJson(Map<String, dynamic> json) {
     return DisruptionCompliance(
-      complianceStatus:
-          ComplianceStatus.fromString((json['complianceStatus'] as String)),
+      complianceStatus: ComplianceStatus.fromString(
+          (json['complianceStatus'] as String?) ?? ''),
       achievableRpoInSecs: json['achievableRpoInSecs'] as int?,
       achievableRtoInSecs: json['achievableRtoInSecs'] as int?,
       currentRpoInSecs: json['currentRpoInSecs'] as int?,
@@ -6501,51 +6639,81 @@ class DisruptionCompliance {
   }
 }
 
-enum DisruptionType {
-  software('Software'),
-  hardware('Hardware'),
-  az('AZ'),
-  region('Region'),
-  ;
+class DisruptionType {
+  static const software = DisruptionType._('Software');
+  static const hardware = DisruptionType._('Hardware');
+  static const az = DisruptionType._('AZ');
+  static const region = DisruptionType._('Region');
 
   final String value;
 
-  const DisruptionType(this.value);
+  const DisruptionType._(this.value);
+
+  static const values = [software, hardware, az, region];
 
   static DisruptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DisruptionType'));
+          orElse: () => DisruptionType._(value));
+
+  @override
+  bool operator ==(other) => other is DisruptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DriftStatus {
-  notChecked('NotChecked'),
-  notDetected('NotDetected'),
-  detected('Detected'),
-  ;
+class DriftStatus {
+  static const notChecked = DriftStatus._('NotChecked');
+  static const notDetected = DriftStatus._('NotDetected');
+  static const detected = DriftStatus._('Detected');
 
   final String value;
 
-  const DriftStatus(this.value);
+  const DriftStatus._(this.value);
 
-  static DriftStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DriftStatus'));
+  static const values = [notChecked, notDetected, detected];
+
+  static DriftStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DriftType {
-  applicationCompliance('ApplicationCompliance'),
-  appComponentResiliencyComplianceStatus(
-      'AppComponentResiliencyComplianceStatus'),
-  ;
+class DriftType {
+  static const applicationCompliance = DriftType._('ApplicationCompliance');
+  static const appComponentResiliencyComplianceStatus =
+      DriftType._('AppComponentResiliencyComplianceStatus');
 
   final String value;
 
-  const DriftType(this.value);
+  const DriftType._(this.value);
 
-  static DriftType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DriftType'));
+  static const values = [
+    applicationCompliance,
+    appComponentResiliencyComplianceStatus
+  ];
+
+  static DriftType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftType._(value));
+
+  @override
+  bool operator ==(other) => other is DriftType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input source of the Amazon Elastic Kubernetes Service cluster.
@@ -6626,21 +6794,30 @@ class EksSourceClusterNamespace {
   }
 }
 
-enum EstimatedCostTier {
-  l1('L1'),
-  l2('L2'),
-  l3('L3'),
-  l4('L4'),
-  ;
+class EstimatedCostTier {
+  static const l1 = EstimatedCostTier._('L1');
+  static const l2 = EstimatedCostTier._('L2');
+  static const l3 = EstimatedCostTier._('L3');
+  static const l4 = EstimatedCostTier._('L4');
 
   final String value;
 
-  const EstimatedCostTier(this.value);
+  const EstimatedCostTier._(this.value);
+
+  static const values = [l1, l2, l3, l4];
 
   static EstimatedCostTier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EstimatedCostTier'));
+          orElse: () => EstimatedCostTier._(value));
+
+  @override
+  bool operator ==(other) => other is EstimatedCostTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates an event you would like to subscribe and get notification for.
@@ -6673,7 +6850,7 @@ class EventSubscription {
 
   factory EventSubscription.fromJson(Map<String, dynamic> json) {
     return EventSubscription(
-      eventType: EventType.fromString((json['eventType'] as String)),
+      eventType: EventType.fromString((json['eventType'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       snsTopicArn: json['snsTopicArn'] as String?,
     );
@@ -6691,34 +6868,60 @@ class EventSubscription {
   }
 }
 
-enum EventType {
-  scheduledAssessmentFailure('ScheduledAssessmentFailure'),
-  driftDetected('DriftDetected'),
-  ;
+class EventType {
+  static const scheduledAssessmentFailure =
+      EventType._('ScheduledAssessmentFailure');
+  static const driftDetected = EventType._('DriftDetected');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [scheduledAssessmentFailure, driftDetected];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExcludeRecommendationReason {
-  alreadyImplemented('AlreadyImplemented'),
-  notRelevant('NotRelevant'),
-  complexityOfImplementation('ComplexityOfImplementation'),
-  ;
+class ExcludeRecommendationReason {
+  static const alreadyImplemented =
+      ExcludeRecommendationReason._('AlreadyImplemented');
+  static const notRelevant = ExcludeRecommendationReason._('NotRelevant');
+  static const complexityOfImplementation =
+      ExcludeRecommendationReason._('ComplexityOfImplementation');
 
   final String value;
 
-  const ExcludeRecommendationReason(this.value);
+  const ExcludeRecommendationReason._(this.value);
+
+  static const values = [
+    alreadyImplemented,
+    notRelevant,
+    complexityOfImplementation
+  ];
 
   static ExcludeRecommendationReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExcludeRecommendationReason'));
+          orElse: () => ExcludeRecommendationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExcludeRecommendationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the accepted grouping recommendation whose implementation failed.
@@ -6867,7 +7070,7 @@ class GroupingRecommendation {
   factory GroupingRecommendation.fromJson(Map<String, dynamic> json) {
     return GroupingRecommendation(
       confidenceLevel: GroupingRecommendationConfidenceLevel.fromString(
-          (json['confidenceLevel'] as String)),
+          (json['confidenceLevel'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       groupingAppComponent: GroupingAppComponent.fromJson(
           (json['groupingAppComponent'] as Map<String, dynamic>?) ??
@@ -6885,7 +7088,7 @@ class GroupingRecommendation {
           .toList(),
       score: (json['score'] as double?) ?? 0,
       status: GroupingRecommendationStatusType.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       rejectionReason: (json['rejectionReason'] as String?)
           ?.let(GroupingRecommendationRejectionReason.fromString),
     );
@@ -6915,52 +7118,91 @@ class GroupingRecommendation {
   }
 }
 
-enum GroupingRecommendationConfidenceLevel {
-  high('High'),
-  medium('Medium'),
-  ;
+class GroupingRecommendationConfidenceLevel {
+  static const high = GroupingRecommendationConfidenceLevel._('High');
+  static const medium = GroupingRecommendationConfidenceLevel._('Medium');
 
   final String value;
 
-  const GroupingRecommendationConfidenceLevel(this.value);
+  const GroupingRecommendationConfidenceLevel._(this.value);
+
+  static const values = [high, medium];
 
   static GroupingRecommendationConfidenceLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupingRecommendationConfidenceLevel'));
+          orElse: () => GroupingRecommendationConfidenceLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationConfidenceLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GroupingRecommendationRejectionReason {
-  distinctBusinessPurpose('DistinctBusinessPurpose'),
-  separateDataConcern('SeparateDataConcern'),
-  distinctUserGroupHandling('DistinctUserGroupHandling'),
-  other('Other'),
-  ;
+class GroupingRecommendationRejectionReason {
+  static const distinctBusinessPurpose =
+      GroupingRecommendationRejectionReason._('DistinctBusinessPurpose');
+  static const separateDataConcern =
+      GroupingRecommendationRejectionReason._('SeparateDataConcern');
+  static const distinctUserGroupHandling =
+      GroupingRecommendationRejectionReason._('DistinctUserGroupHandling');
+  static const other = GroupingRecommendationRejectionReason._('Other');
 
   final String value;
 
-  const GroupingRecommendationRejectionReason(this.value);
+  const GroupingRecommendationRejectionReason._(this.value);
+
+  static const values = [
+    distinctBusinessPurpose,
+    separateDataConcern,
+    distinctUserGroupHandling,
+    other
+  ];
 
   static GroupingRecommendationRejectionReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupingRecommendationRejectionReason'));
+          orElse: () => GroupingRecommendationRejectionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationRejectionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GroupingRecommendationStatusType {
-  accepted('Accepted'),
-  rejected('Rejected'),
-  pendingDecision('PendingDecision'),
-  ;
+class GroupingRecommendationStatusType {
+  static const accepted = GroupingRecommendationStatusType._('Accepted');
+  static const rejected = GroupingRecommendationStatusType._('Rejected');
+  static const pendingDecision =
+      GroupingRecommendationStatusType._('PendingDecision');
 
   final String value;
 
-  const GroupingRecommendationStatusType(this.value);
+  const GroupingRecommendationStatusType._(this.value);
+
+  static const values = [accepted, rejected, pendingDecision];
 
   static GroupingRecommendationStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GroupingRecommendationStatusType'));
+          orElse: () => GroupingRecommendationStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the resource that will be grouped in the recommended Application
@@ -7024,22 +7266,37 @@ class GroupingResource {
   }
 }
 
-enum HaArchitecture {
-  multiSite('MultiSite'),
-  warmStandby('WarmStandby'),
-  pilotLight('PilotLight'),
-  backupAndRestore('BackupAndRestore'),
-  noRecoveryPlan('NoRecoveryPlan'),
-  ;
+class HaArchitecture {
+  static const multiSite = HaArchitecture._('MultiSite');
+  static const warmStandby = HaArchitecture._('WarmStandby');
+  static const pilotLight = HaArchitecture._('PilotLight');
+  static const backupAndRestore = HaArchitecture._('BackupAndRestore');
+  static const noRecoveryPlan = HaArchitecture._('NoRecoveryPlan');
 
   final String value;
 
-  const HaArchitecture(this.value);
+  const HaArchitecture._(this.value);
+
+  static const values = [
+    multiSite,
+    warmStandby,
+    pilotLight,
+    backupAndRestore,
+    noRecoveryPlan
+  ];
 
   static HaArchitecture fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HaArchitecture'));
+          orElse: () => HaArchitecture._(value));
+
+  @override
+  bool operator ==(other) => other is HaArchitecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportResourcesToDraftAppVersionResponse {
@@ -7082,7 +7339,8 @@ class ImportResourcesToDraftAppVersionResponse {
     return ImportResourcesToDraftAppVersionResponse(
       appArn: (json['appArn'] as String?) ?? '',
       appVersion: (json['appVersion'] as String?) ?? '',
-      status: ResourceImportStatusType.fromString((json['status'] as String)),
+      status: ResourceImportStatusType.fromString(
+          (json['status'] as String?) ?? ''),
       eksSources: (json['eksSources'] as List?)
           ?.nonNulls
           .map((e) => EksSource.fromJson(e as Map<String, dynamic>))
@@ -7925,7 +8183,7 @@ class PermissionModel {
 
   factory PermissionModel.fromJson(Map<String, dynamic> json) {
     return PermissionModel(
-      type: PermissionModelType.fromString((json['type'] as String)),
+      type: PermissionModelType.fromString((json['type'] as String?) ?? ''),
       crossAccountRoleArns: (json['crossAccountRoleArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -7947,34 +8205,54 @@ class PermissionModel {
   }
 }
 
-enum PermissionModelType {
-  legacyIAMUser('LegacyIAMUser'),
-  roleBased('RoleBased'),
-  ;
+class PermissionModelType {
+  static const legacyIAMUser = PermissionModelType._('LegacyIAMUser');
+  static const roleBased = PermissionModelType._('RoleBased');
 
   final String value;
 
-  const PermissionModelType(this.value);
+  const PermissionModelType._(this.value);
 
-  static PermissionModelType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PermissionModelType'));
+  static const values = [legacyIAMUser, roleBased];
+
+  static PermissionModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhysicalIdentifierType {
-  arn('Arn'),
-  native('Native'),
-  ;
+class PhysicalIdentifierType {
+  static const arn = PhysicalIdentifierType._('Arn');
+  static const native = PhysicalIdentifierType._('Native');
 
   final String value;
 
-  const PhysicalIdentifierType(this.value);
+  const PhysicalIdentifierType._(this.value);
+
+  static const values = [arn, native];
 
   static PhysicalIdentifierType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhysicalIdentifierType'));
+          orElse: () => PhysicalIdentifierType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhysicalIdentifierType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a physical resource. A physical resource is a resource that exists
@@ -8188,7 +8466,7 @@ class PhysicalResourceId {
   factory PhysicalResourceId.fromJson(Map<String, dynamic> json) {
     return PhysicalResourceId(
       identifier: (json['identifier'] as String?) ?? '',
-      type: PhysicalIdentifierType.fromString((json['type'] as String)),
+      type: PhysicalIdentifierType.fromString((json['type'] as String?) ?? ''),
       awsAccountId: json['awsAccountId'] as String?,
       awsRegion: json['awsRegion'] as String?,
     );
@@ -8293,21 +8571,40 @@ class PutDraftAppVersionTemplateResponse {
   }
 }
 
-enum RecommendationComplianceStatus {
-  breachedUnattainable('BreachedUnattainable'),
-  breachedCanMeet('BreachedCanMeet'),
-  metCanImprove('MetCanImprove'),
-  missingPolicy('MissingPolicy'),
-  ;
+class RecommendationComplianceStatus {
+  static const breachedUnattainable =
+      RecommendationComplianceStatus._('BreachedUnattainable');
+  static const breachedCanMeet =
+      RecommendationComplianceStatus._('BreachedCanMeet');
+  static const metCanImprove =
+      RecommendationComplianceStatus._('MetCanImprove');
+  static const missingPolicy =
+      RecommendationComplianceStatus._('MissingPolicy');
 
   final String value;
 
-  const RecommendationComplianceStatus(this.value);
+  const RecommendationComplianceStatus._(this.value);
+
+  static const values = [
+    breachedUnattainable,
+    breachedCanMeet,
+    metCanImprove,
+    missingPolicy
+  ];
 
   static RecommendationComplianceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationComplianceStatus'));
+          orElse: () => RecommendationComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a disruption compliance recommendation.
@@ -8342,7 +8639,7 @@ class RecommendationDisruptionCompliance {
       Map<String, dynamic> json) {
     return RecommendationDisruptionCompliance(
       expectedComplianceStatus: ComplianceStatus.fromString(
-          (json['expectedComplianceStatus'] as String)),
+          (json['expectedComplianceStatus'] as String?) ?? ''),
       expectedRpoDescription: json['expectedRpoDescription'] as String?,
       expectedRpoInSecs: json['expectedRpoInSecs'] as int?,
       expectedRtoDescription: json['expectedRtoDescription'] as String?,
@@ -8427,21 +8724,31 @@ class RecommendationItem {
   }
 }
 
-enum RecommendationStatus {
-  implemented('Implemented'),
-  inactive('Inactive'),
-  notImplemented('NotImplemented'),
-  excluded('Excluded'),
-  ;
+class RecommendationStatus {
+  static const implemented = RecommendationStatus._('Implemented');
+  static const inactive = RecommendationStatus._('Inactive');
+  static const notImplemented = RecommendationStatus._('NotImplemented');
+  static const excluded = RecommendationStatus._('Excluded');
 
   final String value;
 
-  const RecommendationStatus(this.value);
+  const RecommendationStatus._(this.value);
 
-  static RecommendationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationStatus'));
+  static const values = [implemented, inactive, notImplemented, excluded];
+
+  static RecommendationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a recommendation template created with the
@@ -8533,7 +8840,7 @@ class RecommendationTemplate {
   factory RecommendationTemplate.fromJson(Map<String, dynamic> json) {
     return RecommendationTemplate(
       assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      format: TemplateFormat.fromString((json['format'] as String)),
+      format: TemplateFormat.fromString((json['format'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       recommendationTemplateArn:
           (json['recommendationTemplateArn'] as String?) ?? '',
@@ -8541,8 +8848,8 @@ class RecommendationTemplate {
           .nonNulls
           .map((e) => RenderRecommendationType.fromString((e as String)))
           .toList(),
-      status:
-          RecommendationTemplateStatus.fromString((json['status'] as String)),
+      status: RecommendationTemplateStatus.fromString(
+          (json['status'] as String?) ?? ''),
       appArn: json['appArn'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       message: json['message'] as String?,
@@ -8595,21 +8902,31 @@ class RecommendationTemplate {
   }
 }
 
-enum RecommendationTemplateStatus {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  success('Success'),
-  ;
+class RecommendationTemplateStatus {
+  static const pending = RecommendationTemplateStatus._('Pending');
+  static const inProgress = RecommendationTemplateStatus._('InProgress');
+  static const failed = RecommendationTemplateStatus._('Failed');
+  static const success = RecommendationTemplateStatus._('Success');
 
   final String value;
 
-  const RecommendationTemplateStatus(this.value);
+  const RecommendationTemplateStatus._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
 
   static RecommendationTemplateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationTemplateStatus'));
+          orElse: () => RecommendationTemplateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationTemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the rejected grouping recommendation.
@@ -8713,20 +9030,30 @@ class RemoveDraftAppVersionResourceMappingsResponse {
   }
 }
 
-enum RenderRecommendationType {
-  alarm('Alarm'),
-  sop('Sop'),
-  test('Test'),
-  ;
+class RenderRecommendationType {
+  static const alarm = RenderRecommendationType._('Alarm');
+  static const sop = RenderRecommendationType._('Sop');
+  static const test = RenderRecommendationType._('Test');
 
   final String value;
 
-  const RenderRecommendationType(this.value);
+  const RenderRecommendationType._(this.value);
+
+  static const values = [alarm, sop, test];
 
   static RenderRecommendationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RenderRecommendationType'));
+          orElse: () => RenderRecommendationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RenderRecommendationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a resiliency policy.
@@ -8834,23 +9161,40 @@ class ResiliencyPolicy {
   }
 }
 
-enum ResiliencyPolicyTier {
-  missionCritical('MissionCritical'),
-  critical('Critical'),
-  important('Important'),
-  coreServices('CoreServices'),
-  nonCritical('NonCritical'),
-  notApplicable('NotApplicable'),
-  ;
+class ResiliencyPolicyTier {
+  static const missionCritical = ResiliencyPolicyTier._('MissionCritical');
+  static const critical = ResiliencyPolicyTier._('Critical');
+  static const important = ResiliencyPolicyTier._('Important');
+  static const coreServices = ResiliencyPolicyTier._('CoreServices');
+  static const nonCritical = ResiliencyPolicyTier._('NonCritical');
+  static const notApplicable = ResiliencyPolicyTier._('NotApplicable');
 
   final String value;
 
-  const ResiliencyPolicyTier(this.value);
+  const ResiliencyPolicyTier._(this.value);
 
-  static ResiliencyPolicyTier fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResiliencyPolicyTier'));
+  static const values = [
+    missionCritical,
+    critical,
+    important,
+    coreServices,
+    nonCritical,
+    notApplicable
+  ];
+
+  static ResiliencyPolicyTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResiliencyPolicyTier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResiliencyPolicyTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The overall resiliency score, returned as an object that includes the
@@ -8904,21 +9248,31 @@ class ResiliencyScore {
   }
 }
 
-enum ResiliencyScoreType {
-  compliance('Compliance'),
-  test('Test'),
-  alarm('Alarm'),
-  sop('Sop'),
-  ;
+class ResiliencyScoreType {
+  static const compliance = ResiliencyScoreType._('Compliance');
+  static const test = ResiliencyScoreType._('Test');
+  static const alarm = ResiliencyScoreType._('Alarm');
+  static const sop = ResiliencyScoreType._('Sop');
 
   final String value;
 
-  const ResiliencyScoreType(this.value);
+  const ResiliencyScoreType._(this.value);
 
-  static ResiliencyScoreType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResiliencyScoreType'));
+  static const values = [compliance, test, alarm, sop];
+
+  static ResiliencyScoreType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResiliencyScoreType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResiliencyScoreType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ResolveAppVersionResourcesResponse {
@@ -8953,8 +9307,8 @@ class ResolveAppVersionResourcesResponse {
       appArn: (json['appArn'] as String?) ?? '',
       appVersion: (json['appVersion'] as String?) ?? '',
       resolutionId: (json['resolutionId'] as String?) ?? '',
-      status:
-          ResourceResolutionStatusType.fromString((json['status'] as String)),
+      status: ResourceResolutionStatusType.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -9137,36 +9491,56 @@ class ResourceIdentifier {
   }
 }
 
-enum ResourceImportStatusType {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  success('Success'),
-  ;
+class ResourceImportStatusType {
+  static const pending = ResourceImportStatusType._('Pending');
+  static const inProgress = ResourceImportStatusType._('InProgress');
+  static const failed = ResourceImportStatusType._('Failed');
+  static const success = ResourceImportStatusType._('Success');
 
   final String value;
 
-  const ResourceImportStatusType(this.value);
+  const ResourceImportStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
 
   static ResourceImportStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceImportStatusType'));
+          orElse: () => ResourceImportStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceImportStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceImportStrategyType {
-  addOnly('AddOnly'),
-  replaceAll('ReplaceAll'),
-  ;
+class ResourceImportStrategyType {
+  static const addOnly = ResourceImportStrategyType._('AddOnly');
+  static const replaceAll = ResourceImportStrategyType._('ReplaceAll');
 
   final String value;
 
-  const ResourceImportStrategyType(this.value);
+  const ResourceImportStrategyType._(this.value);
+
+  static const values = [addOnly, replaceAll];
 
   static ResourceImportStrategyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceImportStrategyType'));
+          orElse: () => ResourceImportStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceImportStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a resource mapping.
@@ -9218,8 +9592,8 @@ class ResourceMapping {
 
   factory ResourceMapping.fromJson(Map<String, dynamic> json) {
     return ResourceMapping(
-      mappingType:
-          ResourceMappingType.fromString((json['mappingType'] as String)),
+      mappingType: ResourceMappingType.fromString(
+          (json['mappingType'] as String?) ?? ''),
       physicalResourceId: PhysicalResourceId.fromJson(
           (json['physicalResourceId'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -9255,72 +9629,119 @@ class ResourceMapping {
   }
 }
 
-enum ResourceMappingType {
-  cfnStack('CfnStack'),
-  resource('Resource'),
-  appRegistryApp('AppRegistryApp'),
-  resourceGroup('ResourceGroup'),
-  terraform('Terraform'),
-  eks('EKS'),
-  ;
+class ResourceMappingType {
+  static const cfnStack = ResourceMappingType._('CfnStack');
+  static const resource = ResourceMappingType._('Resource');
+  static const appRegistryApp = ResourceMappingType._('AppRegistryApp');
+  static const resourceGroup = ResourceMappingType._('ResourceGroup');
+  static const terraform = ResourceMappingType._('Terraform');
+  static const eks = ResourceMappingType._('EKS');
 
   final String value;
 
-  const ResourceMappingType(this.value);
+  const ResourceMappingType._(this.value);
 
-  static ResourceMappingType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceMappingType'));
+  static const values = [
+    cfnStack,
+    resource,
+    appRegistryApp,
+    resourceGroup,
+    terraform,
+    eks
+  ];
+
+  static ResourceMappingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceMappingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceMappingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceResolutionStatusType {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  success('Success'),
-  ;
+class ResourceResolutionStatusType {
+  static const pending = ResourceResolutionStatusType._('Pending');
+  static const inProgress = ResourceResolutionStatusType._('InProgress');
+  static const failed = ResourceResolutionStatusType._('Failed');
+  static const success = ResourceResolutionStatusType._('Success');
 
   final String value;
 
-  const ResourceResolutionStatusType(this.value);
+  const ResourceResolutionStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
 
   static ResourceResolutionStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceResolutionStatusType'));
+          orElse: () => ResourceResolutionStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceResolutionStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceSourceType {
-  appTemplate('AppTemplate'),
-  discovered('Discovered'),
-  ;
+class ResourceSourceType {
+  static const appTemplate = ResourceSourceType._('AppTemplate');
+  static const discovered = ResourceSourceType._('Discovered');
 
   final String value;
 
-  const ResourceSourceType(this.value);
+  const ResourceSourceType._(this.value);
 
-  static ResourceSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceSourceType'));
+  static const values = [appTemplate, discovered];
+
+  static ResourceSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourcesGroupingRecGenStatusType {
-  pending('Pending'),
-  inProgress('InProgress'),
-  failed('Failed'),
-  success('Success'),
-  ;
+class ResourcesGroupingRecGenStatusType {
+  static const pending = ResourcesGroupingRecGenStatusType._('Pending');
+  static const inProgress = ResourcesGroupingRecGenStatusType._('InProgress');
+  static const failed = ResourcesGroupingRecGenStatusType._('Failed');
+  static const success = ResourcesGroupingRecGenStatusType._('Success');
 
   final String value;
 
-  const ResourcesGroupingRecGenStatusType(this.value);
+  const ResourcesGroupingRecGenStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
 
   static ResourcesGroupingRecGenStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourcesGroupingRecGenStatusType'));
+          orElse: () => ResourcesGroupingRecGenStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourcesGroupingRecGenStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The location of the Amazon S3 bucket.
@@ -9463,7 +9884,8 @@ class SopRecommendation {
     return SopRecommendation(
       recommendationId: (json['recommendationId'] as String?) ?? '',
       referenceId: (json['referenceId'] as String?) ?? '',
-      serviceType: SopServiceType.fromString((json['serviceType'] as String)),
+      serviceType:
+          SopServiceType.fromString((json['serviceType'] as String?) ?? ''),
       appComponentName: json['appComponentName'] as String?,
       description: json['description'] as String?,
       items: (json['items'] as List?)
@@ -9502,18 +9924,27 @@ class SopRecommendation {
   }
 }
 
-enum SopServiceType {
-  ssm('SSM'),
-  ;
+class SopServiceType {
+  static const ssm = SopServiceType._('SSM');
 
   final String value;
 
-  const SopServiceType(this.value);
+  const SopServiceType._(this.value);
+
+  static const values = [ssm];
 
   static SopServiceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SopServiceType'));
+          orElse: () => SopServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is SopServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAppAssessmentResponse {
@@ -9573,7 +10004,7 @@ class StartResourceGroupingRecommendationTaskResponse {
       appArn: (json['appArn'] as String?) ?? '',
       groupingId: (json['groupingId'] as String?) ?? '',
       status: ResourcesGroupingRecGenStatusType.fromString(
-          (json['status'] as String)),
+          (json['status'] as String?) ?? ''),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -9604,19 +10035,28 @@ class TagResourceResponse {
   }
 }
 
-enum TemplateFormat {
-  cfnYaml('CfnYaml'),
-  cfnJson('CfnJson'),
-  ;
+class TemplateFormat {
+  static const cfnYaml = TemplateFormat._('CfnYaml');
+  static const cfnJson = TemplateFormat._('CfnJson');
 
   final String value;
 
-  const TemplateFormat(this.value);
+  const TemplateFormat._(this.value);
+
+  static const values = [cfnYaml, cfnJson];
 
   static TemplateFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateFormat'));
+          orElse: () => TemplateFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Terraform s3 state file you need to import.
@@ -9751,35 +10191,53 @@ class TestRecommendation {
   }
 }
 
-enum TestRisk {
-  small('Small'),
-  medium('Medium'),
-  high('High'),
-  ;
+class TestRisk {
+  static const small = TestRisk._('Small');
+  static const medium = TestRisk._('Medium');
+  static const high = TestRisk._('High');
 
   final String value;
 
-  const TestRisk(this.value);
+  const TestRisk._(this.value);
 
-  static TestRisk fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TestRisk'));
+  static const values = [small, medium, high];
+
+  static TestRisk fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestRisk._(value));
+
+  @override
+  bool operator ==(other) => other is TestRisk && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestType {
-  software('Software'),
-  hardware('Hardware'),
-  az('AZ'),
-  region('Region'),
-  ;
+class TestType {
+  static const software = TestType._('Software');
+  static const hardware = TestType._('Hardware');
+  static const az = TestType._('AZ');
+  static const region = TestType._('Region');
 
   final String value;
 
-  const TestType(this.value);
+  const TestType._(this.value);
 
-  static TestType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TestType'));
+  static const values = [software, hardware, az, region];
+
+  static TestType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
+
+  @override
+  bool operator ==(other) => other is TestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines a resource that is not supported by Resilience Hub.

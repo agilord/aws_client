@@ -1587,19 +1587,29 @@ class PinpointEmail {
 /// These behaviors are taken when the custom MAIL FROM domain configuration is
 /// in the <code>Pending</code>, <code>Failed</code>, and
 /// <code>TemporaryFailure</code> states.
-enum BehaviorOnMxFailure {
-  useDefaultValue('USE_DEFAULT_VALUE'),
-  rejectMessage('REJECT_MESSAGE'),
-  ;
+class BehaviorOnMxFailure {
+  static const useDefaultValue = BehaviorOnMxFailure._('USE_DEFAULT_VALUE');
+  static const rejectMessage = BehaviorOnMxFailure._('REJECT_MESSAGE');
 
   final String value;
 
-  const BehaviorOnMxFailure(this.value);
+  const BehaviorOnMxFailure._(this.value);
 
-  static BehaviorOnMxFailure fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum BehaviorOnMxFailure'));
+  static const values = [useDefaultValue, rejectMessage];
+
+  static BehaviorOnMxFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BehaviorOnMxFailure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BehaviorOnMxFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about a blacklisting event that impacts
@@ -1751,7 +1761,7 @@ class CloudWatchDimensionConfiguration {
       defaultDimensionValue: (json['DefaultDimensionValue'] as String?) ?? '',
       dimensionName: (json['DimensionName'] as String?) ?? '',
       dimensionValueSource: DimensionValueSource.fromString(
-          (json['DimensionValueSource'] as String)),
+          (json['DimensionValueSource'] as String?) ?? ''),
     );
   }
 
@@ -1860,7 +1870,7 @@ class CreateDeliverabilityTestReportResponse {
       Map<String, dynamic> json) {
     return CreateDeliverabilityTestReportResponse(
       deliverabilityTestStatus: DeliverabilityTestStatus.fromString(
-          (json['DeliverabilityTestStatus'] as String)),
+          (json['DeliverabilityTestStatus'] as String?) ?? ''),
       reportId: (json['ReportId'] as String?) ?? '',
     );
   }
@@ -2015,7 +2025,8 @@ class DedicatedIp {
     return DedicatedIp(
       ip: (json['Ip'] as String?) ?? '',
       warmupPercentage: (json['WarmupPercentage'] as int?) ?? 0,
-      warmupStatus: WarmupStatus.fromString((json['WarmupStatus'] as String)),
+      warmupStatus:
+          WarmupStatus.fromString((json['WarmupStatus'] as String?) ?? ''),
       poolName: json['PoolName'] as String?,
     );
   }
@@ -2094,20 +2105,31 @@ class DeleteEmailIdentityResponse {
 /// The current status of your Deliverability dashboard subscription. If this
 /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
 /// expire at the end of the current calendar month.
-enum DeliverabilityDashboardAccountStatus {
-  active('ACTIVE'),
-  pendingExpiration('PENDING_EXPIRATION'),
-  disabled('DISABLED'),
-  ;
+class DeliverabilityDashboardAccountStatus {
+  static const active = DeliverabilityDashboardAccountStatus._('ACTIVE');
+  static const pendingExpiration =
+      DeliverabilityDashboardAccountStatus._('PENDING_EXPIRATION');
+  static const disabled = DeliverabilityDashboardAccountStatus._('DISABLED');
 
   final String value;
 
-  const DeliverabilityDashboardAccountStatus(this.value);
+  const DeliverabilityDashboardAccountStatus._(this.value);
+
+  static const values = [active, pendingExpiration, disabled];
 
   static DeliverabilityDashboardAccountStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeliverabilityDashboardAccountStatus'));
+          orElse: () => DeliverabilityDashboardAccountStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliverabilityDashboardAccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains metadata related to a predictive inbox placement
@@ -2186,19 +2208,29 @@ class DeliverabilityTestReport {
 /// <code>COMPLETE</code>, then the test is finished, and you can use the
 /// <code>GetDeliverabilityTestReport</code> operation to view the results of
 /// the test.
-enum DeliverabilityTestStatus {
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  ;
+class DeliverabilityTestStatus {
+  static const inProgress = DeliverabilityTestStatus._('IN_PROGRESS');
+  static const completed = DeliverabilityTestStatus._('COMPLETED');
 
   final String value;
 
-  const DeliverabilityTestStatus(this.value);
+  const DeliverabilityTestStatus._(this.value);
+
+  static const values = [inProgress, completed];
 
   static DeliverabilityTestStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeliverabilityTestStatus'));
+          orElse: () => DeliverabilityTestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliverabilityTestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used to associate a configuration set with a dedicated IP pool.
@@ -2275,20 +2307,30 @@ class Destination {
 /// Amazon Pinpoint to use your own email headers, choose
 /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
 /// choose <code>linkTags</code>.
-enum DimensionValueSource {
-  messageTag('MESSAGE_TAG'),
-  emailHeader('EMAIL_HEADER'),
-  linkTag('LINK_TAG'),
-  ;
+class DimensionValueSource {
+  static const messageTag = DimensionValueSource._('MESSAGE_TAG');
+  static const emailHeader = DimensionValueSource._('EMAIL_HEADER');
+  static const linkTag = DimensionValueSource._('LINK_TAG');
 
   final String value;
 
-  const DimensionValueSource(this.value);
+  const DimensionValueSource._(this.value);
 
-  static DimensionValueSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DimensionValueSource'));
+  static const values = [messageTag, emailHeader, linkTag];
+
+  static DimensionValueSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about the DKIM configuration for an
@@ -2392,21 +2434,36 @@ class DkimAttributes {
 /// initiated for the domain.
 /// </li>
 /// </ul>
-enum DkimStatus {
-  pending('PENDING'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  temporaryFailure('TEMPORARY_FAILURE'),
-  notStarted('NOT_STARTED'),
-  ;
+class DkimStatus {
+  static const pending = DkimStatus._('PENDING');
+  static const success = DkimStatus._('SUCCESS');
+  static const failed = DkimStatus._('FAILED');
+  static const temporaryFailure = DkimStatus._('TEMPORARY_FAILURE');
+  static const notStarted = DkimStatus._('NOT_STARTED');
 
   final String value;
 
-  const DkimStatus(this.value);
+  const DkimStatus._(this.value);
 
-  static DkimStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DkimStatus'));
+  static const values = [
+    pending,
+    success,
+    failed,
+    temporaryFailure,
+    notStarted
+  ];
+
+  static DkimStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DkimStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DkimStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains the deliverability data for a specific campaign.
@@ -2893,24 +2950,42 @@ class EventDestinationDefinition {
 
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
-enum EventType {
-  send('SEND'),
-  reject('REJECT'),
-  bounce('BOUNCE'),
-  complaint('COMPLAINT'),
-  delivery('DELIVERY'),
-  open('OPEN'),
-  click('CLICK'),
-  renderingFailure('RENDERING_FAILURE'),
-  ;
+class EventType {
+  static const send = EventType._('SEND');
+  static const reject = EventType._('REJECT');
+  static const bounce = EventType._('BOUNCE');
+  static const complaint = EventType._('COMPLAINT');
+  static const delivery = EventType._('DELIVERY');
+  static const open = EventType._('OPEN');
+  static const click = EventType._('CLICK');
+  static const renderingFailure = EventType._('RENDERING_FAILURE');
 
   final String value;
 
-  const EventType(this.value);
+  const EventType._(this.value);
 
-  static EventType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventType'));
+  static const values = [
+    send,
+    reject,
+    bounce,
+    complaint,
+    delivery,
+    open,
+    click,
+    renderingFailure
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of details about the email-sending capabilities of your Amazon
@@ -3580,20 +3655,28 @@ class IdentityInfo {
 /// <code>DOMAIN</code> – The identity is a domain.
 /// </li>
 /// </ul>
-enum IdentityType {
-  emailAddress('EMAIL_ADDRESS'),
-  domain('DOMAIN'),
-  managedDomain('MANAGED_DOMAIN'),
-  ;
+class IdentityType {
+  static const emailAddress = IdentityType._('EMAIL_ADDRESS');
+  static const domain = IdentityType._('DOMAIN');
+  static const managedDomain = IdentityType._('MANAGED_DOMAIN');
 
   final String value;
 
-  const IdentityType(this.value);
+  const IdentityType._(this.value);
 
-  static IdentityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IdentityType'));
+  static const values = [emailAddress, domain, managedDomain];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that contains information about the inbox placement data settings
@@ -3979,10 +4062,10 @@ class MailFromAttributes {
   factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
     return MailFromAttributes(
       behaviorOnMxFailure: BehaviorOnMxFailure.fromString(
-          (json['BehaviorOnMxFailure'] as String)),
+          (json['BehaviorOnMxFailure'] as String?) ?? ''),
       mailFromDomain: (json['MailFromDomain'] as String?) ?? '',
       mailFromDomainStatus: MailFromDomainStatus.fromString(
-          (json['MailFromDomainStatus'] as String)),
+          (json['MailFromDomainStatus'] as String?) ?? ''),
     );
   }
 
@@ -4019,21 +4102,31 @@ class MailFromAttributes {
 /// Amazon Pinpoint from determining the status of the MAIL FROM domain.
 /// </li>
 /// </ul>
-enum MailFromDomainStatus {
-  pending('PENDING'),
-  success('SUCCESS'),
-  failed('FAILED'),
-  temporaryFailure('TEMPORARY_FAILURE'),
-  ;
+class MailFromDomainStatus {
+  static const pending = MailFromDomainStatus._('PENDING');
+  static const success = MailFromDomainStatus._('SUCCESS');
+  static const failed = MailFromDomainStatus._('FAILED');
+  static const temporaryFailure = MailFromDomainStatus._('TEMPORARY_FAILURE');
 
   final String value;
 
-  const MailFromDomainStatus(this.value);
+  const MailFromDomainStatus._(this.value);
 
-  static MailFromDomainStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MailFromDomainStatus'));
+  static const values = [pending, success, failed, temporaryFailure];
+
+  static MailFromDomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MailFromDomainStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MailFromDomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the email message that you're sending. The <code>Message</code>
@@ -4738,18 +4831,27 @@ class Template {
 /// messages are only delivered if a TLS connection can be established. If the
 /// value is <code>Optional</code>, messages can be delivered in plain text if a
 /// TLS connection can't be established.
-enum TlsPolicy {
-  require('REQUIRE'),
-  optional('OPTIONAL'),
-  ;
+class TlsPolicy {
+  static const require = TlsPolicy._('REQUIRE');
+  static const optional = TlsPolicy._('OPTIONAL');
 
   final String value;
 
-  const TlsPolicy(this.value);
+  const TlsPolicy._(this.value);
 
-  static TlsPolicy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TlsPolicy'));
+  static const values = [require, optional];
+
+  static TlsPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TlsPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is TlsPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that defines the tracking options for a configuration set. When
@@ -4859,19 +4961,27 @@ class VolumeStatistics {
 }
 
 /// The warmup status of a dedicated IP.
-enum WarmupStatus {
-  inProgress('IN_PROGRESS'),
-  done('DONE'),
-  ;
+class WarmupStatus {
+  static const inProgress = WarmupStatus._('IN_PROGRESS');
+  static const done = WarmupStatus._('DONE');
 
   final String value;
 
-  const WarmupStatus(this.value);
+  const WarmupStatus._(this.value);
 
-  static WarmupStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WarmupStatus'));
+  static const values = [inProgress, done];
+
+  static WarmupStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WarmupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WarmupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccountSuspendedException extends _s.GenericAwsException {

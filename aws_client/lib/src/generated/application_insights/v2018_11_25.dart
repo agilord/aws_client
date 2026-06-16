@@ -1870,21 +1870,31 @@ class ApplicationInfo {
   }
 }
 
-enum CloudWatchEventSource {
-  ec2('EC2'),
-  codeDeploy('CODE_DEPLOY'),
-  health('HEALTH'),
-  rds('RDS'),
-  ;
+class CloudWatchEventSource {
+  static const ec2 = CloudWatchEventSource._('EC2');
+  static const codeDeploy = CloudWatchEventSource._('CODE_DEPLOY');
+  static const health = CloudWatchEventSource._('HEALTH');
+  static const rds = CloudWatchEventSource._('RDS');
 
   final String value;
 
-  const CloudWatchEventSource(this.value);
+  const CloudWatchEventSource._(this.value);
 
-  static CloudWatchEventSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CloudWatchEventSource'));
+  static const values = [ec2, codeDeploy, health, rds];
+
+  static CloudWatchEventSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudWatchEventSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchEventSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The event information.
@@ -1967,37 +1977,66 @@ class ConfigurationEvent {
   }
 }
 
-enum ConfigurationEventResourceType {
-  cloudwatchAlarm('CLOUDWATCH_ALARM'),
-  cloudwatchLog('CLOUDWATCH_LOG'),
-  cloudformation('CLOUDFORMATION'),
-  ssmAssociation('SSM_ASSOCIATION'),
-  ;
+class ConfigurationEventResourceType {
+  static const cloudwatchAlarm =
+      ConfigurationEventResourceType._('CLOUDWATCH_ALARM');
+  static const cloudwatchLog =
+      ConfigurationEventResourceType._('CLOUDWATCH_LOG');
+  static const cloudformation =
+      ConfigurationEventResourceType._('CLOUDFORMATION');
+  static const ssmAssociation =
+      ConfigurationEventResourceType._('SSM_ASSOCIATION');
 
   final String value;
 
-  const ConfigurationEventResourceType(this.value);
+  const ConfigurationEventResourceType._(this.value);
+
+  static const values = [
+    cloudwatchAlarm,
+    cloudwatchLog,
+    cloudformation,
+    ssmAssociation
+  ];
 
   static ConfigurationEventResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationEventResourceType'));
+          orElse: () => ConfigurationEventResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationEventResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConfigurationEventStatus {
-  info('INFO'),
-  warn('WARN'),
-  error('ERROR'),
-  ;
+class ConfigurationEventStatus {
+  static const info = ConfigurationEventStatus._('INFO');
+  static const warn = ConfigurationEventStatus._('WARN');
+  static const error = ConfigurationEventStatus._('ERROR');
 
   final String value;
 
-  const ConfigurationEventStatus(this.value);
+  const ConfigurationEventStatus._(this.value);
+
+  static const values = [info, warn, error];
 
   static ConfigurationEventStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ConfigurationEventStatus'));
+          orElse: () => ConfigurationEventStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApplicationResponse {
@@ -2385,62 +2424,97 @@ class DescribeWorkloadResponse {
   }
 }
 
-enum DiscoveryType {
-  resourceGroupBased('RESOURCE_GROUP_BASED'),
-  accountBased('ACCOUNT_BASED'),
-  ;
+class DiscoveryType {
+  static const resourceGroupBased = DiscoveryType._('RESOURCE_GROUP_BASED');
+  static const accountBased = DiscoveryType._('ACCOUNT_BASED');
 
   final String value;
 
-  const DiscoveryType(this.value);
+  const DiscoveryType._(this.value);
+
+  static const values = [resourceGroupBased, accountBased];
 
   static DiscoveryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DiscoveryType'));
+          orElse: () => DiscoveryType._(value));
+
+  @override
+  bool operator ==(other) => other is DiscoveryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeedbackKey {
-  insightsFeedback('INSIGHTS_FEEDBACK'),
-  ;
+class FeedbackKey {
+  static const insightsFeedback = FeedbackKey._('INSIGHTS_FEEDBACK');
 
   final String value;
 
-  const FeedbackKey(this.value);
+  const FeedbackKey._(this.value);
 
-  static FeedbackKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FeedbackKey'));
+  static const values = [insightsFeedback];
+
+  static FeedbackKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeedbackKey._(value));
+
+  @override
+  bool operator ==(other) => other is FeedbackKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FeedbackValue {
-  notSpecified('NOT_SPECIFIED'),
-  useful('USEFUL'),
-  notUseful('NOT_USEFUL'),
-  ;
+class FeedbackValue {
+  static const notSpecified = FeedbackValue._('NOT_SPECIFIED');
+  static const useful = FeedbackValue._('USEFUL');
+  static const notUseful = FeedbackValue._('NOT_USEFUL');
 
   final String value;
 
-  const FeedbackValue(this.value);
+  const FeedbackValue._(this.value);
+
+  static const values = [notSpecified, useful, notUseful];
 
   static FeedbackValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FeedbackValue'));
+          orElse: () => FeedbackValue._(value));
+
+  @override
+  bool operator ==(other) => other is FeedbackValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GroupingType {
-  accountBased('ACCOUNT_BASED'),
-  ;
+class GroupingType {
+  static const accountBased = GroupingType._('ACCOUNT_BASED');
 
   final String value;
 
-  const GroupingType(this.value);
+  const GroupingType._(this.value);
 
-  static GroupingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GroupingType'));
+  static const values = [accountBased];
+
+  static GroupingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupingType._(value));
+
+  @override
+  bool operator ==(other) => other is GroupingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListApplicationsResponse {
@@ -2747,19 +2821,28 @@ class ListWorkloadsResponse {
   }
 }
 
-enum LogFilter {
-  error('ERROR'),
-  warn('WARN'),
-  info('INFO'),
-  ;
+class LogFilter {
+  static const error = LogFilter._('ERROR');
+  static const warn = LogFilter._('WARN');
+  static const info = LogFilter._('INFO');
 
   final String value;
 
-  const LogFilter(this.value);
+  const LogFilter._(this.value);
 
-  static LogFilter fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LogFilter'));
+  static const values = [error, warn, info];
+
+  static LogFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogFilter._(value));
+
+  @override
+  bool operator ==(other) => other is LogFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that defines the log patterns that belongs to a
@@ -3178,18 +3261,27 @@ class Observation {
   }
 }
 
-enum OsType {
-  windows('WINDOWS'),
-  linux('LINUX'),
-  ;
+class OsType {
+  static const windows = OsType._('WINDOWS');
+  static const linux = OsType._('LINUX');
 
   final String value;
 
-  const OsType(this.value);
+  const OsType._(this.value);
+
+  static const values = [windows, linux];
 
   static OsType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum OsType'));
+      values.firstWhere((e) => e.value == value, orElse: () => OsType._(value));
+
+  @override
+  bool operator ==(other) => other is OsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a problem that is detected by correlating observations.
@@ -3325,20 +3417,30 @@ class Problem {
   }
 }
 
-enum RecommendationType {
-  infraOnly('INFRA_ONLY'),
-  workloadOnly('WORKLOAD_ONLY'),
-  all('ALL'),
-  ;
+class RecommendationType {
+  static const infraOnly = RecommendationType._('INFRA_ONLY');
+  static const workloadOnly = RecommendationType._('WORKLOAD_ONLY');
+  static const all = RecommendationType._('ALL');
 
   final String value;
 
-  const RecommendationType(this.value);
+  const RecommendationType._(this.value);
 
-  static RecommendationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationType'));
+  static const values = [infraOnly, workloadOnly, all];
+
+  static RecommendationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes observations related to the problem.
@@ -3379,54 +3481,81 @@ class RemoveWorkloadResponse {
   }
 }
 
-enum ResolutionMethod {
-  manual('MANUAL'),
-  automatic('AUTOMATIC'),
-  unresolved('UNRESOLVED'),
-  ;
+class ResolutionMethod {
+  static const manual = ResolutionMethod._('MANUAL');
+  static const automatic = ResolutionMethod._('AUTOMATIC');
+  static const unresolved = ResolutionMethod._('UNRESOLVED');
 
   final String value;
 
-  const ResolutionMethod(this.value);
+  const ResolutionMethod._(this.value);
+
+  static const values = [manual, automatic, unresolved];
 
   static ResolutionMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResolutionMethod'));
+          orElse: () => ResolutionMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ResolutionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SeverityLevel {
-  informative('Informative'),
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  ;
+class SeverityLevel {
+  static const informative = SeverityLevel._('Informative');
+  static const low = SeverityLevel._('Low');
+  static const medium = SeverityLevel._('Medium');
+  static const high = SeverityLevel._('High');
 
   final String value;
 
-  const SeverityLevel(this.value);
+  const SeverityLevel._(this.value);
+
+  static const values = [informative, low, medium, high];
 
   static SeverityLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SeverityLevel'));
+          orElse: () => SeverityLevel._(value));
+
+  @override
+  bool operator ==(other) => other is SeverityLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  ignore('IGNORE'),
-  resolved('RESOLVED'),
-  pending('PENDING'),
-  recurring('RECURRING'),
-  recovering('RECOVERING'),
-  ;
+class Status {
+  static const ignore = Status._('IGNORE');
+  static const resolved = Status._('RESOLVED');
+  static const pending = Status._('PENDING');
+  static const recurring = Status._('RECURRING');
+  static const recovering = Status._('RECOVERING');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [ignore, resolved, pending, recurring, recovering];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that defines the tags associated with an application. A <i>tag</i>
@@ -3502,37 +3631,71 @@ class TagResourceResponse {
   }
 }
 
-enum Tier {
-  custom('CUSTOM'),
-  $default('DEFAULT'),
-  dotNetCore('DOT_NET_CORE'),
-  dotNetWorker('DOT_NET_WORKER'),
-  dotNetWebTier('DOT_NET_WEB_TIER'),
-  dotNetWeb('DOT_NET_WEB'),
-  sqlServer('SQL_SERVER'),
-  sqlServerAlwaysonAvailabilityGroup('SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP'),
-  mysql('MYSQL'),
-  postgresql('POSTGRESQL'),
-  javaJmx('JAVA_JMX'),
-  oracle('ORACLE'),
-  sapHanaMultiNode('SAP_HANA_MULTI_NODE'),
-  sapHanaSingleNode('SAP_HANA_SINGLE_NODE'),
-  sapHanaHighAvailability('SAP_HANA_HIGH_AVAILABILITY'),
-  sqlServerFailoverClusterInstance('SQL_SERVER_FAILOVER_CLUSTER_INSTANCE'),
-  sharepoint('SHAREPOINT'),
-  activeDirectory('ACTIVE_DIRECTORY'),
-  sapNetweaverStandard('SAP_NETWEAVER_STANDARD'),
-  sapNetweaverDistributed('SAP_NETWEAVER_DISTRIBUTED'),
-  sapNetweaverHighAvailability('SAP_NETWEAVER_HIGH_AVAILABILITY'),
-  ;
+class Tier {
+  static const custom = Tier._('CUSTOM');
+  static const $default = Tier._('DEFAULT');
+  static const dotNetCore = Tier._('DOT_NET_CORE');
+  static const dotNetWorker = Tier._('DOT_NET_WORKER');
+  static const dotNetWebTier = Tier._('DOT_NET_WEB_TIER');
+  static const dotNetWeb = Tier._('DOT_NET_WEB');
+  static const sqlServer = Tier._('SQL_SERVER');
+  static const sqlServerAlwaysonAvailabilityGroup =
+      Tier._('SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP');
+  static const mysql = Tier._('MYSQL');
+  static const postgresql = Tier._('POSTGRESQL');
+  static const javaJmx = Tier._('JAVA_JMX');
+  static const oracle = Tier._('ORACLE');
+  static const sapHanaMultiNode = Tier._('SAP_HANA_MULTI_NODE');
+  static const sapHanaSingleNode = Tier._('SAP_HANA_SINGLE_NODE');
+  static const sapHanaHighAvailability = Tier._('SAP_HANA_HIGH_AVAILABILITY');
+  static const sqlServerFailoverClusterInstance =
+      Tier._('SQL_SERVER_FAILOVER_CLUSTER_INSTANCE');
+  static const sharepoint = Tier._('SHAREPOINT');
+  static const activeDirectory = Tier._('ACTIVE_DIRECTORY');
+  static const sapNetweaverStandard = Tier._('SAP_NETWEAVER_STANDARD');
+  static const sapNetweaverDistributed = Tier._('SAP_NETWEAVER_DISTRIBUTED');
+  static const sapNetweaverHighAvailability =
+      Tier._('SAP_NETWEAVER_HIGH_AVAILABILITY');
 
   final String value;
 
-  const Tier(this.value);
+  const Tier._(this.value);
+
+  static const values = [
+    custom,
+    $default,
+    dotNetCore,
+    dotNetWorker,
+    dotNetWebTier,
+    dotNetWeb,
+    sqlServer,
+    sqlServerAlwaysonAvailabilityGroup,
+    mysql,
+    postgresql,
+    javaJmx,
+    oracle,
+    sapHanaMultiNode,
+    sapHanaSingleNode,
+    sapHanaHighAvailability,
+    sqlServerFailoverClusterInstance,
+    sharepoint,
+    activeDirectory,
+    sapNetweaverStandard,
+    sapNetweaverDistributed,
+    sapNetweaverHighAvailability
+  ];
 
   static Tier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tier'));
+      values.firstWhere((e) => e.value == value, orElse: () => Tier._(value));
+
+  @override
+  bool operator ==(other) => other is Tier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -3640,18 +3803,26 @@ class UpdateProblemResponse {
   }
 }
 
-enum UpdateStatus {
-  resolved('RESOLVED'),
-  ;
+class UpdateStatus {
+  static const resolved = UpdateStatus._('RESOLVED');
 
   final String value;
 
-  const UpdateStatus(this.value);
+  const UpdateStatus._(this.value);
 
-  static UpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateStatus'));
+  static const values = [resolved];
+
+  static UpdateStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateWorkloadResponse {
@@ -3688,18 +3859,27 @@ class UpdateWorkloadResponse {
   }
 }
 
-enum Visibility {
-  ignored('IGNORED'),
-  visible('VISIBLE'),
-  ;
+class Visibility {
+  static const ignored = Visibility._('IGNORED');
+  static const visible = Visibility._('VISIBLE');
 
   final String value;
 
-  const Visibility(this.value);
+  const Visibility._(this.value);
 
-  static Visibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Visibility'));
+  static const values = [ignored, visible];
+
+  static Visibility fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Visibility._(value));
+
+  @override
+  bool operator ==(other) => other is Visibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the workloads on a component.

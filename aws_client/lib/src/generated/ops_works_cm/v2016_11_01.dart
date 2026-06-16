@@ -1691,35 +1691,52 @@ class Backup {
   }
 }
 
-enum BackupStatus {
-  inProgress('IN_PROGRESS'),
-  ok('OK'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  ;
+class BackupStatus {
+  static const inProgress = BackupStatus._('IN_PROGRESS');
+  static const ok = BackupStatus._('OK');
+  static const failed = BackupStatus._('FAILED');
+  static const deleting = BackupStatus._('DELETING');
 
   final String value;
 
-  const BackupStatus(this.value);
+  const BackupStatus._(this.value);
 
-  static BackupStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BackupStatus'));
+  static const values = [inProgress, ok, failed, deleting];
+
+  static BackupStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BackupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BackupType {
-  automated('AUTOMATED'),
-  manual('MANUAL'),
-  ;
+class BackupType {
+  static const automated = BackupType._('AUTOMATED');
+  static const manual = BackupType._('MANUAL');
 
   final String value;
 
-  const BackupType(this.value);
+  const BackupType._(this.value);
 
-  static BackupType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BackupType'));
+  static const values = [automated, manual];
+
+  static BackupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupType._(value));
+
+  @override
+  bool operator ==(other) => other is BackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateBackupResponse {
@@ -2121,19 +2138,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum MaintenanceStatus {
-  success('SUCCESS'),
-  failed('FAILED'),
-  ;
+class MaintenanceStatus {
+  static const success = MaintenanceStatus._('SUCCESS');
+  static const failed = MaintenanceStatus._('FAILED');
 
   final String value;
 
-  const MaintenanceStatus(this.value);
+  const MaintenanceStatus._(this.value);
+
+  static const values = [success, failed];
 
   static MaintenanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MaintenanceStatus'));
+          orElse: () => MaintenanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MaintenanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The status of the association or disassociation request.
@@ -2151,20 +2177,30 @@ enum MaintenanceStatus {
 /// progress.
 /// </li>
 /// </ul>
-enum NodeAssociationStatus {
-  success('SUCCESS'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class NodeAssociationStatus {
+  static const success = NodeAssociationStatus._('SUCCESS');
+  static const failed = NodeAssociationStatus._('FAILED');
+  static const inProgress = NodeAssociationStatus._('IN_PROGRESS');
 
   final String value;
 
-  const NodeAssociationStatus(this.value);
+  const NodeAssociationStatus._(this.value);
 
-  static NodeAssociationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NodeAssociationStatus'));
+  static const values = [success, failed, inProgress];
+
+  static NodeAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodeAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RestoreServerResponse {
@@ -2489,30 +2525,52 @@ class ServerEvent {
   }
 }
 
-enum ServerStatus {
-  backingUp('BACKING_UP'),
-  connectionLost('CONNECTION_LOST'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  modifying('MODIFYING'),
-  failed('FAILED'),
-  healthy('HEALTHY'),
-  running('RUNNING'),
-  restoring('RESTORING'),
-  setup('SETUP'),
-  underMaintenance('UNDER_MAINTENANCE'),
-  unhealthy('UNHEALTHY'),
-  terminated('TERMINATED'),
-  ;
+class ServerStatus {
+  static const backingUp = ServerStatus._('BACKING_UP');
+  static const connectionLost = ServerStatus._('CONNECTION_LOST');
+  static const creating = ServerStatus._('CREATING');
+  static const deleting = ServerStatus._('DELETING');
+  static const modifying = ServerStatus._('MODIFYING');
+  static const failed = ServerStatus._('FAILED');
+  static const healthy = ServerStatus._('HEALTHY');
+  static const running = ServerStatus._('RUNNING');
+  static const restoring = ServerStatus._('RESTORING');
+  static const setup = ServerStatus._('SETUP');
+  static const underMaintenance = ServerStatus._('UNDER_MAINTENANCE');
+  static const unhealthy = ServerStatus._('UNHEALTHY');
+  static const terminated = ServerStatus._('TERMINATED');
 
   final String value;
 
-  const ServerStatus(this.value);
+  const ServerStatus._(this.value);
 
-  static ServerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServerStatus'));
+  static const values = [
+    backingUp,
+    connectionLost,
+    creating,
+    deleting,
+    modifying,
+    failed,
+    healthy,
+    running,
+    restoring,
+    setup,
+    underMaintenance,
+    unhealthy,
+    terminated
+  ];
+
+  static ServerStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ServerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartMaintenanceResponse {

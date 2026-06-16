@@ -1482,109 +1482,216 @@ class Sms {
   }
 }
 
-enum AppLaunchConfigurationStatus {
-  notConfigured('NOT_CONFIGURED'),
-  configured('CONFIGURED'),
-  ;
+class AppLaunchConfigurationStatus {
+  static const notConfigured = AppLaunchConfigurationStatus._('NOT_CONFIGURED');
+  static const configured = AppLaunchConfigurationStatus._('CONFIGURED');
 
   final String value;
 
-  const AppLaunchConfigurationStatus(this.value);
+  const AppLaunchConfigurationStatus._(this.value);
+
+  static const values = [notConfigured, configured];
 
   static AppLaunchConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppLaunchConfigurationStatus'));
+          orElse: () => AppLaunchConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppLaunchConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppLaunchStatus {
-  readyForConfiguration('READY_FOR_CONFIGURATION'),
-  configurationInProgress('CONFIGURATION_IN_PROGRESS'),
-  configurationInvalid('CONFIGURATION_INVALID'),
-  readyForLaunch('READY_FOR_LAUNCH'),
-  validationInProgress('VALIDATION_IN_PROGRESS'),
-  launchPending('LAUNCH_PENDING'),
-  launchInProgress('LAUNCH_IN_PROGRESS'),
-  launched('LAUNCHED'),
-  partiallyLaunched('PARTIALLY_LAUNCHED'),
-  deltaLaunchInProgress('DELTA_LAUNCH_IN_PROGRESS'),
-  deltaLaunchFailed('DELTA_LAUNCH_FAILED'),
-  launchFailed('LAUNCH_FAILED'),
-  terminateInProgress('TERMINATE_IN_PROGRESS'),
-  terminateFailed('TERMINATE_FAILED'),
-  terminated('TERMINATED'),
-  ;
+class AppLaunchStatus {
+  static const readyForConfiguration =
+      AppLaunchStatus._('READY_FOR_CONFIGURATION');
+  static const configurationInProgress =
+      AppLaunchStatus._('CONFIGURATION_IN_PROGRESS');
+  static const configurationInvalid =
+      AppLaunchStatus._('CONFIGURATION_INVALID');
+  static const readyForLaunch = AppLaunchStatus._('READY_FOR_LAUNCH');
+  static const validationInProgress =
+      AppLaunchStatus._('VALIDATION_IN_PROGRESS');
+  static const launchPending = AppLaunchStatus._('LAUNCH_PENDING');
+  static const launchInProgress = AppLaunchStatus._('LAUNCH_IN_PROGRESS');
+  static const launched = AppLaunchStatus._('LAUNCHED');
+  static const partiallyLaunched = AppLaunchStatus._('PARTIALLY_LAUNCHED');
+  static const deltaLaunchInProgress =
+      AppLaunchStatus._('DELTA_LAUNCH_IN_PROGRESS');
+  static const deltaLaunchFailed = AppLaunchStatus._('DELTA_LAUNCH_FAILED');
+  static const launchFailed = AppLaunchStatus._('LAUNCH_FAILED');
+  static const terminateInProgress = AppLaunchStatus._('TERMINATE_IN_PROGRESS');
+  static const terminateFailed = AppLaunchStatus._('TERMINATE_FAILED');
+  static const terminated = AppLaunchStatus._('TERMINATED');
 
   final String value;
 
-  const AppLaunchStatus(this.value);
+  const AppLaunchStatus._(this.value);
+
+  static const values = [
+    readyForConfiguration,
+    configurationInProgress,
+    configurationInvalid,
+    readyForLaunch,
+    validationInProgress,
+    launchPending,
+    launchInProgress,
+    launched,
+    partiallyLaunched,
+    deltaLaunchInProgress,
+    deltaLaunchFailed,
+    launchFailed,
+    terminateInProgress,
+    terminateFailed,
+    terminated
+  ];
 
   static AppLaunchStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AppLaunchStatus'));
+          orElse: () => AppLaunchStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AppLaunchStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppReplicationConfigurationStatus {
-  notConfigured('NOT_CONFIGURED'),
-  configured('CONFIGURED'),
-  ;
+class AppReplicationConfigurationStatus {
+  static const notConfigured =
+      AppReplicationConfigurationStatus._('NOT_CONFIGURED');
+  static const configured = AppReplicationConfigurationStatus._('CONFIGURED');
 
   final String value;
 
-  const AppReplicationConfigurationStatus(this.value);
+  const AppReplicationConfigurationStatus._(this.value);
+
+  static const values = [notConfigured, configured];
 
   static AppReplicationConfigurationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppReplicationConfigurationStatus'));
+          orElse: () => AppReplicationConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppReplicationConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppReplicationStatus {
-  readyForConfiguration('READY_FOR_CONFIGURATION'),
-  configurationInProgress('CONFIGURATION_IN_PROGRESS'),
-  configurationInvalid('CONFIGURATION_INVALID'),
-  readyForReplication('READY_FOR_REPLICATION'),
-  validationInProgress('VALIDATION_IN_PROGRESS'),
-  replicationPending('REPLICATION_PENDING'),
-  replicationInProgress('REPLICATION_IN_PROGRESS'),
-  replicated('REPLICATED'),
-  partiallyReplicated('PARTIALLY_REPLICATED'),
-  deltaReplicationInProgress('DELTA_REPLICATION_IN_PROGRESS'),
-  deltaReplicated('DELTA_REPLICATED'),
-  deltaReplicationFailed('DELTA_REPLICATION_FAILED'),
-  replicationFailed('REPLICATION_FAILED'),
-  replicationStopping('REPLICATION_STOPPING'),
-  replicationStopFailed('REPLICATION_STOP_FAILED'),
-  replicationStopped('REPLICATION_STOPPED'),
-  ;
+class AppReplicationStatus {
+  static const readyForConfiguration =
+      AppReplicationStatus._('READY_FOR_CONFIGURATION');
+  static const configurationInProgress =
+      AppReplicationStatus._('CONFIGURATION_IN_PROGRESS');
+  static const configurationInvalid =
+      AppReplicationStatus._('CONFIGURATION_INVALID');
+  static const readyForReplication =
+      AppReplicationStatus._('READY_FOR_REPLICATION');
+  static const validationInProgress =
+      AppReplicationStatus._('VALIDATION_IN_PROGRESS');
+  static const replicationPending =
+      AppReplicationStatus._('REPLICATION_PENDING');
+  static const replicationInProgress =
+      AppReplicationStatus._('REPLICATION_IN_PROGRESS');
+  static const replicated = AppReplicationStatus._('REPLICATED');
+  static const partiallyReplicated =
+      AppReplicationStatus._('PARTIALLY_REPLICATED');
+  static const deltaReplicationInProgress =
+      AppReplicationStatus._('DELTA_REPLICATION_IN_PROGRESS');
+  static const deltaReplicated = AppReplicationStatus._('DELTA_REPLICATED');
+  static const deltaReplicationFailed =
+      AppReplicationStatus._('DELTA_REPLICATION_FAILED');
+  static const replicationFailed = AppReplicationStatus._('REPLICATION_FAILED');
+  static const replicationStopping =
+      AppReplicationStatus._('REPLICATION_STOPPING');
+  static const replicationStopFailed =
+      AppReplicationStatus._('REPLICATION_STOP_FAILED');
+  static const replicationStopped =
+      AppReplicationStatus._('REPLICATION_STOPPED');
 
   final String value;
 
-  const AppReplicationStatus(this.value);
+  const AppReplicationStatus._(this.value);
 
-  static AppReplicationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppReplicationStatus'));
+  static const values = [
+    readyForConfiguration,
+    configurationInProgress,
+    configurationInvalid,
+    readyForReplication,
+    validationInProgress,
+    replicationPending,
+    replicationInProgress,
+    replicated,
+    partiallyReplicated,
+    deltaReplicationInProgress,
+    deltaReplicated,
+    deltaReplicationFailed,
+    replicationFailed,
+    replicationStopping,
+    replicationStopFailed,
+    replicationStopped
+  ];
+
+  static AppReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AppStatus {
-  creating('CREATING'),
-  active('ACTIVE'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class AppStatus {
+  static const creating = AppStatus._('CREATING');
+  static const active = AppStatus._('ACTIVE');
+  static const updating = AppStatus._('UPDATING');
+  static const deleting = AppStatus._('DELETING');
+  static const deleted = AppStatus._('DELETED');
+  static const deleteFailed = AppStatus._('DELETE_FAILED');
 
   final String value;
 
-  const AppStatus(this.value);
+  const AppStatus._(this.value);
 
-  static AppStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AppStatus'));
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
+
+  static AppStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AppStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AppStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the application.
@@ -1828,18 +1935,28 @@ class AppValidationOutput {
   }
 }
 
-enum AppValidationStrategy {
-  ssm('SSM'),
-  ;
+class AppValidationStrategy {
+  static const ssm = AppValidationStrategy._('SSM');
 
   final String value;
 
-  const AppValidationStrategy(this.value);
+  const AppValidationStrategy._(this.value);
 
-  static AppValidationStrategy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AppValidationStrategy'));
+  static const values = [ssm];
+
+  static AppValidationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppValidationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppValidationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a connector.
@@ -1934,37 +2051,62 @@ class Connector {
   }
 }
 
-enum ConnectorCapability {
-  vsphere('VSPHERE'),
-  scvmm('SCVMM'),
-  hypervManager('HYPERV-MANAGER'),
-  snapshotBatching('SNAPSHOT_BATCHING'),
-  smsOptimized('SMS_OPTIMIZED'),
-  ;
+class ConnectorCapability {
+  static const vsphere = ConnectorCapability._('VSPHERE');
+  static const scvmm = ConnectorCapability._('SCVMM');
+  static const hypervManager = ConnectorCapability._('HYPERV-MANAGER');
+  static const snapshotBatching = ConnectorCapability._('SNAPSHOT_BATCHING');
+  static const smsOptimized = ConnectorCapability._('SMS_OPTIMIZED');
 
   final String value;
 
-  const ConnectorCapability(this.value);
+  const ConnectorCapability._(this.value);
 
-  static ConnectorCapability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectorCapability'));
+  static const values = [
+    vsphere,
+    scvmm,
+    hypervManager,
+    snapshotBatching,
+    smsOptimized
+  ];
+
+  static ConnectorCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectorStatus {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  ;
+class ConnectorStatus {
+  static const healthy = ConnectorStatus._('HEALTHY');
+  static const unhealthy = ConnectorStatus._('UNHEALTHY');
 
   final String value;
 
-  const ConnectorStatus(this.value);
+  const ConnectorStatus._(this.value);
+
+  static const values = [healthy, unhealthy];
 
   static ConnectorStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectorStatus'));
+          orElse: () => ConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateAppResponse {
@@ -2602,18 +2744,27 @@ class LaunchDetails {
   }
 }
 
-enum LicenseType {
-  aws('AWS'),
-  byol('BYOL'),
-  ;
+class LicenseType {
+  static const aws = LicenseType._('AWS');
+  static const byol = LicenseType._('BYOL');
 
   final String value;
 
-  const LicenseType(this.value);
+  const LicenseType._(this.value);
 
-  static LicenseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LicenseType'));
+  static const values = [aws, byol];
+
+  static LicenseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LicenseType._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAppsResponse {
@@ -2690,19 +2841,27 @@ class NotifyAppValidationOutputResponse {
   }
 }
 
-enum OutputFormat {
-  json('JSON'),
-  yaml('YAML'),
-  ;
+class OutputFormat {
+  static const json = OutputFormat._('JSON');
+  static const yaml = OutputFormat._('YAML');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [json, yaml];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutAppLaunchConfigurationResponse {
@@ -2917,25 +3076,44 @@ class ReplicationJob {
   }
 }
 
-enum ReplicationJobState {
-  pending('PENDING'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  completed('COMPLETED'),
-  pausedOnFailure('PAUSED_ON_FAILURE'),
-  failing('FAILING'),
-  ;
+class ReplicationJobState {
+  static const pending = ReplicationJobState._('PENDING');
+  static const active = ReplicationJobState._('ACTIVE');
+  static const failed = ReplicationJobState._('FAILED');
+  static const deleting = ReplicationJobState._('DELETING');
+  static const deleted = ReplicationJobState._('DELETED');
+  static const completed = ReplicationJobState._('COMPLETED');
+  static const pausedOnFailure = ReplicationJobState._('PAUSED_ON_FAILURE');
+  static const failing = ReplicationJobState._('FAILING');
 
   final String value;
 
-  const ReplicationJobState(this.value);
+  const ReplicationJobState._(this.value);
 
-  static ReplicationJobState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationJobState'));
+  static const values = [
+    pending,
+    active,
+    failed,
+    deleting,
+    deleted,
+    completed,
+    pausedOnFailure,
+    failing
+  ];
+
+  static ReplicationJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationJobState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a replication run.
@@ -3084,39 +3262,67 @@ class ReplicationRunStageDetails {
   }
 }
 
-enum ReplicationRunState {
-  pending('PENDING'),
-  missed('MISSED'),
-  active('ACTIVE'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ReplicationRunState {
+  static const pending = ReplicationRunState._('PENDING');
+  static const missed = ReplicationRunState._('MISSED');
+  static const active = ReplicationRunState._('ACTIVE');
+  static const failed = ReplicationRunState._('FAILED');
+  static const completed = ReplicationRunState._('COMPLETED');
+  static const deleting = ReplicationRunState._('DELETING');
+  static const deleted = ReplicationRunState._('DELETED');
 
   final String value;
 
-  const ReplicationRunState(this.value);
+  const ReplicationRunState._(this.value);
 
-  static ReplicationRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationRunState'));
+  static const values = [
+    pending,
+    missed,
+    active,
+    failed,
+    completed,
+    deleting,
+    deleted
+  ];
+
+  static ReplicationRunState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationRunState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReplicationRunType {
-  onDemand('ON_DEMAND'),
-  automatic('AUTOMATIC'),
-  ;
+class ReplicationRunType {
+  static const onDemand = ReplicationRunType._('ON_DEMAND');
+  static const automatic = ReplicationRunType._('AUTOMATIC');
 
   final String value;
 
-  const ReplicationRunType(this.value);
+  const ReplicationRunType._(this.value);
 
-  static ReplicationRunType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationRunType'));
+  static const values = [onDemand, automatic];
+
+  static ReplicationRunType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationRunType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationRunType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Location of an Amazon S3 object.
@@ -3235,18 +3441,27 @@ class SSMValidationParameters {
   }
 }
 
-enum ScriptType {
-  shellScript('SHELL_SCRIPT'),
-  powershellScript('POWERSHELL_SCRIPT'),
-  ;
+class ScriptType {
+  static const shellScript = ScriptType._('SHELL_SCRIPT');
+  static const powershellScript = ScriptType._('POWERSHELL_SCRIPT');
 
   final String value;
 
-  const ScriptType(this.value);
+  const ScriptType._(this.value);
 
-  static ScriptType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScriptType'));
+  static const values = [shellScript, powershellScript];
+
+  static ScriptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScriptType._(value));
+
+  @override
+  bool operator ==(other) => other is ScriptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a server.
@@ -3303,22 +3518,32 @@ class Server {
   }
 }
 
-enum ServerCatalogStatus {
-  notImported('NOT_IMPORTED'),
-  importing('IMPORTING'),
-  available('AVAILABLE'),
-  deleted('DELETED'),
-  expired('EXPIRED'),
-  ;
+class ServerCatalogStatus {
+  static const notImported = ServerCatalogStatus._('NOT_IMPORTED');
+  static const importing = ServerCatalogStatus._('IMPORTING');
+  static const available = ServerCatalogStatus._('AVAILABLE');
+  static const deleted = ServerCatalogStatus._('DELETED');
+  static const expired = ServerCatalogStatus._('EXPIRED');
 
   final String value;
 
-  const ServerCatalogStatus(this.value);
+  const ServerCatalogStatus._(this.value);
 
-  static ServerCatalogStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ServerCatalogStatus'));
+  static const values = [notImported, importing, available, deleted, expired];
+
+  static ServerCatalogStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServerCatalogStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerCatalogStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Logical grouping of servers.
@@ -3713,17 +3938,26 @@ class ServerReplicationParameters {
   }
 }
 
-enum ServerType {
-  virtualMachine('VIRTUAL_MACHINE'),
-  ;
+class ServerType {
+  static const virtualMachine = ServerType._('VIRTUAL_MACHINE');
 
   final String value;
 
-  const ServerType(this.value);
+  const ServerType._(this.value);
 
-  static ServerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ServerType'));
+  static const values = [virtualMachine];
+
+  static ServerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServerType._(value));
+
+  @override
+  bool operator ==(other) => other is ServerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for validating an instance.
@@ -3807,18 +4041,28 @@ class ServerValidationOutput {
   }
 }
 
-enum ServerValidationStrategy {
-  userdata('USERDATA'),
-  ;
+class ServerValidationStrategy {
+  static const userdata = ServerValidationStrategy._('USERDATA');
 
   final String value;
 
-  const ServerValidationStrategy(this.value);
+  const ServerValidationStrategy._(this.value);
+
+  static const values = [userdata];
 
   static ServerValidationStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServerValidationStrategy'));
+          orElse: () => ServerValidationStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerValidationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the location of a validation script.
@@ -4134,38 +4378,62 @@ class ValidationOutput {
   }
 }
 
-enum ValidationStatus {
-  readyForValidation('READY_FOR_VALIDATION'),
-  pending('PENDING'),
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class ValidationStatus {
+  static const readyForValidation = ValidationStatus._('READY_FOR_VALIDATION');
+  static const pending = ValidationStatus._('PENDING');
+  static const inProgress = ValidationStatus._('IN_PROGRESS');
+  static const succeeded = ValidationStatus._('SUCCEEDED');
+  static const failed = ValidationStatus._('FAILED');
 
   final String value;
 
-  const ValidationStatus(this.value);
+  const ValidationStatus._(this.value);
+
+  static const values = [
+    readyForValidation,
+    pending,
+    inProgress,
+    succeeded,
+    failed
+  ];
 
   static ValidationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ValidationStatus'));
+          orElse: () => ValidationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VmManagerType {
-  vsphere('VSPHERE'),
-  scvmm('SCVMM'),
-  hypervManager('HYPERV-MANAGER'),
-  ;
+class VmManagerType {
+  static const vsphere = VmManagerType._('VSPHERE');
+  static const scvmm = VmManagerType._('SCVMM');
+  static const hypervManager = VmManagerType._('HYPERV-MANAGER');
 
   final String value;
 
-  const VmManagerType(this.value);
+  const VmManagerType._(this.value);
+
+  static const values = [vsphere, scvmm, hypervManager];
 
   static VmManagerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VmManagerType'));
+          orElse: () => VmManagerType._(value));
+
+  @override
+  bool operator ==(other) => other is VmManagerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a VM server.

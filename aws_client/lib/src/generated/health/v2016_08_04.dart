@@ -2669,85 +2669,136 @@ class OrganizationEventFilter {
   }
 }
 
-enum EntityStatusCode {
-  impaired('IMPAIRED'),
-  unimpaired('UNIMPAIRED'),
-  unknown('UNKNOWN'),
-  pending('PENDING'),
-  resolved('RESOLVED'),
-  ;
+class EntityStatusCode {
+  static const impaired = EntityStatusCode._('IMPAIRED');
+  static const unimpaired = EntityStatusCode._('UNIMPAIRED');
+  static const unknown = EntityStatusCode._('UNKNOWN');
+  static const pending = EntityStatusCode._('PENDING');
+  static const resolved = EntityStatusCode._('RESOLVED');
 
   final String value;
 
-  const EntityStatusCode(this.value);
+  const EntityStatusCode._(this.value);
+
+  static const values = [impaired, unimpaired, unknown, pending, resolved];
 
   static EntityStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EntityStatusCode'));
+          orElse: () => EntityStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is EntityStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventAggregateField {
-  eventTypeCategory('eventTypeCategory'),
-  ;
+class EventAggregateField {
+  static const eventTypeCategory = EventAggregateField._('eventTypeCategory');
 
   final String value;
 
-  const EventAggregateField(this.value);
+  const EventAggregateField._(this.value);
 
-  static EventAggregateField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EventAggregateField'));
+  static const values = [eventTypeCategory];
+
+  static EventAggregateField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventAggregateField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventAggregateField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventScopeCode {
-  public('PUBLIC'),
-  accountSpecific('ACCOUNT_SPECIFIC'),
-  none('NONE'),
-  ;
+class EventScopeCode {
+  static const public = EventScopeCode._('PUBLIC');
+  static const accountSpecific = EventScopeCode._('ACCOUNT_SPECIFIC');
+  static const none = EventScopeCode._('NONE');
 
   final String value;
 
-  const EventScopeCode(this.value);
+  const EventScopeCode._(this.value);
+
+  static const values = [public, accountSpecific, none];
 
   static EventScopeCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventScopeCode'));
+          orElse: () => EventScopeCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventScopeCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventStatusCode {
-  open('open'),
-  closed('closed'),
-  upcoming('upcoming'),
-  ;
+class EventStatusCode {
+  static const open = EventStatusCode._('open');
+  static const closed = EventStatusCode._('closed');
+  static const upcoming = EventStatusCode._('upcoming');
 
   final String value;
 
-  const EventStatusCode(this.value);
+  const EventStatusCode._(this.value);
+
+  static const values = [open, closed, upcoming];
 
   static EventStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventStatusCode'));
+          orElse: () => EventStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventTypeCategory {
-  issue('issue'),
-  accountNotification('accountNotification'),
-  scheduledChange('scheduledChange'),
-  investigation('investigation'),
-  ;
+class EventTypeCategory {
+  static const issue = EventTypeCategory._('issue');
+  static const accountNotification = EventTypeCategory._('accountNotification');
+  static const scheduledChange = EventTypeCategory._('scheduledChange');
+  static const investigation = EventTypeCategory._('investigation');
 
   final String value;
 
-  const EventTypeCategory(this.value);
+  const EventTypeCategory._(this.value);
+
+  static const values = [
+    issue,
+    accountNotification,
+    scheduledChange,
+    investigation
+  ];
 
   static EventTypeCategory fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventTypeCategory'));
+          orElse: () => EventTypeCategory._(value));
+
+  @override
+  bool operator ==(other) => other is EventTypeCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

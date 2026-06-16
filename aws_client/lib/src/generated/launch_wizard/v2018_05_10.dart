@@ -806,19 +806,29 @@ class DeploymentFilter {
   }
 }
 
-enum DeploymentFilterKey {
-  workloadName('WORKLOAD_NAME'),
-  deploymentStatus('DEPLOYMENT_STATUS'),
-  ;
+class DeploymentFilterKey {
+  static const workloadName = DeploymentFilterKey._('WORKLOAD_NAME');
+  static const deploymentStatus = DeploymentFilterKey._('DEPLOYMENT_STATUS');
 
   final String value;
 
-  const DeploymentFilterKey(this.value);
+  const DeploymentFilterKey._(this.value);
 
-  static DeploymentFilterKey fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeploymentFilterKey'));
+  static const values = [workloadName, deploymentStatus];
+
+  static DeploymentFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentFilterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A field that details a specification of a deployment pattern.
@@ -879,46 +889,83 @@ class DeploymentSpecificationsField {
   }
 }
 
-enum DeploymentStatus {
-  completed('COMPLETED'),
-  creating('CREATING'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteInitiating('DELETE_INITIATING'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  validating('VALIDATING'),
-  ;
+class DeploymentStatus {
+  static const completed = DeploymentStatus._('COMPLETED');
+  static const creating = DeploymentStatus._('CREATING');
+  static const deleteInProgress = DeploymentStatus._('DELETE_IN_PROGRESS');
+  static const deleteInitiating = DeploymentStatus._('DELETE_INITIATING');
+  static const deleteFailed = DeploymentStatus._('DELETE_FAILED');
+  static const deleted = DeploymentStatus._('DELETED');
+  static const failed = DeploymentStatus._('FAILED');
+  static const inProgress = DeploymentStatus._('IN_PROGRESS');
+  static const validating = DeploymentStatus._('VALIDATING');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [
+    completed,
+    creating,
+    deleteInProgress,
+    deleteInitiating,
+    deleteFailed,
+    deleted,
+    failed,
+    inProgress,
+    validating
+  ];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EventStatus {
-  canceled('CANCELED'),
-  canceling('CANCELING'),
-  completed('COMPLETED'),
-  created('CREATED'),
-  failed('FAILED'),
-  inProgress('IN_PROGRESS'),
-  pending('PENDING'),
-  timedOut('TIMED_OUT'),
-  ;
+class EventStatus {
+  static const canceled = EventStatus._('CANCELED');
+  static const canceling = EventStatus._('CANCELING');
+  static const completed = EventStatus._('COMPLETED');
+  static const created = EventStatus._('CREATED');
+  static const failed = EventStatus._('FAILED');
+  static const inProgress = EventStatus._('IN_PROGRESS');
+  static const pending = EventStatus._('PENDING');
+  static const timedOut = EventStatus._('TIMED_OUT');
 
   final String value;
 
-  const EventStatus(this.value);
+  const EventStatus._(this.value);
 
-  static EventStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EventStatus'));
+  static const values = [
+    canceled,
+    canceling,
+    completed,
+    created,
+    failed,
+    inProgress,
+    pending,
+    timedOut
+  ];
+
+  static EventStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetDeploymentOutput {
@@ -1430,38 +1477,57 @@ class WorkloadDeploymentPatternDataSummary {
   }
 }
 
-enum WorkloadDeploymentPatternStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  disabled('DISABLED'),
-  deleted('DELETED'),
-  ;
+class WorkloadDeploymentPatternStatus {
+  static const active = WorkloadDeploymentPatternStatus._('ACTIVE');
+  static const inactive = WorkloadDeploymentPatternStatus._('INACTIVE');
+  static const disabled = WorkloadDeploymentPatternStatus._('DISABLED');
+  static const deleted = WorkloadDeploymentPatternStatus._('DELETED');
 
   final String value;
 
-  const WorkloadDeploymentPatternStatus(this.value);
+  const WorkloadDeploymentPatternStatus._(this.value);
+
+  static const values = [active, inactive, disabled, deleted];
 
   static WorkloadDeploymentPatternStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkloadDeploymentPatternStatus'));
+          orElse: () => WorkloadDeploymentPatternStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkloadDeploymentPatternStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkloadStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  disabled('DISABLED'),
-  deleted('DELETED'),
-  ;
+class WorkloadStatus {
+  static const active = WorkloadStatus._('ACTIVE');
+  static const inactive = WorkloadStatus._('INACTIVE');
+  static const disabled = WorkloadStatus._('DISABLED');
+  static const deleted = WorkloadStatus._('DELETED');
 
   final String value;
 
-  const WorkloadStatus(this.value);
+  const WorkloadStatus._(this.value);
+
+  static const values = [active, inactive, disabled, deleted];
 
   static WorkloadStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkloadStatus'));
+          orElse: () => WorkloadStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkloadStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalServerException extends _s.GenericAwsException {

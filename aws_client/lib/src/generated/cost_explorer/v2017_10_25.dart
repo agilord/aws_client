@@ -3573,19 +3573,27 @@ class CostExplorer {
   }
 }
 
-enum AccountScope {
-  payer('PAYER'),
-  linked('LINKED'),
-  ;
+class AccountScope {
+  static const payer = AccountScope._('PAYER');
+  static const linked = AccountScope._('LINKED');
 
   final String value;
 
-  const AccountScope(this.value);
+  const AccountScope._(this.value);
 
-  static AccountScope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountScope'));
+  static const values = [payer, linked];
+
+  static AccountScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountScope._(value));
+
+  @override
+  bool operator ==(other) => other is AccountScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An unusual cost pattern. This consists of the detailed metadata and the
@@ -3700,20 +3708,30 @@ class AnomalyDateInterval {
   }
 }
 
-enum AnomalyFeedbackType {
-  yes('YES'),
-  no('NO'),
-  plannedActivity('PLANNED_ACTIVITY'),
-  ;
+class AnomalyFeedbackType {
+  static const yes = AnomalyFeedbackType._('YES');
+  static const no = AnomalyFeedbackType._('NO');
+  static const plannedActivity = AnomalyFeedbackType._('PLANNED_ACTIVITY');
 
   final String value;
 
-  const AnomalyFeedbackType(this.value);
+  const AnomalyFeedbackType._(this.value);
 
-  static AnomalyFeedbackType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AnomalyFeedbackType'));
+  static const values = [yes, no, plannedActivity];
+
+  static AnomalyFeedbackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyFeedbackType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyFeedbackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This object continuously inspects your account's cost data for anomalies.
@@ -3761,7 +3779,8 @@ class AnomalyMonitor {
   factory AnomalyMonitor.fromJson(Map<String, dynamic> json) {
     return AnomalyMonitor(
       monitorName: (json['MonitorName'] as String?) ?? '',
-      monitorType: MonitorType.fromString((json['MonitorType'] as String)),
+      monitorType:
+          MonitorType.fromString((json['MonitorType'] as String?) ?? ''),
       creationDate: json['CreationDate'] as String?,
       dimensionalValueCount: json['DimensionalValueCount'] as int?,
       lastEvaluatedDate: json['LastEvaluatedDate'] as String?,
@@ -3949,7 +3968,7 @@ class AnomalySubscription {
   factory AnomalySubscription.fromJson(Map<String, dynamic> json) {
     return AnomalySubscription(
       frequency: AnomalySubscriptionFrequency.fromString(
-          (json['Frequency'] as String)),
+          (json['Frequency'] as String?) ?? ''),
       monitorArnList: ((json['MonitorArnList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -3992,50 +4011,79 @@ class AnomalySubscription {
   }
 }
 
-enum AnomalySubscriptionFrequency {
-  daily('DAILY'),
-  immediate('IMMEDIATE'),
-  weekly('WEEKLY'),
-  ;
+class AnomalySubscriptionFrequency {
+  static const daily = AnomalySubscriptionFrequency._('DAILY');
+  static const immediate = AnomalySubscriptionFrequency._('IMMEDIATE');
+  static const weekly = AnomalySubscriptionFrequency._('WEEKLY');
 
   final String value;
 
-  const AnomalySubscriptionFrequency(this.value);
+  const AnomalySubscriptionFrequency._(this.value);
+
+  static const values = [daily, immediate, weekly];
 
   static AnomalySubscriptionFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnomalySubscriptionFrequency'));
+          orElse: () => AnomalySubscriptionFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalySubscriptionFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApproximationDimension {
-  service('SERVICE'),
-  resource('RESOURCE'),
-  ;
+class ApproximationDimension {
+  static const service = ApproximationDimension._('SERVICE');
+  static const resource = ApproximationDimension._('RESOURCE');
 
   final String value;
 
-  const ApproximationDimension(this.value);
+  const ApproximationDimension._(this.value);
+
+  static const values = [service, resource];
 
   static ApproximationDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApproximationDimension'));
+          orElse: () => ApproximationDimension._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApproximationDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Context {
-  costAndUsage('COST_AND_USAGE'),
-  reservations('RESERVATIONS'),
-  savingsPlans('SAVINGS_PLANS'),
-  ;
+class Context {
+  static const costAndUsage = Context._('COST_AND_USAGE');
+  static const reservations = Context._('RESERVATIONS');
+  static const savingsPlans = Context._('SAVINGS_PLANS');
 
   final String value;
 
-  const Context(this.value);
+  const Context._(this.value);
 
-  static Context fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Context'));
+  static const values = [costAndUsage, reservations, savingsPlans];
+
+  static Context fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Context._(value));
+
+  @override
+  bool operator ==(other) => other is Context && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cost allocation tag structure. This includes detailed metadata for the
@@ -4070,9 +4118,10 @@ class CostAllocationTag {
 
   factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
     return CostAllocationTag(
-      status: CostAllocationTagStatus.fromString((json['Status'] as String)),
+      status:
+          CostAllocationTagStatus.fromString((json['Status'] as String?) ?? ''),
       tagKey: (json['TagKey'] as String?) ?? '',
-      type: CostAllocationTagType.fromString((json['Type'] as String)),
+      type: CostAllocationTagType.fromString((json['Type'] as String?) ?? ''),
       lastUpdatedDate: json['LastUpdatedDate'] as String?,
       lastUsedDate: json['LastUsedDate'] as String?,
     );
@@ -4147,35 +4196,55 @@ class CostAllocationTagBackfillRequest {
   }
 }
 
-enum CostAllocationTagBackfillStatus {
-  succeeded('SUCCEEDED'),
-  processing('PROCESSING'),
-  failed('FAILED'),
-  ;
+class CostAllocationTagBackfillStatus {
+  static const succeeded = CostAllocationTagBackfillStatus._('SUCCEEDED');
+  static const processing = CostAllocationTagBackfillStatus._('PROCESSING');
+  static const failed = CostAllocationTagBackfillStatus._('FAILED');
 
   final String value;
 
-  const CostAllocationTagBackfillStatus(this.value);
+  const CostAllocationTagBackfillStatus._(this.value);
+
+  static const values = [succeeded, processing, failed];
 
   static CostAllocationTagBackfillStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostAllocationTagBackfillStatus'));
+          orElse: () => CostAllocationTagBackfillStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagBackfillStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CostAllocationTagStatus {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class CostAllocationTagStatus {
+  static const active = CostAllocationTagStatus._('Active');
+  static const inactive = CostAllocationTagStatus._('Inactive');
 
   final String value;
 
-  const CostAllocationTagStatus(this.value);
+  const CostAllocationTagStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static CostAllocationTagStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostAllocationTagStatus'));
+          orElse: () => CostAllocationTagStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The cost allocation tag status. The status of a key can either be active or
@@ -4202,19 +4271,29 @@ class CostAllocationTagStatusEntry {
   }
 }
 
-enum CostAllocationTagType {
-  awsGenerated('AWSGenerated'),
-  userDefined('UserDefined'),
-  ;
+class CostAllocationTagType {
+  static const awsGenerated = CostAllocationTagType._('AWSGenerated');
+  static const userDefined = CostAllocationTagType._('UserDefined');
 
   final String value;
 
-  const CostAllocationTagType(this.value);
+  const CostAllocationTagType._(this.value);
 
-  static CostAllocationTagType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CostAllocationTagType'));
+  static const values = [awsGenerated, userDefined];
+
+  static CostAllocationTagType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostAllocationTagType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure of Cost Categories. This includes detailed metadata and the
@@ -4262,8 +4341,8 @@ class CostCategory {
       costCategoryArn: (json['CostCategoryArn'] as String?) ?? '',
       effectiveStart: (json['EffectiveStart'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      ruleVersion:
-          CostCategoryRuleVersion.fromString((json['RuleVersion'] as String)),
+      ruleVersion: CostCategoryRuleVersion.fromString(
+          (json['RuleVersion'] as String?) ?? ''),
       rules: ((json['Rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
@@ -4350,19 +4429,30 @@ class CostCategoryInheritedValueDimension {
   }
 }
 
-enum CostCategoryInheritedValueDimensionName {
-  linkedAccountName('LINKED_ACCOUNT_NAME'),
-  tag('TAG'),
-  ;
+class CostCategoryInheritedValueDimensionName {
+  static const linkedAccountName =
+      CostCategoryInheritedValueDimensionName._('LINKED_ACCOUNT_NAME');
+  static const tag = CostCategoryInheritedValueDimensionName._('TAG');
 
   final String value;
 
-  const CostCategoryInheritedValueDimensionName(this.value);
+  const CostCategoryInheritedValueDimensionName._(this.value);
+
+  static const values = [linkedAccountName, tag];
 
   static CostCategoryInheritedValueDimensionName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostCategoryInheritedValueDimensionName'));
+          orElse: () => CostCategoryInheritedValueDimensionName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryInheritedValueDimensionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of processing statuses for Cost Management products for a specific
@@ -4546,50 +4636,81 @@ class CostCategoryRule {
   }
 }
 
-enum CostCategoryRuleType {
-  regular('REGULAR'),
-  inheritedValue('INHERITED_VALUE'),
-  ;
+class CostCategoryRuleType {
+  static const regular = CostCategoryRuleType._('REGULAR');
+  static const inheritedValue = CostCategoryRuleType._('INHERITED_VALUE');
 
   final String value;
 
-  const CostCategoryRuleType(this.value);
+  const CostCategoryRuleType._(this.value);
 
-  static CostCategoryRuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CostCategoryRuleType'));
+  static const values = [regular, inheritedValue];
+
+  static CostCategoryRuleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryRuleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The rule schema version in this particular Cost Category.
-enum CostCategoryRuleVersion {
-  costCategoryExpressionV1('CostCategoryExpression.v1'),
-  ;
+class CostCategoryRuleVersion {
+  static const costCategoryExpressionV1 =
+      CostCategoryRuleVersion._('CostCategoryExpression.v1');
 
   final String value;
 
-  const CostCategoryRuleVersion(this.value);
+  const CostCategoryRuleVersion._(this.value);
+
+  static const values = [costCategoryExpressionV1];
 
   static CostCategoryRuleVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostCategoryRuleVersion'));
+          orElse: () => CostCategoryRuleVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryRuleVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CostCategorySplitChargeMethod {
-  fixed('FIXED'),
-  proportional('PROPORTIONAL'),
-  even('EVEN'),
-  ;
+class CostCategorySplitChargeMethod {
+  static const fixed = CostCategorySplitChargeMethod._('FIXED');
+  static const proportional = CostCategorySplitChargeMethod._('PROPORTIONAL');
+  static const even = CostCategorySplitChargeMethod._('EVEN');
 
   final String value;
 
-  const CostCategorySplitChargeMethod(this.value);
+  const CostCategorySplitChargeMethod._(this.value);
+
+  static const values = [fixed, proportional, even];
 
   static CostCategorySplitChargeMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostCategorySplitChargeMethod'));
+          orElse: () => CostCategorySplitChargeMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategorySplitChargeMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use the split charge rule to split the cost of one Cost Category value
@@ -4629,8 +4750,8 @@ class CostCategorySplitChargeRule {
 
   factory CostCategorySplitChargeRule.fromJson(Map<String, dynamic> json) {
     return CostCategorySplitChargeRule(
-      method:
-          CostCategorySplitChargeMethod.fromString((json['Method'] as String)),
+      method: CostCategorySplitChargeMethod.fromString(
+          (json['Method'] as String?) ?? ''),
       source: (json['Source'] as String?) ?? '',
       targets: ((json['Targets'] as List?) ?? const [])
           .nonNulls
@@ -4675,7 +4796,7 @@ class CostCategorySplitChargeRuleParameter {
       Map<String, dynamic> json) {
     return CostCategorySplitChargeRuleParameter(
       type: CostCategorySplitChargeRuleParameterType.fromString(
-          (json['Type'] as String)),
+          (json['Type'] as String?) ?? ''),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -4693,47 +4814,78 @@ class CostCategorySplitChargeRuleParameter {
   }
 }
 
-enum CostCategorySplitChargeRuleParameterType {
-  allocationPercentages('ALLOCATION_PERCENTAGES'),
-  ;
+class CostCategorySplitChargeRuleParameterType {
+  static const allocationPercentages =
+      CostCategorySplitChargeRuleParameterType._('ALLOCATION_PERCENTAGES');
 
   final String value;
 
-  const CostCategorySplitChargeRuleParameterType(this.value);
+  const CostCategorySplitChargeRuleParameterType._(this.value);
+
+  static const values = [allocationPercentages];
 
   static CostCategorySplitChargeRuleParameterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostCategorySplitChargeRuleParameterType'));
+          orElse: () => CostCategorySplitChargeRuleParameterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategorySplitChargeRuleParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CostCategoryStatus {
-  processing('PROCESSING'),
-  applied('APPLIED'),
-  ;
+class CostCategoryStatus {
+  static const processing = CostCategoryStatus._('PROCESSING');
+  static const applied = CostCategoryStatus._('APPLIED');
 
   final String value;
 
-  const CostCategoryStatus(this.value);
+  const CostCategoryStatus._(this.value);
 
-  static CostCategoryStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CostCategoryStatus'));
+  static const values = [processing, applied];
+
+  static CostCategoryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CostCategoryStatusComponent {
-  costExplorer('COST_EXPLORER'),
-  ;
+class CostCategoryStatusComponent {
+  static const costExplorer = CostCategoryStatusComponent._('COST_EXPLORER');
 
   final String value;
 
-  const CostCategoryStatusComponent(this.value);
+  const CostCategoryStatusComponent._(this.value);
+
+  static const values = [costExplorer];
 
   static CostCategoryStatusComponent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CostCategoryStatusComponent'));
+          orElse: () => CostCategoryStatusComponent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryStatusComponent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Cost Categories values used for filtering the costs.
@@ -5328,50 +5480,98 @@ class DescribeCostCategoryDefinitionResponse {
   }
 }
 
-enum Dimension {
-  az('AZ'),
-  instanceType('INSTANCE_TYPE'),
-  linkedAccount('LINKED_ACCOUNT'),
-  linkedAccountName('LINKED_ACCOUNT_NAME'),
-  operation('OPERATION'),
-  purchaseType('PURCHASE_TYPE'),
-  region('REGION'),
-  service('SERVICE'),
-  serviceCode('SERVICE_CODE'),
-  usageType('USAGE_TYPE'),
-  usageTypeGroup('USAGE_TYPE_GROUP'),
-  recordType('RECORD_TYPE'),
-  operatingSystem('OPERATING_SYSTEM'),
-  tenancy('TENANCY'),
-  scope('SCOPE'),
-  platform('PLATFORM'),
-  subscriptionId('SUBSCRIPTION_ID'),
-  legalEntityName('LEGAL_ENTITY_NAME'),
-  deploymentOption('DEPLOYMENT_OPTION'),
-  databaseEngine('DATABASE_ENGINE'),
-  cacheEngine('CACHE_ENGINE'),
-  instanceTypeFamily('INSTANCE_TYPE_FAMILY'),
-  billingEntity('BILLING_ENTITY'),
-  reservationId('RESERVATION_ID'),
-  resourceId('RESOURCE_ID'),
-  rightsizingType('RIGHTSIZING_TYPE'),
-  savingsPlansType('SAVINGS_PLANS_TYPE'),
-  savingsPlanArn('SAVINGS_PLAN_ARN'),
-  paymentOption('PAYMENT_OPTION'),
-  agreementEndDateTimeAfter('AGREEMENT_END_DATE_TIME_AFTER'),
-  agreementEndDateTimeBefore('AGREEMENT_END_DATE_TIME_BEFORE'),
-  invoicingEntity('INVOICING_ENTITY'),
-  anomalyTotalImpactAbsolute('ANOMALY_TOTAL_IMPACT_ABSOLUTE'),
-  anomalyTotalImpactPercentage('ANOMALY_TOTAL_IMPACT_PERCENTAGE'),
-  ;
+class Dimension {
+  static const az = Dimension._('AZ');
+  static const instanceType = Dimension._('INSTANCE_TYPE');
+  static const linkedAccount = Dimension._('LINKED_ACCOUNT');
+  static const linkedAccountName = Dimension._('LINKED_ACCOUNT_NAME');
+  static const operation = Dimension._('OPERATION');
+  static const purchaseType = Dimension._('PURCHASE_TYPE');
+  static const region = Dimension._('REGION');
+  static const service = Dimension._('SERVICE');
+  static const serviceCode = Dimension._('SERVICE_CODE');
+  static const usageType = Dimension._('USAGE_TYPE');
+  static const usageTypeGroup = Dimension._('USAGE_TYPE_GROUP');
+  static const recordType = Dimension._('RECORD_TYPE');
+  static const operatingSystem = Dimension._('OPERATING_SYSTEM');
+  static const tenancy = Dimension._('TENANCY');
+  static const scope = Dimension._('SCOPE');
+  static const platform = Dimension._('PLATFORM');
+  static const subscriptionId = Dimension._('SUBSCRIPTION_ID');
+  static const legalEntityName = Dimension._('LEGAL_ENTITY_NAME');
+  static const deploymentOption = Dimension._('DEPLOYMENT_OPTION');
+  static const databaseEngine = Dimension._('DATABASE_ENGINE');
+  static const cacheEngine = Dimension._('CACHE_ENGINE');
+  static const instanceTypeFamily = Dimension._('INSTANCE_TYPE_FAMILY');
+  static const billingEntity = Dimension._('BILLING_ENTITY');
+  static const reservationId = Dimension._('RESERVATION_ID');
+  static const resourceId = Dimension._('RESOURCE_ID');
+  static const rightsizingType = Dimension._('RIGHTSIZING_TYPE');
+  static const savingsPlansType = Dimension._('SAVINGS_PLANS_TYPE');
+  static const savingsPlanArn = Dimension._('SAVINGS_PLAN_ARN');
+  static const paymentOption = Dimension._('PAYMENT_OPTION');
+  static const agreementEndDateTimeAfter =
+      Dimension._('AGREEMENT_END_DATE_TIME_AFTER');
+  static const agreementEndDateTimeBefore =
+      Dimension._('AGREEMENT_END_DATE_TIME_BEFORE');
+  static const invoicingEntity = Dimension._('INVOICING_ENTITY');
+  static const anomalyTotalImpactAbsolute =
+      Dimension._('ANOMALY_TOTAL_IMPACT_ABSOLUTE');
+  static const anomalyTotalImpactPercentage =
+      Dimension._('ANOMALY_TOTAL_IMPACT_PERCENTAGE');
 
   final String value;
 
-  const Dimension(this.value);
+  const Dimension._(this.value);
 
-  static Dimension fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Dimension'));
+  static const values = [
+    az,
+    instanceType,
+    linkedAccount,
+    linkedAccountName,
+    operation,
+    purchaseType,
+    region,
+    service,
+    serviceCode,
+    usageType,
+    usageTypeGroup,
+    recordType,
+    operatingSystem,
+    tenancy,
+    scope,
+    platform,
+    subscriptionId,
+    legalEntityName,
+    deploymentOption,
+    databaseEngine,
+    cacheEngine,
+    instanceTypeFamily,
+    billingEntity,
+    reservationId,
+    resourceId,
+    rightsizingType,
+    savingsPlansType,
+    savingsPlanArn,
+    paymentOption,
+    agreementEndDateTimeAfter,
+    agreementEndDateTimeBefore,
+    invoicingEntity,
+    anomalyTotalImpactAbsolute,
+    anomalyTotalImpactPercentage
+  ];
+
+  static Dimension fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
+
+  @override
+  bool operator ==(other) => other is Dimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The metadata that you can use to filter and group your results. You can use
@@ -6126,33 +6326,74 @@ class Expression {
   }
 }
 
-enum FindingReasonCode {
-  cpuOverProvisioned('CPU_OVER_PROVISIONED'),
-  cpuUnderProvisioned('CPU_UNDER_PROVISIONED'),
-  memoryOverProvisioned('MEMORY_OVER_PROVISIONED'),
-  memoryUnderProvisioned('MEMORY_UNDER_PROVISIONED'),
-  ebsThroughputOverProvisioned('EBS_THROUGHPUT_OVER_PROVISIONED'),
-  ebsThroughputUnderProvisioned('EBS_THROUGHPUT_UNDER_PROVISIONED'),
-  ebsIopsOverProvisioned('EBS_IOPS_OVER_PROVISIONED'),
-  ebsIopsUnderProvisioned('EBS_IOPS_UNDER_PROVISIONED'),
-  networkBandwidthOverProvisioned('NETWORK_BANDWIDTH_OVER_PROVISIONED'),
-  networkBandwidthUnderProvisioned('NETWORK_BANDWIDTH_UNDER_PROVISIONED'),
-  networkPpsOverProvisioned('NETWORK_PPS_OVER_PROVISIONED'),
-  networkPpsUnderProvisioned('NETWORK_PPS_UNDER_PROVISIONED'),
-  diskIopsOverProvisioned('DISK_IOPS_OVER_PROVISIONED'),
-  diskIopsUnderProvisioned('DISK_IOPS_UNDER_PROVISIONED'),
-  diskThroughputOverProvisioned('DISK_THROUGHPUT_OVER_PROVISIONED'),
-  diskThroughputUnderProvisioned('DISK_THROUGHPUT_UNDER_PROVISIONED'),
-  ;
+class FindingReasonCode {
+  static const cpuOverProvisioned = FindingReasonCode._('CPU_OVER_PROVISIONED');
+  static const cpuUnderProvisioned =
+      FindingReasonCode._('CPU_UNDER_PROVISIONED');
+  static const memoryOverProvisioned =
+      FindingReasonCode._('MEMORY_OVER_PROVISIONED');
+  static const memoryUnderProvisioned =
+      FindingReasonCode._('MEMORY_UNDER_PROVISIONED');
+  static const ebsThroughputOverProvisioned =
+      FindingReasonCode._('EBS_THROUGHPUT_OVER_PROVISIONED');
+  static const ebsThroughputUnderProvisioned =
+      FindingReasonCode._('EBS_THROUGHPUT_UNDER_PROVISIONED');
+  static const ebsIopsOverProvisioned =
+      FindingReasonCode._('EBS_IOPS_OVER_PROVISIONED');
+  static const ebsIopsUnderProvisioned =
+      FindingReasonCode._('EBS_IOPS_UNDER_PROVISIONED');
+  static const networkBandwidthOverProvisioned =
+      FindingReasonCode._('NETWORK_BANDWIDTH_OVER_PROVISIONED');
+  static const networkBandwidthUnderProvisioned =
+      FindingReasonCode._('NETWORK_BANDWIDTH_UNDER_PROVISIONED');
+  static const networkPpsOverProvisioned =
+      FindingReasonCode._('NETWORK_PPS_OVER_PROVISIONED');
+  static const networkPpsUnderProvisioned =
+      FindingReasonCode._('NETWORK_PPS_UNDER_PROVISIONED');
+  static const diskIopsOverProvisioned =
+      FindingReasonCode._('DISK_IOPS_OVER_PROVISIONED');
+  static const diskIopsUnderProvisioned =
+      FindingReasonCode._('DISK_IOPS_UNDER_PROVISIONED');
+  static const diskThroughputOverProvisioned =
+      FindingReasonCode._('DISK_THROUGHPUT_OVER_PROVISIONED');
+  static const diskThroughputUnderProvisioned =
+      FindingReasonCode._('DISK_THROUGHPUT_UNDER_PROVISIONED');
 
   final String value;
 
-  const FindingReasonCode(this.value);
+  const FindingReasonCode._(this.value);
+
+  static const values = [
+    cpuOverProvisioned,
+    cpuUnderProvisioned,
+    memoryOverProvisioned,
+    memoryUnderProvisioned,
+    ebsThroughputOverProvisioned,
+    ebsThroughputUnderProvisioned,
+    ebsIopsOverProvisioned,
+    ebsIopsUnderProvisioned,
+    networkBandwidthOverProvisioned,
+    networkBandwidthUnderProvisioned,
+    networkPpsOverProvisioned,
+    networkPpsUnderProvisioned,
+    diskIopsOverProvisioned,
+    diskIopsUnderProvisioned,
+    diskThroughputOverProvisioned,
+    diskThroughputUnderProvisioned
+  ];
 
   static FindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingReasonCode'));
+          orElse: () => FindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is FindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The forecast that's created for your query.
@@ -6205,20 +6446,29 @@ class ForecastResult {
   }
 }
 
-enum GenerationStatus {
-  succeeded('SUCCEEDED'),
-  processing('PROCESSING'),
-  failed('FAILED'),
-  ;
+class GenerationStatus {
+  static const succeeded = GenerationStatus._('SUCCEEDED');
+  static const processing = GenerationStatus._('PROCESSING');
+  static const failed = GenerationStatus._('FAILED');
 
   final String value;
 
-  const GenerationStatus(this.value);
+  const GenerationStatus._(this.value);
+
+  static const values = [succeeded, processing, failed];
 
   static GenerationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GenerationStatus'));
+          orElse: () => GenerationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of the Savings Plans recommendation generation.
@@ -7330,19 +7580,28 @@ class GetUsageForecastResponse {
   }
 }
 
-enum Granularity {
-  daily('DAILY'),
-  monthly('MONTHLY'),
-  hourly('HOURLY'),
-  ;
+class Granularity {
+  static const daily = Granularity._('DAILY');
+  static const monthly = Granularity._('MONTHLY');
+  static const hourly = Granularity._('HOURLY');
 
   final String value;
 
-  const Granularity(this.value);
+  const Granularity._(this.value);
 
-  static Granularity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Granularity'));
+  static const values = [daily, monthly, hourly];
+
+  static Granularity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Granularity._(value));
+
+  @override
+  bool operator ==(other) => other is Granularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// One level of grouped data in the results.
@@ -7407,20 +7666,30 @@ class GroupDefinition {
   }
 }
 
-enum GroupDefinitionType {
-  dimension('DIMENSION'),
-  tag('TAG'),
-  costCategory('COST_CATEGORY'),
-  ;
+class GroupDefinitionType {
+  static const dimension = GroupDefinitionType._('DIMENSION');
+  static const tag = GroupDefinitionType._('TAG');
+  static const costCategory = GroupDefinitionType._('COST_CATEGORY');
 
   final String value;
 
-  const GroupDefinitionType(this.value);
+  const GroupDefinitionType._(this.value);
 
-  static GroupDefinitionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GroupDefinitionType'));
+  static const values = [dimension, tag, costCategory];
+
+  static GroupDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The dollar value of the anomaly.
@@ -7737,40 +8006,68 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LookbackPeriodInDays {
-  sevenDays('SEVEN_DAYS'),
-  thirtyDays('THIRTY_DAYS'),
-  sixtyDays('SIXTY_DAYS'),
-  ;
+class LookbackPeriodInDays {
+  static const sevenDays = LookbackPeriodInDays._('SEVEN_DAYS');
+  static const thirtyDays = LookbackPeriodInDays._('THIRTY_DAYS');
+  static const sixtyDays = LookbackPeriodInDays._('SIXTY_DAYS');
 
   final String value;
 
-  const LookbackPeriodInDays(this.value);
+  const LookbackPeriodInDays._(this.value);
 
-  static LookbackPeriodInDays fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum LookbackPeriodInDays'));
+  static const values = [sevenDays, thirtyDays, sixtyDays];
+
+  static LookbackPeriodInDays fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LookbackPeriodInDays._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LookbackPeriodInDays && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MatchOption {
-  equals('EQUALS'),
-  absent('ABSENT'),
-  startsWith('STARTS_WITH'),
-  endsWith('ENDS_WITH'),
-  contains('CONTAINS'),
-  caseSensitive('CASE_SENSITIVE'),
-  caseInsensitive('CASE_INSENSITIVE'),
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  ;
+class MatchOption {
+  static const equals = MatchOption._('EQUALS');
+  static const absent = MatchOption._('ABSENT');
+  static const startsWith = MatchOption._('STARTS_WITH');
+  static const endsWith = MatchOption._('ENDS_WITH');
+  static const contains = MatchOption._('CONTAINS');
+  static const caseSensitive = MatchOption._('CASE_SENSITIVE');
+  static const caseInsensitive = MatchOption._('CASE_INSENSITIVE');
+  static const greaterThanOrEqual = MatchOption._('GREATER_THAN_OR_EQUAL');
 
   final String value;
 
-  const MatchOption(this.value);
+  const MatchOption._(this.value);
 
-  static MatchOption fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MatchOption'));
+  static const values = [
+    equals,
+    absent,
+    startsWith,
+    endsWith,
+    contains,
+    caseSensitive,
+    caseInsensitive,
+    greaterThanOrEqual
+  ];
+
+  static MatchOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MatchOption._(value));
+
+  @override
+  bool operator ==(other) => other is MatchOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the MemoryDB reservations that Amazon Web Services recommends
@@ -7825,23 +8122,40 @@ class MemoryDBInstanceDetails {
   }
 }
 
-enum Metric {
-  blendedCost('BLENDED_COST'),
-  unblendedCost('UNBLENDED_COST'),
-  amortizedCost('AMORTIZED_COST'),
-  netUnblendedCost('NET_UNBLENDED_COST'),
-  netAmortizedCost('NET_AMORTIZED_COST'),
-  usageQuantity('USAGE_QUANTITY'),
-  normalizedUsageAmount('NORMALIZED_USAGE_AMOUNT'),
-  ;
+class Metric {
+  static const blendedCost = Metric._('BLENDED_COST');
+  static const unblendedCost = Metric._('UNBLENDED_COST');
+  static const amortizedCost = Metric._('AMORTIZED_COST');
+  static const netUnblendedCost = Metric._('NET_UNBLENDED_COST');
+  static const netAmortizedCost = Metric._('NET_AMORTIZED_COST');
+  static const usageQuantity = Metric._('USAGE_QUANTITY');
+  static const normalizedUsageAmount = Metric._('NORMALIZED_USAGE_AMOUNT');
 
   final String value;
 
-  const Metric(this.value);
+  const Metric._(this.value);
+
+  static const values = [
+    blendedCost,
+    unblendedCost,
+    amortizedCost,
+    netUnblendedCost,
+    netAmortizedCost,
+    usageQuantity,
+    normalizedUsageAmount
+  ];
 
   static Metric fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Metric'));
+      values.firstWhere((e) => e.value == value, orElse: () => Metric._(value));
+
+  @override
+  bool operator ==(other) => other is Metric && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The aggregated value for a metric.
@@ -7901,32 +8215,50 @@ class ModifyRecommendationDetail {
   }
 }
 
-enum MonitorDimension {
-  service('SERVICE'),
-  ;
+class MonitorDimension {
+  static const service = MonitorDimension._('SERVICE');
 
   final String value;
 
-  const MonitorDimension(this.value);
+  const MonitorDimension._(this.value);
+
+  static const values = [service];
 
   static MonitorDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MonitorDimension'));
+          orElse: () => MonitorDimension._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MonitorType {
-  dimensional('DIMENSIONAL'),
-  custom('CUSTOM'),
-  ;
+class MonitorType {
+  static const dimensional = MonitorType._('DIMENSIONAL');
+  static const custom = MonitorType._('CUSTOM');
 
   final String value;
 
-  const MonitorType(this.value);
+  const MonitorType._(this.value);
 
-  static MonitorType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MonitorType'));
+  static const values = [dimensional, custom];
+
+  static MonitorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MonitorType._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The network field that contains a list of network metrics that are
@@ -7980,75 +8312,133 @@ class NetworkResourceUtilization {
   }
 }
 
-enum NumericOperator {
-  equal('EQUAL'),
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  between('BETWEEN'),
-  ;
+class NumericOperator {
+  static const equal = NumericOperator._('EQUAL');
+  static const greaterThanOrEqual = NumericOperator._('GREATER_THAN_OR_EQUAL');
+  static const lessThanOrEqual = NumericOperator._('LESS_THAN_OR_EQUAL');
+  static const greaterThan = NumericOperator._('GREATER_THAN');
+  static const lessThan = NumericOperator._('LESS_THAN');
+  static const between = NumericOperator._('BETWEEN');
 
   final String value;
 
-  const NumericOperator(this.value);
+  const NumericOperator._(this.value);
+
+  static const values = [
+    equal,
+    greaterThanOrEqual,
+    lessThanOrEqual,
+    greaterThan,
+    lessThan,
+    between
+  ];
 
   static NumericOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum NumericOperator'));
+          orElse: () => NumericOperator._(value));
+
+  @override
+  bool operator ==(other) => other is NumericOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OfferingClass {
-  standard('STANDARD'),
-  convertible('CONVERTIBLE'),
-  ;
+class OfferingClass {
+  static const standard = OfferingClass._('STANDARD');
+  static const convertible = OfferingClass._('CONVERTIBLE');
 
   final String value;
 
-  const OfferingClass(this.value);
+  const OfferingClass._(this.value);
+
+  static const values = [standard, convertible];
 
   static OfferingClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OfferingClass'));
+          orElse: () => OfferingClass._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PaymentOption {
-  noUpfront('NO_UPFRONT'),
-  partialUpfront('PARTIAL_UPFRONT'),
-  allUpfront('ALL_UPFRONT'),
-  lightUtilization('LIGHT_UTILIZATION'),
-  mediumUtilization('MEDIUM_UTILIZATION'),
-  heavyUtilization('HEAVY_UTILIZATION'),
-  ;
+class PaymentOption {
+  static const noUpfront = PaymentOption._('NO_UPFRONT');
+  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
+  static const allUpfront = PaymentOption._('ALL_UPFRONT');
+  static const lightUtilization = PaymentOption._('LIGHT_UTILIZATION');
+  static const mediumUtilization = PaymentOption._('MEDIUM_UTILIZATION');
+  static const heavyUtilization = PaymentOption._('HEAVY_UTILIZATION');
 
   final String value;
 
-  const PaymentOption(this.value);
+  const PaymentOption._(this.value);
+
+  static const values = [
+    noUpfront,
+    partialUpfront,
+    allUpfront,
+    lightUtilization,
+    mediumUtilization,
+    heavyUtilization
+  ];
 
   static PaymentOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PaymentOption'));
+          orElse: () => PaymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlatformDifference {
-  hypervisor('HYPERVISOR'),
-  networkInterface('NETWORK_INTERFACE'),
-  storageInterface('STORAGE_INTERFACE'),
-  instanceStoreAvailability('INSTANCE_STORE_AVAILABILITY'),
-  virtualizationType('VIRTUALIZATION_TYPE'),
-  ;
+class PlatformDifference {
+  static const hypervisor = PlatformDifference._('HYPERVISOR');
+  static const networkInterface = PlatformDifference._('NETWORK_INTERFACE');
+  static const storageInterface = PlatformDifference._('STORAGE_INTERFACE');
+  static const instanceStoreAvailability =
+      PlatformDifference._('INSTANCE_STORE_AVAILABILITY');
+  static const virtualizationType = PlatformDifference._('VIRTUALIZATION_TYPE');
 
   final String value;
 
-  const PlatformDifference(this.value);
+  const PlatformDifference._(this.value);
 
-  static PlatformDifference fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlatformDifference'));
+  static const values = [
+    hypervisor,
+    networkInterface,
+    storageInterface,
+    instanceStoreAvailability,
+    virtualizationType
+  ];
+
+  static PlatformDifference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlatformDifference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlatformDifference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ProvideAnomalyFeedbackResponse {
@@ -8484,19 +8874,31 @@ class RecommendationDetailHourlyMetrics {
   }
 }
 
-enum RecommendationTarget {
-  sameInstanceFamily('SAME_INSTANCE_FAMILY'),
-  crossInstanceFamily('CROSS_INSTANCE_FAMILY'),
-  ;
+class RecommendationTarget {
+  static const sameInstanceFamily =
+      RecommendationTarget._('SAME_INSTANCE_FAMILY');
+  static const crossInstanceFamily =
+      RecommendationTarget._('CROSS_INSTANCE_FAMILY');
 
   final String value;
 
-  const RecommendationTarget(this.value);
+  const RecommendationTarget._(this.value);
 
-  static RecommendationTarget fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationTarget'));
+  static const values = [sameInstanceFamily, crossInstanceFamily];
+
+  static RecommendationTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationTarget._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the Amazon Redshift reservations that Amazon Web Services
@@ -9429,7 +9831,7 @@ class RightsizingRecommendationConfiguration {
     return RightsizingRecommendationConfiguration(
       benefitsConsidered: (json['BenefitsConsidered'] as bool?) ?? false,
       recommendationTarget: RecommendationTarget.fromString(
-          (json['RecommendationTarget'] as String)),
+          (json['RecommendationTarget'] as String?) ?? ''),
     );
   }
 
@@ -9544,19 +9946,28 @@ class RightsizingRecommendationSummary {
   }
 }
 
-enum RightsizingType {
-  terminate('TERMINATE'),
-  modify('MODIFY'),
-  ;
+class RightsizingType {
+  static const terminate = RightsizingType._('TERMINATE');
+  static const modify = RightsizingType._('MODIFY');
 
   final String value;
 
-  const RightsizingType(this.value);
+  const RightsizingType._(this.value);
+
+  static const values = [terminate, modify];
 
   static RightsizingType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RightsizingType'));
+          orElse: () => RightsizingType._(value));
+
+  @override
+  bool operator ==(other) => other is RightsizingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The combination of Amazon Web Service, linked account, linked account name,
@@ -9749,21 +10160,32 @@ class SavingsPlansCoverageData {
   }
 }
 
-enum SavingsPlansDataType {
-  attributes('ATTRIBUTES'),
-  utilization('UTILIZATION'),
-  amortizedCommitment('AMORTIZED_COMMITMENT'),
-  savings('SAVINGS'),
-  ;
+class SavingsPlansDataType {
+  static const attributes = SavingsPlansDataType._('ATTRIBUTES');
+  static const utilization = SavingsPlansDataType._('UTILIZATION');
+  static const amortizedCommitment =
+      SavingsPlansDataType._('AMORTIZED_COMMITMENT');
+  static const savings = SavingsPlansDataType._('SAVINGS');
 
   final String value;
 
-  const SavingsPlansDataType(this.value);
+  const SavingsPlansDataType._(this.value);
 
-  static SavingsPlansDataType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SavingsPlansDataType'));
+  static const values = [attributes, utilization, amortizedCommitment, savings];
+
+  static SavingsPlansDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlansDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlansDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The attribute details on a specific Savings Plan.
@@ -10549,18 +10971,27 @@ class SortDefinition {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartCostAllocationTagBackfillResponse {
@@ -10666,50 +11097,78 @@ class Subscriber {
   }
 }
 
-enum SubscriberStatus {
-  confirmed('CONFIRMED'),
-  declined('DECLINED'),
-  ;
+class SubscriberStatus {
+  static const confirmed = SubscriberStatus._('CONFIRMED');
+  static const declined = SubscriberStatus._('DECLINED');
 
   final String value;
 
-  const SubscriberStatus(this.value);
+  const SubscriberStatus._(this.value);
+
+  static const values = [confirmed, declined];
 
   static SubscriberStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriberStatus'));
+          orElse: () => SubscriberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SubscriberType {
-  email('EMAIL'),
-  sns('SNS'),
-  ;
+class SubscriberType {
+  static const email = SubscriberType._('EMAIL');
+  static const sns = SubscriberType._('SNS');
 
   final String value;
 
-  const SubscriberType(this.value);
+  const SubscriberType._(this.value);
+
+  static const values = [email, sns];
 
   static SubscriberType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriberType'));
+          orElse: () => SubscriberType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SupportedSavingsPlansType {
-  computeSp('COMPUTE_SP'),
-  ec2InstanceSp('EC2_INSTANCE_SP'),
-  sagemakerSp('SAGEMAKER_SP'),
-  ;
+class SupportedSavingsPlansType {
+  static const computeSp = SupportedSavingsPlansType._('COMPUTE_SP');
+  static const ec2InstanceSp = SupportedSavingsPlansType._('EC2_INSTANCE_SP');
+  static const sagemakerSp = SupportedSavingsPlansType._('SAGEMAKER_SP');
 
   final String value;
 
-  const SupportedSavingsPlansType(this.value);
+  const SupportedSavingsPlansType._(this.value);
+
+  static const values = [computeSp, ec2InstanceSp, sagemakerSp];
 
   static SupportedSavingsPlansType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SupportedSavingsPlansType'));
+          orElse: () => SupportedSavingsPlansType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedSavingsPlansType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -10861,18 +11320,27 @@ class TargetInstance {
   }
 }
 
-enum TermInYears {
-  oneYear('ONE_YEAR'),
-  threeYears('THREE_YEARS'),
-  ;
+class TermInYears {
+  static const oneYear = TermInYears._('ONE_YEAR');
+  static const threeYears = TermInYears._('THREE_YEARS');
 
   final String value;
 
-  const TermInYears(this.value);
+  const TermInYears._(this.value);
 
-  static TermInYears fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TermInYears'));
+  static const values = [oneYear, threeYears];
+
+  static TermInYears fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TermInYears._(value));
+
+  @override
+  bool operator ==(other) => other is TermInYears && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details on termination recommendation.

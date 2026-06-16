@@ -1053,20 +1053,35 @@ class ApplicationSummary {
 }
 
 /// Values that must be specified in order to deploy some applications.
-enum Capability {
-  capabilityIam('CAPABILITY_IAM'),
-  capabilityNamedIam('CAPABILITY_NAMED_IAM'),
-  capabilityAutoExpand('CAPABILITY_AUTO_EXPAND'),
-  capabilityResourcePolicy('CAPABILITY_RESOURCE_POLICY'),
-  ;
+class Capability {
+  static const capabilityIam = Capability._('CAPABILITY_IAM');
+  static const capabilityNamedIam = Capability._('CAPABILITY_NAMED_IAM');
+  static const capabilityAutoExpand = Capability._('CAPABILITY_AUTO_EXPAND');
+  static const capabilityResourcePolicy =
+      Capability._('CAPABILITY_RESOURCE_POLICY');
 
   final String value;
 
-  const Capability(this.value);
+  const Capability._(this.value);
 
-  static Capability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Capability'));
+  static const values = [
+    capabilityIam,
+    capabilityNamedIam,
+    capabilityAutoExpand,
+    capabilityResourcePolicy
+  ];
+
+  static Capability fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
+
+  @override
+  bool operator ==(other) => other is Capability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateApplicationResponse {
@@ -2108,19 +2123,28 @@ class RollbackTrigger {
   }
 }
 
-enum Status {
-  preparing('PREPARING'),
-  active('ACTIVE'),
-  expired('EXPIRED'),
-  ;
+class Status {
+  static const preparing = Status._('PREPARING');
+  static const active = Status._('ACTIVE');
+  static const expired = Status._('EXPIRED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [preparing, active, expired];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This property corresponds to the <i>AWS CloudFormation <a

@@ -333,52 +333,100 @@ class MarketplaceCommerceAnalytics {
   }
 }
 
-enum DataSetType {
-  customerSubscriberHourlyMonthlySubscriptions(
-      'customer_subscriber_hourly_monthly_subscriptions'),
-  customerSubscriberAnnualSubscriptions(
-      'customer_subscriber_annual_subscriptions'),
-  dailyBusinessUsageByInstanceType('daily_business_usage_by_instance_type'),
-  dailyBusinessFees('daily_business_fees'),
-  dailyBusinessFreeTrialConversions('daily_business_free_trial_conversions'),
-  dailyBusinessNewInstances('daily_business_new_instances'),
-  dailyBusinessNewProductSubscribers('daily_business_new_product_subscribers'),
-  dailyBusinessCanceledProductSubscribers(
-      'daily_business_canceled_product_subscribers'),
-  monthlyRevenueBillingAndRevenueData(
-      'monthly_revenue_billing_and_revenue_data'),
-  monthlyRevenueAnnualSubscriptions('monthly_revenue_annual_subscriptions'),
-  monthlyRevenueFieldDemonstrationUsage(
-      'monthly_revenue_field_demonstration_usage'),
-  monthlyRevenueFlexiblePaymentSchedule(
-      'monthly_revenue_flexible_payment_schedule'),
-  disbursedAmountByProduct('disbursed_amount_by_product'),
-  disbursedAmountByProductWithUncollectedFunds(
-      'disbursed_amount_by_product_with_uncollected_funds'),
-  disbursedAmountByInstanceHours('disbursed_amount_by_instance_hours'),
-  disbursedAmountByCustomerGeo('disbursed_amount_by_customer_geo'),
-  disbursedAmountByAgeOfUncollectedFunds(
-      'disbursed_amount_by_age_of_uncollected_funds'),
-  disbursedAmountByAgeOfDisbursedFunds(
-      'disbursed_amount_by_age_of_disbursed_funds'),
-  disbursedAmountByAgeOfPastDueFunds(
-      'disbursed_amount_by_age_of_past_due_funds'),
-  disbursedAmountByUncollectedFundsBreakdown(
-      'disbursed_amount_by_uncollected_funds_breakdown'),
-  customerProfileByIndustry('customer_profile_by_industry'),
-  customerProfileByRevenue('customer_profile_by_revenue'),
-  customerProfileByGeography('customer_profile_by_geography'),
-  salesCompensationBilledRevenue('sales_compensation_billed_revenue'),
-  usSalesAndUseTaxRecords('us_sales_and_use_tax_records'),
-  ;
+class DataSetType {
+  static const customerSubscriberHourlyMonthlySubscriptions =
+      DataSetType._('customer_subscriber_hourly_monthly_subscriptions');
+  static const customerSubscriberAnnualSubscriptions =
+      DataSetType._('customer_subscriber_annual_subscriptions');
+  static const dailyBusinessUsageByInstanceType =
+      DataSetType._('daily_business_usage_by_instance_type');
+  static const dailyBusinessFees = DataSetType._('daily_business_fees');
+  static const dailyBusinessFreeTrialConversions =
+      DataSetType._('daily_business_free_trial_conversions');
+  static const dailyBusinessNewInstances =
+      DataSetType._('daily_business_new_instances');
+  static const dailyBusinessNewProductSubscribers =
+      DataSetType._('daily_business_new_product_subscribers');
+  static const dailyBusinessCanceledProductSubscribers =
+      DataSetType._('daily_business_canceled_product_subscribers');
+  static const monthlyRevenueBillingAndRevenueData =
+      DataSetType._('monthly_revenue_billing_and_revenue_data');
+  static const monthlyRevenueAnnualSubscriptions =
+      DataSetType._('monthly_revenue_annual_subscriptions');
+  static const monthlyRevenueFieldDemonstrationUsage =
+      DataSetType._('monthly_revenue_field_demonstration_usage');
+  static const monthlyRevenueFlexiblePaymentSchedule =
+      DataSetType._('monthly_revenue_flexible_payment_schedule');
+  static const disbursedAmountByProduct =
+      DataSetType._('disbursed_amount_by_product');
+  static const disbursedAmountByProductWithUncollectedFunds =
+      DataSetType._('disbursed_amount_by_product_with_uncollected_funds');
+  static const disbursedAmountByInstanceHours =
+      DataSetType._('disbursed_amount_by_instance_hours');
+  static const disbursedAmountByCustomerGeo =
+      DataSetType._('disbursed_amount_by_customer_geo');
+  static const disbursedAmountByAgeOfUncollectedFunds =
+      DataSetType._('disbursed_amount_by_age_of_uncollected_funds');
+  static const disbursedAmountByAgeOfDisbursedFunds =
+      DataSetType._('disbursed_amount_by_age_of_disbursed_funds');
+  static const disbursedAmountByAgeOfPastDueFunds =
+      DataSetType._('disbursed_amount_by_age_of_past_due_funds');
+  static const disbursedAmountByUncollectedFundsBreakdown =
+      DataSetType._('disbursed_amount_by_uncollected_funds_breakdown');
+  static const customerProfileByIndustry =
+      DataSetType._('customer_profile_by_industry');
+  static const customerProfileByRevenue =
+      DataSetType._('customer_profile_by_revenue');
+  static const customerProfileByGeography =
+      DataSetType._('customer_profile_by_geography');
+  static const salesCompensationBilledRevenue =
+      DataSetType._('sales_compensation_billed_revenue');
+  static const usSalesAndUseTaxRecords =
+      DataSetType._('us_sales_and_use_tax_records');
 
   final String value;
 
-  const DataSetType(this.value);
+  const DataSetType._(this.value);
 
-  static DataSetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum DataSetType'));
+  static const values = [
+    customerSubscriberHourlyMonthlySubscriptions,
+    customerSubscriberAnnualSubscriptions,
+    dailyBusinessUsageByInstanceType,
+    dailyBusinessFees,
+    dailyBusinessFreeTrialConversions,
+    dailyBusinessNewInstances,
+    dailyBusinessNewProductSubscribers,
+    dailyBusinessCanceledProductSubscribers,
+    monthlyRevenueBillingAndRevenueData,
+    monthlyRevenueAnnualSubscriptions,
+    monthlyRevenueFieldDemonstrationUsage,
+    monthlyRevenueFlexiblePaymentSchedule,
+    disbursedAmountByProduct,
+    disbursedAmountByProductWithUncollectedFunds,
+    disbursedAmountByInstanceHours,
+    disbursedAmountByCustomerGeo,
+    disbursedAmountByAgeOfUncollectedFunds,
+    disbursedAmountByAgeOfDisbursedFunds,
+    disbursedAmountByAgeOfPastDueFunds,
+    disbursedAmountByUncollectedFundsBreakdown,
+    customerProfileByIndustry,
+    customerProfileByRevenue,
+    customerProfileByGeography,
+    salesCompensationBilledRevenue,
+    usSalesAndUseTaxRecords
+  ];
+
+  static DataSetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSetType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Container for the result of the GenerateDataSet operation.
@@ -434,19 +482,34 @@ class StartSupportDataExportResult {
   }
 }
 
-enum SupportDataSetType {
-  customerSupportContactsData('customer_support_contacts_data'),
-  testCustomerSupportContactsData('test_customer_support_contacts_data'),
-  ;
+class SupportDataSetType {
+  static const customerSupportContactsData =
+      SupportDataSetType._('customer_support_contacts_data');
+  static const testCustomerSupportContactsData =
+      SupportDataSetType._('test_customer_support_contacts_data');
 
   final String value;
 
-  const SupportDataSetType(this.value);
+  const SupportDataSetType._(this.value);
 
-  static SupportDataSetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SupportDataSetType'));
+  static const values = [
+    customerSupportContactsData,
+    testCustomerSupportContactsData
+  ];
+
+  static SupportDataSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportDataSetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportDataSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {

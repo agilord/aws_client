@@ -777,7 +777,8 @@ class CheckSummary {
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
-      source: RecommendationSource.fromString((json['source'] as String)),
+      source:
+          RecommendationSource.fromString((json['source'] as String?) ?? ''),
     );
   }
 
@@ -803,19 +804,28 @@ class CheckSummary {
   }
 }
 
-enum ExclusionStatus {
-  excluded('excluded'),
-  included('included'),
-  ;
+class ExclusionStatus {
+  static const excluded = ExclusionStatus._('excluded');
+  static const included = ExclusionStatus._('included');
 
   final String value;
 
-  const ExclusionStatus(this.value);
+  const ExclusionStatus._(this.value);
+
+  static const values = [excluded, included];
 
   static ExclusionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExclusionStatus'));
+          orElse: () => ExclusionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExclusionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetOrganizationRecommendationResponse {
@@ -1205,9 +1215,11 @@ class OrganizationRecommendation {
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           (json['resourcesAggregates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      source: RecommendationSource.fromString((json['source'] as String)),
-      status: RecommendationStatus.fromString((json['status'] as String)),
-      type: RecommendationType.fromString((json['type'] as String)),
+      source:
+          RecommendationSource.fromString((json['source'] as String?) ?? ''),
+      status:
+          RecommendationStatus.fromString((json['status'] as String?) ?? ''),
+      type: RecommendationType.fromString((json['type'] as String?) ?? ''),
       awsServices: (json['awsServices'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1338,7 +1350,7 @@ class OrganizationRecommendationResourceSummary {
           .map((k, e) => MapEntry(k, e as String)),
       recommendationArn: (json['recommendationArn'] as String?) ?? '',
       regionCode: (json['regionCode'] as String?) ?? '',
-      status: ResourceStatus.fromString((json['status'] as String)),
+      status: ResourceStatus.fromString((json['status'] as String?) ?? ''),
       accountId: json['accountId'] as String?,
       exclusionStatus:
           (json['exclusionStatus'] as String?)?.let(ExclusionStatus.fromString),
@@ -1447,9 +1459,11 @@ class OrganizationRecommendationSummary {
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           (json['resourcesAggregates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      source: RecommendationSource.fromString((json['source'] as String)),
-      status: RecommendationStatus.fromString((json['status'] as String)),
-      type: RecommendationType.fromString((json['type'] as String)),
+      source:
+          RecommendationSource.fromString((json['source'] as String?) ?? ''),
+      status:
+          RecommendationStatus.fromString((json['status'] as String?) ?? ''),
+      type: RecommendationType.fromString((json['type'] as String?) ?? ''),
       awsServices: (json['awsServices'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1611,9 +1625,11 @@ class Recommendation {
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           (json['resourcesAggregates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      source: RecommendationSource.fromString((json['source'] as String)),
-      status: RecommendationStatus.fromString((json['status'] as String)),
-      type: RecommendationType.fromString((json['type'] as String)),
+      source:
+          RecommendationSource.fromString((json['source'] as String?) ?? ''),
+      status:
+          RecommendationStatus.fromString((json['status'] as String?) ?? ''),
+      type: RecommendationType.fromString((json['type'] as String?) ?? ''),
       awsServices: (json['awsServices'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1720,64 +1736,103 @@ class RecommendationCostOptimizingAggregates {
   }
 }
 
-enum RecommendationLanguage {
-  en('en'),
-  ja('ja'),
-  zh('zh'),
-  fr('fr'),
-  de('de'),
-  ko('ko'),
-  zhTw('zh_TW'),
-  it('it'),
-  es('es'),
-  ptBr('pt_BR'),
-  id('id'),
-  ;
+class RecommendationLanguage {
+  static const en = RecommendationLanguage._('en');
+  static const ja = RecommendationLanguage._('ja');
+  static const zh = RecommendationLanguage._('zh');
+  static const fr = RecommendationLanguage._('fr');
+  static const de = RecommendationLanguage._('de');
+  static const ko = RecommendationLanguage._('ko');
+  static const zhTw = RecommendationLanguage._('zh_TW');
+  static const it = RecommendationLanguage._('it');
+  static const es = RecommendationLanguage._('es');
+  static const ptBr = RecommendationLanguage._('pt_BR');
+  static const id = RecommendationLanguage._('id');
 
   final String value;
 
-  const RecommendationLanguage(this.value);
+  const RecommendationLanguage._(this.value);
+
+  static const values = [en, ja, zh, fr, de, ko, zhTw, it, es, ptBr, id];
 
   static RecommendationLanguage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationLanguage'));
+          orElse: () => RecommendationLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationLifecycleStage {
-  inProgress('in_progress'),
-  pendingResponse('pending_response'),
-  dismissed('dismissed'),
-  resolved('resolved'),
-  ;
+class RecommendationLifecycleStage {
+  static const inProgress = RecommendationLifecycleStage._('in_progress');
+  static const pendingResponse =
+      RecommendationLifecycleStage._('pending_response');
+  static const dismissed = RecommendationLifecycleStage._('dismissed');
+  static const resolved = RecommendationLifecycleStage._('resolved');
 
   final String value;
 
-  const RecommendationLifecycleStage(this.value);
+  const RecommendationLifecycleStage._(this.value);
+
+  static const values = [inProgress, pendingResponse, dismissed, resolved];
 
   static RecommendationLifecycleStage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationLifecycleStage'));
+          orElse: () => RecommendationLifecycleStage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationLifecycleStage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationPillar {
-  costOptimizing('cost_optimizing'),
-  performance('performance'),
-  security('security'),
-  serviceLimits('service_limits'),
-  faultTolerance('fault_tolerance'),
-  operationalExcellence('operational_excellence'),
-  ;
+class RecommendationPillar {
+  static const costOptimizing = RecommendationPillar._('cost_optimizing');
+  static const performance = RecommendationPillar._('performance');
+  static const security = RecommendationPillar._('security');
+  static const serviceLimits = RecommendationPillar._('service_limits');
+  static const faultTolerance = RecommendationPillar._('fault_tolerance');
+  static const operationalExcellence =
+      RecommendationPillar._('operational_excellence');
 
   final String value;
 
-  const RecommendationPillar(this.value);
+  const RecommendationPillar._(this.value);
 
-  static RecommendationPillar fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationPillar'));
+  static const values = [
+    costOptimizing,
+    performance,
+    security,
+    serviceLimits,
+    faultTolerance,
+    operationalExcellence
+  ];
+
+  static RecommendationPillar fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationPillar._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationPillar && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Recommendation pillar aggregates
@@ -1884,7 +1939,7 @@ class RecommendationResourceSummary {
           .map((k, e) => MapEntry(k, e as String)),
       recommendationArn: (json['recommendationArn'] as String?) ?? '',
       regionCode: (json['regionCode'] as String?) ?? '',
-      status: ResourceStatus.fromString((json['status'] as String)),
+      status: ResourceStatus.fromString((json['status'] as String?) ?? ''),
       exclusionStatus:
           (json['exclusionStatus'] as String?)?.let(ExclusionStatus.fromString),
     );
@@ -1955,46 +2010,80 @@ class RecommendationResourcesAggregates {
   }
 }
 
-enum RecommendationSource {
-  awsConfig('aws_config'),
-  computeOptimizer('compute_optimizer'),
-  costExplorer('cost_explorer'),
-  lse('lse'),
-  manual('manual'),
-  pse('pse'),
-  rds('rds'),
-  resilience('resilience'),
-  resilienceHub('resilience_hub'),
-  securityHub('security_hub'),
-  stir('stir'),
-  taCheck('ta_check'),
-  wellArchitected('well_architected'),
-  ;
+class RecommendationSource {
+  static const awsConfig = RecommendationSource._('aws_config');
+  static const computeOptimizer = RecommendationSource._('compute_optimizer');
+  static const costExplorer = RecommendationSource._('cost_explorer');
+  static const lse = RecommendationSource._('lse');
+  static const manual = RecommendationSource._('manual');
+  static const pse = RecommendationSource._('pse');
+  static const rds = RecommendationSource._('rds');
+  static const resilience = RecommendationSource._('resilience');
+  static const resilienceHub = RecommendationSource._('resilience_hub');
+  static const securityHub = RecommendationSource._('security_hub');
+  static const stir = RecommendationSource._('stir');
+  static const taCheck = RecommendationSource._('ta_check');
+  static const wellArchitected = RecommendationSource._('well_architected');
 
   final String value;
 
-  const RecommendationSource(this.value);
+  const RecommendationSource._(this.value);
 
-  static RecommendationSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationSource'));
+  static const values = [
+    awsConfig,
+    computeOptimizer,
+    costExplorer,
+    lse,
+    manual,
+    pse,
+    rds,
+    resilience,
+    resilienceHub,
+    securityHub,
+    stir,
+    taCheck,
+    wellArchitected
+  ];
+
+  static RecommendationSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationStatus {
-  ok('ok'),
-  warning('warning'),
-  error('error'),
-  ;
+class RecommendationStatus {
+  static const ok = RecommendationStatus._('ok');
+  static const warning = RecommendationStatus._('warning');
+  static const error = RecommendationStatus._('error');
 
   final String value;
 
-  const RecommendationStatus(this.value);
+  const RecommendationStatus._(this.value);
 
-  static RecommendationStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationStatus'));
+  static const values = [ok, warning, error];
+
+  static RecommendationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of Recommendation for an Account
@@ -2072,9 +2161,11 @@ class RecommendationSummary {
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           (json['resourcesAggregates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      source: RecommendationSource.fromString((json['source'] as String)),
-      status: RecommendationStatus.fromString((json['status'] as String)),
-      type: RecommendationType.fromString((json['type'] as String)),
+      source:
+          RecommendationSource.fromString((json['source'] as String?) ?? ''),
+      status:
+          RecommendationStatus.fromString((json['status'] as String?) ?? ''),
+      type: RecommendationType.fromString((json['type'] as String?) ?? ''),
       awsServices: (json['awsServices'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2126,73 +2217,128 @@ class RecommendationSummary {
   }
 }
 
-enum RecommendationType {
-  standard('standard'),
-  priority('priority'),
-  ;
+class RecommendationType {
+  static const standard = RecommendationType._('standard');
+  static const priority = RecommendationType._('priority');
 
   final String value;
 
-  const RecommendationType(this.value);
+  const RecommendationType._(this.value);
 
-  static RecommendationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationType'));
+  static const values = [standard, priority];
+
+  static RecommendationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceStatus {
-  ok('ok'),
-  warning('warning'),
-  error('error'),
-  ;
+class ResourceStatus {
+  static const ok = ResourceStatus._('ok');
+  static const warning = ResourceStatus._('warning');
+  static const error = ResourceStatus._('error');
 
   final String value;
 
-  const ResourceStatus(this.value);
+  const ResourceStatus._(this.value);
+
+  static const values = [ok, warning, error];
 
   static ResourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStatus'));
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UpdateRecommendationLifecycleStage {
-  pendingResponse('pending_response'),
-  inProgress('in_progress'),
-  dismissed('dismissed'),
-  resolved('resolved'),
-  ;
+class UpdateRecommendationLifecycleStage {
+  static const pendingResponse =
+      UpdateRecommendationLifecycleStage._('pending_response');
+  static const inProgress = UpdateRecommendationLifecycleStage._('in_progress');
+  static const dismissed = UpdateRecommendationLifecycleStage._('dismissed');
+  static const resolved = UpdateRecommendationLifecycleStage._('resolved');
 
   final String value;
 
-  const UpdateRecommendationLifecycleStage(this.value);
+  const UpdateRecommendationLifecycleStage._(this.value);
+
+  static const values = [pendingResponse, inProgress, dismissed, resolved];
 
   static UpdateRecommendationLifecycleStage fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateRecommendationLifecycleStage'));
+          orElse: () => UpdateRecommendationLifecycleStage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateRecommendationLifecycleStage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UpdateRecommendationLifecycleStageReasonCode {
-  nonCriticalAccount('non_critical_account'),
-  temporaryAccount('temporary_account'),
-  validBusinessCase('valid_business_case'),
-  otherMethodsAvailable('other_methods_available'),
-  lowPriority('low_priority'),
-  notApplicable('not_applicable'),
-  other('other'),
-  ;
+class UpdateRecommendationLifecycleStageReasonCode {
+  static const nonCriticalAccount =
+      UpdateRecommendationLifecycleStageReasonCode._('non_critical_account');
+  static const temporaryAccount =
+      UpdateRecommendationLifecycleStageReasonCode._('temporary_account');
+  static const validBusinessCase =
+      UpdateRecommendationLifecycleStageReasonCode._('valid_business_case');
+  static const otherMethodsAvailable =
+      UpdateRecommendationLifecycleStageReasonCode._('other_methods_available');
+  static const lowPriority =
+      UpdateRecommendationLifecycleStageReasonCode._('low_priority');
+  static const notApplicable =
+      UpdateRecommendationLifecycleStageReasonCode._('not_applicable');
+  static const other = UpdateRecommendationLifecycleStageReasonCode._('other');
 
   final String value;
 
-  const UpdateRecommendationLifecycleStageReasonCode(this.value);
+  const UpdateRecommendationLifecycleStageReasonCode._(this.value);
+
+  static const values = [
+    nonCriticalAccount,
+    temporaryAccount,
+    validBusinessCase,
+    otherMethodsAvailable,
+    lowPriority,
+    notApplicable,
+    other
+  ];
 
   static UpdateRecommendationLifecycleStageReasonCode fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UpdateRecommendationLifecycleStageReasonCode'));
+          orElse: () => UpdateRecommendationLifecycleStageReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateRecommendationLifecycleStageReasonCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The error entry for Recommendation Resource exclusion. Each entry is a

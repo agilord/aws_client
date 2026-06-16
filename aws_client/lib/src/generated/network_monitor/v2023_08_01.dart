@@ -594,19 +594,28 @@ class CloudWatchNetworkMonitor {
   }
 }
 
-enum AddressFamily {
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  ;
+class AddressFamily {
+  static const ipv4 = AddressFamily._('IPV4');
+  static const ipv6 = AddressFamily._('IPV6');
 
   final String value;
 
-  const AddressFamily(this.value);
+  const AddressFamily._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static AddressFamily fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AddressFamily'));
+          orElse: () => AddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateMonitorOutput {
@@ -638,7 +647,7 @@ class CreateMonitorOutput {
     return CreateMonitorOutput(
       monitorArn: (json['monitorArn'] as String?) ?? '',
       monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String)),
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -779,7 +788,7 @@ class CreateProbeOutput {
   factory CreateProbeOutput.fromJson(Map<String, dynamic> json) {
     return CreateProbeOutput(
       destination: (json['destination'] as String?) ?? '',
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
@@ -895,7 +904,7 @@ class GetMonitorOutput {
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       monitorArn: (json['monitorArn'] as String?) ?? '',
       monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String)),
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
       probes: (json['probes'] as List?)
           ?.nonNulls
           .map((e) => Probe.fromJson(e as Map<String, dynamic>))
@@ -992,7 +1001,7 @@ class GetProbeOutput {
   factory GetProbeOutput.fromJson(Map<String, dynamic> json) {
     return GetProbeOutput(
       destination: (json['destination'] as String?) ?? '',
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
@@ -1096,22 +1105,30 @@ class ListTagsForResourceOutput {
   }
 }
 
-enum MonitorState {
-  pending('PENDING'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  error('ERROR'),
-  deleting('DELETING'),
-  ;
+class MonitorState {
+  static const pending = MonitorState._('PENDING');
+  static const active = MonitorState._('ACTIVE');
+  static const inactive = MonitorState._('INACTIVE');
+  static const error = MonitorState._('ERROR');
+  static const deleting = MonitorState._('DELETING');
 
   final String value;
 
-  const MonitorState(this.value);
+  const MonitorState._(this.value);
 
-  static MonitorState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MonitorState'));
+  static const values = [pending, active, inactive, error, deleting];
+
+  static MonitorState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MonitorState._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Displays summary information about a monitor.
@@ -1144,7 +1161,7 @@ class MonitorSummary {
     return MonitorSummary(
       monitorArn: (json['monitorArn'] as String?) ?? '',
       monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String)),
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1233,7 +1250,7 @@ class Probe {
   factory Probe.fromJson(Map<String, dynamic> json) {
     return Probe(
       destination: (json['destination'] as String?) ?? '',
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
@@ -1335,36 +1352,54 @@ class ProbeInput {
   }
 }
 
-enum ProbeState {
-  pending('PENDING'),
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  error('ERROR'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class ProbeState {
+  static const pending = ProbeState._('PENDING');
+  static const active = ProbeState._('ACTIVE');
+  static const inactive = ProbeState._('INACTIVE');
+  static const error = ProbeState._('ERROR');
+  static const deleting = ProbeState._('DELETING');
+  static const deleted = ProbeState._('DELETED');
 
   final String value;
 
-  const ProbeState(this.value);
+  const ProbeState._(this.value);
 
-  static ProbeState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ProbeState'));
+  static const values = [pending, active, inactive, error, deleting, deleted];
+
+  static ProbeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProbeState._(value));
+
+  @override
+  bool operator ==(other) => other is ProbeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Protocol {
-  tcp('TCP'),
-  icmp('ICMP'),
-  ;
+class Protocol {
+  static const tcp = Protocol._('TCP');
+  static const icmp = Protocol._('ICMP');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [tcp, icmp];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceOutput {
@@ -1419,7 +1454,7 @@ class UpdateMonitorOutput {
     return UpdateMonitorOutput(
       monitorArn: (json['monitorArn'] as String?) ?? '',
       monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String)),
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1503,7 +1538,7 @@ class UpdateProbeOutput {
   factory UpdateProbeOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProbeOutput(
       destination: (json['destination'] as String?) ?? '',
-      protocol: Protocol.fromString((json['protocol'] as String)),
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
       sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),

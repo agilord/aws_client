@@ -1358,22 +1358,30 @@ class Operator {
   }
 }
 
-enum OperatorType {
-  eq('EQ'),
-  refEq('REF_EQ'),
-  le('LE'),
-  ge('GE'),
-  between('BETWEEN'),
-  ;
+class OperatorType {
+  static const eq = OperatorType._('EQ');
+  static const refEq = OperatorType._('REF_EQ');
+  static const le = OperatorType._('LE');
+  static const ge = OperatorType._('GE');
+  static const between = OperatorType._('BETWEEN');
 
   final String value;
 
-  const OperatorType(this.value);
+  const OperatorType._(this.value);
 
-  static OperatorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperatorType'));
+  static const values = [eq, refEq, le, ge, between];
+
+  static OperatorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OperatorType._(value));
+
+  @override
+  bool operator ==(other) => other is OperatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The attributes allowed or specified with a parameter object.
@@ -1928,19 +1936,28 @@ class TaskObject {
   }
 }
 
-enum TaskStatus {
-  finished('FINISHED'),
-  failed('FAILED'),
-  $false('FALSE'),
-  ;
+class TaskStatus {
+  static const finished = TaskStatus._('FINISHED');
+  static const failed = TaskStatus._('FAILED');
+  static const $false = TaskStatus._('FALSE');
 
   final String value;
 
-  const TaskStatus(this.value);
+  const TaskStatus._(this.value);
 
-  static TaskStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
+  static const values = [finished, failed, $false];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the output of ValidatePipelineDefinition.

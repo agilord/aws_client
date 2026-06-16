@@ -2573,52 +2573,107 @@ class Activity {
   }
 }
 
-enum ActivityType {
-  documentCheckedIn('DOCUMENT_CHECKED_IN'),
-  documentCheckedOut('DOCUMENT_CHECKED_OUT'),
-  documentRenamed('DOCUMENT_RENAMED'),
-  documentVersionUploaded('DOCUMENT_VERSION_UPLOADED'),
-  documentVersionDeleted('DOCUMENT_VERSION_DELETED'),
-  documentVersionViewed('DOCUMENT_VERSION_VIEWED'),
-  documentVersionDownloaded('DOCUMENT_VERSION_DOWNLOADED'),
-  documentRecycled('DOCUMENT_RECYCLED'),
-  documentRestored('DOCUMENT_RESTORED'),
-  documentReverted('DOCUMENT_REVERTED'),
-  documentShared('DOCUMENT_SHARED'),
-  documentUnshared('DOCUMENT_UNSHARED'),
-  documentSharePermissionChanged('DOCUMENT_SHARE_PERMISSION_CHANGED'),
-  documentShareableLinkCreated('DOCUMENT_SHAREABLE_LINK_CREATED'),
-  documentShareableLinkRemoved('DOCUMENT_SHAREABLE_LINK_REMOVED'),
-  documentShareableLinkPermissionChanged(
-      'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED'),
-  documentMoved('DOCUMENT_MOVED'),
-  documentCommentAdded('DOCUMENT_COMMENT_ADDED'),
-  documentCommentDeleted('DOCUMENT_COMMENT_DELETED'),
-  documentAnnotationAdded('DOCUMENT_ANNOTATION_ADDED'),
-  documentAnnotationDeleted('DOCUMENT_ANNOTATION_DELETED'),
-  folderCreated('FOLDER_CREATED'),
-  folderDeleted('FOLDER_DELETED'),
-  folderRenamed('FOLDER_RENAMED'),
-  folderRecycled('FOLDER_RECYCLED'),
-  folderRestored('FOLDER_RESTORED'),
-  folderShared('FOLDER_SHARED'),
-  folderUnshared('FOLDER_UNSHARED'),
-  folderSharePermissionChanged('FOLDER_SHARE_PERMISSION_CHANGED'),
-  folderShareableLinkCreated('FOLDER_SHAREABLE_LINK_CREATED'),
-  folderShareableLinkRemoved('FOLDER_SHAREABLE_LINK_REMOVED'),
-  folderShareableLinkPermissionChanged(
-      'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED'),
-  folderMoved('FOLDER_MOVED'),
-  ;
+class ActivityType {
+  static const documentCheckedIn = ActivityType._('DOCUMENT_CHECKED_IN');
+  static const documentCheckedOut = ActivityType._('DOCUMENT_CHECKED_OUT');
+  static const documentRenamed = ActivityType._('DOCUMENT_RENAMED');
+  static const documentVersionUploaded =
+      ActivityType._('DOCUMENT_VERSION_UPLOADED');
+  static const documentVersionDeleted =
+      ActivityType._('DOCUMENT_VERSION_DELETED');
+  static const documentVersionViewed =
+      ActivityType._('DOCUMENT_VERSION_VIEWED');
+  static const documentVersionDownloaded =
+      ActivityType._('DOCUMENT_VERSION_DOWNLOADED');
+  static const documentRecycled = ActivityType._('DOCUMENT_RECYCLED');
+  static const documentRestored = ActivityType._('DOCUMENT_RESTORED');
+  static const documentReverted = ActivityType._('DOCUMENT_REVERTED');
+  static const documentShared = ActivityType._('DOCUMENT_SHARED');
+  static const documentUnshared = ActivityType._('DOCUMENT_UNSHARED');
+  static const documentSharePermissionChanged =
+      ActivityType._('DOCUMENT_SHARE_PERMISSION_CHANGED');
+  static const documentShareableLinkCreated =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_CREATED');
+  static const documentShareableLinkRemoved =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_REMOVED');
+  static const documentShareableLinkPermissionChanged =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED');
+  static const documentMoved = ActivityType._('DOCUMENT_MOVED');
+  static const documentCommentAdded = ActivityType._('DOCUMENT_COMMENT_ADDED');
+  static const documentCommentDeleted =
+      ActivityType._('DOCUMENT_COMMENT_DELETED');
+  static const documentAnnotationAdded =
+      ActivityType._('DOCUMENT_ANNOTATION_ADDED');
+  static const documentAnnotationDeleted =
+      ActivityType._('DOCUMENT_ANNOTATION_DELETED');
+  static const folderCreated = ActivityType._('FOLDER_CREATED');
+  static const folderDeleted = ActivityType._('FOLDER_DELETED');
+  static const folderRenamed = ActivityType._('FOLDER_RENAMED');
+  static const folderRecycled = ActivityType._('FOLDER_RECYCLED');
+  static const folderRestored = ActivityType._('FOLDER_RESTORED');
+  static const folderShared = ActivityType._('FOLDER_SHARED');
+  static const folderUnshared = ActivityType._('FOLDER_UNSHARED');
+  static const folderSharePermissionChanged =
+      ActivityType._('FOLDER_SHARE_PERMISSION_CHANGED');
+  static const folderShareableLinkCreated =
+      ActivityType._('FOLDER_SHAREABLE_LINK_CREATED');
+  static const folderShareableLinkRemoved =
+      ActivityType._('FOLDER_SHAREABLE_LINK_REMOVED');
+  static const folderShareableLinkPermissionChanged =
+      ActivityType._('FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED');
+  static const folderMoved = ActivityType._('FOLDER_MOVED');
 
   final String value;
 
-  const ActivityType(this.value);
+  const ActivityType._(this.value);
 
-  static ActivityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ActivityType'));
+  static const values = [
+    documentCheckedIn,
+    documentCheckedOut,
+    documentRenamed,
+    documentVersionUploaded,
+    documentVersionDeleted,
+    documentVersionViewed,
+    documentVersionDownloaded,
+    documentRecycled,
+    documentRestored,
+    documentReverted,
+    documentShared,
+    documentUnshared,
+    documentSharePermissionChanged,
+    documentShareableLinkCreated,
+    documentShareableLinkRemoved,
+    documentShareableLinkPermissionChanged,
+    documentMoved,
+    documentCommentAdded,
+    documentCommentDeleted,
+    documentAnnotationAdded,
+    documentAnnotationDeleted,
+    folderCreated,
+    folderDeleted,
+    folderRenamed,
+    folderRecycled,
+    folderRestored,
+    folderShared,
+    folderUnshared,
+    folderSharePermissionChanged,
+    folderShareableLinkCreated,
+    folderShareableLinkRemoved,
+    folderShareableLinkPermissionChanged,
+    folderMoved
+  ];
+
+  static ActivityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActivityType._(value));
+
+  @override
+  bool operator ==(other) => other is ActivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddResourcePermissionsResponse {
@@ -2646,33 +2701,52 @@ class AddResourcePermissionsResponse {
   }
 }
 
-enum AdditionalResponseFieldType {
-  weburl('WEBURL'),
-  ;
+class AdditionalResponseFieldType {
+  static const weburl = AdditionalResponseFieldType._('WEBURL');
 
   final String value;
 
-  const AdditionalResponseFieldType(this.value);
+  const AdditionalResponseFieldType._(this.value);
+
+  static const values = [weburl];
 
   static AdditionalResponseFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AdditionalResponseFieldType'));
+          orElse: () => AdditionalResponseFieldType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalResponseFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum BooleanEnumType {
-  $true('TRUE'),
-  $false('FALSE'),
-  ;
+class BooleanEnumType {
+  static const $true = BooleanEnumType._('TRUE');
+  static const $false = BooleanEnumType._('FALSE');
 
   final String value;
 
-  const BooleanEnumType(this.value);
+  const BooleanEnumType._(this.value);
+
+  static const values = [$true, $false];
 
   static BooleanEnumType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BooleanEnumType'));
+          orElse: () => BooleanEnumType._(value));
+
+  @override
+  bool operator ==(other) => other is BooleanEnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a comment.
@@ -2824,57 +2898,96 @@ class CommentMetadata {
   }
 }
 
-enum CommentStatusType {
-  draft('DRAFT'),
-  published('PUBLISHED'),
-  deleted('DELETED'),
-  ;
+class CommentStatusType {
+  static const draft = CommentStatusType._('DRAFT');
+  static const published = CommentStatusType._('PUBLISHED');
+  static const deleted = CommentStatusType._('DELETED');
 
   final String value;
 
-  const CommentStatusType(this.value);
+  const CommentStatusType._(this.value);
+
+  static const values = [draft, published, deleted];
 
   static CommentStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CommentStatusType'));
+          orElse: () => CommentStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is CommentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CommentVisibilityType {
-  public('PUBLIC'),
-  private('PRIVATE'),
-  ;
+class CommentVisibilityType {
+  static const public = CommentVisibilityType._('PUBLIC');
+  static const private = CommentVisibilityType._('PRIVATE');
 
   final String value;
 
-  const CommentVisibilityType(this.value);
+  const CommentVisibilityType._(this.value);
 
-  static CommentVisibilityType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CommentVisibilityType'));
+  static const values = [public, private];
+
+  static CommentVisibilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CommentVisibilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CommentVisibilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContentCategoryType {
-  image('IMAGE'),
-  document('DOCUMENT'),
-  pdf('PDF'),
-  spreadsheet('SPREADSHEET'),
-  presentation('PRESENTATION'),
-  audio('AUDIO'),
-  video('VIDEO'),
-  sourceCode('SOURCE_CODE'),
-  other('OTHER'),
-  ;
+class ContentCategoryType {
+  static const image = ContentCategoryType._('IMAGE');
+  static const document = ContentCategoryType._('DOCUMENT');
+  static const pdf = ContentCategoryType._('PDF');
+  static const spreadsheet = ContentCategoryType._('SPREADSHEET');
+  static const presentation = ContentCategoryType._('PRESENTATION');
+  static const audio = ContentCategoryType._('AUDIO');
+  static const video = ContentCategoryType._('VIDEO');
+  static const sourceCode = ContentCategoryType._('SOURCE_CODE');
+  static const other = ContentCategoryType._('OTHER');
 
   final String value;
 
-  const ContentCategoryType(this.value);
+  const ContentCategoryType._(this.value);
 
-  static ContentCategoryType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ContentCategoryType'));
+  static const values = [
+    image,
+    document,
+    pdf,
+    spreadsheet,
+    presentation,
+    audio,
+    video,
+    sourceCode,
+    other
+  ];
+
+  static ContentCategoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentCategoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentCategoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateCommentResponse {
@@ -3440,50 +3553,80 @@ class DocumentMetadata {
   }
 }
 
-enum DocumentSourceType {
-  original('ORIGINAL'),
-  withComments('WITH_COMMENTS'),
-  ;
+class DocumentSourceType {
+  static const original = DocumentSourceType._('ORIGINAL');
+  static const withComments = DocumentSourceType._('WITH_COMMENTS');
 
   final String value;
 
-  const DocumentSourceType(this.value);
+  const DocumentSourceType._(this.value);
 
-  static DocumentSourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentSourceType'));
+  static const values = [original, withComments];
+
+  static DocumentSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DocumentStatusType {
-  initialized('INITIALIZED'),
-  active('ACTIVE'),
-  ;
+class DocumentStatusType {
+  static const initialized = DocumentStatusType._('INITIALIZED');
+  static const active = DocumentStatusType._('ACTIVE');
 
   final String value;
 
-  const DocumentStatusType(this.value);
+  const DocumentStatusType._(this.value);
 
-  static DocumentStatusType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentStatusType'));
+  static const values = [initialized, active];
+
+  static DocumentStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DocumentThumbnailType {
-  small('SMALL'),
-  smallHq('SMALL_HQ'),
-  large('LARGE'),
-  ;
+class DocumentThumbnailType {
+  static const small = DocumentThumbnailType._('SMALL');
+  static const smallHq = DocumentThumbnailType._('SMALL_HQ');
+  static const large = DocumentThumbnailType._('LARGE');
 
   final String value;
 
-  const DocumentThumbnailType(this.value);
+  const DocumentThumbnailType._(this.value);
 
-  static DocumentThumbnailType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentThumbnailType'));
+  static const values = [small, smallHq, large];
+
+  static DocumentThumbnailType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentThumbnailType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentThumbnailType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a version of a document.
@@ -3603,18 +3746,28 @@ class DocumentVersionMetadata {
   }
 }
 
-enum DocumentVersionStatus {
-  active('ACTIVE'),
-  ;
+class DocumentVersionStatus {
+  static const active = DocumentVersionStatus._('ACTIVE');
 
   final String value;
 
-  const DocumentVersionStatus(this.value);
+  const DocumentVersionStatus._(this.value);
 
-  static DocumentVersionStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DocumentVersionStatus'));
+  static const values = [active];
+
+  static DocumentVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filters results based on entity metadata.
@@ -3693,20 +3846,29 @@ class Filters {
   }
 }
 
-enum FolderContentType {
-  all('ALL'),
-  document('DOCUMENT'),
-  folder('FOLDER'),
-  ;
+class FolderContentType {
+  static const all = FolderContentType._('ALL');
+  static const document = FolderContentType._('DOCUMENT');
+  static const folder = FolderContentType._('FOLDER');
 
   final String value;
 
-  const FolderContentType(this.value);
+  const FolderContentType._(this.value);
+
+  static const values = [all, document, folder];
 
   static FolderContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FolderContentType'));
+          orElse: () => FolderContentType._(value));
+
+  @override
+  bool operator ==(other) => other is FolderContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a folder.
@@ -4084,71 +4246,133 @@ class InitiateDocumentVersionUploadResponse {
   }
 }
 
-enum LanguageCodeType {
-  ar('AR'),
-  bg('BG'),
-  bn('BN'),
-  da('DA'),
-  de('DE'),
-  cs('CS'),
-  el('EL'),
-  en('EN'),
-  es('ES'),
-  fa('FA'),
-  fi('FI'),
-  fr('FR'),
-  hi('HI'),
-  hu('HU'),
-  id('ID'),
-  it('IT'),
-  ja('JA'),
-  ko('KO'),
-  lt('LT'),
-  lv('LV'),
-  nl('NL'),
-  no('NO'),
-  pt('PT'),
-  ro('RO'),
-  ru('RU'),
-  sv('SV'),
-  sw('SW'),
-  th('TH'),
-  tr('TR'),
-  zh('ZH'),
-  $default('DEFAULT'),
-  ;
+class LanguageCodeType {
+  static const ar = LanguageCodeType._('AR');
+  static const bg = LanguageCodeType._('BG');
+  static const bn = LanguageCodeType._('BN');
+  static const da = LanguageCodeType._('DA');
+  static const de = LanguageCodeType._('DE');
+  static const cs = LanguageCodeType._('CS');
+  static const el = LanguageCodeType._('EL');
+  static const en = LanguageCodeType._('EN');
+  static const es = LanguageCodeType._('ES');
+  static const fa = LanguageCodeType._('FA');
+  static const fi = LanguageCodeType._('FI');
+  static const fr = LanguageCodeType._('FR');
+  static const hi = LanguageCodeType._('HI');
+  static const hu = LanguageCodeType._('HU');
+  static const id = LanguageCodeType._('ID');
+  static const it = LanguageCodeType._('IT');
+  static const ja = LanguageCodeType._('JA');
+  static const ko = LanguageCodeType._('KO');
+  static const lt = LanguageCodeType._('LT');
+  static const lv = LanguageCodeType._('LV');
+  static const nl = LanguageCodeType._('NL');
+  static const no = LanguageCodeType._('NO');
+  static const pt = LanguageCodeType._('PT');
+  static const ro = LanguageCodeType._('RO');
+  static const ru = LanguageCodeType._('RU');
+  static const sv = LanguageCodeType._('SV');
+  static const sw = LanguageCodeType._('SW');
+  static const th = LanguageCodeType._('TH');
+  static const tr = LanguageCodeType._('TR');
+  static const zh = LanguageCodeType._('ZH');
+  static const $default = LanguageCodeType._('DEFAULT');
 
   final String value;
 
-  const LanguageCodeType(this.value);
+  const LanguageCodeType._(this.value);
+
+  static const values = [
+    ar,
+    bg,
+    bn,
+    da,
+    de,
+    cs,
+    el,
+    en,
+    es,
+    fa,
+    fi,
+    fr,
+    hi,
+    hu,
+    id,
+    it,
+    ja,
+    ko,
+    lt,
+    lv,
+    nl,
+    no,
+    pt,
+    ro,
+    ru,
+    sv,
+    sw,
+    th,
+    tr,
+    zh,
+    $default
+  ];
 
   static LanguageCodeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LanguageCodeType'));
+          orElse: () => LanguageCodeType._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocaleType {
-  en('en'),
-  fr('fr'),
-  ko('ko'),
-  de('de'),
-  es('es'),
-  ja('ja'),
-  ru('ru'),
-  zhCn('zh_CN'),
-  zhTw('zh_TW'),
-  ptBr('pt_BR'),
-  $default('default'),
-  ;
+class LocaleType {
+  static const en = LocaleType._('en');
+  static const fr = LocaleType._('fr');
+  static const ko = LocaleType._('ko');
+  static const de = LocaleType._('de');
+  static const es = LocaleType._('es');
+  static const ja = LocaleType._('ja');
+  static const ru = LocaleType._('ru');
+  static const zhCn = LocaleType._('zh_CN');
+  static const zhTw = LocaleType._('zh_TW');
+  static const ptBr = LocaleType._('pt_BR');
+  static const $default = LocaleType._('default');
 
   final String value;
 
-  const LocaleType(this.value);
+  const LocaleType._(this.value);
 
-  static LocaleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LocaleType'));
+  static const values = [
+    en,
+    fr,
+    ko,
+    de,
+    es,
+    ja,
+    ru,
+    zhCn,
+    zhTw,
+    ptBr,
+    $default
+  ];
+
+  static LocaleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocaleType._(value));
+
+  @override
+  bool operator ==(other) => other is LocaleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filter based on size (in bytes).
@@ -4198,36 +4422,60 @@ class NotificationOptions {
   }
 }
 
-enum OrderByFieldType {
-  relevance('RELEVANCE'),
-  name('NAME'),
-  size('SIZE'),
-  createdTimestamp('CREATED_TIMESTAMP'),
-  modifiedTimestamp('MODIFIED_TIMESTAMP'),
-  ;
+class OrderByFieldType {
+  static const relevance = OrderByFieldType._('RELEVANCE');
+  static const name = OrderByFieldType._('NAME');
+  static const size = OrderByFieldType._('SIZE');
+  static const createdTimestamp = OrderByFieldType._('CREATED_TIMESTAMP');
+  static const modifiedTimestamp = OrderByFieldType._('MODIFIED_TIMESTAMP');
 
   final String value;
 
-  const OrderByFieldType(this.value);
+  const OrderByFieldType._(this.value);
+
+  static const values = [
+    relevance,
+    name,
+    size,
+    createdTimestamp,
+    modifiedTimestamp
+  ];
 
   static OrderByFieldType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OrderByFieldType'));
+          orElse: () => OrderByFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is OrderByFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrderType {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class OrderType {
+  static const ascending = OrderType._('ASCENDING');
+  static const descending = OrderType._('DESCENDING');
 
   final String value;
 
-  const OrderType(this.value);
+  const OrderType._(this.value);
 
-  static OrderType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderType'));
+  static const values = [ascending, descending];
+
+  static OrderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderType._(value));
+
+  @override
+  bool operator ==(other) => other is OrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the users or user groups.
@@ -4336,53 +4584,81 @@ class Principal {
   }
 }
 
-enum PrincipalRoleType {
-  viewer('VIEWER'),
-  contributor('CONTRIBUTOR'),
-  owner('OWNER'),
-  coowner('COOWNER'),
-  ;
+class PrincipalRoleType {
+  static const viewer = PrincipalRoleType._('VIEWER');
+  static const contributor = PrincipalRoleType._('CONTRIBUTOR');
+  static const owner = PrincipalRoleType._('OWNER');
+  static const coowner = PrincipalRoleType._('COOWNER');
 
   final String value;
 
-  const PrincipalRoleType(this.value);
+  const PrincipalRoleType._(this.value);
+
+  static const values = [viewer, contributor, owner, coowner];
 
   static PrincipalRoleType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalRoleType'));
+          orElse: () => PrincipalRoleType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalRoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PrincipalType {
-  user('USER'),
-  group('GROUP'),
-  invite('INVITE'),
-  anonymous('ANONYMOUS'),
-  organization('ORGANIZATION'),
-  ;
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
+  static const invite = PrincipalType._('INVITE');
+  static const anonymous = PrincipalType._('ANONYMOUS');
+  static const organization = PrincipalType._('ORGANIZATION');
 
   final String value;
 
-  const PrincipalType(this.value);
+  const PrincipalType._(this.value);
+
+  static const values = [user, group, invite, anonymous, organization];
 
   static PrincipalType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PrincipalType'));
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceCollectionType {
-  sharedWithMe('SHARED_WITH_ME'),
-  ;
+class ResourceCollectionType {
+  static const sharedWithMe = ResourceCollectionType._('SHARED_WITH_ME');
 
   final String value;
 
-  const ResourceCollectionType(this.value);
+  const ResourceCollectionType._(this.value);
+
+  static const values = [sharedWithMe];
 
   static ResourceCollectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceCollectionType'));
+          orElse: () => ResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the metadata of a resource.
@@ -4509,51 +4785,77 @@ class ResourcePathComponent {
   }
 }
 
-enum ResourceSortType {
-  date('DATE'),
-  name('NAME'),
-  ;
+class ResourceSortType {
+  static const date = ResourceSortType._('DATE');
+  static const name = ResourceSortType._('NAME');
 
   final String value;
 
-  const ResourceSortType(this.value);
+  const ResourceSortType._(this.value);
+
+  static const values = [date, name];
 
   static ResourceSortType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceSortType'));
+          orElse: () => ResourceSortType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceStateType {
-  active('ACTIVE'),
-  restoring('RESTORING'),
-  recycling('RECYCLING'),
-  recycled('RECYCLED'),
-  ;
+class ResourceStateType {
+  static const active = ResourceStateType._('ACTIVE');
+  static const restoring = ResourceStateType._('RESTORING');
+  static const recycling = ResourceStateType._('RECYCLING');
+  static const recycled = ResourceStateType._('RECYCLED');
 
   final String value;
 
-  const ResourceStateType(this.value);
+  const ResourceStateType._(this.value);
+
+  static const values = [active, restoring, recycling, recycled];
 
   static ResourceStateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceStateType'));
+          orElse: () => ResourceStateType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceType {
-  folder('FOLDER'),
-  document('DOCUMENT'),
-  ;
+class ResourceType {
+  static const folder = ResourceType._('FOLDER');
+  static const document = ResourceType._('DOCUMENT');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [folder, document];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// List of Documents, Folders, Comments, and Document Versions matching the
@@ -4629,67 +4931,105 @@ class ResponseItem {
   }
 }
 
-enum ResponseItemType {
-  document('DOCUMENT'),
-  folder('FOLDER'),
-  comment('COMMENT'),
-  documentVersion('DOCUMENT_VERSION'),
-  ;
+class ResponseItemType {
+  static const document = ResponseItemType._('DOCUMENT');
+  static const folder = ResponseItemType._('FOLDER');
+  static const comment = ResponseItemType._('COMMENT');
+  static const documentVersion = ResponseItemType._('DOCUMENT_VERSION');
 
   final String value;
 
-  const ResponseItemType(this.value);
+  const ResponseItemType._(this.value);
+
+  static const values = [document, folder, comment, documentVersion];
 
   static ResponseItemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResponseItemType'));
+          orElse: () => ResponseItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ResponseItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RolePermissionType {
-  direct('DIRECT'),
-  inherited('INHERITED'),
-  ;
+class RolePermissionType {
+  static const direct = RolePermissionType._('DIRECT');
+  static const inherited = RolePermissionType._('INHERITED');
 
   final String value;
 
-  const RolePermissionType(this.value);
+  const RolePermissionType._(this.value);
 
-  static RolePermissionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RolePermissionType'));
+  static const values = [direct, inherited];
+
+  static RolePermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RolePermissionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RolePermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RoleType {
-  viewer('VIEWER'),
-  contributor('CONTRIBUTOR'),
-  owner('OWNER'),
-  coowner('COOWNER'),
-  ;
+class RoleType {
+  static const viewer = RoleType._('VIEWER');
+  static const contributor = RoleType._('CONTRIBUTOR');
+  static const owner = RoleType._('OWNER');
+  static const coowner = RoleType._('COOWNER');
 
   final String value;
 
-  const RoleType(this.value);
+  const RoleType._(this.value);
 
-  static RoleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RoleType'));
+  static const values = [viewer, contributor, owner, coowner];
+
+  static RoleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RoleType._(value));
+
+  @override
+  bool operator ==(other) => other is RoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SearchCollectionType {
-  owned('OWNED'),
-  sharedWithMe('SHARED_WITH_ME'),
-  ;
+class SearchCollectionType {
+  static const owned = SearchCollectionType._('OWNED');
+  static const sharedWithMe = SearchCollectionType._('SHARED_WITH_ME');
 
   final String value;
 
-  const SearchCollectionType(this.value);
+  const SearchCollectionType._(this.value);
 
-  static SearchCollectionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SearchCollectionType'));
+  static const values = [owned, sharedWithMe];
+
+  static SearchCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Filter based on UserIds or GroupIds.
@@ -4715,36 +5055,56 @@ class SearchPrincipalType {
   }
 }
 
-enum SearchQueryScopeType {
-  name('NAME'),
-  content('CONTENT'),
-  ;
+class SearchQueryScopeType {
+  static const name = SearchQueryScopeType._('NAME');
+  static const content = SearchQueryScopeType._('CONTENT');
 
   final String value;
 
-  const SearchQueryScopeType(this.value);
+  const SearchQueryScopeType._(this.value);
 
-  static SearchQueryScopeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SearchQueryScopeType'));
+  static const values = [name, content];
+
+  static SearchQueryScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchQueryScopeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchQueryScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SearchResourceType {
-  folder('FOLDER'),
-  document('DOCUMENT'),
-  comment('COMMENT'),
-  documentVersion('DOCUMENT_VERSION'),
-  ;
+class SearchResourceType {
+  static const folder = SearchResourceType._('FOLDER');
+  static const document = SearchResourceType._('DOCUMENT');
+  static const comment = SearchResourceType._('COMMENT');
+  static const documentVersion = SearchResourceType._('DOCUMENT_VERSION');
 
   final String value;
 
-  const SearchResourceType(this.value);
+  const SearchResourceType._(this.value);
 
-  static SearchResourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SearchResourceType'));
+  static const values = [folder, document, comment, documentVersion];
+
+  static SearchResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchResourcesResponse {
@@ -4891,33 +5251,51 @@ class ShareResult {
   }
 }
 
-enum ShareStatusType {
-  success('SUCCESS'),
-  failure('FAILURE'),
-  ;
+class ShareStatusType {
+  static const success = ShareStatusType._('SUCCESS');
+  static const failure = ShareStatusType._('FAILURE');
 
   final String value;
 
-  const ShareStatusType(this.value);
+  const ShareStatusType._(this.value);
+
+  static const values = [success, failure];
 
   static ShareStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ShareStatusType'));
+          orElse: () => ShareStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the storage for a user.
@@ -4952,18 +5330,27 @@ class StorageRuleType {
   }
 }
 
-enum StorageType {
-  unlimited('UNLIMITED'),
-  quota('QUOTA'),
-  ;
+class StorageType {
+  static const unlimited = StorageType._('UNLIMITED');
+  static const quota = StorageType._('QUOTA');
 
   final String value;
 
-  const StorageType(this.value);
+  const StorageType._(this.value);
 
-  static StorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageType'));
+  static const values = [unlimited, quota];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a subscription.
@@ -5004,33 +5391,52 @@ class Subscription {
   }
 }
 
-enum SubscriptionProtocolType {
-  https('HTTPS'),
-  sqs('SQS'),
-  ;
+class SubscriptionProtocolType {
+  static const https = SubscriptionProtocolType._('HTTPS');
+  static const sqs = SubscriptionProtocolType._('SQS');
 
   final String value;
 
-  const SubscriptionProtocolType(this.value);
+  const SubscriptionProtocolType._(this.value);
+
+  static const values = [https, sqs];
 
   static SubscriptionProtocolType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SubscriptionProtocolType'));
+          orElse: () => SubscriptionProtocolType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SubscriptionType {
-  all('ALL'),
-  ;
+class SubscriptionType {
+  static const all = SubscriptionType._('ALL');
 
   final String value;
 
-  const SubscriptionType(this.value);
+  const SubscriptionType._(this.value);
+
+  static const values = [all];
 
   static SubscriptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SubscriptionType'));
+          orElse: () => SubscriptionType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateUserResponse {
@@ -5214,19 +5620,28 @@ class User {
   }
 }
 
-enum UserFilterType {
-  all('ALL'),
-  activePending('ACTIVE_PENDING'),
-  ;
+class UserFilterType {
+  static const all = UserFilterType._('ALL');
+  static const activePending = UserFilterType._('ACTIVE_PENDING');
 
   final String value;
 
-  const UserFilterType(this.value);
+  const UserFilterType._(this.value);
+
+  static const values = [all, activePending];
 
   static UserFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserFilterType'));
+          orElse: () => UserFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is UserFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the metadata of the user.
@@ -5280,38 +5695,61 @@ class UserMetadata {
   }
 }
 
-enum UserSortType {
-  userName('USER_NAME'),
-  fullName('FULL_NAME'),
-  storageLimit('STORAGE_LIMIT'),
-  userStatus('USER_STATUS'),
-  storageUsed('STORAGE_USED'),
-  ;
+class UserSortType {
+  static const userName = UserSortType._('USER_NAME');
+  static const fullName = UserSortType._('FULL_NAME');
+  static const storageLimit = UserSortType._('STORAGE_LIMIT');
+  static const userStatus = UserSortType._('USER_STATUS');
+  static const storageUsed = UserSortType._('STORAGE_USED');
 
   final String value;
 
-  const UserSortType(this.value);
+  const UserSortType._(this.value);
 
-  static UserSortType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserSortType'));
+  static const values = [
+    userName,
+    fullName,
+    storageLimit,
+    userStatus,
+    storageUsed
+  ];
+
+  static UserSortType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserSortType._(value));
+
+  @override
+  bool operator ==(other) => other is UserSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserStatusType {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  pending('PENDING'),
-  ;
+class UserStatusType {
+  static const active = UserStatusType._('ACTIVE');
+  static const inactive = UserStatusType._('INACTIVE');
+  static const pending = UserStatusType._('PENDING');
 
   final String value;
 
-  const UserStatusType(this.value);
+  const UserStatusType._(this.value);
+
+  static const values = [active, inactive, pending];
 
   static UserStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserStatusType'));
+          orElse: () => UserStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the storage for a user.
@@ -5348,21 +5786,30 @@ class UserStorageMetadata {
   }
 }
 
-enum UserType {
-  user('USER'),
-  admin('ADMIN'),
-  poweruser('POWERUSER'),
-  minimaluser('MINIMALUSER'),
-  workspacesuser('WORKSPACESUSER'),
-  ;
+class UserType {
+  static const user = UserType._('USER');
+  static const admin = UserType._('ADMIN');
+  static const poweruser = UserType._('POWERUSER');
+  static const minimaluser = UserType._('MINIMALUSER');
+  static const workspacesuser = UserType._('WORKSPACESUSER');
 
   final String value;
 
-  const UserType(this.value);
+  const UserType._(this.value);
 
-  static UserType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UserType'));
+  static const values = [user, admin, poweruser, minimaluser, workspacesuser];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

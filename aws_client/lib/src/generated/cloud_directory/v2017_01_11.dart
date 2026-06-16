@@ -5082,30 +5082,66 @@ class BatchReadException {
   }
 }
 
-enum BatchReadExceptionType {
-  validationException('ValidationException'),
-  invalidArnException('InvalidArnException'),
-  resourceNotFoundException('ResourceNotFoundException'),
-  invalidNextTokenException('InvalidNextTokenException'),
-  accessDeniedException('AccessDeniedException'),
-  notNodeException('NotNodeException'),
-  facetValidationException('FacetValidationException'),
-  cannotListParentOfRootException('CannotListParentOfRootException'),
-  notIndexException('NotIndexException'),
-  notPolicyException('NotPolicyException'),
-  directoryNotEnabledException('DirectoryNotEnabledException'),
-  limitExceededException('LimitExceededException'),
-  internalServiceException('InternalServiceException'),
-  ;
+class BatchReadExceptionType {
+  static const validationException =
+      BatchReadExceptionType._('ValidationException');
+  static const invalidArnException =
+      BatchReadExceptionType._('InvalidArnException');
+  static const resourceNotFoundException =
+      BatchReadExceptionType._('ResourceNotFoundException');
+  static const invalidNextTokenException =
+      BatchReadExceptionType._('InvalidNextTokenException');
+  static const accessDeniedException =
+      BatchReadExceptionType._('AccessDeniedException');
+  static const notNodeException = BatchReadExceptionType._('NotNodeException');
+  static const facetValidationException =
+      BatchReadExceptionType._('FacetValidationException');
+  static const cannotListParentOfRootException =
+      BatchReadExceptionType._('CannotListParentOfRootException');
+  static const notIndexException =
+      BatchReadExceptionType._('NotIndexException');
+  static const notPolicyException =
+      BatchReadExceptionType._('NotPolicyException');
+  static const directoryNotEnabledException =
+      BatchReadExceptionType._('DirectoryNotEnabledException');
+  static const limitExceededException =
+      BatchReadExceptionType._('LimitExceededException');
+  static const internalServiceException =
+      BatchReadExceptionType._('InternalServiceException');
 
   final String value;
 
-  const BatchReadExceptionType(this.value);
+  const BatchReadExceptionType._(this.value);
+
+  static const values = [
+    validationException,
+    invalidArnException,
+    resourceNotFoundException,
+    invalidNextTokenException,
+    accessDeniedException,
+    notNodeException,
+    facetValidationException,
+    cannotListParentOfRootException,
+    notIndexException,
+    notPolicyException,
+    directoryNotEnabledException,
+    limitExceededException,
+    internalServiceException
+  ];
 
   static BatchReadExceptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BatchReadExceptionType'));
+          orElse: () => BatchReadExceptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchReadExceptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>BatchRead</code> operation.
@@ -5920,19 +5956,28 @@ class BatchWriteResponse {
   }
 }
 
-enum ConsistencyLevel {
-  serializable('SERIALIZABLE'),
-  eventual('EVENTUAL'),
-  ;
+class ConsistencyLevel {
+  static const serializable = ConsistencyLevel._('SERIALIZABLE');
+  static const eventual = ConsistencyLevel._('EVENTUAL');
 
   final String value;
 
-  const ConsistencyLevel(this.value);
+  const ConsistencyLevel._(this.value);
+
+  static const values = [serializable, eventual];
 
   static ConsistencyLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConsistencyLevel'));
+          orElse: () => ConsistencyLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ConsistencyLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateDirectoryResponse {
@@ -6259,20 +6304,29 @@ class Directory {
   }
 }
 
-enum DirectoryState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  deleted('DELETED'),
-  ;
+class DirectoryState {
+  static const enabled = DirectoryState._('ENABLED');
+  static const disabled = DirectoryState._('DISABLED');
+  static const deleted = DirectoryState._('DELETED');
 
   final String value;
 
-  const DirectoryState(this.value);
+  const DirectoryState._(this.value);
+
+  static const values = [enabled, disabled, deleted];
 
   static DirectoryState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectoryState'));
+          orElse: () => DirectoryState._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisableDirectoryResponse {
@@ -6446,7 +6500,7 @@ class FacetAttributeDefinition {
 
   factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return FacetAttributeDefinition(
-      type: FacetAttributeType.fromString((json['Type'] as String)),
+      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
       defaultValue: json['DefaultValue'] != null
           ? TypedAttributeValue.fromJson(
               json['DefaultValue'] as Map<String, dynamic>)
@@ -6507,23 +6561,33 @@ class FacetAttributeReference {
   }
 }
 
-enum FacetAttributeType {
-  string('STRING'),
-  binary('BINARY'),
-  boolean('BOOLEAN'),
-  number('NUMBER'),
-  datetime('DATETIME'),
-  variant('VARIANT'),
-  ;
+class FacetAttributeType {
+  static const string = FacetAttributeType._('STRING');
+  static const binary = FacetAttributeType._('BINARY');
+  static const boolean = FacetAttributeType._('BOOLEAN');
+  static const number = FacetAttributeType._('NUMBER');
+  static const datetime = FacetAttributeType._('DATETIME');
+  static const variant = FacetAttributeType._('VARIANT');
 
   final String value;
 
-  const FacetAttributeType(this.value);
+  const FacetAttributeType._(this.value);
 
-  static FacetAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FacetAttributeType'));
+  static const values = [string, binary, boolean, number, datetime, variant];
+
+  static FacetAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FacetAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FacetAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that contains information used to update an attribute.
@@ -6549,18 +6613,27 @@ class FacetAttributeUpdate {
   }
 }
 
-enum FacetStyle {
-  static('STATIC'),
-  $dynamic('DYNAMIC'),
-  ;
+class FacetStyle {
+  static const static = FacetStyle._('STATIC');
+  static const $dynamic = FacetStyle._('DYNAMIC');
 
   final String value;
 
-  const FacetStyle(this.value);
+  const FacetStyle._(this.value);
 
-  static FacetStyle fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FacetStyle'));
+  static const values = [static, $dynamic];
+
+  static FacetStyle fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FacetStyle._(value));
+
+  @override
+  bool operator ==(other) => other is FacetStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAppliedSchemaVersionResponse {
@@ -7714,20 +7787,29 @@ class ObjectReference {
   }
 }
 
-enum ObjectType {
-  node('NODE'),
-  leafNode('LEAF_NODE'),
-  policy('POLICY'),
-  $index('INDEX'),
-  ;
+class ObjectType {
+  static const node = ObjectType._('NODE');
+  static const leafNode = ObjectType._('LEAF_NODE');
+  static const policy = ObjectType._('POLICY');
+  static const $index = ObjectType._('INDEX');
 
   final String value;
 
-  const ObjectType(this.value);
+  const ObjectType._(this.value);
 
-  static ObjectType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ObjectType'));
+  static const values = [node, leafNode, policy, $index];
+
+  static ObjectType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ObjectType._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns the path to the <code>ObjectIdentifiers</code> that is associated
@@ -7887,21 +7969,37 @@ class PutSchemaFromJsonResponse {
   }
 }
 
-enum RangeMode {
-  first('FIRST'),
-  last('LAST'),
-  lastBeforeMissingValues('LAST_BEFORE_MISSING_VALUES'),
-  inclusive('INCLUSIVE'),
-  exclusive('EXCLUSIVE'),
-  ;
+class RangeMode {
+  static const first = RangeMode._('FIRST');
+  static const last = RangeMode._('LAST');
+  static const lastBeforeMissingValues =
+      RangeMode._('LAST_BEFORE_MISSING_VALUES');
+  static const inclusive = RangeMode._('INCLUSIVE');
+  static const exclusive = RangeMode._('EXCLUSIVE');
 
   final String value;
 
-  const RangeMode(this.value);
+  const RangeMode._(this.value);
 
-  static RangeMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RangeMode'));
+  static const values = [
+    first,
+    last,
+    lastBeforeMissingValues,
+    inclusive,
+    exclusive
+  ];
+
+  static RangeMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RangeMode._(value));
+
+  @override
+  bool operator ==(other) => other is RangeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RemoveFacetFromObjectResponse {
@@ -7916,19 +8014,29 @@ class RemoveFacetFromObjectResponse {
   }
 }
 
-enum RequiredAttributeBehavior {
-  requiredAlways('REQUIRED_ALWAYS'),
-  notRequired('NOT_REQUIRED'),
-  ;
+class RequiredAttributeBehavior {
+  static const requiredAlways = RequiredAttributeBehavior._('REQUIRED_ALWAYS');
+  static const notRequired = RequiredAttributeBehavior._('NOT_REQUIRED');
 
   final String value;
 
-  const RequiredAttributeBehavior(this.value);
+  const RequiredAttributeBehavior._(this.value);
+
+  static const values = [requiredAlways, notRequired];
 
   static RequiredAttributeBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RequiredAttributeBehavior'));
+          orElse: () => RequiredAttributeBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequiredAttributeBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains an Amazon Resource Name (ARN) and parameters that are associated
@@ -7963,20 +8071,34 @@ class Rule {
   }
 }
 
-enum RuleType {
-  binaryLength('BINARY_LENGTH'),
-  numberComparison('NUMBER_COMPARISON'),
-  stringFromSet('STRING_FROM_SET'),
-  stringLength('STRING_LENGTH'),
-  ;
+class RuleType {
+  static const binaryLength = RuleType._('BINARY_LENGTH');
+  static const numberComparison = RuleType._('NUMBER_COMPARISON');
+  static const stringFromSet = RuleType._('STRING_FROM_SET');
+  static const stringLength = RuleType._('STRING_LENGTH');
 
   final String value;
 
-  const RuleType(this.value);
+  const RuleType._(this.value);
 
-  static RuleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuleType'));
+  static const values = [
+    binaryLength,
+    numberComparison,
+    stringFromSet,
+    stringLength
+  ];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A facet.
@@ -8179,8 +8301,8 @@ class TypedLinkAttributeDefinition {
     return TypedLinkAttributeDefinition(
       name: (json['Name'] as String?) ?? '',
       requiredBehavior: RequiredAttributeBehavior.fromString(
-          (json['RequiredBehavior'] as String)),
-      type: FacetAttributeType.fromString((json['Type'] as String)),
+          (json['RequiredBehavior'] as String?) ?? ''),
+      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
       defaultValue: json['DefaultValue'] != null
           ? TypedAttributeValue.fromJson(
               json['DefaultValue'] as Map<String, dynamic>)
@@ -8396,19 +8518,28 @@ class UntagResourceResponse {
   }
 }
 
-enum UpdateActionType {
-  createOrUpdate('CREATE_OR_UPDATE'),
-  delete('DELETE'),
-  ;
+class UpdateActionType {
+  static const createOrUpdate = UpdateActionType._('CREATE_OR_UPDATE');
+  static const delete = UpdateActionType._('DELETE');
 
   final String value;
 
-  const UpdateActionType(this.value);
+  const UpdateActionType._(this.value);
+
+  static const values = [createOrUpdate, delete];
 
   static UpdateActionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UpdateActionType'));
+          orElse: () => UpdateActionType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateFacetResponse {

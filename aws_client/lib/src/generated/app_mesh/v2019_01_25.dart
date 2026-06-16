@@ -2673,19 +2673,29 @@ class CreateVirtualServiceOutput {
   }
 }
 
-enum DefaultGatewayRouteRewrite {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DefaultGatewayRouteRewrite {
+  static const enabled = DefaultGatewayRouteRewrite._('ENABLED');
+  static const disabled = DefaultGatewayRouteRewrite._('DISABLED');
 
   final String value;
 
-  const DefaultGatewayRouteRewrite(this.value);
+  const DefaultGatewayRouteRewrite._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DefaultGatewayRouteRewrite fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DefaultGatewayRouteRewrite'));
+          orElse: () => DefaultGatewayRouteRewrite._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultGatewayRouteRewrite && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteGatewayRouteOutput {
@@ -2922,19 +2932,28 @@ class DescribeVirtualServiceOutput {
   }
 }
 
-enum DnsResponseType {
-  loadbalancer('LOADBALANCER'),
-  endpoints('ENDPOINTS'),
-  ;
+class DnsResponseType {
+  static const loadbalancer = DnsResponseType._('LOADBALANCER');
+  static const endpoints = DnsResponseType._('ENDPOINTS');
 
   final String value;
 
-  const DnsResponseType(this.value);
+  const DnsResponseType._(this.value);
+
+  static const values = [loadbalancer, endpoints];
 
   static DnsResponseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DnsResponseType'));
+          orElse: () => DnsResponseType._(value));
+
+  @override
+  bool operator ==(other) => other is DnsResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the DNS service discovery information for your
@@ -3009,19 +3028,27 @@ class Duration {
   }
 }
 
-enum DurationUnit {
-  s('s'),
-  ms('ms'),
-  ;
+class DurationUnit {
+  static const s = DurationUnit._('s');
+  static const ms = DurationUnit._('ms');
 
   final String value;
 
-  const DurationUnit(this.value);
+  const DurationUnit._(this.value);
 
-  static DurationUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DurationUnit'));
+  static const values = [s, ms];
+
+  static DurationUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DurationUnit._(value));
+
+  @override
+  bool operator ==(other) => other is DurationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the egress filter rules for a service mesh.
@@ -3040,7 +3067,7 @@ class EgressFilter {
 
   factory EgressFilter.fromJson(Map<String, dynamic> json) {
     return EgressFilter(
-      type: EgressFilterType.fromString((json['type'] as String)),
+      type: EgressFilterType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -3052,19 +3079,28 @@ class EgressFilter {
   }
 }
 
-enum EgressFilterType {
-  allowAll('ALLOW_ALL'),
-  dropAll('DROP_ALL'),
-  ;
+class EgressFilterType {
+  static const allowAll = EgressFilterType._('ALLOW_ALL');
+  static const dropAll = EgressFilterType._('DROP_ALL');
 
   final String value;
 
-  const EgressFilterType(this.value);
+  const EgressFilterType._(this.value);
+
+  static const values = [allowAll, dropAll];
 
   static EgressFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EgressFilterType'));
+          orElse: () => EgressFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is EgressFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents an access log file.
@@ -3376,7 +3412,8 @@ class GatewayRouteStatus {
 
   factory GatewayRouteStatus.fromJson(Map<String, dynamic> json) {
     return GatewayRouteStatus(
-      status: GatewayRouteStatusCode.fromString((json['status'] as String)),
+      status:
+          GatewayRouteStatusCode.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -3388,20 +3425,30 @@ class GatewayRouteStatus {
   }
 }
 
-enum GatewayRouteStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class GatewayRouteStatusCode {
+  static const active = GatewayRouteStatusCode._('ACTIVE');
+  static const inactive = GatewayRouteStatusCode._('INACTIVE');
+  static const deleted = GatewayRouteStatusCode._('DELETED');
 
   final String value;
 
-  const GatewayRouteStatusCode(this.value);
+  const GatewayRouteStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static GatewayRouteStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GatewayRouteStatusCode'));
+          orElse: () => GatewayRouteStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GatewayRouteStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a gateway route target.
@@ -3787,22 +3834,38 @@ class GrpcRetryPolicy {
   }
 }
 
-enum GrpcRetryPolicyEvent {
-  cancelled('cancelled'),
-  deadlineExceeded('deadline-exceeded'),
-  internal('internal'),
-  resourceExhausted('resource-exhausted'),
-  unavailable('unavailable'),
-  ;
+class GrpcRetryPolicyEvent {
+  static const cancelled = GrpcRetryPolicyEvent._('cancelled');
+  static const deadlineExceeded = GrpcRetryPolicyEvent._('deadline-exceeded');
+  static const internal = GrpcRetryPolicyEvent._('internal');
+  static const resourceExhausted = GrpcRetryPolicyEvent._('resource-exhausted');
+  static const unavailable = GrpcRetryPolicyEvent._('unavailable');
 
   final String value;
 
-  const GrpcRetryPolicyEvent(this.value);
+  const GrpcRetryPolicyEvent._(this.value);
 
-  static GrpcRetryPolicyEvent fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GrpcRetryPolicyEvent'));
+  static const values = [
+    cancelled,
+    deadlineExceeded,
+    internal,
+    resourceExhausted,
+    unavailable
+  ];
+
+  static GrpcRetryPolicyEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GrpcRetryPolicyEvent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GrpcRetryPolicyEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a gRPC route type.
@@ -4167,7 +4230,7 @@ class HealthCheckPolicy {
     return HealthCheckPolicy(
       healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
       intervalMillis: (json['intervalMillis'] as int?) ?? 0,
-      protocol: PortProtocol.fromString((json['protocol'] as String)),
+      protocol: PortProtocol.fromString((json['protocol'] as String?) ?? ''),
       timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
       unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
@@ -4489,25 +4552,44 @@ class HttpGatewayRouteRewrite {
   }
 }
 
-enum HttpMethod {
-  get('GET'),
-  head('HEAD'),
-  post('POST'),
-  put('PUT'),
-  delete('DELETE'),
-  connect('CONNECT'),
-  options('OPTIONS'),
-  trace('TRACE'),
-  patch('PATCH'),
-  ;
+class HttpMethod {
+  static const get = HttpMethod._('GET');
+  static const head = HttpMethod._('HEAD');
+  static const post = HttpMethod._('POST');
+  static const put = HttpMethod._('PUT');
+  static const delete = HttpMethod._('DELETE');
+  static const connect = HttpMethod._('CONNECT');
+  static const options = HttpMethod._('OPTIONS');
+  static const trace = HttpMethod._('TRACE');
+  static const patch = HttpMethod._('PATCH');
 
   final String value;
 
-  const HttpMethod(this.value);
+  const HttpMethod._(this.value);
 
-  static HttpMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpMethod'));
+  static const values = [
+    get,
+    head,
+    post,
+    put,
+    delete,
+    connect,
+    options,
+    trace,
+    patch
+  ];
+
+  static HttpMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpMethod._(value));
+
+  @override
+  bool operator ==(other) => other is HttpMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the path to match in the request.
@@ -4850,18 +4932,27 @@ class HttpRouteMatch {
   }
 }
 
-enum HttpScheme {
-  http('http'),
-  https('https'),
-  ;
+class HttpScheme {
+  static const http = HttpScheme._('http');
+  static const https = HttpScheme._('https');
 
   final String value;
 
-  const HttpScheme(this.value);
+  const HttpScheme._(this.value);
 
-  static HttpScheme fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum HttpScheme'));
+  static const values = [http, https];
+
+  static HttpScheme fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpScheme._(value));
+
+  @override
+  bool operator ==(other) => other is HttpScheme && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents types of timeouts.
@@ -4904,21 +4995,29 @@ class HttpTimeout {
   }
 }
 
-enum IpPreference {
-  iPv6Preferred('IPv6_PREFERRED'),
-  iPv4Preferred('IPv4_PREFERRED'),
-  iPv4Only('IPv4_ONLY'),
-  iPv6Only('IPv6_ONLY'),
-  ;
+class IpPreference {
+  static const iPv6Preferred = IpPreference._('IPv6_PREFERRED');
+  static const iPv4Preferred = IpPreference._('IPv4_PREFERRED');
+  static const iPv4Only = IpPreference._('IPv4_ONLY');
+  static const iPv6Only = IpPreference._('IPv6_ONLY');
 
   final String value;
 
-  const IpPreference(this.value);
+  const IpPreference._(this.value);
 
-  static IpPreference fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpPreference'));
+  static const values = [iPv6Preferred, iPv4Preferred, iPv4Only, iPv6Only];
+
+  static IpPreference fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpPreference._(value));
+
+  @override
+  bool operator ==(other) => other is IpPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the key value pairs for the JSON.
@@ -5410,7 +5509,7 @@ class ListenerTls {
       certificate: ListenerTlsCertificate.fromJson(
           (json['certificate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      mode: ListenerTlsMode.fromString((json['mode'] as String)),
+      mode: ListenerTlsMode.fromString((json['mode'] as String?) ?? ''),
       validation: json['validation'] != null
           ? ListenerTlsValidationContext.fromJson(
               json['validation'] as Map<String, dynamic>)
@@ -5540,20 +5639,29 @@ class ListenerTlsFileCertificate {
   }
 }
 
-enum ListenerTlsMode {
-  strict('STRICT'),
-  permissive('PERMISSIVE'),
-  disabled('DISABLED'),
-  ;
+class ListenerTlsMode {
+  static const strict = ListenerTlsMode._('STRICT');
+  static const permissive = ListenerTlsMode._('PERMISSIVE');
+  static const disabled = ListenerTlsMode._('DISABLED');
 
   final String value;
 
-  const ListenerTlsMode(this.value);
+  const ListenerTlsMode._(this.value);
+
+  static const values = [strict, permissive, disabled];
 
   static ListenerTlsMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListenerTlsMode'));
+          orElse: () => ListenerTlsMode._(value));
+
+  @override
+  bool operator ==(other) => other is ListenerTlsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the listener's Secret Discovery Service
@@ -5959,20 +6067,29 @@ class MeshStatus {
   }
 }
 
-enum MeshStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class MeshStatusCode {
+  static const active = MeshStatusCode._('ACTIVE');
+  static const inactive = MeshStatusCode._('INACTIVE');
+  static const deleted = MeshStatusCode._('DELETED');
 
   final String value;
 
-  const MeshStatusCode(this.value);
+  const MeshStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static MeshStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MeshStatusCode'));
+          orElse: () => MeshStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is MeshStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the outlier detection for a virtual node's
@@ -6040,7 +6157,7 @@ class PortMapping {
   factory PortMapping.fromJson(Map<String, dynamic> json) {
     return PortMapping(
       port: (json['port'] as int?) ?? 0,
-      protocol: PortProtocol.fromString((json['protocol'] as String)),
+      protocol: PortProtocol.fromString((json['protocol'] as String?) ?? ''),
     );
   }
 
@@ -6054,21 +6171,29 @@ class PortMapping {
   }
 }
 
-enum PortProtocol {
-  http('http'),
-  tcp('tcp'),
-  http2('http2'),
-  grpc('grpc'),
-  ;
+class PortProtocol {
+  static const http = PortProtocol._('http');
+  static const tcp = PortProtocol._('tcp');
+  static const http2 = PortProtocol._('http2');
+  static const grpc = PortProtocol._('grpc');
 
   final String value;
 
-  const PortProtocol(this.value);
+  const PortProtocol._(this.value);
 
-  static PortProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PortProtocol'));
+  static const values = [http, tcp, http2, grpc];
+
+  static PortProtocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is PortProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object representing the query parameter to match.
@@ -6391,7 +6516,7 @@ class RouteStatus {
 
   factory RouteStatus.fromJson(Map<String, dynamic> json) {
     return RouteStatus(
-      status: RouteStatusCode.fromString((json['status'] as String)),
+      status: RouteStatusCode.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -6403,20 +6528,29 @@ class RouteStatus {
   }
 }
 
-enum RouteStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class RouteStatusCode {
+  static const active = RouteStatusCode._('ACTIVE');
+  static const inactive = RouteStatusCode._('INACTIVE');
+  static const deleted = RouteStatusCode._('DELETED');
 
   final String value;
 
-  const RouteStatusCode(this.value);
+  const RouteStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static RouteStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RouteStatusCode'));
+          orElse: () => RouteStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is RouteStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the service discovery information for a virtual
@@ -6556,18 +6690,28 @@ class TagResourceOutput {
   }
 }
 
-enum TcpRetryPolicyEvent {
-  connectionError('connection-error'),
-  ;
+class TcpRetryPolicyEvent {
+  static const connectionError = TcpRetryPolicyEvent._('connection-error');
 
   final String value;
 
-  const TcpRetryPolicyEvent(this.value);
+  const TcpRetryPolicyEvent._(this.value);
 
-  static TcpRetryPolicyEvent fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TcpRetryPolicyEvent'));
+  static const values = [connectionError];
+
+  static TcpRetryPolicyEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TcpRetryPolicyEvent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TcpRetryPolicyEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a TCP route type.
@@ -7385,8 +7529,8 @@ class VirtualGatewayHealthCheckPolicy {
     return VirtualGatewayHealthCheckPolicy(
       healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
       intervalMillis: (json['intervalMillis'] as int?) ?? 0,
-      protocol:
-          VirtualGatewayPortProtocol.fromString((json['protocol'] as String)),
+      protocol: VirtualGatewayPortProtocol.fromString(
+          (json['protocol'] as String?) ?? ''),
       timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
       unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
@@ -7563,7 +7707,8 @@ class VirtualGatewayListenerTls {
       certificate: VirtualGatewayListenerTlsCertificate.fromJson(
           (json['certificate'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      mode: VirtualGatewayListenerTlsMode.fromString((json['mode'] as String)),
+      mode: VirtualGatewayListenerTlsMode.fromString(
+          (json['mode'] as String?) ?? ''),
       validation: json['validation'] != null
           ? VirtualGatewayListenerTlsValidationContext.fromJson(
               json['validation'] as Map<String, dynamic>)
@@ -7696,20 +7841,30 @@ class VirtualGatewayListenerTlsFileCertificate {
   }
 }
 
-enum VirtualGatewayListenerTlsMode {
-  strict('STRICT'),
-  permissive('PERMISSIVE'),
-  disabled('DISABLED'),
-  ;
+class VirtualGatewayListenerTlsMode {
+  static const strict = VirtualGatewayListenerTlsMode._('STRICT');
+  static const permissive = VirtualGatewayListenerTlsMode._('PERMISSIVE');
+  static const disabled = VirtualGatewayListenerTlsMode._('DISABLED');
 
   final String value;
 
-  const VirtualGatewayListenerTlsMode(this.value);
+  const VirtualGatewayListenerTlsMode._(this.value);
+
+  static const values = [strict, permissive, disabled];
 
   static VirtualGatewayListenerTlsMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualGatewayListenerTlsMode'));
+          orElse: () => VirtualGatewayListenerTlsMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualGatewayListenerTlsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents the virtual gateway's listener's Secret Discovery
@@ -7865,8 +8020,8 @@ class VirtualGatewayPortMapping {
   factory VirtualGatewayPortMapping.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayPortMapping(
       port: (json['port'] as int?) ?? 0,
-      protocol:
-          VirtualGatewayPortProtocol.fromString((json['protocol'] as String)),
+      protocol: VirtualGatewayPortProtocol.fromString(
+          (json['protocol'] as String?) ?? ''),
     );
   }
 
@@ -7880,20 +8035,30 @@ class VirtualGatewayPortMapping {
   }
 }
 
-enum VirtualGatewayPortProtocol {
-  http('http'),
-  http2('http2'),
-  grpc('grpc'),
-  ;
+class VirtualGatewayPortProtocol {
+  static const http = VirtualGatewayPortProtocol._('http');
+  static const http2 = VirtualGatewayPortProtocol._('http2');
+  static const grpc = VirtualGatewayPortProtocol._('grpc');
 
   final String value;
 
-  const VirtualGatewayPortProtocol(this.value);
+  const VirtualGatewayPortProtocol._(this.value);
+
+  static const values = [http, http2, grpc];
 
   static VirtualGatewayPortProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualGatewayPortProtocol'));
+          orElse: () => VirtualGatewayPortProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualGatewayPortProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a virtual gateway returned by a list operation.
@@ -8035,7 +8200,8 @@ class VirtualGatewayStatus {
 
   factory VirtualGatewayStatus.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayStatus(
-      status: VirtualGatewayStatusCode.fromString((json['status'] as String)),
+      status: VirtualGatewayStatusCode.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -8047,20 +8213,30 @@ class VirtualGatewayStatus {
   }
 }
 
-enum VirtualGatewayStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class VirtualGatewayStatusCode {
+  static const active = VirtualGatewayStatusCode._('ACTIVE');
+  static const inactive = VirtualGatewayStatusCode._('INACTIVE');
+  static const deleted = VirtualGatewayStatusCode._('DELETED');
 
   final String value;
 
-  const VirtualGatewayStatusCode(this.value);
+  const VirtualGatewayStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static VirtualGatewayStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualGatewayStatusCode'));
+          orElse: () => VirtualGatewayStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualGatewayStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
@@ -8624,7 +8800,8 @@ class VirtualNodeStatus {
 
   factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) {
     return VirtualNodeStatus(
-      status: VirtualNodeStatusCode.fromString((json['status'] as String)),
+      status:
+          VirtualNodeStatusCode.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -8636,20 +8813,30 @@ class VirtualNodeStatus {
   }
 }
 
-enum VirtualNodeStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class VirtualNodeStatusCode {
+  static const active = VirtualNodeStatusCode._('ACTIVE');
+  static const inactive = VirtualNodeStatusCode._('INACTIVE');
+  static const deleted = VirtualNodeStatusCode._('DELETED');
 
   final String value;
 
-  const VirtualNodeStatusCode(this.value);
+  const VirtualNodeStatusCode._(this.value);
 
-  static VirtualNodeStatusCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VirtualNodeStatusCode'));
+  static const values = [active, inactive, deleted];
+
+  static VirtualNodeStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualNodeStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualNodeStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a type of connection pool.
@@ -8899,7 +9086,8 @@ class VirtualRouterStatus {
 
   factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) {
     return VirtualRouterStatus(
-      status: VirtualRouterStatusCode.fromString((json['status'] as String)),
+      status:
+          VirtualRouterStatusCode.fromString((json['status'] as String?) ?? ''),
     );
   }
 
@@ -8911,20 +9099,30 @@ class VirtualRouterStatus {
   }
 }
 
-enum VirtualRouterStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class VirtualRouterStatusCode {
+  static const active = VirtualRouterStatusCode._('ACTIVE');
+  static const inactive = VirtualRouterStatusCode._('INACTIVE');
+  static const deleted = VirtualRouterStatusCode._('DELETED');
 
   final String value;
 
-  const VirtualRouterStatusCode(this.value);
+  const VirtualRouterStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static VirtualRouterStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualRouterStatusCode'));
+          orElse: () => VirtualRouterStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualRouterStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a virtual service backend for a virtual node.
@@ -9170,7 +9368,8 @@ class VirtualServiceStatus {
 
   factory VirtualServiceStatus.fromJson(Map<String, dynamic> json) {
     return VirtualServiceStatus(
-      status: VirtualServiceStatusCode.fromString((json['status'] as String)),
+      status: VirtualServiceStatusCode.fromString(
+          (json['status'] as String?) ?? ''),
     );
   }
 
@@ -9182,20 +9381,30 @@ class VirtualServiceStatus {
   }
 }
 
-enum VirtualServiceStatusCode {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  deleted('DELETED'),
-  ;
+class VirtualServiceStatusCode {
+  static const active = VirtualServiceStatusCode._('ACTIVE');
+  static const inactive = VirtualServiceStatusCode._('INACTIVE');
+  static const deleted = VirtualServiceStatusCode._('DELETED');
 
   final String value;
 
-  const VirtualServiceStatusCode(this.value);
+  const VirtualServiceStatusCode._(this.value);
+
+  static const values = [active, inactive, deleted];
 
   static VirtualServiceStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VirtualServiceStatusCode'));
+          orElse: () => VirtualServiceStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualServiceStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that represents a target and its relative weight. Traffic is

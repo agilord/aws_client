@@ -430,22 +430,39 @@ class AccountEnrollmentStatus {
   }
 }
 
-enum ActionType {
-  rightsize('Rightsize'),
-  stop('Stop'),
-  upgrade('Upgrade'),
-  purchaseSavingsPlans('PurchaseSavingsPlans'),
-  purchaseReservedInstances('PurchaseReservedInstances'),
-  migrateToGraviton('MigrateToGraviton'),
-  ;
+class ActionType {
+  static const rightsize = ActionType._('Rightsize');
+  static const stop = ActionType._('Stop');
+  static const upgrade = ActionType._('Upgrade');
+  static const purchaseSavingsPlans = ActionType._('PurchaseSavingsPlans');
+  static const purchaseReservedInstances =
+      ActionType._('PurchaseReservedInstances');
+  static const migrateToGraviton = ActionType._('MigrateToGraviton');
 
   final String value;
 
-  const ActionType(this.value);
+  const ActionType._(this.value);
 
-  static ActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionType'));
+  static const values = [
+    rightsize,
+    stop,
+    upgrade,
+    purchaseSavingsPlans,
+    purchaseReservedInstances,
+    migrateToGraviton
+  ];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Amazon Elastic Block Store performance configuration of the
@@ -1322,19 +1339,28 @@ class ElastiCacheReservedInstancesConfiguration {
   }
 }
 
-enum EnrollmentStatus {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class EnrollmentStatus {
+  static const active = EnrollmentStatus._('Active');
+  static const inactive = EnrollmentStatus._('Inactive');
 
   final String value;
 
-  const EnrollmentStatus(this.value);
+  const EnrollmentStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static EnrollmentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EnrollmentStatus'));
+          orElse: () => EnrollmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnrollmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Estimated discount details of the current and recommended resource
@@ -1711,22 +1737,32 @@ class GetRecommendationResponse {
   }
 }
 
-enum ImplementationEffort {
-  veryLow('VeryLow'),
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  veryHigh('VeryHigh'),
-  ;
+class ImplementationEffort {
+  static const veryLow = ImplementationEffort._('VeryLow');
+  static const low = ImplementationEffort._('Low');
+  static const medium = ImplementationEffort._('Medium');
+  static const high = ImplementationEffort._('High');
+  static const veryHigh = ImplementationEffort._('VeryHigh');
 
   final String value;
 
-  const ImplementationEffort(this.value);
+  const ImplementationEffort._(this.value);
 
-  static ImplementationEffort fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ImplementationEffort'));
+  static const values = [veryLow, low, medium, high, veryHigh];
+
+  static ImplementationEffort fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImplementationEffort._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImplementationEffort && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Instance configuration used for recommendations.
@@ -1956,19 +1992,29 @@ class ListRecommendationsResponse {
   }
 }
 
-enum MemberAccountDiscountVisibility {
-  all('All'),
-  none('None'),
-  ;
+class MemberAccountDiscountVisibility {
+  static const all = MemberAccountDiscountVisibility._('All');
+  static const none = MemberAccountDiscountVisibility._('None');
 
   final String value;
 
-  const MemberAccountDiscountVisibility(this.value);
+  const MemberAccountDiscountVisibility._(this.value);
+
+  static const values = [all, none];
 
   static MemberAccountDiscountVisibility fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum MemberAccountDiscountVisibility'));
+          orElse: () => MemberAccountDiscountVisibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MemberAccountDiscountVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The OpenSearch reserved instances recommendation details.
@@ -2115,18 +2161,27 @@ class OpenSearchReservedInstancesConfiguration {
   }
 }
 
-enum Order {
-  asc('Asc'),
-  desc('Desc'),
-  ;
+class Order {
+  static const asc = Order._('Asc');
+  static const desc = Order._('Desc');
 
   final String value;
 
-  const Order(this.value);
+  const Order._(this.value);
+
+  static const values = [asc, desc];
 
   static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Order'));
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines how rows will be sorted in the response.
@@ -3192,32 +3247,60 @@ class ResourcePricing {
   }
 }
 
-enum ResourceType {
-  ec2Instance('Ec2Instance'),
-  lambdaFunction('LambdaFunction'),
-  ebsVolume('EbsVolume'),
-  ecsService('EcsService'),
-  ec2AutoScalingGroup('Ec2AutoScalingGroup'),
-  ec2InstanceSavingsPlans('Ec2InstanceSavingsPlans'),
-  computeSavingsPlans('ComputeSavingsPlans'),
-  sageMakerSavingsPlans('SageMakerSavingsPlans'),
-  ec2ReservedInstances('Ec2ReservedInstances'),
-  rdsReservedInstances('RdsReservedInstances'),
-  openSearchReservedInstances('OpenSearchReservedInstances'),
-  redshiftReservedInstances('RedshiftReservedInstances'),
-  elastiCacheReservedInstances('ElastiCacheReservedInstances'),
-  rdsDbInstanceStorage('RdsDbInstanceStorage'),
-  rdsDbInstance('RdsDbInstance'),
-  ;
+class ResourceType {
+  static const ec2Instance = ResourceType._('Ec2Instance');
+  static const lambdaFunction = ResourceType._('LambdaFunction');
+  static const ebsVolume = ResourceType._('EbsVolume');
+  static const ecsService = ResourceType._('EcsService');
+  static const ec2AutoScalingGroup = ResourceType._('Ec2AutoScalingGroup');
+  static const ec2InstanceSavingsPlans =
+      ResourceType._('Ec2InstanceSavingsPlans');
+  static const computeSavingsPlans = ResourceType._('ComputeSavingsPlans');
+  static const sageMakerSavingsPlans = ResourceType._('SageMakerSavingsPlans');
+  static const ec2ReservedInstances = ResourceType._('Ec2ReservedInstances');
+  static const rdsReservedInstances = ResourceType._('RdsReservedInstances');
+  static const openSearchReservedInstances =
+      ResourceType._('OpenSearchReservedInstances');
+  static const redshiftReservedInstances =
+      ResourceType._('RedshiftReservedInstances');
+  static const elastiCacheReservedInstances =
+      ResourceType._('ElastiCacheReservedInstances');
+  static const rdsDbInstanceStorage = ResourceType._('RdsDbInstanceStorage');
+  static const rdsDbInstance = ResourceType._('RdsDbInstance');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    ec2Instance,
+    lambdaFunction,
+    ebsVolume,
+    ecsService,
+    ec2AutoScalingGroup,
+    ec2InstanceSavingsPlans,
+    computeSavingsPlans,
+    sageMakerSavingsPlans,
+    ec2ReservedInstances,
+    rdsReservedInstances,
+    openSearchReservedInstances,
+    redshiftReservedInstances,
+    elastiCacheReservedInstances,
+    rdsDbInstanceStorage,
+    rdsDbInstance
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The SageMaker Savings Plans recommendation details.
@@ -3301,19 +3384,29 @@ class SageMakerSavingsPlansConfiguration {
   }
 }
 
-enum SavingsEstimationMode {
-  beforeDiscounts('BeforeDiscounts'),
-  afterDiscounts('AfterDiscounts'),
-  ;
+class SavingsEstimationMode {
+  static const beforeDiscounts = SavingsEstimationMode._('BeforeDiscounts');
+  static const afterDiscounts = SavingsEstimationMode._('AfterDiscounts');
 
   final String value;
 
-  const SavingsEstimationMode(this.value);
+  const SavingsEstimationMode._(this.value);
 
-  static SavingsEstimationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SavingsEstimationMode'));
+  static const values = [beforeDiscounts, afterDiscounts];
+
+  static SavingsEstimationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsEstimationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsEstimationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Cost impact of the purchase recommendation.
@@ -3392,18 +3485,27 @@ class SavingsPlansPricing {
   }
 }
 
-enum Source {
-  computeOptimizer('ComputeOptimizer'),
-  costExplorer('CostExplorer'),
-  ;
+class Source {
+  static const computeOptimizer = Source._('ComputeOptimizer');
+  static const costExplorer = Source._('CostExplorer');
 
   final String value;
 
-  const Source(this.value);
+  const Source._(this.value);
+
+  static const values = [computeOptimizer, costExplorer];
 
   static Source fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Source'));
+      values.firstWhere((e) => e.value == value, orElse: () => Source._(value));
+
+  @override
+  bool operator ==(other) => other is Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The storage configuration used for recommendations.
@@ -3436,18 +3538,27 @@ class StorageConfiguration {
   }
 }
 
-enum SummaryMetrics {
-  savingsPercentage('SavingsPercentage'),
-  ;
+class SummaryMetrics {
+  static const savingsPercentage = SummaryMetrics._('SavingsPercentage');
 
   final String value;
 
-  const SummaryMetrics(this.value);
+  const SummaryMetrics._(this.value);
+
+  static const values = [savingsPercentage];
 
   static SummaryMetrics fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SummaryMetrics'));
+          orElse: () => SummaryMetrics._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The results or descriptions for the additional metrics, based on whether the

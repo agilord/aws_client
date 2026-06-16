@@ -14572,7 +14572,7 @@ class ActionSummary {
 
   factory ActionSummary.fromJson(Map<String, dynamic> json) {
     return ActionSummary(
-      actionType: ActionType.fromString((json['ActionType'] as String)),
+      actionType: ActionType.fromString((json['ActionType'] as String?) ?? ''),
     );
   }
 
@@ -14584,24 +14584,43 @@ class ActionSummary {
   }
 }
 
-enum ActionType {
-  createTask('CREATE_TASK'),
-  assignContactCategory('ASSIGN_CONTACT_CATEGORY'),
-  generateEventbridgeEvent('GENERATE_EVENTBRIDGE_EVENT'),
-  sendNotification('SEND_NOTIFICATION'),
-  createCase('CREATE_CASE'),
-  updateCase('UPDATE_CASE'),
-  endAssociatedTasks('END_ASSOCIATED_TASKS'),
-  submitAutoEvaluation('SUBMIT_AUTO_EVALUATION'),
-  ;
+class ActionType {
+  static const createTask = ActionType._('CREATE_TASK');
+  static const assignContactCategory = ActionType._('ASSIGN_CONTACT_CATEGORY');
+  static const generateEventbridgeEvent =
+      ActionType._('GENERATE_EVENTBRIDGE_EVENT');
+  static const sendNotification = ActionType._('SEND_NOTIFICATION');
+  static const createCase = ActionType._('CREATE_CASE');
+  static const updateCase = ActionType._('UPDATE_CASE');
+  static const endAssociatedTasks = ActionType._('END_ASSOCIATED_TASKS');
+  static const submitAutoEvaluation = ActionType._('SUBMIT_AUTO_EVALUATION');
 
   final String value;
 
-  const ActionType(this.value);
+  const ActionType._(this.value);
 
-  static ActionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ActionType'));
+  static const values = [
+    createTask,
+    assignContactCategory,
+    generateEventbridgeEvent,
+    sendNotification,
+    createCase,
+    updateCase,
+    endAssociatedTasks,
+    submitAutoEvaluation
+  ];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivateEvaluationFormResponse {
@@ -14640,19 +14659,31 @@ class ActivateEvaluationFormResponse {
   }
 }
 
-enum AgentAvailabilityTimer {
-  timeSinceLastActivity('TIME_SINCE_LAST_ACTIVITY'),
-  timeSinceLastInbound('TIME_SINCE_LAST_INBOUND'),
-  ;
+class AgentAvailabilityTimer {
+  static const timeSinceLastActivity =
+      AgentAvailabilityTimer._('TIME_SINCE_LAST_ACTIVITY');
+  static const timeSinceLastInbound =
+      AgentAvailabilityTimer._('TIME_SINCE_LAST_INBOUND');
 
   final String value;
 
-  const AgentAvailabilityTimer(this.value);
+  const AgentAvailabilityTimer._(this.value);
+
+  static const values = [timeSinceLastActivity, timeSinceLastInbound];
 
   static AgentAvailabilityTimer fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AgentAvailabilityTimer'));
+          orElse: () => AgentAvailabilityTimer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgentAvailabilityTimer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The distribution of agents between the instance and its replica(s).
@@ -15123,19 +15154,28 @@ class AgentStatusSearchFilter {
   }
 }
 
-enum AgentStatusState {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class AgentStatusState {
+  static const enabled = AgentStatusState._('ENABLED');
+  static const disabled = AgentStatusState._('DISABLED');
 
   final String value;
 
-  const AgentStatusState(this.value);
+  const AgentStatusState._(this.value);
+
+  static const values = [enabled, disabled];
 
   static AgentStatusState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgentStatusState'));
+          orElse: () => AgentStatusState._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatusState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information for an agent status.
@@ -15197,20 +15237,29 @@ class AgentStatusSummary {
   }
 }
 
-enum AgentStatusType {
-  routable('ROUTABLE'),
-  custom('CUSTOM'),
-  offline('OFFLINE'),
-  ;
+class AgentStatusType {
+  static const routable = AgentStatusType._('ROUTABLE');
+  static const custom = AgentStatusType._('CUSTOM');
+  static const offline = AgentStatusType._('OFFLINE');
 
   final String value;
 
-  const AgentStatusType(this.value);
+  const AgentStatusType._(this.value);
+
+  static const values = [routable, custom, offline];
 
   static AgentStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgentStatusType'));
+          orElse: () => AgentStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Can be used to define a list of preferred agents to target the contact to
@@ -15339,31 +15388,65 @@ class AnswerMachineDetectionConfig {
   }
 }
 
-enum AnsweringMachineDetectionStatus {
-  answered('ANSWERED'),
-  undetected('UNDETECTED'),
-  error('ERROR'),
-  humanAnswered('HUMAN_ANSWERED'),
-  sitToneDetected('SIT_TONE_DETECTED'),
-  sitToneBusy('SIT_TONE_BUSY'),
-  sitToneInvalidNumber('SIT_TONE_INVALID_NUMBER'),
-  faxMachineDetected('FAX_MACHINE_DETECTED'),
-  voicemailBeep('VOICEMAIL_BEEP'),
-  voicemailNoBeep('VOICEMAIL_NO_BEEP'),
-  amdUnresolved('AMD_UNRESOLVED'),
-  amdUnanswered('AMD_UNANSWERED'),
-  amdError('AMD_ERROR'),
-  amdNotApplicable('AMD_NOT_APPLICABLE'),
-  ;
+class AnsweringMachineDetectionStatus {
+  static const answered = AnsweringMachineDetectionStatus._('ANSWERED');
+  static const undetected = AnsweringMachineDetectionStatus._('UNDETECTED');
+  static const error = AnsweringMachineDetectionStatus._('ERROR');
+  static const humanAnswered =
+      AnsweringMachineDetectionStatus._('HUMAN_ANSWERED');
+  static const sitToneDetected =
+      AnsweringMachineDetectionStatus._('SIT_TONE_DETECTED');
+  static const sitToneBusy = AnsweringMachineDetectionStatus._('SIT_TONE_BUSY');
+  static const sitToneInvalidNumber =
+      AnsweringMachineDetectionStatus._('SIT_TONE_INVALID_NUMBER');
+  static const faxMachineDetected =
+      AnsweringMachineDetectionStatus._('FAX_MACHINE_DETECTED');
+  static const voicemailBeep =
+      AnsweringMachineDetectionStatus._('VOICEMAIL_BEEP');
+  static const voicemailNoBeep =
+      AnsweringMachineDetectionStatus._('VOICEMAIL_NO_BEEP');
+  static const amdUnresolved =
+      AnsweringMachineDetectionStatus._('AMD_UNRESOLVED');
+  static const amdUnanswered =
+      AnsweringMachineDetectionStatus._('AMD_UNANSWERED');
+  static const amdError = AnsweringMachineDetectionStatus._('AMD_ERROR');
+  static const amdNotApplicable =
+      AnsweringMachineDetectionStatus._('AMD_NOT_APPLICABLE');
 
   final String value;
 
-  const AnsweringMachineDetectionStatus(this.value);
+  const AnsweringMachineDetectionStatus._(this.value);
+
+  static const values = [
+    answered,
+    undetected,
+    error,
+    humanAnswered,
+    sitToneDetected,
+    sitToneBusy,
+    sitToneInvalidNumber,
+    faxMachineDetected,
+    voicemailBeep,
+    voicemailNoBeep,
+    amdUnresolved,
+    amdUnanswered,
+    amdError,
+    amdNotApplicable
+  ];
 
   static AnsweringMachineDetectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AnsweringMachineDetectionStatus'));
+          orElse: () => AnsweringMachineDetectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnsweringMachineDetectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This API is in preview release for Amazon Connect and is subject to change.
@@ -15403,20 +15486,29 @@ class Application {
   }
 }
 
-enum ArtifactStatus {
-  approved('APPROVED'),
-  rejected('REJECTED'),
-  inProgress('IN_PROGRESS'),
-  ;
+class ArtifactStatus {
+  static const approved = ArtifactStatus._('APPROVED');
+  static const rejected = ArtifactStatus._('REJECTED');
+  static const inProgress = ArtifactStatus._('IN_PROGRESS');
 
   final String value;
 
-  const ArtifactStatus(this.value);
+  const ArtifactStatus._(this.value);
+
+  static const values = [approved, rejected, inProgress];
 
   static ArtifactStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ArtifactStatus'));
+          orElse: () => ArtifactStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This action must be set if <code>TriggerEventSource</code> is one of the
@@ -15628,7 +15720,8 @@ class AttachedFile {
       fileId: (json['FileId'] as String?) ?? '',
       fileName: (json['FileName'] as String?) ?? '',
       fileSizeInBytes: (json['FileSizeInBytes'] as int?) ?? 0,
-      fileStatus: FileStatusType.fromString((json['FileStatus'] as String)),
+      fileStatus:
+          FileStatusType.fromString((json['FileStatus'] as String?) ?? ''),
       associatedResourceArn: json['AssociatedResourceArn'] as String?,
       createdBy: json['CreatedBy'] != null
           ? CreatedByInfo.fromJson(json['CreatedBy'] as Map<String, dynamic>)
@@ -16364,19 +16457,28 @@ class BatchPutContactResponse {
   }
 }
 
-enum BehaviorType {
-  routeCurrentChannelOnly('ROUTE_CURRENT_CHANNEL_ONLY'),
-  routeAnyChannel('ROUTE_ANY_CHANNEL'),
-  ;
+class BehaviorType {
+  static const routeCurrentChannelOnly =
+      BehaviorType._('ROUTE_CURRENT_CHANNEL_ONLY');
+  static const routeAnyChannel = BehaviorType._('ROUTE_ANY_CHANNEL');
 
   final String value;
 
-  const BehaviorType(this.value);
+  const BehaviorType._(this.value);
 
-  static BehaviorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum BehaviorType'));
+  static const values = [routeCurrentChannelOnly, routeAnyChannel];
+
+  static BehaviorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BehaviorType._(value));
+
+  @override
+  bool operator ==(other) => other is BehaviorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information associated with a campaign.
@@ -16402,19 +16504,28 @@ class Campaign {
   }
 }
 
-enum Channel {
-  voice('VOICE'),
-  chat('CHAT'),
-  task('TASK'),
-  ;
+class Channel {
+  static const voice = Channel._('VOICE');
+  static const chat = Channel._('CHAT');
+  static const task = Channel._('TASK');
 
   final String value;
 
-  const Channel(this.value);
+  const Channel._(this.value);
 
-  static Channel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Channel'));
+  static const values = [voice, chat, task];
+
+  static Channel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Channel._(value));
+
+  @override
+  bool operator ==(other) => other is Channel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Chat integration event containing payload to perform different chat actions
@@ -16491,20 +16602,29 @@ class ChatEvent {
   }
 }
 
-enum ChatEventType {
-  disconnect('DISCONNECT'),
-  message('MESSAGE'),
-  event('EVENT'),
-  ;
+class ChatEventType {
+  static const disconnect = ChatEventType._('DISCONNECT');
+  static const message = ChatEventType._('MESSAGE');
+  static const event = ChatEventType._('EVENT');
 
   final String value;
 
-  const ChatEventType(this.value);
+  const ChatEventType._(this.value);
+
+  static const values = [disconnect, message, event];
 
   static ChatEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChatEventType'));
+          orElse: () => ChatEventType._(value));
+
+  @override
+  bool operator ==(other) => other is ChatEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A chat message.
@@ -16780,17 +16900,26 @@ class CommonAttributeAndCondition {
   }
 }
 
-enum Comparison {
-  lt('LT'),
-  ;
+class Comparison {
+  static const lt = Comparison._('LT');
 
   final String value;
 
-  const Comparison(this.value);
+  const Comparison._(this.value);
 
-  static Comparison fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Comparison'));
+  static const values = [lt];
+
+  static Comparison fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Comparison._(value));
+
+  @override
+  bool operator ==(other) => other is Comparison && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Response from CompleteAttachedFileUpload API
@@ -17478,34 +17607,54 @@ class ContactFlowModuleSearchFilter {
   }
 }
 
-enum ContactFlowModuleState {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  ;
+class ContactFlowModuleState {
+  static const active = ContactFlowModuleState._('ACTIVE');
+  static const archived = ContactFlowModuleState._('ARCHIVED');
 
   final String value;
 
-  const ContactFlowModuleState(this.value);
+  const ContactFlowModuleState._(this.value);
+
+  static const values = [active, archived];
 
   static ContactFlowModuleState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContactFlowModuleState'));
+          orElse: () => ContactFlowModuleState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactFlowModuleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContactFlowModuleStatus {
-  published('PUBLISHED'),
-  saved('SAVED'),
-  ;
+class ContactFlowModuleStatus {
+  static const published = ContactFlowModuleStatus._('PUBLISHED');
+  static const saved = ContactFlowModuleStatus._('SAVED');
 
   final String value;
 
-  const ContactFlowModuleStatus(this.value);
+  const ContactFlowModuleStatus._(this.value);
+
+  static const values = [published, saved];
 
   static ContactFlowModuleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContactFlowModuleStatus'));
+          orElse: () => ContactFlowModuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactFlowModuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about a flow.
@@ -17615,34 +17764,52 @@ class ContactFlowSearchFilter {
   }
 }
 
-enum ContactFlowState {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  ;
+class ContactFlowState {
+  static const active = ContactFlowState._('ACTIVE');
+  static const archived = ContactFlowState._('ARCHIVED');
 
   final String value;
 
-  const ContactFlowState(this.value);
+  const ContactFlowState._(this.value);
+
+  static const values = [active, archived];
 
   static ContactFlowState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContactFlowState'));
+          orElse: () => ContactFlowState._(value));
+
+  @override
+  bool operator ==(other) => other is ContactFlowState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContactFlowStatus {
-  published('PUBLISHED'),
-  saved('SAVED'),
-  ;
+class ContactFlowStatus {
+  static const published = ContactFlowStatus._('PUBLISHED');
+  static const saved = ContactFlowStatus._('SAVED');
 
   final String value;
 
-  const ContactFlowStatus(this.value);
+  const ContactFlowStatus._(this.value);
+
+  static const values = [published, saved];
 
   static ContactFlowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContactFlowStatus'));
+          orElse: () => ContactFlowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContactFlowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about a flow.
@@ -17711,48 +17878,88 @@ class ContactFlowSummary {
   }
 }
 
-enum ContactFlowType {
-  contactFlow('CONTACT_FLOW'),
-  customerQueue('CUSTOMER_QUEUE'),
-  customerHold('CUSTOMER_HOLD'),
-  customerWhisper('CUSTOMER_WHISPER'),
-  agentHold('AGENT_HOLD'),
-  agentWhisper('AGENT_WHISPER'),
-  outboundWhisper('OUTBOUND_WHISPER'),
-  agentTransfer('AGENT_TRANSFER'),
-  queueTransfer('QUEUE_TRANSFER'),
-  ;
+class ContactFlowType {
+  static const contactFlow = ContactFlowType._('CONTACT_FLOW');
+  static const customerQueue = ContactFlowType._('CUSTOMER_QUEUE');
+  static const customerHold = ContactFlowType._('CUSTOMER_HOLD');
+  static const customerWhisper = ContactFlowType._('CUSTOMER_WHISPER');
+  static const agentHold = ContactFlowType._('AGENT_HOLD');
+  static const agentWhisper = ContactFlowType._('AGENT_WHISPER');
+  static const outboundWhisper = ContactFlowType._('OUTBOUND_WHISPER');
+  static const agentTransfer = ContactFlowType._('AGENT_TRANSFER');
+  static const queueTransfer = ContactFlowType._('QUEUE_TRANSFER');
 
   final String value;
 
-  const ContactFlowType(this.value);
+  const ContactFlowType._(this.value);
+
+  static const values = [
+    contactFlow,
+    customerQueue,
+    customerHold,
+    customerWhisper,
+    agentHold,
+    agentWhisper,
+    outboundWhisper,
+    agentTransfer,
+    queueTransfer
+  ];
 
   static ContactFlowType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContactFlowType'));
+          orElse: () => ContactFlowType._(value));
+
+  @override
+  bool operator ==(other) => other is ContactFlowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ContactInitiationMethod {
-  inbound('INBOUND'),
-  outbound('OUTBOUND'),
-  transfer('TRANSFER'),
-  queueTransfer('QUEUE_TRANSFER'),
-  callback('CALLBACK'),
-  api('API'),
-  disconnect('DISCONNECT'),
-  monitor('MONITOR'),
-  externalOutbound('EXTERNAL_OUTBOUND'),
-  ;
+class ContactInitiationMethod {
+  static const inbound = ContactInitiationMethod._('INBOUND');
+  static const outbound = ContactInitiationMethod._('OUTBOUND');
+  static const transfer = ContactInitiationMethod._('TRANSFER');
+  static const queueTransfer = ContactInitiationMethod._('QUEUE_TRANSFER');
+  static const callback = ContactInitiationMethod._('CALLBACK');
+  static const api = ContactInitiationMethod._('API');
+  static const disconnect = ContactInitiationMethod._('DISCONNECT');
+  static const monitor = ContactInitiationMethod._('MONITOR');
+  static const externalOutbound =
+      ContactInitiationMethod._('EXTERNAL_OUTBOUND');
 
   final String value;
 
-  const ContactInitiationMethod(this.value);
+  const ContactInitiationMethod._(this.value);
+
+  static const values = [
+    inbound,
+    outbound,
+    transfer,
+    queueTransfer,
+    callback,
+    api,
+    disconnect,
+    monitor,
+    externalOutbound
+  ];
 
   static ContactInitiationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContactInitiationMethod'));
+          orElse: () => ContactInitiationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactInitiationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information of returned contact.
@@ -17933,26 +18140,44 @@ class ContactSearchSummaryQueueInfo {
   }
 }
 
-enum ContactState {
-  incoming('INCOMING'),
-  pending('PENDING'),
-  connecting('CONNECTING'),
-  connected('CONNECTED'),
-  connectedOnhold('CONNECTED_ONHOLD'),
-  missed('MISSED'),
-  error('ERROR'),
-  ended('ENDED'),
-  rejected('REJECTED'),
-  ;
+class ContactState {
+  static const incoming = ContactState._('INCOMING');
+  static const pending = ContactState._('PENDING');
+  static const connecting = ContactState._('CONNECTING');
+  static const connected = ContactState._('CONNECTED');
+  static const connectedOnhold = ContactState._('CONNECTED_ONHOLD');
+  static const missed = ContactState._('MISSED');
+  static const error = ContactState._('ERROR');
+  static const ended = ContactState._('ENDED');
+  static const rejected = ContactState._('REJECTED');
 
   final String value;
 
-  const ContactState(this.value);
+  const ContactState._(this.value);
 
-  static ContactState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContactState'));
+  static const values = [
+    incoming,
+    pending,
+    connecting,
+    connected,
+    connectedOnhold,
+    missed,
+    error,
+    ended,
+    rejected
+  ];
+
+  static ContactState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContactState._(value));
+
+  @override
+  bool operator ==(other) => other is ContactState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that can be used to specify Tag conditions inside the
@@ -18784,7 +19009,7 @@ class CreateVocabularyResponse {
 
   factory CreateVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return CreateVocabularyResponse(
-      state: VocabularyState.fromString((json['State'] as String)),
+      state: VocabularyState.fromString((json['State'] as String?) ?? ''),
       vocabularyArn: (json['VocabularyArn'] as String?) ?? '',
       vocabularyId: (json['VocabularyId'] as String?) ?? '',
     );
@@ -18896,7 +19121,8 @@ class CrossChannelBehavior {
 
   factory CrossChannelBehavior.fromJson(Map<String, dynamic> json) {
     return CrossChannelBehavior(
-      behaviorType: BehaviorType.fromString((json['BehaviorType'] as String)),
+      behaviorType:
+          BehaviorType.fromString((json['BehaviorType'] as String?) ?? ''),
     );
   }
 
@@ -18974,30 +19200,55 @@ class CurrentMetricData {
 }
 
 /// The current metric names.
-enum CurrentMetricName {
-  agentsOnline('AGENTS_ONLINE'),
-  agentsAvailable('AGENTS_AVAILABLE'),
-  agentsOnCall('AGENTS_ON_CALL'),
-  agentsNonProductive('AGENTS_NON_PRODUCTIVE'),
-  agentsAfterContactWork('AGENTS_AFTER_CONTACT_WORK'),
-  agentsError('AGENTS_ERROR'),
-  agentsStaffed('AGENTS_STAFFED'),
-  contactsInQueue('CONTACTS_IN_QUEUE'),
-  oldestContactAge('OLDEST_CONTACT_AGE'),
-  contactsScheduled('CONTACTS_SCHEDULED'),
-  agentsOnContact('AGENTS_ON_CONTACT'),
-  slotsActive('SLOTS_ACTIVE'),
-  slotsAvailable('SLOTS_AVAILABLE'),
-  ;
+class CurrentMetricName {
+  static const agentsOnline = CurrentMetricName._('AGENTS_ONLINE');
+  static const agentsAvailable = CurrentMetricName._('AGENTS_AVAILABLE');
+  static const agentsOnCall = CurrentMetricName._('AGENTS_ON_CALL');
+  static const agentsNonProductive =
+      CurrentMetricName._('AGENTS_NON_PRODUCTIVE');
+  static const agentsAfterContactWork =
+      CurrentMetricName._('AGENTS_AFTER_CONTACT_WORK');
+  static const agentsError = CurrentMetricName._('AGENTS_ERROR');
+  static const agentsStaffed = CurrentMetricName._('AGENTS_STAFFED');
+  static const contactsInQueue = CurrentMetricName._('CONTACTS_IN_QUEUE');
+  static const oldestContactAge = CurrentMetricName._('OLDEST_CONTACT_AGE');
+  static const contactsScheduled = CurrentMetricName._('CONTACTS_SCHEDULED');
+  static const agentsOnContact = CurrentMetricName._('AGENTS_ON_CONTACT');
+  static const slotsActive = CurrentMetricName._('SLOTS_ACTIVE');
+  static const slotsAvailable = CurrentMetricName._('SLOTS_AVAILABLE');
 
   final String value;
 
-  const CurrentMetricName(this.value);
+  const CurrentMetricName._(this.value);
+
+  static const values = [
+    agentsOnline,
+    agentsAvailable,
+    agentsOnCall,
+    agentsNonProductive,
+    agentsAfterContactWork,
+    agentsError,
+    agentsStaffed,
+    contactsInQueue,
+    oldestContactAge,
+    contactsScheduled,
+    agentsOnContact,
+    slotsActive,
+    slotsAvailable
+  ];
 
   static CurrentMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CurrentMetricName'));
+          orElse: () => CurrentMetricName._(value));
+
+  @override
+  bool operator ==(other) => other is CurrentMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a set of real-time metrics.
@@ -19250,8 +19501,8 @@ class DefaultVocabulary {
   factory DefaultVocabulary.fromJson(Map<String, dynamic> json) {
     return DefaultVocabulary(
       instanceId: (json['InstanceId'] as String?) ?? '',
-      languageCode:
-          VocabularyLanguageCode.fromString((json['LanguageCode'] as String)),
+      languageCode: VocabularyLanguageCode.fromString(
+          (json['LanguageCode'] as String?) ?? ''),
       vocabularyId: (json['VocabularyId'] as String?) ?? '',
       vocabularyName: (json['VocabularyName'] as String?) ?? '',
     );
@@ -19375,7 +19626,7 @@ class DeleteVocabularyResponse {
 
   factory DeleteVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVocabularyResponse(
-      state: VocabularyState.fromString((json['State'] as String)),
+      state: VocabularyState.fromString((json['State'] as String?) ?? ''),
       vocabularyArn: (json['VocabularyArn'] as String?) ?? '',
       vocabularyId: (json['VocabularyId'] as String?) ?? '',
     );
@@ -20131,20 +20382,29 @@ class Dimensions {
   }
 }
 
-enum DirectoryType {
-  saml('SAML'),
-  connectManaged('CONNECT_MANAGED'),
-  existingDirectory('EXISTING_DIRECTORY'),
-  ;
+class DirectoryType {
+  static const saml = DirectoryType._('SAML');
+  static const connectManaged = DirectoryType._('CONNECT_MANAGED');
+  static const existingDirectory = DirectoryType._('EXISTING_DIRECTORY');
 
   final String value;
 
-  const DirectoryType(this.value);
+  const DirectoryType._(this.value);
+
+  static const values = [saml, connectManaged, existingDirectory];
 
   static DirectoryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DirectoryType'));
+          orElse: () => DirectoryType._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DisassociateFlowResponse {
@@ -20355,7 +20615,7 @@ class EncryptionConfig {
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
       encryptionType:
-          EncryptionType.fromString((json['EncryptionType'] as String)),
+          EncryptionType.fromString((json['EncryptionType'] as String?) ?? ''),
       keyId: (json['KeyId'] as String?) ?? '',
     );
   }
@@ -20370,18 +20630,27 @@ class EncryptionConfig {
   }
 }
 
-enum EncryptionType {
-  kms('KMS'),
-  ;
+class EncryptionType {
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const EncryptionType(this.value);
+  const EncryptionType._(this.value);
+
+  static const values = [kms];
 
   static EncryptionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionType'));
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// End associated tasks related to a case.
@@ -20420,20 +20689,28 @@ class Endpoint {
   }
 }
 
-enum EndpointType {
-  telephoneNumber('TELEPHONE_NUMBER'),
-  voip('VOIP'),
-  contactFlow('CONTACT_FLOW'),
-  ;
+class EndpointType {
+  static const telephoneNumber = EndpointType._('TELEPHONE_NUMBER');
+  static const voip = EndpointType._('VOIP');
+  static const contactFlow = EndpointType._('CONTACT_FLOW');
 
   final String value;
 
-  const EndpointType(this.value);
+  const EndpointType._(this.value);
 
-  static EndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointType'));
+  static const values = [telephoneNumber, voip, contactFlow];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This API is in preview release for Amazon Connect and is subject to change.
@@ -20532,7 +20809,7 @@ class Evaluation {
               const <String, dynamic>{})
           .map((k, e) =>
               MapEntry(k, EvaluationNote.fromJson(e as Map<String, dynamic>))),
-      status: EvaluationStatus.fromString((json['Status'] as String)),
+      status: EvaluationStatus.fromString((json['Status'] as String?) ?? ''),
       scores: (json['Scores'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, EvaluationScore.fromJson(e as Map<String, dynamic>))),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -20737,8 +21014,8 @@ class EvaluationForm {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       locked: (json['Locked'] as bool?) ?? false,
-      status:
-          EvaluationFormVersionStatus.fromString((json['Status'] as String)),
+      status: EvaluationFormVersionStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       title: (json['Title'] as String?) ?? '',
       description: json['Description'] as String?,
       scoringStrategy: json['ScoringStrategy'] != null
@@ -21057,7 +21334,7 @@ class EvaluationFormQuestion {
   factory EvaluationFormQuestion.fromJson(Map<String, dynamic> json) {
     return EvaluationFormQuestion(
       questionType: EvaluationFormQuestionType.fromString(
-          (json['QuestionType'] as String)),
+          (json['QuestionType'] as String?) ?? ''),
       refId: (json['RefId'] as String?) ?? '',
       title: (json['Title'] as String?) ?? '',
       instructions: json['Instructions'] as String?,
@@ -21092,20 +21369,30 @@ class EvaluationFormQuestion {
   }
 }
 
-enum EvaluationFormQuestionType {
-  text('TEXT'),
-  singleselect('SINGLESELECT'),
-  numeric('NUMERIC'),
-  ;
+class EvaluationFormQuestionType {
+  static const text = EvaluationFormQuestionType._('TEXT');
+  static const singleselect = EvaluationFormQuestionType._('SINGLESELECT');
+  static const numeric = EvaluationFormQuestionType._('NUMERIC');
 
   final String value;
 
-  const EvaluationFormQuestionType(this.value);
+  const EvaluationFormQuestionType._(this.value);
+
+  static const values = [text, singleselect, numeric];
 
   static EvaluationFormQuestionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFormQuestionType'));
+          orElse: () => EvaluationFormQuestionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormQuestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about properties for a question in an evaluation form. The
@@ -21147,34 +21434,54 @@ class EvaluationFormQuestionTypeProperties {
   }
 }
 
-enum EvaluationFormScoringMode {
-  questionOnly('QUESTION_ONLY'),
-  sectionOnly('SECTION_ONLY'),
-  ;
+class EvaluationFormScoringMode {
+  static const questionOnly = EvaluationFormScoringMode._('QUESTION_ONLY');
+  static const sectionOnly = EvaluationFormScoringMode._('SECTION_ONLY');
 
   final String value;
 
-  const EvaluationFormScoringMode(this.value);
+  const EvaluationFormScoringMode._(this.value);
+
+  static const values = [questionOnly, sectionOnly];
 
   static EvaluationFormScoringMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFormScoringMode'));
+          orElse: () => EvaluationFormScoringMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormScoringMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EvaluationFormScoringStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class EvaluationFormScoringStatus {
+  static const enabled = EvaluationFormScoringStatus._('ENABLED');
+  static const disabled = EvaluationFormScoringStatus._('DISABLED');
 
   final String value;
 
-  const EvaluationFormScoringStatus(this.value);
+  const EvaluationFormScoringStatus._(this.value);
+
+  static const values = [enabled, disabled];
 
   static EvaluationFormScoringStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFormScoringStatus'));
+          orElse: () => EvaluationFormScoringStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormScoringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about scoring strategy for an evaluation form.
@@ -21192,9 +21499,10 @@ class EvaluationFormScoringStrategy {
 
   factory EvaluationFormScoringStrategy.fromJson(Map<String, dynamic> json) {
     return EvaluationFormScoringStrategy(
-      mode: EvaluationFormScoringMode.fromString((json['Mode'] as String)),
-      status:
-          EvaluationFormScoringStatus.fromString((json['Status'] as String)),
+      mode:
+          EvaluationFormScoringMode.fromString((json['Mode'] as String?) ?? ''),
+      status: EvaluationFormScoringStatus.fromString(
+          (json['Status'] as String?) ?? ''),
     );
   }
 
@@ -21333,20 +21641,32 @@ class EvaluationFormSingleSelectQuestionAutomationOption {
   }
 }
 
-enum EvaluationFormSingleSelectQuestionDisplayMode {
-  dropdown('DROPDOWN'),
-  radio('RADIO'),
-  ;
+class EvaluationFormSingleSelectQuestionDisplayMode {
+  static const dropdown =
+      EvaluationFormSingleSelectQuestionDisplayMode._('DROPDOWN');
+  static const radio = EvaluationFormSingleSelectQuestionDisplayMode._('RADIO');
 
   final String value;
 
-  const EvaluationFormSingleSelectQuestionDisplayMode(this.value);
+  const EvaluationFormSingleSelectQuestionDisplayMode._(this.value);
+
+  static const values = [dropdown, radio];
 
   static EvaluationFormSingleSelectQuestionDisplayMode fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFormSingleSelectQuestionDisplayMode'));
+          orElse: () => EvaluationFormSingleSelectQuestionDisplayMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormSingleSelectQuestionDisplayMode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the automation configuration in single select questions.
@@ -21539,19 +21859,29 @@ class EvaluationFormSummary {
   }
 }
 
-enum EvaluationFormVersionStatus {
-  draft('DRAFT'),
-  active('ACTIVE'),
-  ;
+class EvaluationFormVersionStatus {
+  static const draft = EvaluationFormVersionStatus._('DRAFT');
+  static const active = EvaluationFormVersionStatus._('ACTIVE');
 
   final String value;
 
-  const EvaluationFormVersionStatus(this.value);
+  const EvaluationFormVersionStatus._(this.value);
+
+  static const values = [draft, active];
 
   static EvaluationFormVersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EvaluationFormVersionStatus'));
+          orElse: () => EvaluationFormVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about an evaluation form.
@@ -21607,8 +21937,8 @@ class EvaluationFormVersionSummary {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       locked: (json['Locked'] as bool?) ?? false,
-      status:
-          EvaluationFormVersionStatus.fromString((json['Status'] as String)),
+      status: EvaluationFormVersionStatus.fromString(
+          (json['Status'] as String?) ?? ''),
     );
   }
 
@@ -21749,19 +22079,28 @@ class EvaluationScore {
   }
 }
 
-enum EvaluationStatus {
-  draft('DRAFT'),
-  submitted('SUBMITTED'),
-  ;
+class EvaluationStatus {
+  static const draft = EvaluationStatus._('DRAFT');
+  static const submitted = EvaluationStatus._('SUBMITTED');
 
   final String value;
 
-  const EvaluationStatus(this.value);
+  const EvaluationStatus._(this.value);
+
+  static const values = [draft, submitted];
 
   static EvaluationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EvaluationStatus'));
+          orElse: () => EvaluationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a contact evaluation.
@@ -21815,7 +22154,7 @@ class EvaluationSummary {
       evaluatorArn: (json['EvaluatorArn'] as String?) ?? '',
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
-      status: EvaluationStatus.fromString((json['Status'] as String)),
+      status: EvaluationStatus.fromString((json['Status'] as String?) ?? ''),
       score: json['Score'] != null
           ? EvaluationScore.fromJson(json['Score'] as Map<String, dynamic>)
           : null,
@@ -21869,28 +22208,57 @@ class EventBridgeActionDefinition {
   }
 }
 
-enum EventSourceName {
-  onPostCallAnalysisAvailable('OnPostCallAnalysisAvailable'),
-  onRealTimeCallAnalysisAvailable('OnRealTimeCallAnalysisAvailable'),
-  onRealTimeChatAnalysisAvailable('OnRealTimeChatAnalysisAvailable'),
-  onPostChatAnalysisAvailable('OnPostChatAnalysisAvailable'),
-  onZendeskTicketCreate('OnZendeskTicketCreate'),
-  onZendeskTicketStatusUpdate('OnZendeskTicketStatusUpdate'),
-  onSalesforceCaseCreate('OnSalesforceCaseCreate'),
-  onContactEvaluationSubmit('OnContactEvaluationSubmit'),
-  onMetricDataUpdate('OnMetricDataUpdate'),
-  onCaseCreate('OnCaseCreate'),
-  onCaseUpdate('OnCaseUpdate'),
-  ;
+class EventSourceName {
+  static const onPostCallAnalysisAvailable =
+      EventSourceName._('OnPostCallAnalysisAvailable');
+  static const onRealTimeCallAnalysisAvailable =
+      EventSourceName._('OnRealTimeCallAnalysisAvailable');
+  static const onRealTimeChatAnalysisAvailable =
+      EventSourceName._('OnRealTimeChatAnalysisAvailable');
+  static const onPostChatAnalysisAvailable =
+      EventSourceName._('OnPostChatAnalysisAvailable');
+  static const onZendeskTicketCreate =
+      EventSourceName._('OnZendeskTicketCreate');
+  static const onZendeskTicketStatusUpdate =
+      EventSourceName._('OnZendeskTicketStatusUpdate');
+  static const onSalesforceCaseCreate =
+      EventSourceName._('OnSalesforceCaseCreate');
+  static const onContactEvaluationSubmit =
+      EventSourceName._('OnContactEvaluationSubmit');
+  static const onMetricDataUpdate = EventSourceName._('OnMetricDataUpdate');
+  static const onCaseCreate = EventSourceName._('OnCaseCreate');
+  static const onCaseUpdate = EventSourceName._('OnCaseUpdate');
 
   final String value;
 
-  const EventSourceName(this.value);
+  const EventSourceName._(this.value);
+
+  static const values = [
+    onPostCallAnalysisAvailable,
+    onRealTimeCallAnalysisAvailable,
+    onRealTimeChatAnalysisAvailable,
+    onPostChatAnalysisAvailable,
+    onZendeskTicketCreate,
+    onZendeskTicketStatusUpdate,
+    onSalesforceCaseCreate,
+    onContactEvaluationSubmit,
+    onMetricDataUpdate,
+    onCaseCreate,
+    onCaseUpdate
+  ];
 
   static EventSourceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EventSourceName'));
+          orElse: () => EventSourceName._(value));
+
+  @override
+  bool operator ==(other) => other is EventSourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object to specify the expiration of a routing step.
@@ -22011,27 +22379,53 @@ class FailedRequest {
   }
 }
 
-enum FailureReasonCode {
-  invalidAttributeKey('INVALID_ATTRIBUTE_KEY'),
-  invalidCustomerEndpoint('INVALID_CUSTOMER_ENDPOINT'),
-  invalidSystemEndpoint('INVALID_SYSTEM_ENDPOINT'),
-  invalidQueue('INVALID_QUEUE'),
-  missingCampaign('MISSING_CAMPAIGN'),
-  missingCustomerEndpoint('MISSING_CUSTOMER_ENDPOINT'),
-  missingQueueIdAndSystemEndpoint('MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT'),
-  requestThrottled('REQUEST_THROTTLED'),
-  idempotencyException('IDEMPOTENCY_EXCEPTION'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class FailureReasonCode {
+  static const invalidAttributeKey =
+      FailureReasonCode._('INVALID_ATTRIBUTE_KEY');
+  static const invalidCustomerEndpoint =
+      FailureReasonCode._('INVALID_CUSTOMER_ENDPOINT');
+  static const invalidSystemEndpoint =
+      FailureReasonCode._('INVALID_SYSTEM_ENDPOINT');
+  static const invalidQueue = FailureReasonCode._('INVALID_QUEUE');
+  static const missingCampaign = FailureReasonCode._('MISSING_CAMPAIGN');
+  static const missingCustomerEndpoint =
+      FailureReasonCode._('MISSING_CUSTOMER_ENDPOINT');
+  static const missingQueueIdAndSystemEndpoint =
+      FailureReasonCode._('MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT');
+  static const requestThrottled = FailureReasonCode._('REQUEST_THROTTLED');
+  static const idempotencyException =
+      FailureReasonCode._('IDEMPOTENCY_EXCEPTION');
+  static const internalError = FailureReasonCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const FailureReasonCode(this.value);
+  const FailureReasonCode._(this.value);
+
+  static const values = [
+    invalidAttributeKey,
+    invalidCustomerEndpoint,
+    invalidSystemEndpoint,
+    invalidQueue,
+    missingCampaign,
+    missingCustomerEndpoint,
+    missingQueueIdAndSystemEndpoint,
+    requestThrottled,
+    idempotencyException,
+    internalError
+  ];
 
   static FailureReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailureReasonCode'));
+          orElse: () => FailureReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object for case field values.
@@ -22112,35 +22506,53 @@ class FieldValueUnion {
   }
 }
 
-enum FileStatusType {
-  approved('APPROVED'),
-  rejected('REJECTED'),
-  processing('PROCESSING'),
-  failed('FAILED'),
-  ;
+class FileStatusType {
+  static const approved = FileStatusType._('APPROVED');
+  static const rejected = FileStatusType._('REJECTED');
+  static const processing = FileStatusType._('PROCESSING');
+  static const failed = FileStatusType._('FAILED');
 
   final String value;
 
-  const FileStatusType(this.value);
+  const FileStatusType._(this.value);
+
+  static const values = [approved, rejected, processing, failed];
 
   static FileStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileStatusType'));
+          orElse: () => FileStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is FileStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FileUseCaseType {
-  attachment('ATTACHMENT'),
-  ;
+class FileUseCaseType {
+  static const attachment = FileUseCaseType._('ATTACHMENT');
 
   final String value;
 
-  const FileUseCaseType(this.value);
+  const FileUseCaseType._(this.value);
+
+  static const values = [attachment];
 
   static FileUseCaseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FileUseCaseType'));
+          orElse: () => FileUseCaseType._(value));
+
+  @override
+  bool operator ==(other) => other is FileUseCaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the filter to apply when retrieving metrics with the <a
@@ -22217,18 +22629,29 @@ class Filters {
   }
 }
 
-enum FlowAssociationResourceType {
-  smsPhoneNumber('SMS_PHONE_NUMBER'),
-  ;
+class FlowAssociationResourceType {
+  static const smsPhoneNumber =
+      FlowAssociationResourceType._('SMS_PHONE_NUMBER');
 
   final String value;
 
-  const FlowAssociationResourceType(this.value);
+  const FlowAssociationResourceType._(this.value);
+
+  static const values = [smsPhoneNumber];
 
   static FlowAssociationResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum FlowAssociationResourceType'));
+          orElse: () => FlowAssociationResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowAssociationResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about flow associations.
@@ -22874,20 +23297,29 @@ class GetTrafficDistributionResponse {
   }
 }
 
-enum Grouping {
-  queue('QUEUE'),
-  channel('CHANNEL'),
-  routingProfile('ROUTING_PROFILE'),
-  routingStepExpression('ROUTING_STEP_EXPRESSION'),
-  ;
+class Grouping {
+  static const queue = Grouping._('QUEUE');
+  static const channel = Grouping._('CHANNEL');
+  static const routingProfile = Grouping._('ROUTING_PROFILE');
+  static const routingStepExpression = Grouping._('ROUTING_STEP_EXPRESSION');
 
   final String value;
 
-  const Grouping(this.value);
+  const Grouping._(this.value);
 
-  static Grouping fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Grouping'));
+  static const values = [queue, channel, routingProfile, routingStepExpression];
+
+  static Grouping fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Grouping._(value));
+
+  @override
+  bool operator ==(other) => other is Grouping && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a hierarchy group.
@@ -22993,19 +23425,29 @@ class HierarchyGroupCondition {
   }
 }
 
-enum HierarchyGroupMatchType {
-  exact('EXACT'),
-  withChildGroups('WITH_CHILD_GROUPS'),
-  ;
+class HierarchyGroupMatchType {
+  static const exact = HierarchyGroupMatchType._('EXACT');
+  static const withChildGroups = HierarchyGroupMatchType._('WITH_CHILD_GROUPS');
 
   final String value;
 
-  const HierarchyGroupMatchType(this.value);
+  const HierarchyGroupMatchType._(this.value);
+
+  static const values = [exact, withChildGroups];
 
   static HierarchyGroupMatchType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HierarchyGroupMatchType'));
+          orElse: () => HierarchyGroupMatchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HierarchyGroupMatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about a hierarchy group.
@@ -23537,42 +23979,90 @@ class HistoricalMetricData {
 }
 
 /// The historical metric names.
-enum HistoricalMetricName {
-  contactsQueued('CONTACTS_QUEUED'),
-  contactsHandled('CONTACTS_HANDLED'),
-  contactsAbandoned('CONTACTS_ABANDONED'),
-  contactsConsulted('CONTACTS_CONSULTED'),
-  contactsAgentHungUpFirst('CONTACTS_AGENT_HUNG_UP_FIRST'),
-  contactsHandledIncoming('CONTACTS_HANDLED_INCOMING'),
-  contactsHandledOutbound('CONTACTS_HANDLED_OUTBOUND'),
-  contactsHoldAbandons('CONTACTS_HOLD_ABANDONS'),
-  contactsTransferredIn('CONTACTS_TRANSFERRED_IN'),
-  contactsTransferredOut('CONTACTS_TRANSFERRED_OUT'),
-  contactsTransferredInFromQueue('CONTACTS_TRANSFERRED_IN_FROM_QUEUE'),
-  contactsTransferredOutFromQueue('CONTACTS_TRANSFERRED_OUT_FROM_QUEUE'),
-  contactsMissed('CONTACTS_MISSED'),
-  callbackContactsHandled('CALLBACK_CONTACTS_HANDLED'),
-  apiContactsHandled('API_CONTACTS_HANDLED'),
-  occupancy('OCCUPANCY'),
-  handleTime('HANDLE_TIME'),
-  afterContactWorkTime('AFTER_CONTACT_WORK_TIME'),
-  queuedTime('QUEUED_TIME'),
-  abandonTime('ABANDON_TIME'),
-  queueAnswerTime('QUEUE_ANSWER_TIME'),
-  holdTime('HOLD_TIME'),
-  interactionTime('INTERACTION_TIME'),
-  interactionAndHoldTime('INTERACTION_AND_HOLD_TIME'),
-  serviceLevel('SERVICE_LEVEL'),
-  ;
+class HistoricalMetricName {
+  static const contactsQueued = HistoricalMetricName._('CONTACTS_QUEUED');
+  static const contactsHandled = HistoricalMetricName._('CONTACTS_HANDLED');
+  static const contactsAbandoned = HistoricalMetricName._('CONTACTS_ABANDONED');
+  static const contactsConsulted = HistoricalMetricName._('CONTACTS_CONSULTED');
+  static const contactsAgentHungUpFirst =
+      HistoricalMetricName._('CONTACTS_AGENT_HUNG_UP_FIRST');
+  static const contactsHandledIncoming =
+      HistoricalMetricName._('CONTACTS_HANDLED_INCOMING');
+  static const contactsHandledOutbound =
+      HistoricalMetricName._('CONTACTS_HANDLED_OUTBOUND');
+  static const contactsHoldAbandons =
+      HistoricalMetricName._('CONTACTS_HOLD_ABANDONS');
+  static const contactsTransferredIn =
+      HistoricalMetricName._('CONTACTS_TRANSFERRED_IN');
+  static const contactsTransferredOut =
+      HistoricalMetricName._('CONTACTS_TRANSFERRED_OUT');
+  static const contactsTransferredInFromQueue =
+      HistoricalMetricName._('CONTACTS_TRANSFERRED_IN_FROM_QUEUE');
+  static const contactsTransferredOutFromQueue =
+      HistoricalMetricName._('CONTACTS_TRANSFERRED_OUT_FROM_QUEUE');
+  static const contactsMissed = HistoricalMetricName._('CONTACTS_MISSED');
+  static const callbackContactsHandled =
+      HistoricalMetricName._('CALLBACK_CONTACTS_HANDLED');
+  static const apiContactsHandled =
+      HistoricalMetricName._('API_CONTACTS_HANDLED');
+  static const occupancy = HistoricalMetricName._('OCCUPANCY');
+  static const handleTime = HistoricalMetricName._('HANDLE_TIME');
+  static const afterContactWorkTime =
+      HistoricalMetricName._('AFTER_CONTACT_WORK_TIME');
+  static const queuedTime = HistoricalMetricName._('QUEUED_TIME');
+  static const abandonTime = HistoricalMetricName._('ABANDON_TIME');
+  static const queueAnswerTime = HistoricalMetricName._('QUEUE_ANSWER_TIME');
+  static const holdTime = HistoricalMetricName._('HOLD_TIME');
+  static const interactionTime = HistoricalMetricName._('INTERACTION_TIME');
+  static const interactionAndHoldTime =
+      HistoricalMetricName._('INTERACTION_AND_HOLD_TIME');
+  static const serviceLevel = HistoricalMetricName._('SERVICE_LEVEL');
 
   final String value;
 
-  const HistoricalMetricName(this.value);
+  const HistoricalMetricName._(this.value);
 
-  static HistoricalMetricName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HistoricalMetricName'));
+  static const values = [
+    contactsQueued,
+    contactsHandled,
+    contactsAbandoned,
+    contactsConsulted,
+    contactsAgentHungUpFirst,
+    contactsHandledIncoming,
+    contactsHandledOutbound,
+    contactsHoldAbandons,
+    contactsTransferredIn,
+    contactsTransferredOut,
+    contactsTransferredInFromQueue,
+    contactsTransferredOutFromQueue,
+    contactsMissed,
+    callbackContactsHandled,
+    apiContactsHandled,
+    occupancy,
+    handleTime,
+    afterContactWorkTime,
+    queuedTime,
+    abandonTime,
+    queueAnswerTime,
+    holdTime,
+    interactionTime,
+    interactionAndHoldTime,
+    serviceLevel
+  ];
+
+  static HistoricalMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HistoricalMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HistoricalMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the historical metrics retrieved.
@@ -23716,7 +24206,7 @@ class HoursOfOperationConfig {
 
   factory HoursOfOperationConfig.fromJson(Map<String, dynamic> json) {
     return HoursOfOperationConfig(
-      day: HoursOfOperationDays.fromString((json['Day'] as String)),
+      day: HoursOfOperationDays.fromString((json['Day'] as String?) ?? ''),
       endTime: HoursOfOperationTimeSlice.fromJson(
           (json['EndTime'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -23738,24 +24228,42 @@ class HoursOfOperationConfig {
   }
 }
 
-enum HoursOfOperationDays {
-  sunday('SUNDAY'),
-  monday('MONDAY'),
-  tuesday('TUESDAY'),
-  wednesday('WEDNESDAY'),
-  thursday('THURSDAY'),
-  friday('FRIDAY'),
-  saturday('SATURDAY'),
-  ;
+class HoursOfOperationDays {
+  static const sunday = HoursOfOperationDays._('SUNDAY');
+  static const monday = HoursOfOperationDays._('MONDAY');
+  static const tuesday = HoursOfOperationDays._('TUESDAY');
+  static const wednesday = HoursOfOperationDays._('WEDNESDAY');
+  static const thursday = HoursOfOperationDays._('THURSDAY');
+  static const friday = HoursOfOperationDays._('FRIDAY');
+  static const saturday = HoursOfOperationDays._('SATURDAY');
 
   final String value;
 
-  const HoursOfOperationDays(this.value);
+  const HoursOfOperationDays._(this.value);
 
-  static HoursOfOperationDays fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HoursOfOperationDays'));
+  static const values = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
+  ];
+
+  static HoursOfOperationDays fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HoursOfOperationDays._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HoursOfOperationDays && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The search criteria to be used to return hours of operations.
@@ -24031,63 +24539,123 @@ class Instance {
   }
 }
 
-enum InstanceAttributeType {
-  inboundCalls('INBOUND_CALLS'),
-  outboundCalls('OUTBOUND_CALLS'),
-  contactflowLogs('CONTACTFLOW_LOGS'),
-  contactLens('CONTACT_LENS'),
-  autoResolveBestVoices('AUTO_RESOLVE_BEST_VOICES'),
-  useCustomTtsVoices('USE_CUSTOM_TTS_VOICES'),
-  earlyMedia('EARLY_MEDIA'),
-  multiPartyConference('MULTI_PARTY_CONFERENCE'),
-  highVolumeOutbound('HIGH_VOLUME_OUTBOUND'),
-  enhancedContactMonitoring('ENHANCED_CONTACT_MONITORING'),
-  enhancedChatMonitoring('ENHANCED_CHAT_MONITORING'),
-  ;
+class InstanceAttributeType {
+  static const inboundCalls = InstanceAttributeType._('INBOUND_CALLS');
+  static const outboundCalls = InstanceAttributeType._('OUTBOUND_CALLS');
+  static const contactflowLogs = InstanceAttributeType._('CONTACTFLOW_LOGS');
+  static const contactLens = InstanceAttributeType._('CONTACT_LENS');
+  static const autoResolveBestVoices =
+      InstanceAttributeType._('AUTO_RESOLVE_BEST_VOICES');
+  static const useCustomTtsVoices =
+      InstanceAttributeType._('USE_CUSTOM_TTS_VOICES');
+  static const earlyMedia = InstanceAttributeType._('EARLY_MEDIA');
+  static const multiPartyConference =
+      InstanceAttributeType._('MULTI_PARTY_CONFERENCE');
+  static const highVolumeOutbound =
+      InstanceAttributeType._('HIGH_VOLUME_OUTBOUND');
+  static const enhancedContactMonitoring =
+      InstanceAttributeType._('ENHANCED_CONTACT_MONITORING');
+  static const enhancedChatMonitoring =
+      InstanceAttributeType._('ENHANCED_CHAT_MONITORING');
 
   final String value;
 
-  const InstanceAttributeType(this.value);
+  const InstanceAttributeType._(this.value);
 
-  static InstanceAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InstanceAttributeType'));
+  static const values = [
+    inboundCalls,
+    outboundCalls,
+    contactflowLogs,
+    contactLens,
+    autoResolveBestVoices,
+    useCustomTtsVoices,
+    earlyMedia,
+    multiPartyConference,
+    highVolumeOutbound,
+    enhancedContactMonitoring,
+    enhancedChatMonitoring
+  ];
+
+  static InstanceAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceReplicationStatus {
-  instanceReplicationComplete('INSTANCE_REPLICATION_COMPLETE'),
-  instanceReplicationInProgress('INSTANCE_REPLICATION_IN_PROGRESS'),
-  instanceReplicationFailed('INSTANCE_REPLICATION_FAILED'),
-  instanceReplicaDeleting('INSTANCE_REPLICA_DELETING'),
-  instanceReplicationDeletionFailed('INSTANCE_REPLICATION_DELETION_FAILED'),
-  resourceReplicationNotStarted('RESOURCE_REPLICATION_NOT_STARTED'),
-  ;
+class InstanceReplicationStatus {
+  static const instanceReplicationComplete =
+      InstanceReplicationStatus._('INSTANCE_REPLICATION_COMPLETE');
+  static const instanceReplicationInProgress =
+      InstanceReplicationStatus._('INSTANCE_REPLICATION_IN_PROGRESS');
+  static const instanceReplicationFailed =
+      InstanceReplicationStatus._('INSTANCE_REPLICATION_FAILED');
+  static const instanceReplicaDeleting =
+      InstanceReplicationStatus._('INSTANCE_REPLICA_DELETING');
+  static const instanceReplicationDeletionFailed =
+      InstanceReplicationStatus._('INSTANCE_REPLICATION_DELETION_FAILED');
+  static const resourceReplicationNotStarted =
+      InstanceReplicationStatus._('RESOURCE_REPLICATION_NOT_STARTED');
 
   final String value;
 
-  const InstanceReplicationStatus(this.value);
+  const InstanceReplicationStatus._(this.value);
+
+  static const values = [
+    instanceReplicationComplete,
+    instanceReplicationInProgress,
+    instanceReplicationFailed,
+    instanceReplicaDeleting,
+    instanceReplicationDeletionFailed,
+    resourceReplicationNotStarted
+  ];
 
   static InstanceReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceReplicationStatus'));
+          orElse: () => InstanceReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InstanceStatus {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  active('ACTIVE'),
-  creationFailed('CREATION_FAILED'),
-  ;
+class InstanceStatus {
+  static const creationInProgress = InstanceStatus._('CREATION_IN_PROGRESS');
+  static const active = InstanceStatus._('ACTIVE');
+  static const creationFailed = InstanceStatus._('CREATION_FAILED');
 
   final String value;
 
-  const InstanceStatus(this.value);
+  const InstanceStatus._(this.value);
+
+  static const values = [creationInProgress, active, creationFailed];
 
   static InstanceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceStatus'));
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Relevant details why the instance was not successfully created.
@@ -24145,7 +24713,8 @@ class InstanceStorageConfig {
 
   factory InstanceStorageConfig.fromJson(Map<String, dynamic> json) {
     return InstanceStorageConfig(
-      storageType: StorageType.fromString((json['StorageType'] as String)),
+      storageType:
+          StorageType.fromString((json['StorageType'] as String?) ?? ''),
       associationId: json['AssociationId'] as String?,
       kinesisFirehoseConfig: json['KinesisFirehoseConfig'] != null
           ? KinesisFirehoseConfig.fromJson(
@@ -24186,31 +24755,62 @@ class InstanceStorageConfig {
   }
 }
 
-enum InstanceStorageResourceType {
-  chatTranscripts('CHAT_TRANSCRIPTS'),
-  callRecordings('CALL_RECORDINGS'),
-  scheduledReports('SCHEDULED_REPORTS'),
-  mediaStreams('MEDIA_STREAMS'),
-  contactTraceRecords('CONTACT_TRACE_RECORDS'),
-  agentEvents('AGENT_EVENTS'),
-  realTimeContactAnalysisSegments('REAL_TIME_CONTACT_ANALYSIS_SEGMENTS'),
-  attachments('ATTACHMENTS'),
-  contactEvaluations('CONTACT_EVALUATIONS'),
-  screenRecordings('SCREEN_RECORDINGS'),
-  realTimeContactAnalysisChatSegments(
-      'REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS'),
-  realTimeContactAnalysisVoiceSegments(
-      'REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS'),
-  ;
+class InstanceStorageResourceType {
+  static const chatTranscripts =
+      InstanceStorageResourceType._('CHAT_TRANSCRIPTS');
+  static const callRecordings =
+      InstanceStorageResourceType._('CALL_RECORDINGS');
+  static const scheduledReports =
+      InstanceStorageResourceType._('SCHEDULED_REPORTS');
+  static const mediaStreams = InstanceStorageResourceType._('MEDIA_STREAMS');
+  static const contactTraceRecords =
+      InstanceStorageResourceType._('CONTACT_TRACE_RECORDS');
+  static const agentEvents = InstanceStorageResourceType._('AGENT_EVENTS');
+  static const realTimeContactAnalysisSegments =
+      InstanceStorageResourceType._('REAL_TIME_CONTACT_ANALYSIS_SEGMENTS');
+  static const attachments = InstanceStorageResourceType._('ATTACHMENTS');
+  static const contactEvaluations =
+      InstanceStorageResourceType._('CONTACT_EVALUATIONS');
+  static const screenRecordings =
+      InstanceStorageResourceType._('SCREEN_RECORDINGS');
+  static const realTimeContactAnalysisChatSegments =
+      InstanceStorageResourceType._('REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS');
+  static const realTimeContactAnalysisVoiceSegments =
+      InstanceStorageResourceType._(
+          'REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS');
 
   final String value;
 
-  const InstanceStorageResourceType(this.value);
+  const InstanceStorageResourceType._(this.value);
+
+  static const values = [
+    chatTranscripts,
+    callRecordings,
+    scheduledReports,
+    mediaStreams,
+    contactTraceRecords,
+    agentEvents,
+    realTimeContactAnalysisSegments,
+    attachments,
+    contactEvaluations,
+    screenRecordings,
+    realTimeContactAnalysisChatSegments,
+    realTimeContactAnalysisVoiceSegments
+  ];
 
   static InstanceStorageResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceStorageResourceType'));
+          orElse: () => InstanceStorageResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceStorageResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the instance.
@@ -24384,26 +24984,46 @@ class IntegrationAssociationSummary {
   }
 }
 
-enum IntegrationType {
-  event('EVENT'),
-  voiceId('VOICE_ID'),
-  pinpointApp('PINPOINT_APP'),
-  wisdomAssistant('WISDOM_ASSISTANT'),
-  wisdomKnowledgeBase('WISDOM_KNOWLEDGE_BASE'),
-  wisdomQuickResponses('WISDOM_QUICK_RESPONSES'),
-  casesDomain('CASES_DOMAIN'),
-  application('APPLICATION'),
-  fileScanner('FILE_SCANNER'),
-  ;
+class IntegrationType {
+  static const event = IntegrationType._('EVENT');
+  static const voiceId = IntegrationType._('VOICE_ID');
+  static const pinpointApp = IntegrationType._('PINPOINT_APP');
+  static const wisdomAssistant = IntegrationType._('WISDOM_ASSISTANT');
+  static const wisdomKnowledgeBase = IntegrationType._('WISDOM_KNOWLEDGE_BASE');
+  static const wisdomQuickResponses =
+      IntegrationType._('WISDOM_QUICK_RESPONSES');
+  static const casesDomain = IntegrationType._('CASES_DOMAIN');
+  static const application = IntegrationType._('APPLICATION');
+  static const fileScanner = IntegrationType._('FILE_SCANNER');
 
   final String value;
 
-  const IntegrationType(this.value);
+  const IntegrationType._(this.value);
+
+  static const values = [
+    event,
+    voiceId,
+    pinpointApp,
+    wisdomAssistant,
+    wisdomKnowledgeBase,
+    wisdomQuickResponses,
+    casesDomain,
+    application,
+    fileScanner
+  ];
 
   static IntegrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntegrationType'));
+          orElse: () => IntegrationType._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the interval period to use for returning results.
@@ -24468,23 +25088,32 @@ class IntervalDetails {
   }
 }
 
-enum IntervalPeriod {
-  fifteenMin('FIFTEEN_MIN'),
-  thirtyMin('THIRTY_MIN'),
-  hour('HOUR'),
-  day('DAY'),
-  week('WEEK'),
-  total('TOTAL'),
-  ;
+class IntervalPeriod {
+  static const fifteenMin = IntervalPeriod._('FIFTEEN_MIN');
+  static const thirtyMin = IntervalPeriod._('THIRTY_MIN');
+  static const hour = IntervalPeriod._('HOUR');
+  static const day = IntervalPeriod._('DAY');
+  static const week = IntervalPeriod._('WEEK');
+  static const total = IntervalPeriod._('TOTAL');
 
   final String value;
 
-  const IntervalPeriod(this.value);
+  const IntervalPeriod._(this.value);
+
+  static const values = [fifteenMin, thirtyMin, hour, day, week, total];
 
   static IntervalPeriod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntervalPeriod'));
+          orElse: () => IntervalPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is IntervalPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A field that is invisible to an agent.
@@ -24687,18 +25316,27 @@ class LexV2Bot {
   }
 }
 
-enum LexVersion {
-  v1('V1'),
-  v2('V2'),
-  ;
+class LexVersion {
+  static const v1 = LexVersion._('V1');
+  static const v2 = LexVersion._('V2');
 
   final String value;
 
-  const LexVersion(this.value);
+  const LexVersion._(this.value);
 
-  static LexVersion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LexVersion'));
+  static const values = [v1, v2];
+
+  static LexVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LexVersion._(value));
+
+  @override
+  bool operator ==(other) => other is LexVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAgentStatusResponse {
@@ -25152,18 +25790,29 @@ class ListEvaluationFormsResponse {
   }
 }
 
-enum ListFlowAssociationResourceType {
-  voicePhoneNumber('VOICE_PHONE_NUMBER'),
-  ;
+class ListFlowAssociationResourceType {
+  static const voicePhoneNumber =
+      ListFlowAssociationResourceType._('VOICE_PHONE_NUMBER');
 
   final String value;
 
-  const ListFlowAssociationResourceType(this.value);
+  const ListFlowAssociationResourceType._(this.value);
+
+  static const values = [voicePhoneNumber];
 
   static ListFlowAssociationResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListFlowAssociationResourceType'));
+          orElse: () => ListFlowAssociationResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListFlowAssociationResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListFlowAssociationsResponse {
@@ -25816,14 +26465,14 @@ class ListRealtimeContactAnalysisSegmentsV2Response {
       Map<String, dynamic> json) {
     return ListRealtimeContactAnalysisSegmentsV2Response(
       channel: RealTimeContactAnalysisSupportedChannel.fromString(
-          (json['Channel'] as String)),
+          (json['Channel'] as String?) ?? ''),
       segments: ((json['Segments'] as List?) ?? const [])
           .nonNulls
           .map((e) => RealtimeContactAnalysisSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status:
-          RealTimeContactAnalysisStatus.fromString((json['Status'] as String)),
+      status: RealTimeContactAnalysisStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -26543,7 +27192,7 @@ class MediaConcurrency {
 
   factory MediaConcurrency.fromJson(Map<String, dynamic> json) {
     return MediaConcurrency(
-      channel: Channel.fromString((json['Channel'] as String)),
+      channel: Channel.fromString((json['Channel'] as String?) ?? ''),
       concurrency: (json['Concurrency'] as int?) ?? 0,
       crossChannelBehavior: json['CrossChannelBehavior'] != null
           ? CrossChannelBehavior.fromJson(
@@ -26667,19 +27316,29 @@ class Meeting {
   }
 }
 
-enum MeetingFeatureStatus {
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class MeetingFeatureStatus {
+  static const available = MeetingFeatureStatus._('AVAILABLE');
+  static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
 
   final String value;
 
-  const MeetingFeatureStatus(this.value);
+  const MeetingFeatureStatus._(this.value);
 
-  static MeetingFeatureStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MeetingFeatureStatus'));
+  static const values = [available, unavailable];
+
+  static MeetingFeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MeetingFeatureStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MeetingFeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration settings of the features available to a meeting.
@@ -26935,19 +27594,28 @@ class MetricV2 {
   }
 }
 
-enum MonitorCapability {
-  silentMonitor('SILENT_MONITOR'),
-  barge('BARGE'),
-  ;
+class MonitorCapability {
+  static const silentMonitor = MonitorCapability._('SILENT_MONITOR');
+  static const barge = MonitorCapability._('BARGE');
 
   final String value;
 
-  const MonitorCapability(this.value);
+  const MonitorCapability._(this.value);
+
+  static const values = [silentMonitor, barge];
 
   static MonitorCapability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MonitorCapability'));
+          orElse: () => MonitorCapability._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MonitorContactResponse {
@@ -27029,32 +27697,52 @@ class NewSessionDetails {
   }
 }
 
-enum NotificationContentType {
-  plainText('PLAIN_TEXT'),
-  ;
+class NotificationContentType {
+  static const plainText = NotificationContentType._('PLAIN_TEXT');
 
   final String value;
 
-  const NotificationContentType(this.value);
+  const NotificationContentType._(this.value);
+
+  static const values = [plainText];
 
   static NotificationContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationContentType'));
+          orElse: () => NotificationContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum NotificationDeliveryType {
-  email('EMAIL'),
-  ;
+class NotificationDeliveryType {
+  static const email = NotificationDeliveryType._('EMAIL');
 
   final String value;
 
-  const NotificationDeliveryType(this.value);
+  const NotificationDeliveryType._(this.value);
+
+  static const values = [email];
 
   static NotificationDeliveryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NotificationDeliveryType'));
+          orElse: () => NotificationDeliveryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationDeliveryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The type of notification recipient.
@@ -27091,24 +27779,42 @@ class NotificationRecipientType {
   }
 }
 
-enum NumberComparisonType {
-  greaterOrEqual('GREATER_OR_EQUAL'),
-  greater('GREATER'),
-  lesserOrEqual('LESSER_OR_EQUAL'),
-  lesser('LESSER'),
-  equal('EQUAL'),
-  notEqual('NOT_EQUAL'),
-  range('RANGE'),
-  ;
+class NumberComparisonType {
+  static const greaterOrEqual = NumberComparisonType._('GREATER_OR_EQUAL');
+  static const greater = NumberComparisonType._('GREATER');
+  static const lesserOrEqual = NumberComparisonType._('LESSER_OR_EQUAL');
+  static const lesser = NumberComparisonType._('LESSER');
+  static const equal = NumberComparisonType._('EQUAL');
+  static const notEqual = NumberComparisonType._('NOT_EQUAL');
+  static const range = NumberComparisonType._('RANGE');
 
   final String value;
 
-  const NumberComparisonType(this.value);
+  const NumberComparisonType._(this.value);
 
-  static NumberComparisonType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum NumberComparisonType'));
+  static const values = [
+    greaterOrEqual,
+    greater,
+    lesserOrEqual,
+    lesser,
+    equal,
+    notEqual,
+    range
+  ];
+
+  static NumberComparisonType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NumberComparisonType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumberComparisonType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A leaf node condition which can be used to specify a numeric condition.
@@ -27181,25 +27887,53 @@ class NumberReference {
   }
 }
 
-enum NumericQuestionPropertyAutomationLabel {
-  overallCustomerSentimentScore('OVERALL_CUSTOMER_SENTIMENT_SCORE'),
-  overallAgentSentimentScore('OVERALL_AGENT_SENTIMENT_SCORE'),
-  nonTalkTime('NON_TALK_TIME'),
-  nonTalkTimePercentage('NON_TALK_TIME_PERCENTAGE'),
-  numberOfInterruptions('NUMBER_OF_INTERRUPTIONS'),
-  contactDuration('CONTACT_DURATION'),
-  agentInteractionDuration('AGENT_INTERACTION_DURATION'),
-  customerHoldTime('CUSTOMER_HOLD_TIME'),
-  ;
+class NumericQuestionPropertyAutomationLabel {
+  static const overallCustomerSentimentScore =
+      NumericQuestionPropertyAutomationLabel._(
+          'OVERALL_CUSTOMER_SENTIMENT_SCORE');
+  static const overallAgentSentimentScore =
+      NumericQuestionPropertyAutomationLabel._('OVERALL_AGENT_SENTIMENT_SCORE');
+  static const nonTalkTime =
+      NumericQuestionPropertyAutomationLabel._('NON_TALK_TIME');
+  static const nonTalkTimePercentage =
+      NumericQuestionPropertyAutomationLabel._('NON_TALK_TIME_PERCENTAGE');
+  static const numberOfInterruptions =
+      NumericQuestionPropertyAutomationLabel._('NUMBER_OF_INTERRUPTIONS');
+  static const contactDuration =
+      NumericQuestionPropertyAutomationLabel._('CONTACT_DURATION');
+  static const agentInteractionDuration =
+      NumericQuestionPropertyAutomationLabel._('AGENT_INTERACTION_DURATION');
+  static const customerHoldTime =
+      NumericQuestionPropertyAutomationLabel._('CUSTOMER_HOLD_TIME');
 
   final String value;
 
-  const NumericQuestionPropertyAutomationLabel(this.value);
+  const NumericQuestionPropertyAutomationLabel._(this.value);
+
+  static const values = [
+    overallCustomerSentimentScore,
+    overallAgentSentimentScore,
+    nonTalkTime,
+    nonTalkTimePercentage,
+    numberOfInterruptions,
+    contactDuration,
+    agentInteractionDuration,
+    customerHoldTime
+  ];
 
   static NumericQuestionPropertyAutomationLabel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum NumericQuestionPropertyAutomationLabel'));
+          orElse: () => NumericQuestionPropertyAutomationLabel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumericQuestionPropertyAutomationLabel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the property value used in automation of a numeric
@@ -27236,7 +27970,7 @@ class NumericQuestionPropertyValueAutomation {
       Map<String, dynamic> json) {
     return NumericQuestionPropertyValueAutomation(
       label: NumericQuestionPropertyAutomationLabel.fromString(
-          (json['Label'] as String)),
+          (json['Label'] as String?) ?? ''),
     );
   }
 
@@ -27352,36 +28086,55 @@ class ParticipantDetailsToAdd {
   }
 }
 
-enum ParticipantRole {
-  agent('AGENT'),
-  customer('CUSTOMER'),
-  system('SYSTEM'),
-  customBot('CUSTOM_BOT'),
-  supervisor('SUPERVISOR'),
-  ;
+class ParticipantRole {
+  static const agent = ParticipantRole._('AGENT');
+  static const customer = ParticipantRole._('CUSTOMER');
+  static const system = ParticipantRole._('SYSTEM');
+  static const customBot = ParticipantRole._('CUSTOM_BOT');
+  static const supervisor = ParticipantRole._('SUPERVISOR');
 
   final String value;
 
-  const ParticipantRole(this.value);
+  const ParticipantRole._(this.value);
+
+  static const values = [agent, customer, system, customBot, supervisor];
 
   static ParticipantRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParticipantRole'));
+          orElse: () => ParticipantRole._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ParticipantTimerAction {
-  unset('Unset'),
-  ;
+class ParticipantTimerAction {
+  static const unset = ParticipantTimerAction._('Unset');
 
   final String value;
 
-  const ParticipantTimerAction(this.value);
+  const ParticipantTimerAction._(this.value);
+
+  static const values = [unset];
 
   static ParticipantTimerAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ParticipantTimerAction'));
+          orElse: () => ParticipantTimerAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantTimerAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information for the timer. After the timer configuration is
@@ -27423,19 +28176,30 @@ class ParticipantTimerConfiguration {
   }
 }
 
-enum ParticipantTimerType {
-  idle('IDLE'),
-  disconnectNoncustomer('DISCONNECT_NONCUSTOMER'),
-  ;
+class ParticipantTimerType {
+  static const idle = ParticipantTimerType._('IDLE');
+  static const disconnectNoncustomer =
+      ParticipantTimerType._('DISCONNECT_NONCUSTOMER');
 
   final String value;
 
-  const ParticipantTimerType(this.value);
+  const ParticipantTimerType._(this.value);
 
-  static ParticipantTimerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ParticipantTimerType'));
+  static const values = [idle, disconnectNoncustomer];
+
+  static ParticipantTimerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParticipantTimerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParticipantTimerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The value of the timer. Either the timer action (<code>Unset</code> to
@@ -27560,254 +28324,502 @@ class PersistentChat {
   }
 }
 
-enum PhoneNumberCountryCode {
-  af('AF'),
-  al('AL'),
-  dz('DZ'),
-  as('AS'),
-  ad('AD'),
-  ao('AO'),
-  ai('AI'),
-  aq('AQ'),
-  ag('AG'),
-  ar('AR'),
-  am('AM'),
-  aw('AW'),
-  au('AU'),
-  at('AT'),
-  az('AZ'),
-  bs('BS'),
-  bh('BH'),
-  bd('BD'),
-  bb('BB'),
-  by('BY'),
-  be('BE'),
-  bz('BZ'),
-  bj('BJ'),
-  bm('BM'),
-  bt('BT'),
-  bo('BO'),
-  ba('BA'),
-  bw('BW'),
-  br('BR'),
-  io('IO'),
-  vg('VG'),
-  bn('BN'),
-  bg('BG'),
-  bf('BF'),
-  bi('BI'),
-  kh('KH'),
-  cm('CM'),
-  ca('CA'),
-  cv('CV'),
-  ky('KY'),
-  cf('CF'),
-  td('TD'),
-  cl('CL'),
-  cn('CN'),
-  cx('CX'),
-  cc('CC'),
-  co('CO'),
-  km('KM'),
-  ck('CK'),
-  cr('CR'),
-  hr('HR'),
-  cu('CU'),
-  cw('CW'),
-  cy('CY'),
-  cz('CZ'),
-  cd('CD'),
-  dk('DK'),
-  dj('DJ'),
-  dm('DM'),
-  $do('DO'),
-  tl('TL'),
-  ec('EC'),
-  eg('EG'),
-  sv('SV'),
-  gq('GQ'),
-  er('ER'),
-  ee('EE'),
-  et('ET'),
-  fk('FK'),
-  fo('FO'),
-  fj('FJ'),
-  fi('FI'),
-  fr('FR'),
-  pf('PF'),
-  ga('GA'),
-  gm('GM'),
-  ge('GE'),
-  de('DE'),
-  gh('GH'),
-  gi('GI'),
-  gr('GR'),
-  gl('GL'),
-  gd('GD'),
-  gu('GU'),
-  gt('GT'),
-  gg('GG'),
-  gn('GN'),
-  gw('GW'),
-  gy('GY'),
-  ht('HT'),
-  hn('HN'),
-  hk('HK'),
-  hu('HU'),
-  $is('IS'),
-  $in('IN'),
-  id('ID'),
-  ir('IR'),
-  iq('IQ'),
-  ie('IE'),
-  im('IM'),
-  il('IL'),
-  it('IT'),
-  ci('CI'),
-  jm('JM'),
-  jp('JP'),
-  je('JE'),
-  jo('JO'),
-  kz('KZ'),
-  ke('KE'),
-  ki('KI'),
-  kw('KW'),
-  kg('KG'),
-  la('LA'),
-  lv('LV'),
-  lb('LB'),
-  ls('LS'),
-  lr('LR'),
-  ly('LY'),
-  li('LI'),
-  lt('LT'),
-  lu('LU'),
-  mo('MO'),
-  mk('MK'),
-  mg('MG'),
-  mw('MW'),
-  my('MY'),
-  mv('MV'),
-  ml('ML'),
-  mt('MT'),
-  mh('MH'),
-  mr('MR'),
-  mu('MU'),
-  yt('YT'),
-  mx('MX'),
-  fm('FM'),
-  md('MD'),
-  mc('MC'),
-  mn('MN'),
-  me('ME'),
-  ms('MS'),
-  ma('MA'),
-  mz('MZ'),
-  mm('MM'),
-  na('NA'),
-  nr('NR'),
-  np('NP'),
-  nl('NL'),
-  an('AN'),
-  nc('NC'),
-  nz('NZ'),
-  ni('NI'),
-  ne('NE'),
-  ng('NG'),
-  nu('NU'),
-  kp('KP'),
-  mp('MP'),
-  no('NO'),
-  om('OM'),
-  pk('PK'),
-  pw('PW'),
-  pa('PA'),
-  pg('PG'),
-  py('PY'),
-  pe('PE'),
-  ph('PH'),
-  pn('PN'),
-  pl('PL'),
-  pt('PT'),
-  pr('PR'),
-  qa('QA'),
-  cg('CG'),
-  re('RE'),
-  ro('RO'),
-  ru('RU'),
-  rw('RW'),
-  bl('BL'),
-  sh('SH'),
-  kn('KN'),
-  lc('LC'),
-  mf('MF'),
-  pm('PM'),
-  vc('VC'),
-  ws('WS'),
-  sm('SM'),
-  st('ST'),
-  sa('SA'),
-  sn('SN'),
-  rs('RS'),
-  sc('SC'),
-  sl('SL'),
-  sg('SG'),
-  sx('SX'),
-  sk('SK'),
-  si('SI'),
-  sb('SB'),
-  so('SO'),
-  za('ZA'),
-  kr('KR'),
-  es('ES'),
-  lk('LK'),
-  sd('SD'),
-  sr('SR'),
-  sj('SJ'),
-  sz('SZ'),
-  se('SE'),
-  ch('CH'),
-  sy('SY'),
-  tw('TW'),
-  tj('TJ'),
-  tz('TZ'),
-  th('TH'),
-  tg('TG'),
-  tk('TK'),
-  to('TO'),
-  tt('TT'),
-  tn('TN'),
-  tr('TR'),
-  tm('TM'),
-  tc('TC'),
-  tv('TV'),
-  vi('VI'),
-  ug('UG'),
-  ua('UA'),
-  ae('AE'),
-  gb('GB'),
-  us('US'),
-  uy('UY'),
-  uz('UZ'),
-  vu('VU'),
-  va('VA'),
-  ve('VE'),
-  vn('VN'),
-  wf('WF'),
-  eh('EH'),
-  ye('YE'),
-  zm('ZM'),
-  zw('ZW'),
-  ;
+class PhoneNumberCountryCode {
+  static const af = PhoneNumberCountryCode._('AF');
+  static const al = PhoneNumberCountryCode._('AL');
+  static const dz = PhoneNumberCountryCode._('DZ');
+  static const as = PhoneNumberCountryCode._('AS');
+  static const ad = PhoneNumberCountryCode._('AD');
+  static const ao = PhoneNumberCountryCode._('AO');
+  static const ai = PhoneNumberCountryCode._('AI');
+  static const aq = PhoneNumberCountryCode._('AQ');
+  static const ag = PhoneNumberCountryCode._('AG');
+  static const ar = PhoneNumberCountryCode._('AR');
+  static const am = PhoneNumberCountryCode._('AM');
+  static const aw = PhoneNumberCountryCode._('AW');
+  static const au = PhoneNumberCountryCode._('AU');
+  static const at = PhoneNumberCountryCode._('AT');
+  static const az = PhoneNumberCountryCode._('AZ');
+  static const bs = PhoneNumberCountryCode._('BS');
+  static const bh = PhoneNumberCountryCode._('BH');
+  static const bd = PhoneNumberCountryCode._('BD');
+  static const bb = PhoneNumberCountryCode._('BB');
+  static const by = PhoneNumberCountryCode._('BY');
+  static const be = PhoneNumberCountryCode._('BE');
+  static const bz = PhoneNumberCountryCode._('BZ');
+  static const bj = PhoneNumberCountryCode._('BJ');
+  static const bm = PhoneNumberCountryCode._('BM');
+  static const bt = PhoneNumberCountryCode._('BT');
+  static const bo = PhoneNumberCountryCode._('BO');
+  static const ba = PhoneNumberCountryCode._('BA');
+  static const bw = PhoneNumberCountryCode._('BW');
+  static const br = PhoneNumberCountryCode._('BR');
+  static const io = PhoneNumberCountryCode._('IO');
+  static const vg = PhoneNumberCountryCode._('VG');
+  static const bn = PhoneNumberCountryCode._('BN');
+  static const bg = PhoneNumberCountryCode._('BG');
+  static const bf = PhoneNumberCountryCode._('BF');
+  static const bi = PhoneNumberCountryCode._('BI');
+  static const kh = PhoneNumberCountryCode._('KH');
+  static const cm = PhoneNumberCountryCode._('CM');
+  static const ca = PhoneNumberCountryCode._('CA');
+  static const cv = PhoneNumberCountryCode._('CV');
+  static const ky = PhoneNumberCountryCode._('KY');
+  static const cf = PhoneNumberCountryCode._('CF');
+  static const td = PhoneNumberCountryCode._('TD');
+  static const cl = PhoneNumberCountryCode._('CL');
+  static const cn = PhoneNumberCountryCode._('CN');
+  static const cx = PhoneNumberCountryCode._('CX');
+  static const cc = PhoneNumberCountryCode._('CC');
+  static const co = PhoneNumberCountryCode._('CO');
+  static const km = PhoneNumberCountryCode._('KM');
+  static const ck = PhoneNumberCountryCode._('CK');
+  static const cr = PhoneNumberCountryCode._('CR');
+  static const hr = PhoneNumberCountryCode._('HR');
+  static const cu = PhoneNumberCountryCode._('CU');
+  static const cw = PhoneNumberCountryCode._('CW');
+  static const cy = PhoneNumberCountryCode._('CY');
+  static const cz = PhoneNumberCountryCode._('CZ');
+  static const cd = PhoneNumberCountryCode._('CD');
+  static const dk = PhoneNumberCountryCode._('DK');
+  static const dj = PhoneNumberCountryCode._('DJ');
+  static const dm = PhoneNumberCountryCode._('DM');
+  static const $do = PhoneNumberCountryCode._('DO');
+  static const tl = PhoneNumberCountryCode._('TL');
+  static const ec = PhoneNumberCountryCode._('EC');
+  static const eg = PhoneNumberCountryCode._('EG');
+  static const sv = PhoneNumberCountryCode._('SV');
+  static const gq = PhoneNumberCountryCode._('GQ');
+  static const er = PhoneNumberCountryCode._('ER');
+  static const ee = PhoneNumberCountryCode._('EE');
+  static const et = PhoneNumberCountryCode._('ET');
+  static const fk = PhoneNumberCountryCode._('FK');
+  static const fo = PhoneNumberCountryCode._('FO');
+  static const fj = PhoneNumberCountryCode._('FJ');
+  static const fi = PhoneNumberCountryCode._('FI');
+  static const fr = PhoneNumberCountryCode._('FR');
+  static const pf = PhoneNumberCountryCode._('PF');
+  static const ga = PhoneNumberCountryCode._('GA');
+  static const gm = PhoneNumberCountryCode._('GM');
+  static const ge = PhoneNumberCountryCode._('GE');
+  static const de = PhoneNumberCountryCode._('DE');
+  static const gh = PhoneNumberCountryCode._('GH');
+  static const gi = PhoneNumberCountryCode._('GI');
+  static const gr = PhoneNumberCountryCode._('GR');
+  static const gl = PhoneNumberCountryCode._('GL');
+  static const gd = PhoneNumberCountryCode._('GD');
+  static const gu = PhoneNumberCountryCode._('GU');
+  static const gt = PhoneNumberCountryCode._('GT');
+  static const gg = PhoneNumberCountryCode._('GG');
+  static const gn = PhoneNumberCountryCode._('GN');
+  static const gw = PhoneNumberCountryCode._('GW');
+  static const gy = PhoneNumberCountryCode._('GY');
+  static const ht = PhoneNumberCountryCode._('HT');
+  static const hn = PhoneNumberCountryCode._('HN');
+  static const hk = PhoneNumberCountryCode._('HK');
+  static const hu = PhoneNumberCountryCode._('HU');
+  static const $is = PhoneNumberCountryCode._('IS');
+  static const $in = PhoneNumberCountryCode._('IN');
+  static const id = PhoneNumberCountryCode._('ID');
+  static const ir = PhoneNumberCountryCode._('IR');
+  static const iq = PhoneNumberCountryCode._('IQ');
+  static const ie = PhoneNumberCountryCode._('IE');
+  static const im = PhoneNumberCountryCode._('IM');
+  static const il = PhoneNumberCountryCode._('IL');
+  static const it = PhoneNumberCountryCode._('IT');
+  static const ci = PhoneNumberCountryCode._('CI');
+  static const jm = PhoneNumberCountryCode._('JM');
+  static const jp = PhoneNumberCountryCode._('JP');
+  static const je = PhoneNumberCountryCode._('JE');
+  static const jo = PhoneNumberCountryCode._('JO');
+  static const kz = PhoneNumberCountryCode._('KZ');
+  static const ke = PhoneNumberCountryCode._('KE');
+  static const ki = PhoneNumberCountryCode._('KI');
+  static const kw = PhoneNumberCountryCode._('KW');
+  static const kg = PhoneNumberCountryCode._('KG');
+  static const la = PhoneNumberCountryCode._('LA');
+  static const lv = PhoneNumberCountryCode._('LV');
+  static const lb = PhoneNumberCountryCode._('LB');
+  static const ls = PhoneNumberCountryCode._('LS');
+  static const lr = PhoneNumberCountryCode._('LR');
+  static const ly = PhoneNumberCountryCode._('LY');
+  static const li = PhoneNumberCountryCode._('LI');
+  static const lt = PhoneNumberCountryCode._('LT');
+  static const lu = PhoneNumberCountryCode._('LU');
+  static const mo = PhoneNumberCountryCode._('MO');
+  static const mk = PhoneNumberCountryCode._('MK');
+  static const mg = PhoneNumberCountryCode._('MG');
+  static const mw = PhoneNumberCountryCode._('MW');
+  static const my = PhoneNumberCountryCode._('MY');
+  static const mv = PhoneNumberCountryCode._('MV');
+  static const ml = PhoneNumberCountryCode._('ML');
+  static const mt = PhoneNumberCountryCode._('MT');
+  static const mh = PhoneNumberCountryCode._('MH');
+  static const mr = PhoneNumberCountryCode._('MR');
+  static const mu = PhoneNumberCountryCode._('MU');
+  static const yt = PhoneNumberCountryCode._('YT');
+  static const mx = PhoneNumberCountryCode._('MX');
+  static const fm = PhoneNumberCountryCode._('FM');
+  static const md = PhoneNumberCountryCode._('MD');
+  static const mc = PhoneNumberCountryCode._('MC');
+  static const mn = PhoneNumberCountryCode._('MN');
+  static const me = PhoneNumberCountryCode._('ME');
+  static const ms = PhoneNumberCountryCode._('MS');
+  static const ma = PhoneNumberCountryCode._('MA');
+  static const mz = PhoneNumberCountryCode._('MZ');
+  static const mm = PhoneNumberCountryCode._('MM');
+  static const na = PhoneNumberCountryCode._('NA');
+  static const nr = PhoneNumberCountryCode._('NR');
+  static const np = PhoneNumberCountryCode._('NP');
+  static const nl = PhoneNumberCountryCode._('NL');
+  static const an = PhoneNumberCountryCode._('AN');
+  static const nc = PhoneNumberCountryCode._('NC');
+  static const nz = PhoneNumberCountryCode._('NZ');
+  static const ni = PhoneNumberCountryCode._('NI');
+  static const ne = PhoneNumberCountryCode._('NE');
+  static const ng = PhoneNumberCountryCode._('NG');
+  static const nu = PhoneNumberCountryCode._('NU');
+  static const kp = PhoneNumberCountryCode._('KP');
+  static const mp = PhoneNumberCountryCode._('MP');
+  static const no = PhoneNumberCountryCode._('NO');
+  static const om = PhoneNumberCountryCode._('OM');
+  static const pk = PhoneNumberCountryCode._('PK');
+  static const pw = PhoneNumberCountryCode._('PW');
+  static const pa = PhoneNumberCountryCode._('PA');
+  static const pg = PhoneNumberCountryCode._('PG');
+  static const py = PhoneNumberCountryCode._('PY');
+  static const pe = PhoneNumberCountryCode._('PE');
+  static const ph = PhoneNumberCountryCode._('PH');
+  static const pn = PhoneNumberCountryCode._('PN');
+  static const pl = PhoneNumberCountryCode._('PL');
+  static const pt = PhoneNumberCountryCode._('PT');
+  static const pr = PhoneNumberCountryCode._('PR');
+  static const qa = PhoneNumberCountryCode._('QA');
+  static const cg = PhoneNumberCountryCode._('CG');
+  static const re = PhoneNumberCountryCode._('RE');
+  static const ro = PhoneNumberCountryCode._('RO');
+  static const ru = PhoneNumberCountryCode._('RU');
+  static const rw = PhoneNumberCountryCode._('RW');
+  static const bl = PhoneNumberCountryCode._('BL');
+  static const sh = PhoneNumberCountryCode._('SH');
+  static const kn = PhoneNumberCountryCode._('KN');
+  static const lc = PhoneNumberCountryCode._('LC');
+  static const mf = PhoneNumberCountryCode._('MF');
+  static const pm = PhoneNumberCountryCode._('PM');
+  static const vc = PhoneNumberCountryCode._('VC');
+  static const ws = PhoneNumberCountryCode._('WS');
+  static const sm = PhoneNumberCountryCode._('SM');
+  static const st = PhoneNumberCountryCode._('ST');
+  static const sa = PhoneNumberCountryCode._('SA');
+  static const sn = PhoneNumberCountryCode._('SN');
+  static const rs = PhoneNumberCountryCode._('RS');
+  static const sc = PhoneNumberCountryCode._('SC');
+  static const sl = PhoneNumberCountryCode._('SL');
+  static const sg = PhoneNumberCountryCode._('SG');
+  static const sx = PhoneNumberCountryCode._('SX');
+  static const sk = PhoneNumberCountryCode._('SK');
+  static const si = PhoneNumberCountryCode._('SI');
+  static const sb = PhoneNumberCountryCode._('SB');
+  static const so = PhoneNumberCountryCode._('SO');
+  static const za = PhoneNumberCountryCode._('ZA');
+  static const kr = PhoneNumberCountryCode._('KR');
+  static const es = PhoneNumberCountryCode._('ES');
+  static const lk = PhoneNumberCountryCode._('LK');
+  static const sd = PhoneNumberCountryCode._('SD');
+  static const sr = PhoneNumberCountryCode._('SR');
+  static const sj = PhoneNumberCountryCode._('SJ');
+  static const sz = PhoneNumberCountryCode._('SZ');
+  static const se = PhoneNumberCountryCode._('SE');
+  static const ch = PhoneNumberCountryCode._('CH');
+  static const sy = PhoneNumberCountryCode._('SY');
+  static const tw = PhoneNumberCountryCode._('TW');
+  static const tj = PhoneNumberCountryCode._('TJ');
+  static const tz = PhoneNumberCountryCode._('TZ');
+  static const th = PhoneNumberCountryCode._('TH');
+  static const tg = PhoneNumberCountryCode._('TG');
+  static const tk = PhoneNumberCountryCode._('TK');
+  static const to = PhoneNumberCountryCode._('TO');
+  static const tt = PhoneNumberCountryCode._('TT');
+  static const tn = PhoneNumberCountryCode._('TN');
+  static const tr = PhoneNumberCountryCode._('TR');
+  static const tm = PhoneNumberCountryCode._('TM');
+  static const tc = PhoneNumberCountryCode._('TC');
+  static const tv = PhoneNumberCountryCode._('TV');
+  static const vi = PhoneNumberCountryCode._('VI');
+  static const ug = PhoneNumberCountryCode._('UG');
+  static const ua = PhoneNumberCountryCode._('UA');
+  static const ae = PhoneNumberCountryCode._('AE');
+  static const gb = PhoneNumberCountryCode._('GB');
+  static const us = PhoneNumberCountryCode._('US');
+  static const uy = PhoneNumberCountryCode._('UY');
+  static const uz = PhoneNumberCountryCode._('UZ');
+  static const vu = PhoneNumberCountryCode._('VU');
+  static const va = PhoneNumberCountryCode._('VA');
+  static const ve = PhoneNumberCountryCode._('VE');
+  static const vn = PhoneNumberCountryCode._('VN');
+  static const wf = PhoneNumberCountryCode._('WF');
+  static const eh = PhoneNumberCountryCode._('EH');
+  static const ye = PhoneNumberCountryCode._('YE');
+  static const zm = PhoneNumberCountryCode._('ZM');
+  static const zw = PhoneNumberCountryCode._('ZW');
 
   final String value;
 
-  const PhoneNumberCountryCode(this.value);
+  const PhoneNumberCountryCode._(this.value);
+
+  static const values = [
+    af,
+    al,
+    dz,
+    as,
+    ad,
+    ao,
+    ai,
+    aq,
+    ag,
+    ar,
+    am,
+    aw,
+    au,
+    at,
+    az,
+    bs,
+    bh,
+    bd,
+    bb,
+    by,
+    be,
+    bz,
+    bj,
+    bm,
+    bt,
+    bo,
+    ba,
+    bw,
+    br,
+    io,
+    vg,
+    bn,
+    bg,
+    bf,
+    bi,
+    kh,
+    cm,
+    ca,
+    cv,
+    ky,
+    cf,
+    td,
+    cl,
+    cn,
+    cx,
+    cc,
+    co,
+    km,
+    ck,
+    cr,
+    hr,
+    cu,
+    cw,
+    cy,
+    cz,
+    cd,
+    dk,
+    dj,
+    dm,
+    $do,
+    tl,
+    ec,
+    eg,
+    sv,
+    gq,
+    er,
+    ee,
+    et,
+    fk,
+    fo,
+    fj,
+    fi,
+    fr,
+    pf,
+    ga,
+    gm,
+    ge,
+    de,
+    gh,
+    gi,
+    gr,
+    gl,
+    gd,
+    gu,
+    gt,
+    gg,
+    gn,
+    gw,
+    gy,
+    ht,
+    hn,
+    hk,
+    hu,
+    $is,
+    $in,
+    id,
+    ir,
+    iq,
+    ie,
+    im,
+    il,
+    it,
+    ci,
+    jm,
+    jp,
+    je,
+    jo,
+    kz,
+    ke,
+    ki,
+    kw,
+    kg,
+    la,
+    lv,
+    lb,
+    ls,
+    lr,
+    ly,
+    li,
+    lt,
+    lu,
+    mo,
+    mk,
+    mg,
+    mw,
+    my,
+    mv,
+    ml,
+    mt,
+    mh,
+    mr,
+    mu,
+    yt,
+    mx,
+    fm,
+    md,
+    mc,
+    mn,
+    me,
+    ms,
+    ma,
+    mz,
+    mm,
+    na,
+    nr,
+    np,
+    nl,
+    an,
+    nc,
+    nz,
+    ni,
+    ne,
+    ng,
+    nu,
+    kp,
+    mp,
+    no,
+    om,
+    pk,
+    pw,
+    pa,
+    pg,
+    py,
+    pe,
+    ph,
+    pn,
+    pl,
+    pt,
+    pr,
+    qa,
+    cg,
+    re,
+    ro,
+    ru,
+    rw,
+    bl,
+    sh,
+    kn,
+    lc,
+    mf,
+    pm,
+    vc,
+    ws,
+    sm,
+    st,
+    sa,
+    sn,
+    rs,
+    sc,
+    sl,
+    sg,
+    sx,
+    sk,
+    si,
+    sb,
+    so,
+    za,
+    kr,
+    es,
+    lk,
+    sd,
+    sr,
+    sj,
+    sz,
+    se,
+    ch,
+    sy,
+    tw,
+    tj,
+    tz,
+    th,
+    tg,
+    tk,
+    to,
+    tt,
+    tn,
+    tr,
+    tm,
+    tc,
+    tv,
+    vi,
+    ug,
+    ua,
+    ae,
+    gb,
+    us,
+    uy,
+    uz,
+    vu,
+    va,
+    ve,
+    vn,
+    wf,
+    eh,
+    ye,
+    zm,
+    zw
+  ];
 
   static PhoneNumberCountryCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhoneNumberCountryCode'));
+          orElse: () => PhoneNumberCountryCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberCountryCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a phone number for a quick connect.
@@ -27952,54 +28964,90 @@ class PhoneNumberSummary {
   }
 }
 
-enum PhoneNumberType {
-  tollFree('TOLL_FREE'),
-  did('DID'),
-  uifn('UIFN'),
-  shared('SHARED'),
-  thirdPartyTf('THIRD_PARTY_TF'),
-  thirdPartyDid('THIRD_PARTY_DID'),
-  shortCode('SHORT_CODE'),
-  ;
+class PhoneNumberType {
+  static const tollFree = PhoneNumberType._('TOLL_FREE');
+  static const did = PhoneNumberType._('DID');
+  static const uifn = PhoneNumberType._('UIFN');
+  static const shared = PhoneNumberType._('SHARED');
+  static const thirdPartyTf = PhoneNumberType._('THIRD_PARTY_TF');
+  static const thirdPartyDid = PhoneNumberType._('THIRD_PARTY_DID');
+  static const shortCode = PhoneNumberType._('SHORT_CODE');
 
   final String value;
 
-  const PhoneNumberType(this.value);
+  const PhoneNumberType._(this.value);
+
+  static const values = [
+    tollFree,
+    did,
+    uifn,
+    shared,
+    thirdPartyTf,
+    thirdPartyDid,
+    shortCode
+  ];
 
   static PhoneNumberType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PhoneNumberType'));
+          orElse: () => PhoneNumberType._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneNumberWorkflowStatus {
-  claimed('CLAIMED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  ;
+class PhoneNumberWorkflowStatus {
+  static const claimed = PhoneNumberWorkflowStatus._('CLAIMED');
+  static const inProgress = PhoneNumberWorkflowStatus._('IN_PROGRESS');
+  static const failed = PhoneNumberWorkflowStatus._('FAILED');
 
   final String value;
 
-  const PhoneNumberWorkflowStatus(this.value);
+  const PhoneNumberWorkflowStatus._(this.value);
+
+  static const values = [claimed, inProgress, failed];
 
   static PhoneNumberWorkflowStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum PhoneNumberWorkflowStatus'));
+          orElse: () => PhoneNumberWorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberWorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PhoneType {
-  softPhone('SOFT_PHONE'),
-  deskPhone('DESK_PHONE'),
-  ;
+class PhoneType {
+  static const softPhone = PhoneType._('SOFT_PHONE');
+  static const deskPhone = PhoneType._('DESK_PHONE');
 
   final String value;
 
-  const PhoneType(this.value);
+  const PhoneType._(this.value);
 
-  static PhoneType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum PhoneType'));
+  static const values = [softPhone, deskPhone];
+
+  static PhoneType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PhoneType._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a predefined attribute.
@@ -28614,18 +29662,27 @@ class QueueSearchFilter {
   }
 }
 
-enum QueueStatus {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class QueueStatus {
+  static const enabled = QueueStatus._('ENABLED');
+  static const disabled = QueueStatus._('DISABLED');
 
   final String value;
 
-  const QueueStatus(this.value);
+  const QueueStatus._(this.value);
 
-  static QueueStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueStatus'));
+  static const values = [enabled, disabled];
+
+  static QueueStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about a queue.
@@ -28687,18 +29744,27 @@ class QueueSummary {
   }
 }
 
-enum QueueType {
-  standard('STANDARD'),
-  agent('AGENT'),
-  ;
+class QueueType {
+  static const standard = QueueType._('STANDARD');
+  static const agent = QueueType._('AGENT');
 
   final String value;
 
-  const QueueType(this.value);
+  const QueueType._(this.value);
 
-  static QueueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum QueueType'));
+  static const values = [standard, agent];
+
+  static QueueType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueueType._(value));
+
+  @override
+  bool operator ==(other) => other is QueueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a quick connect.
@@ -28805,8 +29871,8 @@ class QuickConnectConfig {
 
   factory QuickConnectConfig.fromJson(Map<String, dynamic> json) {
     return QuickConnectConfig(
-      quickConnectType:
-          QuickConnectType.fromString((json['QuickConnectType'] as String)),
+      quickConnectType: QuickConnectType.fromString(
+          (json['QuickConnectType'] as String?) ?? ''),
       phoneConfig: json['PhoneConfig'] != null
           ? PhoneNumberQuickConnectConfig.fromJson(
               json['PhoneConfig'] as Map<String, dynamic>)
@@ -28947,20 +30013,29 @@ class QuickConnectSummary {
   }
 }
 
-enum QuickConnectType {
-  user('USER'),
-  queue('QUEUE'),
-  phoneNumber('PHONE_NUMBER'),
-  ;
+class QuickConnectType {
+  static const user = QuickConnectType._('USER');
+  static const queue = QuickConnectType._('QUEUE');
+  static const phoneNumber = QuickConnectType._('PHONE_NUMBER');
 
   final String value;
 
-  const QuickConnectType(this.value);
+  const QuickConnectType._(this.value);
+
+  static const values = [user, queue, phoneNumber];
 
   static QuickConnectType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QuickConnectType'));
+          orElse: () => QuickConnectType._(value));
+
+  @override
+  bool operator ==(other) => other is QuickConnectType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates a field that is read-only to an agent.
@@ -29126,19 +30201,29 @@ class RealTimeContactAnalysisIssueDetected {
   }
 }
 
-enum RealTimeContactAnalysisOutputType {
-  raw('Raw'),
-  redacted('Redacted'),
-  ;
+class RealTimeContactAnalysisOutputType {
+  static const raw = RealTimeContactAnalysisOutputType._('Raw');
+  static const redacted = RealTimeContactAnalysisOutputType._('Redacted');
 
   final String value;
 
-  const RealTimeContactAnalysisOutputType(this.value);
+  const RealTimeContactAnalysisOutputType._(this.value);
+
+  static const values = [raw, redacted];
 
   static RealTimeContactAnalysisOutputType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisOutputType'));
+          orElse: () => RealTimeContactAnalysisOutputType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisOutputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The section of the contact transcript segment that category rule was
@@ -29172,39 +30257,79 @@ class RealTimeContactAnalysisPointOfInterest {
   }
 }
 
-enum RealTimeContactAnalysisPostContactSummaryFailureCode {
-  quotaExceeded('QUOTA_EXCEEDED'),
-  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
-  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
-  invalidAnalysisConfiguration('INVALID_ANALYSIS_CONFIGURATION'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class RealTimeContactAnalysisPostContactSummaryFailureCode {
+  static const quotaExceeded =
+      RealTimeContactAnalysisPostContactSummaryFailureCode._('QUOTA_EXCEEDED');
+  static const insufficientConversationContent =
+      RealTimeContactAnalysisPostContactSummaryFailureCode._(
+          'INSUFFICIENT_CONVERSATION_CONTENT');
+  static const failedSafetyGuidelines =
+      RealTimeContactAnalysisPostContactSummaryFailureCode._(
+          'FAILED_SAFETY_GUIDELINES');
+  static const invalidAnalysisConfiguration =
+      RealTimeContactAnalysisPostContactSummaryFailureCode._(
+          'INVALID_ANALYSIS_CONFIGURATION');
+  static const internalError =
+      RealTimeContactAnalysisPostContactSummaryFailureCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const RealTimeContactAnalysisPostContactSummaryFailureCode(this.value);
+  const RealTimeContactAnalysisPostContactSummaryFailureCode._(this.value);
+
+  static const values = [
+    quotaExceeded,
+    insufficientConversationContent,
+    failedSafetyGuidelines,
+    invalidAnalysisConfiguration,
+    internalError
+  ];
 
   static RealTimeContactAnalysisPostContactSummaryFailureCode fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisPostContactSummaryFailureCode'));
+          orElse: () =>
+              RealTimeContactAnalysisPostContactSummaryFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisPostContactSummaryFailureCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RealTimeContactAnalysisPostContactSummaryStatus {
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class RealTimeContactAnalysisPostContactSummaryStatus {
+  static const failed =
+      RealTimeContactAnalysisPostContactSummaryStatus._('FAILED');
+  static const completed =
+      RealTimeContactAnalysisPostContactSummaryStatus._('COMPLETED');
 
   final String value;
 
-  const RealTimeContactAnalysisPostContactSummaryStatus(this.value);
+  const RealTimeContactAnalysisPostContactSummaryStatus._(this.value);
+
+  static const values = [failed, completed];
 
   static RealTimeContactAnalysisPostContactSummaryStatus fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisPostContactSummaryStatus'));
+          orElse: () =>
+              RealTimeContactAnalysisPostContactSummaryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisPostContactSummaryStatus &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Segment containing list of attachments.
@@ -29248,8 +30373,8 @@ class RealTimeContactAnalysisSegmentAttachments {
           .toList(),
       id: (json['Id'] as String?) ?? '',
       participantId: (json['ParticipantId'] as String?) ?? '',
-      participantRole:
-          ParticipantRole.fromString((json['ParticipantRole'] as String)),
+      participantRole: ParticipantRole.fromString(
+          (json['ParticipantRole'] as String?) ?? ''),
       time: RealTimeContactAnalysisTimeData.fromJson(
           (json['Time'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       displayName: json['DisplayName'] as String?,
@@ -29443,7 +30568,7 @@ class RealTimeContactAnalysisSegmentPostContactSummary {
       Map<String, dynamic> json) {
     return RealTimeContactAnalysisSegmentPostContactSummary(
       status: RealTimeContactAnalysisPostContactSummaryStatus.fromString(
-          (json['Status'] as String)),
+          (json['Status'] as String?) ?? ''),
       content: json['Content'] as String?,
       failureCode: (json['FailureCode'] as String?)?.let(
           RealTimeContactAnalysisPostContactSummaryFailureCode.fromString),
@@ -29512,8 +30637,8 @@ class RealTimeContactAnalysisSegmentTranscript {
       content: (json['Content'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
       participantId: (json['ParticipantId'] as String?) ?? '',
-      participantRole:
-          ParticipantRole.fromString((json['ParticipantRole'] as String)),
+      participantRole: ParticipantRole.fromString(
+          (json['ParticipantRole'] as String?) ?? ''),
       time: RealTimeContactAnalysisTimeData.fromJson(
           (json['Time'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       contentType: json['ContentType'] as String?,
@@ -29551,70 +30676,119 @@ class RealTimeContactAnalysisSegmentTranscript {
   }
 }
 
-enum RealTimeContactAnalysisSegmentType {
-  transcript('Transcript'),
-  categories('Categories'),
-  issues('Issues'),
-  event('Event'),
-  attachments('Attachments'),
-  postContactSummary('PostContactSummary'),
-  ;
+class RealTimeContactAnalysisSegmentType {
+  static const transcript = RealTimeContactAnalysisSegmentType._('Transcript');
+  static const categories = RealTimeContactAnalysisSegmentType._('Categories');
+  static const issues = RealTimeContactAnalysisSegmentType._('Issues');
+  static const event = RealTimeContactAnalysisSegmentType._('Event');
+  static const attachments =
+      RealTimeContactAnalysisSegmentType._('Attachments');
+  static const postContactSummary =
+      RealTimeContactAnalysisSegmentType._('PostContactSummary');
 
   final String value;
 
-  const RealTimeContactAnalysisSegmentType(this.value);
+  const RealTimeContactAnalysisSegmentType._(this.value);
+
+  static const values = [
+    transcript,
+    categories,
+    issues,
+    event,
+    attachments,
+    postContactSummary
+  ];
 
   static RealTimeContactAnalysisSegmentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisSegmentType'));
+          orElse: () => RealTimeContactAnalysisSegmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisSegmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RealTimeContactAnalysisSentimentLabel {
-  positive('POSITIVE'),
-  negative('NEGATIVE'),
-  neutral('NEUTRAL'),
-  ;
+class RealTimeContactAnalysisSentimentLabel {
+  static const positive = RealTimeContactAnalysisSentimentLabel._('POSITIVE');
+  static const negative = RealTimeContactAnalysisSentimentLabel._('NEGATIVE');
+  static const neutral = RealTimeContactAnalysisSentimentLabel._('NEUTRAL');
 
   final String value;
 
-  const RealTimeContactAnalysisSentimentLabel(this.value);
+  const RealTimeContactAnalysisSentimentLabel._(this.value);
+
+  static const values = [positive, negative, neutral];
 
   static RealTimeContactAnalysisSentimentLabel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisSentimentLabel'));
+          orElse: () => RealTimeContactAnalysisSentimentLabel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisSentimentLabel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RealTimeContactAnalysisStatus {
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class RealTimeContactAnalysisStatus {
+  static const inProgress = RealTimeContactAnalysisStatus._('IN_PROGRESS');
+  static const failed = RealTimeContactAnalysisStatus._('FAILED');
+  static const completed = RealTimeContactAnalysisStatus._('COMPLETED');
 
   final String value;
 
-  const RealTimeContactAnalysisStatus(this.value);
+  const RealTimeContactAnalysisStatus._(this.value);
+
+  static const values = [inProgress, failed, completed];
 
   static RealTimeContactAnalysisStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisStatus'));
+          orElse: () => RealTimeContactAnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RealTimeContactAnalysisSupportedChannel {
-  voice('VOICE'),
-  chat('CHAT'),
-  ;
+class RealTimeContactAnalysisSupportedChannel {
+  static const voice = RealTimeContactAnalysisSupportedChannel._('VOICE');
+  static const chat = RealTimeContactAnalysisSupportedChannel._('CHAT');
 
   final String value;
 
-  const RealTimeContactAnalysisSupportedChannel(this.value);
+  const RealTimeContactAnalysisSupportedChannel._(this.value);
+
+  static const values = [voice, chat];
 
   static RealTimeContactAnalysisSupportedChannel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RealTimeContactAnalysisSupportedChannel'));
+          orElse: () => RealTimeContactAnalysisSupportedChannel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealTimeContactAnalysisSupportedChannel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object describing time with which the segment is associated. It can have
@@ -29843,7 +31017,7 @@ class Reference {
 
   factory Reference.fromJson(Map<String, dynamic> json) {
     return Reference(
-      type: ReferenceType.fromString((json['Type'] as String)),
+      type: ReferenceType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -29858,19 +31032,28 @@ class Reference {
   }
 }
 
-enum ReferenceStatus {
-  approved('APPROVED'),
-  rejected('REJECTED'),
-  ;
+class ReferenceStatus {
+  static const approved = ReferenceStatus._('APPROVED');
+  static const rejected = ReferenceStatus._('REJECTED');
 
   final String value;
 
-  const ReferenceStatus(this.value);
+  const ReferenceStatus._(this.value);
+
+  static const values = [approved, rejected];
 
   static ReferenceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReferenceStatus'));
+          orElse: () => ReferenceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReferenceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about a reference.
@@ -29952,38 +31135,56 @@ class ReferenceSummary {
   }
 }
 
-enum ReferenceType {
-  url('URL'),
-  attachment('ATTACHMENT'),
-  number('NUMBER'),
-  string('STRING'),
-  date('DATE'),
-  email('EMAIL'),
-  ;
+class ReferenceType {
+  static const url = ReferenceType._('URL');
+  static const attachment = ReferenceType._('ATTACHMENT');
+  static const number = ReferenceType._('NUMBER');
+  static const string = ReferenceType._('STRING');
+  static const date = ReferenceType._('DATE');
+  static const email = ReferenceType._('EMAIL');
 
   final String value;
 
-  const ReferenceType(this.value);
+  const ReferenceType._(this.value);
+
+  static const values = [url, attachment, number, string, date, email];
 
   static ReferenceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReferenceType'));
+          orElse: () => ReferenceType._(value));
+
+  @override
+  bool operator ==(other) => other is ReferenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RehydrationType {
-  entirePastSession('ENTIRE_PAST_SESSION'),
-  fromSegment('FROM_SEGMENT'),
-  ;
+class RehydrationType {
+  static const entirePastSession = RehydrationType._('ENTIRE_PAST_SESSION');
+  static const fromSegment = RehydrationType._('FROM_SEGMENT');
 
   final String value;
 
-  const RehydrationType(this.value);
+  const RehydrationType._(this.value);
+
+  static const values = [entirePastSession, fromSegment];
 
   static RehydrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RehydrationType'));
+          orElse: () => RehydrationType._(value));
+
+  @override
+  bool operator ==(other) => other is RehydrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ReplicateInstanceResponse {
@@ -30308,21 +31509,31 @@ class RoutingCriteriaInputStepExpiry {
   }
 }
 
-enum RoutingCriteriaStepStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  joined('JOINED'),
-  expired('EXPIRED'),
-  ;
+class RoutingCriteriaStepStatus {
+  static const active = RoutingCriteriaStepStatus._('ACTIVE');
+  static const inactive = RoutingCriteriaStepStatus._('INACTIVE');
+  static const joined = RoutingCriteriaStepStatus._('JOINED');
+  static const expired = RoutingCriteriaStepStatus._('EXPIRED');
 
   final String value;
 
-  const RoutingCriteriaStepStatus(this.value);
+  const RoutingCriteriaStepStatus._(this.value);
+
+  static const values = [active, inactive, joined, expired];
 
   static RoutingCriteriaStepStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RoutingCriteriaStepStatus'));
+          orElse: () => RoutingCriteriaStepStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RoutingCriteriaStepStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a routing profile.
@@ -30538,7 +31749,7 @@ class RoutingProfileQueueConfigSummary {
 
   factory RoutingProfileQueueConfigSummary.fromJson(Map<String, dynamic> json) {
     return RoutingProfileQueueConfigSummary(
-      channel: Channel.fromString((json['Channel'] as String)),
+      channel: Channel.fromString((json['Channel'] as String?) ?? ''),
       delay: (json['Delay'] as int?) ?? 0,
       priority: (json['Priority'] as int?) ?? 0,
       queueArn: (json['QueueArn'] as String?) ?? '',
@@ -30789,8 +32000,8 @@ class Rule {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      publishStatus:
-          RulePublishStatus.fromString((json['PublishStatus'] as String)),
+      publishStatus: RulePublishStatus.fromString(
+          (json['PublishStatus'] as String?) ?? ''),
       ruleArn: (json['RuleArn'] as String?) ?? '',
       ruleId: (json['RuleId'] as String?) ?? '',
       triggerEventSource: RuleTriggerEventSource.fromJson(
@@ -30909,7 +32120,7 @@ class RuleAction {
 
   factory RuleAction.fromJson(Map<String, dynamic> json) {
     return RuleAction(
-      actionType: ActionType.fromString((json['ActionType'] as String)),
+      actionType: ActionType.fromString((json['ActionType'] as String?) ?? ''),
       assignContactCategoryAction: json['AssignContactCategoryAction'] != null
           ? AssignContactCategoryActionDefinition.fromJson(
               json['AssignContactCategoryAction'] as Map<String, dynamic>)
@@ -30973,19 +32184,28 @@ class RuleAction {
   }
 }
 
-enum RulePublishStatus {
-  draft('DRAFT'),
-  published('PUBLISHED'),
-  ;
+class RulePublishStatus {
+  static const draft = RulePublishStatus._('DRAFT');
+  static const published = RulePublishStatus._('PUBLISHED');
 
   final String value;
 
-  const RulePublishStatus(this.value);
+  const RulePublishStatus._(this.value);
+
+  static const values = [draft, published];
 
   static RulePublishStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RulePublishStatus'));
+          orElse: () => RulePublishStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RulePublishStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of <code>ActionTypes</code> associated with a rule.
@@ -31032,13 +32252,13 @@ class RuleSummary {
           .map((e) => ActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
-      eventSourceName:
-          EventSourceName.fromString((json['EventSourceName'] as String)),
+      eventSourceName: EventSourceName.fromString(
+          (json['EventSourceName'] as String?) ?? ''),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      publishStatus:
-          RulePublishStatus.fromString((json['PublishStatus'] as String)),
+      publishStatus: RulePublishStatus.fromString(
+          (json['PublishStatus'] as String?) ?? ''),
       ruleArn: (json['RuleArn'] as String?) ?? '',
       ruleId: (json['RuleId'] as String?) ?? '',
     );
@@ -31086,8 +32306,8 @@ class RuleTriggerEventSource {
 
   factory RuleTriggerEventSource.fromJson(Map<String, dynamic> json) {
     return RuleTriggerEventSource(
-      eventSourceName:
-          EventSourceName.fromString((json['EventSourceName'] as String)),
+      eventSourceName: EventSourceName.fromString(
+          (json['EventSourceName'] as String?) ?? ''),
       integrationAssociationId: json['IntegrationAssociationId'] as String?,
     );
   }
@@ -31304,19 +32524,29 @@ class SearchContactFlowsResponse {
   }
 }
 
-enum SearchContactsMatchType {
-  matchAll('MATCH_ALL'),
-  matchAny('MATCH_ANY'),
-  ;
+class SearchContactsMatchType {
+  static const matchAll = SearchContactsMatchType._('MATCH_ALL');
+  static const matchAny = SearchContactsMatchType._('MATCH_ANY');
 
   final String value;
 
-  const SearchContactsMatchType(this.value);
+  const SearchContactsMatchType._(this.value);
+
+  static const values = [matchAll, matchAny];
 
   static SearchContactsMatchType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchContactsMatchType'));
+          orElse: () => SearchContactsMatchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchContactsMatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SearchContactsResponse {
@@ -31388,21 +32618,40 @@ class SearchContactsTimeRange {
   }
 }
 
-enum SearchContactsTimeRangeType {
-  initiationTimestamp('INITIATION_TIMESTAMP'),
-  scheduledTimestamp('SCHEDULED_TIMESTAMP'),
-  connectedToAgentTimestamp('CONNECTED_TO_AGENT_TIMESTAMP'),
-  disconnectTimestamp('DISCONNECT_TIMESTAMP'),
-  ;
+class SearchContactsTimeRangeType {
+  static const initiationTimestamp =
+      SearchContactsTimeRangeType._('INITIATION_TIMESTAMP');
+  static const scheduledTimestamp =
+      SearchContactsTimeRangeType._('SCHEDULED_TIMESTAMP');
+  static const connectedToAgentTimestamp =
+      SearchContactsTimeRangeType._('CONNECTED_TO_AGENT_TIMESTAMP');
+  static const disconnectTimestamp =
+      SearchContactsTimeRangeType._('DISCONNECT_TIMESTAMP');
 
   final String value;
 
-  const SearchContactsTimeRangeType(this.value);
+  const SearchContactsTimeRangeType._(this.value);
+
+  static const values = [
+    initiationTimestamp,
+    scheduledTimestamp,
+    connectedToAgentTimestamp,
+    disconnectTimestamp
+  ];
 
   static SearchContactsTimeRangeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SearchContactsTimeRangeType'));
+          orElse: () => SearchContactsTimeRangeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchContactsTimeRangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure of search criteria to be used to return contacts.
@@ -31964,18 +33213,28 @@ class SearchableContactAttributesCriteria {
   }
 }
 
-enum SearchableQueueType {
-  standard('STANDARD'),
-  ;
+class SearchableQueueType {
+  static const standard = SearchableQueueType._('STANDARD');
 
   final String value;
 
-  const SearchableQueueType(this.value);
+  const SearchableQueueType._(this.value);
 
-  static SearchableQueueType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SearchableQueueType'));
+  static const values = [standard];
+
+  static SearchableQueueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchableQueueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchableQueueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration information of the security key.
@@ -32395,10 +33654,10 @@ class SendNotificationActionDefinition {
   factory SendNotificationActionDefinition.fromJson(Map<String, dynamic> json) {
     return SendNotificationActionDefinition(
       content: (json['Content'] as String?) ?? '',
-      contentType:
-          NotificationContentType.fromString((json['ContentType'] as String)),
+      contentType: NotificationContentType.fromString(
+          (json['ContentType'] as String?) ?? ''),
       deliveryMethod: NotificationDeliveryType.fromString(
-          (json['DeliveryMethod'] as String)),
+          (json['DeliveryMethod'] as String?) ?? ''),
       recipient: NotificationRecipientType.fromJson(
           (json['Recipient'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -32506,7 +33765,7 @@ class SingleSelectQuestionRuleCategoryAutomation {
     return SingleSelectQuestionRuleCategoryAutomation(
       category: (json['Category'] as String?) ?? '',
       condition: SingleSelectQuestionRuleCategoryAutomationCondition.fromString(
-          (json['Condition'] as String)),
+          (json['Condition'] as String?) ?? ''),
       optionRefId: (json['OptionRefId'] as String?) ?? '',
     );
   }
@@ -32523,20 +33782,34 @@ class SingleSelectQuestionRuleCategoryAutomation {
   }
 }
 
-enum SingleSelectQuestionRuleCategoryAutomationCondition {
-  present('PRESENT'),
-  notPresent('NOT_PRESENT'),
-  ;
+class SingleSelectQuestionRuleCategoryAutomationCondition {
+  static const present =
+      SingleSelectQuestionRuleCategoryAutomationCondition._('PRESENT');
+  static const notPresent =
+      SingleSelectQuestionRuleCategoryAutomationCondition._('NOT_PRESENT');
 
   final String value;
 
-  const SingleSelectQuestionRuleCategoryAutomationCondition(this.value);
+  const SingleSelectQuestionRuleCategoryAutomationCondition._(this.value);
+
+  static const values = [present, notPresent];
 
   static SingleSelectQuestionRuleCategoryAutomationCondition fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SingleSelectQuestionRuleCategoryAutomationCondition'));
+          orElse: () =>
+              SingleSelectQuestionRuleCategoryAutomationCondition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SingleSelectQuestionRuleCategoryAutomationCondition &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines the field name to sort by and a sort order.
@@ -32562,52 +33835,89 @@ class Sort {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SortableFieldName {
-  initiationTimestamp('INITIATION_TIMESTAMP'),
-  scheduledTimestamp('SCHEDULED_TIMESTAMP'),
-  connectedToAgentTimestamp('CONNECTED_TO_AGENT_TIMESTAMP'),
-  disconnectTimestamp('DISCONNECT_TIMESTAMP'),
-  initiationMethod('INITIATION_METHOD'),
-  channel('CHANNEL'),
-  ;
+class SortableFieldName {
+  static const initiationTimestamp =
+      SortableFieldName._('INITIATION_TIMESTAMP');
+  static const scheduledTimestamp = SortableFieldName._('SCHEDULED_TIMESTAMP');
+  static const connectedToAgentTimestamp =
+      SortableFieldName._('CONNECTED_TO_AGENT_TIMESTAMP');
+  static const disconnectTimestamp =
+      SortableFieldName._('DISCONNECT_TIMESTAMP');
+  static const initiationMethod = SortableFieldName._('INITIATION_METHOD');
+  static const channel = SortableFieldName._('CHANNEL');
 
   final String value;
 
-  const SortableFieldName(this.value);
+  const SortableFieldName._(this.value);
+
+  static const values = [
+    initiationTimestamp,
+    scheduledTimestamp,
+    connectedToAgentTimestamp,
+    disconnectTimestamp,
+    initiationMethod,
+    channel
+  ];
 
   static SortableFieldName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SortableFieldName'));
+          orElse: () => SortableFieldName._(value));
+
+  @override
+  bool operator ==(other) => other is SortableFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SourceType {
-  salesforce('SALESFORCE'),
-  zendesk('ZENDESK'),
-  cases('CASES'),
-  ;
+class SourceType {
+  static const salesforce = SourceType._('SALESFORCE');
+  static const zendesk = SourceType._('ZENDESK');
+  static const cases = SourceType._('CASES');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [salesforce, zendesk, cases];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Response from StartAttachedFileUpload API.
@@ -32883,19 +34193,28 @@ class StartWebRTCContactResponse {
   }
 }
 
-enum Statistic {
-  sum('SUM'),
-  max('MAX'),
-  avg('AVG'),
-  ;
+class Statistic {
+  static const sum = Statistic._('SUM');
+  static const max = Statistic._('MAX');
+  static const avg = Statistic._('AVG');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [sum, max, avg];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Step signifies the criteria to be used for routing to an agent
@@ -32976,36 +34295,60 @@ class StopContactStreamingResponse {
   }
 }
 
-enum StorageType {
-  s3('S3'),
-  kinesisVideoStream('KINESIS_VIDEO_STREAM'),
-  kinesisStream('KINESIS_STREAM'),
-  kinesisFirehose('KINESIS_FIREHOSE'),
-  ;
+class StorageType {
+  static const s3 = StorageType._('S3');
+  static const kinesisVideoStream = StorageType._('KINESIS_VIDEO_STREAM');
+  static const kinesisStream = StorageType._('KINESIS_STREAM');
+  static const kinesisFirehose = StorageType._('KINESIS_FIREHOSE');
 
   final String value;
 
-  const StorageType(this.value);
+  const StorageType._(this.value);
 
-  static StorageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StorageType'));
+  static const values = [
+    s3,
+    kinesisVideoStream,
+    kinesisStream,
+    kinesisFirehose
+  ];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StringComparisonType {
-  startsWith('STARTS_WITH'),
-  contains('CONTAINS'),
-  exact('EXACT'),
-  ;
+class StringComparisonType {
+  static const startsWith = StringComparisonType._('STARTS_WITH');
+  static const contains = StringComparisonType._('CONTAINS');
+  static const exact = StringComparisonType._('EXACT');
 
   final String value;
 
-  const StringComparisonType(this.value);
+  const StringComparisonType._(this.value);
 
-  static StringComparisonType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum StringComparisonType'));
+  static const values = [startsWith, contains, exact];
+
+  static StringComparisonType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StringComparisonType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StringComparisonType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A leaf node condition which can be used to specify a string condition.
@@ -33269,18 +34612,27 @@ class TagSet {
   }
 }
 
-enum TargetListType {
-  proficiencies('PROFICIENCIES'),
-  ;
+class TargetListType {
+  static const proficiencies = TargetListType._('PROFICIENCIES');
 
   final String value;
 
-  const TargetListType(this.value);
+  const TargetListType._(this.value);
+
+  static const values = [proficiencies];
 
   static TargetListType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetListType'));
+          orElse: () => TargetListType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetListType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the task action.
@@ -33512,29 +34864,52 @@ class TaskTemplateFieldIdentifier {
   }
 }
 
-enum TaskTemplateFieldType {
-  name('NAME'),
-  description('DESCRIPTION'),
-  scheduledTime('SCHEDULED_TIME'),
-  quickConnect('QUICK_CONNECT'),
-  url('URL'),
-  number('NUMBER'),
-  text('TEXT'),
-  textArea('TEXT_AREA'),
-  dateTime('DATE_TIME'),
-  boolean('BOOLEAN'),
-  singleSelect('SINGLE_SELECT'),
-  email('EMAIL'),
-  ;
+class TaskTemplateFieldType {
+  static const name = TaskTemplateFieldType._('NAME');
+  static const description = TaskTemplateFieldType._('DESCRIPTION');
+  static const scheduledTime = TaskTemplateFieldType._('SCHEDULED_TIME');
+  static const quickConnect = TaskTemplateFieldType._('QUICK_CONNECT');
+  static const url = TaskTemplateFieldType._('URL');
+  static const number = TaskTemplateFieldType._('NUMBER');
+  static const text = TaskTemplateFieldType._('TEXT');
+  static const textArea = TaskTemplateFieldType._('TEXT_AREA');
+  static const dateTime = TaskTemplateFieldType._('DATE_TIME');
+  static const boolean = TaskTemplateFieldType._('BOOLEAN');
+  static const singleSelect = TaskTemplateFieldType._('SINGLE_SELECT');
+  static const email = TaskTemplateFieldType._('EMAIL');
 
   final String value;
 
-  const TaskTemplateFieldType(this.value);
+  const TaskTemplateFieldType._(this.value);
 
-  static TaskTemplateFieldType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskTemplateFieldType'));
+  static const values = [
+    name,
+    description,
+    scheduledTime,
+    quickConnect,
+    url,
+    number,
+    text,
+    textArea,
+    dateTime,
+    boolean,
+    singleSelect,
+    email
+  ];
+
+  static TaskTemplateFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskTemplateFieldType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskTemplateFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about the task template.
@@ -33606,19 +34981,29 @@ class TaskTemplateMetadata {
   }
 }
 
-enum TaskTemplateStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class TaskTemplateStatus {
+  static const active = TaskTemplateStatus._('ACTIVE');
+  static const inactive = TaskTemplateStatus._('INACTIVE');
 
   final String value;
 
-  const TaskTemplateStatus(this.value);
+  const TaskTemplateStatus._(this.value);
 
-  static TaskTemplateStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TaskTemplateStatus'));
+  static const values = [active, inactive];
+
+  static TaskTemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskTemplateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskTemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The distribution of traffic between the instance and its replicas.
@@ -33708,19 +35093,29 @@ class ThresholdV2 {
   }
 }
 
-enum TimerEligibleParticipantRoles {
-  customer('CUSTOMER'),
-  agent('AGENT'),
-  ;
+class TimerEligibleParticipantRoles {
+  static const customer = TimerEligibleParticipantRoles._('CUSTOMER');
+  static const agent = TimerEligibleParticipantRoles._('AGENT');
 
   final String value;
 
-  const TimerEligibleParticipantRoles(this.value);
+  const TimerEligibleParticipantRoles._(this.value);
+
+  static const values = [customer, agent];
 
   static TimerEligibleParticipantRoles fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TimerEligibleParticipantRoles'));
+          orElse: () => TimerEligibleParticipantRoles._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimerEligibleParticipantRoles && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a traffic distribution group.
@@ -33848,23 +35243,45 @@ class TrafficDistributionGroup {
   }
 }
 
-enum TrafficDistributionGroupStatus {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  active('ACTIVE'),
-  creationFailed('CREATION_FAILED'),
-  pendingDeletion('PENDING_DELETION'),
-  deletionFailed('DELETION_FAILED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  ;
+class TrafficDistributionGroupStatus {
+  static const creationInProgress =
+      TrafficDistributionGroupStatus._('CREATION_IN_PROGRESS');
+  static const active = TrafficDistributionGroupStatus._('ACTIVE');
+  static const creationFailed =
+      TrafficDistributionGroupStatus._('CREATION_FAILED');
+  static const pendingDeletion =
+      TrafficDistributionGroupStatus._('PENDING_DELETION');
+  static const deletionFailed =
+      TrafficDistributionGroupStatus._('DELETION_FAILED');
+  static const updateInProgress =
+      TrafficDistributionGroupStatus._('UPDATE_IN_PROGRESS');
 
   final String value;
 
-  const TrafficDistributionGroupStatus(this.value);
+  const TrafficDistributionGroupStatus._(this.value);
+
+  static const values = [
+    creationInProgress,
+    active,
+    creationFailed,
+    pendingDeletion,
+    deletionFailed,
+    updateInProgress
+  ];
 
   static TrafficDistributionGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TrafficDistributionGroupStatus'));
+          orElse: () => TrafficDistributionGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficDistributionGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about traffic distribution groups.
@@ -33990,18 +35407,27 @@ class TrafficDistributionGroupUserSummary {
   }
 }
 
-enum TrafficType {
-  general('GENERAL'),
-  campaign('CAMPAIGN'),
-  ;
+class TrafficType {
+  static const general = TrafficType._('GENERAL');
+  static const campaign = TrafficType._('CAMPAIGN');
 
   final String value;
 
-  const TrafficType(this.value);
+  const TrafficType._(this.value);
 
-  static TrafficType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TrafficType'));
+  static const values = [general, campaign];
+
+  static TrafficType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrafficType._(value));
+
+  @override
+  bool operator ==(other) => other is TrafficType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that defines search criteria and matching logic to search for
@@ -34090,19 +35516,28 @@ class TransferContactResponse {
   }
 }
 
-enum Unit {
-  seconds('SECONDS'),
-  count('COUNT'),
-  percent('PERCENT'),
-  ;
+class Unit {
+  static const seconds = Unit._('SECONDS');
+  static const count = Unit._('COUNT');
+  static const percent = Unit._('PERCENT');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [seconds, count, percent];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagContactResponse {
@@ -34679,18 +36114,27 @@ class UseCase {
   }
 }
 
-enum UseCaseType {
-  rulesEvaluation('RULES_EVALUATION'),
-  connectCampaigns('CONNECT_CAMPAIGNS'),
-  ;
+class UseCaseType {
+  static const rulesEvaluation = UseCaseType._('RULES_EVALUATION');
+  static const connectCampaigns = UseCaseType._('CONNECT_CAMPAIGNS');
 
   final String value;
 
-  const UseCaseType(this.value);
+  const UseCaseType._(this.value);
 
-  static UseCaseType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum UseCaseType'));
+  static const values = [rulesEvaluation, connectCampaigns];
+
+  static UseCaseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UseCaseType._(value));
+
+  @override
+  bool operator ==(other) => other is UseCaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a user account for an Amazon Connect instance.
@@ -35151,7 +36595,7 @@ class UserPhoneConfig {
 
   factory UserPhoneConfig.fromJson(Map<String, dynamic> json) {
     return UserPhoneConfig(
-      phoneType: PhoneType.fromString((json['PhoneType'] as String)),
+      phoneType: PhoneType.fromString((json['PhoneType'] as String?) ?? ''),
       afterContactWorkTimeLimit: json['AfterContactWorkTimeLimit'] as int?,
       autoAccept: json['AutoAccept'] as bool?,
       deskPhoneNumber: json['DeskPhoneNumber'] as String?,
@@ -35543,18 +36987,27 @@ class UserSummary {
   }
 }
 
-enum VideoCapability {
-  send('SEND'),
-  ;
+class VideoCapability {
+  static const send = VideoCapability._('SEND');
 
   final String value;
 
-  const VideoCapability(this.value);
+  const VideoCapability._(this.value);
+
+  static const values = [send];
 
   static VideoCapability fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VideoCapability'));
+          orElse: () => VideoCapability._(value));
+
+  @override
+  bool operator ==(other) => other is VideoCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A view resource object. Contains metadata and content necessary to render
@@ -35738,18 +37191,27 @@ class ViewInputContent {
   }
 }
 
-enum ViewStatus {
-  published('PUBLISHED'),
-  saved('SAVED'),
-  ;
+class ViewStatus {
+  static const published = ViewStatus._('PUBLISHED');
+  static const saved = ViewStatus._('SAVED');
 
   final String value;
 
-  const ViewStatus(this.value);
+  const ViewStatus._(this.value);
 
-  static ViewStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ViewStatus'));
+  static const values = [published, saved];
+
+  static ViewStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ViewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ViewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a view's metadata.
@@ -35812,18 +37274,27 @@ class ViewSummary {
   }
 }
 
-enum ViewType {
-  customerManaged('CUSTOMER_MANAGED'),
-  awsManaged('AWS_MANAGED'),
-  ;
+class ViewType {
+  static const customerManaged = ViewType._('CUSTOMER_MANAGED');
+  static const awsManaged = ViewType._('AWS_MANAGED');
 
   final String value;
 
-  const ViewType(this.value);
+  const ViewType._(this.value);
 
-  static ViewType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ViewType'));
+  static const values = [customerManaged, awsManaged];
+
+  static ViewType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ViewType._(value));
+
+  @override
+  bool operator ==(other) => other is ViewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a view version's metadata.
@@ -35946,12 +37417,12 @@ class Vocabulary {
     return Vocabulary(
       arn: (json['Arn'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
-      languageCode:
-          VocabularyLanguageCode.fromString((json['LanguageCode'] as String)),
+      languageCode: VocabularyLanguageCode.fromString(
+          (json['LanguageCode'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      state: VocabularyState.fromString((json['State'] as String)),
+      state: VocabularyState.fromString((json['State'] as String?) ?? ''),
       content: json['Content'] as String?,
       failureReason: json['FailureReason'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -35983,67 +37454,125 @@ class Vocabulary {
   }
 }
 
-enum VocabularyLanguageCode {
-  arAe('ar-AE'),
-  deCh('de-CH'),
-  deDe('de-DE'),
-  enAb('en-AB'),
-  enAu('en-AU'),
-  enGb('en-GB'),
-  enIe('en-IE'),
-  enIn('en-IN'),
-  enUs('en-US'),
-  enWl('en-WL'),
-  esEs('es-ES'),
-  esUs('es-US'),
-  frCa('fr-CA'),
-  frFr('fr-FR'),
-  hiIn('hi-IN'),
-  itIt('it-IT'),
-  jaJp('ja-JP'),
-  koKr('ko-KR'),
-  ptBr('pt-BR'),
-  ptPt('pt-PT'),
-  zhCn('zh-CN'),
-  enNz('en-NZ'),
-  enZa('en-ZA'),
-  caEs('ca-ES'),
-  daDk('da-DK'),
-  fiFi('fi-FI'),
-  idId('id-ID'),
-  msMy('ms-MY'),
-  nlNl('nl-NL'),
-  noNo('no-NO'),
-  plPl('pl-PL'),
-  svSe('sv-SE'),
-  tlPh('tl-PH'),
-  ;
+class VocabularyLanguageCode {
+  static const arAe = VocabularyLanguageCode._('ar-AE');
+  static const deCh = VocabularyLanguageCode._('de-CH');
+  static const deDe = VocabularyLanguageCode._('de-DE');
+  static const enAb = VocabularyLanguageCode._('en-AB');
+  static const enAu = VocabularyLanguageCode._('en-AU');
+  static const enGb = VocabularyLanguageCode._('en-GB');
+  static const enIe = VocabularyLanguageCode._('en-IE');
+  static const enIn = VocabularyLanguageCode._('en-IN');
+  static const enUs = VocabularyLanguageCode._('en-US');
+  static const enWl = VocabularyLanguageCode._('en-WL');
+  static const esEs = VocabularyLanguageCode._('es-ES');
+  static const esUs = VocabularyLanguageCode._('es-US');
+  static const frCa = VocabularyLanguageCode._('fr-CA');
+  static const frFr = VocabularyLanguageCode._('fr-FR');
+  static const hiIn = VocabularyLanguageCode._('hi-IN');
+  static const itIt = VocabularyLanguageCode._('it-IT');
+  static const jaJp = VocabularyLanguageCode._('ja-JP');
+  static const koKr = VocabularyLanguageCode._('ko-KR');
+  static const ptBr = VocabularyLanguageCode._('pt-BR');
+  static const ptPt = VocabularyLanguageCode._('pt-PT');
+  static const zhCn = VocabularyLanguageCode._('zh-CN');
+  static const enNz = VocabularyLanguageCode._('en-NZ');
+  static const enZa = VocabularyLanguageCode._('en-ZA');
+  static const caEs = VocabularyLanguageCode._('ca-ES');
+  static const daDk = VocabularyLanguageCode._('da-DK');
+  static const fiFi = VocabularyLanguageCode._('fi-FI');
+  static const idId = VocabularyLanguageCode._('id-ID');
+  static const msMy = VocabularyLanguageCode._('ms-MY');
+  static const nlNl = VocabularyLanguageCode._('nl-NL');
+  static const noNo = VocabularyLanguageCode._('no-NO');
+  static const plPl = VocabularyLanguageCode._('pl-PL');
+  static const svSe = VocabularyLanguageCode._('sv-SE');
+  static const tlPh = VocabularyLanguageCode._('tl-PH');
 
   final String value;
 
-  const VocabularyLanguageCode(this.value);
+  const VocabularyLanguageCode._(this.value);
+
+  static const values = [
+    arAe,
+    deCh,
+    deDe,
+    enAb,
+    enAu,
+    enGb,
+    enIe,
+    enIn,
+    enUs,
+    enWl,
+    esEs,
+    esUs,
+    frCa,
+    frFr,
+    hiIn,
+    itIt,
+    jaJp,
+    koKr,
+    ptBr,
+    ptPt,
+    zhCn,
+    enNz,
+    enZa,
+    caEs,
+    daDk,
+    fiFi,
+    idId,
+    msMy,
+    nlNl,
+    noNo,
+    plPl,
+    svSe,
+    tlPh
+  ];
 
   static VocabularyLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VocabularyLanguageCode'));
+          orElse: () => VocabularyLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VocabularyLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VocabularyState {
-  creationInProgress('CREATION_IN_PROGRESS'),
-  active('ACTIVE'),
-  creationFailed('CREATION_FAILED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  ;
+class VocabularyState {
+  static const creationInProgress = VocabularyState._('CREATION_IN_PROGRESS');
+  static const active = VocabularyState._('ACTIVE');
+  static const creationFailed = VocabularyState._('CREATION_FAILED');
+  static const deleteInProgress = VocabularyState._('DELETE_IN_PROGRESS');
 
   final String value;
 
-  const VocabularyState(this.value);
+  const VocabularyState._(this.value);
+
+  static const values = [
+    creationInProgress,
+    active,
+    creationFailed,
+    deleteInProgress
+  ];
 
   static VocabularyState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VocabularyState'));
+          orElse: () => VocabularyState._(value));
+
+  @override
+  bool operator ==(other) => other is VocabularyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about the custom vocabulary.
@@ -36086,12 +37615,12 @@ class VocabularySummary {
     return VocabularySummary(
       arn: (json['Arn'] as String?) ?? '',
       id: (json['Id'] as String?) ?? '',
-      languageCode:
-          VocabularyLanguageCode.fromString((json['LanguageCode'] as String)),
+      languageCode: VocabularyLanguageCode.fromString(
+          (json['LanguageCode'] as String?) ?? ''),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
       name: (json['Name'] as String?) ?? '',
-      state: VocabularyState.fromString((json['State'] as String)),
+      state: VocabularyState.fromString((json['State'] as String?) ?? ''),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -36134,20 +37663,30 @@ class VoiceRecordingConfiguration {
   }
 }
 
-enum VoiceRecordingTrack {
-  fromAgent('FROM_AGENT'),
-  toAgent('TO_AGENT'),
-  all('ALL'),
-  ;
+class VoiceRecordingTrack {
+  static const fromAgent = VoiceRecordingTrack._('FROM_AGENT');
+  static const toAgent = VoiceRecordingTrack._('TO_AGENT');
+  static const all = VoiceRecordingTrack._('ALL');
 
   final String value;
 
-  const VoiceRecordingTrack(this.value);
+  const VoiceRecordingTrack._(this.value);
 
-  static VoiceRecordingTrack fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum VoiceRecordingTrack'));
+  static const values = [fromAgent, toAgent, all];
+
+  static VoiceRecordingTrack fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VoiceRecordingTrack._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceRecordingTrack && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about Amazon Connect Wisdom.

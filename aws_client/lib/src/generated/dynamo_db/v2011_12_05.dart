@@ -691,20 +691,29 @@ class DynamoDB {
 /// value. If no value is specified, this removes the attribute and its value.
 /// If a set of values is specified, then the values in the specified set are
 /// removed from the old set.
-enum AttributeAction {
-  add('ADD'),
-  put('PUT'),
-  delete('DELETE'),
-  ;
+class AttributeAction {
+  static const add = AttributeAction._('ADD');
+  static const put = AttributeAction._('PUT');
+  static const delete = AttributeAction._('DELETE');
 
   final String value;
 
-  const AttributeAction(this.value);
+  const AttributeAction._(this.value);
+
+  static const values = [add, put, delete];
 
   static AttributeAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AttributeAction'));
+          orElse: () => AttributeAction._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// AttributeValue can be <code>String</code>, <code>Number</code>,
@@ -947,30 +956,54 @@ class BatchWriteResponse {
 ///
 /// Query operations support a subset of the available comparison operators: EQ,
 /// LE, LT, GE, GT, BETWEEN, and BEGINS_WITH.
-enum ComparisonOperator {
-  eq('EQ'),
-  ne('NE'),
-  $in('IN'),
-  le('LE'),
-  lt('LT'),
-  ge('GE'),
-  gt('GT'),
-  between('BETWEEN'),
-  notNull('NOT_NULL'),
-  $null('NULL'),
-  contains('CONTAINS'),
-  notContains('NOT_CONTAINS'),
-  beginsWith('BEGINS_WITH'),
-  ;
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const $in = ComparisonOperator._('IN');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
+  static const between = ComparisonOperator._('BETWEEN');
+  static const notNull = ComparisonOperator._('NOT_NULL');
+  static const $null = ComparisonOperator._('NULL');
+  static const contains = ComparisonOperator._('CONTAINS');
+  static const notContains = ComparisonOperator._('NOT_CONTAINS');
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    eq,
+    ne,
+    $in,
+    le,
+    lt,
+    ge,
+    gt,
+    between,
+    notNull,
+    $null,
+    contains,
+    notContains,
+    beginsWith
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class Condition {
@@ -1282,8 +1315,8 @@ class KeySchemaElement {
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: (json['AttributeName'] as String?) ?? '',
-      attributeType:
-          ScalarAttributeType.fromString((json['AttributeType'] as String)),
+      attributeType: ScalarAttributeType.fromString(
+          (json['AttributeType'] as String?) ?? ''),
     );
   }
 
@@ -1573,37 +1606,56 @@ class QueryOutput {
 /// <li><code>UPDATED_NEW</code>: Returns the values of the updated attributes,
 /// only, as they are after the operation.</li>
 /// </ul>
-enum ReturnValue {
-  none('NONE'),
-  allOld('ALL_OLD'),
-  updatedOld('UPDATED_OLD'),
-  allNew('ALL_NEW'),
-  updatedNew('UPDATED_NEW'),
-  ;
+class ReturnValue {
+  static const none = ReturnValue._('NONE');
+  static const allOld = ReturnValue._('ALL_OLD');
+  static const updatedOld = ReturnValue._('UPDATED_OLD');
+  static const allNew = ReturnValue._('ALL_NEW');
+  static const updatedNew = ReturnValue._('UPDATED_NEW');
 
   final String value;
 
-  const ReturnValue(this.value);
+  const ReturnValue._(this.value);
 
-  static ReturnValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReturnValue'));
+  static const values = [none, allOld, updatedOld, allNew, updatedNew];
+
+  static ReturnValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReturnValue._(value));
+
+  @override
+  bool operator ==(other) => other is ReturnValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScalarAttributeType {
-  s('S'),
-  n('N'),
-  b('B'),
-  ;
+class ScalarAttributeType {
+  static const s = ScalarAttributeType._('S');
+  static const n = ScalarAttributeType._('N');
+  static const b = ScalarAttributeType._('B');
 
   final String value;
 
-  const ScalarAttributeType(this.value);
+  const ScalarAttributeType._(this.value);
 
-  static ScalarAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ScalarAttributeType'));
+  static const values = [s, n, b];
+
+  static ScalarAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalarAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ScanOutput {
@@ -1726,20 +1778,29 @@ class TableDescription {
   }
 }
 
-enum TableStatus {
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  active('ACTIVE'),
-  ;
+class TableStatus {
+  static const creating = TableStatus._('CREATING');
+  static const updating = TableStatus._('UPDATING');
+  static const deleting = TableStatus._('DELETING');
+  static const active = TableStatus._('ACTIVE');
 
   final String value;
 
-  const TableStatus(this.value);
+  const TableStatus._(this.value);
 
-  static TableStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TableStatus'));
+  static const values = [creating, updating, deleting, active];
+
+  static TableStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateItemOutput {

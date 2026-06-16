@@ -1115,20 +1115,29 @@ class ApplicationState {
   }
 }
 
-enum ApplicationStatus {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  completed('COMPLETED'),
-  ;
+class ApplicationStatus {
+  static const notStarted = ApplicationStatus._('NOT_STARTED');
+  static const inProgress = ApplicationStatus._('IN_PROGRESS');
+  static const completed = ApplicationStatus._('COMPLETED');
 
   final String value;
 
-  const ApplicationStatus(this.value);
+  const ApplicationStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed];
 
   static ApplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApplicationStatus'));
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateCreatedArtifactResult {
@@ -1735,7 +1744,7 @@ class ResourceAttribute {
 
   factory ResourceAttribute.fromJson(Map<String, dynamic> json) {
     return ResourceAttribute(
-      type: ResourceAttributeType.fromString((json['Type'] as String)),
+      type: ResourceAttributeType.fromString((json['Type'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -1750,43 +1759,75 @@ class ResourceAttribute {
   }
 }
 
-enum ResourceAttributeType {
-  ipv4Address('IPV4_ADDRESS'),
-  ipv6Address('IPV6_ADDRESS'),
-  macAddress('MAC_ADDRESS'),
-  fqdn('FQDN'),
-  vmManagerId('VM_MANAGER_ID'),
-  vmManagedObjectReference('VM_MANAGED_OBJECT_REFERENCE'),
-  vmName('VM_NAME'),
-  vmPath('VM_PATH'),
-  biosId('BIOS_ID'),
-  motherboardSerialNumber('MOTHERBOARD_SERIAL_NUMBER'),
-  ;
+class ResourceAttributeType {
+  static const ipv4Address = ResourceAttributeType._('IPV4_ADDRESS');
+  static const ipv6Address = ResourceAttributeType._('IPV6_ADDRESS');
+  static const macAddress = ResourceAttributeType._('MAC_ADDRESS');
+  static const fqdn = ResourceAttributeType._('FQDN');
+  static const vmManagerId = ResourceAttributeType._('VM_MANAGER_ID');
+  static const vmManagedObjectReference =
+      ResourceAttributeType._('VM_MANAGED_OBJECT_REFERENCE');
+  static const vmName = ResourceAttributeType._('VM_NAME');
+  static const vmPath = ResourceAttributeType._('VM_PATH');
+  static const biosId = ResourceAttributeType._('BIOS_ID');
+  static const motherboardSerialNumber =
+      ResourceAttributeType._('MOTHERBOARD_SERIAL_NUMBER');
 
   final String value;
 
-  const ResourceAttributeType(this.value);
+  const ResourceAttributeType._(this.value);
 
-  static ResourceAttributeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResourceAttributeType'));
+  static const values = [
+    ipv4Address,
+    ipv6Address,
+    macAddress,
+    fqdn,
+    vmManagerId,
+    vmManagedObjectReference,
+    vmName,
+    vmPath,
+    biosId,
+    motherboardSerialNumber
+  ];
+
+  static ResourceAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Status {
-  notStarted('NOT_STARTED'),
-  inProgress('IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class Status {
+  static const notStarted = Status._('NOT_STARTED');
+  static const inProgress = Status._('IN_PROGRESS');
+  static const failed = Status._('FAILED');
+  static const completed = Status._('COMPLETED');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [notStarted, inProgress, failed, completed];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Task object encapsulating task information.
@@ -1810,7 +1851,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      status: Status.fromString((json['Status'] as String)),
+      status: Status.fromString((json['Status'] as String?) ?? ''),
       progressPercent: json['ProgressPercent'] as int?,
       statusDetail: json['StatusDetail'] as String?,
     );

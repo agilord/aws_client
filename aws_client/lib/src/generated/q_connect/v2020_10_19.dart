@@ -2374,8 +2374,8 @@ class AssistantAssociationData {
       associationData: AssistantAssociationOutputData.fromJson(
           (json['associationData'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      associationType:
-          AssociationType.fromString((json['associationType'] as String)),
+      associationType: AssociationType.fromString(
+          (json['associationType'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2490,8 +2490,8 @@ class AssistantAssociationSummary {
       associationData: AssistantAssociationOutputData.fromJson(
           (json['associationData'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      associationType:
-          AssociationType.fromString((json['associationType'] as String)),
+      associationType: AssociationType.fromString(
+          (json['associationType'] as String?) ?? ''),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2540,19 +2540,29 @@ class AssistantCapabilityConfiguration {
   }
 }
 
-enum AssistantCapabilityType {
-  v1('V1'),
-  v2('V2'),
-  ;
+class AssistantCapabilityType {
+  static const v1 = AssistantCapabilityType._('V1');
+  static const v2 = AssistantCapabilityType._('V2');
 
   final String value;
 
-  const AssistantCapabilityType(this.value);
+  const AssistantCapabilityType._(this.value);
+
+  static const values = [v1, v2];
 
   static AssistantCapabilityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssistantCapabilityType'));
+          orElse: () => AssistantCapabilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssistantCapabilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The assistant data.
@@ -2621,8 +2631,8 @@ class AssistantData {
       assistantArn: (json['assistantArn'] as String?) ?? '',
       assistantId: (json['assistantId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: AssistantStatus.fromString((json['status'] as String)),
-      type: AssistantType.fromString((json['type'] as String)),
+      status: AssistantStatus.fromString((json['status'] as String?) ?? ''),
+      type: AssistantType.fromString((json['type'] as String?) ?? ''),
       capabilityConfiguration: json['capabilityConfiguration'] != null
           ? AssistantCapabilityConfiguration.fromJson(
               json['capabilityConfiguration'] as Map<String, dynamic>)
@@ -2700,23 +2710,39 @@ class AssistantIntegrationConfiguration {
   }
 }
 
-enum AssistantStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  ;
+class AssistantStatus {
+  static const createInProgress = AssistantStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = AssistantStatus._('CREATE_FAILED');
+  static const active = AssistantStatus._('ACTIVE');
+  static const deleteInProgress = AssistantStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = AssistantStatus._('DELETE_FAILED');
+  static const deleted = AssistantStatus._('DELETED');
 
   final String value;
 
-  const AssistantStatus(this.value);
+  const AssistantStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createFailed,
+    active,
+    deleteInProgress,
+    deleteFailed,
+    deleted
+  ];
 
   static AssistantStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssistantStatus'));
+          orElse: () => AssistantStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssistantStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the assistant.
@@ -2785,8 +2811,8 @@ class AssistantSummary {
       assistantArn: (json['assistantArn'] as String?) ?? '',
       assistantId: (json['assistantId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      status: AssistantStatus.fromString((json['status'] as String)),
-      type: AssistantType.fromString((json['type'] as String)),
+      status: AssistantStatus.fromString((json['status'] as String?) ?? ''),
+      type: AssistantType.fromString((json['type'] as String?) ?? ''),
       capabilityConfiguration: json['capabilityConfiguration'] != null
           ? AssistantCapabilityConfiguration.fromJson(
               json['capabilityConfiguration'] as Map<String, dynamic>)
@@ -2837,32 +2863,50 @@ class AssistantSummary {
   }
 }
 
-enum AssistantType {
-  agent('AGENT'),
-  ;
+class AssistantType {
+  static const agent = AssistantType._('AGENT');
 
   final String value;
 
-  const AssistantType(this.value);
+  const AssistantType._(this.value);
+
+  static const values = [agent];
 
   static AssistantType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssistantType'));
+          orElse: () => AssistantType._(value));
+
+  @override
+  bool operator ==(other) => other is AssistantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssociationType {
-  knowledgeBase('KNOWLEDGE_BASE'),
-  ;
+class AssociationType {
+  static const knowledgeBase = AssociationType._('KNOWLEDGE_BASE');
 
   final String value;
 
-  const AssociationType(this.value);
+  const AssociationType._(this.value);
+
+  static const values = [knowledgeBase];
 
   static AssociationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationType'));
+          orElse: () => AssociationType._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration information of the external data source.
@@ -2992,7 +3036,7 @@ class ContentAssociationData {
           (json['associationData'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       associationType: ContentAssociationType.fromString(
-          (json['associationType'] as String)),
+          (json['associationType'] as String?) ?? ''),
       contentArn: (json['contentArn'] as String?) ?? '',
       contentAssociationArn: (json['contentAssociationArn'] as String?) ?? '',
       contentAssociationId: (json['contentAssociationId'] as String?) ?? '',
@@ -3076,7 +3120,7 @@ class ContentAssociationSummary {
           (json['associationData'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       associationType: ContentAssociationType.fromString(
-          (json['associationType'] as String)),
+          (json['associationType'] as String?) ?? ''),
       contentArn: (json['contentArn'] as String?) ?? '',
       contentAssociationArn: (json['contentAssociationArn'] as String?) ?? '',
       contentAssociationId: (json['contentAssociationId'] as String?) ?? '',
@@ -3112,18 +3156,29 @@ class ContentAssociationSummary {
   }
 }
 
-enum ContentAssociationType {
-  amazonConnectGuide('AMAZON_CONNECT_GUIDE'),
-  ;
+class ContentAssociationType {
+  static const amazonConnectGuide =
+      ContentAssociationType._('AMAZON_CONNECT_GUIDE');
 
   final String value;
 
-  const ContentAssociationType(this.value);
+  const ContentAssociationType._(this.value);
+
+  static const values = [amazonConnectGuide];
 
   static ContentAssociationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentAssociationType'));
+          orElse: () => ContentAssociationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentAssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the content.
@@ -3202,7 +3257,7 @@ class ContentData {
           .map((k, e) => MapEntry(k, e as String)),
       name: (json['name'] as String?) ?? '',
       revisionId: (json['revisionId'] as String?) ?? '',
-      status: ContentStatus.fromString((json['status'] as String)),
+      status: ContentStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       url: (json['url'] as String?) ?? '',
       urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] ?? 0),
@@ -3352,24 +3407,41 @@ class ContentReference {
   }
 }
 
-enum ContentStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class ContentStatus {
+  static const createInProgress = ContentStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = ContentStatus._('CREATE_FAILED');
+  static const active = ContentStatus._('ACTIVE');
+  static const deleteInProgress = ContentStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = ContentStatus._('DELETE_FAILED');
+  static const deleted = ContentStatus._('DELETED');
+  static const updateFailed = ContentStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const ContentStatus(this.value);
+  const ContentStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createFailed,
+    active,
+    deleteInProgress,
+    deleteFailed,
+    deleted,
+    updateFailed
+  ];
 
   static ContentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ContentStatus'));
+          orElse: () => ContentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the content.
@@ -3437,7 +3509,7 @@ class ContentSummary {
           .map((k, e) => MapEntry(k, e as String)),
       name: (json['name'] as String?) ?? '',
       revisionId: (json['revisionId'] as String?) ?? '',
-      status: ContentStatus.fromString((json['status'] as String)),
+      status: ContentStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3922,18 +3994,27 @@ class DocumentText {
   }
 }
 
-enum ExternalSource {
-  amazonConnect('AMAZON_CONNECT'),
-  ;
+class ExternalSource {
+  static const amazonConnect = ExternalSource._('AMAZON_CONNECT');
 
   final String value;
 
-  const ExternalSource(this.value);
+  const ExternalSource._(this.value);
+
+  static const values = [amazonConnect];
 
   static ExternalSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExternalSource'));
+          orElse: () => ExternalSource._(value));
+
+  @override
+  bool operator ==(other) => other is ExternalSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration information of the external data source.
@@ -3954,7 +4035,7 @@ class ExternalSourceConfiguration {
       configuration: Configuration.fromJson(
           (json['configuration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      source: ExternalSource.fromString((json['source'] as String)),
+      source: ExternalSource.fromString((json['source'] as String?) ?? ''),
     );
   }
 
@@ -3997,31 +4078,49 @@ class Filter {
   }
 }
 
-enum FilterField {
-  name('NAME'),
-  ;
+class FilterField {
+  static const name = FilterField._('NAME');
 
   final String value;
 
-  const FilterField(this.value);
+  const FilterField._(this.value);
 
-  static FilterField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterField'));
+  static const values = [name];
+
+  static FilterField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterField._(value));
+
+  @override
+  bool operator ==(other) => other is FilterField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FilterOperator {
-  equals('EQUALS'),
-  ;
+class FilterOperator {
+  static const equals = FilterOperator._('EQUALS');
 
   final String value;
 
-  const FilterOperator(this.value);
+  const FilterOperator._(this.value);
+
+  static const values = [equals];
 
   static FilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FilterOperator'));
+          orElse: () => FilterOperator._(value));
+
+  @override
+  bool operator ==(other) => other is FilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The feedback information for a generative target type.
@@ -4035,7 +4134,7 @@ class GenerativeContentFeedbackData {
 
   factory GenerativeContentFeedbackData.fromJson(Map<String, dynamic> json) {
     return GenerativeContentFeedbackData(
-      relevance: Relevance.fromString((json['relevance'] as String)),
+      relevance: Relevance.fromString((json['relevance'] as String?) ?? ''),
     );
   }
 
@@ -4525,12 +4624,12 @@ class ImportJobData {
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       importJobId: (json['importJobId'] as String?) ?? '',
       importJobType:
-          ImportJobType.fromString((json['importJobType'] as String)),
+          ImportJobType.fromString((json['importJobType'] as String?) ?? ''),
       knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-      status: ImportJobStatus.fromString((json['status'] as String)),
+      status: ImportJobStatus.fromString((json['status'] as String?) ?? ''),
       uploadId: (json['uploadId'] as String?) ?? '',
       url: (json['url'] as String?) ?? '',
       urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] ?? 0),
@@ -4577,23 +4676,39 @@ class ImportJobData {
   }
 }
 
-enum ImportJobStatus {
-  startInProgress('START_IN_PROGRESS'),
-  failed('FAILED'),
-  complete('COMPLETE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  ;
+class ImportJobStatus {
+  static const startInProgress = ImportJobStatus._('START_IN_PROGRESS');
+  static const failed = ImportJobStatus._('FAILED');
+  static const complete = ImportJobStatus._('COMPLETE');
+  static const deleteInProgress = ImportJobStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = ImportJobStatus._('DELETE_FAILED');
+  static const deleted = ImportJobStatus._('DELETED');
 
   final String value;
 
-  const ImportJobStatus(this.value);
+  const ImportJobStatus._(this.value);
+
+  static const values = [
+    startInProgress,
+    failed,
+    complete,
+    deleteInProgress,
+    deleteFailed,
+    deleted
+  ];
 
   static ImportJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportJobStatus'));
+          orElse: () => ImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the import job.
@@ -4648,12 +4763,12 @@ class ImportJobSummary {
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       importJobId: (json['importJobId'] as String?) ?? '',
       importJobType:
-          ImportJobType.fromString((json['importJobType'] as String)),
+          ImportJobType.fromString((json['importJobType'] as String?) ?? ''),
       knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-      status: ImportJobStatus.fromString((json['status'] as String)),
+      status: ImportJobStatus.fromString((json['status'] as String?) ?? ''),
       uploadId: (json['uploadId'] as String?) ?? '',
       externalSourceConfiguration: json['externalSourceConfiguration'] != null
           ? ExternalSourceConfiguration.fromJson(
@@ -4691,18 +4806,27 @@ class ImportJobSummary {
   }
 }
 
-enum ImportJobType {
-  quickResponses('QUICK_RESPONSES'),
-  ;
+class ImportJobType {
+  static const quickResponses = ImportJobType._('QUICK_RESPONSES');
 
   final String value;
 
-  const ImportJobType(this.value);
+  const ImportJobType._(this.value);
+
+  static const values = [quickResponses];
 
   static ImportJobType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ImportJobType'));
+          orElse: () => ImportJobType._(value));
+
+  @override
+  bool operator ==(other) => other is ImportJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Association information about the knowledge base.
@@ -4801,10 +4925,10 @@ class KnowledgeBaseData {
     return KnowledgeBaseData(
       knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      knowledgeBaseType:
-          KnowledgeBaseType.fromString((json['knowledgeBaseType'] as String)),
+      knowledgeBaseType: KnowledgeBaseType.fromString(
+          (json['knowledgeBaseType'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
-      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       lastContentModificationTime:
           timeStampFromJson(json['lastContentModificationTime']),
@@ -4861,23 +4985,40 @@ class KnowledgeBaseData {
   }
 }
 
-enum KnowledgeBaseStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  ;
+class KnowledgeBaseStatus {
+  static const createInProgress = KnowledgeBaseStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = KnowledgeBaseStatus._('CREATE_FAILED');
+  static const active = KnowledgeBaseStatus._('ACTIVE');
+  static const deleteInProgress = KnowledgeBaseStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = KnowledgeBaseStatus._('DELETE_FAILED');
+  static const deleted = KnowledgeBaseStatus._('DELETED');
 
   final String value;
 
-  const KnowledgeBaseStatus(this.value);
+  const KnowledgeBaseStatus._(this.value);
 
-  static KnowledgeBaseStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum KnowledgeBaseStatus'));
+  static const values = [
+    createInProgress,
+    createFailed,
+    active,
+    deleteInProgress,
+    deleteFailed,
+    deleted
+  ];
+
+  static KnowledgeBaseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KnowledgeBaseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KnowledgeBaseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the knowledge base.
@@ -4940,10 +5081,10 @@ class KnowledgeBaseSummary {
     return KnowledgeBaseSummary(
       knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
       knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
-      knowledgeBaseType:
-          KnowledgeBaseType.fromString((json['knowledgeBaseType'] as String)),
+      knowledgeBaseType: KnowledgeBaseType.fromString(
+          (json['knowledgeBaseType'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
-      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String?) ?? ''),
       description: json['description'] as String?,
       renderingConfiguration: json['renderingConfiguration'] != null
           ? RenderingConfiguration.fromJson(
@@ -4994,20 +5135,29 @@ class KnowledgeBaseSummary {
   }
 }
 
-enum KnowledgeBaseType {
-  external('EXTERNAL'),
-  custom('CUSTOM'),
-  quickResponses('QUICK_RESPONSES'),
-  ;
+class KnowledgeBaseType {
+  static const external = KnowledgeBaseType._('EXTERNAL');
+  static const custom = KnowledgeBaseType._('CUSTOM');
+  static const quickResponses = KnowledgeBaseType._('QUICK_RESPONSES');
 
   final String value;
 
-  const KnowledgeBaseType(this.value);
+  const KnowledgeBaseType._(this.value);
+
+  static const values = [external, custom, quickResponses];
 
   static KnowledgeBaseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum KnowledgeBaseType'));
+          orElse: () => KnowledgeBaseType._(value));
+
+  @override
+  bool operator ==(other) => other is KnowledgeBaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAssistantAssociationsResponse {
@@ -5377,33 +5527,51 @@ class OrCondition {
   }
 }
 
-enum Order {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class Order {
+  static const asc = Order._('ASC');
+  static const desc = Order._('DESC');
 
   final String value;
 
-  const Order(this.value);
+  const Order._(this.value);
+
+  static const values = [asc, desc];
 
   static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Order'));
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Priority {
-  high('HIGH'),
-  medium('MEDIUM'),
-  low('LOW'),
-  ;
+class Priority {
+  static const high = Priority._('HIGH');
+  static const medium = Priority._('MEDIUM');
+  static const low = Priority._('LOW');
 
   final String value;
 
-  const Priority(this.value);
+  const Priority._(this.value);
 
-  static Priority fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Priority'));
+  static const values = [high, medium, low];
+
+  static Priority fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Priority._(value));
+
+  @override
+  bool operator ==(other) => other is Priority && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutFeedbackResponse {
@@ -5438,7 +5606,7 @@ class PutFeedbackResponse {
           (json['contentFeedback'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       targetId: (json['targetId'] as String?) ?? '',
-      targetType: TargetType.fromString((json['targetType'] as String)),
+      targetType: TargetType.fromString((json['targetType'] as String?) ?? ''),
     );
   }
 
@@ -5508,32 +5676,52 @@ class QueryCondition {
   }
 }
 
-enum QueryConditionComparisonOperator {
-  equals('EQUALS'),
-  ;
+class QueryConditionComparisonOperator {
+  static const equals = QueryConditionComparisonOperator._('EQUALS');
 
   final String value;
 
-  const QueryConditionComparisonOperator(this.value);
+  const QueryConditionComparisonOperator._(this.value);
+
+  static const values = [equals];
 
   static QueryConditionComparisonOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QueryConditionComparisonOperator'));
+          orElse: () => QueryConditionComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryConditionComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum QueryConditionFieldName {
-  resultType('RESULT_TYPE'),
-  ;
+class QueryConditionFieldName {
+  static const resultType = QueryConditionFieldName._('RESULT_TYPE');
 
   final String value;
 
-  const QueryConditionFieldName(this.value);
+  const QueryConditionFieldName._(this.value);
+
+  static const values = [resultType];
 
   static QueryConditionFieldName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QueryConditionFieldName'));
+          orElse: () => QueryConditionFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryConditionFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The condition for the query.
@@ -5588,19 +5776,28 @@ class QueryRecommendationTriggerData {
   }
 }
 
-enum QueryResultType {
-  knowledgeContent('KNOWLEDGE_CONTENT'),
-  generativeAnswer('GENERATIVE_ANSWER'),
-  ;
+class QueryResultType {
+  static const knowledgeContent = QueryResultType._('KNOWLEDGE_CONTENT');
+  static const generativeAnswer = QueryResultType._('GENERATIVE_ANSWER');
 
   final String value;
 
-  const QueryResultType(this.value);
+  const QueryResultType._(this.value);
+
+  static const values = [knowledgeContent, generativeAnswer];
 
   static QueryResultType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum QueryResultType'));
+          orElse: () => QueryResultType._(value));
+
+  @override
+  bool operator ==(other) => other is QueryResultType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The container quick response content.
@@ -5764,7 +5961,7 @@ class QuickResponseData {
       name: (json['name'] as String?) ?? '',
       quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
       quickResponseId: (json['quickResponseId'] as String?) ?? '',
-      status: QuickResponseStatus.fromString((json['status'] as String)),
+      status: QuickResponseStatus.fromString((json['status'] as String?) ?? ''),
       channels: (json['channels'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5923,19 +6120,29 @@ class QuickResponseFilterField {
   }
 }
 
-enum QuickResponseFilterOperator {
-  equals('EQUALS'),
-  prefix('PREFIX'),
-  ;
+class QuickResponseFilterOperator {
+  static const equals = QuickResponseFilterOperator._('EQUALS');
+  static const prefix = QuickResponseFilterOperator._('PREFIX');
 
   final String value;
 
-  const QuickResponseFilterOperator(this.value);
+  const QuickResponseFilterOperator._(this.value);
+
+  static const values = [equals, prefix];
 
   static QuickResponseFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QuickResponseFilterOperator'));
+          orElse: () => QuickResponseFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuickResponseFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The quick response fields to order the quick response query results by.
@@ -6064,19 +6271,30 @@ class QuickResponseQueryField {
   }
 }
 
-enum QuickResponseQueryOperator {
-  contains('CONTAINS'),
-  containsAndPrefix('CONTAINS_AND_PREFIX'),
-  ;
+class QuickResponseQueryOperator {
+  static const contains = QuickResponseQueryOperator._('CONTAINS');
+  static const containsAndPrefix =
+      QuickResponseQueryOperator._('CONTAINS_AND_PREFIX');
 
   final String value;
 
-  const QuickResponseQueryOperator(this.value);
+  const QuickResponseQueryOperator._(this.value);
+
+  static const values = [contains, containsAndPrefix];
 
   static QuickResponseQueryOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum QuickResponseQueryOperator'));
+          orElse: () => QuickResponseQueryOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuickResponseQueryOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the import job.
@@ -6228,7 +6446,7 @@ class QuickResponseSearchResultData {
       name: (json['name'] as String?) ?? '',
       quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
       quickResponseId: (json['quickResponseId'] as String?) ?? '',
-      status: QuickResponseStatus.fromString((json['status'] as String)),
+      status: QuickResponseStatus.fromString((json['status'] as String?) ?? ''),
       attributesInterpolated: (json['attributesInterpolated'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6303,25 +6521,44 @@ class QuickResponseSearchResultData {
   }
 }
 
-enum QuickResponseStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  created('CREATED'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  deleteFailed('DELETE_FAILED'),
-  deleted('DELETED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class QuickResponseStatus {
+  static const createInProgress = QuickResponseStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = QuickResponseStatus._('CREATE_FAILED');
+  static const created = QuickResponseStatus._('CREATED');
+  static const deleteInProgress = QuickResponseStatus._('DELETE_IN_PROGRESS');
+  static const deleteFailed = QuickResponseStatus._('DELETE_FAILED');
+  static const deleted = QuickResponseStatus._('DELETED');
+  static const updateInProgress = QuickResponseStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = QuickResponseStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const QuickResponseStatus(this.value);
+  const QuickResponseStatus._(this.value);
 
-  static QuickResponseStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum QuickResponseStatus'));
+  static const values = [
+    createInProgress,
+    createFailed,
+    created,
+    deleteInProgress,
+    deleteFailed,
+    deleted,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static QuickResponseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuickResponseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuickResponseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary information about the quick response.
@@ -6409,7 +6646,7 @@ class QuickResponseSummary {
       name: (json['name'] as String?) ?? '',
       quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
       quickResponseId: (json['quickResponseId'] as String?) ?? '',
-      status: QuickResponseStatus.fromString((json['status'] as String)),
+      status: QuickResponseStatus.fromString((json['status'] as String?) ?? ''),
       channels: (json['channels'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6550,20 +6787,30 @@ class RecommendationData {
   }
 }
 
-enum RecommendationSourceType {
-  issueDetection('ISSUE_DETECTION'),
-  ruleEvaluation('RULE_EVALUATION'),
-  other('OTHER'),
-  ;
+class RecommendationSourceType {
+  static const issueDetection = RecommendationSourceType._('ISSUE_DETECTION');
+  static const ruleEvaluation = RecommendationSourceType._('RULE_EVALUATION');
+  static const other = RecommendationSourceType._('OTHER');
 
   final String value;
 
-  const RecommendationSourceType(this.value);
+  const RecommendationSourceType._(this.value);
+
+  static const values = [issueDetection, ruleEvaluation, other];
 
   static RecommendationSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationSourceType'));
+          orElse: () => RecommendationSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A recommendation trigger provides context on the event that produced the
@@ -6613,8 +6860,10 @@ class RecommendationTrigger {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      source: RecommendationSourceType.fromString((json['source'] as String)),
-      type: RecommendationTriggerType.fromString((json['type'] as String)),
+      source: RecommendationSourceType.fromString(
+          (json['source'] as String?) ?? ''),
+      type:
+          RecommendationTriggerType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -6660,65 +6909,107 @@ class RecommendationTriggerData {
   }
 }
 
-enum RecommendationTriggerType {
-  query('QUERY'),
-  generative('GENERATIVE'),
-  ;
+class RecommendationTriggerType {
+  static const query = RecommendationTriggerType._('QUERY');
+  static const generative = RecommendationTriggerType._('GENERATIVE');
 
   final String value;
 
-  const RecommendationTriggerType(this.value);
+  const RecommendationTriggerType._(this.value);
+
+  static const values = [query, generative];
 
   static RecommendationTriggerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationTriggerType'));
+          orElse: () => RecommendationTriggerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationTriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RecommendationType {
-  knowledgeContent('KNOWLEDGE_CONTENT'),
-  generativeResponse('GENERATIVE_RESPONSE'),
-  generativeAnswer('GENERATIVE_ANSWER'),
-  ;
+class RecommendationType {
+  static const knowledgeContent = RecommendationType._('KNOWLEDGE_CONTENT');
+  static const generativeResponse = RecommendationType._('GENERATIVE_RESPONSE');
+  static const generativeAnswer = RecommendationType._('GENERATIVE_ANSWER');
 
   final String value;
 
-  const RecommendationType(this.value);
+  const RecommendationType._(this.value);
 
-  static RecommendationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RecommendationType'));
+  static const values = [
+    knowledgeContent,
+    generativeResponse,
+    generativeAnswer
+  ];
+
+  static RecommendationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Relevance {
-  helpful('HELPFUL'),
-  notHelpful('NOT_HELPFUL'),
-  ;
+class Relevance {
+  static const helpful = Relevance._('HELPFUL');
+  static const notHelpful = Relevance._('NOT_HELPFUL');
 
   final String value;
 
-  const Relevance(this.value);
+  const Relevance._(this.value);
 
-  static Relevance fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Relevance'));
+  static const values = [helpful, notHelpful];
+
+  static Relevance fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Relevance._(value));
+
+  @override
+  bool operator ==(other) => other is Relevance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RelevanceLevel {
-  high('HIGH'),
-  medium('MEDIUM'),
-  low('LOW'),
-  ;
+class RelevanceLevel {
+  static const high = RelevanceLevel._('HIGH');
+  static const medium = RelevanceLevel._('MEDIUM');
+  static const low = RelevanceLevel._('LOW');
 
   final String value;
 
-  const RelevanceLevel(this.value);
+  const RelevanceLevel._(this.value);
+
+  static const values = [high, medium, low];
 
   static RelevanceLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelevanceLevel'));
+          orElse: () => RelevanceLevel._(value));
+
+  @override
+  bool operator ==(other) => other is RelevanceLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RemoveKnowledgeBaseTemplateUriResponse {
@@ -7180,7 +7471,7 @@ class SourceContentDataDetails {
               const <String, dynamic>{}),
       textData: TextData.fromJson((json['textData'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      type: SourceContentType.fromString((json['type'] as String)),
+      type: SourceContentType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -7198,18 +7489,27 @@ class SourceContentDataDetails {
   }
 }
 
-enum SourceContentType {
-  knowledgeContent('KNOWLEDGE_CONTENT'),
-  ;
+class SourceContentType {
+  static const knowledgeContent = SourceContentType._('KNOWLEDGE_CONTENT');
 
   final String value;
 
-  const SourceContentType(this.value);
+  const SourceContentType._(this.value);
+
+  static const values = [knowledgeContent];
 
   static SourceContentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SourceContentType'));
+          orElse: () => SourceContentType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartContentUploadResponse {
@@ -7370,18 +7670,27 @@ class TagResourceResponse {
   }
 }
 
-enum TargetType {
-  recommendation('RECOMMENDATION'),
-  result('RESULT'),
-  ;
+class TargetType {
+  static const recommendation = TargetType._('RECOMMENDATION');
+  static const result = TargetType._('RESULT');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [recommendation, result];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the source content text data.

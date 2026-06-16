@@ -776,72 +776,132 @@ class SageMakerGeospatialCapabilities {
   }
 }
 
-enum AlgorithmNameCloudRemoval {
-  interpolation('INTERPOLATION'),
-  ;
+class AlgorithmNameCloudRemoval {
+  static const interpolation = AlgorithmNameCloudRemoval._('INTERPOLATION');
 
   final String value;
 
-  const AlgorithmNameCloudRemoval(this.value);
+  const AlgorithmNameCloudRemoval._(this.value);
+
+  static const values = [interpolation];
 
   static AlgorithmNameCloudRemoval fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AlgorithmNameCloudRemoval'));
+          orElse: () => AlgorithmNameCloudRemoval._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlgorithmNameCloudRemoval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AlgorithmNameGeoMosaic {
-  near('NEAR'),
-  bilinear('BILINEAR'),
-  cubic('CUBIC'),
-  cubicspline('CUBICSPLINE'),
-  lanczos('LANCZOS'),
-  average('AVERAGE'),
-  rms('RMS'),
-  mode('MODE'),
-  max('MAX'),
-  min('MIN'),
-  med('MED'),
-  q1('Q1'),
-  q3('Q3'),
-  sum('SUM'),
-  ;
+class AlgorithmNameGeoMosaic {
+  static const near = AlgorithmNameGeoMosaic._('NEAR');
+  static const bilinear = AlgorithmNameGeoMosaic._('BILINEAR');
+  static const cubic = AlgorithmNameGeoMosaic._('CUBIC');
+  static const cubicspline = AlgorithmNameGeoMosaic._('CUBICSPLINE');
+  static const lanczos = AlgorithmNameGeoMosaic._('LANCZOS');
+  static const average = AlgorithmNameGeoMosaic._('AVERAGE');
+  static const rms = AlgorithmNameGeoMosaic._('RMS');
+  static const mode = AlgorithmNameGeoMosaic._('MODE');
+  static const max = AlgorithmNameGeoMosaic._('MAX');
+  static const min = AlgorithmNameGeoMosaic._('MIN');
+  static const med = AlgorithmNameGeoMosaic._('MED');
+  static const q1 = AlgorithmNameGeoMosaic._('Q1');
+  static const q3 = AlgorithmNameGeoMosaic._('Q3');
+  static const sum = AlgorithmNameGeoMosaic._('SUM');
 
   final String value;
 
-  const AlgorithmNameGeoMosaic(this.value);
+  const AlgorithmNameGeoMosaic._(this.value);
+
+  static const values = [
+    near,
+    bilinear,
+    cubic,
+    cubicspline,
+    lanczos,
+    average,
+    rms,
+    mode,
+    max,
+    min,
+    med,
+    q1,
+    q3,
+    sum
+  ];
 
   static AlgorithmNameGeoMosaic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AlgorithmNameGeoMosaic'));
+          orElse: () => AlgorithmNameGeoMosaic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlgorithmNameGeoMosaic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AlgorithmNameResampling {
-  near('NEAR'),
-  bilinear('BILINEAR'),
-  cubic('CUBIC'),
-  cubicspline('CUBICSPLINE'),
-  lanczos('LANCZOS'),
-  average('AVERAGE'),
-  rms('RMS'),
-  mode('MODE'),
-  max('MAX'),
-  min('MIN'),
-  med('MED'),
-  q1('Q1'),
-  q3('Q3'),
-  sum('SUM'),
-  ;
+class AlgorithmNameResampling {
+  static const near = AlgorithmNameResampling._('NEAR');
+  static const bilinear = AlgorithmNameResampling._('BILINEAR');
+  static const cubic = AlgorithmNameResampling._('CUBIC');
+  static const cubicspline = AlgorithmNameResampling._('CUBICSPLINE');
+  static const lanczos = AlgorithmNameResampling._('LANCZOS');
+  static const average = AlgorithmNameResampling._('AVERAGE');
+  static const rms = AlgorithmNameResampling._('RMS');
+  static const mode = AlgorithmNameResampling._('MODE');
+  static const max = AlgorithmNameResampling._('MAX');
+  static const min = AlgorithmNameResampling._('MIN');
+  static const med = AlgorithmNameResampling._('MED');
+  static const q1 = AlgorithmNameResampling._('Q1');
+  static const q3 = AlgorithmNameResampling._('Q3');
+  static const sum = AlgorithmNameResampling._('SUM');
 
   final String value;
 
-  const AlgorithmNameResampling(this.value);
+  const AlgorithmNameResampling._(this.value);
+
+  static const values = [
+    near,
+    bilinear,
+    cubic,
+    cubicspline,
+    lanczos,
+    average,
+    rms,
+    mode,
+    max,
+    min,
+    med,
+    q1,
+    q3,
+    sum
+  ];
 
   static AlgorithmNameResampling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AlgorithmNameResampling'));
+          orElse: () => AlgorithmNameResampling._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlgorithmNameResampling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The geographic extent of the Earth Observation job.
@@ -1024,20 +1084,30 @@ class CloudRemovalConfigInput {
   }
 }
 
-enum ComparisonOperator {
-  equals('EQUALS'),
-  notEquals('NOT_EQUALS'),
-  startsWith('STARTS_WITH'),
-  ;
+class ComparisonOperator {
+  static const equals = ComparisonOperator._('EQUALS');
+  static const notEquals = ComparisonOperator._('NOT_EQUALS');
+  static const startsWith = ComparisonOperator._('STARTS_WITH');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [equals, notEquals, startsWith];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input object defining the custom BandMath indices to compute.
@@ -1066,20 +1136,30 @@ class CustomIndicesInput {
   }
 }
 
-enum DataCollectionType {
-  public('PUBLIC'),
-  premium('PREMIUM'),
-  user('USER'),
-  ;
+class DataCollectionType {
+  static const public = DataCollectionType._('PUBLIC');
+  static const premium = DataCollectionType._('PREMIUM');
+  static const user = DataCollectionType._('USER');
 
   final String value;
 
-  const DataCollectionType(this.value);
+  const DataCollectionType._(this.value);
 
-  static DataCollectionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DataCollectionType'));
+  static const values = [public, premium, user];
+
+  static DataCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteEarthObservationJobOutput {
@@ -1137,56 +1217,95 @@ class EarthObservationJobErrorDetails {
   }
 }
 
-enum EarthObservationJobErrorType {
-  clientError('CLIENT_ERROR'),
-  serverError('SERVER_ERROR'),
-  ;
+class EarthObservationJobErrorType {
+  static const clientError = EarthObservationJobErrorType._('CLIENT_ERROR');
+  static const serverError = EarthObservationJobErrorType._('SERVER_ERROR');
 
   final String value;
 
-  const EarthObservationJobErrorType(this.value);
+  const EarthObservationJobErrorType._(this.value);
+
+  static const values = [clientError, serverError];
 
   static EarthObservationJobErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EarthObservationJobErrorType'));
+          orElse: () => EarthObservationJobErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EarthObservationJobErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EarthObservationJobExportStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class EarthObservationJobExportStatus {
+  static const inProgress = EarthObservationJobExportStatus._('IN_PROGRESS');
+  static const succeeded = EarthObservationJobExportStatus._('SUCCEEDED');
+  static const failed = EarthObservationJobExportStatus._('FAILED');
 
   final String value;
 
-  const EarthObservationJobExportStatus(this.value);
+  const EarthObservationJobExportStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static EarthObservationJobExportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EarthObservationJobExportStatus'));
+          orElse: () => EarthObservationJobExportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EarthObservationJobExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EarthObservationJobStatus {
-  initializing('INITIALIZING'),
-  inProgress('IN_PROGRESS'),
-  stopping('STOPPING'),
-  completed('COMPLETED'),
-  stopped('STOPPED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class EarthObservationJobStatus {
+  static const initializing = EarthObservationJobStatus._('INITIALIZING');
+  static const inProgress = EarthObservationJobStatus._('IN_PROGRESS');
+  static const stopping = EarthObservationJobStatus._('STOPPING');
+  static const completed = EarthObservationJobStatus._('COMPLETED');
+  static const stopped = EarthObservationJobStatus._('STOPPED');
+  static const failed = EarthObservationJobStatus._('FAILED');
+  static const deleting = EarthObservationJobStatus._('DELETING');
+  static const deleted = EarthObservationJobStatus._('DELETED');
 
   final String value;
 
-  const EarthObservationJobStatus(this.value);
+  const EarthObservationJobStatus._(this.value);
+
+  static const values = [
+    initializing,
+    inProgress,
+    stopping,
+    completed,
+    stopped,
+    failed,
+    deleting,
+    deleted
+  ];
 
   static EarthObservationJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EarthObservationJobStatus'));
+          orElse: () => EarthObservationJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EarthObservationJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure representing the EoCloudCover filter.
@@ -1255,7 +1374,7 @@ class ExportEarthObservationJobOutput {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       exportStatus: EarthObservationJobExportStatus.fromString(
-          (json['ExportStatus'] as String)),
+          (json['ExportStatus'] as String?) ?? ''),
       outputConfig: OutputConfigInput.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -1352,19 +1471,28 @@ class ExportErrorDetailsOutput {
   }
 }
 
-enum ExportErrorType {
-  clientError('CLIENT_ERROR'),
-  serverError('SERVER_ERROR'),
-  ;
+class ExportErrorType {
+  static const clientError = ExportErrorType._('CLIENT_ERROR');
+  static const serverError = ExportErrorType._('SERVER_ERROR');
 
   final String value;
 
-  const ExportErrorType(this.value);
+  const ExportErrorType._(this.value);
+
+  static const values = [clientError, serverError];
 
   static ExportErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportErrorType'));
+          orElse: () => ExportErrorType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure containing the Amazon S3 path to export the Earth Observation
@@ -1429,7 +1557,7 @@ class ExportVectorEnrichmentJobOutput {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       exportStatus: VectorEnrichmentJobExportStatus.fromString(
-          (json['ExportStatus'] as String)),
+          (json['ExportStatus'] as String?) ?? ''),
       outputConfig: ExportVectorEnrichmentJobOutputConfig.fromJson(
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -1667,7 +1795,8 @@ class GetEarthObservationJobOutput {
           (json['JobConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['Name'] as String?) ?? '',
-      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
+      status: EarthObservationJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       errorDetails: json['ErrorDetails'] != null
           ? EarthObservationJobErrorDetails.fromJson(
               json['ErrorDetails'] as Map<String, dynamic>)
@@ -1773,7 +1902,7 @@ class GetRasterDataCollectionOutput {
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: DataCollectionType.fromString((json['Type'] as String)),
+      type: DataCollectionType.fromString((json['Type'] as String?) ?? ''),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1891,8 +2020,9 @@ class GetVectorEnrichmentJobOutput {
           (json['JobConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['Name'] as String?) ?? '',
-      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
-      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
+      status: VectorEnrichmentJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String?) ?? ''),
       errorDetails: json['ErrorDetails'] != null
           ? VectorEnrichmentJobErrorDetails.fromJson(
               json['ErrorDetails'] as Map<String, dynamic>)
@@ -1943,18 +2073,27 @@ class GetVectorEnrichmentJobOutput {
   }
 }
 
-enum GroupBy {
-  all('ALL'),
-  yearly('YEARLY'),
-  ;
+class GroupBy {
+  static const all = GroupBy._('ALL');
+  static const yearly = GroupBy._('YEARLY');
 
   final String value;
 
-  const GroupBy(this.value);
+  const GroupBy._(this.value);
 
-  static GroupBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum GroupBy'));
+  static const values = [all, yearly];
+
+  static GroupBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupBy._(value));
+
+  @override
+  bool operator ==(other) => other is GroupBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Input configuration information.
@@ -2315,7 +2454,8 @@ class ListEarthObservationJobOutputConfig {
       durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
       name: (json['Name'] as String?) ?? '',
       operationType: (json['OperationType'] as String?) ?? '',
-      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
+      status: EarthObservationJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2475,8 +2615,9 @@ class ListVectorEnrichmentJobOutputConfig {
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
       name: (json['Name'] as String?) ?? '',
-      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
-      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
+      status: VectorEnrichmentJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String?) ?? ''),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2502,18 +2643,27 @@ class ListVectorEnrichmentJobOutputConfig {
   }
 }
 
-enum LogicalOperator {
-  and('AND'),
-  ;
+class LogicalOperator {
+  static const and = LogicalOperator._('AND');
 
   final String value;
 
-  const LogicalOperator(this.value);
+  const LogicalOperator._(this.value);
+
+  static const values = [and];
 
   static LogicalOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogicalOperator'));
+          orElse: () => LogicalOperator._(value));
+
+  @override
+  bool operator ==(other) => other is LogicalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input structure for Map Matching operation type.
@@ -2650,7 +2800,8 @@ class OutputBand {
   factory OutputBand.fromJson(Map<String, dynamic> json) {
     return OutputBand(
       bandName: (json['BandName'] as String?) ?? '',
-      outputDataType: OutputType.fromString((json['OutputDataType'] as String)),
+      outputDataType:
+          OutputType.fromString((json['OutputDataType'] as String?) ?? ''),
     );
   }
 
@@ -2753,21 +2904,30 @@ class OutputResolutionStackInput {
   }
 }
 
-enum OutputType {
-  int32('INT32'),
-  float32('FLOAT32'),
-  int16('INT16'),
-  float64('FLOAT64'),
-  uint16('UINT16'),
-  ;
+class OutputType {
+  static const int32 = OutputType._('INT32');
+  static const float32 = OutputType._('FLOAT32');
+  static const int16 = OutputType._('INT16');
+  static const float64 = OutputType._('FLOAT64');
+  static const uint16 = OutputType._('UINT16');
 
   final String value;
 
-  const OutputType(this.value);
+  const OutputType._(this.value);
 
-  static OutputType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OutputType'));
+  static const values = [int32, float32, int16, float64, uint16];
+
+  static OutputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputType._(value));
+
+  @override
+  bool operator ==(other) => other is OutputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input structure for specifying Platform. Platform refers to the unique
@@ -2837,20 +2997,30 @@ class PolygonGeometryInput {
   }
 }
 
-enum PredefinedResolution {
-  highest('HIGHEST'),
-  lowest('LOWEST'),
-  average('AVERAGE'),
-  ;
+class PredefinedResolution {
+  static const highest = PredefinedResolution._('HIGHEST');
+  static const lowest = PredefinedResolution._('LOWEST');
+  static const average = PredefinedResolution._('AVERAGE');
 
   final String value;
 
-  const PredefinedResolution(this.value);
+  const PredefinedResolution._(this.value);
 
-  static PredefinedResolution fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PredefinedResolution'));
+  static const values = [highest, lowest, average];
+
+  static PredefinedResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredefinedResolution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Properties associated with the Item.
@@ -3105,7 +3275,7 @@ class RasterDataCollectionMetadata {
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: DataCollectionType.fromString((json['Type'] as String)),
+      type: DataCollectionType.fromString((json['Type'] as String?) ?? ''),
       descriptionPageUrl: json['DescriptionPageUrl'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3383,18 +3553,27 @@ class SearchRasterDataCollectionOutput {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input structure for Stacking Operation.
@@ -3491,7 +3670,8 @@ class StartEarthObservationJobOutput {
           (json['JobConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['Name'] as String?) ?? '',
-      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
+      status: EarthObservationJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
       inputConfig: json['InputConfig'] != null
           ? InputConfigOutput.fromJson(
               json['InputConfig'] as Map<String, dynamic>)
@@ -3590,8 +3770,9 @@ class StartVectorEnrichmentJobOutput {
           (json['JobConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['Name'] as String?) ?? '',
-      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
-      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
+      status: VectorEnrichmentJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String?) ?? ''),
       kmsKeyId: json['KmsKeyId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3662,35 +3843,54 @@ class TagResourceResponse {
   }
 }
 
-enum TargetOptions {
-  input('INPUT'),
-  output('OUTPUT'),
-  ;
+class TargetOptions {
+  static const input = TargetOptions._('INPUT');
+  static const output = TargetOptions._('OUTPUT');
 
   final String value;
 
-  const TargetOptions(this.value);
+  const TargetOptions._(this.value);
+
+  static const values = [input, output];
 
   static TargetOptions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetOptions'));
+          orElse: () => TargetOptions._(value));
+
+  @override
+  bool operator ==(other) => other is TargetOptions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TemporalStatistics {
-  mean('MEAN'),
-  median('MEDIAN'),
-  standardDeviation('STANDARD_DEVIATION'),
-  ;
+class TemporalStatistics {
+  static const mean = TemporalStatistics._('MEAN');
+  static const median = TemporalStatistics._('MEDIAN');
+  static const standardDeviation = TemporalStatistics._('STANDARD_DEVIATION');
 
   final String value;
 
-  const TemporalStatistics(this.value);
+  const TemporalStatistics._(this.value);
 
-  static TemporalStatistics fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TemporalStatistics'));
+  static const values = [mean, median, standardDeviation];
+
+  static TemporalStatistics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TemporalStatistics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TemporalStatistics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure representing the configuration for Temporal Statistics
@@ -3790,17 +3990,26 @@ class TimeRangeFilterOutput {
   }
 }
 
-enum Unit {
-  meters('METERS'),
-  ;
+class Unit {
+  static const meters = Unit._('METERS');
 
   final String value;
 
-  const Unit(this.value);
+  const Unit._(this.value);
+
+  static const values = [meters];
 
   static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Unit'));
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -3831,7 +4040,7 @@ class UserDefined {
 
   factory UserDefined.fromJson(Map<String, dynamic> json) {
     return UserDefined(
-      unit: Unit.fromString((json['Unit'] as String)),
+      unit: Unit.fromString((json['Unit'] as String?) ?? ''),
       value: (json['Value'] as double?) ?? 0,
     );
   }
@@ -3912,18 +4121,28 @@ class VectorEnrichmentJobDataSourceConfigInput {
   }
 }
 
-enum VectorEnrichmentJobDocumentType {
-  csv('CSV'),
-  ;
+class VectorEnrichmentJobDocumentType {
+  static const csv = VectorEnrichmentJobDocumentType._('CSV');
 
   final String value;
 
-  const VectorEnrichmentJobDocumentType(this.value);
+  const VectorEnrichmentJobDocumentType._(this.value);
+
+  static const values = [csv];
 
   static VectorEnrichmentJobDocumentType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobDocumentType'));
+          orElse: () => VectorEnrichmentJobDocumentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobDocumentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// VectorEnrichmentJob error details in response from GetVectorEnrichmentJob.
@@ -3958,19 +4177,29 @@ class VectorEnrichmentJobErrorDetails {
   }
 }
 
-enum VectorEnrichmentJobErrorType {
-  clientError('CLIENT_ERROR'),
-  serverError('SERVER_ERROR'),
-  ;
+class VectorEnrichmentJobErrorType {
+  static const clientError = VectorEnrichmentJobErrorType._('CLIENT_ERROR');
+  static const serverError = VectorEnrichmentJobErrorType._('SERVER_ERROR');
 
   final String value;
 
-  const VectorEnrichmentJobErrorType(this.value);
+  const VectorEnrichmentJobErrorType._(this.value);
+
+  static const values = [clientError, serverError];
 
   static VectorEnrichmentJobErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobErrorType'));
+          orElse: () => VectorEnrichmentJobErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// VectorEnrichmentJob export error details in response from
@@ -4007,35 +4236,57 @@ class VectorEnrichmentJobExportErrorDetails {
   }
 }
 
-enum VectorEnrichmentJobExportErrorType {
-  clientError('CLIENT_ERROR'),
-  serverError('SERVER_ERROR'),
-  ;
+class VectorEnrichmentJobExportErrorType {
+  static const clientError =
+      VectorEnrichmentJobExportErrorType._('CLIENT_ERROR');
+  static const serverError =
+      VectorEnrichmentJobExportErrorType._('SERVER_ERROR');
 
   final String value;
 
-  const VectorEnrichmentJobExportErrorType(this.value);
+  const VectorEnrichmentJobExportErrorType._(this.value);
+
+  static const values = [clientError, serverError];
 
   static VectorEnrichmentJobExportErrorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobExportErrorType'));
+          orElse: () => VectorEnrichmentJobExportErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobExportErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VectorEnrichmentJobExportStatus {
-  inProgress('IN_PROGRESS'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  ;
+class VectorEnrichmentJobExportStatus {
+  static const inProgress = VectorEnrichmentJobExportStatus._('IN_PROGRESS');
+  static const succeeded = VectorEnrichmentJobExportStatus._('SUCCEEDED');
+  static const failed = VectorEnrichmentJobExportStatus._('FAILED');
 
   final String value;
 
-  const VectorEnrichmentJobExportStatus(this.value);
+  const VectorEnrichmentJobExportStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
 
   static VectorEnrichmentJobExportStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobExportStatus'));
+          orElse: () => VectorEnrichmentJobExportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input structure for the InputConfig in a VectorEnrichmentJob.
@@ -4058,7 +4309,7 @@ class VectorEnrichmentJobInputConfig {
           (json['DataSourceConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       documentType: VectorEnrichmentJobDocumentType.fromString(
-          (json['DocumentType'] as String)),
+          (json['DocumentType'] as String?) ?? ''),
     );
   }
 
@@ -4102,40 +4353,70 @@ class VectorEnrichmentJobS3Data {
   }
 }
 
-enum VectorEnrichmentJobStatus {
-  initializing('INITIALIZING'),
-  inProgress('IN_PROGRESS'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  deleting('DELETING'),
-  deleted('DELETED'),
-  ;
+class VectorEnrichmentJobStatus {
+  static const initializing = VectorEnrichmentJobStatus._('INITIALIZING');
+  static const inProgress = VectorEnrichmentJobStatus._('IN_PROGRESS');
+  static const stopping = VectorEnrichmentJobStatus._('STOPPING');
+  static const stopped = VectorEnrichmentJobStatus._('STOPPED');
+  static const completed = VectorEnrichmentJobStatus._('COMPLETED');
+  static const failed = VectorEnrichmentJobStatus._('FAILED');
+  static const deleting = VectorEnrichmentJobStatus._('DELETING');
+  static const deleted = VectorEnrichmentJobStatus._('DELETED');
 
   final String value;
 
-  const VectorEnrichmentJobStatus(this.value);
+  const VectorEnrichmentJobStatus._(this.value);
+
+  static const values = [
+    initializing,
+    inProgress,
+    stopping,
+    stopped,
+    completed,
+    failed,
+    deleting,
+    deleted
+  ];
 
   static VectorEnrichmentJobStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobStatus'));
+          orElse: () => VectorEnrichmentJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum VectorEnrichmentJobType {
-  reverseGeocoding('REVERSE_GEOCODING'),
-  mapMatching('MAP_MATCHING'),
-  ;
+class VectorEnrichmentJobType {
+  static const reverseGeocoding =
+      VectorEnrichmentJobType._('REVERSE_GEOCODING');
+  static const mapMatching = VectorEnrichmentJobType._('MAP_MATCHING');
 
   final String value;
 
-  const VectorEnrichmentJobType(this.value);
+  const VectorEnrichmentJobType._(this.value);
+
+  static const values = [reverseGeocoding, mapMatching];
 
   static VectorEnrichmentJobType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum VectorEnrichmentJobType'));
+          orElse: () => VectorEnrichmentJobType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorEnrichmentJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The input structure for specifying ViewOffNadir property filter.
@@ -4237,23 +4518,32 @@ class ViewSunElevationInput {
   }
 }
 
-enum ZonalStatistics {
-  mean('MEAN'),
-  median('MEDIAN'),
-  standardDeviation('STANDARD_DEVIATION'),
-  max('MAX'),
-  min('MIN'),
-  sum('SUM'),
-  ;
+class ZonalStatistics {
+  static const mean = ZonalStatistics._('MEAN');
+  static const median = ZonalStatistics._('MEDIAN');
+  static const standardDeviation = ZonalStatistics._('STANDARD_DEVIATION');
+  static const max = ZonalStatistics._('MAX');
+  static const min = ZonalStatistics._('MIN');
+  static const sum = ZonalStatistics._('SUM');
 
   final String value;
 
-  const ZonalStatistics(this.value);
+  const ZonalStatistics._(this.value);
+
+  static const values = [mean, median, standardDeviation, max, min, sum];
 
   static ZonalStatistics fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ZonalStatistics'));
+          orElse: () => ZonalStatistics._(value));
+
+  @override
+  bool operator ==(other) => other is ZonalStatistics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure representing input configuration of ZonalStatistics operation.

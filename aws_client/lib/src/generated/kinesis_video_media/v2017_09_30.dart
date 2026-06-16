@@ -329,23 +329,39 @@ class StartSelector {
   }
 }
 
-enum StartSelectorType {
-  fragmentNumber('FRAGMENT_NUMBER'),
-  serverTimestamp('SERVER_TIMESTAMP'),
-  producerTimestamp('PRODUCER_TIMESTAMP'),
-  now('NOW'),
-  earliest('EARLIEST'),
-  continuationToken('CONTINUATION_TOKEN'),
-  ;
+class StartSelectorType {
+  static const fragmentNumber = StartSelectorType._('FRAGMENT_NUMBER');
+  static const serverTimestamp = StartSelectorType._('SERVER_TIMESTAMP');
+  static const producerTimestamp = StartSelectorType._('PRODUCER_TIMESTAMP');
+  static const now = StartSelectorType._('NOW');
+  static const earliest = StartSelectorType._('EARLIEST');
+  static const continuationToken = StartSelectorType._('CONTINUATION_TOKEN');
 
   final String value;
 
-  const StartSelectorType(this.value);
+  const StartSelectorType._(this.value);
+
+  static const values = [
+    fragmentNumber,
+    serverTimestamp,
+    producerTimestamp,
+    now,
+    earliest,
+    continuationToken
+  ];
 
   static StartSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StartSelectorType'));
+          orElse: () => StartSelectorType._(value));
+
+  @override
+  bool operator ==(other) => other is StartSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {

@@ -1825,19 +1825,28 @@ class AllowedStatistics {
   }
 }
 
-enum AnalyticsMode {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  ;
+class AnalyticsMode {
+  static const enable = AnalyticsMode._('ENABLE');
+  static const disable = AnalyticsMode._('DISABLE');
 
   final String value;
 
-  const AnalyticsMode(this.value);
+  const AnalyticsMode._(this.value);
+
+  static const values = [enable, disable];
 
   static AnalyticsMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AnalyticsMode'));
+          orElse: () => AnalyticsMode._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchDeleteRecipeVersionResponse {
@@ -1945,26 +1954,45 @@ class ColumnStatisticsConfiguration {
   }
 }
 
-enum CompressionFormat {
-  gzip('GZIP'),
-  lz4('LZ4'),
-  snappy('SNAPPY'),
-  bzip2('BZIP2'),
-  deflate('DEFLATE'),
-  lzo('LZO'),
-  brotli('BROTLI'),
-  zstd('ZSTD'),
-  zlib('ZLIB'),
-  ;
+class CompressionFormat {
+  static const gzip = CompressionFormat._('GZIP');
+  static const lz4 = CompressionFormat._('LZ4');
+  static const snappy = CompressionFormat._('SNAPPY');
+  static const bzip2 = CompressionFormat._('BZIP2');
+  static const deflate = CompressionFormat._('DEFLATE');
+  static const lzo = CompressionFormat._('LZO');
+  static const brotli = CompressionFormat._('BROTLI');
+  static const zstd = CompressionFormat._('ZSTD');
+  static const zlib = CompressionFormat._('ZLIB');
 
   final String value;
 
-  const CompressionFormat(this.value);
+  const CompressionFormat._(this.value);
+
+  static const values = [
+    gzip,
+    lz4,
+    snappy,
+    bzip2,
+    deflate,
+    lzo,
+    brotli,
+    zstd,
+    zlib
+  ];
 
   static CompressionFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CompressionFormat'));
+          orElse: () => CompressionFormat._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an individual condition that evaluates to true or false.
@@ -2435,18 +2463,28 @@ class DatabaseOutput {
   }
 }
 
-enum DatabaseOutputMode {
-  newTable('NEW_TABLE'),
-  ;
+class DatabaseOutputMode {
+  static const newTable = DatabaseOutputMode._('NEW_TABLE');
 
   final String value;
 
-  const DatabaseOutputMode(this.value);
+  const DatabaseOutputMode._(this.value);
 
-  static DatabaseOutputMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DatabaseOutputMode'));
+  static const values = [newTable];
+
+  static DatabaseOutputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseOutputMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseOutputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents options that specify how and where DataBrew writes the database
@@ -2636,7 +2674,7 @@ class DatasetParameter {
   factory DatasetParameter.fromJson(Map<String, dynamic> json) {
     return DatasetParameter(
       name: (json['Name'] as String?) ?? '',
-      type: ParameterType.fromString((json['Type'] as String)),
+      type: ParameterType.fromString((json['Type'] as String?) ?? ''),
       createColumn: json['CreateColumn'] as bool?,
       datetimeOptions: json['DatetimeOptions'] != null
           ? DatetimeOptions.fromJson(
@@ -3791,19 +3829,28 @@ class DescribeScheduleResponse {
   }
 }
 
-enum EncryptionMode {
-  sseKms('SSE-KMS'),
-  sseS3('SSE-S3'),
-  ;
+class EncryptionMode {
+  static const sseKms = EncryptionMode._('SSE-KMS');
+  static const sseS3 = EncryptionMode._('SSE-S3');
 
   final String value;
 
-  const EncryptionMode(this.value);
+  const EncryptionMode._(this.value);
+
+  static const values = [sseKms, sseS3];
 
   static EncryptionMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionMode'));
+          orElse: () => EncryptionMode._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration of entity detection for a profile job. When undefined, entity
@@ -4138,21 +4185,30 @@ class Input {
   }
 }
 
-enum InputFormat {
-  csv('CSV'),
-  json('JSON'),
-  parquet('PARQUET'),
-  excel('EXCEL'),
-  orc('ORC'),
-  ;
+class InputFormat {
+  static const csv = InputFormat._('CSV');
+  static const json = InputFormat._('JSON');
+  static const parquet = InputFormat._('PARQUET');
+  static const excel = InputFormat._('EXCEL');
+  static const orc = InputFormat._('ORC');
 
   final String value;
 
-  const InputFormat(this.value);
+  const InputFormat._(this.value);
 
-  static InputFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum InputFormat'));
+  static const values = [csv, json, parquet, excel, orc];
+
+  static InputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is InputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents all of the attributes of a DataBrew job.
@@ -4561,23 +4617,40 @@ class JobRun {
   }
 }
 
-enum JobRunState {
-  starting('STARTING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  succeeded('SUCCEEDED'),
-  failed('FAILED'),
-  timeout('TIMEOUT'),
-  ;
+class JobRunState {
+  static const starting = JobRunState._('STARTING');
+  static const running = JobRunState._('RUNNING');
+  static const stopping = JobRunState._('STOPPING');
+  static const stopped = JobRunState._('STOPPED');
+  static const succeeded = JobRunState._('SUCCEEDED');
+  static const failed = JobRunState._('FAILED');
+  static const timeout = JobRunState._('TIMEOUT');
 
   final String value;
 
-  const JobRunState(this.value);
+  const JobRunState._(this.value);
 
-  static JobRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobRunState'));
+  static const values = [
+    starting,
+    running,
+    stopping,
+    stopped,
+    succeeded,
+    failed,
+    timeout
+  ];
+
+  static JobRunState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobRunState._(value));
+
+  @override
+  bool operator ==(other) => other is JobRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A sample configuration for profile jobs only, which determines the number of
@@ -4628,18 +4701,27 @@ class JobSample {
   }
 }
 
-enum JobType {
-  profile('PROFILE'),
-  recipe('RECIPE'),
-  ;
+class JobType {
+  static const profile = JobType._('PROFILE');
+  static const recipe = JobType._('RECIPE');
 
   final String value;
 
-  const JobType(this.value);
+  const JobType._(this.value);
 
-  static JobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum JobType'));
+  static const values = [profile, recipe];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the JSON-specific options that define how input is to be
@@ -4954,19 +5036,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum LogSubscription {
-  enable('ENABLE'),
-  disable('DISABLE'),
-  ;
+class LogSubscription {
+  static const enable = LogSubscription._('ENABLE');
+  static const disable = LogSubscription._('DISABLE');
 
   final String value;
 
-  const LogSubscription(this.value);
+  const LogSubscription._(this.value);
+
+  static const values = [enable, disable];
 
   static LogSubscription fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogSubscription'));
+          orElse: () => LogSubscription._(value));
+
+  @override
+  bool operator ==(other) => other is LogSubscription && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains additional resource information needed for specific datasets.
@@ -4993,31 +5084,49 @@ class Metadata {
   }
 }
 
-enum Order {
-  descending('DESCENDING'),
-  ascending('ASCENDING'),
-  ;
+class Order {
+  static const descending = Order._('DESCENDING');
+  static const ascending = Order._('ASCENDING');
 
   final String value;
 
-  const Order(this.value);
+  const Order._(this.value);
+
+  static const values = [descending, ascending];
 
   static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Order'));
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OrderedBy {
-  lastModifiedDate('LAST_MODIFIED_DATE'),
-  ;
+class OrderedBy {
+  static const lastModifiedDate = OrderedBy._('LAST_MODIFIED_DATE');
 
   final String value;
 
-  const OrderedBy(this.value);
+  const OrderedBy._(this.value);
 
-  static OrderedBy fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OrderedBy'));
+  static const values = [lastModifiedDate];
+
+  static OrderedBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderedBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderedBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents options that specify how and where in Amazon S3 DataBrew writes
@@ -5099,25 +5208,42 @@ class Output {
   }
 }
 
-enum OutputFormat {
-  csv('CSV'),
-  json('JSON'),
-  parquet('PARQUET'),
-  glueparquet('GLUEPARQUET'),
-  avro('AVRO'),
-  orc('ORC'),
-  xml('XML'),
-  tableauhyper('TABLEAUHYPER'),
-  ;
+class OutputFormat {
+  static const csv = OutputFormat._('CSV');
+  static const json = OutputFormat._('JSON');
+  static const parquet = OutputFormat._('PARQUET');
+  static const glueparquet = OutputFormat._('GLUEPARQUET');
+  static const avro = OutputFormat._('AVRO');
+  static const orc = OutputFormat._('ORC');
+  static const xml = OutputFormat._('XML');
+  static const tableauhyper = OutputFormat._('TABLEAUHYPER');
 
   final String value;
 
-  const OutputFormat(this.value);
+  const OutputFormat._(this.value);
 
-  static OutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OutputFormat'));
+  static const values = [
+    csv,
+    json,
+    parquet,
+    glueparquet,
+    avro,
+    orc,
+    xml,
+    tableauhyper
+  ];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a set of options that define the structure of comma-separated
@@ -5147,20 +5273,29 @@ class OutputFormatOptions {
   }
 }
 
-enum ParameterType {
-  datetime('Datetime'),
-  number('Number'),
-  string('String'),
-  ;
+class ParameterType {
+  static const datetime = ParameterType._('Datetime');
+  static const number = ParameterType._('Number');
+  static const string = ParameterType._('String');
 
   final String value;
 
-  const ParameterType(this.value);
+  const ParameterType._(this.value);
+
+  static const values = [datetime, number, string];
 
   static ParameterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ParameterType'));
+          orElse: () => ParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is ParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a set of options that define how DataBrew selects files for a
@@ -5966,7 +6101,7 @@ class Sample {
 
   factory Sample.fromJson(Map<String, dynamic> json) {
     return Sample(
-      type: SampleType.fromString((json['Type'] as String)),
+      type: SampleType.fromString((json['Type'] as String?) ?? ''),
       size: json['Size'] as int?,
     );
   }
@@ -5981,33 +6116,51 @@ class Sample {
   }
 }
 
-enum SampleMode {
-  fullDataset('FULL_DATASET'),
-  customRows('CUSTOM_ROWS'),
-  ;
+class SampleMode {
+  static const fullDataset = SampleMode._('FULL_DATASET');
+  static const customRows = SampleMode._('CUSTOM_ROWS');
 
   final String value;
 
-  const SampleMode(this.value);
+  const SampleMode._(this.value);
 
-  static SampleMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SampleMode'));
+  static const values = [fullDataset, customRows];
+
+  static SampleMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleMode._(value));
+
+  @override
+  bool operator ==(other) => other is SampleMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SampleType {
-  firstN('FIRST_N'),
-  lastN('LAST_N'),
-  random('RANDOM'),
-  ;
+class SampleType {
+  static const firstN = SampleType._('FIRST_N');
+  static const lastN = SampleType._('LAST_N');
+  static const random = SampleType._('RANDOM');
 
   final String value;
 
-  const SampleType(this.value);
+  const SampleType._(this.value);
 
-  static SampleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SampleType'));
+  static const values = [firstN, lastN, random];
+
+  static SampleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
+
+  @override
+  bool operator ==(other) => other is SampleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents one or more dates and times when a job is to run.
@@ -6139,42 +6292,71 @@ class SendProjectSessionActionResponse {
   }
 }
 
-enum SessionStatus {
-  assigned('ASSIGNED'),
-  failed('FAILED'),
-  initializing('INITIALIZING'),
-  provisioning('PROVISIONING'),
-  ready('READY'),
-  recycling('RECYCLING'),
-  rotating('ROTATING'),
-  terminated('TERMINATED'),
-  terminating('TERMINATING'),
-  updating('UPDATING'),
-  ;
+class SessionStatus {
+  static const assigned = SessionStatus._('ASSIGNED');
+  static const failed = SessionStatus._('FAILED');
+  static const initializing = SessionStatus._('INITIALIZING');
+  static const provisioning = SessionStatus._('PROVISIONING');
+  static const ready = SessionStatus._('READY');
+  static const recycling = SessionStatus._('RECYCLING');
+  static const rotating = SessionStatus._('ROTATING');
+  static const terminated = SessionStatus._('TERMINATED');
+  static const terminating = SessionStatus._('TERMINATING');
+  static const updating = SessionStatus._('UPDATING');
 
   final String value;
 
-  const SessionStatus(this.value);
+  const SessionStatus._(this.value);
+
+  static const values = [
+    assigned,
+    failed,
+    initializing,
+    provisioning,
+    ready,
+    recycling,
+    rotating,
+    terminated,
+    terminating,
+    updating
+  ];
 
   static SessionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SessionStatus'));
+          orElse: () => SessionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Source {
-  s3('S3'),
-  dataCatalog('DATA-CATALOG'),
-  database('DATABASE'),
-  ;
+class Source {
+  static const s3 = Source._('S3');
+  static const dataCatalog = Source._('DATA-CATALOG');
+  static const database = Source._('DATABASE');
 
   final String value;
 
-  const Source(this.value);
+  const Source._(this.value);
+
+  static const values = [s3, dataCatalog, database];
 
   static Source fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Source'));
+      values.firstWhere((e) => e.value == value, orElse: () => Source._(value));
+
+  @override
+  bool operator ==(other) => other is Source && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartJobRunResponse {
@@ -6374,36 +6556,59 @@ class Threshold {
   }
 }
 
-enum ThresholdType {
-  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
-  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
-  greaterThan('GREATER_THAN'),
-  lessThan('LESS_THAN'),
-  ;
+class ThresholdType {
+  static const greaterThanOrEqual = ThresholdType._('GREATER_THAN_OR_EQUAL');
+  static const lessThanOrEqual = ThresholdType._('LESS_THAN_OR_EQUAL');
+  static const greaterThan = ThresholdType._('GREATER_THAN');
+  static const lessThan = ThresholdType._('LESS_THAN');
 
   final String value;
 
-  const ThresholdType(this.value);
+  const ThresholdType._(this.value);
+
+  static const values = [
+    greaterThanOrEqual,
+    lessThanOrEqual,
+    greaterThan,
+    lessThan
+  ];
 
   static ThresholdType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThresholdType'));
+          orElse: () => ThresholdType._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ThresholdUnit {
-  count('COUNT'),
-  percentage('PERCENTAGE'),
-  ;
+class ThresholdUnit {
+  static const count = ThresholdUnit._('COUNT');
+  static const percentage = ThresholdUnit._('PERCENTAGE');
 
   final String value;
 
-  const ThresholdUnit(this.value);
+  const ThresholdUnit._(this.value);
+
+  static const values = [count, percentage];
 
   static ThresholdUnit fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ThresholdUnit'));
+          orElse: () => ThresholdUnit._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -6617,18 +6822,27 @@ class ValidationConfiguration {
   }
 }
 
-enum ValidationMode {
-  checkAll('CHECK_ALL'),
-  ;
+class ValidationMode {
+  static const checkAll = ValidationMode._('CHECK_ALL');
 
   final String value;
 
-  const ValidationMode(this.value);
+  const ValidationMode._(this.value);
+
+  static const values = [checkAll];
 
   static ValidationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ValidationMode'));
+          orElse: () => ValidationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the data being transformed during an action.

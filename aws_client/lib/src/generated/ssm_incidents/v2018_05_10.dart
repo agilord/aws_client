@@ -2553,7 +2553,8 @@ class IncidentRecord {
       lastModifiedBy: (json['lastModifiedBy'] as String?) ?? '',
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-      status: IncidentRecordStatus.fromString((json['status'] as String)),
+      status:
+          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       automationExecutions: (json['automationExecutions'] as List?)
           ?.nonNulls
@@ -2657,19 +2658,29 @@ class IncidentRecordSource {
   }
 }
 
-enum IncidentRecordStatus {
-  open('OPEN'),
-  resolved('RESOLVED'),
-  ;
+class IncidentRecordStatus {
+  static const open = IncidentRecordStatus._('OPEN');
+  static const resolved = IncidentRecordStatus._('RESOLVED');
 
   final String value;
 
-  const IncidentRecordStatus(this.value);
+  const IncidentRecordStatus._(this.value);
 
-  static IncidentRecordStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum IncidentRecordStatus'));
+  static const values = [open, resolved];
+
+  static IncidentRecordStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IncidentRecordStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IncidentRecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details describing an incident record.
@@ -2714,7 +2725,8 @@ class IncidentRecordSummary {
       incidentRecordSource: IncidentRecordSource.fromJson(
           (json['incidentRecordSource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      status: IncidentRecordStatus.fromString((json['status'] as String)),
+      status:
+          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
       title: (json['title'] as String?) ?? '',
       resolvedTime: timeStampFromJson(json['resolvedTime']),
     );
@@ -2886,7 +2898,7 @@ class ItemIdentifier {
 
   factory ItemIdentifier.fromJson(Map<String, dynamic> json) {
     return ItemIdentifier(
-      type: ItemType.fromString((json['type'] as String)),
+      type: ItemType.fromString((json['type'] as String?) ?? ''),
       value: ItemValue.fromJson((json['value'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
     );
@@ -2902,25 +2914,44 @@ class ItemIdentifier {
   }
 }
 
-enum ItemType {
-  analysis('ANALYSIS'),
-  incident('INCIDENT'),
-  metric('METRIC'),
-  parent('PARENT'),
-  attachment('ATTACHMENT'),
-  other('OTHER'),
-  automation('AUTOMATION'),
-  involvedResource('INVOLVED_RESOURCE'),
-  task('TASK'),
-  ;
+class ItemType {
+  static const analysis = ItemType._('ANALYSIS');
+  static const incident = ItemType._('INCIDENT');
+  static const metric = ItemType._('METRIC');
+  static const parent = ItemType._('PARENT');
+  static const attachment = ItemType._('ATTACHMENT');
+  static const other = ItemType._('OTHER');
+  static const automation = ItemType._('AUTOMATION');
+  static const involvedResource = ItemType._('INVOLVED_RESOURCE');
+  static const task = ItemType._('TASK');
 
   final String value;
 
-  const ItemType(this.value);
+  const ItemType._(this.value);
 
-  static ItemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ItemType'));
+  static const values = [
+    analysis,
+    incident,
+    metric,
+    parent,
+    attachment,
+    other,
+    automation,
+    involvedResource,
+    task
+  ];
+
+  static ItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a related item.
@@ -3375,7 +3406,7 @@ class RegionInfo {
 
   factory RegionInfo.fromJson(Map<String, dynamic> json) {
     return RegionInfo(
-      status: RegionStatus.fromString((json['status'] as String)),
+      status: RegionStatus.fromString((json['status'] as String?) ?? ''),
       statusUpdateDateTime:
           nonNullableTimeStampFromJson(json['statusUpdateDateTime'] ?? 0),
       sseKmsKeyId: json['sseKmsKeyId'] as String?,
@@ -3415,21 +3446,29 @@ class RegionMapInputValue {
   }
 }
 
-enum RegionStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class RegionStatus {
+  static const active = RegionStatus._('ACTIVE');
+  static const creating = RegionStatus._('CREATING');
+  static const deleting = RegionStatus._('DELETING');
+  static const failed = RegionStatus._('FAILED');
 
   final String value;
 
-  const RegionStatus(this.value);
+  const RegionStatus._(this.value);
 
-  static RegionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RegionStatus'));
+  static const values = [active, creating, deleting, failed];
+
+  static RegionStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RegionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RegionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Resources that responders use to triage and mitigate the incident.
@@ -3552,7 +3591,8 @@ class ReplicationSet {
               const <String, dynamic>{})
           .map((k, e) =>
               MapEntry(k, RegionInfo.fromJson(e as Map<String, dynamic>))),
-      status: ReplicationSetStatus.fromString((json['status'] as String)),
+      status:
+          ReplicationSetStatus.fromString((json['status'] as String?) ?? ''),
       arn: json['arn'] as String?,
     );
   }
@@ -3579,22 +3619,32 @@ class ReplicationSet {
   }
 }
 
-enum ReplicationSetStatus {
-  active('ACTIVE'),
-  creating('CREATING'),
-  updating('UPDATING'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  ;
+class ReplicationSetStatus {
+  static const active = ReplicationSetStatus._('ACTIVE');
+  static const creating = ReplicationSetStatus._('CREATING');
+  static const updating = ReplicationSetStatus._('UPDATING');
+  static const deleting = ReplicationSetStatus._('DELETING');
+  static const failed = ReplicationSetStatus._('FAILED');
 
   final String value;
 
-  const ReplicationSetStatus(this.value);
+  const ReplicationSetStatus._(this.value);
 
-  static ReplicationSetStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReplicationSetStatus'));
+  static const values = [active, creating, updating, deleting, failed];
+
+  static ReplicationSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationSetStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The resource policy that allows Incident Manager to perform actions on
@@ -3672,18 +3722,27 @@ class ResponsePlanSummary {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about the Systems Manager automation document that will be used as a
@@ -3752,19 +3811,29 @@ class SsmAutomation {
   }
 }
 
-enum SsmTargetAccount {
-  responsePlanOwnerAccount('RESPONSE_PLAN_OWNER_ACCOUNT'),
-  impactedAccount('IMPACTED_ACCOUNT'),
-  ;
+class SsmTargetAccount {
+  static const responsePlanOwnerAccount =
+      SsmTargetAccount._('RESPONSE_PLAN_OWNER_ACCOUNT');
+  static const impactedAccount = SsmTargetAccount._('IMPACTED_ACCOUNT');
 
   final String value;
 
-  const SsmTargetAccount(this.value);
+  const SsmTargetAccount._(this.value);
+
+  static const values = [responsePlanOwnerAccount, impactedAccount];
 
   static SsmTargetAccount fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SsmTargetAccount'));
+          orElse: () => SsmTargetAccount._(value));
+
+  @override
+  bool operator ==(other) => other is SsmTargetAccount && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartIncidentOutput {
@@ -3872,18 +3941,27 @@ class TimelineEvent {
   }
 }
 
-enum TimelineEventSort {
-  eventTime('EVENT_TIME'),
-  ;
+class TimelineEventSort {
+  static const eventTime = TimelineEventSort._('EVENT_TIME');
 
   final String value;
 
-  const TimelineEventSort(this.value);
+  const TimelineEventSort._(this.value);
+
+  static const values = [eventTime];
 
   static TimelineEventSort fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TimelineEventSort'));
+          orElse: () => TimelineEventSort._(value));
+
+  @override
+  bool operator ==(other) => other is TimelineEventSort && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about what caused the incident to be created in Incident Manager.
@@ -4035,19 +4113,27 @@ class UpdateTimelineEventOutput {
   }
 }
 
-enum VariableType {
-  incidentRecordArn('INCIDENT_RECORD_ARN'),
-  involvedResources('INVOLVED_RESOURCES'),
-  ;
+class VariableType {
+  static const incidentRecordArn = VariableType._('INCIDENT_RECORD_ARN');
+  static const involvedResources = VariableType._('INVOLVED_RESOURCES');
 
   final String value;
 
-  const VariableType(this.value);
+  const VariableType._(this.value);
 
-  static VariableType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VariableType'));
+  static const values = [incidentRecordArn, involvedResources];
+
+  static VariableType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VariableType._(value));
+
+  @override
+  bool operator ==(other) => other is VariableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

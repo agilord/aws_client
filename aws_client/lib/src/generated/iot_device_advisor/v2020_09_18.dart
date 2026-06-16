@@ -527,19 +527,30 @@ class IoTDeviceAdvisor {
   }
 }
 
-enum AuthenticationMethod {
-  x509ClientCertificate('X509ClientCertificate'),
-  signatureVersion4('SignatureVersion4'),
-  ;
+class AuthenticationMethod {
+  static const x509ClientCertificate =
+      AuthenticationMethod._('X509ClientCertificate');
+  static const signatureVersion4 = AuthenticationMethod._('SignatureVersion4');
 
   final String value;
 
-  const AuthenticationMethod(this.value);
+  const AuthenticationMethod._(this.value);
 
-  static AuthenticationMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationMethod'));
+  static const values = [x509ClientCertificate, signatureVersion4];
+
+  static AuthenticationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CreateSuiteDefinitionResponse {
@@ -992,20 +1003,34 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum Protocol {
-  mqttV3_1_1('MqttV3_1_1'),
-  mqttV5('MqttV5'),
-  mqttV3_1_1OverWebSocket('MqttV3_1_1_OverWebSocket'),
-  mqttV5OverWebSocket('MqttV5_OverWebSocket'),
-  ;
+class Protocol {
+  static const mqttV3_1_1 = Protocol._('MqttV3_1_1');
+  static const mqttV5 = Protocol._('MqttV5');
+  static const mqttV3_1_1OverWebSocket = Protocol._('MqttV3_1_1_OverWebSocket');
+  static const mqttV5OverWebSocket = Protocol._('MqttV5_OverWebSocket');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [
+    mqttV3_1_1,
+    mqttV5,
+    mqttV3_1_1OverWebSocket,
+    mqttV5OverWebSocket
+  ];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartSuiteRunResponse {
@@ -1051,25 +1076,44 @@ class StartSuiteRunResponse {
   }
 }
 
-enum Status {
-  pass('PASS'),
-  fail('FAIL'),
-  canceled('CANCELED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  passWithWarnings('PASS_WITH_WARNINGS'),
-  error('ERROR'),
-  ;
+class Status {
+  static const pass = Status._('PASS');
+  static const fail = Status._('FAIL');
+  static const canceled = Status._('CANCELED');
+  static const pending = Status._('PENDING');
+  static const running = Status._('RUNNING');
+  static const stopping = Status._('STOPPING');
+  static const stopped = Status._('STOPPED');
+  static const passWithWarnings = Status._('PASS_WITH_WARNINGS');
+  static const error = Status._('ERROR');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [
+    pass,
+    fail,
+    canceled,
+    pending,
+    running,
+    stopping,
+    stopped,
+    passWithWarnings,
+    error
+  ];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StopSuiteRunResponse {
@@ -1369,26 +1413,45 @@ class SuiteRunInformation {
   }
 }
 
-enum SuiteRunStatus {
-  pass('PASS'),
-  fail('FAIL'),
-  canceled('CANCELED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  passWithWarnings('PASS_WITH_WARNINGS'),
-  error('ERROR'),
-  ;
+class SuiteRunStatus {
+  static const pass = SuiteRunStatus._('PASS');
+  static const fail = SuiteRunStatus._('FAIL');
+  static const canceled = SuiteRunStatus._('CANCELED');
+  static const pending = SuiteRunStatus._('PENDING');
+  static const running = SuiteRunStatus._('RUNNING');
+  static const stopping = SuiteRunStatus._('STOPPING');
+  static const stopped = SuiteRunStatus._('STOPPED');
+  static const passWithWarnings = SuiteRunStatus._('PASS_WITH_WARNINGS');
+  static const error = SuiteRunStatus._('ERROR');
 
   final String value;
 
-  const SuiteRunStatus(this.value);
+  const SuiteRunStatus._(this.value);
+
+  static const values = [
+    pass,
+    fail,
+    canceled,
+    pending,
+    running,
+    stopping,
+    stopped,
+    passWithWarnings,
+    error
+  ];
 
   static SuiteRunStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SuiteRunStatus'));
+          orElse: () => SuiteRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SuiteRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -1617,41 +1680,72 @@ class TestCaseScenario {
   }
 }
 
-enum TestCaseScenarioStatus {
-  pass('PASS'),
-  fail('FAIL'),
-  canceled('CANCELED'),
-  pending('PENDING'),
-  running('RUNNING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  passWithWarnings('PASS_WITH_WARNINGS'),
-  error('ERROR'),
-  ;
+class TestCaseScenarioStatus {
+  static const pass = TestCaseScenarioStatus._('PASS');
+  static const fail = TestCaseScenarioStatus._('FAIL');
+  static const canceled = TestCaseScenarioStatus._('CANCELED');
+  static const pending = TestCaseScenarioStatus._('PENDING');
+  static const running = TestCaseScenarioStatus._('RUNNING');
+  static const stopping = TestCaseScenarioStatus._('STOPPING');
+  static const stopped = TestCaseScenarioStatus._('STOPPED');
+  static const passWithWarnings =
+      TestCaseScenarioStatus._('PASS_WITH_WARNINGS');
+  static const error = TestCaseScenarioStatus._('ERROR');
 
   final String value;
 
-  const TestCaseScenarioStatus(this.value);
+  const TestCaseScenarioStatus._(this.value);
+
+  static const values = [
+    pass,
+    fail,
+    canceled,
+    pending,
+    running,
+    stopping,
+    stopped,
+    passWithWarnings,
+    error
+  ];
 
   static TestCaseScenarioStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TestCaseScenarioStatus'));
+          orElse: () => TestCaseScenarioStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestCaseScenarioStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TestCaseScenarioType {
-  advanced('Advanced'),
-  basic('Basic'),
-  ;
+class TestCaseScenarioType {
+  static const advanced = TestCaseScenarioType._('Advanced');
+  static const basic = TestCaseScenarioType._('Basic');
 
   final String value;
 
-  const TestCaseScenarioType(this.value);
+  const TestCaseScenarioType._(this.value);
 
-  static TestCaseScenarioType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TestCaseScenarioType'));
+  static const values = [advanced, basic];
+
+  static TestCaseScenarioType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestCaseScenarioType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestCaseScenarioType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Show each group result.

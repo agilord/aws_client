@@ -1551,7 +1551,7 @@ class AuditEvent {
           .map((e) => AuditEventField.fromJson(e as Map<String, dynamic>))
           .toList(),
       performedTime: nonNullableTimeStampFromJson(json['performedTime'] ?? 0),
-      type: AuditEventType.fromString((json['type'] as String)),
+      type: AuditEventType.fromString((json['type'] as String?) ?? ''),
       performedBy: json['performedBy'] != null
           ? AuditEventPerformedBy.fromJson(
               json['performedBy'] as Map<String, dynamic>)
@@ -1706,20 +1706,29 @@ class AuditEventPerformedBy {
   }
 }
 
-enum AuditEventType {
-  caseCreated('Case.Created'),
-  caseUpdated('Case.Updated'),
-  relatedItemCreated('RelatedItem.Created'),
-  ;
+class AuditEventType {
+  static const caseCreated = AuditEventType._('Case.Created');
+  static const caseUpdated = AuditEventType._('Case.Updated');
+  static const relatedItemCreated = AuditEventType._('RelatedItem.Created');
 
   final String value;
 
-  const AuditEventType(this.value);
+  const AuditEventType._(this.value);
+
+  static const values = [caseCreated, caseUpdated, relatedItemCreated];
 
   static AuditEventType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuditEventType'));
+          orElse: () => AuditEventType._(value));
+
+  @override
+  bool operator ==(other) => other is AuditEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Content specific to <code>BasicLayout</code> type. It configures fields in
@@ -1906,18 +1915,28 @@ class CaseSummary {
   }
 }
 
-enum CommentBodyTextType {
-  textPlain('Text/Plain'),
-  ;
+class CommentBodyTextType {
+  static const textPlain = CommentBodyTextType._('Text/Plain');
 
   final String value;
 
-  const CommentBodyTextType(this.value);
+  const CommentBodyTextType._(this.value);
 
-  static CommentBodyTextType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CommentBodyTextType'));
+  static const values = [textPlain];
+
+  static CommentBodyTextType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CommentBodyTextType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CommentBodyTextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the content of a <code>Comment</code> to be returned to agents.
@@ -1936,8 +1955,8 @@ class CommentContent {
   factory CommentContent.fromJson(Map<String, dynamic> json) {
     return CommentContent(
       body: (json['body'] as String?) ?? '',
-      contentType:
-          CommentBodyTextType.fromString((json['contentType'] as String)),
+      contentType: CommentBodyTextType.fromString(
+          (json['contentType'] as String?) ?? ''),
     );
   }
 
@@ -2090,7 +2109,8 @@ class CreateDomainResponse {
     return CreateDomainResponse(
       domainArn: (json['domainArn'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
-      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
+      domainStatus:
+          DomainStatus.fromString((json['domainStatus'] as String?) ?? ''),
     );
   }
 
@@ -2270,20 +2290,28 @@ class DeleteTemplateResponse {
   }
 }
 
-enum DomainStatus {
-  active('Active'),
-  creationInProgress('CreationInProgress'),
-  creationFailed('CreationFailed'),
-  ;
+class DomainStatus {
+  static const active = DomainStatus._('Active');
+  static const creationInProgress = DomainStatus._('CreationInProgress');
+  static const creationFailed = DomainStatus._('CreationFailed');
 
   final String value;
 
-  const DomainStatus(this.value);
+  const DomainStatus._(this.value);
 
-  static DomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainStatus'));
+  static const values = [active, creationInProgress, creationFailed];
+
+  static DomainStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DomainStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object for the summarized details of the domain.
@@ -2577,19 +2605,28 @@ class FieldItem {
   }
 }
 
-enum FieldNamespace {
-  system('System'),
-  custom('Custom'),
-  ;
+class FieldNamespace {
+  static const system = FieldNamespace._('System');
+  static const custom = FieldNamespace._('Custom');
 
   final String value;
 
-  const FieldNamespace(this.value);
+  const FieldNamespace._(this.value);
+
+  static const values = [system, custom];
 
   static FieldNamespace fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FieldNamespace'));
+          orElse: () => FieldNamespace._(value));
+
+  @override
+  bool operator ==(other) => other is FieldNamespace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object for field Options information.
@@ -2699,8 +2736,9 @@ class FieldSummary {
       fieldArn: (json['fieldArn'] as String?) ?? '',
       fieldId: (json['fieldId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      namespace: FieldNamespace.fromString((json['namespace'] as String)),
-      type: FieldType.fromString((json['type'] as String)),
+      namespace:
+          FieldNamespace.fromString((json['namespace'] as String?) ?? ''),
+      type: FieldType.fromString((json['type'] as String?) ?? ''),
     );
   }
 
@@ -2720,23 +2758,40 @@ class FieldSummary {
   }
 }
 
-enum FieldType {
-  text('Text'),
-  number('Number'),
-  boolean('Boolean'),
-  dateTime('DateTime'),
-  singleSelect('SingleSelect'),
-  url('Url'),
-  user('User'),
-  ;
+class FieldType {
+  static const text = FieldType._('Text');
+  static const number = FieldType._('Number');
+  static const boolean = FieldType._('Boolean');
+  static const dateTime = FieldType._('DateTime');
+  static const singleSelect = FieldType._('SingleSelect');
+  static const url = FieldType._('Url');
+  static const user = FieldType._('User');
 
   final String value;
 
-  const FieldType(this.value);
+  const FieldType._(this.value);
 
-  static FieldType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FieldType'));
+  static const values = [
+    text,
+    number,
+    boolean,
+    dateTime,
+    singleSelect,
+    url,
+    user
+  ];
+
+  static FieldType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FieldType._(value));
+
+  @override
+  bool operator ==(other) => other is FieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Object for case field values.
@@ -3012,7 +3067,8 @@ class GetDomainResponse {
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       domainArn: (json['domainArn'] as String?) ?? '',
       domainId: (json['domainId'] as String?) ?? '',
-      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
+      domainStatus:
+          DomainStatus.fromString((json['domainStatus'] as String?) ?? ''),
       name: (json['name'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3088,8 +3144,9 @@ class GetFieldResponse {
       fieldArn: (json['fieldArn'] as String?) ?? '',
       fieldId: (json['fieldId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      namespace: FieldNamespace.fromString((json['namespace'] as String)),
-      type: FieldType.fromString((json['type'] as String)),
+      namespace:
+          FieldNamespace.fromString((json['namespace'] as String?) ?? ''),
+      type: FieldType.fromString((json['type'] as String?) ?? ''),
       createdTime: timeStampFromJson(json['createdTime']),
       deleted: json['deleted'] as bool?,
       description: json['description'] as String?,
@@ -3256,7 +3313,7 @@ class GetTemplateResponse {
   factory GetTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetTemplateResponse(
       name: (json['name'] as String?) ?? '',
-      status: TemplateStatus.fromString((json['status'] as String)),
+      status: TemplateStatus.fromString((json['status'] as String?) ?? ''),
       templateArn: (json['templateArn'] as String?) ?? '',
       templateId: (json['templateId'] as String?) ?? '',
       createdTime: timeStampFromJson(json['createdTime']),
@@ -3640,18 +3697,27 @@ class ListTemplatesResponse {
   }
 }
 
-enum Order {
-  asc('Asc'),
-  desc('Desc'),
-  ;
+class Order {
+  static const asc = Order._('Asc');
+  static const desc = Order._('Desc');
 
   final String value;
 
-  const Order(this.value);
+  const Order._(this.value);
+
+  static const values = [asc, desc];
 
   static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Order'));
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PutCaseEventConfigurationResponse {
@@ -3763,20 +3829,29 @@ class RelatedItemInputContent {
   }
 }
 
-enum RelatedItemType {
-  contact('Contact'),
-  comment('Comment'),
-  file('File'),
-  ;
+class RelatedItemType {
+  static const contact = RelatedItemType._('Contact');
+  static const comment = RelatedItemType._('Comment');
+  static const file = RelatedItemType._('File');
 
   final String value;
 
-  const RelatedItemType(this.value);
+  const RelatedItemType._(this.value);
+
+  static const values = [contact, comment, file];
 
   static RelatedItemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RelatedItemType'));
+          orElse: () => RelatedItemType._(value));
+
+  @override
+  bool operator ==(other) => other is RelatedItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of types of related items and their parameters to use for
@@ -3989,7 +4064,7 @@ class SearchRelatedItemsResponseItem {
           (json['content'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       relatedItemId: (json['relatedItemId'] as String?) ?? '',
-      type: RelatedItemType.fromString((json['type'] as String)),
+      type: RelatedItemType.fromString((json['type'] as String?) ?? ''),
       performedBy: json['performedBy'] != null
           ? UserUnion.fromJson(json['performedBy'] as Map<String, dynamic>)
           : null,
@@ -4064,19 +4139,28 @@ class Sort {
   }
 }
 
-enum TemplateStatus {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class TemplateStatus {
+  static const active = TemplateStatus._('Active');
+  static const inactive = TemplateStatus._('Inactive');
 
   final String value;
 
-  const TemplateStatus(this.value);
+  const TemplateStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static TemplateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TemplateStatus'));
+          orElse: () => TemplateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Template summary information.
@@ -4103,7 +4187,7 @@ class TemplateSummary {
   factory TemplateSummary.fromJson(Map<String, dynamic> json) {
     return TemplateSummary(
       name: (json['name'] as String?) ?? '',
-      status: TemplateStatus.fromString((json['status'] as String)),
+      status: TemplateStatus.fromString((json['status'] as String?) ?? ''),
       templateArn: (json['templateArn'] as String?) ?? '',
       templateId: (json['templateId'] as String?) ?? '',
     );

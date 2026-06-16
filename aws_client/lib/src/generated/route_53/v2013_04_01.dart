@@ -4560,22 +4560,42 @@ class AccountLimit {
   }
 }
 
-enum AccountLimitType {
-  maxHealthChecksByOwner('MAX_HEALTH_CHECKS_BY_OWNER'),
-  maxHostedZonesByOwner('MAX_HOSTED_ZONES_BY_OWNER'),
-  maxTrafficPolicyInstancesByOwner('MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER'),
-  maxReusableDelegationSetsByOwner('MAX_REUSABLE_DELEGATION_SETS_BY_OWNER'),
-  maxTrafficPoliciesByOwner('MAX_TRAFFIC_POLICIES_BY_OWNER'),
-  ;
+class AccountLimitType {
+  static const maxHealthChecksByOwner =
+      AccountLimitType._('MAX_HEALTH_CHECKS_BY_OWNER');
+  static const maxHostedZonesByOwner =
+      AccountLimitType._('MAX_HOSTED_ZONES_BY_OWNER');
+  static const maxTrafficPolicyInstancesByOwner =
+      AccountLimitType._('MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER');
+  static const maxReusableDelegationSetsByOwner =
+      AccountLimitType._('MAX_REUSABLE_DELEGATION_SETS_BY_OWNER');
+  static const maxTrafficPoliciesByOwner =
+      AccountLimitType._('MAX_TRAFFIC_POLICIES_BY_OWNER');
 
   final String value;
 
-  const AccountLimitType(this.value);
+  const AccountLimitType._(this.value);
+
+  static const values = [
+    maxHealthChecksByOwner,
+    maxHostedZonesByOwner,
+    maxTrafficPolicyInstancesByOwner,
+    maxReusableDelegationSetsByOwner,
+    maxTrafficPoliciesByOwner
+  ];
 
   static AccountLimitType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AccountLimitType'));
+          orElse: () => AccountLimitType._(value));
+
+  @override
+  bool operator ==(other) => other is AccountLimitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActivateKeySigningKeyResponse {
@@ -5219,20 +5239,28 @@ class Change {
   }
 }
 
-enum ChangeAction {
-  create('CREATE'),
-  delete('DELETE'),
-  upsert('UPSERT'),
-  ;
+class ChangeAction {
+  static const create = ChangeAction._('CREATE');
+  static const delete = ChangeAction._('DELETE');
+  static const upsert = ChangeAction._('UPSERT');
 
   final String value;
 
-  const ChangeAction(this.value);
+  const ChangeAction._(this.value);
 
-  static ChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeAction'));
+  static const values = [create, delete, upsert];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The information for a change request.
@@ -5487,19 +5515,27 @@ class ChangeResourceRecordSetsResponse {
   }
 }
 
-enum ChangeStatus {
-  pending('PENDING'),
-  insync('INSYNC'),
-  ;
+class ChangeStatus {
+  static const pending = ChangeStatus._('PENDING');
+  static const insync = ChangeStatus._('INSYNC');
 
   final String value;
 
-  const ChangeStatus(this.value);
+  const ChangeStatus._(this.value);
 
-  static ChangeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ChangeStatus'));
+  static const values = [pending, insync];
+
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains information about the tags that you want to
@@ -5711,19 +5747,30 @@ class CidrCollectionChange {
   }
 }
 
-enum CidrCollectionChangeAction {
-  put('PUT'),
-  deleteIfExists('DELETE_IF_EXISTS'),
-  ;
+class CidrCollectionChangeAction {
+  static const put = CidrCollectionChangeAction._('PUT');
+  static const deleteIfExists =
+      CidrCollectionChangeAction._('DELETE_IF_EXISTS');
 
   final String value;
 
-  const CidrCollectionChangeAction(this.value);
+  const CidrCollectionChangeAction._(this.value);
+
+  static const values = [put, deleteIfExists];
 
   static CidrCollectionChangeAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CidrCollectionChangeAction'));
+          orElse: () => CidrCollectionChangeAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CidrCollectionChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The object that is specified in resource record set object when you are
@@ -5868,54 +5915,101 @@ class CloudWatchAlarmConfiguration {
   }
 }
 
-enum CloudWatchRegion {
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  caCentral_1('ca-central-1'),
-  euCentral_1('eu-central-1'),
-  euCentral_2('eu-central-2'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  apEast_1('ap-east-1'),
-  meSouth_1('me-south-1'),
-  meCentral_1('me-central-1'),
-  apSouth_1('ap-south-1'),
-  apSouth_2('ap-south-2'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSoutheast_3('ap-southeast-3'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_3('ap-northeast-3'),
-  euNorth_1('eu-north-1'),
-  saEast_1('sa-east-1'),
-  cnNorthwest_1('cn-northwest-1'),
-  cnNorth_1('cn-north-1'),
-  afSouth_1('af-south-1'),
-  euSouth_1('eu-south-1'),
-  euSouth_2('eu-south-2'),
-  usGovWest_1('us-gov-west-1'),
-  usGovEast_1('us-gov-east-1'),
-  usIsoEast_1('us-iso-east-1'),
-  usIsoWest_1('us-iso-west-1'),
-  usIsobEast_1('us-isob-east-1'),
-  apSoutheast_4('ap-southeast-4'),
-  ilCentral_1('il-central-1'),
-  caWest_1('ca-west-1'),
-  apSoutheast_5('ap-southeast-5'),
-  ;
+class CloudWatchRegion {
+  static const usEast_1 = CloudWatchRegion._('us-east-1');
+  static const usEast_2 = CloudWatchRegion._('us-east-2');
+  static const usWest_1 = CloudWatchRegion._('us-west-1');
+  static const usWest_2 = CloudWatchRegion._('us-west-2');
+  static const caCentral_1 = CloudWatchRegion._('ca-central-1');
+  static const euCentral_1 = CloudWatchRegion._('eu-central-1');
+  static const euCentral_2 = CloudWatchRegion._('eu-central-2');
+  static const euWest_1 = CloudWatchRegion._('eu-west-1');
+  static const euWest_2 = CloudWatchRegion._('eu-west-2');
+  static const euWest_3 = CloudWatchRegion._('eu-west-3');
+  static const apEast_1 = CloudWatchRegion._('ap-east-1');
+  static const meSouth_1 = CloudWatchRegion._('me-south-1');
+  static const meCentral_1 = CloudWatchRegion._('me-central-1');
+  static const apSouth_1 = CloudWatchRegion._('ap-south-1');
+  static const apSouth_2 = CloudWatchRegion._('ap-south-2');
+  static const apSoutheast_1 = CloudWatchRegion._('ap-southeast-1');
+  static const apSoutheast_2 = CloudWatchRegion._('ap-southeast-2');
+  static const apSoutheast_3 = CloudWatchRegion._('ap-southeast-3');
+  static const apNortheast_1 = CloudWatchRegion._('ap-northeast-1');
+  static const apNortheast_2 = CloudWatchRegion._('ap-northeast-2');
+  static const apNortheast_3 = CloudWatchRegion._('ap-northeast-3');
+  static const euNorth_1 = CloudWatchRegion._('eu-north-1');
+  static const saEast_1 = CloudWatchRegion._('sa-east-1');
+  static const cnNorthwest_1 = CloudWatchRegion._('cn-northwest-1');
+  static const cnNorth_1 = CloudWatchRegion._('cn-north-1');
+  static const afSouth_1 = CloudWatchRegion._('af-south-1');
+  static const euSouth_1 = CloudWatchRegion._('eu-south-1');
+  static const euSouth_2 = CloudWatchRegion._('eu-south-2');
+  static const usGovWest_1 = CloudWatchRegion._('us-gov-west-1');
+  static const usGovEast_1 = CloudWatchRegion._('us-gov-east-1');
+  static const usIsoEast_1 = CloudWatchRegion._('us-iso-east-1');
+  static const usIsoWest_1 = CloudWatchRegion._('us-iso-west-1');
+  static const usIsobEast_1 = CloudWatchRegion._('us-isob-east-1');
+  static const apSoutheast_4 = CloudWatchRegion._('ap-southeast-4');
+  static const ilCentral_1 = CloudWatchRegion._('il-central-1');
+  static const caWest_1 = CloudWatchRegion._('ca-west-1');
+  static const apSoutheast_5 = CloudWatchRegion._('ap-southeast-5');
 
   final String value;
 
-  const CloudWatchRegion(this.value);
+  const CloudWatchRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    caCentral_1,
+    euCentral_1,
+    euCentral_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    apEast_1,
+    meSouth_1,
+    meCentral_1,
+    apSouth_1,
+    apSouth_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    euNorth_1,
+    saEast_1,
+    cnNorthwest_1,
+    cnNorth_1,
+    afSouth_1,
+    euSouth_1,
+    euSouth_2,
+    usGovWest_1,
+    usGovEast_1,
+    usIsoEast_1,
+    usIsoWest_1,
+    usIsobEast_1,
+    apSoutheast_4,
+    ilCentral_1,
+    caWest_1,
+    apSoutheast_5
+  ];
 
   static CloudWatchRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum CloudWatchRegion'));
+          orElse: () => CloudWatchRegion._(value));
+
+  @override
+  bool operator ==(other) => other is CloudWatchRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that is an entry in an <a
@@ -5966,21 +6060,39 @@ class CollectionSummary {
   }
 }
 
-enum ComparisonOperator {
-  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
-  greaterThanThreshold('GreaterThanThreshold'),
-  lessThanThreshold('LessThanThreshold'),
-  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
-  ;
+class ComparisonOperator {
+  static const greaterThanOrEqualToThreshold =
+      ComparisonOperator._('GreaterThanOrEqualToThreshold');
+  static const greaterThanThreshold =
+      ComparisonOperator._('GreaterThanThreshold');
+  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
+  static const lessThanOrEqualToThreshold =
+      ComparisonOperator._('LessThanOrEqualToThreshold');
 
   final String value;
 
-  const ComparisonOperator(this.value);
+  const ComparisonOperator._(this.value);
 
-  static ComparisonOperator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ComparisonOperator'));
+  static const values = [
+    greaterThanOrEqualToThreshold,
+    greaterThanThreshold,
+    lessThanThreshold,
+    lessThanOrEqualToThreshold
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that lists the coordinates for a geoproximity resource
@@ -8803,46 +8915,82 @@ class HealthCheckObservation {
   }
 }
 
-enum HealthCheckRegion {
-  usEast_1('us-east-1'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  euWest_1('eu-west-1'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apNortheast_1('ap-northeast-1'),
-  saEast_1('sa-east-1'),
-  ;
+class HealthCheckRegion {
+  static const usEast_1 = HealthCheckRegion._('us-east-1');
+  static const usWest_1 = HealthCheckRegion._('us-west-1');
+  static const usWest_2 = HealthCheckRegion._('us-west-2');
+  static const euWest_1 = HealthCheckRegion._('eu-west-1');
+  static const apSoutheast_1 = HealthCheckRegion._('ap-southeast-1');
+  static const apSoutheast_2 = HealthCheckRegion._('ap-southeast-2');
+  static const apNortheast_1 = HealthCheckRegion._('ap-northeast-1');
+  static const saEast_1 = HealthCheckRegion._('sa-east-1');
 
   final String value;
 
-  const HealthCheckRegion(this.value);
+  const HealthCheckRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usWest_1,
+    usWest_2,
+    euWest_1,
+    apSoutheast_1,
+    apSoutheast_2,
+    apNortheast_1,
+    saEast_1
+  ];
 
   static HealthCheckRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthCheckRegion'));
+          orElse: () => HealthCheckRegion._(value));
+
+  @override
+  bool operator ==(other) => other is HealthCheckRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum HealthCheckType {
-  http('HTTP'),
-  https('HTTPS'),
-  httpStrMatch('HTTP_STR_MATCH'),
-  httpsStrMatch('HTTPS_STR_MATCH'),
-  tcp('TCP'),
-  calculated('CALCULATED'),
-  cloudwatchMetric('CLOUDWATCH_METRIC'),
-  recoveryControl('RECOVERY_CONTROL'),
-  ;
+class HealthCheckType {
+  static const http = HealthCheckType._('HTTP');
+  static const https = HealthCheckType._('HTTPS');
+  static const httpStrMatch = HealthCheckType._('HTTP_STR_MATCH');
+  static const httpsStrMatch = HealthCheckType._('HTTPS_STR_MATCH');
+  static const tcp = HealthCheckType._('TCP');
+  static const calculated = HealthCheckType._('CALCULATED');
+  static const cloudwatchMetric = HealthCheckType._('CLOUDWATCH_METRIC');
+  static const recoveryControl = HealthCheckType._('RECOVERY_CONTROL');
 
   final String value;
 
-  const HealthCheckType(this.value);
+  const HealthCheckType._(this.value);
+
+  static const values = [
+    http,
+    https,
+    httpStrMatch,
+    httpsStrMatch,
+    tcp,
+    calculated,
+    cloudwatchMetric,
+    recoveryControl
+  ];
 
   static HealthCheckType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HealthCheckType'));
+          orElse: () => HealthCheckType._(value));
+
+  @override
+  bool operator ==(other) => other is HealthCheckType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains general information about the hosted zone.
@@ -9010,19 +9158,30 @@ class HostedZoneLimit {
   }
 }
 
-enum HostedZoneLimitType {
-  maxRrsetsByZone('MAX_RRSETS_BY_ZONE'),
-  maxVpcsAssociatedByZone('MAX_VPCS_ASSOCIATED_BY_ZONE'),
-  ;
+class HostedZoneLimitType {
+  static const maxRrsetsByZone = HostedZoneLimitType._('MAX_RRSETS_BY_ZONE');
+  static const maxVpcsAssociatedByZone =
+      HostedZoneLimitType._('MAX_VPCS_ASSOCIATED_BY_ZONE');
 
   final String value;
 
-  const HostedZoneLimitType(this.value);
+  const HostedZoneLimitType._(this.value);
 
-  static HostedZoneLimitType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum HostedZoneLimitType'));
+  static const values = [maxRrsetsByZone, maxVpcsAssociatedByZone];
+
+  static HostedZoneLimitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HostedZoneLimitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HostedZoneLimitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that identifies a hosted zone that a specified Amazon VPC is
@@ -9111,34 +9270,54 @@ class HostedZoneSummary {
   }
 }
 
-enum HostedZoneType {
-  privateHostedZone('PrivateHostedZone'),
-  ;
+class HostedZoneType {
+  static const privateHostedZone = HostedZoneType._('PrivateHostedZone');
 
   final String value;
 
-  const HostedZoneType(this.value);
+  const HostedZoneType._(this.value);
+
+  static const values = [privateHostedZone];
 
   static HostedZoneType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HostedZoneType'));
+          orElse: () => HostedZoneType._(value));
+
+  @override
+  bool operator ==(other) => other is HostedZoneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InsufficientDataHealthStatus {
-  healthy('Healthy'),
-  unhealthy('Unhealthy'),
-  lastKnownStatus('LastKnownStatus'),
-  ;
+class InsufficientDataHealthStatus {
+  static const healthy = InsufficientDataHealthStatus._('Healthy');
+  static const unhealthy = InsufficientDataHealthStatus._('Unhealthy');
+  static const lastKnownStatus =
+      InsufficientDataHealthStatus._('LastKnownStatus');
 
   final String value;
 
-  const InsufficientDataHealthStatus(this.value);
+  const InsufficientDataHealthStatus._(this.value);
+
+  static const values = [healthy, unhealthy, lastKnownStatus];
 
   static InsufficientDataHealthStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InsufficientDataHealthStatus'));
+          orElse: () => InsufficientDataHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsufficientDataHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key-signing key (KSK) is a complex type that represents a public/private
@@ -10612,46 +10791,85 @@ class QueryLoggingConfig {
   }
 }
 
-enum RRType {
-  soa('SOA'),
-  a('A'),
-  txt('TXT'),
-  ns('NS'),
-  cname('CNAME'),
-  mx('MX'),
-  naptr('NAPTR'),
-  ptr('PTR'),
-  srv('SRV'),
-  spf('SPF'),
-  aaaa('AAAA'),
-  caa('CAA'),
-  ds('DS'),
-  ;
+class RRType {
+  static const soa = RRType._('SOA');
+  static const a = RRType._('A');
+  static const txt = RRType._('TXT');
+  static const ns = RRType._('NS');
+  static const cname = RRType._('CNAME');
+  static const mx = RRType._('MX');
+  static const naptr = RRType._('NAPTR');
+  static const ptr = RRType._('PTR');
+  static const srv = RRType._('SRV');
+  static const spf = RRType._('SPF');
+  static const aaaa = RRType._('AAAA');
+  static const caa = RRType._('CAA');
+  static const ds = RRType._('DS');
 
   final String value;
 
-  const RRType(this.value);
+  const RRType._(this.value);
+
+  static const values = [
+    soa,
+    a,
+    txt,
+    ns,
+    cname,
+    mx,
+    naptr,
+    ptr,
+    srv,
+    spf,
+    aaaa,
+    caa,
+    ds
+  ];
 
   static RRType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum RRType'));
+      values.firstWhere((e) => e.value == value, orElse: () => RRType._(value));
+
+  @override
+  bool operator ==(other) => other is RRType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResettableElementName {
-  fullyQualifiedDomainName('FullyQualifiedDomainName'),
-  regions('Regions'),
-  resourcePath('ResourcePath'),
-  childHealthChecks('ChildHealthChecks'),
-  ;
+class ResettableElementName {
+  static const fullyQualifiedDomainName =
+      ResettableElementName._('FullyQualifiedDomainName');
+  static const regions = ResettableElementName._('Regions');
+  static const resourcePath = ResettableElementName._('ResourcePath');
+  static const childHealthChecks = ResettableElementName._('ChildHealthChecks');
 
   final String value;
 
-  const ResettableElementName(this.value);
+  const ResettableElementName._(this.value);
 
-  static ResettableElementName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ResettableElementName'));
+  static const values = [
+    fullyQualifiedDomainName,
+    regions,
+    resourcePath,
+    childHealthChecks
+  ];
+
+  static ResettableElementName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResettableElementName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResettableElementName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information specific to the resource record.
@@ -11424,64 +11642,117 @@ class ResourceRecordSet {
   }
 }
 
-enum ResourceRecordSetFailover {
-  primary('PRIMARY'),
-  secondary('SECONDARY'),
-  ;
+class ResourceRecordSetFailover {
+  static const primary = ResourceRecordSetFailover._('PRIMARY');
+  static const secondary = ResourceRecordSetFailover._('SECONDARY');
 
   final String value;
 
-  const ResourceRecordSetFailover(this.value);
+  const ResourceRecordSetFailover._(this.value);
+
+  static const values = [primary, secondary];
 
   static ResourceRecordSetFailover fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceRecordSetFailover'));
+          orElse: () => ResourceRecordSetFailover._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRecordSetFailover && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResourceRecordSetRegion {
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  caCentral_1('ca-central-1'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  euCentral_1('eu-central-1'),
-  euCentral_2('eu-central-2'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSoutheast_3('ap-southeast-3'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_3('ap-northeast-3'),
-  euNorth_1('eu-north-1'),
-  saEast_1('sa-east-1'),
-  cnNorth_1('cn-north-1'),
-  cnNorthwest_1('cn-northwest-1'),
-  apEast_1('ap-east-1'),
-  meSouth_1('me-south-1'),
-  meCentral_1('me-central-1'),
-  apSouth_1('ap-south-1'),
-  apSouth_2('ap-south-2'),
-  afSouth_1('af-south-1'),
-  euSouth_1('eu-south-1'),
-  euSouth_2('eu-south-2'),
-  apSoutheast_4('ap-southeast-4'),
-  ilCentral_1('il-central-1'),
-  caWest_1('ca-west-1'),
-  apSoutheast_5('ap-southeast-5'),
-  ;
+class ResourceRecordSetRegion {
+  static const usEast_1 = ResourceRecordSetRegion._('us-east-1');
+  static const usEast_2 = ResourceRecordSetRegion._('us-east-2');
+  static const usWest_1 = ResourceRecordSetRegion._('us-west-1');
+  static const usWest_2 = ResourceRecordSetRegion._('us-west-2');
+  static const caCentral_1 = ResourceRecordSetRegion._('ca-central-1');
+  static const euWest_1 = ResourceRecordSetRegion._('eu-west-1');
+  static const euWest_2 = ResourceRecordSetRegion._('eu-west-2');
+  static const euWest_3 = ResourceRecordSetRegion._('eu-west-3');
+  static const euCentral_1 = ResourceRecordSetRegion._('eu-central-1');
+  static const euCentral_2 = ResourceRecordSetRegion._('eu-central-2');
+  static const apSoutheast_1 = ResourceRecordSetRegion._('ap-southeast-1');
+  static const apSoutheast_2 = ResourceRecordSetRegion._('ap-southeast-2');
+  static const apSoutheast_3 = ResourceRecordSetRegion._('ap-southeast-3');
+  static const apNortheast_1 = ResourceRecordSetRegion._('ap-northeast-1');
+  static const apNortheast_2 = ResourceRecordSetRegion._('ap-northeast-2');
+  static const apNortheast_3 = ResourceRecordSetRegion._('ap-northeast-3');
+  static const euNorth_1 = ResourceRecordSetRegion._('eu-north-1');
+  static const saEast_1 = ResourceRecordSetRegion._('sa-east-1');
+  static const cnNorth_1 = ResourceRecordSetRegion._('cn-north-1');
+  static const cnNorthwest_1 = ResourceRecordSetRegion._('cn-northwest-1');
+  static const apEast_1 = ResourceRecordSetRegion._('ap-east-1');
+  static const meSouth_1 = ResourceRecordSetRegion._('me-south-1');
+  static const meCentral_1 = ResourceRecordSetRegion._('me-central-1');
+  static const apSouth_1 = ResourceRecordSetRegion._('ap-south-1');
+  static const apSouth_2 = ResourceRecordSetRegion._('ap-south-2');
+  static const afSouth_1 = ResourceRecordSetRegion._('af-south-1');
+  static const euSouth_1 = ResourceRecordSetRegion._('eu-south-1');
+  static const euSouth_2 = ResourceRecordSetRegion._('eu-south-2');
+  static const apSoutheast_4 = ResourceRecordSetRegion._('ap-southeast-4');
+  static const ilCentral_1 = ResourceRecordSetRegion._('il-central-1');
+  static const caWest_1 = ResourceRecordSetRegion._('ca-west-1');
+  static const apSoutheast_5 = ResourceRecordSetRegion._('ap-southeast-5');
 
   final String value;
 
-  const ResourceRecordSetRegion(this.value);
+  const ResourceRecordSetRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    caCentral_1,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euCentral_1,
+    euCentral_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    euNorth_1,
+    saEast_1,
+    cnNorth_1,
+    cnNorthwest_1,
+    apEast_1,
+    meSouth_1,
+    meCentral_1,
+    apSouth_1,
+    apSouth_2,
+    afSouth_1,
+    euSouth_1,
+    euSouth_2,
+    apSoutheast_4,
+    ilCentral_1,
+    caWest_1,
+    apSoutheast_5
+  ];
 
   static ResourceRecordSetRegion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResourceRecordSetRegion'));
+          orElse: () => ResourceRecordSetRegion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRecordSetRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type containing a resource and its associated tags.
@@ -11569,35 +11840,55 @@ class ReusableDelegationSetLimit {
   }
 }
 
-enum ReusableDelegationSetLimitType {
-  maxZonesByReusableDelegationSet('MAX_ZONES_BY_REUSABLE_DELEGATION_SET'),
-  ;
+class ReusableDelegationSetLimitType {
+  static const maxZonesByReusableDelegationSet =
+      ReusableDelegationSetLimitType._('MAX_ZONES_BY_REUSABLE_DELEGATION_SET');
 
   final String value;
 
-  const ReusableDelegationSetLimitType(this.value);
+  const ReusableDelegationSetLimitType._(this.value);
+
+  static const values = [maxZonesByReusableDelegationSet];
 
   static ReusableDelegationSetLimitType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ReusableDelegationSetLimitType'));
+          orElse: () => ReusableDelegationSetLimitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReusableDelegationSetLimitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Statistic {
-  average('Average'),
-  sum('Sum'),
-  sampleCount('SampleCount'),
-  maximum('Maximum'),
-  minimum('Minimum'),
-  ;
+class Statistic {
+  static const average = Statistic._('Average');
+  static const sum = Statistic._('Sum');
+  static const sampleCount = Statistic._('SampleCount');
+  static const maximum = Statistic._('Maximum');
+  static const minimum = Statistic._('Minimum');
 
   final String value;
 
-  const Statistic(this.value);
+  const Statistic._(this.value);
 
-  static Statistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Statistic'));
+  static const values = [average, sum, sampleCount, maximum, minimum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains the status that one Amazon Route 53 health
@@ -11716,19 +12007,28 @@ class Tag {
   }
 }
 
-enum TagResourceType {
-  healthcheck('healthcheck'),
-  hostedzone('hostedzone'),
-  ;
+class TagResourceType {
+  static const healthcheck = TagResourceType._('healthcheck');
+  static const hostedzone = TagResourceType._('hostedzone');
 
   final String value;
 
-  const TagResourceType(this.value);
+  const TagResourceType._(this.value);
+
+  static const values = [healthcheck, hostedzone];
 
   static TagResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TagResourceType'));
+          orElse: () => TagResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is TagResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that contains the response to a <code>TestDNSAnswer</code>
@@ -12813,52 +13113,98 @@ class VPC {
   }
 }
 
-enum VPCRegion {
-  usEast_1('us-east-1'),
-  usEast_2('us-east-2'),
-  usWest_1('us-west-1'),
-  usWest_2('us-west-2'),
-  euWest_1('eu-west-1'),
-  euWest_2('eu-west-2'),
-  euWest_3('eu-west-3'),
-  euCentral_1('eu-central-1'),
-  euCentral_2('eu-central-2'),
-  apEast_1('ap-east-1'),
-  meSouth_1('me-south-1'),
-  usGovWest_1('us-gov-west-1'),
-  usGovEast_1('us-gov-east-1'),
-  usIsoEast_1('us-iso-east-1'),
-  usIsoWest_1('us-iso-west-1'),
-  usIsobEast_1('us-isob-east-1'),
-  meCentral_1('me-central-1'),
-  apSoutheast_1('ap-southeast-1'),
-  apSoutheast_2('ap-southeast-2'),
-  apSoutheast_3('ap-southeast-3'),
-  apSouth_1('ap-south-1'),
-  apSouth_2('ap-south-2'),
-  apNortheast_1('ap-northeast-1'),
-  apNortheast_2('ap-northeast-2'),
-  apNortheast_3('ap-northeast-3'),
-  euNorth_1('eu-north-1'),
-  saEast_1('sa-east-1'),
-  caCentral_1('ca-central-1'),
-  cnNorth_1('cn-north-1'),
-  afSouth_1('af-south-1'),
-  euSouth_1('eu-south-1'),
-  euSouth_2('eu-south-2'),
-  apSoutheast_4('ap-southeast-4'),
-  ilCentral_1('il-central-1'),
-  caWest_1('ca-west-1'),
-  apSoutheast_5('ap-southeast-5'),
-  ;
+class VPCRegion {
+  static const usEast_1 = VPCRegion._('us-east-1');
+  static const usEast_2 = VPCRegion._('us-east-2');
+  static const usWest_1 = VPCRegion._('us-west-1');
+  static const usWest_2 = VPCRegion._('us-west-2');
+  static const euWest_1 = VPCRegion._('eu-west-1');
+  static const euWest_2 = VPCRegion._('eu-west-2');
+  static const euWest_3 = VPCRegion._('eu-west-3');
+  static const euCentral_1 = VPCRegion._('eu-central-1');
+  static const euCentral_2 = VPCRegion._('eu-central-2');
+  static const apEast_1 = VPCRegion._('ap-east-1');
+  static const meSouth_1 = VPCRegion._('me-south-1');
+  static const usGovWest_1 = VPCRegion._('us-gov-west-1');
+  static const usGovEast_1 = VPCRegion._('us-gov-east-1');
+  static const usIsoEast_1 = VPCRegion._('us-iso-east-1');
+  static const usIsoWest_1 = VPCRegion._('us-iso-west-1');
+  static const usIsobEast_1 = VPCRegion._('us-isob-east-1');
+  static const meCentral_1 = VPCRegion._('me-central-1');
+  static const apSoutheast_1 = VPCRegion._('ap-southeast-1');
+  static const apSoutheast_2 = VPCRegion._('ap-southeast-2');
+  static const apSoutheast_3 = VPCRegion._('ap-southeast-3');
+  static const apSouth_1 = VPCRegion._('ap-south-1');
+  static const apSouth_2 = VPCRegion._('ap-south-2');
+  static const apNortheast_1 = VPCRegion._('ap-northeast-1');
+  static const apNortheast_2 = VPCRegion._('ap-northeast-2');
+  static const apNortheast_3 = VPCRegion._('ap-northeast-3');
+  static const euNorth_1 = VPCRegion._('eu-north-1');
+  static const saEast_1 = VPCRegion._('sa-east-1');
+  static const caCentral_1 = VPCRegion._('ca-central-1');
+  static const cnNorth_1 = VPCRegion._('cn-north-1');
+  static const afSouth_1 = VPCRegion._('af-south-1');
+  static const euSouth_1 = VPCRegion._('eu-south-1');
+  static const euSouth_2 = VPCRegion._('eu-south-2');
+  static const apSoutheast_4 = VPCRegion._('ap-southeast-4');
+  static const ilCentral_1 = VPCRegion._('il-central-1');
+  static const caWest_1 = VPCRegion._('ca-west-1');
+  static const apSoutheast_5 = VPCRegion._('ap-southeast-5');
 
   final String value;
 
-  const VPCRegion(this.value);
+  const VPCRegion._(this.value);
 
-  static VPCRegion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum VPCRegion'));
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euCentral_1,
+    euCentral_2,
+    apEast_1,
+    meSouth_1,
+    usGovWest_1,
+    usGovEast_1,
+    usIsoEast_1,
+    usIsoWest_1,
+    usIsobEast_1,
+    meCentral_1,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apSouth_1,
+    apSouth_2,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    euNorth_1,
+    saEast_1,
+    caCentral_1,
+    cnNorth_1,
+    afSouth_1,
+    euSouth_1,
+    euSouth_2,
+    apSoutheast_4,
+    ilCentral_1,
+    caWest_1,
+    apSoutheast_5
+  ];
+
+  static VPCRegion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VPCRegion._(value));
+
+  @override
+  bool operator ==(other) => other is VPCRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CidrBlockInUseException extends _s.GenericAwsException {

@@ -359,11 +359,12 @@ extension NameStuff on String? {
       }.contains(this);
 
   bool get isEnumReserved =>
-      isReserved ||
+      isFieldReserved ||
       <String>{
         'index',
         'value',
         'values',
+        'override',
       }.contains(this);
 
   bool get isFieldReserved =>

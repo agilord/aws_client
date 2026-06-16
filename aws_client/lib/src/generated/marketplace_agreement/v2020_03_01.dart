@@ -531,26 +531,45 @@ class Acceptor {
   }
 }
 
-enum AgreementStatus {
-  active('ACTIVE'),
-  archived('ARCHIVED'),
-  cancelled('CANCELLED'),
-  expired('EXPIRED'),
-  renewed('RENEWED'),
-  replaced('REPLACED'),
-  rolledBack('ROLLED_BACK'),
-  superseded('SUPERSEDED'),
-  terminated('TERMINATED'),
-  ;
+class AgreementStatus {
+  static const active = AgreementStatus._('ACTIVE');
+  static const archived = AgreementStatus._('ARCHIVED');
+  static const cancelled = AgreementStatus._('CANCELLED');
+  static const expired = AgreementStatus._('EXPIRED');
+  static const renewed = AgreementStatus._('RENEWED');
+  static const replaced = AgreementStatus._('REPLACED');
+  static const rolledBack = AgreementStatus._('ROLLED_BACK');
+  static const superseded = AgreementStatus._('SUPERSEDED');
+  static const terminated = AgreementStatus._('TERMINATED');
 
   final String value;
 
-  const AgreementStatus(this.value);
+  const AgreementStatus._(this.value);
+
+  static const values = [
+    active,
+    archived,
+    cancelled,
+    expired,
+    renewed,
+    replaced,
+    rolledBack,
+    superseded,
+    terminated
+  ];
 
   static AgreementStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgreementStatus'));
+          orElse: () => AgreementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgreementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of the agreement, including top-level attributes (for example, the
@@ -1775,18 +1794,27 @@ class Sort {
   }
 }
 
-enum SortOrder {
-  ascending('ASCENDING'),
-  descending('DESCENDING'),
-  ;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the customer support available for the acceptors when they purchase

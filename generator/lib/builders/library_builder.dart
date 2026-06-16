@@ -203,23 +203,36 @@ ${builder.constructor()}
       if (shape.deprecated) {
         _writeDeprecated(shape.deprecatedMessage);
       }
-      writeln('enum $name {');
+      writeln('class $name {');
 
+      final fieldNames = <String>[];
       for (var value in shape.enumeration!.where((s) => s.isNotEmpty)) {
         final fieldName = toEnumerationFieldName(value);
-        writeln('  $fieldName(${escapeDartString(value)}),');
+        fieldNames.add(fieldName);
+        writeln(
+            '  static const $fieldName = $name._(${escapeDartString(value)});');
       }
       writeln('''
-;
-final String value;
 
-const $name(this.value);
+  final String value;
 
-static $name fromString(String value) => values.firstWhere((e) => e.value == value,
-    orElse: () => throw Exception('\$value is not known in enum ${shape.className}'));
-''');
+  const $name._(this.value);
 
-      writeln('}');
+  static const values = [${fieldNames.join(', ')}];
+
+  static $name fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => $name._(value));
+
+  @override
+  bool operator ==(other) => other is $name && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}''');
     } else if (shape.type == 'structure') {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {

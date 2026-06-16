@@ -2132,33 +2132,51 @@ class AccessLogSubscriptionSummary {
   }
 }
 
-enum AuthPolicyState {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class AuthPolicyState {
+  static const active = AuthPolicyState._('Active');
+  static const inactive = AuthPolicyState._('Inactive');
 
   final String value;
 
-  const AuthPolicyState(this.value);
+  const AuthPolicyState._(this.value);
+
+  static const values = [active, inactive];
 
   static AuthPolicyState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthPolicyState'));
+          orElse: () => AuthPolicyState._(value));
+
+  @override
+  bool operator ==(other) => other is AuthPolicyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthType {
-  none('NONE'),
-  awsIam('AWS_IAM'),
-  ;
+class AuthType {
+  static const none = AuthType._('NONE');
+  static const awsIam = AuthType._('AWS_IAM');
 
   final String value;
 
-  const AuthType(this.value);
+  const AuthType._(this.value);
 
-  static AuthType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthType'));
+  static const values = [none, awsIam];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BatchUpdateRuleResponse {
@@ -4050,19 +4068,29 @@ class HealthCheckConfig {
   }
 }
 
-enum HealthCheckProtocolVersion {
-  http1('HTTP1'),
-  http2('HTTP2'),
-  ;
+class HealthCheckProtocolVersion {
+  static const http1 = HealthCheckProtocolVersion._('HTTP1');
+  static const http2 = HealthCheckProtocolVersion._('HTTP2');
 
   final String value;
 
-  const HealthCheckProtocolVersion(this.value);
+  const HealthCheckProtocolVersion._(this.value);
+
+  static const values = [http1, http2];
 
   static HealthCheckProtocolVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum HealthCheckProtocolVersion'));
+          orElse: () => HealthCheckProtocolVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthCheckProtocolVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes criteria that can be applied to incoming requests.
@@ -4108,34 +4136,53 @@ class HttpMatch {
   }
 }
 
-enum IpAddressType {
-  ipv4('IPV4'),
-  ipv6('IPV6'),
-  ;
+class IpAddressType {
+  static const ipv4 = IpAddressType._('IPV4');
+  static const ipv6 = IpAddressType._('IPV6');
 
   final String value;
 
-  const IpAddressType(this.value);
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, ipv6];
 
   static IpAddressType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IpAddressType'));
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaEventStructureVersion {
-  v1('V1'),
-  v2('V2'),
-  ;
+class LambdaEventStructureVersion {
+  static const v1 = LambdaEventStructureVersion._('V1');
+  static const v2 = LambdaEventStructureVersion._('V2');
 
   final String value;
 
-  const LambdaEventStructureVersion(this.value);
+  const LambdaEventStructureVersion._(this.value);
+
+  static const values = [v1, v2];
 
   static LambdaEventStructureVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaEventStructureVersion'));
+          orElse: () => LambdaEventStructureVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaEventStructureVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListAccessLogSubscriptionsResponse {
@@ -4463,20 +4510,29 @@ class ListTargetsResponse {
   }
 }
 
-enum ListenerProtocol {
-  http('HTTP'),
-  https('HTTPS'),
-  tlsPassthrough('TLS_PASSTHROUGH'),
-  ;
+class ListenerProtocol {
+  static const http = ListenerProtocol._('HTTP');
+  static const https = ListenerProtocol._('HTTPS');
+  static const tlsPassthrough = ListenerProtocol._('TLS_PASSTHROUGH');
 
   final String value;
 
-  const ListenerProtocol(this.value);
+  const ListenerProtocol._(this.value);
+
+  static const values = [http, https, tlsPassthrough];
 
   static ListenerProtocol fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ListenerProtocol'));
+          orElse: () => ListenerProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is ListenerProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a listener.
@@ -4986,22 +5042,42 @@ class RuleUpdateSuccess {
   }
 }
 
-enum ServiceNetworkServiceAssociationStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ServiceNetworkServiceAssociationStatus {
+  static const createInProgress =
+      ServiceNetworkServiceAssociationStatus._('CREATE_IN_PROGRESS');
+  static const active = ServiceNetworkServiceAssociationStatus._('ACTIVE');
+  static const deleteInProgress =
+      ServiceNetworkServiceAssociationStatus._('DELETE_IN_PROGRESS');
+  static const createFailed =
+      ServiceNetworkServiceAssociationStatus._('CREATE_FAILED');
+  static const deleteFailed =
+      ServiceNetworkServiceAssociationStatus._('DELETE_FAILED');
 
   final String value;
 
-  const ServiceNetworkServiceAssociationStatus(this.value);
+  const ServiceNetworkServiceAssociationStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    active,
+    deleteInProgress,
+    createFailed,
+    deleteFailed
+  ];
 
   static ServiceNetworkServiceAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceNetworkServiceAssociationStatus'));
+          orElse: () => ServiceNetworkServiceAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceNetworkServiceAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about the association between a service network and a
@@ -5186,24 +5262,48 @@ class ServiceNetworkSummary {
   }
 }
 
-enum ServiceNetworkVpcAssociationStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  active('ACTIVE'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  updateFailed('UPDATE_FAILED'),
-  ;
+class ServiceNetworkVpcAssociationStatus {
+  static const createInProgress =
+      ServiceNetworkVpcAssociationStatus._('CREATE_IN_PROGRESS');
+  static const active = ServiceNetworkVpcAssociationStatus._('ACTIVE');
+  static const updateInProgress =
+      ServiceNetworkVpcAssociationStatus._('UPDATE_IN_PROGRESS');
+  static const deleteInProgress =
+      ServiceNetworkVpcAssociationStatus._('DELETE_IN_PROGRESS');
+  static const createFailed =
+      ServiceNetworkVpcAssociationStatus._('CREATE_FAILED');
+  static const deleteFailed =
+      ServiceNetworkVpcAssociationStatus._('DELETE_FAILED');
+  static const updateFailed =
+      ServiceNetworkVpcAssociationStatus._('UPDATE_FAILED');
 
   final String value;
 
-  const ServiceNetworkVpcAssociationStatus(this.value);
+  const ServiceNetworkVpcAssociationStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    active,
+    updateInProgress,
+    deleteInProgress,
+    createFailed,
+    deleteFailed,
+    updateFailed
+  ];
 
   static ServiceNetworkVpcAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ServiceNetworkVpcAssociationStatus'));
+          orElse: () => ServiceNetworkVpcAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceNetworkVpcAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about an association between a service network and a
@@ -5297,22 +5397,37 @@ class ServiceNetworkVpcAssociationSummary {
   }
 }
 
-enum ServiceStatus {
-  active('ACTIVE'),
-  createInProgress('CREATE_IN_PROGRESS'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class ServiceStatus {
+  static const active = ServiceStatus._('ACTIVE');
+  static const createInProgress = ServiceStatus._('CREATE_IN_PROGRESS');
+  static const deleteInProgress = ServiceStatus._('DELETE_IN_PROGRESS');
+  static const createFailed = ServiceStatus._('CREATE_FAILED');
+  static const deleteFailed = ServiceStatus._('DELETE_FAILED');
 
   final String value;
 
-  const ServiceStatus(this.value);
+  const ServiceStatus._(this.value);
+
+  static const values = [
+    active,
+    createInProgress,
+    deleteInProgress,
+    createFailed,
+    deleteFailed
+  ];
 
   static ServiceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ServiceStatus'));
+          orElse: () => ServiceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a service.
@@ -5574,54 +5689,89 @@ class TargetGroupConfig {
   }
 }
 
-enum TargetGroupProtocol {
-  http('HTTP'),
-  https('HTTPS'),
-  tcp('TCP'),
-  ;
+class TargetGroupProtocol {
+  static const http = TargetGroupProtocol._('HTTP');
+  static const https = TargetGroupProtocol._('HTTPS');
+  static const tcp = TargetGroupProtocol._('TCP');
 
   final String value;
 
-  const TargetGroupProtocol(this.value);
+  const TargetGroupProtocol._(this.value);
 
-  static TargetGroupProtocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetGroupProtocol'));
+  static const values = [http, https, tcp];
+
+  static TargetGroupProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetGroupProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetGroupProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetGroupProtocolVersion {
-  http1('HTTP1'),
-  http2('HTTP2'),
-  grpc('GRPC'),
-  ;
+class TargetGroupProtocolVersion {
+  static const http1 = TargetGroupProtocolVersion._('HTTP1');
+  static const http2 = TargetGroupProtocolVersion._('HTTP2');
+  static const grpc = TargetGroupProtocolVersion._('GRPC');
 
   final String value;
 
-  const TargetGroupProtocolVersion(this.value);
+  const TargetGroupProtocolVersion._(this.value);
+
+  static const values = [http1, http2, grpc];
 
   static TargetGroupProtocolVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum TargetGroupProtocolVersion'));
+          orElse: () => TargetGroupProtocolVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetGroupProtocolVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetGroupStatus {
-  createInProgress('CREATE_IN_PROGRESS'),
-  active('ACTIVE'),
-  deleteInProgress('DELETE_IN_PROGRESS'),
-  createFailed('CREATE_FAILED'),
-  deleteFailed('DELETE_FAILED'),
-  ;
+class TargetGroupStatus {
+  static const createInProgress = TargetGroupStatus._('CREATE_IN_PROGRESS');
+  static const active = TargetGroupStatus._('ACTIVE');
+  static const deleteInProgress = TargetGroupStatus._('DELETE_IN_PROGRESS');
+  static const createFailed = TargetGroupStatus._('CREATE_FAILED');
+  static const deleteFailed = TargetGroupStatus._('DELETE_FAILED');
 
   final String value;
 
-  const TargetGroupStatus(this.value);
+  const TargetGroupStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    active,
+    deleteInProgress,
+    createFailed,
+    deleteFailed
+  ];
 
   static TargetGroupStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetGroupStatus'));
+          orElse: () => TargetGroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a target group.
@@ -5748,40 +5898,64 @@ class TargetGroupSummary {
   }
 }
 
-enum TargetGroupType {
-  ip('IP'),
-  lambda('LAMBDA'),
-  instance('INSTANCE'),
-  alb('ALB'),
-  ;
+class TargetGroupType {
+  static const ip = TargetGroupType._('IP');
+  static const lambda = TargetGroupType._('LAMBDA');
+  static const instance = TargetGroupType._('INSTANCE');
+  static const alb = TargetGroupType._('ALB');
 
   final String value;
 
-  const TargetGroupType(this.value);
+  const TargetGroupType._(this.value);
+
+  static const values = [ip, lambda, instance, alb];
 
   static TargetGroupType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetGroupType'));
+          orElse: () => TargetGroupType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetGroupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetStatus {
-  draining('DRAINING'),
-  unavailable('UNAVAILABLE'),
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  initial('INITIAL'),
-  unused('UNUSED'),
-  ;
+class TargetStatus {
+  static const draining = TargetStatus._('DRAINING');
+  static const unavailable = TargetStatus._('UNAVAILABLE');
+  static const healthy = TargetStatus._('HEALTHY');
+  static const unhealthy = TargetStatus._('UNHEALTHY');
+  static const initial = TargetStatus._('INITIAL');
+  static const unused = TargetStatus._('UNUSED');
 
   final String value;
 
-  const TargetStatus(this.value);
+  const TargetStatus._(this.value);
 
-  static TargetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetStatus'));
+  static const values = [
+    draining,
+    unavailable,
+    healthy,
+    unhealthy,
+    initial,
+    unused
+  ];
+
+  static TargetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary information about a target.

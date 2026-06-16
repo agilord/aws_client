@@ -1187,19 +1187,28 @@ class ChimeSdkIdentity {
   }
 }
 
-enum AllowMessages {
-  all('ALL'),
-  none('NONE'),
-  ;
+class AllowMessages {
+  static const all = AllowMessages._('ALL');
+  static const none = AllowMessages._('NONE');
 
   final String value;
 
-  const AllowMessages(this.value);
+  const AllowMessages._(this.value);
+
+  static const values = [all, none];
 
   static AllowMessages fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AllowMessages'));
+          orElse: () => AllowMessages._(value));
+
+  @override
+  bool operator ==(other) => other is AllowMessages && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
@@ -1745,20 +1754,30 @@ class AppInstanceUserEndpointSummary {
   }
 }
 
-enum AppInstanceUserEndpointType {
-  apns('APNS'),
-  apnsSandbox('APNS_SANDBOX'),
-  gcm('GCM'),
-  ;
+class AppInstanceUserEndpointType {
+  static const apns = AppInstanceUserEndpointType._('APNS');
+  static const apnsSandbox = AppInstanceUserEndpointType._('APNS_SANDBOX');
+  static const gcm = AppInstanceUserEndpointType._('GCM');
 
   final String value;
 
-  const AppInstanceUserEndpointType(this.value);
+  const AppInstanceUserEndpointType._(this.value);
+
+  static const values = [apns, apnsSandbox, gcm];
 
   static AppInstanceUserEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AppInstanceUserEndpointType'));
+          orElse: () => AppInstanceUserEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppInstanceUserEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Summary of the details of an <code>AppInstanceUser</code>.
@@ -2146,7 +2165,7 @@ class EndpointState {
 
   factory EndpointState.fromJson(Map<String, dynamic> json) {
     return EndpointState(
-      status: EndpointStatus.fromString((json['Status'] as String)),
+      status: EndpointStatus.fromString((json['Status'] as String?) ?? ''),
       statusReason: (json['StatusReason'] as String?)
           ?.let(EndpointStatusReason.fromString),
     );
@@ -2162,48 +2181,79 @@ class EndpointState {
   }
 }
 
-enum EndpointStatus {
-  active('ACTIVE'),
-  inactive('INACTIVE'),
-  ;
+class EndpointStatus {
+  static const active = EndpointStatus._('ACTIVE');
+  static const inactive = EndpointStatus._('INACTIVE');
 
   final String value;
 
-  const EndpointStatus(this.value);
+  const EndpointStatus._(this.value);
+
+  static const values = [active, inactive];
 
   static EndpointStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointStatus'));
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EndpointStatusReason {
-  invalidDeviceToken('INVALID_DEVICE_TOKEN'),
-  invalidPinpointArn('INVALID_PINPOINT_ARN'),
-  ;
+class EndpointStatusReason {
+  static const invalidDeviceToken =
+      EndpointStatusReason._('INVALID_DEVICE_TOKEN');
+  static const invalidPinpointArn =
+      EndpointStatusReason._('INVALID_PINPOINT_ARN');
 
   final String value;
 
-  const EndpointStatusReason(this.value);
+  const EndpointStatusReason._(this.value);
 
-  static EndpointStatusReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EndpointStatusReason'));
+  static const values = [invalidDeviceToken, invalidPinpointArn];
+
+  static EndpointStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExpirationCriterion {
-  createdTimestamp('CREATED_TIMESTAMP'),
-  ;
+class ExpirationCriterion {
+  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
 
   final String value;
 
-  const ExpirationCriterion(this.value);
+  const ExpirationCriterion._(this.value);
 
-  static ExpirationCriterion fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExpirationCriterion'));
+  static const values = [createdTimestamp];
+
+  static ExpirationCriterion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationCriterion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationCriterion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Determines the interval after which an <code>AppInstanceUser</code> is
@@ -2225,7 +2275,7 @@ class ExpirationSettings {
   factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
     return ExpirationSettings(
       expirationCriterion: ExpirationCriterion.fromString(
-          (json['ExpirationCriterion'] as String)),
+          (json['ExpirationCriterion'] as String?) ?? ''),
       expirationDays: (json['ExpirationDays'] as int?) ?? 0,
     );
   }
@@ -2352,10 +2402,10 @@ class InvokedBy {
 
   factory InvokedBy.fromJson(Map<String, dynamic> json) {
     return InvokedBy(
-      standardMessages:
-          StandardMessages.fromString((json['StandardMessages'] as String)),
-      targetedMessages:
-          TargetedMessages.fromString((json['TargetedMessages'] as String)),
+      standardMessages: StandardMessages.fromString(
+          (json['StandardMessages'] as String?) ?? ''),
+      targetedMessages: TargetedMessages.fromString(
+          (json['TargetedMessages'] as String?) ?? ''),
     );
   }
 
@@ -2749,34 +2799,52 @@ class RegisterAppInstanceUserEndpointResponse {
   }
 }
 
-enum RespondsTo {
-  standardMessages('STANDARD_MESSAGES'),
-  ;
+class RespondsTo {
+  static const standardMessages = RespondsTo._('STANDARD_MESSAGES');
 
   final String value;
 
-  const RespondsTo(this.value);
+  const RespondsTo._(this.value);
 
-  static RespondsTo fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RespondsTo'));
+  static const values = [standardMessages];
+
+  static RespondsTo fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RespondsTo._(value));
+
+  @override
+  bool operator ==(other) => other is RespondsTo && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StandardMessages {
-  auto('AUTO'),
-  all('ALL'),
-  mentions('MENTIONS'),
-  none('NONE'),
-  ;
+class StandardMessages {
+  static const auto = StandardMessages._('AUTO');
+  static const all = StandardMessages._('ALL');
+  static const mentions = StandardMessages._('MENTIONS');
+  static const none = StandardMessages._('NONE');
 
   final String value;
 
-  const StandardMessages(this.value);
+  const StandardMessages._(this.value);
+
+  static const values = [auto, all, mentions, none];
 
   static StandardMessages fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum StandardMessages'));
+          orElse: () => StandardMessages._(value));
+
+  @override
+  bool operator ==(other) => other is StandardMessages && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tag object containing a key-value pair.
@@ -2809,19 +2877,28 @@ class Tag {
   }
 }
 
-enum TargetedMessages {
-  all('ALL'),
-  none('NONE'),
-  ;
+class TargetedMessages {
+  static const all = TargetedMessages._('ALL');
+  static const none = TargetedMessages._('NONE');
 
   final String value;
 
-  const TargetedMessages(this.value);
+  const TargetedMessages._(this.value);
+
+  static const values = [all, none];
 
   static TargetedMessages fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum TargetedMessages'));
+          orElse: () => TargetedMessages._(value));
+
+  @override
+  bool operator ==(other) => other is TargetedMessages && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateAppInstanceBotResponse {

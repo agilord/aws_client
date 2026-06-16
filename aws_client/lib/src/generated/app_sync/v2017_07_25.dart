@@ -3451,65 +3451,110 @@ class ApiCache {
   }
 }
 
-enum ApiCacheStatus {
-  available('AVAILABLE'),
-  creating('CREATING'),
-  deleting('DELETING'),
-  modifying('MODIFYING'),
-  failed('FAILED'),
-  ;
+class ApiCacheStatus {
+  static const available = ApiCacheStatus._('AVAILABLE');
+  static const creating = ApiCacheStatus._('CREATING');
+  static const deleting = ApiCacheStatus._('DELETING');
+  static const modifying = ApiCacheStatus._('MODIFYING');
+  static const failed = ApiCacheStatus._('FAILED');
 
   final String value;
 
-  const ApiCacheStatus(this.value);
+  const ApiCacheStatus._(this.value);
+
+  static const values = [available, creating, deleting, modifying, failed];
 
   static ApiCacheStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApiCacheStatus'));
+          orElse: () => ApiCacheStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApiCacheStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApiCacheType {
-  t2Small('T2_SMALL'),
-  t2Medium('T2_MEDIUM'),
-  r4Large('R4_LARGE'),
-  r4Xlarge('R4_XLARGE'),
-  r4_2xlarge('R4_2XLARGE'),
-  r4_4xlarge('R4_4XLARGE'),
-  r4_8xlarge('R4_8XLARGE'),
-  small('SMALL'),
-  medium('MEDIUM'),
-  large('LARGE'),
-  xlarge('XLARGE'),
-  large_2x('LARGE_2X'),
-  large_4x('LARGE_4X'),
-  large_8x('LARGE_8X'),
-  large_12x('LARGE_12X'),
-  ;
+class ApiCacheType {
+  static const t2Small = ApiCacheType._('T2_SMALL');
+  static const t2Medium = ApiCacheType._('T2_MEDIUM');
+  static const r4Large = ApiCacheType._('R4_LARGE');
+  static const r4Xlarge = ApiCacheType._('R4_XLARGE');
+  static const r4_2xlarge = ApiCacheType._('R4_2XLARGE');
+  static const r4_4xlarge = ApiCacheType._('R4_4XLARGE');
+  static const r4_8xlarge = ApiCacheType._('R4_8XLARGE');
+  static const small = ApiCacheType._('SMALL');
+  static const medium = ApiCacheType._('MEDIUM');
+  static const large = ApiCacheType._('LARGE');
+  static const xlarge = ApiCacheType._('XLARGE');
+  static const large_2x = ApiCacheType._('LARGE_2X');
+  static const large_4x = ApiCacheType._('LARGE_4X');
+  static const large_8x = ApiCacheType._('LARGE_8X');
+  static const large_12x = ApiCacheType._('LARGE_12X');
 
   final String value;
 
-  const ApiCacheType(this.value);
+  const ApiCacheType._(this.value);
 
-  static ApiCacheType fromString(String value) =>
+  static const values = [
+    t2Small,
+    t2Medium,
+    r4Large,
+    r4Xlarge,
+    r4_2xlarge,
+    r4_4xlarge,
+    r4_8xlarge,
+    small,
+    medium,
+    large,
+    xlarge,
+    large_2x,
+    large_4x,
+    large_8x,
+    large_12x
+  ];
+
+  static ApiCacheType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApiCacheType._(value));
+
+  @override
+  bool operator ==(other) => other is ApiCacheType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApiCachingBehavior {
+  static const fullRequestCaching =
+      ApiCachingBehavior._('FULL_REQUEST_CACHING');
+  static const perResolverCaching =
+      ApiCachingBehavior._('PER_RESOLVER_CACHING');
+
+  final String value;
+
+  const ApiCachingBehavior._(this.value);
+
+  static const values = [fullRequestCaching, perResolverCaching];
+
+  static ApiCachingBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ApiCacheType'));
-}
+          orElse: () => ApiCachingBehavior._(value));
 
-enum ApiCachingBehavior {
-  fullRequestCaching('FULL_REQUEST_CACHING'),
-  perResolverCaching('PER_RESOLVER_CACHING'),
-  ;
+  @override
+  bool operator ==(other) =>
+      other is ApiCachingBehavior && other.value == value;
 
-  final String value;
+  @override
+  int get hashCode => value.hashCode;
 
-  const ApiCachingBehavior(this.value);
-
-  static ApiCachingBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ApiCachingBehavior'));
+  @override
+  String toString() => value;
 }
 
 /// Describes an API key.
@@ -3638,7 +3683,7 @@ class AppSyncRuntime {
 
   factory AppSyncRuntime.fromJson(Map<String, dynamic> json) {
     return AppSyncRuntime(
-      name: RuntimeName.fromString((json['name'] as String)),
+      name: RuntimeName.fromString((json['name'] as String?) ?? ''),
       runtimeVersion: (json['runtimeVersion'] as String?) ?? '',
     );
   }
@@ -3732,38 +3777,64 @@ class AssociateSourceGraphqlApiResponse {
   }
 }
 
-enum AssociationStatus {
-  processing('PROCESSING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  ;
+class AssociationStatus {
+  static const processing = AssociationStatus._('PROCESSING');
+  static const failed = AssociationStatus._('FAILED');
+  static const success = AssociationStatus._('SUCCESS');
 
   final String value;
 
-  const AssociationStatus(this.value);
+  const AssociationStatus._(this.value);
+
+  static const values = [processing, failed, success];
 
   static AssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationStatus'));
+          orElse: () => AssociationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthenticationType {
-  apiKey('API_KEY'),
-  awsIam('AWS_IAM'),
-  amazonCognitoUserPools('AMAZON_COGNITO_USER_POOLS'),
-  openidConnect('OPENID_CONNECT'),
-  awsLambda('AWS_LAMBDA'),
-  ;
+class AuthenticationType {
+  static const apiKey = AuthenticationType._('API_KEY');
+  static const awsIam = AuthenticationType._('AWS_IAM');
+  static const amazonCognitoUserPools =
+      AuthenticationType._('AMAZON_COGNITO_USER_POOLS');
+  static const openidConnect = AuthenticationType._('OPENID_CONNECT');
+  static const awsLambda = AuthenticationType._('AWS_LAMBDA');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [
+    apiKey,
+    awsIam,
+    amazonCognitoUserPools,
+    openidConnect,
+    awsLambda
+  ];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The authorization configuration in case the HTTP endpoint requires
@@ -3788,8 +3859,8 @@ class AuthorizationConfig {
 
   factory AuthorizationConfig.fromJson(Map<String, dynamic> json) {
     return AuthorizationConfig(
-      authorizationType:
-          AuthorizationType.fromString((json['authorizationType'] as String)),
+      authorizationType: AuthorizationType.fromString(
+          (json['authorizationType'] as String?) ?? ''),
       awsIamConfig: json['awsIamConfig'] != null
           ? AwsIamConfig.fromJson(json['awsIamConfig'] as Map<String, dynamic>)
           : null,
@@ -3806,18 +3877,27 @@ class AuthorizationConfig {
   }
 }
 
-enum AuthorizationType {
-  awsIam('AWS_IAM'),
-  ;
+class AuthorizationType {
+  static const awsIam = AuthorizationType._('AWS_IAM');
 
   final String value;
 
-  const AuthorizationType(this.value);
+  const AuthorizationType._(this.value);
+
+  static const values = [awsIam];
 
   static AuthorizationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthorizationType'));
+          orElse: () => AuthorizationType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthorizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Identity and Access Management (IAM) configuration.
@@ -3850,19 +3930,29 @@ class AwsIamConfig {
   }
 }
 
-enum CacheHealthMetricsConfig {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class CacheHealthMetricsConfig {
+  static const enabled = CacheHealthMetricsConfig._('ENABLED');
+  static const disabled = CacheHealthMetricsConfig._('DISABLED');
 
   final String value;
 
-  const CacheHealthMetricsConfig(this.value);
+  const CacheHealthMetricsConfig._(this.value);
+
+  static const values = [enabled, disabled];
 
   static CacheHealthMetricsConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CacheHealthMetricsConfig'));
+          orElse: () => CacheHealthMetricsConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CacheHealthMetricsConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The caching configuration for a resolver that has caching activated.
@@ -4023,36 +4113,57 @@ class CognitoUserPoolConfig {
   }
 }
 
-enum ConflictDetectionType {
-  version('VERSION'),
-  none('NONE'),
-  ;
+class ConflictDetectionType {
+  static const version = ConflictDetectionType._('VERSION');
+  static const none = ConflictDetectionType._('NONE');
 
   final String value;
 
-  const ConflictDetectionType(this.value);
+  const ConflictDetectionType._(this.value);
 
-  static ConflictDetectionType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConflictDetectionType'));
+  static const values = [version, none];
+
+  static ConflictDetectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConflictDetectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictDetectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConflictHandlerType {
-  optimisticConcurrency('OPTIMISTIC_CONCURRENCY'),
-  lambda('LAMBDA'),
-  automerge('AUTOMERGE'),
-  none('NONE'),
-  ;
+class ConflictHandlerType {
+  static const optimisticConcurrency =
+      ConflictHandlerType._('OPTIMISTIC_CONCURRENCY');
+  static const lambda = ConflictHandlerType._('LAMBDA');
+  static const automerge = ConflictHandlerType._('AUTOMERGE');
+  static const none = ConflictHandlerType._('NONE');
 
   final String value;
 
-  const ConflictHandlerType(this.value);
+  const ConflictHandlerType._(this.value);
 
-  static ConflictHandlerType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConflictHandlerType'));
+  static const values = [optimisticConcurrency, lambda, automerge, none];
+
+  static ConflictHandlerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConflictHandlerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictHandlerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>CreateApiCache</code> operation.
@@ -4682,86 +4793,146 @@ class DataSourceIntrospectionResult {
   }
 }
 
-enum DataSourceIntrospectionStatus {
-  processing('PROCESSING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  ;
+class DataSourceIntrospectionStatus {
+  static const processing = DataSourceIntrospectionStatus._('PROCESSING');
+  static const failed = DataSourceIntrospectionStatus._('FAILED');
+  static const success = DataSourceIntrospectionStatus._('SUCCESS');
 
   final String value;
 
-  const DataSourceIntrospectionStatus(this.value);
+  const DataSourceIntrospectionStatus._(this.value);
+
+  static const values = [processing, failed, success];
 
   static DataSourceIntrospectionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceIntrospectionStatus'));
+          orElse: () => DataSourceIntrospectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceIntrospectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataSourceLevelMetricsBehavior {
-  fullRequestDataSourceMetrics('FULL_REQUEST_DATA_SOURCE_METRICS'),
-  perDataSourceMetrics('PER_DATA_SOURCE_METRICS'),
-  ;
+class DataSourceLevelMetricsBehavior {
+  static const fullRequestDataSourceMetrics =
+      DataSourceLevelMetricsBehavior._('FULL_REQUEST_DATA_SOURCE_METRICS');
+  static const perDataSourceMetrics =
+      DataSourceLevelMetricsBehavior._('PER_DATA_SOURCE_METRICS');
 
   final String value;
 
-  const DataSourceLevelMetricsBehavior(this.value);
+  const DataSourceLevelMetricsBehavior._(this.value);
+
+  static const values = [fullRequestDataSourceMetrics, perDataSourceMetrics];
 
   static DataSourceLevelMetricsBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceLevelMetricsBehavior'));
+          orElse: () => DataSourceLevelMetricsBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceLevelMetricsBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataSourceLevelMetricsConfig {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DataSourceLevelMetricsConfig {
+  static const enabled = DataSourceLevelMetricsConfig._('ENABLED');
+  static const disabled = DataSourceLevelMetricsConfig._('DISABLED');
 
   final String value;
 
-  const DataSourceLevelMetricsConfig(this.value);
+  const DataSourceLevelMetricsConfig._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DataSourceLevelMetricsConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DataSourceLevelMetricsConfig'));
+          orElse: () => DataSourceLevelMetricsConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceLevelMetricsConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DataSourceType {
-  awsLambda('AWS_LAMBDA'),
-  amazonDynamodb('AMAZON_DYNAMODB'),
-  amazonElasticsearch('AMAZON_ELASTICSEARCH'),
-  none('NONE'),
-  http('HTTP'),
-  relationalDatabase('RELATIONAL_DATABASE'),
-  amazonOpensearchService('AMAZON_OPENSEARCH_SERVICE'),
-  amazonEventbridge('AMAZON_EVENTBRIDGE'),
-  ;
+class DataSourceType {
+  static const awsLambda = DataSourceType._('AWS_LAMBDA');
+  static const amazonDynamodb = DataSourceType._('AMAZON_DYNAMODB');
+  static const amazonElasticsearch = DataSourceType._('AMAZON_ELASTICSEARCH');
+  static const none = DataSourceType._('NONE');
+  static const http = DataSourceType._('HTTP');
+  static const relationalDatabase = DataSourceType._('RELATIONAL_DATABASE');
+  static const amazonOpensearchService =
+      DataSourceType._('AMAZON_OPENSEARCH_SERVICE');
+  static const amazonEventbridge = DataSourceType._('AMAZON_EVENTBRIDGE');
 
   final String value;
 
-  const DataSourceType(this.value);
+  const DataSourceType._(this.value);
+
+  static const values = [
+    awsLambda,
+    amazonDynamodb,
+    amazonElasticsearch,
+    none,
+    http,
+    relationalDatabase,
+    amazonOpensearchService,
+    amazonEventbridge
+  ];
 
   static DataSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataSourceType'));
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DefaultAction {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class DefaultAction {
+  static const allow = DefaultAction._('ALLOW');
+  static const deny = DefaultAction._('DENY');
 
   final String value;
 
-  const DefaultAction(this.value);
+  const DefaultAction._(this.value);
+
+  static const values = [allow, deny];
 
   static DefaultAction fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DefaultAction'));
+          orElse: () => DefaultAction._(value));
+
+  @override
+  bool operator ==(other) => other is DefaultAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>DeleteApiCache</code> operation.
@@ -5296,11 +5467,11 @@ class EnhancedMetricsConfig {
   factory EnhancedMetricsConfig.fromJson(Map<String, dynamic> json) {
     return EnhancedMetricsConfig(
       dataSourceLevelMetricsBehavior: DataSourceLevelMetricsBehavior.fromString(
-          (json['dataSourceLevelMetricsBehavior'] as String)),
+          (json['dataSourceLevelMetricsBehavior'] as String?) ?? ''),
       operationLevelMetricsConfig: OperationLevelMetricsConfig.fromString(
-          (json['operationLevelMetricsConfig'] as String)),
+          (json['operationLevelMetricsConfig'] as String?) ?? ''),
       resolverLevelMetricsBehavior: ResolverLevelMetricsBehavior.fromString(
-          (json['resolverLevelMetricsBehavior'] as String)),
+          (json['resolverLevelMetricsBehavior'] as String?) ?? ''),
     );
   }
 
@@ -5477,22 +5648,31 @@ class EventBridgeDataSourceConfig {
   }
 }
 
-enum FieldLogLevel {
-  none('NONE'),
-  error('ERROR'),
-  all('ALL'),
-  info('INFO'),
-  debug('DEBUG'),
-  ;
+class FieldLogLevel {
+  static const none = FieldLogLevel._('NONE');
+  static const error = FieldLogLevel._('ERROR');
+  static const all = FieldLogLevel._('ALL');
+  static const info = FieldLogLevel._('INFO');
+  static const debug = FieldLogLevel._('DEBUG');
 
   final String value;
 
-  const FieldLogLevel(this.value);
+  const FieldLogLevel._(this.value);
+
+  static const values = [none, error, all, info, debug];
 
   static FieldLogLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FieldLogLevel'));
+          orElse: () => FieldLogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is FieldLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the output of a <code>FlushApiCache</code> operation.
@@ -5974,49 +6154,78 @@ class GetTypeResponse {
   }
 }
 
-enum GraphQLApiIntrospectionConfig {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class GraphQLApiIntrospectionConfig {
+  static const enabled = GraphQLApiIntrospectionConfig._('ENABLED');
+  static const disabled = GraphQLApiIntrospectionConfig._('DISABLED');
 
   final String value;
 
-  const GraphQLApiIntrospectionConfig(this.value);
+  const GraphQLApiIntrospectionConfig._(this.value);
+
+  static const values = [enabled, disabled];
 
   static GraphQLApiIntrospectionConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GraphQLApiIntrospectionConfig'));
+          orElse: () => GraphQLApiIntrospectionConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GraphQLApiIntrospectionConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GraphQLApiType {
-  graphql('GRAPHQL'),
-  merged('MERGED'),
-  ;
+class GraphQLApiType {
+  static const graphql = GraphQLApiType._('GRAPHQL');
+  static const merged = GraphQLApiType._('MERGED');
 
   final String value;
 
-  const GraphQLApiType(this.value);
+  const GraphQLApiType._(this.value);
+
+  static const values = [graphql, merged];
 
   static GraphQLApiType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum GraphQLApiType'));
+          orElse: () => GraphQLApiType._(value));
+
+  @override
+  bool operator ==(other) => other is GraphQLApiType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum GraphQLApiVisibility {
-  global('GLOBAL'),
-  private('PRIVATE'),
-  ;
+class GraphQLApiVisibility {
+  static const global = GraphQLApiVisibility._('GLOBAL');
+  static const private = GraphQLApiVisibility._('PRIVATE');
 
   final String value;
 
-  const GraphQLApiVisibility(this.value);
+  const GraphQLApiVisibility._(this.value);
 
-  static GraphQLApiVisibility fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum GraphQLApiVisibility'));
+  static const values = [global, private];
+
+  static GraphQLApiVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GraphQLApiVisibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GraphQLApiVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a GraphQL API.
@@ -6853,7 +7062,7 @@ class LogConfig {
     return LogConfig(
       cloudWatchLogsRoleArn: (json['cloudWatchLogsRoleArn'] as String?) ?? '',
       fieldLogLevel:
-          FieldLogLevel.fromString((json['fieldLogLevel'] as String)),
+          FieldLogLevel.fromString((json['fieldLogLevel'] as String?) ?? ''),
       excludeVerboseContent: json['excludeVerboseContent'] as bool?,
     );
   }
@@ -6871,18 +7080,27 @@ class LogConfig {
   }
 }
 
-enum MergeType {
-  manualMerge('MANUAL_MERGE'),
-  autoMerge('AUTO_MERGE'),
-  ;
+class MergeType {
+  static const manualMerge = MergeType._('MANUAL_MERGE');
+  static const autoMerge = MergeType._('AUTO_MERGE');
 
   final String value;
 
-  const MergeType(this.value);
+  const MergeType._(this.value);
 
-  static MergeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MergeType'));
+  static const values = [manualMerge, autoMerge];
+
+  static MergeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MergeType._(value));
+
+  @override
+  bool operator ==(other) => other is MergeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an OpenID Connect (OIDC) configuration.
@@ -6965,47 +7183,75 @@ class OpenSearchServiceDataSourceConfig {
   }
 }
 
-enum OperationLevelMetricsConfig {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class OperationLevelMetricsConfig {
+  static const enabled = OperationLevelMetricsConfig._('ENABLED');
+  static const disabled = OperationLevelMetricsConfig._('DISABLED');
 
   final String value;
 
-  const OperationLevelMetricsConfig(this.value);
+  const OperationLevelMetricsConfig._(this.value);
+
+  static const values = [enabled, disabled];
 
   static OperationLevelMetricsConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum OperationLevelMetricsConfig'));
+          orElse: () => OperationLevelMetricsConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperationLevelMetricsConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OutputType {
-  sdl('SDL'),
-  json('JSON'),
-  ;
+class OutputType {
+  static const sdl = OutputType._('SDL');
+  static const json = OutputType._('JSON');
 
   final String value;
 
-  const OutputType(this.value);
+  const OutputType._(this.value);
 
-  static OutputType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum OutputType'));
+  static const values = [sdl, json];
+
+  static OutputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputType._(value));
+
+  @override
+  bool operator ==(other) => other is OutputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Ownership {
-  currentAccount('CURRENT_ACCOUNT'),
-  otherAccounts('OTHER_ACCOUNTS'),
-  ;
+class Ownership {
+  static const currentAccount = Ownership._('CURRENT_ACCOUNT');
+  static const otherAccounts = Ownership._('OTHER_ACCOUNTS');
 
   final String value;
 
-  const Ownership(this.value);
+  const Ownership._(this.value);
 
-  static Ownership fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Ownership'));
+  static const values = [currentAccount, otherAccounts];
+
+  static Ownership fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Ownership._(value));
+
+  @override
+  bool operator ==(other) => other is Ownership && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The pipeline configuration for a resolver of kind <code>PIPELINE</code>.
@@ -7193,18 +7439,29 @@ class RelationalDatabaseDataSourceConfig {
   }
 }
 
-enum RelationalDatabaseSourceType {
-  rdsHttpEndpoint('RDS_HTTP_ENDPOINT'),
-  ;
+class RelationalDatabaseSourceType {
+  static const rdsHttpEndpoint =
+      RelationalDatabaseSourceType._('RDS_HTTP_ENDPOINT');
 
   final String value;
 
-  const RelationalDatabaseSourceType(this.value);
+  const RelationalDatabaseSourceType._(this.value);
+
+  static const values = [rdsHttpEndpoint];
 
   static RelationalDatabaseSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RelationalDatabaseSourceType'));
+          orElse: () => RelationalDatabaseSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RelationalDatabaseSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a resolver.
@@ -7359,81 +7616,135 @@ class Resolver {
   }
 }
 
-enum ResolverKind {
-  unit('UNIT'),
-  pipeline('PIPELINE'),
-  ;
+class ResolverKind {
+  static const unit = ResolverKind._('UNIT');
+  static const pipeline = ResolverKind._('PIPELINE');
 
   final String value;
 
-  const ResolverKind(this.value);
+  const ResolverKind._(this.value);
 
-  static ResolverKind fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResolverKind'));
+  static const values = [unit, pipeline];
+
+  static ResolverKind fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResolverKind._(value));
+
+  @override
+  bool operator ==(other) => other is ResolverKind && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverLevelMetricsBehavior {
-  fullRequestResolverMetrics('FULL_REQUEST_RESOLVER_METRICS'),
-  perResolverMetrics('PER_RESOLVER_METRICS'),
-  ;
+class ResolverLevelMetricsBehavior {
+  static const fullRequestResolverMetrics =
+      ResolverLevelMetricsBehavior._('FULL_REQUEST_RESOLVER_METRICS');
+  static const perResolverMetrics =
+      ResolverLevelMetricsBehavior._('PER_RESOLVER_METRICS');
 
   final String value;
 
-  const ResolverLevelMetricsBehavior(this.value);
+  const ResolverLevelMetricsBehavior._(this.value);
+
+  static const values = [fullRequestResolverMetrics, perResolverMetrics];
 
   static ResolverLevelMetricsBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverLevelMetricsBehavior'));
+          orElse: () => ResolverLevelMetricsBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverLevelMetricsBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ResolverLevelMetricsConfig {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ResolverLevelMetricsConfig {
+  static const enabled = ResolverLevelMetricsConfig._('ENABLED');
+  static const disabled = ResolverLevelMetricsConfig._('DISABLED');
 
   final String value;
 
-  const ResolverLevelMetricsConfig(this.value);
+  const ResolverLevelMetricsConfig._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ResolverLevelMetricsConfig fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ResolverLevelMetricsConfig'));
+          orElse: () => ResolverLevelMetricsConfig._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolverLevelMetricsConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RuntimeName {
-  appsyncJs('APPSYNC_JS'),
-  ;
+class RuntimeName {
+  static const appsyncJs = RuntimeName._('APPSYNC_JS');
 
   final String value;
 
-  const RuntimeName(this.value);
+  const RuntimeName._(this.value);
 
-  static RuntimeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RuntimeName'));
+  static const values = [appsyncJs];
+
+  static RuntimeName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuntimeName._(value));
+
+  @override
+  bool operator ==(other) => other is RuntimeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SchemaStatus {
-  processing('PROCESSING'),
-  active('ACTIVE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  success('SUCCESS'),
-  notApplicable('NOT_APPLICABLE'),
-  ;
+class SchemaStatus {
+  static const processing = SchemaStatus._('PROCESSING');
+  static const active = SchemaStatus._('ACTIVE');
+  static const deleting = SchemaStatus._('DELETING');
+  static const failed = SchemaStatus._('FAILED');
+  static const success = SchemaStatus._('SUCCESS');
+  static const notApplicable = SchemaStatus._('NOT_APPLICABLE');
 
   final String value;
 
-  const SchemaStatus(this.value);
+  const SchemaStatus._(this.value);
 
-  static SchemaStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SchemaStatus'));
+  static const values = [
+    processing,
+    active,
+    deleting,
+    failed,
+    success,
+    notApplicable
+  ];
+
+  static SchemaStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SchemaStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SchemaStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of a source API. A source API is a GraphQL API
@@ -7586,25 +7897,48 @@ class SourceApiAssociationConfig {
   }
 }
 
-enum SourceApiAssociationStatus {
-  mergeScheduled('MERGE_SCHEDULED'),
-  mergeFailed('MERGE_FAILED'),
-  mergeSuccess('MERGE_SUCCESS'),
-  mergeInProgress('MERGE_IN_PROGRESS'),
-  autoMergeScheduleFailed('AUTO_MERGE_SCHEDULE_FAILED'),
-  deletionScheduled('DELETION_SCHEDULED'),
-  deletionInProgress('DELETION_IN_PROGRESS'),
-  deletionFailed('DELETION_FAILED'),
-  ;
+class SourceApiAssociationStatus {
+  static const mergeScheduled = SourceApiAssociationStatus._('MERGE_SCHEDULED');
+  static const mergeFailed = SourceApiAssociationStatus._('MERGE_FAILED');
+  static const mergeSuccess = SourceApiAssociationStatus._('MERGE_SUCCESS');
+  static const mergeInProgress =
+      SourceApiAssociationStatus._('MERGE_IN_PROGRESS');
+  static const autoMergeScheduleFailed =
+      SourceApiAssociationStatus._('AUTO_MERGE_SCHEDULE_FAILED');
+  static const deletionScheduled =
+      SourceApiAssociationStatus._('DELETION_SCHEDULED');
+  static const deletionInProgress =
+      SourceApiAssociationStatus._('DELETION_IN_PROGRESS');
+  static const deletionFailed = SourceApiAssociationStatus._('DELETION_FAILED');
 
   final String value;
 
-  const SourceApiAssociationStatus(this.value);
+  const SourceApiAssociationStatus._(this.value);
+
+  static const values = [
+    mergeScheduled,
+    mergeFailed,
+    mergeSuccess,
+    mergeInProgress,
+    autoMergeScheduleFailed,
+    deletionScheduled,
+    deletionInProgress,
+    deletionFailed
+  ];
 
   static SourceApiAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SourceApiAssociationStatus'));
+          orElse: () => SourceApiAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceApiAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the ARNs and IDs of associations, Merged APIs, and source APIs.
@@ -7904,19 +8238,29 @@ class Type {
   }
 }
 
-enum TypeDefinitionFormat {
-  sdl('SDL'),
-  json('JSON'),
-  ;
+class TypeDefinitionFormat {
+  static const sdl = TypeDefinitionFormat._('SDL');
+  static const json = TypeDefinitionFormat._('JSON');
 
   final String value;
 
-  const TypeDefinitionFormat(this.value);
+  const TypeDefinitionFormat._(this.value);
 
-  static TypeDefinitionFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TypeDefinitionFormat'));
+  static const values = [sdl, json];
+
+  static TypeDefinitionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TypeDefinitionFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TypeDefinitionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -8182,7 +8526,7 @@ class UserPoolConfig {
     return UserPoolConfig(
       awsRegion: (json['awsRegion'] as String?) ?? '',
       defaultAction:
-          DefaultAction.fromString((json['defaultAction'] as String)),
+          DefaultAction.fromString((json['defaultAction'] as String?) ?? ''),
       userPoolId: (json['userPoolId'] as String?) ?? '',
       appIdClientRegex: json['appIdClientRegex'] as String?,
     );

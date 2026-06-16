@@ -1622,38 +1622,63 @@ class AgentFilter {
   }
 }
 
-enum AgentHealth {
-  healthy('HEALTHY'),
-  unhealthy('UNHEALTHY'),
-  unknown('UNKNOWN'),
-  ;
+class AgentHealth {
+  static const healthy = AgentHealth._('HEALTHY');
+  static const unhealthy = AgentHealth._('UNHEALTHY');
+  static const unknown = AgentHealth._('UNKNOWN');
 
   final String value;
 
-  const AgentHealth(this.value);
+  const AgentHealth._(this.value);
 
-  static AgentHealth fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AgentHealth'));
+  static const values = [healthy, unhealthy, unknown];
+
+  static AgentHealth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentHealth._(value));
+
+  @override
+  bool operator ==(other) => other is AgentHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AgentHealthCode {
-  idle('IDLE'),
-  running('RUNNING'),
-  shutdown('SHUTDOWN'),
-  unhealthy('UNHEALTHY'),
-  throttled('THROTTLED'),
-  unknown('UNKNOWN'),
-  ;
+class AgentHealthCode {
+  static const idle = AgentHealthCode._('IDLE');
+  static const running = AgentHealthCode._('RUNNING');
+  static const shutdown = AgentHealthCode._('SHUTDOWN');
+  static const unhealthy = AgentHealthCode._('UNHEALTHY');
+  static const throttled = AgentHealthCode._('THROTTLED');
+  static const unknown = AgentHealthCode._('UNKNOWN');
 
   final String value;
 
-  const AgentHealthCode(this.value);
+  const AgentHealthCode._(this.value);
+
+  static const values = [
+    idle,
+    running,
+    shutdown,
+    unhealthy,
+    throttled,
+    unknown
+  ];
 
   static AgentHealthCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AgentHealthCode'));
+          orElse: () => AgentHealthCode._(value));
+
+  @override
+  bool operator ==(other) => other is AgentHealthCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used as a response element in the <a>PreviewAgents</a> action.
@@ -1825,7 +1850,7 @@ class AssessmentRun {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      state: AssessmentRunState.fromString((json['state'] as String)),
+      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
       stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
       stateChanges: ((json['stateChanges'] as List?) ?? const [])
           .nonNulls
@@ -1916,9 +1941,10 @@ class AssessmentRunAgent {
 
   factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
     return AssessmentRunAgent(
-      agentHealth: AgentHealth.fromString((json['agentHealth'] as String)),
-      agentHealthCode:
-          AgentHealthCode.fromString((json['agentHealthCode'] as String)),
+      agentHealth:
+          AgentHealth.fromString((json['agentHealth'] as String?) ?? ''),
+      agentHealthCode: AgentHealthCode.fromString(
+          (json['agentHealthCode'] as String?) ?? ''),
       agentId: (json['agentId'] as String?) ?? '',
       assessmentRunArn: (json['assessmentRunArn'] as String?) ?? '',
       telemetryMetadata: ((json['telemetryMetadata'] as List?) ?? const [])
@@ -2057,7 +2083,7 @@ class AssessmentRunNotification {
     return AssessmentRunNotification(
       date: nonNullableTimeStampFromJson(json['date'] ?? 0),
       error: (json['error'] as bool?) ?? false,
-      event: InspectorEvent.fromString((json['event'] as String)),
+      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
       message: json['message'] as String?,
       snsPublishStatusCode: (json['snsPublishStatusCode'] as String?)
           ?.let(AssessmentRunNotificationSnsStatusCode.fromString),
@@ -2084,47 +2110,94 @@ class AssessmentRunNotification {
   }
 }
 
-enum AssessmentRunNotificationSnsStatusCode {
-  success('SUCCESS'),
-  topicDoesNotExist('TOPIC_DOES_NOT_EXIST'),
-  accessDenied('ACCESS_DENIED'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class AssessmentRunNotificationSnsStatusCode {
+  static const success = AssessmentRunNotificationSnsStatusCode._('SUCCESS');
+  static const topicDoesNotExist =
+      AssessmentRunNotificationSnsStatusCode._('TOPIC_DOES_NOT_EXIST');
+  static const accessDenied =
+      AssessmentRunNotificationSnsStatusCode._('ACCESS_DENIED');
+  static const internalError =
+      AssessmentRunNotificationSnsStatusCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const AssessmentRunNotificationSnsStatusCode(this.value);
+  const AssessmentRunNotificationSnsStatusCode._(this.value);
+
+  static const values = [
+    success,
+    topicDoesNotExist,
+    accessDenied,
+    internalError
+  ];
 
   static AssessmentRunNotificationSnsStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AssessmentRunNotificationSnsStatusCode'));
+          orElse: () => AssessmentRunNotificationSnsStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentRunNotificationSnsStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssessmentRunState {
-  created('CREATED'),
-  startDataCollectionPending('START_DATA_COLLECTION_PENDING'),
-  startDataCollectionInProgress('START_DATA_COLLECTION_IN_PROGRESS'),
-  collectingData('COLLECTING_DATA'),
-  stopDataCollectionPending('STOP_DATA_COLLECTION_PENDING'),
-  dataCollected('DATA_COLLECTED'),
-  startEvaluatingRulesPending('START_EVALUATING_RULES_PENDING'),
-  evaluatingRules('EVALUATING_RULES'),
-  failed('FAILED'),
-  error('ERROR'),
-  completed('COMPLETED'),
-  completedWithErrors('COMPLETED_WITH_ERRORS'),
-  canceled('CANCELED'),
-  ;
+class AssessmentRunState {
+  static const created = AssessmentRunState._('CREATED');
+  static const startDataCollectionPending =
+      AssessmentRunState._('START_DATA_COLLECTION_PENDING');
+  static const startDataCollectionInProgress =
+      AssessmentRunState._('START_DATA_COLLECTION_IN_PROGRESS');
+  static const collectingData = AssessmentRunState._('COLLECTING_DATA');
+  static const stopDataCollectionPending =
+      AssessmentRunState._('STOP_DATA_COLLECTION_PENDING');
+  static const dataCollected = AssessmentRunState._('DATA_COLLECTED');
+  static const startEvaluatingRulesPending =
+      AssessmentRunState._('START_EVALUATING_RULES_PENDING');
+  static const evaluatingRules = AssessmentRunState._('EVALUATING_RULES');
+  static const failed = AssessmentRunState._('FAILED');
+  static const error = AssessmentRunState._('ERROR');
+  static const completed = AssessmentRunState._('COMPLETED');
+  static const completedWithErrors =
+      AssessmentRunState._('COMPLETED_WITH_ERRORS');
+  static const canceled = AssessmentRunState._('CANCELED');
 
   final String value;
 
-  const AssessmentRunState(this.value);
+  const AssessmentRunState._(this.value);
 
-  static AssessmentRunState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssessmentRunState'));
+  static const values = [
+    created,
+    startDataCollectionPending,
+    startDataCollectionInProgress,
+    collectingData,
+    stopDataCollectionPending,
+    dataCollected,
+    startEvaluatingRulesPending,
+    evaluatingRules,
+    failed,
+    error,
+    completed,
+    completedWithErrors,
+    canceled
+  ];
+
+  static AssessmentRunState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentRunState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
@@ -2142,7 +2215,7 @@ class AssessmentRunStateChange {
 
   factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
     return AssessmentRunStateChange(
-      state: AssessmentRunState.fromString((json['state'] as String)),
+      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
       stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
     );
   }
@@ -2450,17 +2523,26 @@ class AssetAttributes {
   }
 }
 
-enum AssetType {
-  ec2Instance('ec2-instance'),
-  ;
+class AssetType {
+  static const ec2Instance = AssetType._('ec2-instance');
 
   final String value;
 
-  const AssetType(this.value);
+  const AssetType._(this.value);
 
-  static AssetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AssetType'));
+  static const values = [ec2Instance];
+
+  static AssetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetType._(value));
+
+  @override
+  bool operator ==(other) => other is AssetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used as a request parameter in the
@@ -2917,7 +2999,7 @@ class EventSubscription {
 
   factory EventSubscription.fromJson(Map<String, dynamic> json) {
     return EventSubscription(
-      event: InspectorEvent.fromString((json['event'] as String)),
+      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
       subscribedAt: nonNullableTimeStampFromJson(json['subscribedAt'] ?? 0),
     );
   }
@@ -3070,8 +3152,8 @@ class FailedItemDetails {
 
   factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
     return FailedItemDetails(
-      failureCode:
-          FailedItemErrorCode.fromString((json['failureCode'] as String)),
+      failureCode: FailedItemErrorCode.fromString(
+          (json['failureCode'] as String?) ?? ''),
       retryable: (json['retryable'] as bool?) ?? false,
     );
   }
@@ -3086,23 +3168,40 @@ class FailedItemDetails {
   }
 }
 
-enum FailedItemErrorCode {
-  invalidArn('INVALID_ARN'),
-  duplicateArn('DUPLICATE_ARN'),
-  itemDoesNotExist('ITEM_DOES_NOT_EXIST'),
-  accessDenied('ACCESS_DENIED'),
-  limitExceeded('LIMIT_EXCEEDED'),
-  internalError('INTERNAL_ERROR'),
-  ;
+class FailedItemErrorCode {
+  static const invalidArn = FailedItemErrorCode._('INVALID_ARN');
+  static const duplicateArn = FailedItemErrorCode._('DUPLICATE_ARN');
+  static const itemDoesNotExist = FailedItemErrorCode._('ITEM_DOES_NOT_EXIST');
+  static const accessDenied = FailedItemErrorCode._('ACCESS_DENIED');
+  static const limitExceeded = FailedItemErrorCode._('LIMIT_EXCEEDED');
+  static const internalError = FailedItemErrorCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const FailedItemErrorCode(this.value);
+  const FailedItemErrorCode._(this.value);
 
-  static FailedItemErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum FailedItemErrorCode'));
+  static const values = [
+    invalidArn,
+    duplicateArn,
+    itemDoesNotExist,
+    accessDenied,
+    limitExceeded,
+    internalError
+  ];
+
+  static FailedItemErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailedItemErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FailedItemErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an Amazon Inspector finding. This data type is
@@ -3352,7 +3451,7 @@ class GetAssessmentReportResponse {
 
   factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) {
     return GetAssessmentReportResponse(
-      status: ReportStatus.fromString((json['status'] as String)),
+      status: ReportStatus.fromString((json['status'] as String?) ?? ''),
       url: json['url'] as String?,
     );
   }
@@ -3389,7 +3488,7 @@ class GetExclusionsPreviewResponse {
   factory GetExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
     return GetExclusionsPreviewResponse(
       previewStatus:
-          PreviewStatus.fromString((json['previewStatus'] as String)),
+          PreviewStatus.fromString((json['previewStatus'] as String?) ?? ''),
       exclusionPreviews: (json['exclusionPreviews'] as List?)
           ?.nonNulls
           .map((e) => ExclusionPreview.fromJson(e as Map<String, dynamic>))
@@ -3435,22 +3534,40 @@ class GetTelemetryMetadataResponse {
   }
 }
 
-enum InspectorEvent {
-  assessmentRunStarted('ASSESSMENT_RUN_STARTED'),
-  assessmentRunCompleted('ASSESSMENT_RUN_COMPLETED'),
-  assessmentRunStateChanged('ASSESSMENT_RUN_STATE_CHANGED'),
-  findingReported('FINDING_REPORTED'),
-  other('OTHER'),
-  ;
+class InspectorEvent {
+  static const assessmentRunStarted =
+      InspectorEvent._('ASSESSMENT_RUN_STARTED');
+  static const assessmentRunCompleted =
+      InspectorEvent._('ASSESSMENT_RUN_COMPLETED');
+  static const assessmentRunStateChanged =
+      InspectorEvent._('ASSESSMENT_RUN_STATE_CHANGED');
+  static const findingReported = InspectorEvent._('FINDING_REPORTED');
+  static const other = InspectorEvent._('OTHER');
 
   final String value;
 
-  const InspectorEvent(this.value);
+  const InspectorEvent._(this.value);
+
+  static const values = [
+    assessmentRunStarted,
+    assessmentRunCompleted,
+    assessmentRunStateChanged,
+    findingReported,
+    other
+  ];
 
   static InspectorEvent fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InspectorEvent'));
+          orElse: () => InspectorEvent._(value));
+
+  @override
+  bool operator ==(other) => other is InspectorEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used in the <a>Finding</a> data type.
@@ -3800,17 +3917,26 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum Locale {
-  enUs('EN_US'),
-  ;
+class Locale {
+  static const enUs = Locale._('EN_US');
 
   final String value;
 
-  const Locale(this.value);
+  const Locale._(this.value);
+
+  static const values = [enUs];
 
   static Locale fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Locale'));
+      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
+
+  @override
+  bool operator ==(other) => other is Locale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the network interfaces interacting with an EC2
@@ -3947,19 +4073,28 @@ class PreviewAgentsResponse {
   }
 }
 
-enum PreviewStatus {
-  workInProgress('WORK_IN_PROGRESS'),
-  completed('COMPLETED'),
-  ;
+class PreviewStatus {
+  static const workInProgress = PreviewStatus._('WORK_IN_PROGRESS');
+  static const completed = PreviewStatus._('COMPLETED');
 
   final String value;
 
-  const PreviewStatus(this.value);
+  const PreviewStatus._(this.value);
+
+  static const values = [workInProgress, completed];
 
   static PreviewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum PreviewStatus'));
+          orElse: () => PreviewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PreviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a private IP address associated with a network
@@ -4021,49 +4156,75 @@ class RemoveAttributesFromFindingsResponse {
   }
 }
 
-enum ReportFileFormat {
-  html('HTML'),
-  pdf('PDF'),
-  ;
+class ReportFileFormat {
+  static const html = ReportFileFormat._('HTML');
+  static const pdf = ReportFileFormat._('PDF');
 
   final String value;
 
-  const ReportFileFormat(this.value);
+  const ReportFileFormat._(this.value);
+
+  static const values = [html, pdf];
 
   static ReportFileFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportFileFormat'));
+          orElse: () => ReportFileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportStatus {
-  workInProgress('WORK_IN_PROGRESS'),
-  failed('FAILED'),
-  completed('COMPLETED'),
-  ;
+class ReportStatus {
+  static const workInProgress = ReportStatus._('WORK_IN_PROGRESS');
+  static const failed = ReportStatus._('FAILED');
+  static const completed = ReportStatus._('COMPLETED');
 
   final String value;
 
-  const ReportStatus(this.value);
+  const ReportStatus._(this.value);
 
-  static ReportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReportStatus'));
+  static const values = [workInProgress, failed, completed];
+
+  static ReportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ReportType {
-  finding('FINDING'),
-  full('FULL'),
-  ;
+class ReportType {
+  static const finding = ReportType._('FINDING');
+  static const full = ReportType._('FULL');
 
   final String value;
 
-  const ReportType(this.value);
+  const ReportType._(this.value);
 
-  static ReportType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReportType'));
+  static const values = [finding, full];
+
+  static ReportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a resource group. The resource group defines a
@@ -4224,18 +4385,27 @@ class Scope {
   }
 }
 
-enum ScopeType {
-  instanceId('INSTANCE_ID'),
-  rulesPackageArn('RULES_PACKAGE_ARN'),
-  ;
+class ScopeType {
+  static const instanceId = ScopeType._('INSTANCE_ID');
+  static const rulesPackageArn = ScopeType._('RULES_PACKAGE_ARN');
 
   final String value;
 
-  const ScopeType(this.value);
+  const ScopeType._(this.value);
 
-  static ScopeType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScopeType'));
+  static const values = [instanceId, rulesPackageArn];
+
+  static ScopeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a security group associated with a network
@@ -4270,21 +4440,30 @@ class SecurityGroup {
   }
 }
 
-enum Severity {
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  informational('Informational'),
-  undefined('Undefined'),
-  ;
+class Severity {
+  static const low = Severity._('Low');
+  static const medium = Severity._('Medium');
+  static const high = Severity._('High');
+  static const informational = Severity._('Informational');
+  static const undefined = Severity._('Undefined');
 
   final String value;
 
-  const Severity(this.value);
+  const Severity._(this.value);
 
-  static Severity fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Severity'));
+  static const values = [low, medium, high, informational, undefined];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartAssessmentRunResponse {
@@ -4309,18 +4488,27 @@ class StartAssessmentRunResponse {
   }
 }
 
-enum StopAction {
-  startEvaluation('START_EVALUATION'),
-  skipEvaluation('SKIP_EVALUATION'),
-  ;
+class StopAction {
+  static const startEvaluation = StopAction._('START_EVALUATION');
+  static const skipEvaluation = StopAction._('SKIP_EVALUATION');
 
   final String value;
 
-  const StopAction(this.value);
+  const StopAction._(this.value);
 
-  static StopAction fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StopAction'));
+  static const values = [startEvaluation, skipEvaluation];
+
+  static StopAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopAction._(value));
+
+  @override
+  bool operator ==(other) => other is StopAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used as a response element in the

@@ -4068,19 +4068,29 @@ class AcceptAccountLinkInvitationResult {
   }
 }
 
-enum AccessPropertyValue {
-  allow('ALLOW'),
-  deny('DENY'),
-  ;
+class AccessPropertyValue {
+  static const allow = AccessPropertyValue._('ALLOW');
+  static const deny = AccessPropertyValue._('DENY');
 
   final String value;
 
-  const AccessPropertyValue(this.value);
+  const AccessPropertyValue._(this.value);
 
-  static AccessPropertyValue fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccessPropertyValue'));
+  static const values = [allow, deny];
+
+  static AccessPropertyValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessPropertyValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessPropertyValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about about the account link.
@@ -4129,22 +4139,39 @@ class AccountLink {
   }
 }
 
-enum AccountLinkStatusEnum {
-  linked('LINKED'),
-  linkingFailed('LINKING_FAILED'),
-  linkNotFound('LINK_NOT_FOUND'),
-  pendingAcceptanceByTargetAccount('PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT'),
-  rejected('REJECTED'),
-  ;
+class AccountLinkStatusEnum {
+  static const linked = AccountLinkStatusEnum._('LINKED');
+  static const linkingFailed = AccountLinkStatusEnum._('LINKING_FAILED');
+  static const linkNotFound = AccountLinkStatusEnum._('LINK_NOT_FOUND');
+  static const pendingAcceptanceByTargetAccount =
+      AccountLinkStatusEnum._('PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT');
+  static const rejected = AccountLinkStatusEnum._('REJECTED');
 
   final String value;
 
-  const AccountLinkStatusEnum(this.value);
+  const AccountLinkStatusEnum._(this.value);
 
-  static AccountLinkStatusEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AccountLinkStatusEnum'));
+  static const values = [
+    linked,
+    linkingFailed,
+    linkNotFound,
+    pendingAcceptanceByTargetAccount,
+    rejected
+  ];
+
+  static AccountLinkStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountLinkStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountLinkStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a modification to the configuration of Bring Your Own License
@@ -4248,34 +4275,53 @@ class ActiveDirectoryConfig {
   }
 }
 
-enum Application {
-  microsoftOffice_2016('Microsoft_Office_2016'),
-  microsoftOffice_2019('Microsoft_Office_2019'),
-  ;
+class Application {
+  static const microsoftOffice_2016 = Application._('Microsoft_Office_2016');
+  static const microsoftOffice_2019 = Application._('Microsoft_Office_2019');
 
   final String value;
 
-  const Application(this.value);
+  const Application._(this.value);
 
-  static Application fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Application'));
+  static const values = [microsoftOffice_2016, microsoftOffice_2019];
+
+  static Application fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Application._(value));
+
+  @override
+  bool operator ==(other) => other is Application && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ApplicationAssociatedResourceType {
-  workspace('WORKSPACE'),
-  bundle('BUNDLE'),
-  image('IMAGE'),
-  ;
+class ApplicationAssociatedResourceType {
+  static const workspace = ApplicationAssociatedResourceType._('WORKSPACE');
+  static const bundle = ApplicationAssociatedResourceType._('BUNDLE');
+  static const image = ApplicationAssociatedResourceType._('IMAGE');
 
   final String value;
 
-  const ApplicationAssociatedResourceType(this.value);
+  const ApplicationAssociatedResourceType._(this.value);
+
+  static const values = [workspace, bundle, image];
 
   static ApplicationAssociatedResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationAssociatedResourceType'));
+          orElse: () => ApplicationAssociatedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationAssociatedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the association between an application and an application
@@ -4402,8 +4448,8 @@ class ApplicationSettingsResponse {
 
   factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
     return ApplicationSettingsResponse(
-      status:
-          ApplicationSettingsStatusEnum.fromString((json['Status'] as String)),
+      status: ApplicationSettingsStatusEnum.fromString(
+          (json['Status'] as String?) ?? ''),
       s3BucketName: json['S3BucketName'] as String?,
       settingsGroup: json['SettingsGroup'] as String?,
     );
@@ -4421,19 +4467,29 @@ class ApplicationSettingsResponse {
   }
 }
 
-enum ApplicationSettingsStatusEnum {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class ApplicationSettingsStatusEnum {
+  static const disabled = ApplicationSettingsStatusEnum._('DISABLED');
+  static const enabled = ApplicationSettingsStatusEnum._('ENABLED');
 
   final String value;
 
-  const ApplicationSettingsStatusEnum(this.value);
+  const ApplicationSettingsStatusEnum._(this.value);
+
+  static const values = [disabled, enabled];
 
   static ApplicationSettingsStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ApplicationSettingsStatusEnum'));
+          orElse: () => ApplicationSettingsStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationSettingsStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AssociateConnectionAliasResult {
@@ -4500,45 +4556,86 @@ class AssociateWorkspaceApplicationResult {
   }
 }
 
-enum AssociationErrorCode {
-  validationErrorInsufficientDiskSpace('ValidationError.InsufficientDiskSpace'),
-  validationErrorInsufficientMemory('ValidationError.InsufficientMemory'),
-  validationErrorUnsupportedOperatingSystem(
-      'ValidationError.UnsupportedOperatingSystem'),
-  deploymentErrorInternalServerError('DeploymentError.InternalServerError'),
-  deploymentErrorWorkspaceUnreachable('DeploymentError.WorkspaceUnreachable'),
-  ;
+class AssociationErrorCode {
+  static const validationErrorInsufficientDiskSpace =
+      AssociationErrorCode._('ValidationError.InsufficientDiskSpace');
+  static const validationErrorInsufficientMemory =
+      AssociationErrorCode._('ValidationError.InsufficientMemory');
+  static const validationErrorUnsupportedOperatingSystem =
+      AssociationErrorCode._('ValidationError.UnsupportedOperatingSystem');
+  static const deploymentErrorInternalServerError =
+      AssociationErrorCode._('DeploymentError.InternalServerError');
+  static const deploymentErrorWorkspaceUnreachable =
+      AssociationErrorCode._('DeploymentError.WorkspaceUnreachable');
 
   final String value;
 
-  const AssociationErrorCode(this.value);
+  const AssociationErrorCode._(this.value);
 
-  static AssociationErrorCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AssociationErrorCode'));
+  static const values = [
+    validationErrorInsufficientDiskSpace,
+    validationErrorInsufficientMemory,
+    validationErrorUnsupportedOperatingSystem,
+    deploymentErrorInternalServerError,
+    deploymentErrorWorkspaceUnreachable
+  ];
+
+  static AssociationErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssociationErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssociationErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AssociationState {
-  pendingInstall('PENDING_INSTALL'),
-  pendingInstallDeployment('PENDING_INSTALL_DEPLOYMENT'),
-  pendingUninstall('PENDING_UNINSTALL'),
-  pendingUninstallDeployment('PENDING_UNINSTALL_DEPLOYMENT'),
-  installing('INSTALLING'),
-  uninstalling('UNINSTALLING'),
-  error('ERROR'),
-  completed('COMPLETED'),
-  removed('REMOVED'),
-  ;
+class AssociationState {
+  static const pendingInstall = AssociationState._('PENDING_INSTALL');
+  static const pendingInstallDeployment =
+      AssociationState._('PENDING_INSTALL_DEPLOYMENT');
+  static const pendingUninstall = AssociationState._('PENDING_UNINSTALL');
+  static const pendingUninstallDeployment =
+      AssociationState._('PENDING_UNINSTALL_DEPLOYMENT');
+  static const installing = AssociationState._('INSTALLING');
+  static const uninstalling = AssociationState._('UNINSTALLING');
+  static const error = AssociationState._('ERROR');
+  static const completed = AssociationState._('COMPLETED');
+  static const removed = AssociationState._('REMOVED');
 
   final String value;
 
-  const AssociationState(this.value);
+  const AssociationState._(this.value);
+
+  static const values = [
+    pendingInstall,
+    pendingInstallDeployment,
+    pendingUninstall,
+    pendingUninstallDeployment,
+    installing,
+    uninstalling,
+    error,
+    completed,
+    removed
+  ];
 
   static AssociationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationState'));
+          orElse: () => AssociationState._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Indicates the reason that the association deployment failed, including the
@@ -4573,36 +4670,64 @@ class AssociationStateReason {
   }
 }
 
-enum AssociationStatus {
-  notAssociated('NOT_ASSOCIATED'),
-  associatedWithOwnerAccount('ASSOCIATED_WITH_OWNER_ACCOUNT'),
-  associatedWithSharedAccount('ASSOCIATED_WITH_SHARED_ACCOUNT'),
-  pendingAssociation('PENDING_ASSOCIATION'),
-  pendingDisassociation('PENDING_DISASSOCIATION'),
-  ;
+class AssociationStatus {
+  static const notAssociated = AssociationStatus._('NOT_ASSOCIATED');
+  static const associatedWithOwnerAccount =
+      AssociationStatus._('ASSOCIATED_WITH_OWNER_ACCOUNT');
+  static const associatedWithSharedAccount =
+      AssociationStatus._('ASSOCIATED_WITH_SHARED_ACCOUNT');
+  static const pendingAssociation = AssociationStatus._('PENDING_ASSOCIATION');
+  static const pendingDisassociation =
+      AssociationStatus._('PENDING_DISASSOCIATION');
 
   final String value;
 
-  const AssociationStatus(this.value);
+  const AssociationStatus._(this.value);
+
+  static const values = [
+    notAssociated,
+    associatedWithOwnerAccount,
+    associatedWithSharedAccount,
+    pendingAssociation,
+    pendingDisassociation
+  ];
 
   static AssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AssociationStatus'));
+          orElse: () => AssociationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthenticationType {
-  saml('SAML'),
-  ;
+class AuthenticationType {
+  static const saml = AuthenticationType._('SAML');
 
   final String value;
 
-  const AuthenticationType(this.value);
+  const AuthenticationType._(this.value);
 
-  static AuthenticationType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum AuthenticationType'));
+  static const values = [saml];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AuthorizeIpRulesResult {
@@ -4617,18 +4742,28 @@ class AuthorizeIpRulesResult {
   }
 }
 
-enum BundleAssociatedResourceType {
-  application('APPLICATION'),
-  ;
+class BundleAssociatedResourceType {
+  static const application = BundleAssociatedResourceType._('APPLICATION');
 
   final String value;
 
-  const BundleAssociatedResourceType(this.value);
+  const BundleAssociatedResourceType._(this.value);
+
+  static const values = [application];
 
   static BundleAssociatedResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum BundleAssociatedResourceType'));
+          orElse: () => BundleAssociatedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BundleAssociatedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the association between an application and a bundle resource.
@@ -4703,18 +4838,27 @@ class BundleResourceAssociation {
   }
 }
 
-enum BundleType {
-  regular('REGULAR'),
-  standby('STANDBY'),
-  ;
+class BundleType {
+  static const regular = BundleType._('REGULAR');
+  static const standby = BundleType._('STANDBY');
 
   final String value;
 
-  const BundleType(this.value);
+  const BundleType._(this.value);
 
-  static BundleType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum BundleType'));
+  static const values = [regular, standby];
+
+  static BundleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BundleType._(value));
+
+  @override
+  bool operator ==(other) => other is BundleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the user capacity for a pool of WorkSpaces.
@@ -4820,38 +4964,64 @@ class CertificateBasedAuthProperties {
   }
 }
 
-enum CertificateBasedAuthStatusEnum {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  ;
+class CertificateBasedAuthStatusEnum {
+  static const disabled = CertificateBasedAuthStatusEnum._('DISABLED');
+  static const enabled = CertificateBasedAuthStatusEnum._('ENABLED');
 
   final String value;
 
-  const CertificateBasedAuthStatusEnum(this.value);
+  const CertificateBasedAuthStatusEnum._(this.value);
+
+  static const values = [disabled, enabled];
 
   static CertificateBasedAuthStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CertificateBasedAuthStatusEnum'));
+          orElse: () => CertificateBasedAuthStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateBasedAuthStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ClientDeviceType {
-  deviceTypeWindows('DeviceTypeWindows'),
-  deviceTypeOsx('DeviceTypeOsx'),
-  deviceTypeAndroid('DeviceTypeAndroid'),
-  deviceTypeIos('DeviceTypeIos'),
-  deviceTypeLinux('DeviceTypeLinux'),
-  deviceTypeWeb('DeviceTypeWeb'),
-  ;
+class ClientDeviceType {
+  static const deviceTypeWindows = ClientDeviceType._('DeviceTypeWindows');
+  static const deviceTypeOsx = ClientDeviceType._('DeviceTypeOsx');
+  static const deviceTypeAndroid = ClientDeviceType._('DeviceTypeAndroid');
+  static const deviceTypeIos = ClientDeviceType._('DeviceTypeIos');
+  static const deviceTypeLinux = ClientDeviceType._('DeviceTypeLinux');
+  static const deviceTypeWeb = ClientDeviceType._('DeviceTypeWeb');
 
   final String value;
 
-  const ClientDeviceType(this.value);
+  const ClientDeviceType._(this.value);
+
+  static const values = [
+    deviceTypeWindows,
+    deviceTypeOsx,
+    deviceTypeAndroid,
+    deviceTypeIos,
+    deviceTypeLinux,
+    deviceTypeWeb
+  ];
 
   static ClientDeviceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ClientDeviceType'));
+          orElse: () => ClientDeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is ClientDeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Amazon WorkSpaces client.
@@ -4924,25 +5094,44 @@ class ClientPropertiesResult {
   }
 }
 
-enum Compute {
-  $value('VALUE'),
-  standard('STANDARD'),
-  performance('PERFORMANCE'),
-  power('POWER'),
-  graphics('GRAPHICS'),
-  powerpro('POWERPRO'),
-  graphicspro('GRAPHICSPRO'),
-  graphicsG4dn('GRAPHICS_G4DN'),
-  graphicsproG4dn('GRAPHICSPRO_G4DN'),
-  ;
+class Compute {
+  static const $value = Compute._('VALUE');
+  static const standard = Compute._('STANDARD');
+  static const performance = Compute._('PERFORMANCE');
+  static const power = Compute._('POWER');
+  static const graphics = Compute._('GRAPHICS');
+  static const powerpro = Compute._('POWERPRO');
+  static const graphicspro = Compute._('GRAPHICSPRO');
+  static const graphicsG4dn = Compute._('GRAPHICS_G4DN');
+  static const graphicsproG4dn = Compute._('GRAPHICSPRO_G4DN');
 
   final String value;
 
-  const Compute(this.value);
+  const Compute._(this.value);
 
-  static Compute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Compute'));
+  static const values = [
+    $value,
+    standard,
+    performance,
+    power,
+    graphics,
+    powerpro,
+    graphicspro,
+    graphicsG4dn,
+    graphicsproG4dn
+  ];
+
+  static Compute fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Compute._(value));
+
+  @override
+  bool operator ==(other) => other is Compute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the compute type of the bundle.
@@ -5162,36 +5351,55 @@ class ConnectionAliasPermission {
   }
 }
 
-enum ConnectionAliasState {
-  creating('CREATING'),
-  created('CREATED'),
-  deleting('DELETING'),
-  ;
+class ConnectionAliasState {
+  static const creating = ConnectionAliasState._('CREATING');
+  static const created = ConnectionAliasState._('CREATED');
+  static const deleting = ConnectionAliasState._('DELETING');
 
   final String value;
 
-  const ConnectionAliasState(this.value);
+  const ConnectionAliasState._(this.value);
 
-  static ConnectionAliasState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ConnectionAliasState'));
+  static const values = [creating, created, deleting];
+
+  static ConnectionAliasState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionAliasState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionAliasState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ConnectionState {
-  connected('CONNECTED'),
-  disconnected('DISCONNECTED'),
-  unknown('UNKNOWN'),
-  ;
+class ConnectionState {
+  static const connected = ConnectionState._('CONNECTED');
+  static const disconnected = ConnectionState._('DISCONNECTED');
+  static const unknown = ConnectionState._('UNKNOWN');
 
   final String value;
 
-  const ConnectionState(this.value);
+  const ConnectionState._(this.value);
+
+  static const values = [connected, disconnected, unknown];
 
   static ConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionState'));
+          orElse: () => ConnectionState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CopyWorkspaceImageResult {
@@ -5550,19 +5758,28 @@ class CreateWorkspacesResult {
   }
 }
 
-enum DataReplication {
-  noReplication('NO_REPLICATION'),
-  primaryAsSource('PRIMARY_AS_SOURCE'),
-  ;
+class DataReplication {
+  static const noReplication = DataReplication._('NO_REPLICATION');
+  static const primaryAsSource = DataReplication._('PRIMARY_AS_SOURCE');
 
   final String value;
 
-  const DataReplication(this.value);
+  const DataReplication._(this.value);
+
+  static const values = [noReplication, primaryAsSource];
 
   static DataReplication fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DataReplication'));
+          orElse: () => DataReplication._(value));
+
+  @override
+  bool operator ==(other) => other is DataReplication && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the data replication settings.
@@ -5599,64 +5816,104 @@ class DataReplicationSettings {
   }
 }
 
-enum DedicatedTenancyAccountType {
-  sourceAccount('SOURCE_ACCOUNT'),
-  targetAccount('TARGET_ACCOUNT'),
-  ;
+class DedicatedTenancyAccountType {
+  static const sourceAccount = DedicatedTenancyAccountType._('SOURCE_ACCOUNT');
+  static const targetAccount = DedicatedTenancyAccountType._('TARGET_ACCOUNT');
 
   final String value;
 
-  const DedicatedTenancyAccountType(this.value);
+  const DedicatedTenancyAccountType._(this.value);
+
+  static const values = [sourceAccount, targetAccount];
 
   static DedicatedTenancyAccountType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DedicatedTenancyAccountType'));
+          orElse: () => DedicatedTenancyAccountType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DedicatedTenancyAccountType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DedicatedTenancyModificationStateEnum {
-  pending('PENDING'),
-  completed('COMPLETED'),
-  failed('FAILED'),
-  ;
+class DedicatedTenancyModificationStateEnum {
+  static const pending = DedicatedTenancyModificationStateEnum._('PENDING');
+  static const completed = DedicatedTenancyModificationStateEnum._('COMPLETED');
+  static const failed = DedicatedTenancyModificationStateEnum._('FAILED');
 
   final String value;
 
-  const DedicatedTenancyModificationStateEnum(this.value);
+  const DedicatedTenancyModificationStateEnum._(this.value);
+
+  static const values = [pending, completed, failed];
 
   static DedicatedTenancyModificationStateEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DedicatedTenancyModificationStateEnum'));
+          orElse: () => DedicatedTenancyModificationStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DedicatedTenancyModificationStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DedicatedTenancySupportEnum {
-  enabled('ENABLED'),
-  ;
+class DedicatedTenancySupportEnum {
+  static const enabled = DedicatedTenancySupportEnum._('ENABLED');
 
   final String value;
 
-  const DedicatedTenancySupportEnum(this.value);
+  const DedicatedTenancySupportEnum._(this.value);
+
+  static const values = [enabled];
 
   static DedicatedTenancySupportEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DedicatedTenancySupportEnum'));
+          orElse: () => DedicatedTenancySupportEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DedicatedTenancySupportEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DedicatedTenancySupportResultEnum {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class DedicatedTenancySupportResultEnum {
+  static const enabled = DedicatedTenancySupportResultEnum._('ENABLED');
+  static const disabled = DedicatedTenancySupportResultEnum._('DISABLED');
 
   final String value;
 
-  const DedicatedTenancySupportResultEnum(this.value);
+  const DedicatedTenancySupportResultEnum._(this.value);
+
+  static const values = [enabled, disabled];
 
   static DedicatedTenancySupportResultEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DedicatedTenancySupportResultEnum'));
+          orElse: () => DedicatedTenancySupportResultEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DedicatedTenancySupportResultEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Returns default client branding attributes that were imported. These
@@ -5913,35 +6170,60 @@ class DefaultWorkspaceCreationProperties {
   }
 }
 
-enum DeletableCertificateBasedAuthProperty {
-  certificateBasedAuthPropertiesCertificateAuthorityArn(
-      'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN'),
-  ;
+class DeletableCertificateBasedAuthProperty {
+  static const certificateBasedAuthPropertiesCertificateAuthorityArn =
+      DeletableCertificateBasedAuthProperty._(
+          'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN');
 
   final String value;
 
-  const DeletableCertificateBasedAuthProperty(this.value);
+  const DeletableCertificateBasedAuthProperty._(this.value);
+
+  static const values = [certificateBasedAuthPropertiesCertificateAuthorityArn];
 
   static DeletableCertificateBasedAuthProperty fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DeletableCertificateBasedAuthProperty'));
+          orElse: () => DeletableCertificateBasedAuthProperty._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletableCertificateBasedAuthProperty && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DeletableSamlProperty {
-  samlPropertiesUserAccessUrl('SAML_PROPERTIES_USER_ACCESS_URL'),
-  samlPropertiesRelayStateParameterName(
-      'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME'),
-  ;
+class DeletableSamlProperty {
+  static const samlPropertiesUserAccessUrl =
+      DeletableSamlProperty._('SAML_PROPERTIES_USER_ACCESS_URL');
+  static const samlPropertiesRelayStateParameterName =
+      DeletableSamlProperty._('SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME');
 
   final String value;
 
-  const DeletableSamlProperty(this.value);
+  const DeletableSamlProperty._(this.value);
 
-  static DeletableSamlProperty fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DeletableSamlProperty'));
+  static const values = [
+    samlPropertiesUserAccessUrl,
+    samlPropertiesRelayStateParameterName
+  ];
+
+  static DeletableSamlProperty fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeletableSamlProperty._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletableSamlProperty && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteAccountLinkInvitationResult {
@@ -6651,19 +6933,31 @@ class DescribeWorkspaceDirectoriesFilter {
   }
 }
 
-enum DescribeWorkspaceDirectoriesFilterName {
-  userIdentityType('USER_IDENTITY_TYPE'),
-  workspaceType('WORKSPACE_TYPE'),
-  ;
+class DescribeWorkspaceDirectoriesFilterName {
+  static const userIdentityType =
+      DescribeWorkspaceDirectoriesFilterName._('USER_IDENTITY_TYPE');
+  static const workspaceType =
+      DescribeWorkspaceDirectoriesFilterName._('WORKSPACE_TYPE');
 
   final String value;
 
-  const DescribeWorkspaceDirectoriesFilterName(this.value);
+  const DescribeWorkspaceDirectoriesFilterName._(this.value);
+
+  static const values = [userIdentityType, workspaceType];
 
   static DescribeWorkspaceDirectoriesFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DescribeWorkspaceDirectoriesFilterName'));
+          orElse: () => DescribeWorkspaceDirectoriesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeWorkspaceDirectoriesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeWorkspaceDirectoriesResult {
@@ -6911,35 +7205,56 @@ class DescribeWorkspacesPoolsFilter {
   }
 }
 
-enum DescribeWorkspacesPoolsFilterName {
-  poolName('PoolName'),
-  ;
+class DescribeWorkspacesPoolsFilterName {
+  static const poolName = DescribeWorkspacesPoolsFilterName._('PoolName');
 
   final String value;
 
-  const DescribeWorkspacesPoolsFilterName(this.value);
+  const DescribeWorkspacesPoolsFilterName._(this.value);
+
+  static const values = [poolName];
 
   static DescribeWorkspacesPoolsFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DescribeWorkspacesPoolsFilterName'));
+          orElse: () => DescribeWorkspacesPoolsFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeWorkspacesPoolsFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DescribeWorkspacesPoolsFilterOperator {
-  equals('EQUALS'),
-  notequals('NOTEQUALS'),
-  contains('CONTAINS'),
-  notcontains('NOTCONTAINS'),
-  ;
+class DescribeWorkspacesPoolsFilterOperator {
+  static const equals = DescribeWorkspacesPoolsFilterOperator._('EQUALS');
+  static const notequals = DescribeWorkspacesPoolsFilterOperator._('NOTEQUALS');
+  static const contains = DescribeWorkspacesPoolsFilterOperator._('CONTAINS');
+  static const notcontains =
+      DescribeWorkspacesPoolsFilterOperator._('NOTCONTAINS');
 
   final String value;
 
-  const DescribeWorkspacesPoolsFilterOperator(this.value);
+  const DescribeWorkspacesPoolsFilterOperator._(this.value);
+
+  static const values = [equals, notequals, contains, notcontains];
 
   static DescribeWorkspacesPoolsFilterOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DescribeWorkspacesPoolsFilterOperator'));
+          orElse: () => DescribeWorkspacesPoolsFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeWorkspacesPoolsFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DescribeWorkspacesPoolsResult {
@@ -7273,18 +7588,28 @@ class IDCConfig {
   }
 }
 
-enum ImageAssociatedResourceType {
-  application('APPLICATION'),
-  ;
+class ImageAssociatedResourceType {
+  static const application = ImageAssociatedResourceType._('APPLICATION');
 
   final String value;
 
-  const ImageAssociatedResourceType(this.value);
+  const ImageAssociatedResourceType._(this.value);
+
+  static const values = [application];
 
   static ImageAssociatedResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ImageAssociatedResourceType'));
+          orElse: () => ImageAssociatedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageAssociatedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the Amazon Web Services accounts that have been granted permission
@@ -7386,18 +7711,27 @@ class ImageResourceAssociation {
   }
 }
 
-enum ImageType {
-  owned('OWNED'),
-  shared('SHARED'),
-  ;
+class ImageType {
+  static const owned = ImageType._('OWNED');
+  static const shared = ImageType._('SHARED');
 
   final String value;
 
-  const ImageType(this.value);
+  const ImageType._(this.value);
 
-  static ImageType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ImageType'));
+  static const values = [owned, shared];
+
+  static ImageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportClientBrandingResult {
@@ -7814,19 +8148,28 @@ class ListAvailableManagementCidrRangesResult {
   }
 }
 
-enum LogUploadEnum {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class LogUploadEnum {
+  static const enabled = LogUploadEnum._('ENABLED');
+  static const disabled = LogUploadEnum._('DISABLED');
 
   final String value;
 
-  const LogUploadEnum(this.value);
+  const LogUploadEnum._(this.value);
+
+  static const values = [enabled, disabled];
 
   static LogUploadEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LogUploadEnum'));
+          orElse: () => LogUploadEnum._(value));
+
+  @override
+  bool operator ==(other) => other is LogUploadEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the configurations of the Microsoft Entra.
@@ -7891,20 +8234,30 @@ class MigrateWorkspaceResult {
   }
 }
 
-enum ModificationResourceEnum {
-  rootVolume('ROOT_VOLUME'),
-  userVolume('USER_VOLUME'),
-  computeType('COMPUTE_TYPE'),
-  ;
+class ModificationResourceEnum {
+  static const rootVolume = ModificationResourceEnum._('ROOT_VOLUME');
+  static const userVolume = ModificationResourceEnum._('USER_VOLUME');
+  static const computeType = ModificationResourceEnum._('COMPUTE_TYPE');
 
   final String value;
 
-  const ModificationResourceEnum(this.value);
+  const ModificationResourceEnum._(this.value);
+
+  static const values = [rootVolume, userVolume, computeType];
 
   static ModificationResourceEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ModificationResourceEnum'));
+          orElse: () => ModificationResourceEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModificationResourceEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a WorkSpace modification.
@@ -7938,19 +8291,29 @@ class ModificationState {
   }
 }
 
-enum ModificationStateEnum {
-  updateInitiated('UPDATE_INITIATED'),
-  updateInProgress('UPDATE_IN_PROGRESS'),
-  ;
+class ModificationStateEnum {
+  static const updateInitiated = ModificationStateEnum._('UPDATE_INITIATED');
+  static const updateInProgress = ModificationStateEnum._('UPDATE_IN_PROGRESS');
 
   final String value;
 
-  const ModificationStateEnum(this.value);
+  const ModificationStateEnum._(this.value);
 
-  static ModificationStateEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ModificationStateEnum'));
+  static const values = [updateInitiated, updateInProgress];
+
+  static ModificationStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModificationStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModificationStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ModifyAccountResult {
@@ -8133,44 +8496,80 @@ class OperatingSystem {
   }
 }
 
-enum OperatingSystemName {
-  amazonLinux_2('AMAZON_LINUX_2'),
-  ubuntu_18_04('UBUNTU_18_04'),
-  ubuntu_20_04('UBUNTU_20_04'),
-  ubuntu_22_04('UBUNTU_22_04'),
-  unknown('UNKNOWN'),
-  windows_10('WINDOWS_10'),
-  windows_11('WINDOWS_11'),
-  windows_7('WINDOWS_7'),
-  windowsServer_2016('WINDOWS_SERVER_2016'),
-  windowsServer_2019('WINDOWS_SERVER_2019'),
-  windowsServer_2022('WINDOWS_SERVER_2022'),
-  rhel_8('RHEL_8'),
-  ;
+class OperatingSystemName {
+  static const amazonLinux_2 = OperatingSystemName._('AMAZON_LINUX_2');
+  static const ubuntu_18_04 = OperatingSystemName._('UBUNTU_18_04');
+  static const ubuntu_20_04 = OperatingSystemName._('UBUNTU_20_04');
+  static const ubuntu_22_04 = OperatingSystemName._('UBUNTU_22_04');
+  static const unknown = OperatingSystemName._('UNKNOWN');
+  static const windows_10 = OperatingSystemName._('WINDOWS_10');
+  static const windows_11 = OperatingSystemName._('WINDOWS_11');
+  static const windows_7 = OperatingSystemName._('WINDOWS_7');
+  static const windowsServer_2016 =
+      OperatingSystemName._('WINDOWS_SERVER_2016');
+  static const windowsServer_2019 =
+      OperatingSystemName._('WINDOWS_SERVER_2019');
+  static const windowsServer_2022 =
+      OperatingSystemName._('WINDOWS_SERVER_2022');
+  static const rhel_8 = OperatingSystemName._('RHEL_8');
 
   final String value;
 
-  const OperatingSystemName(this.value);
+  const OperatingSystemName._(this.value);
 
-  static OperatingSystemName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OperatingSystemName'));
+  static const values = [
+    amazonLinux_2,
+    ubuntu_18_04,
+    ubuntu_20_04,
+    ubuntu_22_04,
+    unknown,
+    windows_10,
+    windows_11,
+    windows_7,
+    windowsServer_2016,
+    windowsServer_2019,
+    windowsServer_2022,
+    rhel_8
+  ];
+
+  static OperatingSystemName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperatingSystemName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperatingSystemName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum OperatingSystemType {
-  windows('WINDOWS'),
-  linux('LINUX'),
-  ;
+class OperatingSystemType {
+  static const windows = OperatingSystemType._('WINDOWS');
+  static const linux = OperatingSystemType._('LINUX');
 
   final String value;
 
-  const OperatingSystemType(this.value);
+  const OperatingSystemType._(this.value);
 
-  static OperatingSystemType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum OperatingSystemType'));
+  static const values = [windows, linux];
+
+  static OperatingSystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperatingSystemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperatingSystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the standby WorkSpace.
@@ -8225,18 +8624,27 @@ class PendingCreateStandbyWorkspacesRequest {
   }
 }
 
-enum Protocol {
-  pcoip('PCOIP'),
-  wsp('WSP'),
-  ;
+class Protocol {
+  static const pcoip = Protocol._('PCOIP');
+  static const wsp = Protocol._('WSP');
 
   final String value;
 
-  const Protocol(this.value);
+  const Protocol._(this.value);
 
-  static Protocol fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Protocol'));
+  static const values = [pcoip, wsp];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the information used to reboot a WorkSpace.
@@ -8325,19 +8733,28 @@ class RebuildWorkspacesResult {
   }
 }
 
-enum ReconnectEnum {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class ReconnectEnum {
+  static const enabled = ReconnectEnum._('ENABLED');
+  static const disabled = ReconnectEnum._('DISABLED');
 
   final String value;
 
-  const ReconnectEnum(this.value);
+  const ReconnectEnum._(this.value);
+
+  static const values = [enabled, disabled];
 
   static ReconnectEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ReconnectEnum'));
+          orElse: () => ReconnectEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ReconnectEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RegisterWorkspaceDirectoryResult {
@@ -8488,19 +8905,28 @@ class RootStorage {
   }
 }
 
-enum RunningMode {
-  autoStop('AUTO_STOP'),
-  alwaysOn('ALWAYS_ON'),
-  manual('MANUAL'),
-  ;
+class RunningMode {
+  static const autoStop = RunningMode._('AUTO_STOP');
+  static const alwaysOn = RunningMode._('ALWAYS_ON');
+  static const manual = RunningMode._('MANUAL');
 
   final String value;
 
-  const RunningMode(this.value);
+  const RunningMode._(this.value);
 
-  static RunningMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum RunningMode'));
+  static const values = [autoStop, alwaysOn, manual];
+
+  static RunningMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RunningMode._(value));
+
+  @override
+  bool operator ==(other) => other is RunningMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the enablement status, user access URL, and relay state parameter
@@ -8574,20 +9000,30 @@ class SamlProperties {
   }
 }
 
-enum SamlStatusEnum {
-  disabled('DISABLED'),
-  enabled('ENABLED'),
-  enabledWithDirectoryLoginFallback('ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK'),
-  ;
+class SamlStatusEnum {
+  static const disabled = SamlStatusEnum._('DISABLED');
+  static const enabled = SamlStatusEnum._('ENABLED');
+  static const enabledWithDirectoryLoginFallback =
+      SamlStatusEnum._('ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK');
 
   final String value;
 
-  const SamlStatusEnum(this.value);
+  const SamlStatusEnum._(this.value);
+
+  static const values = [disabled, enabled, enabledWithDirectoryLoginFallback];
 
   static SamlStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SamlStatusEnum'));
+          orElse: () => SamlStatusEnum._(value));
+
+  @override
+  bool operator ==(other) => other is SamlStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the self-service permissions for a directory. For more
@@ -8655,19 +9091,29 @@ class SelfservicePermissions {
   }
 }
 
-enum SessionConnectionState {
-  connected('CONNECTED'),
-  notConnected('NOT_CONNECTED'),
-  ;
+class SessionConnectionState {
+  static const connected = SessionConnectionState._('CONNECTED');
+  static const notConnected = SessionConnectionState._('NOT_CONNECTED');
 
   final String value;
 
-  const SessionConnectionState(this.value);
+  const SessionConnectionState._(this.value);
+
+  static const values = [connected, notConnected];
 
   static SessionConnectionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum SessionConnectionState'));
+          orElse: () => SessionConnectionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a snapshot.
@@ -8751,19 +9197,29 @@ class StandbyWorkspace {
   }
 }
 
-enum StandbyWorkspaceRelationshipType {
-  primary('PRIMARY'),
-  standby('STANDBY'),
-  ;
+class StandbyWorkspaceRelationshipType {
+  static const primary = StandbyWorkspaceRelationshipType._('PRIMARY');
+  static const standby = StandbyWorkspaceRelationshipType._('STANDBY');
 
   final String value;
 
-  const StandbyWorkspaceRelationshipType(this.value);
+  const StandbyWorkspaceRelationshipType._(this.value);
+
+  static const values = [primary, standby];
 
   static StandbyWorkspaceRelationshipType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StandbyWorkspaceRelationshipType'));
+          orElse: () => StandbyWorkspaceRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StandbyWorkspaceRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the properties of the related standby WorkSpaces.
@@ -8933,8 +9389,9 @@ class StorageConnector {
   factory StorageConnector.fromJson(Map<String, dynamic> json) {
     return StorageConnector(
       connectorType: StorageConnectorTypeEnum.fromString(
-          (json['ConnectorType'] as String)),
-      status: StorageConnectorStatusEnum.fromString((json['Status'] as String)),
+          (json['ConnectorType'] as String?) ?? ''),
+      status: StorageConnectorStatusEnum.fromString(
+          (json['Status'] as String?) ?? ''),
     );
   }
 
@@ -8948,48 +9405,78 @@ class StorageConnector {
   }
 }
 
-enum StorageConnectorStatusEnum {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class StorageConnectorStatusEnum {
+  static const enabled = StorageConnectorStatusEnum._('ENABLED');
+  static const disabled = StorageConnectorStatusEnum._('DISABLED');
 
   final String value;
 
-  const StorageConnectorStatusEnum(this.value);
+  const StorageConnectorStatusEnum._(this.value);
+
+  static const values = [enabled, disabled];
 
   static StorageConnectorStatusEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageConnectorStatusEnum'));
+          orElse: () => StorageConnectorStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageConnectorStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StorageConnectorTypeEnum {
-  homeFolder('HOME_FOLDER'),
-  ;
+class StorageConnectorTypeEnum {
+  static const homeFolder = StorageConnectorTypeEnum._('HOME_FOLDER');
 
   final String value;
 
-  const StorageConnectorTypeEnum(this.value);
+  const StorageConnectorTypeEnum._(this.value);
+
+  static const values = [homeFolder];
 
   static StorageConnectorTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StorageConnectorTypeEnum'));
+          orElse: () => StorageConnectorTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageConnectorTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StreamingExperiencePreferredProtocolEnum {
-  tcp('TCP'),
-  udp('UDP'),
-  ;
+class StreamingExperiencePreferredProtocolEnum {
+  static const tcp = StreamingExperiencePreferredProtocolEnum._('TCP');
+  static const udp = StreamingExperiencePreferredProtocolEnum._('UDP');
 
   final String value;
 
-  const StreamingExperiencePreferredProtocolEnum(this.value);
+  const StreamingExperiencePreferredProtocolEnum._(this.value);
+
+  static const values = [tcp, udp];
 
   static StreamingExperiencePreferredProtocolEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum StreamingExperiencePreferredProtocolEnum'));
+          orElse: () => StreamingExperiencePreferredProtocolEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamingExperiencePreferredProtocolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the streaming properties.
@@ -9071,33 +9558,52 @@ class Tag {
   }
 }
 
-enum TargetWorkspaceState {
-  available('AVAILABLE'),
-  adminMaintenance('ADMIN_MAINTENANCE'),
-  ;
+class TargetWorkspaceState {
+  static const available = TargetWorkspaceState._('AVAILABLE');
+  static const adminMaintenance = TargetWorkspaceState._('ADMIN_MAINTENANCE');
 
   final String value;
 
-  const TargetWorkspaceState(this.value);
+  const TargetWorkspaceState._(this.value);
 
-  static TargetWorkspaceState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetWorkspaceState'));
+  static const values = [available, adminMaintenance];
+
+  static TargetWorkspaceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetWorkspaceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetWorkspaceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Tenancy {
-  dedicated('DEDICATED'),
-  shared('SHARED'),
-  ;
+class Tenancy {
+  static const dedicated = Tenancy._('DEDICATED');
+  static const shared = Tenancy._('SHARED');
 
   final String value;
 
-  const Tenancy(this.value);
+  const Tenancy._(this.value);
 
-  static Tenancy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Tenancy'));
+  static const values = [dedicated, shared];
+
+  static Tenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Tenancy._(value));
+
+  @override
+  bool operator ==(other) => other is Tenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the information used to terminate a WorkSpace.
@@ -9341,20 +9847,35 @@ class UpdateWorkspacesPoolResult {
   }
 }
 
-enum UserIdentityType {
-  customerManaged('CUSTOMER_MANAGED'),
-  awsDirectoryService('AWS_DIRECTORY_SERVICE'),
-  awsIamIdentityCenter('AWS_IAM_IDENTITY_CENTER'),
-  ;
+class UserIdentityType {
+  static const customerManaged = UserIdentityType._('CUSTOMER_MANAGED');
+  static const awsDirectoryService =
+      UserIdentityType._('AWS_DIRECTORY_SERVICE');
+  static const awsIamIdentityCenter =
+      UserIdentityType._('AWS_IAM_IDENTITY_CENTER');
 
   final String value;
 
-  const UserIdentityType(this.value);
+  const UserIdentityType._(this.value);
+
+  static const values = [
+    customerManaged,
+    awsDirectoryService,
+    awsIamIdentityCenter
+  ];
 
   static UserIdentityType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum UserIdentityType'));
+          orElse: () => UserIdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is UserIdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the user's permission settings.
@@ -9376,9 +9897,10 @@ class UserSetting {
 
   factory UserSetting.fromJson(Map<String, dynamic> json) {
     return UserSetting(
-      action: UserSettingActionEnum.fromString((json['Action'] as String)),
-      permission:
-          UserSettingPermissionEnum.fromString((json['Permission'] as String)),
+      action:
+          UserSettingActionEnum.fromString((json['Action'] as String?) ?? ''),
+      permission: UserSettingPermissionEnum.fromString(
+          (json['Permission'] as String?) ?? ''),
       maximumLength: json['MaximumLength'] as int?,
     );
   }
@@ -9395,36 +9917,64 @@ class UserSetting {
   }
 }
 
-enum UserSettingActionEnum {
-  clipboardCopyFromLocalDevice('CLIPBOARD_COPY_FROM_LOCAL_DEVICE'),
-  clipboardCopyToLocalDevice('CLIPBOARD_COPY_TO_LOCAL_DEVICE'),
-  printingToLocalDevice('PRINTING_TO_LOCAL_DEVICE'),
-  smartCard('SMART_CARD'),
-  ;
+class UserSettingActionEnum {
+  static const clipboardCopyFromLocalDevice =
+      UserSettingActionEnum._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
+  static const clipboardCopyToLocalDevice =
+      UserSettingActionEnum._('CLIPBOARD_COPY_TO_LOCAL_DEVICE');
+  static const printingToLocalDevice =
+      UserSettingActionEnum._('PRINTING_TO_LOCAL_DEVICE');
+  static const smartCard = UserSettingActionEnum._('SMART_CARD');
 
   final String value;
 
-  const UserSettingActionEnum(this.value);
+  const UserSettingActionEnum._(this.value);
 
-  static UserSettingActionEnum fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum UserSettingActionEnum'));
+  static const values = [
+    clipboardCopyFromLocalDevice,
+    clipboardCopyToLocalDevice,
+    printingToLocalDevice,
+    smartCard
+  ];
+
+  static UserSettingActionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserSettingActionEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserSettingActionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum UserSettingPermissionEnum {
-  enabled('ENABLED'),
-  disabled('DISABLED'),
-  ;
+class UserSettingPermissionEnum {
+  static const enabled = UserSettingPermissionEnum._('ENABLED');
+  static const disabled = UserSettingPermissionEnum._('DISABLED');
 
   final String value;
 
-  const UserSettingPermissionEnum(this.value);
+  const UserSettingPermissionEnum._(this.value);
+
+  static const values = [enabled, disabled];
 
   static UserSettingPermissionEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum UserSettingPermissionEnum'));
+          orElse: () => UserSettingPermissionEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserSettingPermissionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the user volume for a WorkSpace bundle.
@@ -9569,50 +10119,80 @@ class WorkSpaceApplicationDeployment {
   }
 }
 
-enum WorkSpaceApplicationLicenseType {
-  licensed('LICENSED'),
-  unlicensed('UNLICENSED'),
-  ;
+class WorkSpaceApplicationLicenseType {
+  static const licensed = WorkSpaceApplicationLicenseType._('LICENSED');
+  static const unlicensed = WorkSpaceApplicationLicenseType._('UNLICENSED');
 
   final String value;
 
-  const WorkSpaceApplicationLicenseType(this.value);
+  const WorkSpaceApplicationLicenseType._(this.value);
+
+  static const values = [licensed, unlicensed];
 
   static WorkSpaceApplicationLicenseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkSpaceApplicationLicenseType'));
+          orElse: () => WorkSpaceApplicationLicenseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkSpaceApplicationLicenseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkSpaceApplicationState {
-  pending('PENDING'),
-  error('ERROR'),
-  available('AVAILABLE'),
-  uninstallOnly('UNINSTALL_ONLY'),
-  ;
+class WorkSpaceApplicationState {
+  static const pending = WorkSpaceApplicationState._('PENDING');
+  static const error = WorkSpaceApplicationState._('ERROR');
+  static const available = WorkSpaceApplicationState._('AVAILABLE');
+  static const uninstallOnly = WorkSpaceApplicationState._('UNINSTALL_ONLY');
 
   final String value;
 
-  const WorkSpaceApplicationState(this.value);
+  const WorkSpaceApplicationState._(this.value);
+
+  static const values = [pending, error, available, uninstallOnly];
 
   static WorkSpaceApplicationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkSpaceApplicationState'));
+          orElse: () => WorkSpaceApplicationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkSpaceApplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkSpaceAssociatedResourceType {
-  application('APPLICATION'),
-  ;
+class WorkSpaceAssociatedResourceType {
+  static const application = WorkSpaceAssociatedResourceType._('APPLICATION');
 
   final String value;
 
-  const WorkSpaceAssociatedResourceType(this.value);
+  const WorkSpaceAssociatedResourceType._(this.value);
+
+  static const values = [application];
 
   static WorkSpaceAssociatedResourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkSpaceAssociatedResourceType'));
+          orElse: () => WorkSpaceAssociatedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkSpaceAssociatedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a WorkSpace.
@@ -10063,20 +10643,30 @@ class WorkspaceBundle {
   }
 }
 
-enum WorkspaceBundleState {
-  available('AVAILABLE'),
-  pending('PENDING'),
-  error('ERROR'),
-  ;
+class WorkspaceBundleState {
+  static const available = WorkspaceBundleState._('AVAILABLE');
+  static const pending = WorkspaceBundleState._('PENDING');
+  static const error = WorkspaceBundleState._('ERROR');
 
   final String value;
 
-  const WorkspaceBundleState(this.value);
+  const WorkspaceBundleState._(this.value);
 
-  static WorkspaceBundleState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WorkspaceBundleState'));
+  static const values = [available, pending, error];
+
+  static WorkspaceBundleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkspaceBundleState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceBundleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the connection status of a WorkSpace.
@@ -10505,39 +11095,71 @@ class WorkspaceDirectory {
   }
 }
 
-enum WorkspaceDirectoryState {
-  registering('REGISTERING'),
-  registered('REGISTERED'),
-  deregistering('DEREGISTERING'),
-  deregistered('DEREGISTERED'),
-  error('ERROR'),
-  ;
+class WorkspaceDirectoryState {
+  static const registering = WorkspaceDirectoryState._('REGISTERING');
+  static const registered = WorkspaceDirectoryState._('REGISTERED');
+  static const deregistering = WorkspaceDirectoryState._('DEREGISTERING');
+  static const deregistered = WorkspaceDirectoryState._('DEREGISTERED');
+  static const error = WorkspaceDirectoryState._('ERROR');
 
   final String value;
 
-  const WorkspaceDirectoryState(this.value);
+  const WorkspaceDirectoryState._(this.value);
+
+  static const values = [
+    registering,
+    registered,
+    deregistering,
+    deregistered,
+    error
+  ];
 
   static WorkspaceDirectoryState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspaceDirectoryState'));
+          orElse: () => WorkspaceDirectoryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceDirectoryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkspaceDirectoryType {
-  simpleAd('SIMPLE_AD'),
-  adConnector('AD_CONNECTOR'),
-  customerManaged('CUSTOMER_MANAGED'),
-  awsIamIdentityCenter('AWS_IAM_IDENTITY_CENTER'),
-  ;
+class WorkspaceDirectoryType {
+  static const simpleAd = WorkspaceDirectoryType._('SIMPLE_AD');
+  static const adConnector = WorkspaceDirectoryType._('AD_CONNECTOR');
+  static const customerManaged = WorkspaceDirectoryType._('CUSTOMER_MANAGED');
+  static const awsIamIdentityCenter =
+      WorkspaceDirectoryType._('AWS_IAM_IDENTITY_CENTER');
 
   final String value;
 
-  const WorkspaceDirectoryType(this.value);
+  const WorkspaceDirectoryType._(this.value);
+
+  static const values = [
+    simpleAd,
+    adConnector,
+    customerManaged,
+    awsIamIdentityCenter
+  ];
 
   static WorkspaceDirectoryType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspaceDirectoryType'));
+          orElse: () => WorkspaceDirectoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceDirectoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a WorkSpace image.
@@ -10656,95 +11278,199 @@ class WorkspaceImage {
   }
 }
 
-enum WorkspaceImageErrorDetailCode {
-  outdatedPowershellVersion('OutdatedPowershellVersion'),
-  officeInstalled('OfficeInstalled'),
-  pCoIPAgentInstalled('PCoIPAgentInstalled'),
-  windowsUpdatesEnabled('WindowsUpdatesEnabled'),
-  autoMountDisabled('AutoMountDisabled'),
-  workspacesBYOLAccountNotFound('WorkspacesBYOLAccountNotFound'),
-  workspacesBYOLAccountDisabled('WorkspacesBYOLAccountDisabled'),
-  dHCPDisabled('DHCPDisabled'),
-  diskFreeSpace('DiskFreeSpace'),
-  additionalDrivesAttached('AdditionalDrivesAttached'),
-  oSNotSupported('OSNotSupported'),
-  domainJoined('DomainJoined'),
-  azureDomainJoined('AzureDomainJoined'),
-  firewallEnabled('FirewallEnabled'),
-  vMWareToolsInstalled('VMWareToolsInstalled'),
-  diskSizeExceeded('DiskSizeExceeded'),
-  incompatiblePartitioning('IncompatiblePartitioning'),
-  pendingReboot('PendingReboot'),
-  autoLogonEnabled('AutoLogonEnabled'),
-  realTimeUniversalDisabled('RealTimeUniversalDisabled'),
-  multipleBootPartition('MultipleBootPartition'),
-  requires64BitOS('Requires64BitOS'),
-  zeroRearmCount('ZeroRearmCount'),
-  inPlaceUpgrade('InPlaceUpgrade'),
-  antiVirusInstalled('AntiVirusInstalled'),
-  uEFINotSupported('UEFINotSupported'),
-  ;
+class WorkspaceImageErrorDetailCode {
+  static const outdatedPowershellVersion =
+      WorkspaceImageErrorDetailCode._('OutdatedPowershellVersion');
+  static const officeInstalled =
+      WorkspaceImageErrorDetailCode._('OfficeInstalled');
+  static const pCoIPAgentInstalled =
+      WorkspaceImageErrorDetailCode._('PCoIPAgentInstalled');
+  static const windowsUpdatesEnabled =
+      WorkspaceImageErrorDetailCode._('WindowsUpdatesEnabled');
+  static const autoMountDisabled =
+      WorkspaceImageErrorDetailCode._('AutoMountDisabled');
+  static const workspacesBYOLAccountNotFound =
+      WorkspaceImageErrorDetailCode._('WorkspacesBYOLAccountNotFound');
+  static const workspacesBYOLAccountDisabled =
+      WorkspaceImageErrorDetailCode._('WorkspacesBYOLAccountDisabled');
+  static const dHCPDisabled = WorkspaceImageErrorDetailCode._('DHCPDisabled');
+  static const diskFreeSpace = WorkspaceImageErrorDetailCode._('DiskFreeSpace');
+  static const additionalDrivesAttached =
+      WorkspaceImageErrorDetailCode._('AdditionalDrivesAttached');
+  static const oSNotSupported =
+      WorkspaceImageErrorDetailCode._('OSNotSupported');
+  static const domainJoined = WorkspaceImageErrorDetailCode._('DomainJoined');
+  static const azureDomainJoined =
+      WorkspaceImageErrorDetailCode._('AzureDomainJoined');
+  static const firewallEnabled =
+      WorkspaceImageErrorDetailCode._('FirewallEnabled');
+  static const vMWareToolsInstalled =
+      WorkspaceImageErrorDetailCode._('VMWareToolsInstalled');
+  static const diskSizeExceeded =
+      WorkspaceImageErrorDetailCode._('DiskSizeExceeded');
+  static const incompatiblePartitioning =
+      WorkspaceImageErrorDetailCode._('IncompatiblePartitioning');
+  static const pendingReboot = WorkspaceImageErrorDetailCode._('PendingReboot');
+  static const autoLogonEnabled =
+      WorkspaceImageErrorDetailCode._('AutoLogonEnabled');
+  static const realTimeUniversalDisabled =
+      WorkspaceImageErrorDetailCode._('RealTimeUniversalDisabled');
+  static const multipleBootPartition =
+      WorkspaceImageErrorDetailCode._('MultipleBootPartition');
+  static const requires64BitOS =
+      WorkspaceImageErrorDetailCode._('Requires64BitOS');
+  static const zeroRearmCount =
+      WorkspaceImageErrorDetailCode._('ZeroRearmCount');
+  static const inPlaceUpgrade =
+      WorkspaceImageErrorDetailCode._('InPlaceUpgrade');
+  static const antiVirusInstalled =
+      WorkspaceImageErrorDetailCode._('AntiVirusInstalled');
+  static const uEFINotSupported =
+      WorkspaceImageErrorDetailCode._('UEFINotSupported');
 
   final String value;
 
-  const WorkspaceImageErrorDetailCode(this.value);
+  const WorkspaceImageErrorDetailCode._(this.value);
+
+  static const values = [
+    outdatedPowershellVersion,
+    officeInstalled,
+    pCoIPAgentInstalled,
+    windowsUpdatesEnabled,
+    autoMountDisabled,
+    workspacesBYOLAccountNotFound,
+    workspacesBYOLAccountDisabled,
+    dHCPDisabled,
+    diskFreeSpace,
+    additionalDrivesAttached,
+    oSNotSupported,
+    domainJoined,
+    azureDomainJoined,
+    firewallEnabled,
+    vMWareToolsInstalled,
+    diskSizeExceeded,
+    incompatiblePartitioning,
+    pendingReboot,
+    autoLogonEnabled,
+    realTimeUniversalDisabled,
+    multipleBootPartition,
+    requires64BitOS,
+    zeroRearmCount,
+    inPlaceUpgrade,
+    antiVirusInstalled,
+    uEFINotSupported
+  ];
 
   static WorkspaceImageErrorDetailCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspaceImageErrorDetailCode'));
+          orElse: () => WorkspaceImageErrorDetailCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceImageErrorDetailCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkspaceImageIngestionProcess {
-  byolRegular('BYOL_REGULAR'),
-  byolGraphics('BYOL_GRAPHICS'),
-  byolGraphicspro('BYOL_GRAPHICSPRO'),
-  byolGraphicsG4dn('BYOL_GRAPHICS_G4DN'),
-  byolRegularWsp('BYOL_REGULAR_WSP'),
-  byolGraphicsG4dnWsp('BYOL_GRAPHICS_G4DN_WSP'),
-  byolRegularByop('BYOL_REGULAR_BYOP'),
-  byolGraphicsG4dnByop('BYOL_GRAPHICS_G4DN_BYOP'),
-  ;
+class WorkspaceImageIngestionProcess {
+  static const byolRegular = WorkspaceImageIngestionProcess._('BYOL_REGULAR');
+  static const byolGraphics = WorkspaceImageIngestionProcess._('BYOL_GRAPHICS');
+  static const byolGraphicspro =
+      WorkspaceImageIngestionProcess._('BYOL_GRAPHICSPRO');
+  static const byolGraphicsG4dn =
+      WorkspaceImageIngestionProcess._('BYOL_GRAPHICS_G4DN');
+  static const byolRegularWsp =
+      WorkspaceImageIngestionProcess._('BYOL_REGULAR_WSP');
+  static const byolGraphicsG4dnWsp =
+      WorkspaceImageIngestionProcess._('BYOL_GRAPHICS_G4DN_WSP');
+  static const byolRegularByop =
+      WorkspaceImageIngestionProcess._('BYOL_REGULAR_BYOP');
+  static const byolGraphicsG4dnByop =
+      WorkspaceImageIngestionProcess._('BYOL_GRAPHICS_G4DN_BYOP');
 
   final String value;
 
-  const WorkspaceImageIngestionProcess(this.value);
+  const WorkspaceImageIngestionProcess._(this.value);
+
+  static const values = [
+    byolRegular,
+    byolGraphics,
+    byolGraphicspro,
+    byolGraphicsG4dn,
+    byolRegularWsp,
+    byolGraphicsG4dnWsp,
+    byolRegularByop,
+    byolGraphicsG4dnByop
+  ];
 
   static WorkspaceImageIngestionProcess fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspaceImageIngestionProcess'));
+          orElse: () => WorkspaceImageIngestionProcess._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceImageIngestionProcess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkspaceImageRequiredTenancy {
-  $default('DEFAULT'),
-  dedicated('DEDICATED'),
-  ;
+class WorkspaceImageRequiredTenancy {
+  static const $default = WorkspaceImageRequiredTenancy._('DEFAULT');
+  static const dedicated = WorkspaceImageRequiredTenancy._('DEDICATED');
 
   final String value;
 
-  const WorkspaceImageRequiredTenancy(this.value);
+  const WorkspaceImageRequiredTenancy._(this.value);
+
+  static const values = [$default, dedicated];
 
   static WorkspaceImageRequiredTenancy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspaceImageRequiredTenancy'));
+          orElse: () => WorkspaceImageRequiredTenancy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceImageRequiredTenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkspaceImageState {
-  available('AVAILABLE'),
-  pending('PENDING'),
-  error('ERROR'),
-  ;
+class WorkspaceImageState {
+  static const available = WorkspaceImageState._('AVAILABLE');
+  static const pending = WorkspaceImageState._('PENDING');
+  static const error = WorkspaceImageState._('ERROR');
 
   final String value;
 
-  const WorkspaceImageState(this.value);
+  const WorkspaceImageState._(this.value);
 
-  static WorkspaceImageState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WorkspaceImageState'));
+  static const values = [available, pending, error];
+
+  static WorkspaceImageState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkspaceImageState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspaceImageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a WorkSpace.
@@ -11036,49 +11762,85 @@ class WorkspaceResourceAssociation {
   }
 }
 
-enum WorkspaceState {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  impaired('IMPAIRED'),
-  unhealthy('UNHEALTHY'),
-  rebooting('REBOOTING'),
-  starting('STARTING'),
-  rebuilding('REBUILDING'),
-  restoring('RESTORING'),
-  maintenance('MAINTENANCE'),
-  adminMaintenance('ADMIN_MAINTENANCE'),
-  terminating('TERMINATING'),
-  terminated('TERMINATED'),
-  suspended('SUSPENDED'),
-  updating('UPDATING'),
-  stopping('STOPPING'),
-  stopped('STOPPED'),
-  error('ERROR'),
-  ;
+class WorkspaceState {
+  static const pending = WorkspaceState._('PENDING');
+  static const available = WorkspaceState._('AVAILABLE');
+  static const impaired = WorkspaceState._('IMPAIRED');
+  static const unhealthy = WorkspaceState._('UNHEALTHY');
+  static const rebooting = WorkspaceState._('REBOOTING');
+  static const starting = WorkspaceState._('STARTING');
+  static const rebuilding = WorkspaceState._('REBUILDING');
+  static const restoring = WorkspaceState._('RESTORING');
+  static const maintenance = WorkspaceState._('MAINTENANCE');
+  static const adminMaintenance = WorkspaceState._('ADMIN_MAINTENANCE');
+  static const terminating = WorkspaceState._('TERMINATING');
+  static const terminated = WorkspaceState._('TERMINATED');
+  static const suspended = WorkspaceState._('SUSPENDED');
+  static const updating = WorkspaceState._('UPDATING');
+  static const stopping = WorkspaceState._('STOPPING');
+  static const stopped = WorkspaceState._('STOPPED');
+  static const error = WorkspaceState._('ERROR');
 
   final String value;
 
-  const WorkspaceState(this.value);
+  const WorkspaceState._(this.value);
+
+  static const values = [
+    pending,
+    available,
+    impaired,
+    unhealthy,
+    rebooting,
+    starting,
+    rebuilding,
+    restoring,
+    maintenance,
+    adminMaintenance,
+    terminating,
+    terminated,
+    suspended,
+    updating,
+    stopping,
+    stopped,
+    error
+  ];
 
   static WorkspaceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkspaceState'));
+          orElse: () => WorkspaceState._(value));
+
+  @override
+  bool operator ==(other) => other is WorkspaceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum WorkspaceType {
-  personal('PERSONAL'),
-  pools('POOLS'),
-  ;
+class WorkspaceType {
+  static const personal = WorkspaceType._('PERSONAL');
+  static const pools = WorkspaceType._('POOLS');
 
   final String value;
 
-  const WorkspaceType(this.value);
+  const WorkspaceType._(this.value);
+
+  static const values = [personal, pools];
 
   static WorkspaceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum WorkspaceType'));
+          orElse: () => WorkspaceType._(value));
+
+  @override
+  bool operator ==(other) => other is WorkspaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an IP access control group.
@@ -11196,7 +11958,7 @@ class WorkspacesPool {
       poolArn: (json['PoolArn'] as String?) ?? '',
       poolId: (json['PoolId'] as String?) ?? '',
       poolName: (json['PoolName'] as String?) ?? '',
-      state: WorkspacesPoolState.fromString((json['State'] as String)),
+      state: WorkspacesPoolState.fromString((json['State'] as String?) ?? ''),
       applicationSettings: json['ApplicationSettings'] != null
           ? ApplicationSettingsResponse.fromJson(
               json['ApplicationSettings'] as Map<String, dynamic>)
@@ -11275,68 +12037,149 @@ class WorkspacesPoolError {
   }
 }
 
-enum WorkspacesPoolErrorCode {
-  iamServiceRoleIsMissing('IAM_SERVICE_ROLE_IS_MISSING'),
-  iamServiceRoleMissingEniDescribeAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'),
-  iamServiceRoleMissingEniCreateAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'),
-  iamServiceRoleMissingEniDeleteAction(
-      'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'),
-  networkInterfaceLimitExceeded('NETWORK_INTERFACE_LIMIT_EXCEEDED'),
-  internalServiceError('INTERNAL_SERVICE_ERROR'),
-  machineRoleIsMissing('MACHINE_ROLE_IS_MISSING'),
-  stsDisabledInRegion('STS_DISABLED_IN_REGION'),
-  subnetHasInsufficientIpAddresses('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'),
-  iamServiceRoleMissingDescribeSubnetAction(
-      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'),
-  subnetNotFound('SUBNET_NOT_FOUND'),
-  imageNotFound('IMAGE_NOT_FOUND'),
-  invalidSubnetConfiguration('INVALID_SUBNET_CONFIGURATION'),
-  securityGroupsNotFound('SECURITY_GROUPS_NOT_FOUND'),
-  igwNotAttached('IGW_NOT_ATTACHED'),
-  iamServiceRoleMissingDescribeSecurityGroupsAction(
-      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION'),
-  workspacesPoolStopped('WORKSPACES_POOL_STOPPED'),
-  workspacesPoolInstanceProvisioningFailure(
-      'WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE'),
-  domainJoinErrorFileNotFound('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND'),
-  domainJoinErrorAccessDenied('DOMAIN_JOIN_ERROR_ACCESS_DENIED'),
-  domainJoinErrorLogonFailure('DOMAIN_JOIN_ERROR_LOGON_FAILURE'),
-  domainJoinErrorInvalidParameter('DOMAIN_JOIN_ERROR_INVALID_PARAMETER'),
-  domainJoinErrorMoreData('DOMAIN_JOIN_ERROR_MORE_DATA'),
-  domainJoinErrorNoSuchDomain('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN'),
-  domainJoinErrorNotSupported('DOMAIN_JOIN_ERROR_NOT_SUPPORTED'),
-  domainJoinNerrInvalidWorkgroupName('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME'),
-  domainJoinNerrWorkstationNotStarted(
-      'DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED'),
-  domainJoinErrorDsMachineAccountQuotaExceeded(
-      'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED'),
-  domainJoinNerrPasswordExpired('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED'),
-  domainJoinInternalServiceError('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR'),
-  domainJoinErrorSecretActionPermissionIsMissing(
-      'DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING'),
-  domainJoinErrorSecretDecryptionFailure(
-      'DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE'),
-  domainJoinErrorSecretStateInvalid('DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID'),
-  domainJoinErrorSecretNotFound('DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND'),
-  domainJoinErrorSecretValueKeyNotFound(
-      'DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND'),
-  domainJoinErrorSecretInvalid('DOMAIN_JOIN_ERROR_SECRET_INVALID'),
-  bundleNotFound('BUNDLE_NOT_FOUND'),
-  directoryNotFound('DIRECTORY_NOT_FOUND'),
-  insufficientPermissionsError('INSUFFICIENT_PERMISSIONS_ERROR'),
-  defaultOuIsMissing('DEFAULT_OU_IS_MISSING'),
-  ;
+class WorkspacesPoolErrorCode {
+  static const iamServiceRoleIsMissing =
+      WorkspacesPoolErrorCode._('IAM_SERVICE_ROLE_IS_MISSING');
+  static const iamServiceRoleMissingEniDescribeAction =
+      WorkspacesPoolErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION');
+  static const iamServiceRoleMissingEniCreateAction =
+      WorkspacesPoolErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION');
+  static const iamServiceRoleMissingEniDeleteAction =
+      WorkspacesPoolErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION');
+  static const networkInterfaceLimitExceeded =
+      WorkspacesPoolErrorCode._('NETWORK_INTERFACE_LIMIT_EXCEEDED');
+  static const internalServiceError =
+      WorkspacesPoolErrorCode._('INTERNAL_SERVICE_ERROR');
+  static const machineRoleIsMissing =
+      WorkspacesPoolErrorCode._('MACHINE_ROLE_IS_MISSING');
+  static const stsDisabledInRegion =
+      WorkspacesPoolErrorCode._('STS_DISABLED_IN_REGION');
+  static const subnetHasInsufficientIpAddresses =
+      WorkspacesPoolErrorCode._('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES');
+  static const iamServiceRoleMissingDescribeSubnetAction =
+      WorkspacesPoolErrorCode._(
+          'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION');
+  static const subnetNotFound = WorkspacesPoolErrorCode._('SUBNET_NOT_FOUND');
+  static const imageNotFound = WorkspacesPoolErrorCode._('IMAGE_NOT_FOUND');
+  static const invalidSubnetConfiguration =
+      WorkspacesPoolErrorCode._('INVALID_SUBNET_CONFIGURATION');
+  static const securityGroupsNotFound =
+      WorkspacesPoolErrorCode._('SECURITY_GROUPS_NOT_FOUND');
+  static const igwNotAttached = WorkspacesPoolErrorCode._('IGW_NOT_ATTACHED');
+  static const iamServiceRoleMissingDescribeSecurityGroupsAction =
+      WorkspacesPoolErrorCode._(
+          'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION');
+  static const workspacesPoolStopped =
+      WorkspacesPoolErrorCode._('WORKSPACES_POOL_STOPPED');
+  static const workspacesPoolInstanceProvisioningFailure =
+      WorkspacesPoolErrorCode._(
+          'WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE');
+  static const domainJoinErrorFileNotFound =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND');
+  static const domainJoinErrorAccessDenied =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_ACCESS_DENIED');
+  static const domainJoinErrorLogonFailure =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_LOGON_FAILURE');
+  static const domainJoinErrorInvalidParameter =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_INVALID_PARAMETER');
+  static const domainJoinErrorMoreData =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_MORE_DATA');
+  static const domainJoinErrorNoSuchDomain =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN');
+  static const domainJoinErrorNotSupported =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_NOT_SUPPORTED');
+  static const domainJoinNerrInvalidWorkgroupName =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME');
+  static const domainJoinNerrWorkstationNotStarted =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED');
+  static const domainJoinErrorDsMachineAccountQuotaExceeded =
+      WorkspacesPoolErrorCode._(
+          'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED');
+  static const domainJoinNerrPasswordExpired =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED');
+  static const domainJoinInternalServiceError =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR');
+  static const domainJoinErrorSecretActionPermissionIsMissing =
+      WorkspacesPoolErrorCode._(
+          'DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING');
+  static const domainJoinErrorSecretDecryptionFailure =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE');
+  static const domainJoinErrorSecretStateInvalid =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID');
+  static const domainJoinErrorSecretNotFound =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND');
+  static const domainJoinErrorSecretValueKeyNotFound =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND');
+  static const domainJoinErrorSecretInvalid =
+      WorkspacesPoolErrorCode._('DOMAIN_JOIN_ERROR_SECRET_INVALID');
+  static const bundleNotFound = WorkspacesPoolErrorCode._('BUNDLE_NOT_FOUND');
+  static const directoryNotFound =
+      WorkspacesPoolErrorCode._('DIRECTORY_NOT_FOUND');
+  static const insufficientPermissionsError =
+      WorkspacesPoolErrorCode._('INSUFFICIENT_PERMISSIONS_ERROR');
+  static const defaultOuIsMissing =
+      WorkspacesPoolErrorCode._('DEFAULT_OU_IS_MISSING');
 
   final String value;
 
-  const WorkspacesPoolErrorCode(this.value);
+  const WorkspacesPoolErrorCode._(this.value);
+
+  static const values = [
+    iamServiceRoleIsMissing,
+    iamServiceRoleMissingEniDescribeAction,
+    iamServiceRoleMissingEniCreateAction,
+    iamServiceRoleMissingEniDeleteAction,
+    networkInterfaceLimitExceeded,
+    internalServiceError,
+    machineRoleIsMissing,
+    stsDisabledInRegion,
+    subnetHasInsufficientIpAddresses,
+    iamServiceRoleMissingDescribeSubnetAction,
+    subnetNotFound,
+    imageNotFound,
+    invalidSubnetConfiguration,
+    securityGroupsNotFound,
+    igwNotAttached,
+    iamServiceRoleMissingDescribeSecurityGroupsAction,
+    workspacesPoolStopped,
+    workspacesPoolInstanceProvisioningFailure,
+    domainJoinErrorFileNotFound,
+    domainJoinErrorAccessDenied,
+    domainJoinErrorLogonFailure,
+    domainJoinErrorInvalidParameter,
+    domainJoinErrorMoreData,
+    domainJoinErrorNoSuchDomain,
+    domainJoinErrorNotSupported,
+    domainJoinNerrInvalidWorkgroupName,
+    domainJoinNerrWorkstationNotStarted,
+    domainJoinErrorDsMachineAccountQuotaExceeded,
+    domainJoinNerrPasswordExpired,
+    domainJoinInternalServiceError,
+    domainJoinErrorSecretActionPermissionIsMissing,
+    domainJoinErrorSecretDecryptionFailure,
+    domainJoinErrorSecretStateInvalid,
+    domainJoinErrorSecretNotFound,
+    domainJoinErrorSecretValueKeyNotFound,
+    domainJoinErrorSecretInvalid,
+    bundleNotFound,
+    directoryNotFound,
+    insufficientPermissionsError,
+    defaultOuIsMissing
+  ];
 
   static WorkspacesPoolErrorCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum WorkspacesPoolErrorCode'));
+          orElse: () => WorkspacesPoolErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspacesPoolErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a pool session.
@@ -11427,24 +12270,42 @@ class WorkspacesPoolSession {
   }
 }
 
-enum WorkspacesPoolState {
-  creating('CREATING'),
-  deleting('DELETING'),
-  running('RUNNING'),
-  starting('STARTING'),
-  stopped('STOPPED'),
-  stopping('STOPPING'),
-  updating('UPDATING'),
-  ;
+class WorkspacesPoolState {
+  static const creating = WorkspacesPoolState._('CREATING');
+  static const deleting = WorkspacesPoolState._('DELETING');
+  static const running = WorkspacesPoolState._('RUNNING');
+  static const starting = WorkspacesPoolState._('STARTING');
+  static const stopped = WorkspacesPoolState._('STOPPED');
+  static const stopping = WorkspacesPoolState._('STOPPING');
+  static const updating = WorkspacesPoolState._('UPDATING');
 
   final String value;
 
-  const WorkspacesPoolState(this.value);
+  const WorkspacesPoolState._(this.value);
 
-  static WorkspacesPoolState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WorkspacesPoolState'));
+  static const values = [
+    creating,
+    deleting,
+    running,
+    starting,
+    stopped,
+    stopping,
+    updating
+  ];
+
+  static WorkspacesPoolState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkspacesPoolState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkspacesPoolState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

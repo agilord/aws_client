@@ -3487,7 +3487,8 @@ class Api {
   factory Api.fromJson(Map<String, dynamic> json) {
     return Api(
       name: (json['name'] as String?) ?? '',
-      protocolType: ProtocolType.fromString((json['protocolType'] as String)),
+      protocolType:
+          ProtocolType.fromString((json['protocolType'] as String?) ?? ''),
       routeSelectionExpression:
           (json['routeSelectionExpression'] as String?) ?? '',
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -3605,21 +3606,30 @@ class ApiMapping {
 /// authorizer. For HTTP APIs, valid values are NONE for open access, JWT for
 /// using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for
 /// using a Lambda authorizer.
-enum AuthorizationType {
-  none('NONE'),
-  awsIam('AWS_IAM'),
-  custom('CUSTOM'),
-  jwt('JWT'),
-  ;
+class AuthorizationType {
+  static const none = AuthorizationType._('NONE');
+  static const awsIam = AuthorizationType._('AWS_IAM');
+  static const custom = AuthorizationType._('CUSTOM');
+  static const jwt = AuthorizationType._('JWT');
 
   final String value;
 
-  const AuthorizationType(this.value);
+  const AuthorizationType._(this.value);
+
+  static const values = [none, awsIam, custom, jwt];
 
   static AuthorizationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthorizationType'));
+          orElse: () => AuthorizationType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthorizationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an authorizer.
@@ -3784,52 +3794,80 @@ class Authorizer {
 /// The authorizer type. Specify REQUEST for a Lambda function using incoming
 /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
 /// HTTP APIs).
-enum AuthorizerType {
-  request('REQUEST'),
-  jwt('JWT'),
-  ;
+class AuthorizerType {
+  static const request = AuthorizerType._('REQUEST');
+  static const jwt = AuthorizerType._('JWT');
 
   final String value;
 
-  const AuthorizerType(this.value);
+  const AuthorizerType._(this.value);
+
+  static const values = [request, jwt];
 
   static AuthorizerType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuthorizerType'));
+          orElse: () => AuthorizerType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthorizerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a connection type.
-enum ConnectionType {
-  internet('INTERNET'),
-  vpcLink('VPC_LINK'),
-  ;
+class ConnectionType {
+  static const internet = ConnectionType._('INTERNET');
+  static const vpcLink = ConnectionType._('VPC_LINK');
 
   final String value;
 
-  const ConnectionType(this.value);
+  const ConnectionType._(this.value);
+
+  static const values = [internet, vpcLink];
 
   static ConnectionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ConnectionType'));
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies how to handle response payload content type conversions. Supported
 /// only for WebSocket APIs.
-enum ContentHandlingStrategy {
-  convertToBinary('CONVERT_TO_BINARY'),
-  convertToText('CONVERT_TO_TEXT'),
-  ;
+class ContentHandlingStrategy {
+  static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
+  static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
 
   final String value;
 
-  const ContentHandlingStrategy(this.value);
+  const ContentHandlingStrategy._(this.value);
+
+  static const values = [convertToBinary, convertToText];
 
   static ContentHandlingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ContentHandlingStrategy'));
+          orElse: () => ContentHandlingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentHandlingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a CORS configuration. Supported only for HTTP APIs. See <a
@@ -5322,20 +5360,29 @@ class Deployment {
 }
 
 /// Represents a deployment status.
-enum DeploymentStatus {
-  pending('PENDING'),
-  failed('FAILED'),
-  deployed('DEPLOYED'),
-  ;
+class DeploymentStatus {
+  static const pending = DeploymentStatus._('PENDING');
+  static const failed = DeploymentStatus._('FAILED');
+  static const deployed = DeploymentStatus._('DEPLOYED');
 
   final String value;
 
-  const DeploymentStatus(this.value);
+  const DeploymentStatus._(this.value);
+
+  static const values = [pending, failed, deployed];
 
   static DeploymentStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DeploymentStatus'));
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a domain name.
@@ -5513,37 +5560,61 @@ class DomainNameConfiguration {
 /// If the status is UPDATING, the domain cannot be modified further until the
 /// existing operation is complete. If it is AVAILABLE, the domain can be
 /// updated.
-enum DomainNameStatus {
-  available('AVAILABLE'),
-  updating('UPDATING'),
-  pendingCertificateReimport('PENDING_CERTIFICATE_REIMPORT'),
-  pendingOwnershipVerification('PENDING_OWNERSHIP_VERIFICATION'),
-  ;
+class DomainNameStatus {
+  static const available = DomainNameStatus._('AVAILABLE');
+  static const updating = DomainNameStatus._('UPDATING');
+  static const pendingCertificateReimport =
+      DomainNameStatus._('PENDING_CERTIFICATE_REIMPORT');
+  static const pendingOwnershipVerification =
+      DomainNameStatus._('PENDING_OWNERSHIP_VERIFICATION');
 
   final String value;
 
-  const DomainNameStatus(this.value);
+  const DomainNameStatus._(this.value);
+
+  static const values = [
+    available,
+    updating,
+    pendingCertificateReimport,
+    pendingOwnershipVerification
+  ];
 
   static DomainNameStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DomainNameStatus'));
+          orElse: () => DomainNameStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an endpoint type.
-enum EndpointType {
-  regional('REGIONAL'),
-  edge('EDGE'),
-  ;
+class EndpointType {
+  static const regional = EndpointType._('REGIONAL');
+  static const edge = EndpointType._('EDGE');
 
   final String value;
 
-  const EndpointType(this.value);
+  const EndpointType._(this.value);
 
-  static EndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EndpointType'));
+  static const values = [regional, edge];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ExportApiResponse {
@@ -7891,22 +7962,31 @@ class IntegrationResponse {
 }
 
 /// Represents an API method integration type.
-enum IntegrationType {
-  aws('AWS'),
-  http('HTTP'),
-  mock('MOCK'),
-  httpProxy('HTTP_PROXY'),
-  awsProxy('AWS_PROXY'),
-  ;
+class IntegrationType {
+  static const aws = IntegrationType._('AWS');
+  static const http = IntegrationType._('HTTP');
+  static const mock = IntegrationType._('MOCK');
+  static const httpProxy = IntegrationType._('HTTP_PROXY');
+  static const awsProxy = IntegrationType._('AWS_PROXY');
 
   final String value;
 
-  const IntegrationType(this.value);
+  const IntegrationType._(this.value);
+
+  static const values = [aws, http, mock, httpProxy, awsProxy];
 
   static IntegrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntegrationType'));
+          orElse: () => IntegrationType._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the configuration of a JWT authorizer. Required for the JWT
@@ -7950,20 +8030,28 @@ class JWTConfiguration {
 }
 
 /// The logging level.
-enum LoggingLevel {
-  error('ERROR'),
-  info('INFO'),
-  off('OFF'),
-  ;
+class LoggingLevel {
+  static const error = LoggingLevel._('ERROR');
+  static const info = LoggingLevel._('INFO');
+  static const off = LoggingLevel._('OFF');
 
   final String value;
 
-  const LoggingLevel(this.value);
+  const LoggingLevel._(this.value);
 
-  static LoggingLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LoggingLevel'));
+  static const values = [error, info, off];
+
+  static LoggingLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a data model for an API. Supported only for WebSocket APIs. See
@@ -8126,36 +8214,54 @@ class ParameterConstraints {
 
 /// Represents passthrough behavior for an integration response. Supported only
 /// for WebSocket APIs.
-enum PassthroughBehavior {
-  whenNoMatch('WHEN_NO_MATCH'),
-  never('NEVER'),
-  whenNoTemplates('WHEN_NO_TEMPLATES'),
-  ;
+class PassthroughBehavior {
+  static const whenNoMatch = PassthroughBehavior._('WHEN_NO_MATCH');
+  static const never = PassthroughBehavior._('NEVER');
+  static const whenNoTemplates = PassthroughBehavior._('WHEN_NO_TEMPLATES');
 
   final String value;
 
-  const PassthroughBehavior(this.value);
+  const PassthroughBehavior._(this.value);
 
-  static PassthroughBehavior fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PassthroughBehavior'));
+  static const values = [whenNoMatch, never, whenNoTemplates];
+
+  static PassthroughBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PassthroughBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PassthroughBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a protocol type.
-enum ProtocolType {
-  websocket('WEBSOCKET'),
-  http('HTTP'),
-  ;
+class ProtocolType {
+  static const websocket = ProtocolType._('WEBSOCKET');
+  static const http = ProtocolType._('HTTP');
 
   final String value;
 
-  const ProtocolType(this.value);
+  const ProtocolType._(this.value);
 
-  static ProtocolType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ProtocolType'));
+  static const values = [websocket, http];
+
+  static ProtocolType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProtocolType._(value));
+
+  @override
+  bool operator ==(other) => other is ProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ReimportApiResponse {
@@ -8571,19 +8677,28 @@ class RouteSettings {
 
 /// The Transport Layer Security (TLS) version of the security policy for this
 /// domain name. The valid values are TLS_1_0 and TLS_1_2.
-enum SecurityPolicy {
-  tls_1_0('TLS_1_0'),
-  tls_1_2('TLS_1_2'),
-  ;
+class SecurityPolicy {
+  static const tls_1_0 = SecurityPolicy._('TLS_1_0');
+  static const tls_1_2 = SecurityPolicy._('TLS_1_2');
 
   final String value;
 
-  const SecurityPolicy(this.value);
+  const SecurityPolicy._(this.value);
+
+  static const values = [tls_1_0, tls_1_2];
 
   static SecurityPolicy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum SecurityPolicy'));
+          orElse: () => SecurityPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is SecurityPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents an API stage.
@@ -10214,37 +10329,55 @@ class VpcLink {
 }
 
 /// The status of the VPC link.
-enum VpcLinkStatus {
-  pending('PENDING'),
-  available('AVAILABLE'),
-  deleting('DELETING'),
-  failed('FAILED'),
-  inactive('INACTIVE'),
-  ;
+class VpcLinkStatus {
+  static const pending = VpcLinkStatus._('PENDING');
+  static const available = VpcLinkStatus._('AVAILABLE');
+  static const deleting = VpcLinkStatus._('DELETING');
+  static const failed = VpcLinkStatus._('FAILED');
+  static const inactive = VpcLinkStatus._('INACTIVE');
 
   final String value;
 
-  const VpcLinkStatus(this.value);
+  const VpcLinkStatus._(this.value);
+
+  static const values = [pending, available, deleting, failed, inactive];
 
   static VpcLinkStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcLinkStatus'));
+          orElse: () => VpcLinkStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VpcLinkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The version of the VPC link.
-enum VpcLinkVersion {
-  v2('V2'),
-  ;
+class VpcLinkVersion {
+  static const v2 = VpcLinkVersion._('V2');
 
   final String value;
 
-  const VpcLinkVersion(this.value);
+  const VpcLinkVersion._(this.value);
+
+  static const values = [v2];
 
   static VpcLinkVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum VpcLinkVersion'));
+          orElse: () => VpcLinkVersion._(value));
+
+  @override
+  bool operator ==(other) => other is VpcLinkVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

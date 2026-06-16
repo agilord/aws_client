@@ -1413,17 +1413,26 @@ class GatewayDetails {
   }
 }
 
-enum GatewayType {
-  backupVm('BACKUP_VM'),
-  ;
+class GatewayType {
+  static const backupVm = GatewayType._('BACKUP_VM');
 
   final String value;
 
-  const GatewayType(this.value);
+  const GatewayType._(this.value);
 
-  static GatewayType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum GatewayType'));
+  static const values = [backupVm];
+
+  static GatewayType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetBandwidthRateLimitScheduleOutput {
@@ -1734,21 +1743,30 @@ class HypervisorDetails {
   }
 }
 
-enum HypervisorState {
-  pending('PENDING'),
-  online('ONLINE'),
-  offline('OFFLINE'),
-  error('ERROR'),
-  ;
+class HypervisorState {
+  static const pending = HypervisorState._('PENDING');
+  static const online = HypervisorState._('ONLINE');
+  static const offline = HypervisorState._('OFFLINE');
+  static const error = HypervisorState._('ERROR');
 
   final String value;
 
-  const HypervisorState(this.value);
+  const HypervisorState._(this.value);
+
+  static const values = [pending, online, offline, error];
 
   static HypervisorState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum HypervisorState'));
+          orElse: () => HypervisorState._(value));
+
+  @override
+  bool operator ==(other) => other is HypervisorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ImportHypervisorConfigurationOutput {
@@ -2062,22 +2080,32 @@ class StartVirtualMachinesMetadataSyncOutput {
   }
 }
 
-enum SyncMetadataStatus {
-  created('CREATED'),
-  running('RUNNING'),
-  failed('FAILED'),
-  partiallyFailed('PARTIALLY_FAILED'),
-  succeeded('SUCCEEDED'),
-  ;
+class SyncMetadataStatus {
+  static const created = SyncMetadataStatus._('CREATED');
+  static const running = SyncMetadataStatus._('RUNNING');
+  static const failed = SyncMetadataStatus._('FAILED');
+  static const partiallyFailed = SyncMetadataStatus._('PARTIALLY_FAILED');
+  static const succeeded = SyncMetadataStatus._('SUCCEEDED');
 
   final String value;
 
-  const SyncMetadataStatus(this.value);
+  const SyncMetadataStatus._(this.value);
 
-  static SyncMetadataStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SyncMetadataStatus'));
+  static const values = [created, running, failed, partiallyFailed, succeeded];
+
+  static SyncMetadataStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncMetadataStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncMetadataStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A key-value pair you can use to manage, filter, and search for your

@@ -538,17 +538,26 @@ class Filter {
   }
 }
 
-enum FilterType {
-  termMatch('TERM_MATCH'),
-  ;
+class FilterType {
+  static const termMatch = FilterType._('TERM_MATCH');
 
   final String value;
 
-  const FilterType(this.value);
+  const FilterType._(this.value);
 
-  static FilterType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterType'));
+  static const values = [termMatch];
+
+  static FilterType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
+
+  @override
+  bool operator ==(other) => other is FilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAttributeValuesResponse {

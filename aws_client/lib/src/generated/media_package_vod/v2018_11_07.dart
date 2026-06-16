@@ -555,19 +555,28 @@ class MediaPackageVod {
   }
 }
 
-enum AdMarkers {
-  none('NONE'),
-  scte35Enhanced('SCTE35_ENHANCED'),
-  passthrough('PASSTHROUGH'),
-  ;
+class AdMarkers {
+  static const none = AdMarkers._('NONE');
+  static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
+  static const passthrough = AdMarkers._('PASSTHROUGH');
 
   final String value;
 
-  const AdMarkers(this.value);
+  const AdMarkers._(this.value);
 
-  static AdMarkers fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AdMarkers'));
+  static const values = [none, scte35Enhanced, passthrough];
+
+  static AdMarkers fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkers._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A MediaPackage VOD Asset resource.
@@ -1601,10 +1610,10 @@ class EncryptionContractConfiguration {
 
   factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionContractConfiguration(
-      presetSpeke20Audio:
-          PresetSpeke20Audio.fromString((json['presetSpeke20Audio'] as String)),
-      presetSpeke20Video:
-          PresetSpeke20Video.fromString((json['presetSpeke20Video'] as String)),
+      presetSpeke20Audio: PresetSpeke20Audio.fromString(
+          (json['presetSpeke20Audio'] as String?) ?? ''),
+      presetSpeke20Video: PresetSpeke20Video.fromString(
+          (json['presetSpeke20Video'] as String?) ?? ''),
     );
   }
 
@@ -1618,19 +1627,28 @@ class EncryptionContractConfiguration {
   }
 }
 
-enum EncryptionMethod {
-  aes_128('AES_128'),
-  sampleAes('SAMPLE_AES'),
-  ;
+class EncryptionMethod {
+  static const aes_128 = EncryptionMethod._('AES_128');
+  static const sampleAes = EncryptionMethod._('SAMPLE_AES');
 
   final String value;
 
-  const EncryptionMethod(this.value);
+  const EncryptionMethod._(this.value);
+
+  static const values = [aes_128, sampleAes];
 
   static EncryptionMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EncryptionMethod'));
+          orElse: () => EncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An HTTP Live Streaming (HLS) encryption configuration.
@@ -1938,19 +1956,28 @@ class ListTagsForResourceResponse {
   }
 }
 
-enum ManifestLayout {
-  full('FULL'),
-  compact('COMPACT'),
-  ;
+class ManifestLayout {
+  static const full = ManifestLayout._('FULL');
+  static const compact = ManifestLayout._('COMPACT');
 
   final String value;
 
-  const ManifestLayout(this.value);
+  const ManifestLayout._(this.value);
+
+  static const values = [full, compact];
 
   static ManifestLayout fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ManifestLayout'));
+          orElse: () => ManifestLayout._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestLayout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
@@ -2201,90 +2228,161 @@ class PackagingGroup {
   }
 }
 
-enum PresetSpeke20Audio {
-  presetAudio_1('PRESET-AUDIO-1'),
-  presetAudio_2('PRESET-AUDIO-2'),
-  presetAudio_3('PRESET-AUDIO-3'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
+class PresetSpeke20Audio {
+  static const presetAudio_1 = PresetSpeke20Audio._('PRESET-AUDIO-1');
+  static const presetAudio_2 = PresetSpeke20Audio._('PRESET-AUDIO-2');
+  static const presetAudio_3 = PresetSpeke20Audio._('PRESET-AUDIO-3');
+  static const shared = PresetSpeke20Audio._('SHARED');
+  static const unencrypted = PresetSpeke20Audio._('UNENCRYPTED');
 
   final String value;
 
-  const PresetSpeke20Audio(this.value);
+  const PresetSpeke20Audio._(this.value);
 
-  static PresetSpeke20Audio fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Audio'));
-}
+  static const values = [
+    presetAudio_1,
+    presetAudio_2,
+    presetAudio_3,
+    shared,
+    unencrypted
+  ];
 
-enum PresetSpeke20Video {
-  presetVideo_1('PRESET-VIDEO-1'),
-  presetVideo_2('PRESET-VIDEO-2'),
-  presetVideo_3('PRESET-VIDEO-3'),
-  presetVideo_4('PRESET-VIDEO-4'),
-  presetVideo_5('PRESET-VIDEO-5'),
-  presetVideo_6('PRESET-VIDEO-6'),
-  presetVideo_7('PRESET-VIDEO-7'),
-  presetVideo_8('PRESET-VIDEO-8'),
-  shared('SHARED'),
-  unencrypted('UNENCRYPTED'),
-  ;
-
-  final String value;
-
-  const PresetSpeke20Video(this.value);
-
-  static PresetSpeke20Video fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PresetSpeke20Video'));
-}
-
-enum Profile {
-  none('NONE'),
-  hbbtv_1_5('HBBTV_1_5'),
-  ;
-
-  final String value;
-
-  const Profile(this.value);
-
-  static Profile fromString(String value) =>
+  static PresetSpeke20Audio fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Profile'));
+          orElse: () => PresetSpeke20Audio._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Audio && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ScteMarkersSource {
-  segments('SEGMENTS'),
-  manifest('MANIFEST'),
-  ;
+class PresetSpeke20Video {
+  static const presetVideo_1 = PresetSpeke20Video._('PRESET-VIDEO-1');
+  static const presetVideo_2 = PresetSpeke20Video._('PRESET-VIDEO-2');
+  static const presetVideo_3 = PresetSpeke20Video._('PRESET-VIDEO-3');
+  static const presetVideo_4 = PresetSpeke20Video._('PRESET-VIDEO-4');
+  static const presetVideo_5 = PresetSpeke20Video._('PRESET-VIDEO-5');
+  static const presetVideo_6 = PresetSpeke20Video._('PRESET-VIDEO-6');
+  static const presetVideo_7 = PresetSpeke20Video._('PRESET-VIDEO-7');
+  static const presetVideo_8 = PresetSpeke20Video._('PRESET-VIDEO-8');
+  static const shared = PresetSpeke20Video._('SHARED');
+  static const unencrypted = PresetSpeke20Video._('UNENCRYPTED');
 
   final String value;
 
-  const ScteMarkersSource(this.value);
+  const PresetSpeke20Video._(this.value);
+
+  static const values = [
+    presetVideo_1,
+    presetVideo_2,
+    presetVideo_3,
+    presetVideo_4,
+    presetVideo_5,
+    presetVideo_6,
+    presetVideo_7,
+    presetVideo_8,
+    shared,
+    unencrypted
+  ];
+
+  static PresetSpeke20Video fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PresetSpeke20Video._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PresetSpeke20Video && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Profile {
+  static const none = Profile._('NONE');
+  static const hbbtv_1_5 = Profile._('HBBTV_1_5');
+
+  final String value;
+
+  const Profile._(this.value);
+
+  static const values = [none, hbbtv_1_5];
+
+  static Profile fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Profile._(value));
+
+  @override
+  bool operator ==(other) => other is Profile && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScteMarkersSource {
+  static const segments = ScteMarkersSource._('SEGMENTS');
+  static const manifest = ScteMarkersSource._('MANIFEST');
+
+  final String value;
+
+  const ScteMarkersSource._(this.value);
+
+  static const values = [segments, manifest];
 
   static ScteMarkersSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ScteMarkersSource'));
+          orElse: () => ScteMarkersSource._(value));
+
+  @override
+  bool operator ==(other) => other is ScteMarkersSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum SegmentTemplateFormat {
-  numberWithTimeline('NUMBER_WITH_TIMELINE'),
-  timeWithTimeline('TIME_WITH_TIMELINE'),
-  numberWithDuration('NUMBER_WITH_DURATION'),
-  ;
+class SegmentTemplateFormat {
+  static const numberWithTimeline =
+      SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
+  static const timeWithTimeline = SegmentTemplateFormat._('TIME_WITH_TIMELINE');
+  static const numberWithDuration =
+      SegmentTemplateFormat._('NUMBER_WITH_DURATION');
 
   final String value;
 
-  const SegmentTemplateFormat(this.value);
+  const SegmentTemplateFormat._(this.value);
 
-  static SegmentTemplateFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SegmentTemplateFormat'));
+  static const values = [
+    numberWithTimeline,
+    timeWithTimeline,
+    numberWithDuration
+  ];
+
+  static SegmentTemplateFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SegmentTemplateFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentTemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
@@ -2341,19 +2439,33 @@ class SpekeKeyProvider {
   }
 }
 
-enum StreamOrder {
-  original('ORIGINAL'),
-  videoBitrateAscending('VIDEO_BITRATE_ASCENDING'),
-  videoBitrateDescending('VIDEO_BITRATE_DESCENDING'),
-  ;
+class StreamOrder {
+  static const original = StreamOrder._('ORIGINAL');
+  static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
+  static const videoBitrateDescending =
+      StreamOrder._('VIDEO_BITRATE_DESCENDING');
 
   final String value;
 
-  const StreamOrder(this.value);
+  const StreamOrder._(this.value);
 
-  static StreamOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StreamOrder'));
+  static const values = [
+    original,
+    videoBitrateAscending,
+    videoBitrateDescending
+  ];
+
+  static StreamOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamOrder._(value));
+
+  @override
+  bool operator ==(other) => other is StreamOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A StreamSelection configuration.
@@ -2469,18 +2581,28 @@ class UpdatePackagingGroupResponse {
   }
 }
 
-enum PeriodTriggersElement {
-  ads('ADS'),
-  ;
+class PeriodTriggersElement {
+  static const ads = PeriodTriggersElement._('ADS');
 
   final String value;
 
-  const PeriodTriggersElement(this.value);
+  const PeriodTriggersElement._(this.value);
 
-  static PeriodTriggersElement fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PeriodTriggersElement'));
+  static const values = [ads];
+
+  static PeriodTriggersElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PeriodTriggersElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PeriodTriggersElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ForbiddenException extends _s.GenericAwsException {

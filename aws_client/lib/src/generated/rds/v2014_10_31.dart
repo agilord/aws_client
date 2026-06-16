@@ -22291,53 +22291,84 @@ class AccountQuota {
   }
 }
 
-enum ActivityStreamMode {
-  sync('sync'),
-  async('async'),
-  ;
+class ActivityStreamMode {
+  static const sync = ActivityStreamMode._('sync');
+  static const async = ActivityStreamMode._('async');
 
   final String value;
 
-  const ActivityStreamMode(this.value);
+  const ActivityStreamMode._(this.value);
 
-  static ActivityStreamMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActivityStreamMode'));
+  static const values = [sync, async];
+
+  static ActivityStreamMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActivityStreamMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivityStreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActivityStreamPolicyStatus {
-  locked('locked'),
-  unlocked('unlocked'),
-  lockingPolicy('locking-policy'),
-  unlockingPolicy('unlocking-policy'),
-  ;
+class ActivityStreamPolicyStatus {
+  static const locked = ActivityStreamPolicyStatus._('locked');
+  static const unlocked = ActivityStreamPolicyStatus._('unlocked');
+  static const lockingPolicy = ActivityStreamPolicyStatus._('locking-policy');
+  static const unlockingPolicy =
+      ActivityStreamPolicyStatus._('unlocking-policy');
 
   final String value;
 
-  const ActivityStreamPolicyStatus(this.value);
+  const ActivityStreamPolicyStatus._(this.value);
+
+  static const values = [locked, unlocked, lockingPolicy, unlockingPolicy];
 
   static ActivityStreamPolicyStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ActivityStreamPolicyStatus'));
+          orElse: () => ActivityStreamPolicyStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivityStreamPolicyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ActivityStreamStatus {
-  stopped('stopped'),
-  starting('starting'),
-  started('started'),
-  stopping('stopping'),
-  ;
+class ActivityStreamStatus {
+  static const stopped = ActivityStreamStatus._('stopped');
+  static const starting = ActivityStreamStatus._('starting');
+  static const started = ActivityStreamStatus._('started');
+  static const stopping = ActivityStreamStatus._('stopping');
 
   final String value;
 
-  const ActivityStreamStatus(this.value);
+  const ActivityStreamStatus._(this.value);
 
-  static ActivityStreamStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ActivityStreamStatus'));
+  static const values = [stopped, starting, started, stopping];
+
+  static ActivityStreamStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActivityStreamStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivityStreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AddSourceIdentifierToSubscriptionResult {
@@ -22362,18 +22393,27 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
-enum ApplyMethod {
-  immediate('immediate'),
-  pendingReboot('pending-reboot'),
-  ;
+class ApplyMethod {
+  static const immediate = ApplyMethod._('immediate');
+  static const pendingReboot = ApplyMethod._('pending-reboot');
 
   final String value;
 
-  const ApplyMethod(this.value);
+  const ApplyMethod._(this.value);
 
-  static ApplyMethod fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ApplyMethod'));
+  static const values = [immediate, pendingReboot];
+
+  static ApplyMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApplyMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ApplyMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ApplyPendingMaintenanceActionResult {
@@ -22400,32 +22440,50 @@ class ApplyPendingMaintenanceActionResult {
   }
 }
 
-enum AuditPolicyState {
-  locked('locked'),
-  unlocked('unlocked'),
-  ;
+class AuditPolicyState {
+  static const locked = AuditPolicyState._('locked');
+  static const unlocked = AuditPolicyState._('unlocked');
 
   final String value;
 
-  const AuditPolicyState(this.value);
+  const AuditPolicyState._(this.value);
+
+  static const values = [locked, unlocked];
 
   static AuditPolicyState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AuditPolicyState'));
+          orElse: () => AuditPolicyState._(value));
+
+  @override
+  bool operator ==(other) => other is AuditPolicyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum AuthScheme {
-  secrets('SECRETS'),
-  ;
+class AuthScheme {
+  static const secrets = AuthScheme._('SECRETS');
 
   final String value;
 
-  const AuthScheme(this.value);
+  const AuthScheme._(this.value);
 
-  static AuthScheme fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum AuthScheme'));
+  static const values = [secrets];
+
+  static AuthScheme fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthScheme._(value));
+
+  @override
+  bool operator ==(other) => other is AuthScheme && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AuthorizeDBSecurityGroupIngressResult {
@@ -22450,19 +22508,28 @@ class AuthorizeDBSecurityGroupIngressResult {
   }
 }
 
-enum AutomationMode {
-  full('full'),
-  allPaused('all-paused'),
-  ;
+class AutomationMode {
+  static const full = AutomationMode._('full');
+  static const allPaused = AutomationMode._('all-paused');
 
   final String value;
 
-  const AutomationMode(this.value);
+  const AutomationMode._(this.value);
+
+  static const values = [full, allPaused];
 
   static AutomationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum AutomationMode'));
+          orElse: () => AutomationMode._(value));
+
+  @override
+  bool operator ==(other) => other is AutomationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains Availability Zone information.
@@ -22940,21 +23007,39 @@ class CharacterSet {
   }
 }
 
-enum ClientPasswordAuthType {
-  mysqlNativePassword('MYSQL_NATIVE_PASSWORD'),
-  postgresScramSha_256('POSTGRES_SCRAM_SHA_256'),
-  postgresMd5('POSTGRES_MD5'),
-  sqlServerAuthentication('SQL_SERVER_AUTHENTICATION'),
-  ;
+class ClientPasswordAuthType {
+  static const mysqlNativePassword =
+      ClientPasswordAuthType._('MYSQL_NATIVE_PASSWORD');
+  static const postgresScramSha_256 =
+      ClientPasswordAuthType._('POSTGRES_SCRAM_SHA_256');
+  static const postgresMd5 = ClientPasswordAuthType._('POSTGRES_MD5');
+  static const sqlServerAuthentication =
+      ClientPasswordAuthType._('SQL_SERVER_AUTHENTICATION');
 
   final String value;
 
-  const ClientPasswordAuthType(this.value);
+  const ClientPasswordAuthType._(this.value);
+
+  static const values = [
+    mysqlNativePassword,
+    postgresScramSha_256,
+    postgresMd5,
+    sqlServerAuthentication
+  ];
 
   static ClientPasswordAuthType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ClientPasswordAuthType'));
+          orElse: () => ClientPasswordAuthType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClientPasswordAuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration setting for the log types to be enabled for export to
@@ -23859,20 +23944,31 @@ class CustomDBEngineVersionAMI {
   }
 }
 
-enum CustomEngineVersionStatus {
-  available('available'),
-  inactive('inactive'),
-  inactiveExceptRestore('inactive-except-restore'),
-  ;
+class CustomEngineVersionStatus {
+  static const available = CustomEngineVersionStatus._('available');
+  static const inactive = CustomEngineVersionStatus._('inactive');
+  static const inactiveExceptRestore =
+      CustomEngineVersionStatus._('inactive-except-restore');
 
   final String value;
 
-  const CustomEngineVersionStatus(this.value);
+  const CustomEngineVersionStatus._(this.value);
+
+  static const values = [available, inactive, inactiveExceptRestore];
 
   static CustomEngineVersionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomEngineVersionStatus'));
+          orElse: () => CustomEngineVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomEngineVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster.
@@ -28515,60 +28611,109 @@ class DBProxyEndpoint {
   }
 }
 
-enum DBProxyEndpointStatus {
-  available('available'),
-  modifying('modifying'),
-  incompatibleNetwork('incompatible-network'),
-  insufficientResourceLimits('insufficient-resource-limits'),
-  creating('creating'),
-  deleting('deleting'),
-  ;
+class DBProxyEndpointStatus {
+  static const available = DBProxyEndpointStatus._('available');
+  static const modifying = DBProxyEndpointStatus._('modifying');
+  static const incompatibleNetwork =
+      DBProxyEndpointStatus._('incompatible-network');
+  static const insufficientResourceLimits =
+      DBProxyEndpointStatus._('insufficient-resource-limits');
+  static const creating = DBProxyEndpointStatus._('creating');
+  static const deleting = DBProxyEndpointStatus._('deleting');
 
   final String value;
 
-  const DBProxyEndpointStatus(this.value);
+  const DBProxyEndpointStatus._(this.value);
 
-  static DBProxyEndpointStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DBProxyEndpointStatus'));
+  static const values = [
+    available,
+    modifying,
+    incompatibleNetwork,
+    insufficientResourceLimits,
+    creating,
+    deleting
+  ];
+
+  static DBProxyEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DBProxyEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DBProxyEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DBProxyEndpointTargetRole {
-  readWrite('READ_WRITE'),
-  readOnly('READ_ONLY'),
-  ;
+class DBProxyEndpointTargetRole {
+  static const readWrite = DBProxyEndpointTargetRole._('READ_WRITE');
+  static const readOnly = DBProxyEndpointTargetRole._('READ_ONLY');
 
   final String value;
 
-  const DBProxyEndpointTargetRole(this.value);
+  const DBProxyEndpointTargetRole._(this.value);
+
+  static const values = [readWrite, readOnly];
 
   static DBProxyEndpointTargetRole fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum DBProxyEndpointTargetRole'));
+          orElse: () => DBProxyEndpointTargetRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DBProxyEndpointTargetRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum DBProxyStatus {
-  available('available'),
-  modifying('modifying'),
-  incompatibleNetwork('incompatible-network'),
-  insufficientResourceLimits('insufficient-resource-limits'),
-  creating('creating'),
-  deleting('deleting'),
-  suspended('suspended'),
-  suspending('suspending'),
-  reactivating('reactivating'),
-  ;
+class DBProxyStatus {
+  static const available = DBProxyStatus._('available');
+  static const modifying = DBProxyStatus._('modifying');
+  static const incompatibleNetwork = DBProxyStatus._('incompatible-network');
+  static const insufficientResourceLimits =
+      DBProxyStatus._('insufficient-resource-limits');
+  static const creating = DBProxyStatus._('creating');
+  static const deleting = DBProxyStatus._('deleting');
+  static const suspended = DBProxyStatus._('suspended');
+  static const suspending = DBProxyStatus._('suspending');
+  static const reactivating = DBProxyStatus._('reactivating');
 
   final String value;
 
-  const DBProxyStatus(this.value);
+  const DBProxyStatus._(this.value);
+
+  static const values = [
+    available,
+    modifying,
+    incompatibleNetwork,
+    insufficientResourceLimits,
+    creating,
+    deleting,
+    suspended,
+    suspending,
+    reactivating
+  ];
 
   static DBProxyStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum DBProxyStatus'));
+          orElse: () => DBProxyStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DBProxyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details for an RDS Proxy target. It represents an RDS DB
@@ -31113,20 +31258,28 @@ class EngineDefaults {
   }
 }
 
-enum EngineFamily {
-  mysql('MYSQL'),
-  postgresql('POSTGRESQL'),
-  sqlserver('SQLSERVER'),
-  ;
+class EngineFamily {
+  static const mysql = EngineFamily._('MYSQL');
+  static const postgresql = EngineFamily._('POSTGRESQL');
+  static const sqlserver = EngineFamily._('SQLSERVER');
 
   final String value;
 
-  const EngineFamily(this.value);
+  const EngineFamily._(this.value);
 
-  static EngineFamily fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EngineFamily'));
+  static const values = [mysql, postgresql, sqlserver];
+
+  static EngineFamily fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EngineFamily._(value));
+
+  @override
+  bool operator ==(other) => other is EngineFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used as a response element in the <a
@@ -31430,19 +31583,28 @@ class EventsMessage {
   }
 }
 
-enum ExportSourceType {
-  snapshot('SNAPSHOT'),
-  cluster('CLUSTER'),
-  ;
+class ExportSourceType {
+  static const snapshot = ExportSourceType._('SNAPSHOT');
+  static const cluster = ExportSourceType._('CLUSTER');
 
   final String value;
 
-  const ExportSourceType(this.value);
+  const ExportSourceType._(this.value);
+
+  static const values = [snapshot, cluster];
 
   static ExportSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExportSourceType'));
+          orElse: () => ExportSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the details of a snapshot or cluster export to Amazon S3.
@@ -31785,20 +31947,29 @@ class FailoverState {
   }
 }
 
-enum FailoverStatus {
-  pending('pending'),
-  failingOver('failing-over'),
-  cancelling('cancelling'),
-  ;
+class FailoverStatus {
+  static const pending = FailoverStatus._('pending');
+  static const failingOver = FailoverStatus._('failing-over');
+  static const cancelling = FailoverStatus._('cancelling');
 
   final String value;
 
-  const FailoverStatus(this.value);
+  const FailoverStatus._(this.value);
+
+  static const values = [pending, failingOver, cancelling];
 
   static FailoverStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FailoverStatus'));
+          orElse: () => FailoverStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FailoverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A filter name and value pair that is used to return a more specific list of
@@ -32055,19 +32226,31 @@ class GlobalClusterMember {
   }
 }
 
-enum GlobalClusterMemberSynchronizationStatus {
-  connected('connected'),
-  pendingResync('pending-resync'),
-  ;
+class GlobalClusterMemberSynchronizationStatus {
+  static const connected =
+      GlobalClusterMemberSynchronizationStatus._('connected');
+  static const pendingResync =
+      GlobalClusterMemberSynchronizationStatus._('pending-resync');
 
   final String value;
 
-  const GlobalClusterMemberSynchronizationStatus(this.value);
+  const GlobalClusterMemberSynchronizationStatus._(this.value);
+
+  static const values = [connected, pendingResync];
 
   static GlobalClusterMemberSynchronizationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum GlobalClusterMemberSynchronizationStatus'));
+          orElse: () => GlobalClusterMemberSynchronizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalClusterMemberSynchronizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GlobalClustersMessage {
@@ -32105,19 +32288,28 @@ class GlobalClustersMessage {
   }
 }
 
-enum IAMAuthMode {
-  disabled('DISABLED'),
-  required('REQUIRED'),
-  enabled('ENABLED'),
-  ;
+class IAMAuthMode {
+  static const disabled = IAMAuthMode._('DISABLED');
+  static const required = IAMAuthMode._('REQUIRED');
+  static const enabled = IAMAuthMode._('ENABLED');
 
   final String value;
 
-  const IAMAuthMode(this.value);
+  const IAMAuthMode._(this.value);
 
-  static IAMAuthMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum IAMAuthMode'));
+  static const values = [disabled, required, enabled];
+
+  static IAMAuthMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IAMAuthMode._(value));
+
+  @override
+  bool operator ==(other) => other is IAMAuthMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used as a response element in the
@@ -32303,24 +32495,41 @@ class IntegrationError {
   }
 }
 
-enum IntegrationStatus {
-  creating('creating'),
-  active('active'),
-  modifying('modifying'),
-  failed('failed'),
-  deleting('deleting'),
-  syncing('syncing'),
-  needsAttention('needs_attention'),
-  ;
+class IntegrationStatus {
+  static const creating = IntegrationStatus._('creating');
+  static const active = IntegrationStatus._('active');
+  static const modifying = IntegrationStatus._('modifying');
+  static const failed = IntegrationStatus._('failed');
+  static const deleting = IntegrationStatus._('deleting');
+  static const syncing = IntegrationStatus._('syncing');
+  static const needsAttention = IntegrationStatus._('needs_attention');
 
   final String value;
 
-  const IntegrationStatus(this.value);
+  const IntegrationStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    modifying,
+    failed,
+    deleting,
+    syncing,
+    needsAttention
+  ];
 
   static IntegrationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum IntegrationStatus'));
+          orElse: () => IntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details of an issue with your DB instances, DB clusters, and DB
@@ -32382,43 +32591,73 @@ class LimitlessDatabase {
   }
 }
 
-enum LimitlessDatabaseStatus {
-  active('active'),
-  notInUse('not-in-use'),
-  enabled('enabled'),
-  disabled('disabled'),
-  enabling('enabling'),
-  disabling('disabling'),
-  modifyingMaxCapacity('modifying-max-capacity'),
-  error('error'),
-  ;
+class LimitlessDatabaseStatus {
+  static const active = LimitlessDatabaseStatus._('active');
+  static const notInUse = LimitlessDatabaseStatus._('not-in-use');
+  static const enabled = LimitlessDatabaseStatus._('enabled');
+  static const disabled = LimitlessDatabaseStatus._('disabled');
+  static const enabling = LimitlessDatabaseStatus._('enabling');
+  static const disabling = LimitlessDatabaseStatus._('disabling');
+  static const modifyingMaxCapacity =
+      LimitlessDatabaseStatus._('modifying-max-capacity');
+  static const error = LimitlessDatabaseStatus._('error');
 
   final String value;
 
-  const LimitlessDatabaseStatus(this.value);
+  const LimitlessDatabaseStatus._(this.value);
+
+  static const values = [
+    active,
+    notInUse,
+    enabled,
+    disabled,
+    enabling,
+    disabling,
+    modifyingMaxCapacity,
+    error
+  ];
 
   static LimitlessDatabaseStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LimitlessDatabaseStatus'));
+          orElse: () => LimitlessDatabaseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LimitlessDatabaseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LocalWriteForwardingStatus {
-  enabled('enabled'),
-  disabled('disabled'),
-  enabling('enabling'),
-  disabling('disabling'),
-  requested('requested'),
-  ;
+class LocalWriteForwardingStatus {
+  static const enabled = LocalWriteForwardingStatus._('enabled');
+  static const disabled = LocalWriteForwardingStatus._('disabled');
+  static const enabling = LocalWriteForwardingStatus._('enabling');
+  static const disabling = LocalWriteForwardingStatus._('disabling');
+  static const requested = LocalWriteForwardingStatus._('requested');
 
   final String value;
 
-  const LocalWriteForwardingStatus(this.value);
+  const LocalWriteForwardingStatus._(this.value);
+
+  static const values = [enabled, disabled, enabling, disabling, requested];
 
   static LocalWriteForwardingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LocalWriteForwardingStatus'));
+          orElse: () => LocalWriteForwardingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocalWriteForwardingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager
@@ -35513,18 +35752,27 @@ class RemoveSourceIdentifierFromSubscriptionResult {
   }
 }
 
-enum ReplicaMode {
-  openReadOnly('open-read-only'),
-  mounted('mounted'),
-  ;
+class ReplicaMode {
+  static const openReadOnly = ReplicaMode._('open-read-only');
+  static const mounted = ReplicaMode._('mounted');
 
   final String value;
 
-  const ReplicaMode(this.value);
+  const ReplicaMode._(this.value);
 
-  static ReplicaMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ReplicaMode'));
+  static const values = [openReadOnly, mounted];
+
+  static ReplicaMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReplicaMode._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicaMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// This data type is used as a response element in the
@@ -36444,25 +36692,44 @@ class SourceRegionMessage {
   }
 }
 
-enum SourceType {
-  dbInstance('db-instance'),
-  dbParameterGroup('db-parameter-group'),
-  dbSecurityGroup('db-security-group'),
-  dbSnapshot('db-snapshot'),
-  dbCluster('db-cluster'),
-  dbClusterSnapshot('db-cluster-snapshot'),
-  customEngineVersion('custom-engine-version'),
-  dbProxy('db-proxy'),
-  blueGreenDeployment('blue-green-deployment'),
-  ;
+class SourceType {
+  static const dbInstance = SourceType._('db-instance');
+  static const dbParameterGroup = SourceType._('db-parameter-group');
+  static const dbSecurityGroup = SourceType._('db-security-group');
+  static const dbSnapshot = SourceType._('db-snapshot');
+  static const dbCluster = SourceType._('db-cluster');
+  static const dbClusterSnapshot = SourceType._('db-cluster-snapshot');
+  static const customEngineVersion = SourceType._('custom-engine-version');
+  static const dbProxy = SourceType._('db-proxy');
+  static const blueGreenDeployment = SourceType._('blue-green-deployment');
 
   final String value;
 
-  const SourceType(this.value);
+  const SourceType._(this.value);
 
-  static SourceType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SourceType'));
+  static const values = [
+    dbInstance,
+    dbParameterGroup,
+    dbSecurityGroup,
+    dbSnapshot,
+    dbCluster,
+    dbClusterSnapshot,
+    customEngineVersion,
+    dbProxy,
+    blueGreenDeployment
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class StartActivityStreamResponse {
@@ -37016,67 +37283,112 @@ class TargetHealth {
   }
 }
 
-enum TargetHealthReason {
-  unreachable('UNREACHABLE'),
-  connectionFailed('CONNECTION_FAILED'),
-  authFailure('AUTH_FAILURE'),
-  pendingProxyCapacity('PENDING_PROXY_CAPACITY'),
-  invalidReplicationState('INVALID_REPLICATION_STATE'),
-  ;
+class TargetHealthReason {
+  static const unreachable = TargetHealthReason._('UNREACHABLE');
+  static const connectionFailed = TargetHealthReason._('CONNECTION_FAILED');
+  static const authFailure = TargetHealthReason._('AUTH_FAILURE');
+  static const pendingProxyCapacity =
+      TargetHealthReason._('PENDING_PROXY_CAPACITY');
+  static const invalidReplicationState =
+      TargetHealthReason._('INVALID_REPLICATION_STATE');
 
   final String value;
 
-  const TargetHealthReason(this.value);
+  const TargetHealthReason._(this.value);
 
-  static TargetHealthReason fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum TargetHealthReason'));
+  static const values = [
+    unreachable,
+    connectionFailed,
+    authFailure,
+    pendingProxyCapacity,
+    invalidReplicationState
+  ];
+
+  static TargetHealthReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetHealthReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetHealthReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetRole {
-  readWrite('READ_WRITE'),
-  readOnly('READ_ONLY'),
-  unknown('UNKNOWN'),
-  ;
+class TargetRole {
+  static const readWrite = TargetRole._('READ_WRITE');
+  static const readOnly = TargetRole._('READ_ONLY');
+  static const unknown = TargetRole._('UNKNOWN');
 
   final String value;
 
-  const TargetRole(this.value);
+  const TargetRole._(this.value);
 
-  static TargetRole fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetRole'));
+  static const values = [readWrite, readOnly, unknown];
+
+  static TargetRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetRole._(value));
+
+  @override
+  bool operator ==(other) => other is TargetRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetState {
-  registering('REGISTERING'),
-  available('AVAILABLE'),
-  unavailable('UNAVAILABLE'),
-  ;
+class TargetState {
+  static const registering = TargetState._('REGISTERING');
+  static const available = TargetState._('AVAILABLE');
+  static const unavailable = TargetState._('UNAVAILABLE');
 
   final String value;
 
-  const TargetState(this.value);
+  const TargetState._(this.value);
 
-  static TargetState fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetState'));
+  static const values = [registering, available, unavailable];
+
+  static TargetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetState._(value));
+
+  @override
+  bool operator ==(other) => other is TargetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum TargetType {
-  rdsInstance('RDS_INSTANCE'),
-  rdsServerlessEndpoint('RDS_SERVERLESS_ENDPOINT'),
-  trackedCluster('TRACKED_CLUSTER'),
-  ;
+class TargetType {
+  static const rdsInstance = TargetType._('RDS_INSTANCE');
+  static const rdsServerlessEndpoint = TargetType._('RDS_SERVERLESS_ENDPOINT');
+  static const trackedCluster = TargetType._('TRACKED_CLUSTER');
 
   final String value;
 
-  const TargetType(this.value);
+  const TargetType._(this.value);
 
-  static TargetType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum TargetType'));
+  static const values = [rdsInstance, rdsServerlessEndpoint, trackedCluster];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tenant database in the DB instance. This data type is an element in the
@@ -37735,22 +38047,32 @@ class VpcSecurityGroupMembership {
   }
 }
 
-enum WriteForwardingStatus {
-  enabled('enabled'),
-  disabled('disabled'),
-  enabling('enabling'),
-  disabling('disabling'),
-  unknown('unknown'),
-  ;
+class WriteForwardingStatus {
+  static const enabled = WriteForwardingStatus._('enabled');
+  static const disabled = WriteForwardingStatus._('disabled');
+  static const enabling = WriteForwardingStatus._('enabling');
+  static const disabling = WriteForwardingStatus._('disabling');
+  static const unknown = WriteForwardingStatus._('unknown');
 
   final String value;
 
-  const WriteForwardingStatus(this.value);
+  const WriteForwardingStatus._(this.value);
 
-  static WriteForwardingStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum WriteForwardingStatus'));
+  static const values = [enabled, disabled, enabling, disabling, unknown];
+
+  static WriteForwardingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WriteForwardingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WriteForwardingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {

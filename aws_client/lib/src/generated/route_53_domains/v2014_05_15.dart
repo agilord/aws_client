@@ -2498,284 +2498,554 @@ class ContactDetail {
   }
 }
 
-enum ContactType {
-  person('PERSON'),
-  company('COMPANY'),
-  association('ASSOCIATION'),
-  publicBody('PUBLIC_BODY'),
-  reseller('RESELLER'),
-  ;
+class ContactType {
+  static const person = ContactType._('PERSON');
+  static const company = ContactType._('COMPANY');
+  static const association = ContactType._('ASSOCIATION');
+  static const publicBody = ContactType._('PUBLIC_BODY');
+  static const reseller = ContactType._('RESELLER');
 
   final String value;
 
-  const ContactType(this.value);
+  const ContactType._(this.value);
 
-  static ContactType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ContactType'));
+  static const values = [person, company, association, publicBody, reseller];
+
+  static ContactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContactType._(value));
+
+  @override
+  bool operator ==(other) => other is ContactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CountryCode {
-  ac('AC'),
-  ad('AD'),
-  ae('AE'),
-  af('AF'),
-  ag('AG'),
-  ai('AI'),
-  al('AL'),
-  am('AM'),
-  an('AN'),
-  ao('AO'),
-  aq('AQ'),
-  ar('AR'),
-  as('AS'),
-  at('AT'),
-  au('AU'),
-  aw('AW'),
-  ax('AX'),
-  az('AZ'),
-  ba('BA'),
-  bb('BB'),
-  bd('BD'),
-  be('BE'),
-  bf('BF'),
-  bg('BG'),
-  bh('BH'),
-  bi('BI'),
-  bj('BJ'),
-  bl('BL'),
-  bm('BM'),
-  bn('BN'),
-  bo('BO'),
-  bq('BQ'),
-  br('BR'),
-  bs('BS'),
-  bt('BT'),
-  bv('BV'),
-  bw('BW'),
-  by('BY'),
-  bz('BZ'),
-  ca('CA'),
-  cc('CC'),
-  cd('CD'),
-  cf('CF'),
-  cg('CG'),
-  ch('CH'),
-  ci('CI'),
-  ck('CK'),
-  cl('CL'),
-  cm('CM'),
-  cn('CN'),
-  co('CO'),
-  cr('CR'),
-  cu('CU'),
-  cv('CV'),
-  cw('CW'),
-  cx('CX'),
-  cy('CY'),
-  cz('CZ'),
-  de('DE'),
-  dj('DJ'),
-  dk('DK'),
-  dm('DM'),
-  $do('DO'),
-  dz('DZ'),
-  ec('EC'),
-  ee('EE'),
-  eg('EG'),
-  eh('EH'),
-  er('ER'),
-  es('ES'),
-  et('ET'),
-  fi('FI'),
-  fj('FJ'),
-  fk('FK'),
-  fm('FM'),
-  fo('FO'),
-  fr('FR'),
-  ga('GA'),
-  gb('GB'),
-  gd('GD'),
-  ge('GE'),
-  gf('GF'),
-  gg('GG'),
-  gh('GH'),
-  gi('GI'),
-  gl('GL'),
-  gm('GM'),
-  gn('GN'),
-  gp('GP'),
-  gq('GQ'),
-  gr('GR'),
-  gs('GS'),
-  gt('GT'),
-  gu('GU'),
-  gw('GW'),
-  gy('GY'),
-  hk('HK'),
-  hm('HM'),
-  hn('HN'),
-  hr('HR'),
-  ht('HT'),
-  hu('HU'),
-  id('ID'),
-  ie('IE'),
-  il('IL'),
-  im('IM'),
-  $in('IN'),
-  io('IO'),
-  iq('IQ'),
-  ir('IR'),
-  $is('IS'),
-  it('IT'),
-  je('JE'),
-  jm('JM'),
-  jo('JO'),
-  jp('JP'),
-  ke('KE'),
-  kg('KG'),
-  kh('KH'),
-  ki('KI'),
-  km('KM'),
-  kn('KN'),
-  kp('KP'),
-  kr('KR'),
-  kw('KW'),
-  ky('KY'),
-  kz('KZ'),
-  la('LA'),
-  lb('LB'),
-  lc('LC'),
-  li('LI'),
-  lk('LK'),
-  lr('LR'),
-  ls('LS'),
-  lt('LT'),
-  lu('LU'),
-  lv('LV'),
-  ly('LY'),
-  ma('MA'),
-  mc('MC'),
-  md('MD'),
-  me('ME'),
-  mf('MF'),
-  mg('MG'),
-  mh('MH'),
-  mk('MK'),
-  ml('ML'),
-  mm('MM'),
-  mn('MN'),
-  mo('MO'),
-  mp('MP'),
-  mq('MQ'),
-  mr('MR'),
-  ms('MS'),
-  mt('MT'),
-  mu('MU'),
-  mv('MV'),
-  mw('MW'),
-  mx('MX'),
-  my('MY'),
-  mz('MZ'),
-  na('NA'),
-  nc('NC'),
-  ne('NE'),
-  nf('NF'),
-  ng('NG'),
-  ni('NI'),
-  nl('NL'),
-  no('NO'),
-  np('NP'),
-  nr('NR'),
-  nu('NU'),
-  nz('NZ'),
-  om('OM'),
-  pa('PA'),
-  pe('PE'),
-  pf('PF'),
-  pg('PG'),
-  ph('PH'),
-  pk('PK'),
-  pl('PL'),
-  pm('PM'),
-  pn('PN'),
-  pr('PR'),
-  ps('PS'),
-  pt('PT'),
-  pw('PW'),
-  py('PY'),
-  qa('QA'),
-  re('RE'),
-  ro('RO'),
-  rs('RS'),
-  ru('RU'),
-  rw('RW'),
-  sa('SA'),
-  sb('SB'),
-  sc('SC'),
-  sd('SD'),
-  se('SE'),
-  sg('SG'),
-  sh('SH'),
-  si('SI'),
-  sj('SJ'),
-  sk('SK'),
-  sl('SL'),
-  sm('SM'),
-  sn('SN'),
-  so('SO'),
-  sr('SR'),
-  ss('SS'),
-  st('ST'),
-  sv('SV'),
-  sx('SX'),
-  sy('SY'),
-  sz('SZ'),
-  tc('TC'),
-  td('TD'),
-  tf('TF'),
-  tg('TG'),
-  th('TH'),
-  tj('TJ'),
-  tk('TK'),
-  tl('TL'),
-  tm('TM'),
-  tn('TN'),
-  to('TO'),
-  tp('TP'),
-  tr('TR'),
-  tt('TT'),
-  tv('TV'),
-  tw('TW'),
-  tz('TZ'),
-  ua('UA'),
-  ug('UG'),
-  us('US'),
-  uy('UY'),
-  uz('UZ'),
-  va('VA'),
-  vc('VC'),
-  ve('VE'),
-  vg('VG'),
-  vi('VI'),
-  vn('VN'),
-  vu('VU'),
-  wf('WF'),
-  ws('WS'),
-  ye('YE'),
-  yt('YT'),
-  za('ZA'),
-  zm('ZM'),
-  zw('ZW'),
-  ;
+class CountryCode {
+  static const ac = CountryCode._('AC');
+  static const ad = CountryCode._('AD');
+  static const ae = CountryCode._('AE');
+  static const af = CountryCode._('AF');
+  static const ag = CountryCode._('AG');
+  static const ai = CountryCode._('AI');
+  static const al = CountryCode._('AL');
+  static const am = CountryCode._('AM');
+  static const an = CountryCode._('AN');
+  static const ao = CountryCode._('AO');
+  static const aq = CountryCode._('AQ');
+  static const ar = CountryCode._('AR');
+  static const as = CountryCode._('AS');
+  static const at = CountryCode._('AT');
+  static const au = CountryCode._('AU');
+  static const aw = CountryCode._('AW');
+  static const ax = CountryCode._('AX');
+  static const az = CountryCode._('AZ');
+  static const ba = CountryCode._('BA');
+  static const bb = CountryCode._('BB');
+  static const bd = CountryCode._('BD');
+  static const be = CountryCode._('BE');
+  static const bf = CountryCode._('BF');
+  static const bg = CountryCode._('BG');
+  static const bh = CountryCode._('BH');
+  static const bi = CountryCode._('BI');
+  static const bj = CountryCode._('BJ');
+  static const bl = CountryCode._('BL');
+  static const bm = CountryCode._('BM');
+  static const bn = CountryCode._('BN');
+  static const bo = CountryCode._('BO');
+  static const bq = CountryCode._('BQ');
+  static const br = CountryCode._('BR');
+  static const bs = CountryCode._('BS');
+  static const bt = CountryCode._('BT');
+  static const bv = CountryCode._('BV');
+  static const bw = CountryCode._('BW');
+  static const by = CountryCode._('BY');
+  static const bz = CountryCode._('BZ');
+  static const ca = CountryCode._('CA');
+  static const cc = CountryCode._('CC');
+  static const cd = CountryCode._('CD');
+  static const cf = CountryCode._('CF');
+  static const cg = CountryCode._('CG');
+  static const ch = CountryCode._('CH');
+  static const ci = CountryCode._('CI');
+  static const ck = CountryCode._('CK');
+  static const cl = CountryCode._('CL');
+  static const cm = CountryCode._('CM');
+  static const cn = CountryCode._('CN');
+  static const co = CountryCode._('CO');
+  static const cr = CountryCode._('CR');
+  static const cu = CountryCode._('CU');
+  static const cv = CountryCode._('CV');
+  static const cw = CountryCode._('CW');
+  static const cx = CountryCode._('CX');
+  static const cy = CountryCode._('CY');
+  static const cz = CountryCode._('CZ');
+  static const de = CountryCode._('DE');
+  static const dj = CountryCode._('DJ');
+  static const dk = CountryCode._('DK');
+  static const dm = CountryCode._('DM');
+  static const $do = CountryCode._('DO');
+  static const dz = CountryCode._('DZ');
+  static const ec = CountryCode._('EC');
+  static const ee = CountryCode._('EE');
+  static const eg = CountryCode._('EG');
+  static const eh = CountryCode._('EH');
+  static const er = CountryCode._('ER');
+  static const es = CountryCode._('ES');
+  static const et = CountryCode._('ET');
+  static const fi = CountryCode._('FI');
+  static const fj = CountryCode._('FJ');
+  static const fk = CountryCode._('FK');
+  static const fm = CountryCode._('FM');
+  static const fo = CountryCode._('FO');
+  static const fr = CountryCode._('FR');
+  static const ga = CountryCode._('GA');
+  static const gb = CountryCode._('GB');
+  static const gd = CountryCode._('GD');
+  static const ge = CountryCode._('GE');
+  static const gf = CountryCode._('GF');
+  static const gg = CountryCode._('GG');
+  static const gh = CountryCode._('GH');
+  static const gi = CountryCode._('GI');
+  static const gl = CountryCode._('GL');
+  static const gm = CountryCode._('GM');
+  static const gn = CountryCode._('GN');
+  static const gp = CountryCode._('GP');
+  static const gq = CountryCode._('GQ');
+  static const gr = CountryCode._('GR');
+  static const gs = CountryCode._('GS');
+  static const gt = CountryCode._('GT');
+  static const gu = CountryCode._('GU');
+  static const gw = CountryCode._('GW');
+  static const gy = CountryCode._('GY');
+  static const hk = CountryCode._('HK');
+  static const hm = CountryCode._('HM');
+  static const hn = CountryCode._('HN');
+  static const hr = CountryCode._('HR');
+  static const ht = CountryCode._('HT');
+  static const hu = CountryCode._('HU');
+  static const id = CountryCode._('ID');
+  static const ie = CountryCode._('IE');
+  static const il = CountryCode._('IL');
+  static const im = CountryCode._('IM');
+  static const $in = CountryCode._('IN');
+  static const io = CountryCode._('IO');
+  static const iq = CountryCode._('IQ');
+  static const ir = CountryCode._('IR');
+  static const $is = CountryCode._('IS');
+  static const it = CountryCode._('IT');
+  static const je = CountryCode._('JE');
+  static const jm = CountryCode._('JM');
+  static const jo = CountryCode._('JO');
+  static const jp = CountryCode._('JP');
+  static const ke = CountryCode._('KE');
+  static const kg = CountryCode._('KG');
+  static const kh = CountryCode._('KH');
+  static const ki = CountryCode._('KI');
+  static const km = CountryCode._('KM');
+  static const kn = CountryCode._('KN');
+  static const kp = CountryCode._('KP');
+  static const kr = CountryCode._('KR');
+  static const kw = CountryCode._('KW');
+  static const ky = CountryCode._('KY');
+  static const kz = CountryCode._('KZ');
+  static const la = CountryCode._('LA');
+  static const lb = CountryCode._('LB');
+  static const lc = CountryCode._('LC');
+  static const li = CountryCode._('LI');
+  static const lk = CountryCode._('LK');
+  static const lr = CountryCode._('LR');
+  static const ls = CountryCode._('LS');
+  static const lt = CountryCode._('LT');
+  static const lu = CountryCode._('LU');
+  static const lv = CountryCode._('LV');
+  static const ly = CountryCode._('LY');
+  static const ma = CountryCode._('MA');
+  static const mc = CountryCode._('MC');
+  static const md = CountryCode._('MD');
+  static const me = CountryCode._('ME');
+  static const mf = CountryCode._('MF');
+  static const mg = CountryCode._('MG');
+  static const mh = CountryCode._('MH');
+  static const mk = CountryCode._('MK');
+  static const ml = CountryCode._('ML');
+  static const mm = CountryCode._('MM');
+  static const mn = CountryCode._('MN');
+  static const mo = CountryCode._('MO');
+  static const mp = CountryCode._('MP');
+  static const mq = CountryCode._('MQ');
+  static const mr = CountryCode._('MR');
+  static const ms = CountryCode._('MS');
+  static const mt = CountryCode._('MT');
+  static const mu = CountryCode._('MU');
+  static const mv = CountryCode._('MV');
+  static const mw = CountryCode._('MW');
+  static const mx = CountryCode._('MX');
+  static const my = CountryCode._('MY');
+  static const mz = CountryCode._('MZ');
+  static const na = CountryCode._('NA');
+  static const nc = CountryCode._('NC');
+  static const ne = CountryCode._('NE');
+  static const nf = CountryCode._('NF');
+  static const ng = CountryCode._('NG');
+  static const ni = CountryCode._('NI');
+  static const nl = CountryCode._('NL');
+  static const no = CountryCode._('NO');
+  static const np = CountryCode._('NP');
+  static const nr = CountryCode._('NR');
+  static const nu = CountryCode._('NU');
+  static const nz = CountryCode._('NZ');
+  static const om = CountryCode._('OM');
+  static const pa = CountryCode._('PA');
+  static const pe = CountryCode._('PE');
+  static const pf = CountryCode._('PF');
+  static const pg = CountryCode._('PG');
+  static const ph = CountryCode._('PH');
+  static const pk = CountryCode._('PK');
+  static const pl = CountryCode._('PL');
+  static const pm = CountryCode._('PM');
+  static const pn = CountryCode._('PN');
+  static const pr = CountryCode._('PR');
+  static const ps = CountryCode._('PS');
+  static const pt = CountryCode._('PT');
+  static const pw = CountryCode._('PW');
+  static const py = CountryCode._('PY');
+  static const qa = CountryCode._('QA');
+  static const re = CountryCode._('RE');
+  static const ro = CountryCode._('RO');
+  static const rs = CountryCode._('RS');
+  static const ru = CountryCode._('RU');
+  static const rw = CountryCode._('RW');
+  static const sa = CountryCode._('SA');
+  static const sb = CountryCode._('SB');
+  static const sc = CountryCode._('SC');
+  static const sd = CountryCode._('SD');
+  static const se = CountryCode._('SE');
+  static const sg = CountryCode._('SG');
+  static const sh = CountryCode._('SH');
+  static const si = CountryCode._('SI');
+  static const sj = CountryCode._('SJ');
+  static const sk = CountryCode._('SK');
+  static const sl = CountryCode._('SL');
+  static const sm = CountryCode._('SM');
+  static const sn = CountryCode._('SN');
+  static const so = CountryCode._('SO');
+  static const sr = CountryCode._('SR');
+  static const ss = CountryCode._('SS');
+  static const st = CountryCode._('ST');
+  static const sv = CountryCode._('SV');
+  static const sx = CountryCode._('SX');
+  static const sy = CountryCode._('SY');
+  static const sz = CountryCode._('SZ');
+  static const tc = CountryCode._('TC');
+  static const td = CountryCode._('TD');
+  static const tf = CountryCode._('TF');
+  static const tg = CountryCode._('TG');
+  static const th = CountryCode._('TH');
+  static const tj = CountryCode._('TJ');
+  static const tk = CountryCode._('TK');
+  static const tl = CountryCode._('TL');
+  static const tm = CountryCode._('TM');
+  static const tn = CountryCode._('TN');
+  static const to = CountryCode._('TO');
+  static const tp = CountryCode._('TP');
+  static const tr = CountryCode._('TR');
+  static const tt = CountryCode._('TT');
+  static const tv = CountryCode._('TV');
+  static const tw = CountryCode._('TW');
+  static const tz = CountryCode._('TZ');
+  static const ua = CountryCode._('UA');
+  static const ug = CountryCode._('UG');
+  static const us = CountryCode._('US');
+  static const uy = CountryCode._('UY');
+  static const uz = CountryCode._('UZ');
+  static const va = CountryCode._('VA');
+  static const vc = CountryCode._('VC');
+  static const ve = CountryCode._('VE');
+  static const vg = CountryCode._('VG');
+  static const vi = CountryCode._('VI');
+  static const vn = CountryCode._('VN');
+  static const vu = CountryCode._('VU');
+  static const wf = CountryCode._('WF');
+  static const ws = CountryCode._('WS');
+  static const ye = CountryCode._('YE');
+  static const yt = CountryCode._('YT');
+  static const za = CountryCode._('ZA');
+  static const zm = CountryCode._('ZM');
+  static const zw = CountryCode._('ZW');
 
   final String value;
 
-  const CountryCode(this.value);
+  const CountryCode._(this.value);
 
-  static CountryCode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum CountryCode'));
+  static const values = [
+    ac,
+    ad,
+    ae,
+    af,
+    ag,
+    ai,
+    al,
+    am,
+    an,
+    ao,
+    aq,
+    ar,
+    as,
+    at,
+    au,
+    aw,
+    ax,
+    az,
+    ba,
+    bb,
+    bd,
+    be,
+    bf,
+    bg,
+    bh,
+    bi,
+    bj,
+    bl,
+    bm,
+    bn,
+    bo,
+    bq,
+    br,
+    bs,
+    bt,
+    bv,
+    bw,
+    by,
+    bz,
+    ca,
+    cc,
+    cd,
+    cf,
+    cg,
+    ch,
+    ci,
+    ck,
+    cl,
+    cm,
+    cn,
+    co,
+    cr,
+    cu,
+    cv,
+    cw,
+    cx,
+    cy,
+    cz,
+    de,
+    dj,
+    dk,
+    dm,
+    $do,
+    dz,
+    ec,
+    ee,
+    eg,
+    eh,
+    er,
+    es,
+    et,
+    fi,
+    fj,
+    fk,
+    fm,
+    fo,
+    fr,
+    ga,
+    gb,
+    gd,
+    ge,
+    gf,
+    gg,
+    gh,
+    gi,
+    gl,
+    gm,
+    gn,
+    gp,
+    gq,
+    gr,
+    gs,
+    gt,
+    gu,
+    gw,
+    gy,
+    hk,
+    hm,
+    hn,
+    hr,
+    ht,
+    hu,
+    id,
+    ie,
+    il,
+    im,
+    $in,
+    io,
+    iq,
+    ir,
+    $is,
+    it,
+    je,
+    jm,
+    jo,
+    jp,
+    ke,
+    kg,
+    kh,
+    ki,
+    km,
+    kn,
+    kp,
+    kr,
+    kw,
+    ky,
+    kz,
+    la,
+    lb,
+    lc,
+    li,
+    lk,
+    lr,
+    ls,
+    lt,
+    lu,
+    lv,
+    ly,
+    ma,
+    mc,
+    md,
+    me,
+    mf,
+    mg,
+    mh,
+    mk,
+    ml,
+    mm,
+    mn,
+    mo,
+    mp,
+    mq,
+    mr,
+    ms,
+    mt,
+    mu,
+    mv,
+    mw,
+    mx,
+    my,
+    mz,
+    na,
+    nc,
+    ne,
+    nf,
+    ng,
+    ni,
+    nl,
+    no,
+    np,
+    nr,
+    nu,
+    nz,
+    om,
+    pa,
+    pe,
+    pf,
+    pg,
+    ph,
+    pk,
+    pl,
+    pm,
+    pn,
+    pr,
+    ps,
+    pt,
+    pw,
+    py,
+    qa,
+    re,
+    ro,
+    rs,
+    ru,
+    rw,
+    sa,
+    sb,
+    sc,
+    sd,
+    se,
+    sg,
+    sh,
+    si,
+    sj,
+    sk,
+    sl,
+    sm,
+    sn,
+    so,
+    sr,
+    ss,
+    st,
+    sv,
+    sx,
+    sy,
+    sz,
+    tc,
+    td,
+    tf,
+    tg,
+    th,
+    tj,
+    tk,
+    tl,
+    tm,
+    tn,
+    to,
+    tp,
+    tr,
+    tt,
+    tv,
+    tw,
+    tz,
+    ua,
+    ug,
+    us,
+    uy,
+    uz,
+    va,
+    vc,
+    ve,
+    vg,
+    vi,
+    vn,
+    vu,
+    wf,
+    ws,
+    ye,
+    yt,
+    za,
+    zm,
+    zw
+  ];
+
+  static CountryCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CountryCode._(value));
+
+  @override
+  bool operator ==(other) => other is CountryCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DeleteDomainResponse {
@@ -3010,27 +3280,49 @@ class DnssecSigningAttributes {
   }
 }
 
-enum DomainAvailability {
-  available('AVAILABLE'),
-  availableReserved('AVAILABLE_RESERVED'),
-  availablePreorder('AVAILABLE_PREORDER'),
-  unavailable('UNAVAILABLE'),
-  unavailablePremium('UNAVAILABLE_PREMIUM'),
-  unavailableRestricted('UNAVAILABLE_RESTRICTED'),
-  reserved('RESERVED'),
-  dontKnow('DONT_KNOW'),
-  invalidNameForTld('INVALID_NAME_FOR_TLD'),
-  pending('PENDING'),
-  ;
+class DomainAvailability {
+  static const available = DomainAvailability._('AVAILABLE');
+  static const availableReserved = DomainAvailability._('AVAILABLE_RESERVED');
+  static const availablePreorder = DomainAvailability._('AVAILABLE_PREORDER');
+  static const unavailable = DomainAvailability._('UNAVAILABLE');
+  static const unavailablePremium = DomainAvailability._('UNAVAILABLE_PREMIUM');
+  static const unavailableRestricted =
+      DomainAvailability._('UNAVAILABLE_RESTRICTED');
+  static const reserved = DomainAvailability._('RESERVED');
+  static const dontKnow = DomainAvailability._('DONT_KNOW');
+  static const invalidNameForTld = DomainAvailability._('INVALID_NAME_FOR_TLD');
+  static const pending = DomainAvailability._('PENDING');
 
   final String value;
 
-  const DomainAvailability(this.value);
+  const DomainAvailability._(this.value);
 
-  static DomainAvailability fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum DomainAvailability'));
+  static const values = [
+    available,
+    availableReserved,
+    availablePreorder,
+    unavailable,
+    unavailablePremium,
+    unavailableRestricted,
+    reserved,
+    dontKnow,
+    invalidNameForTld,
+    pending
+  ];
+
+  static DomainAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainAvailability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DomainAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the domain price associated with a TLD.
@@ -3841,7 +4133,7 @@ class ExtraParam {
 
   factory ExtraParam.fromJson(Map<String, dynamic> json) {
     return ExtraParam(
-      name: ExtraParamName.fromString((json['Name'] as String)),
+      name: ExtraParamName.fromString((json['Name'] as String?) ?? ''),
       value: (json['Value'] as String?) ?? '',
     );
   }
@@ -3856,48 +4148,96 @@ class ExtraParam {
   }
 }
 
-enum ExtraParamName {
-  dunsNumber('DUNS_NUMBER'),
-  brandNumber('BRAND_NUMBER'),
-  birthDepartment('BIRTH_DEPARTMENT'),
-  birthDateInYyyyMmDd('BIRTH_DATE_IN_YYYY_MM_DD'),
-  birthCountry('BIRTH_COUNTRY'),
-  birthCity('BIRTH_CITY'),
-  documentNumber('DOCUMENT_NUMBER'),
-  auIdNumber('AU_ID_NUMBER'),
-  auIdType('AU_ID_TYPE'),
-  caLegalType('CA_LEGAL_TYPE'),
-  caBusinessEntityType('CA_BUSINESS_ENTITY_TYPE'),
-  caLegalRepresentative('CA_LEGAL_REPRESENTATIVE'),
-  caLegalRepresentativeCapacity('CA_LEGAL_REPRESENTATIVE_CAPACITY'),
-  esIdentification('ES_IDENTIFICATION'),
-  esIdentificationType('ES_IDENTIFICATION_TYPE'),
-  esLegalForm('ES_LEGAL_FORM'),
-  fiBusinessNumber('FI_BUSINESS_NUMBER'),
-  fiIdNumber('FI_ID_NUMBER'),
-  fiNationality('FI_NATIONALITY'),
-  fiOrganizationType('FI_ORGANIZATION_TYPE'),
-  itNationality('IT_NATIONALITY'),
-  itPin('IT_PIN'),
-  itRegistrantEntityType('IT_REGISTRANT_ENTITY_TYPE'),
-  ruPassportData('RU_PASSPORT_DATA'),
-  seIdNumber('SE_ID_NUMBER'),
-  sgIdNumber('SG_ID_NUMBER'),
-  vatNumber('VAT_NUMBER'),
-  ukContactType('UK_CONTACT_TYPE'),
-  ukCompanyNumber('UK_COMPANY_NUMBER'),
-  euCountryOfCitizenship('EU_COUNTRY_OF_CITIZENSHIP'),
-  auPriorityToken('AU_PRIORITY_TOKEN'),
-  ;
+class ExtraParamName {
+  static const dunsNumber = ExtraParamName._('DUNS_NUMBER');
+  static const brandNumber = ExtraParamName._('BRAND_NUMBER');
+  static const birthDepartment = ExtraParamName._('BIRTH_DEPARTMENT');
+  static const birthDateInYyyyMmDd =
+      ExtraParamName._('BIRTH_DATE_IN_YYYY_MM_DD');
+  static const birthCountry = ExtraParamName._('BIRTH_COUNTRY');
+  static const birthCity = ExtraParamName._('BIRTH_CITY');
+  static const documentNumber = ExtraParamName._('DOCUMENT_NUMBER');
+  static const auIdNumber = ExtraParamName._('AU_ID_NUMBER');
+  static const auIdType = ExtraParamName._('AU_ID_TYPE');
+  static const caLegalType = ExtraParamName._('CA_LEGAL_TYPE');
+  static const caBusinessEntityType =
+      ExtraParamName._('CA_BUSINESS_ENTITY_TYPE');
+  static const caLegalRepresentative =
+      ExtraParamName._('CA_LEGAL_REPRESENTATIVE');
+  static const caLegalRepresentativeCapacity =
+      ExtraParamName._('CA_LEGAL_REPRESENTATIVE_CAPACITY');
+  static const esIdentification = ExtraParamName._('ES_IDENTIFICATION');
+  static const esIdentificationType =
+      ExtraParamName._('ES_IDENTIFICATION_TYPE');
+  static const esLegalForm = ExtraParamName._('ES_LEGAL_FORM');
+  static const fiBusinessNumber = ExtraParamName._('FI_BUSINESS_NUMBER');
+  static const fiIdNumber = ExtraParamName._('FI_ID_NUMBER');
+  static const fiNationality = ExtraParamName._('FI_NATIONALITY');
+  static const fiOrganizationType = ExtraParamName._('FI_ORGANIZATION_TYPE');
+  static const itNationality = ExtraParamName._('IT_NATIONALITY');
+  static const itPin = ExtraParamName._('IT_PIN');
+  static const itRegistrantEntityType =
+      ExtraParamName._('IT_REGISTRANT_ENTITY_TYPE');
+  static const ruPassportData = ExtraParamName._('RU_PASSPORT_DATA');
+  static const seIdNumber = ExtraParamName._('SE_ID_NUMBER');
+  static const sgIdNumber = ExtraParamName._('SG_ID_NUMBER');
+  static const vatNumber = ExtraParamName._('VAT_NUMBER');
+  static const ukContactType = ExtraParamName._('UK_CONTACT_TYPE');
+  static const ukCompanyNumber = ExtraParamName._('UK_COMPANY_NUMBER');
+  static const euCountryOfCitizenship =
+      ExtraParamName._('EU_COUNTRY_OF_CITIZENSHIP');
+  static const auPriorityToken = ExtraParamName._('AU_PRIORITY_TOKEN');
 
   final String value;
 
-  const ExtraParamName(this.value);
+  const ExtraParamName._(this.value);
+
+  static const values = [
+    dunsNumber,
+    brandNumber,
+    birthDepartment,
+    birthDateInYyyyMmDd,
+    birthCountry,
+    birthCity,
+    documentNumber,
+    auIdNumber,
+    auIdType,
+    caLegalType,
+    caBusinessEntityType,
+    caLegalRepresentative,
+    caLegalRepresentativeCapacity,
+    esIdentification,
+    esIdentificationType,
+    esLegalForm,
+    fiBusinessNumber,
+    fiIdNumber,
+    fiNationality,
+    fiOrganizationType,
+    itNationality,
+    itPin,
+    itRegistrantEntityType,
+    ruPassportData,
+    seIdNumber,
+    sgIdNumber,
+    vatNumber,
+    ukContactType,
+    ukCompanyNumber,
+    euCountryOfCitizenship,
+    auPriorityToken
+  ];
 
   static ExtraParamName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ExtraParamName'));
+          orElse: () => ExtraParamName._(value));
+
+  @override
+  bool operator ==(other) => other is ExtraParamName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information for the filtering of a list of domains returned by <a
@@ -4351,19 +4691,29 @@ class GetOperationDetailResponse {
   }
 }
 
-enum ListDomainsAttributeName {
-  domainName('DomainName'),
-  expiry('Expiry'),
-  ;
+class ListDomainsAttributeName {
+  static const domainName = ListDomainsAttributeName._('DomainName');
+  static const expiry = ListDomainsAttributeName._('Expiry');
 
   final String value;
 
-  const ListDomainsAttributeName(this.value);
+  const ListDomainsAttributeName._(this.value);
+
+  static const values = [domainName, expiry];
 
   static ListDomainsAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListDomainsAttributeName'));
+          orElse: () => ListDomainsAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListDomainsAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The ListDomains response includes the following elements.
@@ -4436,18 +4786,29 @@ class ListOperationsResponse {
   }
 }
 
-enum ListOperationsSortAttributeName {
-  submittedDate('SubmittedDate'),
-  ;
+class ListOperationsSortAttributeName {
+  static const submittedDate =
+      ListOperationsSortAttributeName._('SubmittedDate');
 
   final String value;
 
-  const ListOperationsSortAttributeName(this.value);
+  const ListOperationsSortAttributeName._(this.value);
+
+  static const values = [submittedDate];
 
   static ListOperationsSortAttributeName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ListOperationsSortAttributeName'));
+          orElse: () => ListOperationsSortAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListOperationsSortAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ListPricesResponse {
@@ -4552,22 +4913,31 @@ class Nameserver {
   }
 }
 
-enum OperationStatus {
-  submitted('SUBMITTED'),
-  inProgress('IN_PROGRESS'),
-  error('ERROR'),
-  successful('SUCCESSFUL'),
-  failed('FAILED'),
-  ;
+class OperationStatus {
+  static const submitted = OperationStatus._('SUBMITTED');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const error = OperationStatus._('ERROR');
+  static const successful = OperationStatus._('SUCCESSFUL');
+  static const failed = OperationStatus._('FAILED');
 
   final String value;
 
-  const OperationStatus(this.value);
+  const OperationStatus._(this.value);
+
+  static const values = [submitted, inProgress, error, successful, failed];
 
   static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationStatus'));
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// OperationSummary includes the following elements.
@@ -4672,52 +5042,94 @@ class OperationSummary {
   }
 }
 
-enum OperationType {
-  registerDomain('REGISTER_DOMAIN'),
-  deleteDomain('DELETE_DOMAIN'),
-  transferInDomain('TRANSFER_IN_DOMAIN'),
-  updateDomainContact('UPDATE_DOMAIN_CONTACT'),
-  updateNameserver('UPDATE_NAMESERVER'),
-  changePrivacyProtection('CHANGE_PRIVACY_PROTECTION'),
-  domainLock('DOMAIN_LOCK'),
-  enableAutorenew('ENABLE_AUTORENEW'),
-  disableAutorenew('DISABLE_AUTORENEW'),
-  addDnssec('ADD_DNSSEC'),
-  removeDnssec('REMOVE_DNSSEC'),
-  expireDomain('EXPIRE_DOMAIN'),
-  transferOutDomain('TRANSFER_OUT_DOMAIN'),
-  changeDomainOwner('CHANGE_DOMAIN_OWNER'),
-  renewDomain('RENEW_DOMAIN'),
-  pushDomain('PUSH_DOMAIN'),
-  internalTransferOutDomain('INTERNAL_TRANSFER_OUT_DOMAIN'),
-  internalTransferInDomain('INTERNAL_TRANSFER_IN_DOMAIN'),
-  releaseToGandi('RELEASE_TO_GANDI'),
-  transferOnRenew('TRANSFER_ON_RENEW'),
-  ;
+class OperationType {
+  static const registerDomain = OperationType._('REGISTER_DOMAIN');
+  static const deleteDomain = OperationType._('DELETE_DOMAIN');
+  static const transferInDomain = OperationType._('TRANSFER_IN_DOMAIN');
+  static const updateDomainContact = OperationType._('UPDATE_DOMAIN_CONTACT');
+  static const updateNameserver = OperationType._('UPDATE_NAMESERVER');
+  static const changePrivacyProtection =
+      OperationType._('CHANGE_PRIVACY_PROTECTION');
+  static const domainLock = OperationType._('DOMAIN_LOCK');
+  static const enableAutorenew = OperationType._('ENABLE_AUTORENEW');
+  static const disableAutorenew = OperationType._('DISABLE_AUTORENEW');
+  static const addDnssec = OperationType._('ADD_DNSSEC');
+  static const removeDnssec = OperationType._('REMOVE_DNSSEC');
+  static const expireDomain = OperationType._('EXPIRE_DOMAIN');
+  static const transferOutDomain = OperationType._('TRANSFER_OUT_DOMAIN');
+  static const changeDomainOwner = OperationType._('CHANGE_DOMAIN_OWNER');
+  static const renewDomain = OperationType._('RENEW_DOMAIN');
+  static const pushDomain = OperationType._('PUSH_DOMAIN');
+  static const internalTransferOutDomain =
+      OperationType._('INTERNAL_TRANSFER_OUT_DOMAIN');
+  static const internalTransferInDomain =
+      OperationType._('INTERNAL_TRANSFER_IN_DOMAIN');
+  static const releaseToGandi = OperationType._('RELEASE_TO_GANDI');
+  static const transferOnRenew = OperationType._('TRANSFER_ON_RENEW');
 
   final String value;
 
-  const OperationType(this.value);
+  const OperationType._(this.value);
+
+  static const values = [
+    registerDomain,
+    deleteDomain,
+    transferInDomain,
+    updateDomainContact,
+    updateNameserver,
+    changePrivacyProtection,
+    domainLock,
+    enableAutorenew,
+    disableAutorenew,
+    addDnssec,
+    removeDnssec,
+    expireDomain,
+    transferOutDomain,
+    changeDomainOwner,
+    renewDomain,
+    pushDomain,
+    internalTransferOutDomain,
+    internalTransferInDomain,
+    releaseToGandi,
+    transferOnRenew
+  ];
 
   static OperationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum OperationType'));
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Operator {
-  le('LE'),
-  ge('GE'),
-  beginsWith('BEGINS_WITH'),
-  ;
+class Operator {
+  static const le = Operator._('LE');
+  static const ge = Operator._('GE');
+  static const beginsWith = Operator._('BEGINS_WITH');
 
   final String value;
 
-  const Operator(this.value);
+  const Operator._(this.value);
 
-  static Operator fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Operator'));
+  static const values = [le, ge, beginsWith];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Currency-specific price information.
@@ -4750,20 +5162,30 @@ class PriceWithCurrency {
   }
 }
 
-enum ReachabilityStatus {
-  pending('PENDING'),
-  done('DONE'),
-  expired('EXPIRED'),
-  ;
+class ReachabilityStatus {
+  static const pending = ReachabilityStatus._('PENDING');
+  static const done = ReachabilityStatus._('DONE');
+  static const expired = ReachabilityStatus._('EXPIRED');
 
   final String value;
 
-  const ReachabilityStatus(this.value);
+  const ReachabilityStatus._(this.value);
 
-  static ReachabilityStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ReachabilityStatus'));
+  static const values = [pending, done, expired];
+
+  static ReachabilityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReachabilityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReachabilityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The RegisterDomain response includes the following element.
@@ -4935,35 +5357,60 @@ class SortCondition {
   }
 }
 
-enum SortOrder {
-  asc('ASC'),
-  desc('DESC'),
-  ;
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
 
   final String value;
 
-  const SortOrder(this.value);
+  const SortOrder._(this.value);
 
-  static SortOrder fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum SortOrder'));
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum StatusFlag {
-  pendingAcceptance('PENDING_ACCEPTANCE'),
-  pendingCustomerAction('PENDING_CUSTOMER_ACTION'),
-  pendingAuthorization('PENDING_AUTHORIZATION'),
-  pendingPaymentVerification('PENDING_PAYMENT_VERIFICATION'),
-  pendingSupportCase('PENDING_SUPPORT_CASE'),
-  ;
+class StatusFlag {
+  static const pendingAcceptance = StatusFlag._('PENDING_ACCEPTANCE');
+  static const pendingCustomerAction = StatusFlag._('PENDING_CUSTOMER_ACTION');
+  static const pendingAuthorization = StatusFlag._('PENDING_AUTHORIZATION');
+  static const pendingPaymentVerification =
+      StatusFlag._('PENDING_PAYMENT_VERIFICATION');
+  static const pendingSupportCase = StatusFlag._('PENDING_SUPPORT_CASE');
 
   final String value;
 
-  const StatusFlag(this.value);
+  const StatusFlag._(this.value);
 
-  static StatusFlag fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum StatusFlag'));
+  static const values = [
+    pendingAcceptance,
+    pendingCustomerAction,
+    pendingAuthorization,
+    pendingPaymentVerification,
+    pendingSupportCase
+  ];
+
+  static StatusFlag fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusFlag._(value));
+
+  @override
+  bool operator ==(other) => other is StatusFlag && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Each tag includes the following elements.
@@ -5087,23 +5534,39 @@ class TransferDomainToAnotherAwsAccountResponse {
 /// </dd> <dt>PREMIUM_DOMAIN</dt> <dd>
 /// Premium domain transfer is not supported.
 /// </dd> </dl>
-enum Transferable {
-  transferable('TRANSFERABLE'),
-  untransferable('UNTRANSFERABLE'),
-  dontKnow('DONT_KNOW'),
-  domainInOwnAccount('DOMAIN_IN_OWN_ACCOUNT'),
-  domainInAnotherAccount('DOMAIN_IN_ANOTHER_ACCOUNT'),
-  premiumDomain('PREMIUM_DOMAIN'),
-  ;
+class Transferable {
+  static const transferable = Transferable._('TRANSFERABLE');
+  static const untransferable = Transferable._('UNTRANSFERABLE');
+  static const dontKnow = Transferable._('DONT_KNOW');
+  static const domainInOwnAccount = Transferable._('DOMAIN_IN_OWN_ACCOUNT');
+  static const domainInAnotherAccount =
+      Transferable._('DOMAIN_IN_ANOTHER_ACCOUNT');
+  static const premiumDomain = Transferable._('PREMIUM_DOMAIN');
 
   final String value;
 
-  const Transferable(this.value);
+  const Transferable._(this.value);
 
-  static Transferable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum Transferable'));
+  static const values = [
+    transferable,
+    untransferable,
+    dontKnow,
+    domainInOwnAccount,
+    domainInAnotherAccount,
+    premiumDomain
+  ];
+
+  static Transferable fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Transferable._(value));
+
+  @override
+  bool operator ==(other) => other is Transferable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The UpdateDomainContactPrivacy response includes the following element.

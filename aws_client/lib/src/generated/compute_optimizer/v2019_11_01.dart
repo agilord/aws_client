@@ -2413,19 +2413,31 @@ class AccountEnrollmentStatus {
   }
 }
 
-enum AutoScalingConfiguration {
-  targetTrackingScalingCpu('TargetTrackingScalingCpu'),
-  targetTrackingScalingMemory('TargetTrackingScalingMemory'),
-  ;
+class AutoScalingConfiguration {
+  static const targetTrackingScalingCpu =
+      AutoScalingConfiguration._('TargetTrackingScalingCpu');
+  static const targetTrackingScalingMemory =
+      AutoScalingConfiguration._('TargetTrackingScalingMemory');
 
   final String value;
 
-  const AutoScalingConfiguration(this.value);
+  const AutoScalingConfiguration._(this.value);
+
+  static const values = [targetTrackingScalingCpu, targetTrackingScalingMemory];
 
   static AutoScalingConfiguration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum AutoScalingConfiguration'));
+          orElse: () => AutoScalingConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoScalingConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration of an Auto Scaling group.
@@ -2980,50 +2992,79 @@ class ContainerRecommendation {
   }
 }
 
-enum CpuVendorArchitecture {
-  awsArm64('AWS_ARM64'),
-  current('CURRENT'),
-  ;
+class CpuVendorArchitecture {
+  static const awsArm64 = CpuVendorArchitecture._('AWS_ARM64');
+  static const current = CpuVendorArchitecture._('CURRENT');
 
   final String value;
 
-  const CpuVendorArchitecture(this.value);
+  const CpuVendorArchitecture._(this.value);
 
-  static CpuVendorArchitecture fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum CpuVendorArchitecture'));
+  static const values = [awsArm64, current];
+
+  static CpuVendorArchitecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CpuVendorArchitecture._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CpuVendorArchitecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Currency {
-  usd('USD'),
-  cny('CNY'),
-  ;
+class Currency {
+  static const usd = Currency._('USD');
+  static const cny = Currency._('CNY');
 
   final String value;
 
-  const Currency(this.value);
+  const Currency._(this.value);
 
-  static Currency fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum Currency'));
+  static const values = [usd, cny];
+
+  static Currency fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Currency._(value));
+
+  @override
+  bool operator ==(other) => other is Currency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CurrentPerformanceRisk {
-  veryLow('VeryLow'),
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  ;
+class CurrentPerformanceRisk {
+  static const veryLow = CurrentPerformanceRisk._('VeryLow');
+  static const low = CurrentPerformanceRisk._('Low');
+  static const medium = CurrentPerformanceRisk._('Medium');
+  static const high = CurrentPerformanceRisk._('High');
 
   final String value;
 
-  const CurrentPerformanceRisk(this.value);
+  const CurrentPerformanceRisk._(this.value);
+
+  static const values = [veryLow, low, medium, high];
 
   static CurrentPerformanceRisk fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CurrentPerformanceRisk'));
+          orElse: () => CurrentPerformanceRisk._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CurrentPerformanceRisk && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the performance risk ratings for a given resource type.
@@ -3077,36 +3118,57 @@ class CurrentPerformanceRiskRatings {
   }
 }
 
-enum CustomizableMetricHeadroom {
-  percent_30('PERCENT_30'),
-  percent_20('PERCENT_20'),
-  percent_10('PERCENT_10'),
-  percent_0('PERCENT_0'),
-  ;
+class CustomizableMetricHeadroom {
+  static const percent_30 = CustomizableMetricHeadroom._('PERCENT_30');
+  static const percent_20 = CustomizableMetricHeadroom._('PERCENT_20');
+  static const percent_10 = CustomizableMetricHeadroom._('PERCENT_10');
+  static const percent_0 = CustomizableMetricHeadroom._('PERCENT_0');
 
   final String value;
 
-  const CustomizableMetricHeadroom(this.value);
+  const CustomizableMetricHeadroom._(this.value);
+
+  static const values = [percent_30, percent_20, percent_10, percent_0];
 
   static CustomizableMetricHeadroom fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomizableMetricHeadroom'));
+          orElse: () => CustomizableMetricHeadroom._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomizableMetricHeadroom && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum CustomizableMetricName {
-  cpuUtilization('CpuUtilization'),
-  memoryUtilization('MemoryUtilization'),
-  ;
+class CustomizableMetricName {
+  static const cpuUtilization = CustomizableMetricName._('CpuUtilization');
+  static const memoryUtilization =
+      CustomizableMetricName._('MemoryUtilization');
 
   final String value;
 
-  const CustomizableMetricName(this.value);
+  const CustomizableMetricName._(this.value);
+
+  static const values = [cpuUtilization, memoryUtilization];
 
   static CustomizableMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomizableMetricName'));
+          orElse: () => CustomizableMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomizableMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the various metric parameters that can be customized, such as
@@ -3156,20 +3218,30 @@ class CustomizableMetricParameters {
   }
 }
 
-enum CustomizableMetricThreshold {
-  p90('P90'),
-  p95('P95'),
-  p99_5('P99_5'),
-  ;
+class CustomizableMetricThreshold {
+  static const p90 = CustomizableMetricThreshold._('P90');
+  static const p95 = CustomizableMetricThreshold._('P95');
+  static const p99_5 = CustomizableMetricThreshold._('P99_5');
 
   final String value;
 
-  const CustomizableMetricThreshold(this.value);
+  const CustomizableMetricThreshold._(this.value);
+
+  static const values = [p90, p95, p99_5];
 
   static CustomizableMetricThreshold fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum CustomizableMetricThreshold'));
+          orElse: () => CustomizableMetricThreshold._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomizableMetricThreshold && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of the recommended RDS storage.
@@ -3389,49 +3461,85 @@ class EBSFilter {
   }
 }
 
-enum EBSFilterName {
-  finding('Finding'),
-  ;
+class EBSFilterName {
+  static const finding = EBSFilterName._('Finding');
 
   final String value;
 
-  const EBSFilterName(this.value);
+  const EBSFilterName._(this.value);
+
+  static const values = [finding];
 
   static EBSFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EBSFilterName'));
+          orElse: () => EBSFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is EBSFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EBSFinding {
-  optimized('Optimized'),
-  notOptimized('NotOptimized'),
-  ;
+class EBSFinding {
+  static const optimized = EBSFinding._('Optimized');
+  static const notOptimized = EBSFinding._('NotOptimized');
 
   final String value;
 
-  const EBSFinding(this.value);
+  const EBSFinding._(this.value);
 
-  static EBSFinding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum EBSFinding'));
+  static const values = [optimized, notOptimized];
+
+  static EBSFinding fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EBSFinding._(value));
+
+  @override
+  bool operator ==(other) => other is EBSFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum EBSMetricName {
-  volumeReadOpsPerSecond('VolumeReadOpsPerSecond'),
-  volumeWriteOpsPerSecond('VolumeWriteOpsPerSecond'),
-  volumeReadBytesPerSecond('VolumeReadBytesPerSecond'),
-  volumeWriteBytesPerSecond('VolumeWriteBytesPerSecond'),
-  ;
+class EBSMetricName {
+  static const volumeReadOpsPerSecond =
+      EBSMetricName._('VolumeReadOpsPerSecond');
+  static const volumeWriteOpsPerSecond =
+      EBSMetricName._('VolumeWriteOpsPerSecond');
+  static const volumeReadBytesPerSecond =
+      EBSMetricName._('VolumeReadBytesPerSecond');
+  static const volumeWriteBytesPerSecond =
+      EBSMetricName._('VolumeWriteBytesPerSecond');
 
   final String value;
 
-  const EBSMetricName(this.value);
+  const EBSMetricName._(this.value);
+
+  static const values = [
+    volumeReadOpsPerSecond,
+    volumeWriteOpsPerSecond,
+    volumeReadBytesPerSecond,
+    volumeWriteBytesPerSecond
+  ];
 
   static EBSMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum EBSMetricName'));
+          orElse: () => EBSMetricName._(value));
+
+  @override
+  bool operator ==(other) => other is EBSMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings estimation mode used for calculating savings
@@ -3460,20 +3568,37 @@ class EBSSavingsEstimationMode {
   }
 }
 
-enum EBSSavingsEstimationModeSource {
-  publicPricing('PublicPricing'),
-  costExplorerRightsizing('CostExplorerRightsizing'),
-  costOptimizationHub('CostOptimizationHub'),
-  ;
+class EBSSavingsEstimationModeSource {
+  static const publicPricing =
+      EBSSavingsEstimationModeSource._('PublicPricing');
+  static const costExplorerRightsizing =
+      EBSSavingsEstimationModeSource._('CostExplorerRightsizing');
+  static const costOptimizationHub =
+      EBSSavingsEstimationModeSource._('CostOptimizationHub');
 
   final String value;
 
-  const EBSSavingsEstimationModeSource(this.value);
+  const EBSSavingsEstimationModeSource._(this.value);
+
+  static const values = [
+    publicPricing,
+    costExplorerRightsizing,
+    costOptimizationHub
+  ];
 
   static EBSSavingsEstimationModeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EBSSavingsEstimationModeSource'));
+          orElse: () => EBSSavingsEstimationModeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EBSSavingsEstimationModeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for Amazon EBS volume recommendations
@@ -3692,20 +3817,37 @@ class ECSSavingsEstimationMode {
   }
 }
 
-enum ECSSavingsEstimationModeSource {
-  publicPricing('PublicPricing'),
-  costExplorerRightsizing('CostExplorerRightsizing'),
-  costOptimizationHub('CostOptimizationHub'),
-  ;
+class ECSSavingsEstimationModeSource {
+  static const publicPricing =
+      ECSSavingsEstimationModeSource._('PublicPricing');
+  static const costExplorerRightsizing =
+      ECSSavingsEstimationModeSource._('CostExplorerRightsizing');
+  static const costOptimizationHub =
+      ECSSavingsEstimationModeSource._('CostOptimizationHub');
 
   final String value;
 
-  const ECSSavingsEstimationModeSource(this.value);
+  const ECSSavingsEstimationModeSource._(this.value);
+
+  static const values = [
+    publicPricing,
+    costExplorerRightsizing,
+    costOptimizationHub
+  ];
 
   static ECSSavingsEstimationModeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ECSSavingsEstimationModeSource'));
+          orElse: () => ECSSavingsEstimationModeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSSavingsEstimationModeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for Amazon ECS service recommendations
@@ -3754,49 +3896,79 @@ class ECSSavingsOpportunityAfterDiscounts {
   }
 }
 
-enum ECSServiceLaunchType {
-  ec2('EC2'),
-  fargate('Fargate'),
-  ;
+class ECSServiceLaunchType {
+  static const ec2 = ECSServiceLaunchType._('EC2');
+  static const fargate = ECSServiceLaunchType._('Fargate');
 
   final String value;
 
-  const ECSServiceLaunchType(this.value);
+  const ECSServiceLaunchType._(this.value);
 
-  static ECSServiceLaunchType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ECSServiceLaunchType'));
+  static const values = [ec2, fargate];
+
+  static ECSServiceLaunchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ECSServiceLaunchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceLaunchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ECSServiceMetricName {
-  cpu('Cpu'),
-  memory('Memory'),
-  ;
+class ECSServiceMetricName {
+  static const cpu = ECSServiceMetricName._('Cpu');
+  static const memory = ECSServiceMetricName._('Memory');
 
   final String value;
 
-  const ECSServiceMetricName(this.value);
+  const ECSServiceMetricName._(this.value);
 
-  static ECSServiceMetricName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ECSServiceMetricName'));
+  static const values = [cpu, memory];
+
+  static ECSServiceMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ECSServiceMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ECSServiceMetricStatistic {
-  maximum('Maximum'),
-  average('Average'),
-  ;
+class ECSServiceMetricStatistic {
+  static const maximum = ECSServiceMetricStatistic._('Maximum');
+  static const average = ECSServiceMetricStatistic._('Average');
 
   final String value;
 
-  const ECSServiceMetricStatistic(this.value);
+  const ECSServiceMetricStatistic._(this.value);
+
+  static const values = [maximum, average];
 
   static ECSServiceMetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ECSServiceMetricStatistic'));
+          orElse: () => ECSServiceMetricStatistic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceMetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the projected metrics of an Amazon ECS service recommendation
@@ -4222,52 +4394,95 @@ class ECSServiceRecommendationFilter {
   }
 }
 
-enum ECSServiceRecommendationFilterName {
-  finding('Finding'),
-  findingReasonCode('FindingReasonCode'),
-  ;
+class ECSServiceRecommendationFilterName {
+  static const finding = ECSServiceRecommendationFilterName._('Finding');
+  static const findingReasonCode =
+      ECSServiceRecommendationFilterName._('FindingReasonCode');
 
   final String value;
 
-  const ECSServiceRecommendationFilterName(this.value);
+  const ECSServiceRecommendationFilterName._(this.value);
+
+  static const values = [finding, findingReasonCode];
 
   static ECSServiceRecommendationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ECSServiceRecommendationFilterName'));
+          orElse: () => ECSServiceRecommendationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceRecommendationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ECSServiceRecommendationFinding {
-  optimized('Optimized'),
-  underprovisioned('Underprovisioned'),
-  overprovisioned('Overprovisioned'),
-  ;
+class ECSServiceRecommendationFinding {
+  static const optimized = ECSServiceRecommendationFinding._('Optimized');
+  static const underprovisioned =
+      ECSServiceRecommendationFinding._('Underprovisioned');
+  static const overprovisioned =
+      ECSServiceRecommendationFinding._('Overprovisioned');
 
   final String value;
 
-  const ECSServiceRecommendationFinding(this.value);
+  const ECSServiceRecommendationFinding._(this.value);
+
+  static const values = [optimized, underprovisioned, overprovisioned];
 
   static ECSServiceRecommendationFinding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ECSServiceRecommendationFinding'));
+          orElse: () => ECSServiceRecommendationFinding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceRecommendationFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ECSServiceRecommendationFindingReasonCode {
-  memoryOverprovisioned('MemoryOverprovisioned'),
-  memoryUnderprovisioned('MemoryUnderprovisioned'),
-  cPUOverprovisioned('CPUOverprovisioned'),
-  cPUUnderprovisioned('CPUUnderprovisioned'),
-  ;
+class ECSServiceRecommendationFindingReasonCode {
+  static const memoryOverprovisioned =
+      ECSServiceRecommendationFindingReasonCode._('MemoryOverprovisioned');
+  static const memoryUnderprovisioned =
+      ECSServiceRecommendationFindingReasonCode._('MemoryUnderprovisioned');
+  static const cPUOverprovisioned =
+      ECSServiceRecommendationFindingReasonCode._('CPUOverprovisioned');
+  static const cPUUnderprovisioned =
+      ECSServiceRecommendationFindingReasonCode._('CPUUnderprovisioned');
 
   final String value;
 
-  const ECSServiceRecommendationFindingReasonCode(this.value);
+  const ECSServiceRecommendationFindingReasonCode._(this.value);
+
+  static const values = [
+    memoryOverprovisioned,
+    memoryUnderprovisioned,
+    cPUOverprovisioned,
+    cPUUnderprovisioned
+  ];
 
   static ECSServiceRecommendationFindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ECSServiceRecommendationFindingReasonCode'));
+          orElse: () => ECSServiceRecommendationFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ECSServiceRecommendationFindingReasonCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the recommendation options for an Amazon ECS service.
@@ -4677,19 +4892,29 @@ class EffectiveRecommendationPreferences {
   }
 }
 
-enum EnhancedInfrastructureMetrics {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class EnhancedInfrastructureMetrics {
+  static const active = EnhancedInfrastructureMetrics._('Active');
+  static const inactive = EnhancedInfrastructureMetrics._('Inactive');
 
   final String value;
 
-  const EnhancedInfrastructureMetrics(this.value);
+  const EnhancedInfrastructureMetrics._(this.value);
+
+  static const values = [active, inactive];
 
   static EnhancedInfrastructureMetrics fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum EnhancedInfrastructureMetrics'));
+          orElse: () => EnhancedInfrastructureMetrics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnhancedInfrastructureMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a filter that returns a more specific list of account enrollment
@@ -4723,18 +4948,28 @@ class EnrollmentFilter {
   }
 }
 
-enum EnrollmentFilterName {
-  status('Status'),
-  ;
+class EnrollmentFilterName {
+  static const status = EnrollmentFilterName._('Status');
 
   final String value;
 
-  const EnrollmentFilterName(this.value);
+  const EnrollmentFilterName._(this.value);
 
-  static EnrollmentFilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum EnrollmentFilterName'));
+  static const values = [status];
+
+  static EnrollmentFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnrollmentFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnrollmentFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the estimated monthly savings amount possible, based on On-Demand
@@ -5045,575 +5280,1201 @@ class ExportRDSDatabaseRecommendationsResponse {
   }
 }
 
-enum ExportableAutoScalingGroupField {
-  accountId('AccountId'),
-  autoScalingGroupArn('AutoScalingGroupArn'),
-  autoScalingGroupName('AutoScalingGroupName'),
-  finding('Finding'),
-  utilizationMetricsCpuMaximum('UtilizationMetricsCpuMaximum'),
-  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
-  utilizationMetricsEbsReadOpsPerSecondMaximum(
-      'UtilizationMetricsEbsReadOpsPerSecondMaximum'),
-  utilizationMetricsEbsWriteOpsPerSecondMaximum(
-      'UtilizationMetricsEbsWriteOpsPerSecondMaximum'),
-  utilizationMetricsEbsReadBytesPerSecondMaximum(
-      'UtilizationMetricsEbsReadBytesPerSecondMaximum'),
-  utilizationMetricsEbsWriteBytesPerSecondMaximum(
-      'UtilizationMetricsEbsWriteBytesPerSecondMaximum'),
-  utilizationMetricsDiskReadOpsPerSecondMaximum(
-      'UtilizationMetricsDiskReadOpsPerSecondMaximum'),
-  utilizationMetricsDiskWriteOpsPerSecondMaximum(
-      'UtilizationMetricsDiskWriteOpsPerSecondMaximum'),
-  utilizationMetricsDiskReadBytesPerSecondMaximum(
-      'UtilizationMetricsDiskReadBytesPerSecondMaximum'),
-  utilizationMetricsDiskWriteBytesPerSecondMaximum(
-      'UtilizationMetricsDiskWriteBytesPerSecondMaximum'),
-  utilizationMetricsNetworkInBytesPerSecondMaximum(
-      'UtilizationMetricsNetworkInBytesPerSecondMaximum'),
-  utilizationMetricsNetworkOutBytesPerSecondMaximum(
-      'UtilizationMetricsNetworkOutBytesPerSecondMaximum'),
-  utilizationMetricsNetworkPacketsInPerSecondMaximum(
-      'UtilizationMetricsNetworkPacketsInPerSecondMaximum'),
-  utilizationMetricsNetworkPacketsOutPerSecondMaximum(
-      'UtilizationMetricsNetworkPacketsOutPerSecondMaximum'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  currentConfigurationInstanceType('CurrentConfigurationInstanceType'),
-  currentConfigurationDesiredCapacity('CurrentConfigurationDesiredCapacity'),
-  currentConfigurationMinSize('CurrentConfigurationMinSize'),
-  currentConfigurationMaxSize('CurrentConfigurationMaxSize'),
-  currentOnDemandPrice('CurrentOnDemandPrice'),
-  currentStandardOneYearNoUpfrontReservedPrice(
-      'CurrentStandardOneYearNoUpfrontReservedPrice'),
-  currentStandardThreeYearNoUpfrontReservedPrice(
-      'CurrentStandardThreeYearNoUpfrontReservedPrice'),
-  currentVCpus('CurrentVCpus'),
-  currentMemory('CurrentMemory'),
-  currentStorage('CurrentStorage'),
-  currentNetwork('CurrentNetwork'),
-  recommendationOptionsConfigurationInstanceType(
-      'RecommendationOptionsConfigurationInstanceType'),
-  recommendationOptionsConfigurationDesiredCapacity(
-      'RecommendationOptionsConfigurationDesiredCapacity'),
-  recommendationOptionsConfigurationMinSize(
-      'RecommendationOptionsConfigurationMinSize'),
-  recommendationOptionsConfigurationMaxSize(
-      'RecommendationOptionsConfigurationMaxSize'),
-  recommendationOptionsProjectedUtilizationMetricsCpuMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsMemoryMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum'),
-  recommendationOptionsPerformanceRisk('RecommendationOptionsPerformanceRisk'),
-  recommendationOptionsOnDemandPrice('RecommendationOptionsOnDemandPrice'),
-  recommendationOptionsStandardOneYearNoUpfrontReservedPrice(
-      'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice'),
-  recommendationOptionsStandardThreeYearNoUpfrontReservedPrice(
-      'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice'),
-  recommendationOptionsVcpus('RecommendationOptionsVcpus'),
-  recommendationOptionsMemory('RecommendationOptionsMemory'),
-  recommendationOptionsStorage('RecommendationOptionsStorage'),
-  recommendationOptionsNetwork('RecommendationOptionsNetwork'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  currentPerformanceRisk('CurrentPerformanceRisk'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  effectiveRecommendationPreferencesCpuVendorArchitectures(
-      'EffectiveRecommendationPreferencesCpuVendorArchitectures'),
-  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics(
-      'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics'),
-  effectiveRecommendationPreferencesInferredWorkloadTypes(
-      'EffectiveRecommendationPreferencesInferredWorkloadTypes'),
-  effectiveRecommendationPreferencesPreferredResources(
-      'EffectiveRecommendationPreferencesPreferredResources'),
-  effectiveRecommendationPreferencesLookBackPeriod(
-      'EffectiveRecommendationPreferencesLookBackPeriod'),
-  inferredWorkloadTypes('InferredWorkloadTypes'),
-  recommendationOptionsMigrationEffort('RecommendationOptionsMigrationEffort'),
-  currentInstanceGpuInfo('CurrentInstanceGpuInfo'),
-  recommendationOptionsInstanceGpuInfo('RecommendationOptionsInstanceGpuInfo'),
-  utilizationMetricsGpuPercentageMaximum(
-      'UtilizationMetricsGpuPercentageMaximum'),
-  utilizationMetricsGpuMemoryPercentageMaximum(
-      'UtilizationMetricsGpuMemoryPercentageMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  recommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  ;
+class ExportableAutoScalingGroupField {
+  static const accountId = ExportableAutoScalingGroupField._('AccountId');
+  static const autoScalingGroupArn =
+      ExportableAutoScalingGroupField._('AutoScalingGroupArn');
+  static const autoScalingGroupName =
+      ExportableAutoScalingGroupField._('AutoScalingGroupName');
+  static const finding = ExportableAutoScalingGroupField._('Finding');
+  static const utilizationMetricsCpuMaximum =
+      ExportableAutoScalingGroupField._('UtilizationMetricsCpuMaximum');
+  static const utilizationMetricsMemoryMaximum =
+      ExportableAutoScalingGroupField._('UtilizationMetricsMemoryMaximum');
+  static const utilizationMetricsEbsReadOpsPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsEbsReadOpsPerSecondMaximum');
+  static const utilizationMetricsEbsWriteOpsPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsEbsWriteOpsPerSecondMaximum');
+  static const utilizationMetricsEbsReadBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsEbsReadBytesPerSecondMaximum');
+  static const utilizationMetricsEbsWriteBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsEbsWriteBytesPerSecondMaximum');
+  static const utilizationMetricsDiskReadOpsPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsDiskReadOpsPerSecondMaximum');
+  static const utilizationMetricsDiskWriteOpsPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsDiskWriteOpsPerSecondMaximum');
+  static const utilizationMetricsDiskReadBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsDiskReadBytesPerSecondMaximum');
+  static const utilizationMetricsDiskWriteBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsDiskWriteBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkInBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsNetworkInBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkOutBytesPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsNetworkOutBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkPacketsInPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsNetworkPacketsInPerSecondMaximum');
+  static const utilizationMetricsNetworkPacketsOutPerSecondMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsNetworkPacketsOutPerSecondMaximum');
+  static const lookbackPeriodInDays =
+      ExportableAutoScalingGroupField._('LookbackPeriodInDays');
+  static const currentConfigurationInstanceType =
+      ExportableAutoScalingGroupField._('CurrentConfigurationInstanceType');
+  static const currentConfigurationDesiredCapacity =
+      ExportableAutoScalingGroupField._('CurrentConfigurationDesiredCapacity');
+  static const currentConfigurationMinSize =
+      ExportableAutoScalingGroupField._('CurrentConfigurationMinSize');
+  static const currentConfigurationMaxSize =
+      ExportableAutoScalingGroupField._('CurrentConfigurationMaxSize');
+  static const currentOnDemandPrice =
+      ExportableAutoScalingGroupField._('CurrentOnDemandPrice');
+  static const currentStandardOneYearNoUpfrontReservedPrice =
+      ExportableAutoScalingGroupField._(
+          'CurrentStandardOneYearNoUpfrontReservedPrice');
+  static const currentStandardThreeYearNoUpfrontReservedPrice =
+      ExportableAutoScalingGroupField._(
+          'CurrentStandardThreeYearNoUpfrontReservedPrice');
+  static const currentVCpus = ExportableAutoScalingGroupField._('CurrentVCpus');
+  static const currentMemory =
+      ExportableAutoScalingGroupField._('CurrentMemory');
+  static const currentStorage =
+      ExportableAutoScalingGroupField._('CurrentStorage');
+  static const currentNetwork =
+      ExportableAutoScalingGroupField._('CurrentNetwork');
+  static const recommendationOptionsConfigurationInstanceType =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsConfigurationInstanceType');
+  static const recommendationOptionsConfigurationDesiredCapacity =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsConfigurationDesiredCapacity');
+  static const recommendationOptionsConfigurationMinSize =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsConfigurationMinSize');
+  static const recommendationOptionsConfigurationMaxSize =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsConfigurationMaxSize');
+  static const recommendationOptionsProjectedUtilizationMetricsCpuMaximum =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsMemoryMaximum =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum');
+  static const recommendationOptionsPerformanceRisk =
+      ExportableAutoScalingGroupField._('RecommendationOptionsPerformanceRisk');
+  static const recommendationOptionsOnDemandPrice =
+      ExportableAutoScalingGroupField._('RecommendationOptionsOnDemandPrice');
+  static const recommendationOptionsStandardOneYearNoUpfrontReservedPrice =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice');
+  static const recommendationOptionsStandardThreeYearNoUpfrontReservedPrice =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice');
+  static const recommendationOptionsVcpus =
+      ExportableAutoScalingGroupField._('RecommendationOptionsVcpus');
+  static const recommendationOptionsMemory =
+      ExportableAutoScalingGroupField._('RecommendationOptionsMemory');
+  static const recommendationOptionsStorage =
+      ExportableAutoScalingGroupField._('RecommendationOptionsStorage');
+  static const recommendationOptionsNetwork =
+      ExportableAutoScalingGroupField._('RecommendationOptionsNetwork');
+  static const lastRefreshTimestamp =
+      ExportableAutoScalingGroupField._('LastRefreshTimestamp');
+  static const currentPerformanceRisk =
+      ExportableAutoScalingGroupField._('CurrentPerformanceRisk');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const effectiveRecommendationPreferencesCpuVendorArchitectures =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesCpuVendorArchitectures');
+  static const effectiveRecommendationPreferencesEnhancedInfrastructureMetrics =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics');
+  static const effectiveRecommendationPreferencesInferredWorkloadTypes =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesInferredWorkloadTypes');
+  static const effectiveRecommendationPreferencesPreferredResources =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesPreferredResources');
+  static const effectiveRecommendationPreferencesLookBackPeriod =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesLookBackPeriod');
+  static const inferredWorkloadTypes =
+      ExportableAutoScalingGroupField._('InferredWorkloadTypes');
+  static const recommendationOptionsMigrationEffort =
+      ExportableAutoScalingGroupField._('RecommendationOptionsMigrationEffort');
+  static const currentInstanceGpuInfo =
+      ExportableAutoScalingGroupField._('CurrentInstanceGpuInfo');
+  static const recommendationOptionsInstanceGpuInfo =
+      ExportableAutoScalingGroupField._('RecommendationOptionsInstanceGpuInfo');
+  static const utilizationMetricsGpuPercentageMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsGpuPercentageMaximum');
+  static const utilizationMetricsGpuMemoryPercentageMaximum =
+      ExportableAutoScalingGroupField._(
+          'UtilizationMetricsGpuMemoryPercentageMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableAutoScalingGroupField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const recommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableAutoScalingGroupField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
 
   final String value;
 
-  const ExportableAutoScalingGroupField(this.value);
+  const ExportableAutoScalingGroupField._(this.value);
+
+  static const values = [
+    accountId,
+    autoScalingGroupArn,
+    autoScalingGroupName,
+    finding,
+    utilizationMetricsCpuMaximum,
+    utilizationMetricsMemoryMaximum,
+    utilizationMetricsEbsReadOpsPerSecondMaximum,
+    utilizationMetricsEbsWriteOpsPerSecondMaximum,
+    utilizationMetricsEbsReadBytesPerSecondMaximum,
+    utilizationMetricsEbsWriteBytesPerSecondMaximum,
+    utilizationMetricsDiskReadOpsPerSecondMaximum,
+    utilizationMetricsDiskWriteOpsPerSecondMaximum,
+    utilizationMetricsDiskReadBytesPerSecondMaximum,
+    utilizationMetricsDiskWriteBytesPerSecondMaximum,
+    utilizationMetricsNetworkInBytesPerSecondMaximum,
+    utilizationMetricsNetworkOutBytesPerSecondMaximum,
+    utilizationMetricsNetworkPacketsInPerSecondMaximum,
+    utilizationMetricsNetworkPacketsOutPerSecondMaximum,
+    lookbackPeriodInDays,
+    currentConfigurationInstanceType,
+    currentConfigurationDesiredCapacity,
+    currentConfigurationMinSize,
+    currentConfigurationMaxSize,
+    currentOnDemandPrice,
+    currentStandardOneYearNoUpfrontReservedPrice,
+    currentStandardThreeYearNoUpfrontReservedPrice,
+    currentVCpus,
+    currentMemory,
+    currentStorage,
+    currentNetwork,
+    recommendationOptionsConfigurationInstanceType,
+    recommendationOptionsConfigurationDesiredCapacity,
+    recommendationOptionsConfigurationMinSize,
+    recommendationOptionsConfigurationMaxSize,
+    recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+    recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+    recommendationOptionsPerformanceRisk,
+    recommendationOptionsOnDemandPrice,
+    recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
+    recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
+    recommendationOptionsVcpus,
+    recommendationOptionsMemory,
+    recommendationOptionsStorage,
+    recommendationOptionsNetwork,
+    lastRefreshTimestamp,
+    currentPerformanceRisk,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    effectiveRecommendationPreferencesCpuVendorArchitectures,
+    effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+    effectiveRecommendationPreferencesInferredWorkloadTypes,
+    effectiveRecommendationPreferencesPreferredResources,
+    effectiveRecommendationPreferencesLookBackPeriod,
+    inferredWorkloadTypes,
+    recommendationOptionsMigrationEffort,
+    currentInstanceGpuInfo,
+    recommendationOptionsInstanceGpuInfo,
+    utilizationMetricsGpuPercentageMaximum,
+    utilizationMetricsGpuMemoryPercentageMaximum,
+    recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum,
+    recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+  ];
 
   static ExportableAutoScalingGroupField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExportableAutoScalingGroupField'));
+          orElse: () => ExportableAutoScalingGroupField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableAutoScalingGroupField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableECSServiceField {
-  accountId('AccountId'),
-  serviceArn('ServiceArn'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  launchType('LaunchType'),
-  currentPerformanceRisk('CurrentPerformanceRisk'),
-  currentServiceConfigurationMemory('CurrentServiceConfigurationMemory'),
-  currentServiceConfigurationCpu('CurrentServiceConfigurationCpu'),
-  currentServiceConfigurationTaskDefinitionArn(
-      'CurrentServiceConfigurationTaskDefinitionArn'),
-  currentServiceConfigurationAutoScalingConfiguration(
-      'CurrentServiceConfigurationAutoScalingConfiguration'),
-  currentServiceContainerConfigurations(
-      'CurrentServiceContainerConfigurations'),
-  utilizationMetricsCpuMaximum('UtilizationMetricsCpuMaximum'),
-  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
-  finding('Finding'),
-  findingReasonCodes('FindingReasonCodes'),
-  recommendationOptionsMemory('RecommendationOptionsMemory'),
-  recommendationOptionsCpu('RecommendationOptionsCpu'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  recommendationOptionsContainerRecommendations(
-      'RecommendationOptionsContainerRecommendations'),
-  recommendationOptionsProjectedUtilizationMetricsCpuMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsMemoryMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum'),
-  tags('Tags'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  recommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  ;
+class ExportableECSServiceField {
+  static const accountId = ExportableECSServiceField._('AccountId');
+  static const serviceArn = ExportableECSServiceField._('ServiceArn');
+  static const lookbackPeriodInDays =
+      ExportableECSServiceField._('LookbackPeriodInDays');
+  static const lastRefreshTimestamp =
+      ExportableECSServiceField._('LastRefreshTimestamp');
+  static const launchType = ExportableECSServiceField._('LaunchType');
+  static const currentPerformanceRisk =
+      ExportableECSServiceField._('CurrentPerformanceRisk');
+  static const currentServiceConfigurationMemory =
+      ExportableECSServiceField._('CurrentServiceConfigurationMemory');
+  static const currentServiceConfigurationCpu =
+      ExportableECSServiceField._('CurrentServiceConfigurationCpu');
+  static const currentServiceConfigurationTaskDefinitionArn =
+      ExportableECSServiceField._(
+          'CurrentServiceConfigurationTaskDefinitionArn');
+  static const currentServiceConfigurationAutoScalingConfiguration =
+      ExportableECSServiceField._(
+          'CurrentServiceConfigurationAutoScalingConfiguration');
+  static const currentServiceContainerConfigurations =
+      ExportableECSServiceField._('CurrentServiceContainerConfigurations');
+  static const utilizationMetricsCpuMaximum =
+      ExportableECSServiceField._('UtilizationMetricsCpuMaximum');
+  static const utilizationMetricsMemoryMaximum =
+      ExportableECSServiceField._('UtilizationMetricsMemoryMaximum');
+  static const finding = ExportableECSServiceField._('Finding');
+  static const findingReasonCodes =
+      ExportableECSServiceField._('FindingReasonCodes');
+  static const recommendationOptionsMemory =
+      ExportableECSServiceField._('RecommendationOptionsMemory');
+  static const recommendationOptionsCpu =
+      ExportableECSServiceField._('RecommendationOptionsCpu');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableECSServiceField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableECSServiceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableECSServiceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const recommendationOptionsContainerRecommendations =
+      ExportableECSServiceField._(
+          'RecommendationOptionsContainerRecommendations');
+  static const recommendationOptionsProjectedUtilizationMetricsCpuMaximum =
+      ExportableECSServiceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsMemoryMaximum =
+      ExportableECSServiceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum');
+  static const tags = ExportableECSServiceField._('Tags');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableECSServiceField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const recommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableECSServiceField._(
+          'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableECSServiceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableECSServiceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
 
   final String value;
 
-  const ExportableECSServiceField(this.value);
+  const ExportableECSServiceField._(this.value);
+
+  static const values = [
+    accountId,
+    serviceArn,
+    lookbackPeriodInDays,
+    lastRefreshTimestamp,
+    launchType,
+    currentPerformanceRisk,
+    currentServiceConfigurationMemory,
+    currentServiceConfigurationCpu,
+    currentServiceConfigurationTaskDefinitionArn,
+    currentServiceConfigurationAutoScalingConfiguration,
+    currentServiceContainerConfigurations,
+    utilizationMetricsCpuMaximum,
+    utilizationMetricsMemoryMaximum,
+    finding,
+    findingReasonCodes,
+    recommendationOptionsMemory,
+    recommendationOptionsCpu,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    recommendationOptionsContainerRecommendations,
+    recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+    recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+    tags,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+  ];
 
   static ExportableECSServiceField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExportableECSServiceField'));
+          orElse: () => ExportableECSServiceField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableECSServiceField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableInstanceField {
-  accountId('AccountId'),
-  instanceArn('InstanceArn'),
-  instanceName('InstanceName'),
-  finding('Finding'),
-  findingReasonCodes('FindingReasonCodes'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  currentInstanceType('CurrentInstanceType'),
-  utilizationMetricsCpuMaximum('UtilizationMetricsCpuMaximum'),
-  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
-  utilizationMetricsEbsReadOpsPerSecondMaximum(
-      'UtilizationMetricsEbsReadOpsPerSecondMaximum'),
-  utilizationMetricsEbsWriteOpsPerSecondMaximum(
-      'UtilizationMetricsEbsWriteOpsPerSecondMaximum'),
-  utilizationMetricsEbsReadBytesPerSecondMaximum(
-      'UtilizationMetricsEbsReadBytesPerSecondMaximum'),
-  utilizationMetricsEbsWriteBytesPerSecondMaximum(
-      'UtilizationMetricsEbsWriteBytesPerSecondMaximum'),
-  utilizationMetricsDiskReadOpsPerSecondMaximum(
-      'UtilizationMetricsDiskReadOpsPerSecondMaximum'),
-  utilizationMetricsDiskWriteOpsPerSecondMaximum(
-      'UtilizationMetricsDiskWriteOpsPerSecondMaximum'),
-  utilizationMetricsDiskReadBytesPerSecondMaximum(
-      'UtilizationMetricsDiskReadBytesPerSecondMaximum'),
-  utilizationMetricsDiskWriteBytesPerSecondMaximum(
-      'UtilizationMetricsDiskWriteBytesPerSecondMaximum'),
-  utilizationMetricsNetworkInBytesPerSecondMaximum(
-      'UtilizationMetricsNetworkInBytesPerSecondMaximum'),
-  utilizationMetricsNetworkOutBytesPerSecondMaximum(
-      'UtilizationMetricsNetworkOutBytesPerSecondMaximum'),
-  utilizationMetricsNetworkPacketsInPerSecondMaximum(
-      'UtilizationMetricsNetworkPacketsInPerSecondMaximum'),
-  utilizationMetricsNetworkPacketsOutPerSecondMaximum(
-      'UtilizationMetricsNetworkPacketsOutPerSecondMaximum'),
-  currentOnDemandPrice('CurrentOnDemandPrice'),
-  currentStandardOneYearNoUpfrontReservedPrice(
-      'CurrentStandardOneYearNoUpfrontReservedPrice'),
-  currentStandardThreeYearNoUpfrontReservedPrice(
-      'CurrentStandardThreeYearNoUpfrontReservedPrice'),
-  currentVCpus('CurrentVCpus'),
-  currentMemory('CurrentMemory'),
-  currentStorage('CurrentStorage'),
-  currentNetwork('CurrentNetwork'),
-  recommendationOptionsInstanceType('RecommendationOptionsInstanceType'),
-  recommendationOptionsProjectedUtilizationMetricsCpuMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsMemoryMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum'),
-  recommendationOptionsPlatformDifferences(
-      'RecommendationOptionsPlatformDifferences'),
-  recommendationOptionsPerformanceRisk('RecommendationOptionsPerformanceRisk'),
-  recommendationOptionsVcpus('RecommendationOptionsVcpus'),
-  recommendationOptionsMemory('RecommendationOptionsMemory'),
-  recommendationOptionsStorage('RecommendationOptionsStorage'),
-  recommendationOptionsNetwork('RecommendationOptionsNetwork'),
-  recommendationOptionsOnDemandPrice('RecommendationOptionsOnDemandPrice'),
-  recommendationOptionsStandardOneYearNoUpfrontReservedPrice(
-      'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice'),
-  recommendationOptionsStandardThreeYearNoUpfrontReservedPrice(
-      'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice'),
-  recommendationsSourcesRecommendationSourceArn(
-      'RecommendationsSourcesRecommendationSourceArn'),
-  recommendationsSourcesRecommendationSourceType(
-      'RecommendationsSourcesRecommendationSourceType'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  currentPerformanceRisk('CurrentPerformanceRisk'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  effectiveRecommendationPreferencesCpuVendorArchitectures(
-      'EffectiveRecommendationPreferencesCpuVendorArchitectures'),
-  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics(
-      'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics'),
-  effectiveRecommendationPreferencesInferredWorkloadTypes(
-      'EffectiveRecommendationPreferencesInferredWorkloadTypes'),
-  inferredWorkloadTypes('InferredWorkloadTypes'),
-  recommendationOptionsMigrationEffort('RecommendationOptionsMigrationEffort'),
-  effectiveRecommendationPreferencesExternalMetricsSource(
-      'EffectiveRecommendationPreferencesExternalMetricsSource'),
-  tags('Tags'),
-  instanceState('InstanceState'),
-  externalMetricStatusCode('ExternalMetricStatusCode'),
-  externalMetricStatusReason('ExternalMetricStatusReason'),
-  currentInstanceGpuInfo('CurrentInstanceGpuInfo'),
-  recommendationOptionsInstanceGpuInfo('RecommendationOptionsInstanceGpuInfo'),
-  utilizationMetricsGpuPercentageMaximum(
-      'UtilizationMetricsGpuPercentageMaximum'),
-  utilizationMetricsGpuMemoryPercentageMaximum(
-      'UtilizationMetricsGpuMemoryPercentageMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum'),
-  recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum(
-      'RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum'),
-  idle('Idle'),
-  effectiveRecommendationPreferencesPreferredResources(
-      'EffectiveRecommendationPreferencesPreferredResources'),
-  effectiveRecommendationPreferencesLookBackPeriod(
-      'EffectiveRecommendationPreferencesLookBackPeriod'),
-  effectiveRecommendationPreferencesUtilizationPreferences(
-      'EffectiveRecommendationPreferencesUtilizationPreferences'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  recommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  ;
+class ExportableInstanceField {
+  static const accountId = ExportableInstanceField._('AccountId');
+  static const instanceArn = ExportableInstanceField._('InstanceArn');
+  static const instanceName = ExportableInstanceField._('InstanceName');
+  static const finding = ExportableInstanceField._('Finding');
+  static const findingReasonCodes =
+      ExportableInstanceField._('FindingReasonCodes');
+  static const lookbackPeriodInDays =
+      ExportableInstanceField._('LookbackPeriodInDays');
+  static const currentInstanceType =
+      ExportableInstanceField._('CurrentInstanceType');
+  static const utilizationMetricsCpuMaximum =
+      ExportableInstanceField._('UtilizationMetricsCpuMaximum');
+  static const utilizationMetricsMemoryMaximum =
+      ExportableInstanceField._('UtilizationMetricsMemoryMaximum');
+  static const utilizationMetricsEbsReadOpsPerSecondMaximum =
+      ExportableInstanceField._('UtilizationMetricsEbsReadOpsPerSecondMaximum');
+  static const utilizationMetricsEbsWriteOpsPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsEbsWriteOpsPerSecondMaximum');
+  static const utilizationMetricsEbsReadBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsEbsReadBytesPerSecondMaximum');
+  static const utilizationMetricsEbsWriteBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsEbsWriteBytesPerSecondMaximum');
+  static const utilizationMetricsDiskReadOpsPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsDiskReadOpsPerSecondMaximum');
+  static const utilizationMetricsDiskWriteOpsPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsDiskWriteOpsPerSecondMaximum');
+  static const utilizationMetricsDiskReadBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsDiskReadBytesPerSecondMaximum');
+  static const utilizationMetricsDiskWriteBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsDiskWriteBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkInBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsNetworkInBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkOutBytesPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsNetworkOutBytesPerSecondMaximum');
+  static const utilizationMetricsNetworkPacketsInPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsNetworkPacketsInPerSecondMaximum');
+  static const utilizationMetricsNetworkPacketsOutPerSecondMaximum =
+      ExportableInstanceField._(
+          'UtilizationMetricsNetworkPacketsOutPerSecondMaximum');
+  static const currentOnDemandPrice =
+      ExportableInstanceField._('CurrentOnDemandPrice');
+  static const currentStandardOneYearNoUpfrontReservedPrice =
+      ExportableInstanceField._('CurrentStandardOneYearNoUpfrontReservedPrice');
+  static const currentStandardThreeYearNoUpfrontReservedPrice =
+      ExportableInstanceField._(
+          'CurrentStandardThreeYearNoUpfrontReservedPrice');
+  static const currentVCpus = ExportableInstanceField._('CurrentVCpus');
+  static const currentMemory = ExportableInstanceField._('CurrentMemory');
+  static const currentStorage = ExportableInstanceField._('CurrentStorage');
+  static const currentNetwork = ExportableInstanceField._('CurrentNetwork');
+  static const recommendationOptionsInstanceType =
+      ExportableInstanceField._('RecommendationOptionsInstanceType');
+  static const recommendationOptionsProjectedUtilizationMetricsCpuMaximum =
+      ExportableInstanceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsMemoryMaximum =
+      ExportableInstanceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum');
+  static const recommendationOptionsPlatformDifferences =
+      ExportableInstanceField._('RecommendationOptionsPlatformDifferences');
+  static const recommendationOptionsPerformanceRisk =
+      ExportableInstanceField._('RecommendationOptionsPerformanceRisk');
+  static const recommendationOptionsVcpus =
+      ExportableInstanceField._('RecommendationOptionsVcpus');
+  static const recommendationOptionsMemory =
+      ExportableInstanceField._('RecommendationOptionsMemory');
+  static const recommendationOptionsStorage =
+      ExportableInstanceField._('RecommendationOptionsStorage');
+  static const recommendationOptionsNetwork =
+      ExportableInstanceField._('RecommendationOptionsNetwork');
+  static const recommendationOptionsOnDemandPrice =
+      ExportableInstanceField._('RecommendationOptionsOnDemandPrice');
+  static const recommendationOptionsStandardOneYearNoUpfrontReservedPrice =
+      ExportableInstanceField._(
+          'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice');
+  static const recommendationOptionsStandardThreeYearNoUpfrontReservedPrice =
+      ExportableInstanceField._(
+          'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice');
+  static const recommendationsSourcesRecommendationSourceArn =
+      ExportableInstanceField._(
+          'RecommendationsSourcesRecommendationSourceArn');
+  static const recommendationsSourcesRecommendationSourceType =
+      ExportableInstanceField._(
+          'RecommendationsSourcesRecommendationSourceType');
+  static const lastRefreshTimestamp =
+      ExportableInstanceField._('LastRefreshTimestamp');
+  static const currentPerformanceRisk =
+      ExportableInstanceField._('CurrentPerformanceRisk');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableInstanceField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableInstanceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableInstanceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const effectiveRecommendationPreferencesCpuVendorArchitectures =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesCpuVendorArchitectures');
+  static const effectiveRecommendationPreferencesEnhancedInfrastructureMetrics =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics');
+  static const effectiveRecommendationPreferencesInferredWorkloadTypes =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesInferredWorkloadTypes');
+  static const inferredWorkloadTypes =
+      ExportableInstanceField._('InferredWorkloadTypes');
+  static const recommendationOptionsMigrationEffort =
+      ExportableInstanceField._('RecommendationOptionsMigrationEffort');
+  static const effectiveRecommendationPreferencesExternalMetricsSource =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesExternalMetricsSource');
+  static const tags = ExportableInstanceField._('Tags');
+  static const instanceState = ExportableInstanceField._('InstanceState');
+  static const externalMetricStatusCode =
+      ExportableInstanceField._('ExternalMetricStatusCode');
+  static const externalMetricStatusReason =
+      ExportableInstanceField._('ExternalMetricStatusReason');
+  static const currentInstanceGpuInfo =
+      ExportableInstanceField._('CurrentInstanceGpuInfo');
+  static const recommendationOptionsInstanceGpuInfo =
+      ExportableInstanceField._('RecommendationOptionsInstanceGpuInfo');
+  static const utilizationMetricsGpuPercentageMaximum =
+      ExportableInstanceField._('UtilizationMetricsGpuPercentageMaximum');
+  static const utilizationMetricsGpuMemoryPercentageMaximum =
+      ExportableInstanceField._('UtilizationMetricsGpuMemoryPercentageMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum =
+      ExportableInstanceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum');
+  static const recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum =
+      ExportableInstanceField._(
+          'RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum');
+  static const idle = ExportableInstanceField._('Idle');
+  static const effectiveRecommendationPreferencesPreferredResources =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesPreferredResources');
+  static const effectiveRecommendationPreferencesLookBackPeriod =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesLookBackPeriod');
+  static const effectiveRecommendationPreferencesUtilizationPreferences =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesUtilizationPreferences');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableInstanceField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const recommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableInstanceField._(
+          'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableInstanceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableInstanceField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
 
   final String value;
 
-  const ExportableInstanceField(this.value);
+  const ExportableInstanceField._(this.value);
+
+  static const values = [
+    accountId,
+    instanceArn,
+    instanceName,
+    finding,
+    findingReasonCodes,
+    lookbackPeriodInDays,
+    currentInstanceType,
+    utilizationMetricsCpuMaximum,
+    utilizationMetricsMemoryMaximum,
+    utilizationMetricsEbsReadOpsPerSecondMaximum,
+    utilizationMetricsEbsWriteOpsPerSecondMaximum,
+    utilizationMetricsEbsReadBytesPerSecondMaximum,
+    utilizationMetricsEbsWriteBytesPerSecondMaximum,
+    utilizationMetricsDiskReadOpsPerSecondMaximum,
+    utilizationMetricsDiskWriteOpsPerSecondMaximum,
+    utilizationMetricsDiskReadBytesPerSecondMaximum,
+    utilizationMetricsDiskWriteBytesPerSecondMaximum,
+    utilizationMetricsNetworkInBytesPerSecondMaximum,
+    utilizationMetricsNetworkOutBytesPerSecondMaximum,
+    utilizationMetricsNetworkPacketsInPerSecondMaximum,
+    utilizationMetricsNetworkPacketsOutPerSecondMaximum,
+    currentOnDemandPrice,
+    currentStandardOneYearNoUpfrontReservedPrice,
+    currentStandardThreeYearNoUpfrontReservedPrice,
+    currentVCpus,
+    currentMemory,
+    currentStorage,
+    currentNetwork,
+    recommendationOptionsInstanceType,
+    recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+    recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+    recommendationOptionsPlatformDifferences,
+    recommendationOptionsPerformanceRisk,
+    recommendationOptionsVcpus,
+    recommendationOptionsMemory,
+    recommendationOptionsStorage,
+    recommendationOptionsNetwork,
+    recommendationOptionsOnDemandPrice,
+    recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
+    recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
+    recommendationsSourcesRecommendationSourceArn,
+    recommendationsSourcesRecommendationSourceType,
+    lastRefreshTimestamp,
+    currentPerformanceRisk,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    effectiveRecommendationPreferencesCpuVendorArchitectures,
+    effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+    effectiveRecommendationPreferencesInferredWorkloadTypes,
+    inferredWorkloadTypes,
+    recommendationOptionsMigrationEffort,
+    effectiveRecommendationPreferencesExternalMetricsSource,
+    tags,
+    instanceState,
+    externalMetricStatusCode,
+    externalMetricStatusReason,
+    currentInstanceGpuInfo,
+    recommendationOptionsInstanceGpuInfo,
+    utilizationMetricsGpuPercentageMaximum,
+    utilizationMetricsGpuMemoryPercentageMaximum,
+    recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum,
+    recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum,
+    idle,
+    effectiveRecommendationPreferencesPreferredResources,
+    effectiveRecommendationPreferencesLookBackPeriod,
+    effectiveRecommendationPreferencesUtilizationPreferences,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+  ];
 
   static ExportableInstanceField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExportableInstanceField'));
+          orElse: () => ExportableInstanceField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableInstanceField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableLambdaFunctionField {
-  accountId('AccountId'),
-  functionArn('FunctionArn'),
-  functionVersion('FunctionVersion'),
-  finding('Finding'),
-  findingReasonCodes('FindingReasonCodes'),
-  numberOfInvocations('NumberOfInvocations'),
-  utilizationMetricsDurationMaximum('UtilizationMetricsDurationMaximum'),
-  utilizationMetricsDurationAverage('UtilizationMetricsDurationAverage'),
-  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
-  utilizationMetricsMemoryAverage('UtilizationMetricsMemoryAverage'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  currentConfigurationMemorySize('CurrentConfigurationMemorySize'),
-  currentConfigurationTimeout('CurrentConfigurationTimeout'),
-  currentCostTotal('CurrentCostTotal'),
-  currentCostAverage('CurrentCostAverage'),
-  recommendationOptionsConfigurationMemorySize(
-      'RecommendationOptionsConfigurationMemorySize'),
-  recommendationOptionsCostLow('RecommendationOptionsCostLow'),
-  recommendationOptionsCostHigh('RecommendationOptionsCostHigh'),
-  recommendationOptionsProjectedUtilizationMetricsDurationLowerBound(
-      'RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound'),
-  recommendationOptionsProjectedUtilizationMetricsDurationUpperBound(
-      'RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound'),
-  recommendationOptionsProjectedUtilizationMetricsDurationExpected(
-      'RecommendationOptionsProjectedUtilizationMetricsDurationExpected'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  currentPerformanceRisk('CurrentPerformanceRisk'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  tags('Tags'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  recommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  ;
+class ExportableLambdaFunctionField {
+  static const accountId = ExportableLambdaFunctionField._('AccountId');
+  static const functionArn = ExportableLambdaFunctionField._('FunctionArn');
+  static const functionVersion =
+      ExportableLambdaFunctionField._('FunctionVersion');
+  static const finding = ExportableLambdaFunctionField._('Finding');
+  static const findingReasonCodes =
+      ExportableLambdaFunctionField._('FindingReasonCodes');
+  static const numberOfInvocations =
+      ExportableLambdaFunctionField._('NumberOfInvocations');
+  static const utilizationMetricsDurationMaximum =
+      ExportableLambdaFunctionField._('UtilizationMetricsDurationMaximum');
+  static const utilizationMetricsDurationAverage =
+      ExportableLambdaFunctionField._('UtilizationMetricsDurationAverage');
+  static const utilizationMetricsMemoryMaximum =
+      ExportableLambdaFunctionField._('UtilizationMetricsMemoryMaximum');
+  static const utilizationMetricsMemoryAverage =
+      ExportableLambdaFunctionField._('UtilizationMetricsMemoryAverage');
+  static const lookbackPeriodInDays =
+      ExportableLambdaFunctionField._('LookbackPeriodInDays');
+  static const currentConfigurationMemorySize =
+      ExportableLambdaFunctionField._('CurrentConfigurationMemorySize');
+  static const currentConfigurationTimeout =
+      ExportableLambdaFunctionField._('CurrentConfigurationTimeout');
+  static const currentCostTotal =
+      ExportableLambdaFunctionField._('CurrentCostTotal');
+  static const currentCostAverage =
+      ExportableLambdaFunctionField._('CurrentCostAverage');
+  static const recommendationOptionsConfigurationMemorySize =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsConfigurationMemorySize');
+  static const recommendationOptionsCostLow =
+      ExportableLambdaFunctionField._('RecommendationOptionsCostLow');
+  static const recommendationOptionsCostHigh =
+      ExportableLambdaFunctionField._('RecommendationOptionsCostHigh');
+  static const recommendationOptionsProjectedUtilizationMetricsDurationLowerBound =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound');
+  static const recommendationOptionsProjectedUtilizationMetricsDurationUpperBound =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound');
+  static const recommendationOptionsProjectedUtilizationMetricsDurationExpected =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsProjectedUtilizationMetricsDurationExpected');
+  static const lastRefreshTimestamp =
+      ExportableLambdaFunctionField._('LastRefreshTimestamp');
+  static const currentPerformanceRisk =
+      ExportableLambdaFunctionField._('CurrentPerformanceRisk');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const tags = ExportableLambdaFunctionField._('Tags');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableLambdaFunctionField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const recommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableLambdaFunctionField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
 
   final String value;
 
-  const ExportableLambdaFunctionField(this.value);
+  const ExportableLambdaFunctionField._(this.value);
+
+  static const values = [
+    accountId,
+    functionArn,
+    functionVersion,
+    finding,
+    findingReasonCodes,
+    numberOfInvocations,
+    utilizationMetricsDurationMaximum,
+    utilizationMetricsDurationAverage,
+    utilizationMetricsMemoryMaximum,
+    utilizationMetricsMemoryAverage,
+    lookbackPeriodInDays,
+    currentConfigurationMemorySize,
+    currentConfigurationTimeout,
+    currentCostTotal,
+    currentCostAverage,
+    recommendationOptionsConfigurationMemorySize,
+    recommendationOptionsCostLow,
+    recommendationOptionsCostHigh,
+    recommendationOptionsProjectedUtilizationMetricsDurationLowerBound,
+    recommendationOptionsProjectedUtilizationMetricsDurationUpperBound,
+    recommendationOptionsProjectedUtilizationMetricsDurationExpected,
+    lastRefreshTimestamp,
+    currentPerformanceRisk,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    tags,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+  ];
 
   static ExportableLambdaFunctionField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExportableLambdaFunctionField'));
+          orElse: () => ExportableLambdaFunctionField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableLambdaFunctionField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableLicenseField {
-  accountId('AccountId'),
-  resourceArn('ResourceArn'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  finding('Finding'),
-  findingReasonCodes('FindingReasonCodes'),
-  currentLicenseConfigurationNumberOfCores(
-      'CurrentLicenseConfigurationNumberOfCores'),
-  currentLicenseConfigurationInstanceType(
-      'CurrentLicenseConfigurationInstanceType'),
-  currentLicenseConfigurationOperatingSystem(
-      'CurrentLicenseConfigurationOperatingSystem'),
-  currentLicenseConfigurationLicenseName(
-      'CurrentLicenseConfigurationLicenseName'),
-  currentLicenseConfigurationLicenseEdition(
-      'CurrentLicenseConfigurationLicenseEdition'),
-  currentLicenseConfigurationLicenseModel(
-      'CurrentLicenseConfigurationLicenseModel'),
-  currentLicenseConfigurationLicenseVersion(
-      'CurrentLicenseConfigurationLicenseVersion'),
-  currentLicenseConfigurationMetricsSource(
-      'CurrentLicenseConfigurationMetricsSource'),
-  recommendationOptionsOperatingSystem('RecommendationOptionsOperatingSystem'),
-  recommendationOptionsLicenseEdition('RecommendationOptionsLicenseEdition'),
-  recommendationOptionsLicenseModel('RecommendationOptionsLicenseModel'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  tags('Tags'),
-  ;
+class ExportableLicenseField {
+  static const accountId = ExportableLicenseField._('AccountId');
+  static const resourceArn = ExportableLicenseField._('ResourceArn');
+  static const lookbackPeriodInDays =
+      ExportableLicenseField._('LookbackPeriodInDays');
+  static const lastRefreshTimestamp =
+      ExportableLicenseField._('LastRefreshTimestamp');
+  static const finding = ExportableLicenseField._('Finding');
+  static const findingReasonCodes =
+      ExportableLicenseField._('FindingReasonCodes');
+  static const currentLicenseConfigurationNumberOfCores =
+      ExportableLicenseField._('CurrentLicenseConfigurationNumberOfCores');
+  static const currentLicenseConfigurationInstanceType =
+      ExportableLicenseField._('CurrentLicenseConfigurationInstanceType');
+  static const currentLicenseConfigurationOperatingSystem =
+      ExportableLicenseField._('CurrentLicenseConfigurationOperatingSystem');
+  static const currentLicenseConfigurationLicenseName =
+      ExportableLicenseField._('CurrentLicenseConfigurationLicenseName');
+  static const currentLicenseConfigurationLicenseEdition =
+      ExportableLicenseField._('CurrentLicenseConfigurationLicenseEdition');
+  static const currentLicenseConfigurationLicenseModel =
+      ExportableLicenseField._('CurrentLicenseConfigurationLicenseModel');
+  static const currentLicenseConfigurationLicenseVersion =
+      ExportableLicenseField._('CurrentLicenseConfigurationLicenseVersion');
+  static const currentLicenseConfigurationMetricsSource =
+      ExportableLicenseField._('CurrentLicenseConfigurationMetricsSource');
+  static const recommendationOptionsOperatingSystem =
+      ExportableLicenseField._('RecommendationOptionsOperatingSystem');
+  static const recommendationOptionsLicenseEdition =
+      ExportableLicenseField._('RecommendationOptionsLicenseEdition');
+  static const recommendationOptionsLicenseModel =
+      ExportableLicenseField._('RecommendationOptionsLicenseModel');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableLicenseField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableLicenseField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableLicenseField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const tags = ExportableLicenseField._('Tags');
 
   final String value;
 
-  const ExportableLicenseField(this.value);
+  const ExportableLicenseField._(this.value);
+
+  static const values = [
+    accountId,
+    resourceArn,
+    lookbackPeriodInDays,
+    lastRefreshTimestamp,
+    finding,
+    findingReasonCodes,
+    currentLicenseConfigurationNumberOfCores,
+    currentLicenseConfigurationInstanceType,
+    currentLicenseConfigurationOperatingSystem,
+    currentLicenseConfigurationLicenseName,
+    currentLicenseConfigurationLicenseEdition,
+    currentLicenseConfigurationLicenseModel,
+    currentLicenseConfigurationLicenseVersion,
+    currentLicenseConfigurationMetricsSource,
+    recommendationOptionsOperatingSystem,
+    recommendationOptionsLicenseEdition,
+    recommendationOptionsLicenseModel,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    tags
+  ];
 
   static ExportableLicenseField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExportableLicenseField'));
+          orElse: () => ExportableLicenseField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableLicenseField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableRDSDBField {
-  resourceArn('ResourceArn'),
-  accountId('AccountId'),
-  engine('Engine'),
-  engineVersion('EngineVersion'),
-  idle('Idle'),
-  multiAZDBInstance('MultiAZDBInstance'),
-  currentDBInstanceClass('CurrentDBInstanceClass'),
-  currentStorageConfigurationStorageType(
-      'CurrentStorageConfigurationStorageType'),
-  currentStorageConfigurationAllocatedStorage(
-      'CurrentStorageConfigurationAllocatedStorage'),
-  currentStorageConfigurationMaxAllocatedStorage(
-      'CurrentStorageConfigurationMaxAllocatedStorage'),
-  currentStorageConfigurationIOPS('CurrentStorageConfigurationIOPS'),
-  currentStorageConfigurationStorageThroughput(
-      'CurrentStorageConfigurationStorageThroughput'),
-  currentInstanceOnDemandHourlyPrice('CurrentInstanceOnDemandHourlyPrice'),
-  currentStorageOnDemandMonthlyPrice('CurrentStorageOnDemandMonthlyPrice'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  utilizationMetricsCpuMaximum('UtilizationMetricsCpuMaximum'),
-  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
-  utilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum(
-      'UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum'),
-  utilizationMetricsNetworkReceiveThroughputMaximum(
-      'UtilizationMetricsNetworkReceiveThroughputMaximum'),
-  utilizationMetricsNetworkTransmitThroughputMaximum(
-      'UtilizationMetricsNetworkTransmitThroughputMaximum'),
-  utilizationMetricsEBSVolumeReadIOPSMaximum(
-      'UtilizationMetricsEBSVolumeReadIOPSMaximum'),
-  utilizationMetricsEBSVolumeWriteIOPSMaximum(
-      'UtilizationMetricsEBSVolumeWriteIOPSMaximum'),
-  utilizationMetricsEBSVolumeReadThroughputMaximum(
-      'UtilizationMetricsEBSVolumeReadThroughputMaximum'),
-  utilizationMetricsEBSVolumeWriteThroughputMaximum(
-      'UtilizationMetricsEBSVolumeWriteThroughputMaximum'),
-  utilizationMetricsDatabaseConnectionsMaximum(
-      'UtilizationMetricsDatabaseConnectionsMaximum'),
-  instanceFinding('InstanceFinding'),
-  instanceFindingReasonCodes('InstanceFindingReasonCodes'),
-  storageFinding('StorageFinding'),
-  storageFindingReasonCodes('StorageFindingReasonCodes'),
-  instanceRecommendationOptionsDBInstanceClass(
-      'InstanceRecommendationOptionsDBInstanceClass'),
-  instanceRecommendationOptionsRank('InstanceRecommendationOptionsRank'),
-  instanceRecommendationOptionsPerformanceRisk(
-      'InstanceRecommendationOptionsPerformanceRisk'),
-  instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum(
-      'InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum'),
-  storageRecommendationOptionsStorageType(
-      'StorageRecommendationOptionsStorageType'),
-  storageRecommendationOptionsAllocatedStorage(
-      'StorageRecommendationOptionsAllocatedStorage'),
-  storageRecommendationOptionsMaxAllocatedStorage(
-      'StorageRecommendationOptionsMaxAllocatedStorage'),
-  storageRecommendationOptionsIOPS('StorageRecommendationOptionsIOPS'),
-  storageRecommendationOptionsStorageThroughput(
-      'StorageRecommendationOptionsStorageThroughput'),
-  storageRecommendationOptionsRank('StorageRecommendationOptionsRank'),
-  instanceRecommendationOptionsInstanceOnDemandHourlyPrice(
-      'InstanceRecommendationOptionsInstanceOnDemandHourlyPrice'),
-  instanceRecommendationOptionsSavingsOpportunityPercentage(
-      'InstanceRecommendationOptionsSavingsOpportunityPercentage'),
-  instanceRecommendationOptionsEstimatedMonthlySavingsCurrency(
-      'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  instanceRecommendationOptionsEstimatedMonthlySavingsValue(
-      'InstanceRecommendationOptionsEstimatedMonthlySavingsValue'),
-  instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  storageRecommendationOptionsOnDemandMonthlyPrice(
-      'StorageRecommendationOptionsOnDemandMonthlyPrice'),
-  storageRecommendationOptionsSavingsOpportunityPercentage(
-      'StorageRecommendationOptionsSavingsOpportunityPercentage'),
-  storageRecommendationOptionsEstimatedMonthlySavingsCurrency(
-      'StorageRecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  storageRecommendationOptionsEstimatedMonthlySavingsValue(
-      'StorageRecommendationOptionsEstimatedMonthlySavingsValue'),
-  storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  effectiveRecommendationPreferencesCpuVendorArchitectures(
-      'EffectiveRecommendationPreferencesCpuVendorArchitectures'),
-  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics(
-      'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics'),
-  effectiveRecommendationPreferencesLookBackPeriod(
-      'EffectiveRecommendationPreferencesLookBackPeriod'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  tags('Tags'),
-  ;
+class ExportableRDSDBField {
+  static const resourceArn = ExportableRDSDBField._('ResourceArn');
+  static const accountId = ExportableRDSDBField._('AccountId');
+  static const engine = ExportableRDSDBField._('Engine');
+  static const engineVersion = ExportableRDSDBField._('EngineVersion');
+  static const idle = ExportableRDSDBField._('Idle');
+  static const multiAZDBInstance = ExportableRDSDBField._('MultiAZDBInstance');
+  static const currentDBInstanceClass =
+      ExportableRDSDBField._('CurrentDBInstanceClass');
+  static const currentStorageConfigurationStorageType =
+      ExportableRDSDBField._('CurrentStorageConfigurationStorageType');
+  static const currentStorageConfigurationAllocatedStorage =
+      ExportableRDSDBField._('CurrentStorageConfigurationAllocatedStorage');
+  static const currentStorageConfigurationMaxAllocatedStorage =
+      ExportableRDSDBField._('CurrentStorageConfigurationMaxAllocatedStorage');
+  static const currentStorageConfigurationIOPS =
+      ExportableRDSDBField._('CurrentStorageConfigurationIOPS');
+  static const currentStorageConfigurationStorageThroughput =
+      ExportableRDSDBField._('CurrentStorageConfigurationStorageThroughput');
+  static const currentInstanceOnDemandHourlyPrice =
+      ExportableRDSDBField._('CurrentInstanceOnDemandHourlyPrice');
+  static const currentStorageOnDemandMonthlyPrice =
+      ExportableRDSDBField._('CurrentStorageOnDemandMonthlyPrice');
+  static const lookbackPeriodInDays =
+      ExportableRDSDBField._('LookbackPeriodInDays');
+  static const utilizationMetricsCpuMaximum =
+      ExportableRDSDBField._('UtilizationMetricsCpuMaximum');
+  static const utilizationMetricsMemoryMaximum =
+      ExportableRDSDBField._('UtilizationMetricsMemoryMaximum');
+  static const utilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum =
+      ExportableRDSDBField._(
+          'UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum');
+  static const utilizationMetricsNetworkReceiveThroughputMaximum =
+      ExportableRDSDBField._(
+          'UtilizationMetricsNetworkReceiveThroughputMaximum');
+  static const utilizationMetricsNetworkTransmitThroughputMaximum =
+      ExportableRDSDBField._(
+          'UtilizationMetricsNetworkTransmitThroughputMaximum');
+  static const utilizationMetricsEBSVolumeReadIOPSMaximum =
+      ExportableRDSDBField._('UtilizationMetricsEBSVolumeReadIOPSMaximum');
+  static const utilizationMetricsEBSVolumeWriteIOPSMaximum =
+      ExportableRDSDBField._('UtilizationMetricsEBSVolumeWriteIOPSMaximum');
+  static const utilizationMetricsEBSVolumeReadThroughputMaximum =
+      ExportableRDSDBField._(
+          'UtilizationMetricsEBSVolumeReadThroughputMaximum');
+  static const utilizationMetricsEBSVolumeWriteThroughputMaximum =
+      ExportableRDSDBField._(
+          'UtilizationMetricsEBSVolumeWriteThroughputMaximum');
+  static const utilizationMetricsDatabaseConnectionsMaximum =
+      ExportableRDSDBField._('UtilizationMetricsDatabaseConnectionsMaximum');
+  static const instanceFinding = ExportableRDSDBField._('InstanceFinding');
+  static const instanceFindingReasonCodes =
+      ExportableRDSDBField._('InstanceFindingReasonCodes');
+  static const storageFinding = ExportableRDSDBField._('StorageFinding');
+  static const storageFindingReasonCodes =
+      ExportableRDSDBField._('StorageFindingReasonCodes');
+  static const instanceRecommendationOptionsDBInstanceClass =
+      ExportableRDSDBField._('InstanceRecommendationOptionsDBInstanceClass');
+  static const instanceRecommendationOptionsRank =
+      ExportableRDSDBField._('InstanceRecommendationOptionsRank');
+  static const instanceRecommendationOptionsPerformanceRisk =
+      ExportableRDSDBField._('InstanceRecommendationOptionsPerformanceRisk');
+  static const instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum');
+  static const storageRecommendationOptionsStorageType =
+      ExportableRDSDBField._('StorageRecommendationOptionsStorageType');
+  static const storageRecommendationOptionsAllocatedStorage =
+      ExportableRDSDBField._('StorageRecommendationOptionsAllocatedStorage');
+  static const storageRecommendationOptionsMaxAllocatedStorage =
+      ExportableRDSDBField._('StorageRecommendationOptionsMaxAllocatedStorage');
+  static const storageRecommendationOptionsIOPS =
+      ExportableRDSDBField._('StorageRecommendationOptionsIOPS');
+  static const storageRecommendationOptionsStorageThroughput =
+      ExportableRDSDBField._('StorageRecommendationOptionsStorageThroughput');
+  static const storageRecommendationOptionsRank =
+      ExportableRDSDBField._('StorageRecommendationOptionsRank');
+  static const instanceRecommendationOptionsInstanceOnDemandHourlyPrice =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsInstanceOnDemandHourlyPrice');
+  static const instanceRecommendationOptionsSavingsOpportunityPercentage =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsSavingsOpportunityPercentage');
+  static const instanceRecommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const instanceRecommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsEstimatedMonthlySavingsValue');
+  static const instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableRDSDBField._(
+          'InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
+  static const storageRecommendationOptionsOnDemandMonthlyPrice =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsOnDemandMonthlyPrice');
+  static const storageRecommendationOptionsSavingsOpportunityPercentage =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsSavingsOpportunityPercentage');
+  static const storageRecommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const storageRecommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsEstimatedMonthlySavingsValue');
+  static const storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableRDSDBField._(
+          'StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
+  static const effectiveRecommendationPreferencesCpuVendorArchitectures =
+      ExportableRDSDBField._(
+          'EffectiveRecommendationPreferencesCpuVendorArchitectures');
+  static const effectiveRecommendationPreferencesEnhancedInfrastructureMetrics =
+      ExportableRDSDBField._(
+          'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics');
+  static const effectiveRecommendationPreferencesLookBackPeriod =
+      ExportableRDSDBField._(
+          'EffectiveRecommendationPreferencesLookBackPeriod');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableRDSDBField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const lastRefreshTimestamp =
+      ExportableRDSDBField._('LastRefreshTimestamp');
+  static const tags = ExportableRDSDBField._('Tags');
 
   final String value;
 
-  const ExportableRDSDBField(this.value);
+  const ExportableRDSDBField._(this.value);
 
-  static ExportableRDSDBField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExportableRDSDBField'));
+  static const values = [
+    resourceArn,
+    accountId,
+    engine,
+    engineVersion,
+    idle,
+    multiAZDBInstance,
+    currentDBInstanceClass,
+    currentStorageConfigurationStorageType,
+    currentStorageConfigurationAllocatedStorage,
+    currentStorageConfigurationMaxAllocatedStorage,
+    currentStorageConfigurationIOPS,
+    currentStorageConfigurationStorageThroughput,
+    currentInstanceOnDemandHourlyPrice,
+    currentStorageOnDemandMonthlyPrice,
+    lookbackPeriodInDays,
+    utilizationMetricsCpuMaximum,
+    utilizationMetricsMemoryMaximum,
+    utilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum,
+    utilizationMetricsNetworkReceiveThroughputMaximum,
+    utilizationMetricsNetworkTransmitThroughputMaximum,
+    utilizationMetricsEBSVolumeReadIOPSMaximum,
+    utilizationMetricsEBSVolumeWriteIOPSMaximum,
+    utilizationMetricsEBSVolumeReadThroughputMaximum,
+    utilizationMetricsEBSVolumeWriteThroughputMaximum,
+    utilizationMetricsDatabaseConnectionsMaximum,
+    instanceFinding,
+    instanceFindingReasonCodes,
+    storageFinding,
+    storageFindingReasonCodes,
+    instanceRecommendationOptionsDBInstanceClass,
+    instanceRecommendationOptionsRank,
+    instanceRecommendationOptionsPerformanceRisk,
+    instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+    storageRecommendationOptionsStorageType,
+    storageRecommendationOptionsAllocatedStorage,
+    storageRecommendationOptionsMaxAllocatedStorage,
+    storageRecommendationOptionsIOPS,
+    storageRecommendationOptionsStorageThroughput,
+    storageRecommendationOptionsRank,
+    instanceRecommendationOptionsInstanceOnDemandHourlyPrice,
+    instanceRecommendationOptionsSavingsOpportunityPercentage,
+    instanceRecommendationOptionsEstimatedMonthlySavingsCurrency,
+    instanceRecommendationOptionsEstimatedMonthlySavingsValue,
+    instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+    storageRecommendationOptionsOnDemandMonthlyPrice,
+    storageRecommendationOptionsSavingsOpportunityPercentage,
+    storageRecommendationOptionsEstimatedMonthlySavingsCurrency,
+    storageRecommendationOptionsEstimatedMonthlySavingsValue,
+    storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+    effectiveRecommendationPreferencesCpuVendorArchitectures,
+    effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+    effectiveRecommendationPreferencesLookBackPeriod,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    lastRefreshTimestamp,
+    tags
+  ];
+
+  static ExportableRDSDBField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportableRDSDBField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableRDSDBField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum ExportableVolumeField {
-  accountId('AccountId'),
-  volumeArn('VolumeArn'),
-  finding('Finding'),
-  utilizationMetricsVolumeReadOpsPerSecondMaximum(
-      'UtilizationMetricsVolumeReadOpsPerSecondMaximum'),
-  utilizationMetricsVolumeWriteOpsPerSecondMaximum(
-      'UtilizationMetricsVolumeWriteOpsPerSecondMaximum'),
-  utilizationMetricsVolumeReadBytesPerSecondMaximum(
-      'UtilizationMetricsVolumeReadBytesPerSecondMaximum'),
-  utilizationMetricsVolumeWriteBytesPerSecondMaximum(
-      'UtilizationMetricsVolumeWriteBytesPerSecondMaximum'),
-  lookbackPeriodInDays('LookbackPeriodInDays'),
-  currentConfigurationVolumeType('CurrentConfigurationVolumeType'),
-  currentConfigurationVolumeBaselineIOPS(
-      'CurrentConfigurationVolumeBaselineIOPS'),
-  currentConfigurationVolumeBaselineThroughput(
-      'CurrentConfigurationVolumeBaselineThroughput'),
-  currentConfigurationVolumeBurstIOPS('CurrentConfigurationVolumeBurstIOPS'),
-  currentConfigurationVolumeBurstThroughput(
-      'CurrentConfigurationVolumeBurstThroughput'),
-  currentConfigurationVolumeSize('CurrentConfigurationVolumeSize'),
-  currentMonthlyPrice('CurrentMonthlyPrice'),
-  recommendationOptionsConfigurationVolumeType(
-      'RecommendationOptionsConfigurationVolumeType'),
-  recommendationOptionsConfigurationVolumeBaselineIOPS(
-      'RecommendationOptionsConfigurationVolumeBaselineIOPS'),
-  recommendationOptionsConfigurationVolumeBaselineThroughput(
-      'RecommendationOptionsConfigurationVolumeBaselineThroughput'),
-  recommendationOptionsConfigurationVolumeBurstIOPS(
-      'RecommendationOptionsConfigurationVolumeBurstIOPS'),
-  recommendationOptionsConfigurationVolumeBurstThroughput(
-      'RecommendationOptionsConfigurationVolumeBurstThroughput'),
-  recommendationOptionsConfigurationVolumeSize(
-      'RecommendationOptionsConfigurationVolumeSize'),
-  recommendationOptionsMonthlyPrice('RecommendationOptionsMonthlyPrice'),
-  recommendationOptionsPerformanceRisk('RecommendationOptionsPerformanceRisk'),
-  lastRefreshTimestamp('LastRefreshTimestamp'),
-  currentPerformanceRisk('CurrentPerformanceRisk'),
-  recommendationOptionsSavingsOpportunityPercentage(
-      'RecommendationOptionsSavingsOpportunityPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrency(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
-  recommendationOptionsEstimatedMonthlySavingsValue(
-      'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  tags('Tags'),
-  rootVolume('RootVolume'),
-  currentConfigurationRootVolume('CurrentConfigurationRootVolume'),
-  effectiveRecommendationPreferencesSavingsEstimationMode(
-      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
-  recommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
-      'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
-  recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
-  recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
-      'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  ;
+class ExportableVolumeField {
+  static const accountId = ExportableVolumeField._('AccountId');
+  static const volumeArn = ExportableVolumeField._('VolumeArn');
+  static const finding = ExportableVolumeField._('Finding');
+  static const utilizationMetricsVolumeReadOpsPerSecondMaximum =
+      ExportableVolumeField._(
+          'UtilizationMetricsVolumeReadOpsPerSecondMaximum');
+  static const utilizationMetricsVolumeWriteOpsPerSecondMaximum =
+      ExportableVolumeField._(
+          'UtilizationMetricsVolumeWriteOpsPerSecondMaximum');
+  static const utilizationMetricsVolumeReadBytesPerSecondMaximum =
+      ExportableVolumeField._(
+          'UtilizationMetricsVolumeReadBytesPerSecondMaximum');
+  static const utilizationMetricsVolumeWriteBytesPerSecondMaximum =
+      ExportableVolumeField._(
+          'UtilizationMetricsVolumeWriteBytesPerSecondMaximum');
+  static const lookbackPeriodInDays =
+      ExportableVolumeField._('LookbackPeriodInDays');
+  static const currentConfigurationVolumeType =
+      ExportableVolumeField._('CurrentConfigurationVolumeType');
+  static const currentConfigurationVolumeBaselineIOPS =
+      ExportableVolumeField._('CurrentConfigurationVolumeBaselineIOPS');
+  static const currentConfigurationVolumeBaselineThroughput =
+      ExportableVolumeField._('CurrentConfigurationVolumeBaselineThroughput');
+  static const currentConfigurationVolumeBurstIOPS =
+      ExportableVolumeField._('CurrentConfigurationVolumeBurstIOPS');
+  static const currentConfigurationVolumeBurstThroughput =
+      ExportableVolumeField._('CurrentConfigurationVolumeBurstThroughput');
+  static const currentConfigurationVolumeSize =
+      ExportableVolumeField._('CurrentConfigurationVolumeSize');
+  static const currentMonthlyPrice =
+      ExportableVolumeField._('CurrentMonthlyPrice');
+  static const recommendationOptionsConfigurationVolumeType =
+      ExportableVolumeField._('RecommendationOptionsConfigurationVolumeType');
+  static const recommendationOptionsConfigurationVolumeBaselineIOPS =
+      ExportableVolumeField._(
+          'RecommendationOptionsConfigurationVolumeBaselineIOPS');
+  static const recommendationOptionsConfigurationVolumeBaselineThroughput =
+      ExportableVolumeField._(
+          'RecommendationOptionsConfigurationVolumeBaselineThroughput');
+  static const recommendationOptionsConfigurationVolumeBurstIOPS =
+      ExportableVolumeField._(
+          'RecommendationOptionsConfigurationVolumeBurstIOPS');
+  static const recommendationOptionsConfigurationVolumeBurstThroughput =
+      ExportableVolumeField._(
+          'RecommendationOptionsConfigurationVolumeBurstThroughput');
+  static const recommendationOptionsConfigurationVolumeSize =
+      ExportableVolumeField._('RecommendationOptionsConfigurationVolumeSize');
+  static const recommendationOptionsMonthlyPrice =
+      ExportableVolumeField._('RecommendationOptionsMonthlyPrice');
+  static const recommendationOptionsPerformanceRisk =
+      ExportableVolumeField._('RecommendationOptionsPerformanceRisk');
+  static const lastRefreshTimestamp =
+      ExportableVolumeField._('LastRefreshTimestamp');
+  static const currentPerformanceRisk =
+      ExportableVolumeField._('CurrentPerformanceRisk');
+  static const recommendationOptionsSavingsOpportunityPercentage =
+      ExportableVolumeField._(
+          'RecommendationOptionsSavingsOpportunityPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrency =
+      ExportableVolumeField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrency');
+  static const recommendationOptionsEstimatedMonthlySavingsValue =
+      ExportableVolumeField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValue');
+  static const tags = ExportableVolumeField._('Tags');
+  static const rootVolume = ExportableVolumeField._('RootVolume');
+  static const currentConfigurationRootVolume =
+      ExportableVolumeField._('CurrentConfigurationRootVolume');
+  static const effectiveRecommendationPreferencesSavingsEstimationMode =
+      ExportableVolumeField._(
+          'EffectiveRecommendationPreferencesSavingsEstimationMode');
+  static const recommendationOptionsSavingsOpportunityAfterDiscountsPercentage =
+      ExportableVolumeField._(
+          'RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage');
+  static const recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts =
+      ExportableVolumeField._(
+          'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts');
+  static const recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts =
+      ExportableVolumeField._(
+          'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts');
 
   final String value;
 
-  const ExportableVolumeField(this.value);
+  const ExportableVolumeField._(this.value);
 
-  static ExportableVolumeField fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExportableVolumeField'));
+  static const values = [
+    accountId,
+    volumeArn,
+    finding,
+    utilizationMetricsVolumeReadOpsPerSecondMaximum,
+    utilizationMetricsVolumeWriteOpsPerSecondMaximum,
+    utilizationMetricsVolumeReadBytesPerSecondMaximum,
+    utilizationMetricsVolumeWriteBytesPerSecondMaximum,
+    lookbackPeriodInDays,
+    currentConfigurationVolumeType,
+    currentConfigurationVolumeBaselineIOPS,
+    currentConfigurationVolumeBaselineThroughput,
+    currentConfigurationVolumeBurstIOPS,
+    currentConfigurationVolumeBurstThroughput,
+    currentConfigurationVolumeSize,
+    currentMonthlyPrice,
+    recommendationOptionsConfigurationVolumeType,
+    recommendationOptionsConfigurationVolumeBaselineIOPS,
+    recommendationOptionsConfigurationVolumeBaselineThroughput,
+    recommendationOptionsConfigurationVolumeBurstIOPS,
+    recommendationOptionsConfigurationVolumeBurstThroughput,
+    recommendationOptionsConfigurationVolumeSize,
+    recommendationOptionsMonthlyPrice,
+    recommendationOptionsPerformanceRisk,
+    lastRefreshTimestamp,
+    currentPerformanceRisk,
+    recommendationOptionsSavingsOpportunityPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrency,
+    recommendationOptionsEstimatedMonthlySavingsValue,
+    tags,
+    rootVolume,
+    currentConfigurationRootVolume,
+    effectiveRecommendationPreferencesSavingsEstimationMode,
+    recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+    recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+    recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+  ];
+
+  static ExportableVolumeField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportableVolumeField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportableVolumeField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes Compute Optimizer's integration status with your chosen external
@@ -5650,27 +6511,58 @@ class ExternalMetricStatus {
   }
 }
 
-enum ExternalMetricStatusCode {
-  noExternalMetricSet('NO_EXTERNAL_METRIC_SET'),
-  integrationSuccess('INTEGRATION_SUCCESS'),
-  datadogIntegrationError('DATADOG_INTEGRATION_ERROR'),
-  dynatraceIntegrationError('DYNATRACE_INTEGRATION_ERROR'),
-  newrelicIntegrationError('NEWRELIC_INTEGRATION_ERROR'),
-  instanaIntegrationError('INSTANA_INTEGRATION_ERROR'),
-  insufficientDatadogMetrics('INSUFFICIENT_DATADOG_METRICS'),
-  insufficientDynatraceMetrics('INSUFFICIENT_DYNATRACE_METRICS'),
-  insufficientNewrelicMetrics('INSUFFICIENT_NEWRELIC_METRICS'),
-  insufficientInstanaMetrics('INSUFFICIENT_INSTANA_METRICS'),
-  ;
+class ExternalMetricStatusCode {
+  static const noExternalMetricSet =
+      ExternalMetricStatusCode._('NO_EXTERNAL_METRIC_SET');
+  static const integrationSuccess =
+      ExternalMetricStatusCode._('INTEGRATION_SUCCESS');
+  static const datadogIntegrationError =
+      ExternalMetricStatusCode._('DATADOG_INTEGRATION_ERROR');
+  static const dynatraceIntegrationError =
+      ExternalMetricStatusCode._('DYNATRACE_INTEGRATION_ERROR');
+  static const newrelicIntegrationError =
+      ExternalMetricStatusCode._('NEWRELIC_INTEGRATION_ERROR');
+  static const instanaIntegrationError =
+      ExternalMetricStatusCode._('INSTANA_INTEGRATION_ERROR');
+  static const insufficientDatadogMetrics =
+      ExternalMetricStatusCode._('INSUFFICIENT_DATADOG_METRICS');
+  static const insufficientDynatraceMetrics =
+      ExternalMetricStatusCode._('INSUFFICIENT_DYNATRACE_METRICS');
+  static const insufficientNewrelicMetrics =
+      ExternalMetricStatusCode._('INSUFFICIENT_NEWRELIC_METRICS');
+  static const insufficientInstanaMetrics =
+      ExternalMetricStatusCode._('INSUFFICIENT_INSTANA_METRICS');
 
   final String value;
 
-  const ExternalMetricStatusCode(this.value);
+  const ExternalMetricStatusCode._(this.value);
+
+  static const values = [
+    noExternalMetricSet,
+    integrationSuccess,
+    datadogIntegrationError,
+    dynatraceIntegrationError,
+    newrelicIntegrationError,
+    instanaIntegrationError,
+    insufficientDatadogMetrics,
+    insufficientDynatraceMetrics,
+    insufficientNewrelicMetrics,
+    insufficientInstanaMetrics
+  ];
 
   static ExternalMetricStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum ExternalMetricStatusCode'));
+          orElse: () => ExternalMetricStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExternalMetricStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the external metrics preferences for EC2 rightsizing
@@ -5698,34 +6590,53 @@ class ExternalMetricsPreference {
   }
 }
 
-enum ExternalMetricsSource {
-  datadog('Datadog'),
-  dynatrace('Dynatrace'),
-  newRelic('NewRelic'),
-  instana('Instana'),
-  ;
+class ExternalMetricsSource {
+  static const datadog = ExternalMetricsSource._('Datadog');
+  static const dynatrace = ExternalMetricsSource._('Dynatrace');
+  static const newRelic = ExternalMetricsSource._('NewRelic');
+  static const instana = ExternalMetricsSource._('Instana');
 
   final String value;
 
-  const ExternalMetricsSource(this.value);
+  const ExternalMetricsSource._(this.value);
 
-  static ExternalMetricsSource fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum ExternalMetricsSource'));
+  static const values = [datadog, dynatrace, newRelic, instana];
+
+  static ExternalMetricsSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExternalMetricsSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExternalMetricsSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FileFormat {
-  csv('Csv'),
-  ;
+class FileFormat {
+  static const csv = FileFormat._('Csv');
 
   final String value;
 
-  const FileFormat(this.value);
+  const FileFormat._(this.value);
 
-  static FileFormat fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FileFormat'));
+  static const values = [csv];
+
+  static FileFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is FileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a filter that returns a more specific list of recommendations. Use
@@ -5904,51 +6815,91 @@ class Filter {
   }
 }
 
-enum FilterName {
-  finding('Finding'),
-  findingReasonCodes('FindingReasonCodes'),
-  recommendationSourceType('RecommendationSourceType'),
-  inferredWorkloadTypes('InferredWorkloadTypes'),
-  ;
+class FilterName {
+  static const finding = FilterName._('Finding');
+  static const findingReasonCodes = FilterName._('FindingReasonCodes');
+  static const recommendationSourceType =
+      FilterName._('RecommendationSourceType');
+  static const inferredWorkloadTypes = FilterName._('InferredWorkloadTypes');
 
   final String value;
 
-  const FilterName(this.value);
+  const FilterName._(this.value);
 
-  static FilterName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum FilterName'));
+  static const values = [
+    finding,
+    findingReasonCodes,
+    recommendationSourceType,
+    inferredWorkloadTypes
+  ];
+
+  static FilterName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterName._(value));
+
+  @override
+  bool operator ==(other) => other is FilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum Finding {
-  underprovisioned('Underprovisioned'),
-  overprovisioned('Overprovisioned'),
-  optimized('Optimized'),
-  notOptimized('NotOptimized'),
-  ;
+class Finding {
+  static const underprovisioned = Finding._('Underprovisioned');
+  static const overprovisioned = Finding._('Overprovisioned');
+  static const optimized = Finding._('Optimized');
+  static const notOptimized = Finding._('NotOptimized');
 
   final String value;
 
-  const Finding(this.value);
+  const Finding._(this.value);
 
-  static Finding fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Finding'));
+  static const values = [
+    underprovisioned,
+    overprovisioned,
+    optimized,
+    notOptimized
+  ];
+
+  static Finding fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Finding._(value));
+
+  @override
+  bool operator ==(other) => other is Finding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum FindingReasonCode {
-  memoryOverprovisioned('MemoryOverprovisioned'),
-  memoryUnderprovisioned('MemoryUnderprovisioned'),
-  ;
+class FindingReasonCode {
+  static const memoryOverprovisioned =
+      FindingReasonCode._('MemoryOverprovisioned');
+  static const memoryUnderprovisioned =
+      FindingReasonCode._('MemoryUnderprovisioned');
 
   final String value;
 
-  const FindingReasonCode(this.value);
+  const FindingReasonCode._(this.value);
+
+  static const values = [memoryOverprovisioned, memoryUnderprovisioned];
 
   static FindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum FindingReasonCode'));
+          orElse: () => FindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is FindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class GetAutoScalingGroupRecommendationsResponse {
@@ -6772,18 +7723,27 @@ class GpuInfo {
   }
 }
 
-enum Idle {
-  $true('True'),
-  $false('False'),
-  ;
+class Idle {
+  static const $true = Idle._('True');
+  static const $false = Idle._('False');
 
   final String value;
 
-  const Idle(this.value);
+  const Idle._(this.value);
+
+  static const values = [$true, $false];
 
   static Idle fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Idle'));
+      values.firstWhere((e) => e.value == value, orElse: () => Idle._(value));
+
+  @override
+  bool operator ==(other) => other is Idle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The estimated monthly savings after you adjust the configurations of your
@@ -6871,41 +7831,71 @@ class InferredWorkloadSaving {
   }
 }
 
-enum InferredWorkloadType {
-  amazonEmr('AmazonEmr'),
-  apacheCassandra('ApacheCassandra'),
-  apacheHadoop('ApacheHadoop'),
-  memcached('Memcached'),
-  nginx('Nginx'),
-  postgreSql('PostgreSql'),
-  redis('Redis'),
-  kafka('Kafka'),
-  sQLServer('SQLServer'),
-  ;
+class InferredWorkloadType {
+  static const amazonEmr = InferredWorkloadType._('AmazonEmr');
+  static const apacheCassandra = InferredWorkloadType._('ApacheCassandra');
+  static const apacheHadoop = InferredWorkloadType._('ApacheHadoop');
+  static const memcached = InferredWorkloadType._('Memcached');
+  static const nginx = InferredWorkloadType._('Nginx');
+  static const postgreSql = InferredWorkloadType._('PostgreSql');
+  static const redis = InferredWorkloadType._('Redis');
+  static const kafka = InferredWorkloadType._('Kafka');
+  static const sQLServer = InferredWorkloadType._('SQLServer');
 
   final String value;
 
-  const InferredWorkloadType(this.value);
+  const InferredWorkloadType._(this.value);
 
-  static InferredWorkloadType fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum InferredWorkloadType'));
+  static const values = [
+    amazonEmr,
+    apacheCassandra,
+    apacheHadoop,
+    memcached,
+    nginx,
+    postgreSql,
+    redis,
+    kafka,
+    sQLServer
+  ];
+
+  static InferredWorkloadType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InferredWorkloadType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferredWorkloadType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum InferredWorkloadTypesPreference {
-  active('Active'),
-  inactive('Inactive'),
-  ;
+class InferredWorkloadTypesPreference {
+  static const active = InferredWorkloadTypesPreference._('Active');
+  static const inactive = InferredWorkloadTypesPreference._('Inactive');
 
   final String value;
 
-  const InferredWorkloadTypesPreference(this.value);
+  const InferredWorkloadTypesPreference._(this.value);
+
+  static const values = [active, inactive];
 
   static InferredWorkloadTypesPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InferredWorkloadTypesPreference'));
+          orElse: () => InferredWorkloadTypesPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferredWorkloadTypesPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An object that describes the estimated monthly savings possible by adopting
@@ -6940,19 +7930,27 @@ class InstanceEstimatedMonthlySavings {
   }
 }
 
-enum InstanceIdle {
-  $true('True'),
-  $false('False'),
-  ;
+class InstanceIdle {
+  static const $true = InstanceIdle._('True');
+  static const $false = InstanceIdle._('False');
 
   final String value;
 
-  const InstanceIdle(this.value);
+  const InstanceIdle._(this.value);
 
-  static InstanceIdle fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceIdle'));
+  static const values = [$true, $false];
+
+  static InstanceIdle fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceIdle._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceIdle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Amazon EC2 instance recommendation.
@@ -7370,37 +8368,93 @@ class InstanceRecommendation {
   }
 }
 
-enum InstanceRecommendationFindingReasonCode {
-  cPUOverprovisioned('CPUOverprovisioned'),
-  cPUUnderprovisioned('CPUUnderprovisioned'),
-  memoryOverprovisioned('MemoryOverprovisioned'),
-  memoryUnderprovisioned('MemoryUnderprovisioned'),
-  eBSThroughputOverprovisioned('EBSThroughputOverprovisioned'),
-  eBSThroughputUnderprovisioned('EBSThroughputUnderprovisioned'),
-  eBSIOPSOverprovisioned('EBSIOPSOverprovisioned'),
-  eBSIOPSUnderprovisioned('EBSIOPSUnderprovisioned'),
-  networkBandwidthOverprovisioned('NetworkBandwidthOverprovisioned'),
-  networkBandwidthUnderprovisioned('NetworkBandwidthUnderprovisioned'),
-  networkPPSOverprovisioned('NetworkPPSOverprovisioned'),
-  networkPPSUnderprovisioned('NetworkPPSUnderprovisioned'),
-  diskIOPSOverprovisioned('DiskIOPSOverprovisioned'),
-  diskIOPSUnderprovisioned('DiskIOPSUnderprovisioned'),
-  diskThroughputOverprovisioned('DiskThroughputOverprovisioned'),
-  diskThroughputUnderprovisioned('DiskThroughputUnderprovisioned'),
-  gPUUnderprovisioned('GPUUnderprovisioned'),
-  gPUOverprovisioned('GPUOverprovisioned'),
-  gPUMemoryUnderprovisioned('GPUMemoryUnderprovisioned'),
-  gPUMemoryOverprovisioned('GPUMemoryOverprovisioned'),
-  ;
+class InstanceRecommendationFindingReasonCode {
+  static const cPUOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('CPUOverprovisioned');
+  static const cPUUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('CPUUnderprovisioned');
+  static const memoryOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('MemoryOverprovisioned');
+  static const memoryUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('MemoryUnderprovisioned');
+  static const eBSThroughputOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('EBSThroughputOverprovisioned');
+  static const eBSThroughputUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._(
+          'EBSThroughputUnderprovisioned');
+  static const eBSIOPSOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('EBSIOPSOverprovisioned');
+  static const eBSIOPSUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('EBSIOPSUnderprovisioned');
+  static const networkBandwidthOverprovisioned =
+      InstanceRecommendationFindingReasonCode._(
+          'NetworkBandwidthOverprovisioned');
+  static const networkBandwidthUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._(
+          'NetworkBandwidthUnderprovisioned');
+  static const networkPPSOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('NetworkPPSOverprovisioned');
+  static const networkPPSUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('NetworkPPSUnderprovisioned');
+  static const diskIOPSOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('DiskIOPSOverprovisioned');
+  static const diskIOPSUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('DiskIOPSUnderprovisioned');
+  static const diskThroughputOverprovisioned =
+      InstanceRecommendationFindingReasonCode._(
+          'DiskThroughputOverprovisioned');
+  static const diskThroughputUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._(
+          'DiskThroughputUnderprovisioned');
+  static const gPUUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('GPUUnderprovisioned');
+  static const gPUOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('GPUOverprovisioned');
+  static const gPUMemoryUnderprovisioned =
+      InstanceRecommendationFindingReasonCode._('GPUMemoryUnderprovisioned');
+  static const gPUMemoryOverprovisioned =
+      InstanceRecommendationFindingReasonCode._('GPUMemoryOverprovisioned');
 
   final String value;
 
-  const InstanceRecommendationFindingReasonCode(this.value);
+  const InstanceRecommendationFindingReasonCode._(this.value);
+
+  static const values = [
+    cPUOverprovisioned,
+    cPUUnderprovisioned,
+    memoryOverprovisioned,
+    memoryUnderprovisioned,
+    eBSThroughputOverprovisioned,
+    eBSThroughputUnderprovisioned,
+    eBSIOPSOverprovisioned,
+    eBSIOPSUnderprovisioned,
+    networkBandwidthOverprovisioned,
+    networkBandwidthUnderprovisioned,
+    networkPPSOverprovisioned,
+    networkPPSUnderprovisioned,
+    diskIOPSOverprovisioned,
+    diskIOPSUnderprovisioned,
+    diskThroughputOverprovisioned,
+    diskThroughputUnderprovisioned,
+    gPUUnderprovisioned,
+    gPUOverprovisioned,
+    gPUMemoryUnderprovisioned,
+    gPUMemoryOverprovisioned
+  ];
 
   static InstanceRecommendationFindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceRecommendationFindingReasonCode'));
+          orElse: () => InstanceRecommendationFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceRecommendationFindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a recommendation option for an Amazon EC2 instance.
@@ -7676,20 +8730,37 @@ class InstanceSavingsEstimationMode {
   }
 }
 
-enum InstanceSavingsEstimationModeSource {
-  publicPricing('PublicPricing'),
-  costExplorerRightsizing('CostExplorerRightsizing'),
-  costOptimizationHub('CostOptimizationHub'),
-  ;
+class InstanceSavingsEstimationModeSource {
+  static const publicPricing =
+      InstanceSavingsEstimationModeSource._('PublicPricing');
+  static const costExplorerRightsizing =
+      InstanceSavingsEstimationModeSource._('CostExplorerRightsizing');
+  static const costOptimizationHub =
+      InstanceSavingsEstimationModeSource._('CostOptimizationHub');
 
   final String value;
 
-  const InstanceSavingsEstimationModeSource(this.value);
+  const InstanceSavingsEstimationModeSource._(this.value);
+
+  static const values = [
+    publicPricing,
+    costExplorerRightsizing,
+    costOptimizationHub
+  ];
 
   static InstanceSavingsEstimationModeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum InstanceSavingsEstimationModeSource'));
+          orElse: () => InstanceSavingsEstimationModeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceSavingsEstimationModeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for instance recommendations after
@@ -7737,23 +8808,39 @@ class InstanceSavingsOpportunityAfterDiscounts {
   }
 }
 
-enum InstanceState {
-  pending('pending'),
-  running('running'),
-  shuttingDown('shutting-down'),
-  terminated('terminated'),
-  stopping('stopping'),
-  stopped('stopped'),
-  ;
+class InstanceState {
+  static const pending = InstanceState._('pending');
+  static const running = InstanceState._('running');
+  static const shuttingDown = InstanceState._('shutting-down');
+  static const terminated = InstanceState._('terminated');
+  static const stopping = InstanceState._('stopping');
+  static const stopped = InstanceState._('stopped');
 
   final String value;
 
-  const InstanceState(this.value);
+  const InstanceState._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    shuttingDown,
+    terminated,
+    stopping,
+    stopped
+  ];
 
   static InstanceState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum InstanceState'));
+          orElse: () => InstanceState._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a filter that returns a more specific list of recommendation
@@ -7811,35 +8898,53 @@ class JobFilter {
   }
 }
 
-enum JobFilterName {
-  resourceType('ResourceType'),
-  jobStatus('JobStatus'),
-  ;
+class JobFilterName {
+  static const resourceType = JobFilterName._('ResourceType');
+  static const jobStatus = JobFilterName._('JobStatus');
 
   final String value;
 
-  const JobFilterName(this.value);
+  const JobFilterName._(this.value);
+
+  static const values = [resourceType, jobStatus];
 
   static JobFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum JobFilterName'));
+          orElse: () => JobFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is JobFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum JobStatus {
-  queued('Queued'),
-  inProgress('InProgress'),
-  complete('Complete'),
-  failed('Failed'),
-  ;
+class JobStatus {
+  static const queued = JobStatus._('Queued');
+  static const inProgress = JobStatus._('InProgress');
+  static const complete = JobStatus._('Complete');
+  static const failed = JobStatus._('Failed');
 
   final String value;
 
-  const JobStatus(this.value);
+  const JobStatus._(this.value);
 
-  static JobStatus fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum JobStatus'));
+  static const values = [queued, inProgress, complete, failed];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the effective recommendation preferences for Lambda functions.
@@ -7903,34 +9008,54 @@ class LambdaEstimatedMonthlySavings {
   }
 }
 
-enum LambdaFunctionMemoryMetricName {
-  duration('Duration'),
-  ;
+class LambdaFunctionMemoryMetricName {
+  static const duration = LambdaFunctionMemoryMetricName._('Duration');
 
   final String value;
 
-  const LambdaFunctionMemoryMetricName(this.value);
+  const LambdaFunctionMemoryMetricName._(this.value);
+
+  static const values = [duration];
 
   static LambdaFunctionMemoryMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionMemoryMetricName'));
+          orElse: () => LambdaFunctionMemoryMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionMemoryMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaFunctionMemoryMetricStatistic {
-  lowerBound('LowerBound'),
-  upperBound('UpperBound'),
-  expected('Expected'),
-  ;
+class LambdaFunctionMemoryMetricStatistic {
+  static const lowerBound = LambdaFunctionMemoryMetricStatistic._('LowerBound');
+  static const upperBound = LambdaFunctionMemoryMetricStatistic._('UpperBound');
+  static const expected = LambdaFunctionMemoryMetricStatistic._('Expected');
 
   final String value;
 
-  const LambdaFunctionMemoryMetricStatistic(this.value);
+  const LambdaFunctionMemoryMetricStatistic._(this.value);
+
+  static const values = [lowerBound, upperBound, expected];
 
   static LambdaFunctionMemoryMetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionMemoryMetricStatistic'));
+          orElse: () => LambdaFunctionMemoryMetricStatistic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionMemoryMetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a projected utilization metric of an Lambda function
@@ -8050,34 +9175,54 @@ class LambdaFunctionMemoryRecommendationOption {
   }
 }
 
-enum LambdaFunctionMetricName {
-  duration('Duration'),
-  memory('Memory'),
-  ;
+class LambdaFunctionMetricName {
+  static const duration = LambdaFunctionMetricName._('Duration');
+  static const memory = LambdaFunctionMetricName._('Memory');
 
   final String value;
 
-  const LambdaFunctionMetricName(this.value);
+  const LambdaFunctionMetricName._(this.value);
+
+  static const values = [duration, memory];
 
   static LambdaFunctionMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionMetricName'));
+          orElse: () => LambdaFunctionMetricName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaFunctionMetricStatistic {
-  maximum('Maximum'),
-  average('Average'),
-  ;
+class LambdaFunctionMetricStatistic {
+  static const maximum = LambdaFunctionMetricStatistic._('Maximum');
+  static const average = LambdaFunctionMetricStatistic._('Average');
 
   final String value;
 
-  const LambdaFunctionMetricStatistic(this.value);
+  const LambdaFunctionMetricStatistic._(this.value);
+
+  static const values = [maximum, average];
 
   static LambdaFunctionMetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionMetricStatistic'));
+          orElse: () => LambdaFunctionMetricStatistic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionMetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Lambda function recommendation.
@@ -8375,53 +9520,96 @@ class LambdaFunctionRecommendationFilter {
   }
 }
 
-enum LambdaFunctionRecommendationFilterName {
-  finding('Finding'),
-  findingReasonCode('FindingReasonCode'),
-  ;
+class LambdaFunctionRecommendationFilterName {
+  static const finding = LambdaFunctionRecommendationFilterName._('Finding');
+  static const findingReasonCode =
+      LambdaFunctionRecommendationFilterName._('FindingReasonCode');
 
   final String value;
 
-  const LambdaFunctionRecommendationFilterName(this.value);
+  const LambdaFunctionRecommendationFilterName._(this.value);
+
+  static const values = [finding, findingReasonCode];
 
   static LambdaFunctionRecommendationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionRecommendationFilterName'));
+          orElse: () => LambdaFunctionRecommendationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionRecommendationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaFunctionRecommendationFinding {
-  optimized('Optimized'),
-  notOptimized('NotOptimized'),
-  unavailable('Unavailable'),
-  ;
+class LambdaFunctionRecommendationFinding {
+  static const optimized = LambdaFunctionRecommendationFinding._('Optimized');
+  static const notOptimized =
+      LambdaFunctionRecommendationFinding._('NotOptimized');
+  static const unavailable =
+      LambdaFunctionRecommendationFinding._('Unavailable');
 
   final String value;
 
-  const LambdaFunctionRecommendationFinding(this.value);
+  const LambdaFunctionRecommendationFinding._(this.value);
+
+  static const values = [optimized, notOptimized, unavailable];
 
   static LambdaFunctionRecommendationFinding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionRecommendationFinding'));
+          orElse: () => LambdaFunctionRecommendationFinding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionRecommendationFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LambdaFunctionRecommendationFindingReasonCode {
-  memoryOverprovisioned('MemoryOverprovisioned'),
-  memoryUnderprovisioned('MemoryUnderprovisioned'),
-  insufficientData('InsufficientData'),
-  inconclusive('Inconclusive'),
-  ;
+class LambdaFunctionRecommendationFindingReasonCode {
+  static const memoryOverprovisioned =
+      LambdaFunctionRecommendationFindingReasonCode._('MemoryOverprovisioned');
+  static const memoryUnderprovisioned =
+      LambdaFunctionRecommendationFindingReasonCode._('MemoryUnderprovisioned');
+  static const insufficientData =
+      LambdaFunctionRecommendationFindingReasonCode._('InsufficientData');
+  static const inconclusive =
+      LambdaFunctionRecommendationFindingReasonCode._('Inconclusive');
 
   final String value;
 
-  const LambdaFunctionRecommendationFindingReasonCode(this.value);
+  const LambdaFunctionRecommendationFindingReasonCode._(this.value);
+
+  static const values = [
+    memoryOverprovisioned,
+    memoryUnderprovisioned,
+    insufficientData,
+    inconclusive
+  ];
 
   static LambdaFunctionRecommendationFindingReasonCode fromString(
           String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaFunctionRecommendationFindingReasonCode'));
+          orElse: () => LambdaFunctionRecommendationFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionRecommendationFindingReasonCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a utilization metric of an Lambda function.
@@ -8515,20 +9703,37 @@ class LambdaSavingsEstimationMode {
   }
 }
 
-enum LambdaSavingsEstimationModeSource {
-  publicPricing('PublicPricing'),
-  costExplorerRightsizing('CostExplorerRightsizing'),
-  costOptimizationHub('CostOptimizationHub'),
-  ;
+class LambdaSavingsEstimationModeSource {
+  static const publicPricing =
+      LambdaSavingsEstimationModeSource._('PublicPricing');
+  static const costExplorerRightsizing =
+      LambdaSavingsEstimationModeSource._('CostExplorerRightsizing');
+  static const costOptimizationHub =
+      LambdaSavingsEstimationModeSource._('CostOptimizationHub');
 
   final String value;
 
-  const LambdaSavingsEstimationModeSource(this.value);
+  const LambdaSavingsEstimationModeSource._(this.value);
+
+  static const values = [
+    publicPricing,
+    costExplorerRightsizing,
+    costOptimizationHub
+  ];
 
   static LambdaSavingsEstimationModeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LambdaSavingsEstimationModeSource'));
+          orElse: () => LambdaSavingsEstimationModeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaSavingsEstimationModeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for Lambda functions recommendations after
@@ -8656,83 +9861,136 @@ class LicenseConfiguration {
   }
 }
 
-enum LicenseEdition {
-  enterprise('Enterprise'),
-  standard('Standard'),
-  free('Free'),
-  noLicenseEditionFound('NoLicenseEditionFound'),
-  ;
+class LicenseEdition {
+  static const enterprise = LicenseEdition._('Enterprise');
+  static const standard = LicenseEdition._('Standard');
+  static const free = LicenseEdition._('Free');
+  static const noLicenseEditionFound =
+      LicenseEdition._('NoLicenseEditionFound');
 
   final String value;
 
-  const LicenseEdition(this.value);
+  const LicenseEdition._(this.value);
+
+  static const values = [enterprise, standard, free, noLicenseEditionFound];
 
   static LicenseEdition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LicenseEdition'));
+          orElse: () => LicenseEdition._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseEdition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseFinding {
-  insufficientMetrics('InsufficientMetrics'),
-  optimized('Optimized'),
-  notOptimized('NotOptimized'),
-  ;
+class LicenseFinding {
+  static const insufficientMetrics = LicenseFinding._('InsufficientMetrics');
+  static const optimized = LicenseFinding._('Optimized');
+  static const notOptimized = LicenseFinding._('NotOptimized');
 
   final String value;
 
-  const LicenseFinding(this.value);
+  const LicenseFinding._(this.value);
+
+  static const values = [insufficientMetrics, optimized, notOptimized];
 
   static LicenseFinding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LicenseFinding'));
+          orElse: () => LicenseFinding._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseFindingReasonCode {
-  invalidCloudWatchApplicationInsightsSetup(
-      'InvalidCloudWatchApplicationInsightsSetup'),
-  cloudWatchApplicationInsightsError('CloudWatchApplicationInsightsError'),
-  licenseOverprovisioned('LicenseOverprovisioned'),
-  optimized('Optimized'),
-  ;
+class LicenseFindingReasonCode {
+  static const invalidCloudWatchApplicationInsightsSetup =
+      LicenseFindingReasonCode._('InvalidCloudWatchApplicationInsightsSetup');
+  static const cloudWatchApplicationInsightsError =
+      LicenseFindingReasonCode._('CloudWatchApplicationInsightsError');
+  static const licenseOverprovisioned =
+      LicenseFindingReasonCode._('LicenseOverprovisioned');
+  static const optimized = LicenseFindingReasonCode._('Optimized');
 
   final String value;
 
-  const LicenseFindingReasonCode(this.value);
+  const LicenseFindingReasonCode._(this.value);
+
+  static const values = [
+    invalidCloudWatchApplicationInsightsSetup,
+    cloudWatchApplicationInsightsError,
+    licenseOverprovisioned,
+    optimized
+  ];
 
   static LicenseFindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LicenseFindingReasonCode'));
+          orElse: () => LicenseFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseFindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseModel {
-  licenseIncluded('LicenseIncluded'),
-  bringYourOwnLicense('BringYourOwnLicense'),
-  ;
+class LicenseModel {
+  static const licenseIncluded = LicenseModel._('LicenseIncluded');
+  static const bringYourOwnLicense = LicenseModel._('BringYourOwnLicense');
 
   final String value;
 
-  const LicenseModel(this.value);
+  const LicenseModel._(this.value);
 
-  static LicenseModel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum LicenseModel'));
+  static const values = [licenseIncluded, bringYourOwnLicense];
+
+  static LicenseModel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LicenseModel._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum LicenseName {
-  sQLServer('SQLServer'),
-  ;
+class LicenseName {
+  static const sQLServer = LicenseName._('SQLServer');
 
   final String value;
 
-  const LicenseName(this.value);
+  const LicenseName._(this.value);
 
-  static LicenseName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum LicenseName'));
+  static const values = [sQLServer];
+
+  static LicenseName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LicenseName._(value));
+
+  @override
+  bool operator ==(other) => other is LicenseName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a license recommendation for an EC2 instance.
@@ -8943,20 +10201,31 @@ class LicenseRecommendationFilter {
   }
 }
 
-enum LicenseRecommendationFilterName {
-  finding('Finding'),
-  findingReasonCode('FindingReasonCode'),
-  licenseName('LicenseName'),
-  ;
+class LicenseRecommendationFilterName {
+  static const finding = LicenseRecommendationFilterName._('Finding');
+  static const findingReasonCode =
+      LicenseRecommendationFilterName._('FindingReasonCode');
+  static const licenseName = LicenseRecommendationFilterName._('LicenseName');
 
   final String value;
 
-  const LicenseRecommendationFilterName(this.value);
+  const LicenseRecommendationFilterName._(this.value);
+
+  static const values = [finding, findingReasonCode, licenseName];
 
   static LicenseRecommendationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LicenseRecommendationFilterName'));
+          orElse: () => LicenseRecommendationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseRecommendationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the recommendation options for licenses.
@@ -9016,20 +10285,30 @@ class LicenseRecommendationOption {
   }
 }
 
-enum LookBackPeriodPreference {
-  days_14('DAYS_14'),
-  days_32('DAYS_32'),
-  days_93('DAYS_93'),
-  ;
+class LookBackPeriodPreference {
+  static const days_14 = LookBackPeriodPreference._('DAYS_14');
+  static const days_32 = LookBackPeriodPreference._('DAYS_32');
+  static const days_93 = LookBackPeriodPreference._('DAYS_93');
 
   final String value;
 
-  const LookBackPeriodPreference(this.value);
+  const LookBackPeriodPreference._(this.value);
+
+  static const values = [days_14, days_32, days_93];
 
   static LookBackPeriodPreference fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum LookBackPeriodPreference'));
+          orElse: () => LookBackPeriodPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LookBackPeriodPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The memory size configurations of a container.
@@ -9062,32 +10341,67 @@ class MemorySizeConfiguration {
   }
 }
 
-enum MetricName {
-  cpu('Cpu'),
-  memory('Memory'),
-  ebsReadOpsPerSecond('EBS_READ_OPS_PER_SECOND'),
-  ebsWriteOpsPerSecond('EBS_WRITE_OPS_PER_SECOND'),
-  ebsReadBytesPerSecond('EBS_READ_BYTES_PER_SECOND'),
-  ebsWriteBytesPerSecond('EBS_WRITE_BYTES_PER_SECOND'),
-  diskReadOpsPerSecond('DISK_READ_OPS_PER_SECOND'),
-  diskWriteOpsPerSecond('DISK_WRITE_OPS_PER_SECOND'),
-  diskReadBytesPerSecond('DISK_READ_BYTES_PER_SECOND'),
-  diskWriteBytesPerSecond('DISK_WRITE_BYTES_PER_SECOND'),
-  networkInBytesPerSecond('NETWORK_IN_BYTES_PER_SECOND'),
-  networkOutBytesPerSecond('NETWORK_OUT_BYTES_PER_SECOND'),
-  networkPacketsInPerSecond('NETWORK_PACKETS_IN_PER_SECOND'),
-  networkPacketsOutPerSecond('NETWORK_PACKETS_OUT_PER_SECOND'),
-  gpuPercentage('GPU_PERCENTAGE'),
-  gpuMemoryPercentage('GPU_MEMORY_PERCENTAGE'),
-  ;
+class MetricName {
+  static const cpu = MetricName._('Cpu');
+  static const memory = MetricName._('Memory');
+  static const ebsReadOpsPerSecond = MetricName._('EBS_READ_OPS_PER_SECOND');
+  static const ebsWriteOpsPerSecond = MetricName._('EBS_WRITE_OPS_PER_SECOND');
+  static const ebsReadBytesPerSecond =
+      MetricName._('EBS_READ_BYTES_PER_SECOND');
+  static const ebsWriteBytesPerSecond =
+      MetricName._('EBS_WRITE_BYTES_PER_SECOND');
+  static const diskReadOpsPerSecond = MetricName._('DISK_READ_OPS_PER_SECOND');
+  static const diskWriteOpsPerSecond =
+      MetricName._('DISK_WRITE_OPS_PER_SECOND');
+  static const diskReadBytesPerSecond =
+      MetricName._('DISK_READ_BYTES_PER_SECOND');
+  static const diskWriteBytesPerSecond =
+      MetricName._('DISK_WRITE_BYTES_PER_SECOND');
+  static const networkInBytesPerSecond =
+      MetricName._('NETWORK_IN_BYTES_PER_SECOND');
+  static const networkOutBytesPerSecond =
+      MetricName._('NETWORK_OUT_BYTES_PER_SECOND');
+  static const networkPacketsInPerSecond =
+      MetricName._('NETWORK_PACKETS_IN_PER_SECOND');
+  static const networkPacketsOutPerSecond =
+      MetricName._('NETWORK_PACKETS_OUT_PER_SECOND');
+  static const gpuPercentage = MetricName._('GPU_PERCENTAGE');
+  static const gpuMemoryPercentage = MetricName._('GPU_MEMORY_PERCENTAGE');
 
   final String value;
 
-  const MetricName(this.value);
+  const MetricName._(this.value);
 
-  static MetricName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum MetricName'));
+  static const values = [
+    cpu,
+    memory,
+    ebsReadOpsPerSecond,
+    ebsWriteOpsPerSecond,
+    ebsReadBytesPerSecond,
+    ebsWriteBytesPerSecond,
+    diskReadOpsPerSecond,
+    diskWriteOpsPerSecond,
+    diskReadBytesPerSecond,
+    diskWriteBytesPerSecond,
+    networkInBytesPerSecond,
+    networkOutBytesPerSecond,
+    networkPacketsInPerSecond,
+    networkPacketsOutPerSecond,
+    gpuPercentage,
+    gpuMemoryPercentage
+  ];
+
+  static MetricName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricName._(value));
+
+  @override
+  bool operator ==(other) => other is MetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The list of metric sources required to generate recommendations for
@@ -9122,69 +10436,116 @@ class MetricSource {
   }
 }
 
-enum MetricSourceProvider {
-  cloudWatchApplicationInsights('CloudWatchApplicationInsights'),
-  ;
+class MetricSourceProvider {
+  static const cloudWatchApplicationInsights =
+      MetricSourceProvider._('CloudWatchApplicationInsights');
 
   final String value;
 
-  const MetricSourceProvider(this.value);
+  const MetricSourceProvider._(this.value);
 
-  static MetricSourceProvider fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum MetricSourceProvider'));
+  static const values = [cloudWatchApplicationInsights];
+
+  static MetricSourceProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricSourceProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricSourceProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MetricStatistic {
-  maximum('Maximum'),
-  average('Average'),
-  ;
+class MetricStatistic {
+  static const maximum = MetricStatistic._('Maximum');
+  static const average = MetricStatistic._('Average');
 
   final String value;
 
-  const MetricStatistic(this.value);
+  const MetricStatistic._(this.value);
+
+  static const values = [maximum, average];
 
   static MetricStatistic fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MetricStatistic'));
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum MigrationEffort {
-  veryLow('VeryLow'),
-  low('Low'),
-  medium('Medium'),
-  high('High'),
-  ;
+class MigrationEffort {
+  static const veryLow = MigrationEffort._('VeryLow');
+  static const low = MigrationEffort._('Low');
+  static const medium = MigrationEffort._('Medium');
+  static const high = MigrationEffort._('High');
 
   final String value;
 
-  const MigrationEffort(this.value);
+  const MigrationEffort._(this.value);
+
+  static const values = [veryLow, low, medium, high];
 
   static MigrationEffort fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum MigrationEffort'));
+          orElse: () => MigrationEffort._(value));
+
+  @override
+  bool operator ==(other) => other is MigrationEffort && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum PlatformDifference {
-  hypervisor('Hypervisor'),
-  networkInterface('NetworkInterface'),
-  storageInterface('StorageInterface'),
-  instanceStoreAvailability('InstanceStoreAvailability'),
-  virtualizationType('VirtualizationType'),
-  architecture('Architecture'),
-  ;
+class PlatformDifference {
+  static const hypervisor = PlatformDifference._('Hypervisor');
+  static const networkInterface = PlatformDifference._('NetworkInterface');
+  static const storageInterface = PlatformDifference._('StorageInterface');
+  static const instanceStoreAvailability =
+      PlatformDifference._('InstanceStoreAvailability');
+  static const virtualizationType = PlatformDifference._('VirtualizationType');
+  static const architecture = PlatformDifference._('Architecture');
 
   final String value;
 
-  const PlatformDifference(this.value);
+  const PlatformDifference._(this.value);
 
-  static PlatformDifference fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PlatformDifference'));
+  static const values = [
+    hypervisor,
+    networkInterface,
+    storageInterface,
+    instanceStoreAvailability,
+    virtualizationType,
+    architecture
+  ];
+
+  static PlatformDifference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlatformDifference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlatformDifference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The preference to control which resource type values are considered when
@@ -9245,18 +10606,28 @@ class PreferredResource {
   }
 }
 
-enum PreferredResourceName {
-  ec2InstanceTypes('Ec2InstanceTypes'),
-  ;
+class PreferredResourceName {
+  static const ec2InstanceTypes = PreferredResourceName._('Ec2InstanceTypes');
 
   final String value;
 
-  const PreferredResourceName(this.value);
+  const PreferredResourceName._(this.value);
 
-  static PreferredResourceName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum PreferredResourceName'));
+  static const values = [ec2InstanceTypes];
+
+  static PreferredResourceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreferredResourceName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PreferredResourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a projected utilization metric of a recommendation option, such as
@@ -9454,43 +10825,78 @@ class RDSDBInstanceRecommendationOption {
   }
 }
 
-enum RDSDBMetricName {
-  cpu('CPU'),
-  memory('Memory'),
-  eBSVolumeStorageSpaceUtilization('EBSVolumeStorageSpaceUtilization'),
-  networkReceiveThroughput('NetworkReceiveThroughput'),
-  networkTransmitThroughput('NetworkTransmitThroughput'),
-  eBSVolumeReadIOPS('EBSVolumeReadIOPS'),
-  eBSVolumeWriteIOPS('EBSVolumeWriteIOPS'),
-  eBSVolumeReadThroughput('EBSVolumeReadThroughput'),
-  eBSVolumeWriteThroughput('EBSVolumeWriteThroughput'),
-  databaseConnections('DatabaseConnections'),
-  ;
+class RDSDBMetricName {
+  static const cpu = RDSDBMetricName._('CPU');
+  static const memory = RDSDBMetricName._('Memory');
+  static const eBSVolumeStorageSpaceUtilization =
+      RDSDBMetricName._('EBSVolumeStorageSpaceUtilization');
+  static const networkReceiveThroughput =
+      RDSDBMetricName._('NetworkReceiveThroughput');
+  static const networkTransmitThroughput =
+      RDSDBMetricName._('NetworkTransmitThroughput');
+  static const eBSVolumeReadIOPS = RDSDBMetricName._('EBSVolumeReadIOPS');
+  static const eBSVolumeWriteIOPS = RDSDBMetricName._('EBSVolumeWriteIOPS');
+  static const eBSVolumeReadThroughput =
+      RDSDBMetricName._('EBSVolumeReadThroughput');
+  static const eBSVolumeWriteThroughput =
+      RDSDBMetricName._('EBSVolumeWriteThroughput');
+  static const databaseConnections = RDSDBMetricName._('DatabaseConnections');
 
   final String value;
 
-  const RDSDBMetricName(this.value);
+  const RDSDBMetricName._(this.value);
+
+  static const values = [
+    cpu,
+    memory,
+    eBSVolumeStorageSpaceUtilization,
+    networkReceiveThroughput,
+    networkTransmitThroughput,
+    eBSVolumeReadIOPS,
+    eBSVolumeWriteIOPS,
+    eBSVolumeReadThroughput,
+    eBSVolumeWriteThroughput,
+    databaseConnections
+  ];
 
   static RDSDBMetricName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RDSDBMetricName'));
+          orElse: () => RDSDBMetricName._(value));
+
+  @override
+  bool operator ==(other) => other is RDSDBMetricName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RDSDBMetricStatistic {
-  maximum('Maximum'),
-  minimum('Minimum'),
-  average('Average'),
-  ;
+class RDSDBMetricStatistic {
+  static const maximum = RDSDBMetricStatistic._('Maximum');
+  static const minimum = RDSDBMetricStatistic._('Minimum');
+  static const average = RDSDBMetricStatistic._('Average');
 
   final String value;
 
-  const RDSDBMetricStatistic(this.value);
+  const RDSDBMetricStatistic._(this.value);
 
-  static RDSDBMetricStatistic fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RDSDBMetricStatistic'));
+  static const values = [maximum, minimum, average];
+
+  static RDSDBMetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RDSDBMetricStatistic._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSDBMetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an Amazon RDS recommendation.
@@ -9771,22 +11177,42 @@ class RDSDBRecommendationFilter {
   }
 }
 
-enum RDSDBRecommendationFilterName {
-  instanceFinding('InstanceFinding'),
-  instanceFindingReasonCode('InstanceFindingReasonCode'),
-  storageFinding('StorageFinding'),
-  storageFindingReasonCode('StorageFindingReasonCode'),
-  idle('Idle'),
-  ;
+class RDSDBRecommendationFilterName {
+  static const instanceFinding =
+      RDSDBRecommendationFilterName._('InstanceFinding');
+  static const instanceFindingReasonCode =
+      RDSDBRecommendationFilterName._('InstanceFindingReasonCode');
+  static const storageFinding =
+      RDSDBRecommendationFilterName._('StorageFinding');
+  static const storageFindingReasonCode =
+      RDSDBRecommendationFilterName._('StorageFindingReasonCode');
+  static const idle = RDSDBRecommendationFilterName._('Idle');
 
   final String value;
 
-  const RDSDBRecommendationFilterName(this.value);
+  const RDSDBRecommendationFilterName._(this.value);
+
+  static const values = [
+    instanceFinding,
+    instanceFindingReasonCode,
+    storageFinding,
+    storageFindingReasonCode,
+    idle
+  ];
 
   static RDSDBRecommendationFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RDSDBRecommendationFilterName'));
+          orElse: () => RDSDBRecommendationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSDBRecommendationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the recommendation options for Amazon RDS storage.
@@ -10102,43 +11528,81 @@ class RDSInstanceEstimatedMonthlySavings {
   }
 }
 
-enum RDSInstanceFinding {
-  optimized('Optimized'),
-  underprovisioned('Underprovisioned'),
-  overprovisioned('Overprovisioned'),
-  ;
+class RDSInstanceFinding {
+  static const optimized = RDSInstanceFinding._('Optimized');
+  static const underprovisioned = RDSInstanceFinding._('Underprovisioned');
+  static const overprovisioned = RDSInstanceFinding._('Overprovisioned');
 
   final String value;
 
-  const RDSInstanceFinding(this.value);
+  const RDSInstanceFinding._(this.value);
 
-  static RDSInstanceFinding fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum RDSInstanceFinding'));
+  static const values = [optimized, underprovisioned, overprovisioned];
+
+  static RDSInstanceFinding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RDSInstanceFinding._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSInstanceFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RDSInstanceFindingReasonCode {
-  cPUOverprovisioned('CPUOverprovisioned'),
-  networkBandwidthOverprovisioned('NetworkBandwidthOverprovisioned'),
-  eBSIOPSOverprovisioned('EBSIOPSOverprovisioned'),
-  eBSThroughputOverprovisioned('EBSThroughputOverprovisioned'),
-  cPUUnderprovisioned('CPUUnderprovisioned'),
-  networkBandwidthUnderprovisioned('NetworkBandwidthUnderprovisioned'),
-  eBSThroughputUnderprovisioned('EBSThroughputUnderprovisioned'),
-  newGenerationDBInstanceClassAvailable(
-      'NewGenerationDBInstanceClassAvailable'),
-  newEngineVersionAvailable('NewEngineVersionAvailable'),
-  ;
+class RDSInstanceFindingReasonCode {
+  static const cPUOverprovisioned =
+      RDSInstanceFindingReasonCode._('CPUOverprovisioned');
+  static const networkBandwidthOverprovisioned =
+      RDSInstanceFindingReasonCode._('NetworkBandwidthOverprovisioned');
+  static const eBSIOPSOverprovisioned =
+      RDSInstanceFindingReasonCode._('EBSIOPSOverprovisioned');
+  static const eBSThroughputOverprovisioned =
+      RDSInstanceFindingReasonCode._('EBSThroughputOverprovisioned');
+  static const cPUUnderprovisioned =
+      RDSInstanceFindingReasonCode._('CPUUnderprovisioned');
+  static const networkBandwidthUnderprovisioned =
+      RDSInstanceFindingReasonCode._('NetworkBandwidthUnderprovisioned');
+  static const eBSThroughputUnderprovisioned =
+      RDSInstanceFindingReasonCode._('EBSThroughputUnderprovisioned');
+  static const newGenerationDBInstanceClassAvailable =
+      RDSInstanceFindingReasonCode._('NewGenerationDBInstanceClassAvailable');
+  static const newEngineVersionAvailable =
+      RDSInstanceFindingReasonCode._('NewEngineVersionAvailable');
 
   final String value;
 
-  const RDSInstanceFindingReasonCode(this.value);
+  const RDSInstanceFindingReasonCode._(this.value);
+
+  static const values = [
+    cPUOverprovisioned,
+    networkBandwidthOverprovisioned,
+    eBSIOPSOverprovisioned,
+    eBSThroughputOverprovisioned,
+    cPUUnderprovisioned,
+    networkBandwidthUnderprovisioned,
+    eBSThroughputUnderprovisioned,
+    newGenerationDBInstanceClassAvailable,
+    newEngineVersionAvailable
+  ];
 
   static RDSInstanceFindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RDSInstanceFindingReasonCode'));
+          orElse: () => RDSInstanceFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSInstanceFindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for Amazon RDS instance recommendations
@@ -10212,20 +11676,37 @@ class RDSSavingsEstimationMode {
   }
 }
 
-enum RDSSavingsEstimationModeSource {
-  publicPricing('PublicPricing'),
-  costExplorerRightsizing('CostExplorerRightsizing'),
-  costOptimizationHub('CostOptimizationHub'),
-  ;
+class RDSSavingsEstimationModeSource {
+  static const publicPricing =
+      RDSSavingsEstimationModeSource._('PublicPricing');
+  static const costExplorerRightsizing =
+      RDSSavingsEstimationModeSource._('CostExplorerRightsizing');
+  static const costOptimizationHub =
+      RDSSavingsEstimationModeSource._('CostOptimizationHub');
 
   final String value;
 
-  const RDSSavingsEstimationModeSource(this.value);
+  const RDSSavingsEstimationModeSource._(this.value);
+
+  static const values = [
+    publicPricing,
+    costExplorerRightsizing,
+    costOptimizationHub
+  ];
 
   static RDSSavingsEstimationModeSource fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RDSSavingsEstimationModeSource'));
+          orElse: () => RDSSavingsEstimationModeSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSSavingsEstimationModeSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the estimated monthly savings possible for Amazon RDS storage by
@@ -10261,39 +11742,69 @@ class RDSStorageEstimatedMonthlySavings {
   }
 }
 
-enum RDSStorageFinding {
-  optimized('Optimized'),
-  underprovisioned('Underprovisioned'),
-  overprovisioned('Overprovisioned'),
-  ;
+class RDSStorageFinding {
+  static const optimized = RDSStorageFinding._('Optimized');
+  static const underprovisioned = RDSStorageFinding._('Underprovisioned');
+  static const overprovisioned = RDSStorageFinding._('Overprovisioned');
 
   final String value;
 
-  const RDSStorageFinding(this.value);
+  const RDSStorageFinding._(this.value);
+
+  static const values = [optimized, underprovisioned, overprovisioned];
 
   static RDSStorageFinding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum RDSStorageFinding'));
+          orElse: () => RDSStorageFinding._(value));
+
+  @override
+  bool operator ==(other) => other is RDSStorageFinding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-enum RDSStorageFindingReasonCode {
-  eBSVolumeAllocatedStorageUnderprovisioned(
-      'EBSVolumeAllocatedStorageUnderprovisioned'),
-  eBSVolumeThroughputUnderprovisioned('EBSVolumeThroughputUnderprovisioned'),
-  eBSVolumeIOPSOverprovisioned('EBSVolumeIOPSOverprovisioned'),
-  eBSVolumeThroughputOverprovisioned('EBSVolumeThroughputOverprovisioned'),
-  newGenerationStorageTypeAvailable('NewGenerationStorageTypeAvailable'),
-  ;
+class RDSStorageFindingReasonCode {
+  static const eBSVolumeAllocatedStorageUnderprovisioned =
+      RDSStorageFindingReasonCode._(
+          'EBSVolumeAllocatedStorageUnderprovisioned');
+  static const eBSVolumeThroughputUnderprovisioned =
+      RDSStorageFindingReasonCode._('EBSVolumeThroughputUnderprovisioned');
+  static const eBSVolumeIOPSOverprovisioned =
+      RDSStorageFindingReasonCode._('EBSVolumeIOPSOverprovisioned');
+  static const eBSVolumeThroughputOverprovisioned =
+      RDSStorageFindingReasonCode._('EBSVolumeThroughputOverprovisioned');
+  static const newGenerationStorageTypeAvailable =
+      RDSStorageFindingReasonCode._('NewGenerationStorageTypeAvailable');
 
   final String value;
 
-  const RDSStorageFindingReasonCode(this.value);
+  const RDSStorageFindingReasonCode._(this.value);
+
+  static const values = [
+    eBSVolumeAllocatedStorageUnderprovisioned,
+    eBSVolumeThroughputUnderprovisioned,
+    eBSVolumeIOPSOverprovisioned,
+    eBSVolumeThroughputOverprovisioned,
+    newGenerationStorageTypeAvailable
+  ];
 
   static RDSStorageFindingReasonCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RDSStorageFindingReasonCode'));
+          orElse: () => RDSStorageFindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RDSStorageFindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for Amazon RDS storage recommendations
@@ -10450,23 +11961,46 @@ class RecommendationExportJob {
   }
 }
 
-enum RecommendationPreferenceName {
-  enhancedInfrastructureMetrics('EnhancedInfrastructureMetrics'),
-  inferredWorkloadTypes('InferredWorkloadTypes'),
-  externalMetricsPreference('ExternalMetricsPreference'),
-  lookBackPeriodPreference('LookBackPeriodPreference'),
-  preferredResources('PreferredResources'),
-  utilizationPreferences('UtilizationPreferences'),
-  ;
+class RecommendationPreferenceName {
+  static const enhancedInfrastructureMetrics =
+      RecommendationPreferenceName._('EnhancedInfrastructureMetrics');
+  static const inferredWorkloadTypes =
+      RecommendationPreferenceName._('InferredWorkloadTypes');
+  static const externalMetricsPreference =
+      RecommendationPreferenceName._('ExternalMetricsPreference');
+  static const lookBackPeriodPreference =
+      RecommendationPreferenceName._('LookBackPeriodPreference');
+  static const preferredResources =
+      RecommendationPreferenceName._('PreferredResources');
+  static const utilizationPreferences =
+      RecommendationPreferenceName._('UtilizationPreferences');
 
   final String value;
 
-  const RecommendationPreferenceName(this.value);
+  const RecommendationPreferenceName._(this.value);
+
+  static const values = [
+    enhancedInfrastructureMetrics,
+    inferredWorkloadTypes,
+    externalMetricsPreference,
+    lookBackPeriodPreference,
+    preferredResources,
+    utilizationPreferences
+  ];
 
   static RecommendationPreferenceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationPreferenceName'));
+          orElse: () => RecommendationPreferenceName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationPreferenceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the recommendation preferences to return in the response of a
@@ -10695,25 +12229,46 @@ class RecommendationSource {
   }
 }
 
-enum RecommendationSourceType {
-  ec2Instance('Ec2Instance'),
-  autoScalingGroup('AutoScalingGroup'),
-  ebsVolume('EbsVolume'),
-  lambdaFunction('LambdaFunction'),
-  ecsService('EcsService'),
-  license('License'),
-  rdsDBInstance('RdsDBInstance'),
-  rdsDBInstanceStorage('RdsDBInstanceStorage'),
-  ;
+class RecommendationSourceType {
+  static const ec2Instance = RecommendationSourceType._('Ec2Instance');
+  static const autoScalingGroup =
+      RecommendationSourceType._('AutoScalingGroup');
+  static const ebsVolume = RecommendationSourceType._('EbsVolume');
+  static const lambdaFunction = RecommendationSourceType._('LambdaFunction');
+  static const ecsService = RecommendationSourceType._('EcsService');
+  static const license = RecommendationSourceType._('License');
+  static const rdsDBInstance = RecommendationSourceType._('RdsDBInstance');
+  static const rdsDBInstanceStorage =
+      RecommendationSourceType._('RdsDBInstanceStorage');
 
   final String value;
 
-  const RecommendationSourceType(this.value);
+  const RecommendationSourceType._(this.value);
+
+  static const values = [
+    ec2Instance,
+    autoScalingGroup,
+    ebsVolume,
+    lambdaFunction,
+    ecsService,
+    license,
+    rdsDBInstance,
+    rdsDBInstanceStorage
+  ];
 
   static RecommendationSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception(
-              '$value is not known in enum RecommendationSourceType'));
+          orElse: () => RecommendationSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A summary of a recommendation.
@@ -10856,25 +12411,42 @@ class RecommendedOptionProjectedMetric {
   }
 }
 
-enum ResourceType {
-  ec2Instance('Ec2Instance'),
-  autoScalingGroup('AutoScalingGroup'),
-  ebsVolume('EbsVolume'),
-  lambdaFunction('LambdaFunction'),
-  notApplicable('NotApplicable'),
-  ecsService('EcsService'),
-  license('License'),
-  rdsDBInstance('RdsDBInstance'),
-  ;
+class ResourceType {
+  static const ec2Instance = ResourceType._('Ec2Instance');
+  static const autoScalingGroup = ResourceType._('AutoScalingGroup');
+  static const ebsVolume = ResourceType._('EbsVolume');
+  static const lambdaFunction = ResourceType._('LambdaFunction');
+  static const notApplicable = ResourceType._('NotApplicable');
+  static const ecsService = ResourceType._('EcsService');
+  static const license = ResourceType._('License');
+  static const rdsDBInstance = ResourceType._('RdsDBInstance');
 
   final String value;
 
-  const ResourceType(this.value);
+  const ResourceType._(this.value);
 
-  static ResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              throw Exception('$value is not known in enum ResourceType'));
+  static const values = [
+    ec2Instance,
+    autoScalingGroup,
+    ebsVolume,
+    lambdaFunction,
+    notApplicable,
+    ecsService,
+    license,
+    rdsDBInstance
+  ];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket
@@ -10956,19 +12528,29 @@ class S3DestinationConfig {
   }
 }
 
-enum SavingsEstimationMode {
-  afterDiscounts('AfterDiscounts'),
-  beforeDiscounts('BeforeDiscounts'),
-  ;
+class SavingsEstimationMode {
+  static const afterDiscounts = SavingsEstimationMode._('AfterDiscounts');
+  static const beforeDiscounts = SavingsEstimationMode._('BeforeDiscounts');
 
   final String value;
 
-  const SavingsEstimationMode(this.value);
+  const SavingsEstimationMode._(this.value);
 
-  static SavingsEstimationMode fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () =>
-          throw Exception('$value is not known in enum SavingsEstimationMode'));
+  static const values = [afterDiscounts, beforeDiscounts];
+
+  static SavingsEstimationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsEstimationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsEstimationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the savings opportunity for recommendations of a given resource
@@ -11114,19 +12696,28 @@ class Scope {
   }
 }
 
-enum ScopeName {
-  organization('Organization'),
-  accountId('AccountId'),
-  resourceArn('ResourceArn'),
-  ;
+class ScopeName {
+  static const organization = ScopeName._('Organization');
+  static const accountId = ScopeName._('AccountId');
+  static const resourceArn = ScopeName._('ResourceArn');
 
   final String value;
 
-  const ScopeName(this.value);
+  const ScopeName._(this.value);
 
-  static ScopeName fromString(String value) => values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw Exception('$value is not known in enum ScopeName'));
+  static const values = [organization, accountId, resourceArn];
+
+  static ScopeName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeName._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The Amazon ECS service configurations used for recommendations.
@@ -11211,20 +12802,29 @@ class ServiceConfiguration {
   }
 }
 
-enum Status {
-  active('Active'),
-  inactive('Inactive'),
-  pending('Pending'),
-  failed('Failed'),
-  ;
+class Status {
+  static const active = Status._('Active');
+  static const inactive = Status._('Inactive');
+  static const pending = Status._('Pending');
+  static const failed = Status._('Failed');
 
   final String value;
 
-  const Status(this.value);
+  const Status._(this.value);
+
+  static const values = [active, inactive, pending, failed];
 
   static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => throw Exception('$value is not known in enum Status'));
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The summary of a recommendation.
